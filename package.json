@@ -1,0 +1,17 @@
+{
+  "name": "himanshuv-cli",
+  "version": "1.0.4",
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "shx rm -rf dist/templates && shx cp -r templates dist"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "inquirer": "^8.1.2",
+    "shx": "^0.3.3"
+  },
+  "bin": {
+    "test-cli": "src/index.js"
+  }
+}
