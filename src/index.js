@@ -34,9 +34,18 @@ inquirer.prompt(QUESTIONS).then(answers => {
   const projectChoice = answers["project-choice"];
   const projectName = answers["project-name"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
-
   fs.mkdirSync(`${CURR_DIR}/${projectName}`);
-
+  if(projectChoice=='react'){
+          let contents = fs.readFileSync(`${CURR_DIR}/`+"code_templates/for-React.js","utf-8");
+          contents = render(contents, { projectName: projectName });
+          fs.writeFile(`${CURR_DIR}/${projectName}/${projectName}`+'.js',contents, function (err) {
+            if (err) throw err;
+            console.log('File is created successfully.');
+          });
+          // console.log(contents);
+      }
+  
+console.log({CURR_DIR})
   createDirectoryContents(templatePath, projectName);
 });
 
