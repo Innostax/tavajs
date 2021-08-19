@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+const { exec } = require('child_process');
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
@@ -8,14 +8,16 @@ const path = require("path");
 const CURR_DIR = process.cwd();
 
 
-const CHOICES = fs.readdirSync(path.join(__dirname, "templates"));
-
 const QUESTIONS = [
   {
-    name: "project-choice",
+    name: "projectChoice",
     type: "list",
     message: "What project template would you like to generate?",
-    choices: CHOICES
+    choices: [
+      { name: 'React', value: 'react' },
+      { name: 'Node', value: 'node-js' },
+      { name: 'React + Node', value: 'react_Node' },
+    ],
   },
   {
     name: "project-name",
@@ -26,15 +28,53 @@ const QUESTIONS = [
       else
         return "Project name may only include letters, numbers, underscores and hashes.";
     }
+  },
+  {
+    name: "react-name",
+    type: "input",
+    message: "React project  name:",
+    validate: function(input) {
+      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
+      else
+        return "React Project name may only include letters, numbers, underscores and hashes.";
+    },
+    when:(answers)=>{return answers.projectChoice=='react_Node'}
+  },
+  {
+    name: "node-name",
+    type: "input",
+    message: "Node Project name:",
+    validate: function(input) {
+      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
+      else
+        return "Project name may only include letters, numbers, underscores and hashes.";
+    },
+    when:(answers)=>{return answers.projectChoice=='react_Node'}
   }
+
 ];
 
 inquirer.prompt(QUESTIONS).then(answers => {
-  const projectChoice = answers["project-choice"];
+  const projectChoice = answers["projectChoice"];
   const projectName = answers["project-name"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   fs.mkdirSync(`${CURR_DIR}/${projectName}`);
-  if(projectChoice=='react'){
+  
+  //for react + node
+  if(projectChoice=="react_Node"){
+    const reactName = answers["react-name"];
+    const nodeName = answers["node-name"];
+    fs.mkdirSync(`${CURR_DIR}/${projectName}/${reactName}`);
+    fs.mkdirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
+    const reactTemplatePath = path.join(__dirname, "templates", "react");
+    const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
+    createDirectoryContents(reactTemplatePath, `${projectName}/${reactName}`);
+    createDirectoryContents(nodeTemplatePath,`${projectName}/${nodeName}`);
+  
+  }
+  // for react or Node
+  else{
+      if(projectChoice=='react'){
           let contents = fs.readFileSync(`${CURR_DIR}/`+"src/code_templates/for-React.js","utf-8");
           contents = render(contents, { projectName: projectName });
           fs.writeFile(`${CURR_DIR}/${projectName}/${projectName}`+'.js',contents, function (err) {
@@ -42,8 +82,8 @@ inquirer.prompt(QUESTIONS).then(answers => {
             console.log('Template created successfully.');
           });
       }
-  
   createDirectoryContents(templatePath, projectName);
+    }
 });
 
 function createDirectoryContents(templatePath, newProjectPath) {
