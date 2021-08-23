@@ -1,18 +1,20 @@
-var AWS = require('aws-sdk');
-// Set the region 
-AWS.config.update({region: 'REGION'});
+require("dotenv/config");
+var aws=require('aws-sdk');
 
-// Create sendEmail params 
-var params = { Destination,Message,Subject,Source,ReplyToAddresses, };
-
-// Create the promise and SES service object
-var sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise();
-
-// Handle promise's fulfilled/rejected states
-sendPromise.then(
-  function(data) {
-    console.log(data.MessageId);
-  }).catch(
-    function(err) {
-    console.error(err, err.stack);
-  });
+sendMail=(to,from,text,html,subject)=>{
+    aws.config=process.env;
+    var AWS_SES = new aws.SES();
+    
+    try {
+        const info = AWS_SES.sendEmail({
+          from :from, // sender address
+          to:to, // list of receivers
+          subject:subject,
+          text:text,
+          html:html,
+        })
+        return info
+      } catch (err) {
+        console.log(err.response, 'error on sending mail.')
+      }
+    }

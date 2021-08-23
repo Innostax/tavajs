@@ -7,11 +7,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "azure": "^2.3.1-preview",
     "commander": "^8.1.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "inquirer": "^8.1.2",
-    "shx": "^0.3.3"
+    "shx": "^0.3.3",
+    "uuid": "^8.3.2"
   },
   "bin": {
     "test-cli": "src/index.js"

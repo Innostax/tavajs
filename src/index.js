@@ -4,7 +4,7 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
 const path = require("path");
-const exec = require('child_process').exec;
+
 
 const CURR_DIR = process.cwd();
 
@@ -77,11 +77,30 @@ const QUESTIONS = [
     choices:[
       { name:'SendGrid', value:'sendgrid' },
       { name:'Amazon Ses', value:'amazon_ses' },
-      { name:'Test 2', value:'test2' },
-      { name:'Test 3', value:'test3' }
+      { name:'SMTP', value:'smtp' },
     ],
     when:(answers)=>{return answers.emailService=='yes'}
-  }
+  },
+  {
+    name:"blobService",
+    type: "list",
+    message:"do you want blob services?",
+    choices:[
+      { name:'yes', value:'yes'  },
+      { name:'no', value:'no' }
+    ],
+    when:(answers)=>{return (answers.projectChoice=='react_Node' || answers.projectChoice=='node-js')}
+  },
+  {
+    name:'blobServiceName',
+    type:"list",
+    message:"which Blob service do you want?",
+    choices:[
+      { name:'AWS-s3', value:'aws-s3' },
+      { name:'Azure', value:'azure' },
+    ],
+    when:(answers)=>{return answers.blobService=='yes'}
+  },
 
 ];
 
@@ -89,10 +108,11 @@ inquirer.prompt(QUESTIONS).then(answers => {
   const projectChoice = answers["projectChoice"];
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
+  const blobService = answers["blobService"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   fs.mkdirSync(`${CURR_DIR}/${projectName}`);
-
+   
   //for react + node
   if(projectChoice=="react_Node"){
     const reactName = answers["react-name"];
@@ -104,7 +124,6 @@ inquirer.prompt(QUESTIONS).then(answers => {
     createDirectoryContents(reactTemplatePath, `${projectName}/${reactName}`,defaultRoute);
     createDirectoryContents(nodeTemplatePath,`${projectName}/${nodeName}`,defaultRoute);
     var nodePath=`${CURR_DIR}/${projectName}/${nodeName}`;
-    // console.dir(object)
   
   }
   // for react or Node
@@ -119,6 +138,14 @@ inquirer.prompt(QUESTIONS).then(answers => {
     const emailTemplatePath = path.join(__dirname, "code_templates", emailServiceName);
 
     createEmailSevice(emailServiceName,emailTemplatePath,nodePath);
+  }
+
+  //for Blob service
+  if(blobService=='yes'){
+    const  blobServiceName = answers["blobServiceName"];
+    const blobTemplatePath = path.join(__dirname, "code_templates", blobServiceName);
+
+    createBlobService(blobServiceName,blobTemplatePath,nodePath);
   }
   console.log('Boiler-Plate created successfully');
 });
@@ -156,11 +183,25 @@ function createDirectoryContents(templatePath, newProjectPath, newDefaultRoute) 
 }
 function createEmailSevice(emailServiceName,emailTemplatePath,nodePath){
   let contents = fs.readFileSync(emailTemplatePath+'.js',"utf-8");
-          const servicePath=path.join(nodePath,'services');
+          let servicePath=path.join(nodePath,'utils');
           fs.mkdirSync(servicePath);
+          servicePath=path.join(servicePath,'email');
+          fs.mkdirSync(servicePath)
           // contents = render(contents, { projectName: projectName });
           fs.writeFile(`${servicePath}`+'/'+`${emailServiceName}`+'.js',contents, function (err) {
             if (err) throw err;
             console.log('Email service created successfully.');
+          });
+}
+
+function createBlobService(blobServiceName,blobTemplatePath,nodePath){
+  let contents = fs.readFileSync(blobTemplatePath+'.js',"utf-8");
+          let servicePath=path.join(nodePath,'utils');
+          servicePath=path.join(servicePath,'blob');
+          fs.mkdirSync(servicePath)
+          // contents = render(contents, { projectName: projectName });
+          fs.writeFile(`${servicePath}`+'/'+`${blobServiceName}`+'.js',contents, function (err) {
+            if (err) throw err;
+            console.log('Blob service created successfully.');
           });
 }
