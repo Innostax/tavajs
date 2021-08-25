@@ -1,0 +1,5 @@
+identityPoolId= IDENTITYPOOLID
+region= REGION
+identityPoolRegion= IDENTITYPOOLREGION
+userPoolId= USERPOOLID
+userPoolWebClientId= USERPOOLWEBCLIENT
