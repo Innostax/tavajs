@@ -13,6 +13,7 @@ export const Auth0Provider = ({
 	...initOptions
 }) => {
 	const [auth0Client, setAuth0] = useState()
+	const [ isUserAuthenticated, setIsUserAuthenticated ] = useState() 
 
 	useEffect(() => {
 		const initAuth0 = async () => {
@@ -38,6 +39,7 @@ export const Auth0Provider = ({
 
 			const isAuthenticated =
 				(await auth0FromHook.isAuthenticated()) || isTestAuthenticated
+			setIsUserAuthenticated(isAuthenticated)	
 			// dispatch(setIsAuthenticated(isAuthenticated))
 			if (isAuthenticated) {
 				let token, user
@@ -50,7 +52,7 @@ export const Auth0Provider = ({
 				} else {
 					user = await auth0FromHook.getUser()
 					token = await auth0FromHook.getTokenSilently()
-                    console.log(user,token)
+                    console.log(user,token) // Added for warning purpose.
 				}
 			}
 		}
@@ -65,6 +67,7 @@ export const Auth0Provider = ({
 	return (
 		<Auth0Context.Provider
 			value={{    
+				isUserAuthenticated,
 				handleRedirectCallback,
 				getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
 				loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
