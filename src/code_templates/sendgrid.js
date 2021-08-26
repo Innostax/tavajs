@@ -2,7 +2,7 @@ require("dotenv/config");
 const sgMail=require('@sendgrid/mail');
 
 sendMail=(to,from,text,html,subject)=>{
-    sgMail.setApiKey=process.env;
+    sgMail.setApiKey=process.env.ApiKey;
     
     try {
         const info = sgMail.send({
@@ -17,3 +17,4 @@ sendMail=(to,from,text,html,subject)=>{
         console.log(err.response, 'error on sending mail.')
       }
     }
+

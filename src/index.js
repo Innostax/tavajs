@@ -1,5 +1,3 @@
-// #!/usr/bin/env node
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
@@ -80,6 +78,26 @@ const QUESTIONS = [
     },
   },
   {
+    name:"loggerService",
+    type: "list",
+    message:"do you want logger?",
+    choices:[
+      { name:'yes', value:'yes'  },
+      { name:'no', value:'no' }
+    ],
+    when:(answers)=>{return (answers.projectChoice=='react_Node' || answers.projectChoice=='node-js')}
+  },
+  {
+    name:'loggerName',
+    type:"list",
+    message:"which Email service do you want?",
+    choices:[
+      { name:'winston', value:'winston' },
+      { name:'sentry', value:'sentry' },
+    ],
+    when:(answers)=>{return answers.loggerService=='yes'}
+  },
+  {
     name:"emailService",
     type: "list",
     message:"do you want e-mail services?",
@@ -129,13 +147,12 @@ inquirer.prompt(QUESTIONS).then(async answers => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
-  let useEffectImport = ' '
+  let useEffectImport = ''
   let UseEffect = ''
   let renderCondition = ''
   // let renderContent=''
   let Imports =''
   let reactName='';
-  let newDefaultRoute='';
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
@@ -164,7 +181,7 @@ if(answers["authService"]==="yes"){
       }
    }, [])`
     Imports=`import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import cogAuthres from './cognito-tmp.js'
+import cogAuthres from './react-spa.js'
 import { Auth } from 'aws-amplify'`
     renderCondition=`Auth.currentAuthenticateduser() &&`
   }
@@ -178,36 +195,44 @@ import { Auth } from 'aws-amplify'`
     fs.mkdirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
-    createDirectoryContents(reactTemplatePath, `${projectName}/${reactName}`,newDefaultRoute,useEffectImport, UseEffect, Imports, renderCondition);
-    createDirectoryContents(nodeTemplatePath,`${projectName}/${nodeName}`,defaultRoute);
+    createDirectoryContents(projectName,reactName,reactTemplatePath, `${projectName}/${reactName}`,defaultRoute,useEffectImport, UseEffect, Imports, renderCondition);
+    createDirectoryContents(projectName,reactName,nodeTemplatePath,`${projectName}/${nodeName}`,defaultRoute);
     var nodePath=`${CURR_DIR}/${projectName}/${nodeName}`;
     var reactPath = `${CURR_DIR}/${projectName}/${reactName}`;
-    
   }
   // for react
   else if(projectChoice==='react'){       
-  createDirectoryContents(templatePath, projectName,newDefaultRoute, useEffectImport, UseEffect, Imports, renderCondition);
+  createDirectoryContents(projectName,reactName,templatePath, projectName,defaultRoute, useEffectImport, UseEffect, Imports, renderCondition);
     } 
 
   else if(projectChoice==='node-js'){
     var nodePath=path.join(CURR_DIR,projectName);
-    createDirectoryContents(templatePath, projectName,defaultRoute);
+    createDirectoryContents(projectName,reactName,templatePath, projectName,defaultRoute);
   }
+//for creating utils folder
+if(emailService==='yes' || blobService==='yes' || answers["loggerService"]==='yes'){
+    fs.mkdirSync(nodePath+"/utils");
+}
 
    //for email Sevices
-   if(emailService=='yes'){
+   if(emailService==='yes'){
     const emailServiceName = answers["emailServiceName"];
     const emailTemplatePath = path.join(__dirname, "code_templates", emailServiceName);
-
-    createEmailSevice(emailServiceName,emailTemplatePath,nodePath);
+    createEmailSevice(__dirname,emailServiceName,emailTemplatePath,nodePath);
   }
 
   //for Blob service
-  if(blobService=='yes'){
+  if(blobService==='yes'){
     const  blobServiceName = answers["blobServiceName"];
     const blobTemplatePath = path.join(__dirname, "code_templates", blobServiceName);
 
     createBlobService(blobServiceName,blobTemplatePath,nodePath);
+  }
+  //for logger
+  if(answers["loggerService"]==='yes'){
+      const loggerName = answers["loggerName"];
+      const loggerTemplatePath = path.join(__dirname, "loggerTemplates" );
+      createLogger(loggerName,loggerTemplatePath,nodePath,defaultRoute);
   }
   console.log('Boiler-Plate created successfully');
 
@@ -219,15 +244,12 @@ if(answers["authentication-choice"]==='Auth0')
   writeIndexfile(choice,reactPath);
   
 const filesMap=[ 
-// {srcFolder:'indexTemplates',srcFileName:'authIndex.js', destFolder:'src',destFileName:'index.js'},
 {srcFolder:'authTemplates',srcFileName:'react-spa.js', destFolder:reactName+'/src', destFileName:'react-spa.js'},
 {srcFolder:'envTemplates',srcFileName:'.authenv', destFolder:'', destFileName:'.env'},
 ]
-const auth_adapter={name:"@auth0/auth0-spa-js",version:"^1.10.0"}
-
-const packagefile = await fsExtra.readJSON(`${CURR_DIR}\\${projectName}\\${reactName}\\package.json`,{});
-const newPackageFile = {...packagefile,dependencies:{...packagefile.dependencies,[auth_adapter.name]:auth_adapter.version}}
-fsExtra.writeJson(`${CURR_DIR}\\${projectName}\\package.json`, newPackageFile ,{})
+const package={name:"@auth0/auth0-spa-js",version:"^1.10.0"};
+let packagePath=path.join(CURR_DIR,projectName,reactName);
+updatePackage(packagePath,package);
 
 filesMap.map((each)=>{
 fs.copyFile(`${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
@@ -248,11 +270,11 @@ const filesMap=[
 {srcFolder:'authTemplates',srcFileName:'cognito-tmp.js', destFolder:reactName+'/src', destFileName:'react-spa.js'},
 {srcFolder:'envTemplates',srcFileName:'.cognitoEnv', destFolder:'', destFileName:'.env'},
 ]
-const auth_adapter={name:"@auth0/auth0-spa-js",version:"^1.10.0"}
-
-const packagefile = await fsExtra.readJSON(`${CURR_DIR}\\${projectName}\\${reactName}\\package.json`,{});
-const newPackageFile = {...packagefile,dependencies:{...packagefile.dependencies,[auth_adapter.name]:auth_adapter.version}}
-fsExtra.writeJson(`${CURR_DIR}\\${projectName}\\package.json`, newPackageFile ,{})
+const package={name:"aws-amplify",version:"^4.2.4"};
+const package2={name:"@aws-amplify/ui-react",version:"^1.2.10"};
+let packagePath=path.join(CURR_DIR,projectName,reactName);
+updatePackage(packagePath,package);
+updatePackage(packagePath,package2);
 
 filesMap.map((each)=>{
 fs.copyFile(`${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
@@ -264,6 +286,12 @@ fs.copyFile(`${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
     )}
   )
 }
+else{
+  if(projectChoice=="react" || projectChoice==="react_Node"){
+  choice="";
+writeIndexfile(choice,reactPath);
+}
+}
  
 
 })
@@ -271,9 +299,14 @@ fs.copyFile(`${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
 
 //function
 
-function createDirectoryContents(templatePath, newProjectPath ,newDefaultRoute, useEffectImport, UseEffect, Imports, renderCondition) {
+function createDirectoryContents(projectName,reactName,templatePath, newProjectPath ,newDefaultRoute, useEffectImport, UseEffect, Imports, renderCondition) {
   const filesToCreate = fs.readdirSync(templatePath);
-
+  if(reactName){
+    var Path=projectName+'/'+reactName;
+  }
+  else{
+    var Path=projectName;
+  }
   filesToCreate.forEach(file => {
     const origFilePath = `${templatePath}/${file}`;
 
@@ -283,8 +316,7 @@ function createDirectoryContents(templatePath, newProjectPath ,newDefaultRoute, 
       let contents = fs.readFileSync(origFilePath, "utf8");
       const elements = newProjectPath.split('/');
       const NameProject = elements[elements.length-1];
- 
-      if(file!='index.js' || newDefaultRoute!=""){
+      if(file!='index.js' || newProjectPath!=(Path+'/src')){
       contents = render(contents, { projectName: NameProject,defaultRoute: newDefaultRoute,useEffectImport, UseEffect, Imports, renderCondition 
         }, autoescape=false);
      
@@ -299,6 +331,7 @@ function createDirectoryContents(templatePath, newProjectPath ,newDefaultRoute, 
       
       // recursive call
       createDirectoryContents(
+        projectName,reactName,
         `${templatePath}/${file}`,
         `${newProjectPath}/${file}`,newDefaultRoute,
          useEffectImport, UseEffect, Imports, renderCondition
@@ -308,13 +341,15 @@ function createDirectoryContents(templatePath, newProjectPath ,newDefaultRoute, 
 }
 
 //function to create email services
-function createEmailSevice(emailServiceName,emailTemplatePath,nodePath){
+function createEmailSevice(__dirname,emailServiceName,emailTemplatePath,nodePath){
   let contents = fs.readFileSync(emailTemplatePath+'.js',"utf-8");
           let servicePath=path.join(nodePath,'utils');
-          fs.mkdirSync(servicePath);
+          // fs.mkdirSync(servicePath);
           servicePath=path.join(servicePath,'email');
           fs.mkdirSync(servicePath)
-          // contents = render(contents, { projectName: projectName });
+
+          let content = fs.readFileSync(__dirname+'/envTemplates/'+'.'+emailServiceName, "utf8");
+          fs.writeFileSync(nodePath+"/utils/email/.env", content, "utf8");
           fs.writeFile(`${servicePath}`+'/'+`${emailServiceName}`+'.js',contents, function (err) {
             if (err) throw err;
             console.log('Email service created successfully.');
@@ -333,6 +368,50 @@ function createBlobService(blobServiceName,blobTemplatePath,nodePath){
             console.log('Blob service created successfully.');
           });
 }
+//function to create logger
+function createLogger(loggerName,loggerTemplatePath,nodePath,defaultRoute){
+  if(loggerName==='winston'){
+        updatePackage(nodePath,package);
+        const newPackageFile = {...packageFile,dependencies:{...packageFile.dependencies,[auth_adapter.name]:auth_adapter.version}}
+        fsExtra.writeJson(`${nodePath}\\package.json`, newPackageFile ,{});
+        let contents = fs.readFileSync(loggerTemplatePath+'/winston.js',"utf-8");
+        let contentIndex = fs.readFileSync(loggerTemplatePath+'/indexTemp/winston.js',"utf-8");
+        contentIndex=render(contentIndex,{defaultRoute});
+        let servicePath=path.join(nodePath,'utils','logger');
+        fs.writeFileSync(`${nodePath}`+'/'+'index.js',contentIndex, function (err) {
+          if (err) throw err;
+          console.log('Logger service created successfully.');
+      
+        });
+      
+        fs.mkdirSync(servicePath)
+          // contents = render(contents, { projectName: projectName });
+        fs.writeFile(`${servicePath}`+'/'+'index.js',contents, function (err) {
+            if (err) throw err;
+            console.log('Logger service created successfully.');
+          });
+        }
+        else{
+          const package={name:"raven",version:"^2.6.4"};
+          updatePackage(nodePath,package);
+          let contents = fs.readFileSync(loggerTemplatePath+'/indexTemp/sentry.js',"utf-8");
+          contents=render(contents,{defaultRoute});
+          fs.writeFileSync(`${nodePath}`+'/'+'index.js',contents, function (err) {
+            if (err) throw err;
+            console.log('Logger service created successfully.');
+          });
+        }   
+}
+
+//to update package.json
+function updatePackage(projectPath,package){
+  let packageFile = fs.readFileSync(`${projectPath}/package.json`,"utf-8");
+  packageFile=JSON.parse(packageFile);
+  let newPackageFile = {...packageFile,dependencies:{...packageFile.dependencies,[package.name]:package.version}}
+  newPackageFile=JSON.stringify(newPackageFile);
+  fsExtra.writeFileSync(`${projectPath}\\package.json`, newPackageFile );
+};
+
 
 function writeIndexfile(choice,reactPath){
   let imports = '';
