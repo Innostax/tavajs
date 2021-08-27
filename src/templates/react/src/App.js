@@ -6,7 +6,7 @@ import Routes from "./Routes";
 const App = () => {
   return (
     <>
-      {<p>MADE IN INDIA</p>}
+      { <%- renderCondition %>}<p>MADE IN INDIA</p>
 
       <Router>
         <ul>

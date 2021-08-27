@@ -7,13 +7,19 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@aws-amplify/ui-react": "^1.2.10",
+    "amazon-cognito-identity-js": "^5.1.0",
+    "aws-amplify": "^4.2.4",
     "azure": "^2.3.1-preview",
     "commander": "^8.1.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "fs-extra": "^10.0.0",
     "inquirer": "^8.1.2",
+    "raven": "^2.6.4",
     "shx": "^0.3.3",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   },
   "bin": {
     "test-cli": "src/index.js"

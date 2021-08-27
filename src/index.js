@@ -5,6 +5,7 @@ const fs = require("fs");
 const { render } = require("./utils/template");
 const path = require("path");
 const fsExtra = require("fs-extra");
+const logger = require("./logger/winston");
 const CURR_DIR = process.cwd();
 
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
@@ -89,6 +90,33 @@ const QUESTIONS = [
         answers.projectChoice == "node-js" ||
         answers.projectChoice == "react_Node"
       );
+    },
+  },
+  {
+    name: "loggerService",
+    type: "list",
+    message: "do you want logger services?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice == "react_Node" ||
+        answers.projectChoice == "node-js"
+      );
+    },
+  },
+  {
+    name: "loggerName",
+    type: "list",
+    message: "which logger service do you want?",
+    choices: [
+      { name: "Winston", value: "winston" },
+      { name: "sentry", value: "sentry" },
+    ],
+    when: (answers) => {
+      return answers.loggerService == "yes";
     },
   },
   {
@@ -234,7 +262,10 @@ import { Auth } from 'aws-amplify'`;
     // var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(templatePath, projectName);
   }
-
+  //creating utils dir
+  if(emailService==="yes" || blobService==="yes" || answers["loggerService"] === "yes" ){
+    fs.mkdirSync(nodePath+"/utils");
+  }
   //for email Sevices
   if (emailService == "yes") {
     const emailServiceName = answers["emailServiceName"];
@@ -244,7 +275,7 @@ import { Auth } from 'aws-amplify'`;
       emailServiceName
     );
 
-    createEmailSevice(emailServiceName, emailTemplatePath, nodePath);
+    createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirname);
   }
 
   //for Blob service
@@ -261,7 +292,14 @@ import { Auth } from 'aws-amplify'`;
   console.log("Boiler-Plate created successfully");
 
   //---------------------------------------------------------------------------------------//
-
+  if(answers["loggerService"]==="yes"){
+    let loggerServiceName=answers["loggerName"];
+    const loggerTemplatePath = path.join(
+      __dirname,
+      "logger"
+    );
+    createLogger(nodePath,loggerServiceName,loggerTemplatePath,defaultRoute);
+  }
   if (answers["authentication-choice"] === "Auth0") {
     choice = "Auth0";
     writeIndexfile(choice, reactPath);
@@ -281,24 +319,12 @@ import { Auth } from 'aws-amplify'`;
         destFileName: ".env",
       },
     ];
-    const auth_adapter = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
 
-    const packagefile = await fsExtra.readJSON(
-      `${CURR_DIR}\\${projectName}\\${reactName}\\package.json`,
-      {}
-    );
-    const newPackageFile = {
-      ...packagefile,
-      dependencies: {
-        ...packagefile.dependencies,
-        [auth_adapter.name]: auth_adapter.version,
-      },
-    };
-    fsExtra.writeJson(
-      `${CURR_DIR}\\${projectName}\\package.json`,
-      newPackageFile,
-      {}
-    );
+    const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+    const package1 = { name: "@auth0/asdfsduth0-spa-js", version: "^1.112.0" };
+    let packagePath=path.join(CURR_DIR,projectName,reactName);
+    updatePackage(packagePath,package);
+    updatePackage(packagePath,package1);
 
     filesMap.map((each) => {
       fs.copyFile(
@@ -329,24 +355,12 @@ import { Auth } from 'aws-amplify'`;
         destFileName: ".env",
       },
     ];
-    const auth_adapter = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+    const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
 
-    const packagefile = await fsExtra.readJSON(
-      `${CURR_DIR}\\${projectName}\\${reactName}\\package.json`,
-      {}
-    );
-    const newPackageFile = {
-      ...packagefile,
-      dependencies: {
-        ...packagefile.dependencies,
-        [auth_adapter.name]: auth_adapter.version,
-      },
-    };
-    fsExtra.writeJson(
-      `${CURR_DIR}\\${projectName}\\package.json`,
-      newPackageFile,
-      {}
-    );
+    let packagePath=path.join(CURR_DIR,projectName,reactName);
+    updatePackage(packagePath,package)
+    
+   
 
     filesMap.map((each) => {
       fs.copyFile(
@@ -359,7 +373,12 @@ import { Auth } from 'aws-amplify'`;
         }
       );
     });
+  }else{
+    if(projectChoice==='react' || projectChoice==='react_Node'){
+      writeIndexfile("",reactPath);
+    }
   }
+ 
 });
 
 //function
@@ -419,14 +438,51 @@ function createDirectoryContents(
     }
   });
 }
+function createLogger(utilpath,loggerName,loggerTemplatePath,defaultRoute){
+
+  let contents = fs.readFileSync(loggerTemplatePath + "/template/"+loggerName+".js", "utf-8");
+  contents = render(contents,{defaultRoute});
+  fs.writeFileSync(utilpath+'/index.js',contents,"utf-8");
+  if(loggerName==="winston"){
+    let servicePath = path.join(utilpath, "utils","logger");
+    fs.mkdirSync(servicePath);
+    let package = {name:"winston",version:"^3.3.3"}
+    updatePackage(utilpath,package)
+    let contents = fs.readFileSync(loggerTemplatePath + "/"+loggerName+".js", "utf-8");
+    fs.writeFile(servicePath+"/index"+'.js',contents,function (err) {
+      if (err) throw err;
+      console.log("Email service created successfully.");
+    }
+  );
+  }else{
+    let package = {name:"raven",version:"^2.6.4"}
+  updatePackage(utilpath,package)
+
+  }
+}
 
 //function to create email services
-function createEmailSevice(emailServiceName, emailTemplatePath, nodePath) {
+function createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirname) {
+  
+  let package = {name:"dotenv",version:"^10.0.0"};
+  updatePackage(nodePath,package);
+  
   let contents = fs.readFileSync(emailTemplatePath + ".js", "utf-8");
-  let servicePath = path.join(nodePath, "utils");
+  let servicePath = path.join(nodePath, "utils","email");
   fs.mkdirSync(servicePath);
-  servicePath = path.join(servicePath, "email");
-  fs.mkdirSync(servicePath);
+  if(emailServiceName==='sendgrid'){
+    fs.copyFileSync(__dirname+'/envTemplates/.sendgridEnv',servicePath+"/.env",)
+    package={name:"@sendgrid/mail",version:"^7.4.6"}
+    updatePackage(nodePath,package);
+  }else if(emailServiceName==="smtp"){
+    fs.copyFileSync(__dirname+'/envTemplates/.smtpEnv',servicePath+"/.env",)
+    package={name:"nodemailer",version:"^6.6.3"}
+    updatePackage(nodePath,package);
+  }else{
+    fs.copyFileSync(__dirname+'/envTemplates/.sesEnv',servicePath+"/.env",)
+    package={name:"aws-sdk",version:"^2.971.0"}
+    updatePackage(nodePath,package);
+  }
   // contents = render(contents, { projectName: projectName });
   fs.writeFile(
     `${servicePath}` + "/" + `${emailServiceName}` + ".js",
@@ -441,8 +497,7 @@ function createEmailSevice(emailServiceName, emailTemplatePath, nodePath) {
 //function to create Blob services
 function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
   let contents = fs.readFileSync(blobTemplatePath + ".js", "utf-8");
-  let servicePath = path.join(nodePath, "utils");
-  servicePath = path.join(servicePath, "blob");
+  let servicePath = path.join(nodePath, "utils","blob");
   fs.mkdirSync(servicePath);
   // contents = render(contents, { projectName: projectName });
   fs.writeFile(
@@ -454,7 +509,21 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
     }
   );
 }
-
+//to update package.json
+function updatePackage(path,package){
+  let packagefile = fs.readFileSync(`${path}\\package.json`,"utf-8");
+  packagefile=JSON.parse(packagefile);
+  let newPackageFile = {
+    ...packagefile,
+    dependencies: {
+      ...packagefile.dependencies,
+      [package.name]: package.version,
+    },
+  };
+  newPackageFile = JSON.stringify(newPackageFile)
+  fs.writeFileSync(`${path}\\package.json`,newPackageFile,"utf-8");
+}
+//
 function writeIndexfile(choice, reactPath) {
   let imports = "";
   let envInfo = "";
