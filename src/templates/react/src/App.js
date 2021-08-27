@@ -1,17 +1,26 @@
-import React <%= useEffectImport %> from 'react'
-import './App.css'
-<%- Imports %>
-
+import React from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import "./App.css";
+import Routes from "./Routes";
 
 const App = () => {
-  <%- UseEffect %>
-  
-	return (
-		<>
-			{ <%- renderCondition %>(<p>MADE IN INDIA</p>
-			)}
-		</>
-	)
-}
+  return (
+    <>
+      {<p>MADE IN INDIA</p>}
 
-export default App
+      <Router>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/users">Users</Link>
+          </li>
+        </ul>
+        <Routes />
+      </Router>
+    </>
+  );
+};
+
+export default App;
