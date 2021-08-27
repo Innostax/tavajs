@@ -185,36 +185,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   // let renderContent=''
   let Imports =''
   let reactName='';
+  let newDefaultRoute="";
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   fs.mkdirSync(`${CURR_DIR}/${projectName}`);
 
-  //-----------------------------------------------//
-  if (answers["authService"] === "yes") {
-    if (answers["authentication-choice"] === "Auth0") {
-      useEffectImport = `,{useEffect}`;
-      UseEffect = `const { loginWithRedirect,isUserAuthenticated } = useAuth0()
-     useEffect(() => {
-    if (isUserAuthenticated === false) {
-    loginWithRedirect({ appState: { target: window.location.pathname } })
-      }
-   }, [isUserAuthenticated, loginWithRedirect])`;
-      Imports = `import { useAuth0 } from './react-spa'`;
-      renderCondition = `isUserAuthenticated&&`;
-    } else if (answers["authentication-choice"] === "Cognito") {
-      UseEffect = `const { user } = cogAuthres()
-     useEffect(() => {
-    if (!user) {
-    <AmplifySignOut />
-      }
-   }, [])`;
-      Imports = `import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import cogAuthres from './cognito-tmp.js'
-import { Auth } from 'aws-amplify'`;
-      renderCondition = `Auth.currentAuthenticateduser() &&`;
-    }
-  }
   //----------------------------------------------------------------------//
   //for react + node
   if (projectChoice == "react_Node") {
@@ -400,8 +376,8 @@ function createDirectoryContents(
       let contents = fs.readFileSync(origFilePath, "utf8");
       const elements = newProjectPath.split("/");
       const NameProject = elements[elements.length - 1];
-
       if (file != "index.js" || newDefaultRoute != "") {
+        
         contents = render(
           contents,
           {
@@ -424,7 +400,6 @@ function createDirectoryContents(
 
       // recursive call
       createDirectoryContents(
-        projectName,reactName,
         `${templatePath}/${file}`,
         `${newProjectPath}/${file}`,
         newDefaultRoute,
