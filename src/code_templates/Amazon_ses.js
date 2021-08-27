@@ -1,20 +1,42 @@
+var aws     = require('aws-sdk');
 require("dotenv/config");
-var aws=require('aws-sdk');
 
-sendMail=(to,from,text,html,subject)=>{
+aws.config=process.env;
+
+const sendMail=(to,from,text,html,subject)=>{
     aws.config=process.env;
-    var AWS_SES = new aws.SES();
-    
-    try {
-        const info = AWS_SES.sendEmail({
-          from :from, // sender address
-          to:to, // list of receivers
-          subject:subject,
-          text:text,
-          html:html,
-        })
-        return info
-      } catch (err) {
-        console.log(err.response, 'error on sending mail.')
-      }
-    }
+    var ses = new aws.SES();
+
+      var ses_mail = "From: 'AWS Tutorial Series' <" + from + ">\n";
+      ses_mail = ses_mail + "To: " + to + "\n";
+      ses_mail = ses_mail + "Subject: "+subject+"\n";
+      ses_mail = ses_mail + "Content-Type:"+html+"\n\n";
+      ses_mail = ses_mail + "Content-Type: "+text+"text/plain;\n";
+     
+      
+      var params = {
+          RawMessage: { Data: new Buffer(ses_mail) },
+          Destinations: [to],
+          Source: from 
+      };
+      
+      ses.sendRawEmail(params, function(err, data) {
+          if(err) {
+              console.log(err);
+          } 
+          else {
+              console.log(data);
+              res.send(data);
+          }           
+      });
+  
+};
+      
+
+
+
+
+
+
+
+

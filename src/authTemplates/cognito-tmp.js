@@ -25,4 +25,6 @@ const cogAuth=(IDENTITYPOOLID,REGION,IDENTITYPOOLREGION,USERPOOLID,USERPOOLWEBCL
     }
     
 export default cogAuth
-export const cogAuthres=flag;
+export const cogAuthres=()=>{
+    return flag
+}

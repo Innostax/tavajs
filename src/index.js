@@ -1,5 +1,3 @@
-// #!/usr/bin/env node
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
@@ -181,13 +179,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
-  let useEffectImport = " ";
-  let UseEffect = "";
-  let renderCondition = "";
+  let useEffectImport = ''
+  let UseEffect = ''
+  let renderCondition = ''
   // let renderContent=''
-  let Imports = "";
-  let reactName = "";
-  let newDefaultRoute = "";
+  let Imports =''
+  let reactName='';
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
@@ -427,6 +424,7 @@ function createDirectoryContents(
 
       // recursive call
       createDirectoryContents(
+        projectName,reactName,
         `${templatePath}/${file}`,
         `${newProjectPath}/${file}`,
         newDefaultRoute,
