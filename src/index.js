@@ -3,7 +3,6 @@ const fs = require("fs");
 const { render } = require("./utils/template");
 const path = require("path");
 const fsExtra = require("fs-extra");
-const logger = require("./logger/winston");
 const CURR_DIR = process.cwd();
 
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
@@ -88,6 +87,42 @@ const QUESTIONS = [
         answers.projectChoice == "node-js" ||
         answers.projectChoice == "react_Node"
       );
+    },
+  },
+  {
+    name: "dbService",
+    type: "list",
+    message: "Do you need database service?",
+    choices:[
+      { name:'yes',value:'yes' },
+      { name:'no',value:'no' }
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
+      );
+    },
+  },
+  {
+    name: "dbName",
+    type: "list",
+    message: "which db service do you want?",
+    choices: [
+      { name: "Postgres", value: "postgres" },
+      { name: "MySql", value: "mysql" },
+      { name: "Mongoose", value: "mongoose" },
+    ],
+    when: (answers) => {
+      return answers.dbService == "yes";
+    },
+  },
+  {
+    name: "connectionString",
+    type: "input",
+    message: "Enter your connection string?",
+    when: (answers) => {
+      return answers.dbService == "yes";
     },
   },
   {
@@ -188,8 +223,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   let newDefaultRoute="";
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
-  var reactPath = `${CURR_DIR}/${projectName}`;
+  var reactPath = `${CURR_DIR}\\${projectName}`;
   fs.mkdirSync(`${CURR_DIR}/${projectName}`);
+  let screenName= "<%= projectName %>"
 
   //----------------------------------------------------------------------//
   //for react + node
@@ -200,6 +236,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     fs.mkdirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
+    var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
+    var reactPath = `${CURR_DIR}\\${projectName}\\${reactName}`;
+    if(answers["authentication-choice"]==="Auth0"){
+      renderCondition="isUserAuthenticated&&";
+    }
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
@@ -207,18 +248,22 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       useEffectImport,
       UseEffect,
       Imports,
-      renderCondition
+      renderCondition,
+      reactPath,
+      screenName
     );
     createDirectoryContents(
       nodeTemplatePath,
       `${projectName}/${nodeName}`,
       defaultRoute
     );
-    var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    var reactPath = `${CURR_DIR}/${projectName}/${reactName}`;
+  
   }
   // for react
   else if (projectChoice === "react") {
+    if(answers["authentication-choice"]==="Auth0"){
+      renderCondition="isUserAuthenticated&&";
+    }
     createDirectoryContents(
       templatePath,
       projectName,
@@ -226,7 +271,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       useEffectImport,
       UseEffect,
       Imports,
-      renderCondition
+      renderCondition,
+      reactPath,
+      screenName
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -251,7 +298,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirname);
   }
 
-  //for Blob service
+  //for Blob service---------------------------------------------------------->
   if (blobService == "yes") {
     const blobServiceName = answers["blobServiceName"];
     const blobTemplatePath = path.join(
@@ -264,7 +311,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
   console.log("Boiler-Plate created successfully");
 
-  //---------------------------------------------------------------------------------------//
+  //<--------------------------------------------------------------------------------------->
   if(answers["loggerService"]==="yes"){
     let loggerServiceName=answers["loggerName"];
     const loggerTemplatePath = path.join(
@@ -273,12 +320,20 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     createLogger(nodePath,loggerServiceName,loggerTemplatePath,defaultRoute);
   }
+
+  //<------------------------------------------------------------------------------------------->
+  if(answers['dbService']==="yes"){
+    let dbName=answers["dbName"];
+    let connectionString= answers["connectionString"];
+    createDbConn(nodePath,dbName,__dirname,defaultRoute,connectionString);
+  }
+
+  //<------------------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
     choice = "Auth0";
     writeIndexfile(choice, reactPath);
 
     const filesMap = [
-      // {srcFolder:'indexTemplates',srcFileName:'authIndex.js', destFolder:'src',destFileName:'index.js'},
       {
         srcFolder: "authTemplates",
         srcFileName: "react-spa.js",
@@ -314,13 +369,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     choice = "cognito";
     writeIndexfile(choice, reactPath);
     const filesMap = [
-      // {srcFolder:'indexTemplates',srcFileName:'cognito.js', destFolder:'src',destFileName:'index.js'},
-      {
-        srcFolder: "authTemplates",
-        srcFileName: "cognito-tmp.js",
-        destFolder: reactName + "/src",
-        destFileName: "react-spa.js",
-      },
       {
         srcFolder: "envTemplates",
         srcFileName: ".cognitoEnv",
@@ -354,8 +402,31 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
  
 });
 
-//function
+//function to create db connection---------------------------------------------->
+function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionString){
+  connPath = nodePath + '/connections'
+  fs.mkdirSync(connPath);
+  if(dbName==='postgres' || dbName==='mysql'){
+  let contents = fs.readFileSync(templatePath+'/dbTemplates/sequelize.js',"utf-8");
+  contents = render(contents,{ connectionString, dbName },(autoescape = false));
+  fs.writeFileSync(connPath + "/" + dbName + '.js' , contents, "utf-8");
+  let package={ name:'sequelize',version:'^6.6.5'}
+  updatePackage(nodePath,package)
+  }
+  else{
+    let package={name:"mongoose",version:"^6.0.2"}
+    updatePackage(nodePath,package);
+    let contents = fs.readFileSync(templatePath+'/dbTemplates/mongoose/mongoose.js',"utf-8");
+    fs.writeFileSync(connPath + "/" + dbName + '.js' , contents, "utf-8");   
+    contents = fs.readFileSync(templatePath+'/dbTemplates/mongoose/routes.js',"utf-8");
+    contents = render(contents, {defaultRoute});
+    fs.writeFileSync(connPath + "/routes" + '.js' , contents, "utf-8"); 
+  }
+  contents = fs.readFileSync(templatePath+ '/envTemplates/.'+dbName+'Env');
+  fs.writeFileSync(connPath + "/.env",contents,"utf-8" );
+}
 
+//function to create directory--------------------------------------------------->
 function createDirectoryContents(
   templatePath,
   newProjectPath,
@@ -363,7 +434,9 @@ function createDirectoryContents(
   useEffectImport,
   UseEffect,
   Imports,
-  renderCondition
+  renderCondition,
+  reactPath,
+  screenName
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
 
@@ -376,7 +449,8 @@ function createDirectoryContents(
       let contents = fs.readFileSync(origFilePath, "utf8");
       const elements = newProjectPath.split("/");
       const NameProject = elements[elements.length - 1];
-      if (file != "index.js" || newDefaultRoute != "") {
+      console.log(path.join(CURR_DIR,newProjectPath,file),reactPath+'\\src\\index.js')
+      if (path.join(CURR_DIR,newProjectPath,file)!=reactPath+'\\src\\index.js') {
         
         contents = render(
           contents,
@@ -387,6 +461,7 @@ function createDirectoryContents(
             UseEffect,
             Imports,
             renderCondition,
+            screenName
           },
           (autoescape = false)
         );
@@ -406,7 +481,9 @@ function createDirectoryContents(
         useEffectImport,
         UseEffect,
         Imports,
-        renderCondition
+        renderCondition,
+        reactPath,
+        screenName
       );
     }
   });
@@ -456,7 +533,7 @@ function createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirna
     package={name:"aws-sdk",version:"^2.971.0"}
     updatePackage(nodePath,package);
   }
-  // contents = render(contents, { projectName: projectName });
+
   fs.writeFile(
     `${servicePath}` + "/" + `${emailServiceName}` + ".js",
     contents,
@@ -467,7 +544,7 @@ function createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirna
   );
 }
 
-//function to create Blob services
+//function to create Blob services------------------------------------------------->
 function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
   let contents = fs.readFileSync(blobTemplatePath + ".js", "utf-8");
   let servicePath = path.join(nodePath, "utils","blob");
@@ -482,7 +559,7 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
     }
   );
 }
-//to update package.json
+//to update package.json------------------------------------------------>
 function updatePackage(path,package){
   let packagefile = fs.readFileSync(`${path}\\package.json`,"utf-8");
   packagefile=JSON.parse(packagefile);
@@ -496,7 +573,8 @@ function updatePackage(path,package){
   newPackageFile = JSON.stringify(newPackageFile)
   fs.writeFileSync(`${path}\\package.json`,newPackageFile,"utf-8");
 }
-//
+
+//to write index.js file for authentication ----------------------------------------->
 function writeIndexfile(choice, reactPath) {
   let imports = "";
   let envInfo = "";
@@ -514,23 +592,19 @@ redirect_uri={window.location.origin}
   >`;
     providerEnd = `</Auth0Provider>`;
   } else if (choice === "cognito") {
-    imports = `import cogAuth from './react-spa';`;
+    imports = `import Amplify from 'aws-amplify';
+import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';`;
     envInfo = `const {
-      IDENTITYPOOLID,
-      REGION,
-      IDENTITYPOOLREGION,
-      USERPOOLID,
-      USERPOOLWEBCLIENT,
-  } = process.env;`;
-    providerStart = `<cogAuth
-    identityPoolId= {IDENTITYPOOLID}
-    region= {REGION}
-    identityPoolRegion={IDENTITYPOOLREGION}
-    userPoolId= {USERPOOLID}
-    userPoolWebClientId= {USERPOOLWEBCLIENT}
-redirect_uri={window.location.origin}
- >`;
-    providerEnd = `</cogAuth>`;
+      REACT_APP_REGION,
+      REACT_APP_USER_POOL_ID,
+      REACT_APP_USER_POOL_WEB_CLIENT_IT,
+  } = process.env;
+  Amplify.configure( REACT_APP_REGION,
+    REACT_APP_USER_POOL_ID,
+    REACT_APP_USER_POOL_WEB_CLIENT_IT)`;
+    providerStart = `<AmplifyAuthenticator>`;
+    providerEnd = `<AmplifySignOut />
+    </AmplifyAuthenticator>`;
   }
 
   let contents = fs.readFileSync(templatePath, "utf8");

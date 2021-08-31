@@ -1,4 +1,4 @@
-require("dotenv/config");
+require("dotenv").config();
 const sgMail=require('@sendgrid/mail');
 
 sendMail=(to,from,text,html,subject)=>{

@@ -1,2 +1,2 @@
-import <%= projectName %> from "./<%= projectName %>";
-export default <%= projectName %>;
+import <%= screenName %> from "./<%= screenName %>";
+export default <%= screenName %>;
