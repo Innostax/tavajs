@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
+const { createDirectoryContents,updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
@@ -82,6 +83,7 @@ const QUESTIONS = [
     name: "default-route",
     type: "input",
     message: "Enter the default route",
+    default:"user",
     when: (answers) => {
       return (
         answers.projectChoice == "node-js" ||
@@ -94,11 +96,12 @@ const QUESTIONS = [
     type: "list",
     message: "Do you want redux integration?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.projectChoice == "react";
+      return answers.projectChoice === "react" ||
+      answers.projectChoice === "react_Node";
     },
   },
   {
@@ -227,75 +230,64 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
   const reduxIntegration = answers["redux"];
-
-  let useEffectImport = "";
-  let UseEffect = "";
-  let renderCondition = "";
-  // let renderContent=''
-  let Imports = "";
   let reactName = "";
   let newDefaultRoute = "";
+  var isAuth0 = false;
+  var isCognito = false;
+  var isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}\\${projectName}`;
-  fs.mkdirSync(`${CURR_DIR}/${projectName}`);
-  let screenName = "<%= projectName %>";
-  let demoUserIndexForRedux = "";
-  let demoUserComponentImports = "";
-  let demoUserDispatch = "";
-  let demoUserDataRender = "";
-  if (reduxIntegration === "yes") {
-    demoUserIndexForRedux = `import reducers from "./users.reducer";
-import * as selectors from "./users.selectors";
-import * as actions from "./users.actions";
-export const { getUsers } = actions;
-export const { name, reducer } = reducers;
-export const { selectAllUsers } = selectors;`;
-
-    demoUserComponentImports = `import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "./users.actions";
-import { selectAllUsers } from "./users.selectors";
-`;
-
-    demoUserDispatch = `const dispatch = useDispatch();
-const users = useSelector(selectAllUsers);
-
-useEffect(() => {
-  dispatch(getUsers());
-}, [dispatch]);
-`;
-    demoUserDataRender = `
-<h4>Welcome to React Redux Toolkit Crash Course</h4>
-      {users && users.map((user, i) => <p key={i}>{user.name}</p>)}`;
+  fs.mkdir(`${CURR_DIR}/${projectName}`,
+  (err, data) => {
+    if (err) {
+      console.error(err);
+    }
   }
+);
+  let screenName = "<%= projectName %>";
+ 
   //----------------------------------------------------------------------//
+  if(answers["authentication-choice"] === "Auth0"){
+     isAuth0 = true;
+  }
+  if(answers["authentication-choice"] === "Cognito"){
+    isCognito=true;
+  }
   //for react + node
   if (projectChoice == "react_Node") {
     reactName = answers["react-name"];
     const nodeName = answers["node-name"];
-    fs.mkdirSync(`${CURR_DIR}/${projectName}/${reactName}`);
-    fs.mkdirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
+    fs.mkdir(`${CURR_DIR}/${projectName}/${reactName}`,
+    (err, data) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+    fs.mkdir(`${CURR_DIR}/${projectName}/${nodeName}`,
+    (err, data) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
     var reactPath = `${CURR_DIR}\\${projectName}\\${reactName}`;
     if (answers["authentication-choice"] === "Auth0") {
-      renderCondition = "isUserAuthenticated&&";
+      isAuth0 = true;
     }
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
       newDefaultRoute,
-      useEffectImport,
-      UseEffect,
-      Imports,
-      renderCondition,
+      isAuth0,
+      isCognito,
+      isRedux,
       reactPath,
       screenName,
-      demoUserIndexForRedux,
-      demoUserComponentImports,
-      demoUserDispatch,
-      demoUserDataRender
     );
     createDirectoryContents(
       nodeTemplatePath,
@@ -305,23 +297,15 @@ useEffect(() => {
   }
   // for react
   else if (projectChoice === "react") {
-    if (answers["authentication-choice"] === "Auth0") {
-      renderCondition = "isUserAuthenticated&&";
-    }
     createDirectoryContents(
       templatePath,
       projectName,
       newDefaultRoute,
-      useEffectImport,
-      UseEffect,
-      Imports,
-      renderCondition,
+      isAuth0,
+      isCognito,
+      isRedux,
       reactPath,
       screenName,
-      demoUserIndexForRedux,
-      demoUserComponentImports,
-      demoUserDispatch,
-      demoUserDataRender
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -330,6 +314,7 @@ useEffect(() => {
     // var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(templatePath, projectName);
   }
+
   //creating utils dir
   if (
     emailService === "yes" ||
@@ -363,14 +348,14 @@ useEffect(() => {
   }
   console.log("Boiler-Plate created successfully");
 
-  //<--------------------------------------------------------------------------------------->
+  //<-----------For Logger service---------------------------------------------------------------------------->
   if (answers["loggerService"] === "yes") {
     let loggerServiceName = answers["loggerName"];
     const loggerTemplatePath = path.join(__dirname, "logger");
     createLogger(nodePath, loggerServiceName, loggerTemplatePath, defaultRoute);
   }
 
-  //<------------------------------------------------------------------------------------------->
+  //<-------For Db------------------------------------------------------------------------------------>
   if (answers["dbService"] === "yes") {
     let dbName = answers["dbName"];
     let connectionString = answers["connectionString"];
@@ -379,7 +364,7 @@ useEffect(() => {
 
   // <--------------------REDUX INTEGRATION------------------------->
 
-  if (reduxIntegration === "yes") {
+  if (reduxIntegration) {
     const reduxFiles = [
       {
         srcFolder: "reduxTemplates/demoUser",
@@ -410,7 +395,7 @@ useEffect(() => {
     reduxFiles.map((each) => {
       fs.copyFile(
         `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
-        `${CURR_DIR}\\${projectName}\\${each.destFolder}\\${each.destFileName}`,
+        `${reactPath}\\${each.destFolder}\\${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -423,7 +408,7 @@ useEffect(() => {
 
     fsExtra.copy(
       `${CURR_DIR}\\src\\reduxTemplates\\infrastructure`,
-      `${CURR_DIR}\\${projectName}\\src\\infrastructure`,
+      `${reactPath}\\src\\infrastructure`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -432,10 +417,11 @@ useEffect(() => {
       }
     );
   }
-  //<------------------------------------------------------------------------------------->
+ 
+  //<--------For authentication----------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
-    choice = "Auth0";
-    writeIndexfile(choice, reactPath);
+    // choice = "Auth0";
+    // writeIndexfile(choice, reactPath,reduxIntegration);
 
     const filesMap = [
       {
@@ -471,7 +457,7 @@ useEffect(() => {
     });
   } else if (answers["authentication-choice"] === "Cognito") {
     choice = "cognito";
-    writeIndexfile(choice, reactPath);
+    // writeIndexfile(choice, reactPath,reduxIntegration);
     const filesMap = [
       {
         srcFolder: "envTemplates",
@@ -496,130 +482,19 @@ useEffect(() => {
         }
       );
     });
-  } else {
+  } else{
     if (projectChoice === "react" || projectChoice === "react_Node") {
-      writeIndexfile("", reactPath, reduxIntegration);
+      // writeIndexfile("", reactPath, reduxIntegration);
     }
   }
 });
 
 //function to create db connection---------------------------------------------->
-function createDbConn(
-  nodePath,
-  dbName,
-  templatePath,
-  defaultRoute,
-  connectionString
-) {
-  connPath = nodePath + "/connections";
-  fs.mkdirSync(connPath);
-  if (dbName === "postgres" || dbName === "mysql") {
-    let contents = fs.readFileSync(
-      templatePath + "/dbTemplates/sequelize.js",
-      "utf-8"
-    );
-    contents = render(
-      contents,
-      { connectionString, dbName },
-      (autoescape = false)
-    );
-    fs.writeFileSync(connPath + "/" + dbName + ".js", contents, "utf-8");
-    let package = { name: "sequelize", version: "^6.6.5" };
-    updatePackage(nodePath, package);
-  } else {
-    let package = { name: "mongoose", version: "^6.0.2" };
-    updatePackage(nodePath, package);
-    let contents = fs.readFileSync(
-      templatePath + "/dbTemplates/mongoose/mongoose.js",
-      "utf-8"
-    );
-    fs.writeFileSync(connPath + "/" + dbName + ".js", contents, "utf-8");
-    contents = fs.readFileSync(
-      templatePath + "/dbTemplates/mongoose/routes.js",
-      "utf-8"
-    );
-    contents = render(contents, { defaultRoute });
-    fs.writeFileSync(connPath + "/routes" + ".js", contents, "utf-8");
-  }
-  contents = fs.readFileSync(templatePath + "/envTemplates/." + dbName + "Env");
-  fs.writeFileSync(connPath + "/.env", contents, "utf-8");
+function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionString){
+  console.log("Create DB called");
 }
 
-//function to create directory--------------------------------------------------->
-function createDirectoryContents(
-  templatePath,
-  newProjectPath,
-  newDefaultRoute,
-  useEffectImport,
-  UseEffect,
-  Imports,
-  renderCondition,
-  reactPath,
-  screenName,
-  demoUserIndexForRedux,
-  demoUserComponentImports,
-  demoUserDispatch,
-  demoUserDataRender
-) {
-  const filesToCreate = fs.readdirSync(templatePath);
 
-  filesToCreate.forEach((file) => {
-    const origFilePath = `${templatePath}/${file}`;
-
-    // get stats about the current file
-    const stats = fs.statSync(origFilePath);
-    if (stats.isFile()) {
-      let contents = fs.readFileSync(origFilePath, "utf8");
-      const elements = newProjectPath.split("/");
-      const NameProject = elements[elements.length - 1];
-      if (
-        path.join(CURR_DIR, newProjectPath, file) !=
-        reactPath + "\\src\\index.js"
-      ) {
-        contents = render(
-          contents,
-          {
-            projectName: NameProject,
-            defaultRoute: newDefaultRoute,
-            useEffectImport,
-            UseEffect,
-            Imports,
-            renderCondition,
-            screenName,
-            demoUserIndexForRedux,
-            demoUserComponentImports,
-            demoUserDispatch,
-            demoUserDataRender,
-          },
-          (autoescape = false)
-        );
-
-        const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
-
-        fs.writeFileSync(writePath, contents, "utf8");
-      }
-    } else if (stats.isDirectory()) {
-      fs.mkdirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
-
-      // recursive call
-      createDirectoryContents(
-        `${templatePath}/${file}`,
-        `${newProjectPath}/${file}`,
-        newDefaultRoute,
-        useEffectImport,
-        UseEffect,
-        Imports,
-        renderCondition,
-        reactPath,
-        screenName,
-        demoUserIndexForRedux,
-        demoUserComponentImports,
-        demoUserDispatch,
-        demoUserDataRender
-      );
-    }
-  });
-}
 function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
   let contents = fs.readFileSync(
     loggerTemplatePath + "/template/" + loggerName + ".js",
@@ -703,82 +578,4 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
       console.log("Blob service created successfully.");
     }
   );
-}
-//to update package.json------------------------------------------------>
-function updatePackage(path, package) {
-  let packagefile = fs.readFileSync(`${path}\\package.json`, "utf-8");
-  packagefile = JSON.parse(packagefile);
-  let newPackageFile = {
-    ...packagefile,
-    dependencies: {
-      ...packagefile.dependencies,
-      [package.name]: package.version,
-    },
-  };
-  newPackageFile = JSON.stringify(newPackageFile);
-  fs.writeFileSync(`${path}\\package.json`, newPackageFile, "utf-8");
-}
-
-//to write index.js file for authentication ----------------------------------------->
-function writeIndexfile(choice, reactPath, reduxIntegration) {
-  let imports = "";
-  let envInfo = "";
-  let providerStart = "";
-  let providerEnd = "";
-  let reduxProviderStart = "";
-  let reduxProviderEnd = "";
-  let reduxImport = "";
-  let templatePath = path.join(__dirname, "templates/react/src", "index.js");
-
-  if (reduxIntegration === "yes") {
-    reduxProviderStart = "<Provider store={store}>";
-    reduxProviderEnd = "</Provider>";
-    reduxImport = `import { store } from "./store";
-import { Provider } from "react-redux";`;
-  }
-
-  if (choice === "Auth0") {
-    imports = `import { Auth0Provider } from './react-spa'`;
-    envInfo = `const { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID} = process.env`;
-    providerStart = `<Auth0Provider
-domain={REACT_APP_AUTH0_DOMAIN}
-client_id={REACT_APP_AUTH0_CLIENT_ID}
-redirect_uri={window.location.origin}
-  >`;
-    providerEnd = `</Auth0Provider>`;
-  } else if (choice === "cognito") {
-    imports = `import Amplify from 'aws-amplify';
-import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';`;
-    envInfo = `const {
-      REACT_APP_REGION,
-      REACT_APP_USER_POOL_ID,
-      REACT_APP_USER_POOL_WEB_CLIENT_IT,
-  } = process.env;
-  Amplify.configure( REACT_APP_REGION,
-    REACT_APP_USER_POOL_ID,
-    REACT_APP_USER_POOL_WEB_CLIENT_IT)`;
-    providerStart = `<AmplifyAuthenticator>`;
-    providerEnd = `<AmplifySignOut />
-    </AmplifyAuthenticator>`;
-  }
-
-  let contents = fs.readFileSync(templatePath, "utf8");
-
-  contents = render(
-    contents,
-    {
-      imports,
-      envInfo,
-      providerStart,
-      providerEnd,
-      reduxImport,
-      reduxProviderStart,
-      reduxProviderEnd,
-    },
-    (autoescape = false)
-  );
-
-  const writePath = `${reactPath}` + "/src/index.js";
-
-  fs.writeFileSync(writePath, contents, "utf8");
 }
