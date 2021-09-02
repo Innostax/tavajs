@@ -2,14 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+<%- reduxImport %>
 
 <%- imports %>
 <%= envInfo %>
 ReactDOM.render(
   <React.StrictMode>
-    <%- providerStart %>
-    <App />
+      <%- providerStart %>
+      <%- reduxProviderStart %>
+      <App />
+      <%- reduxProviderEnd %>
     <%- providerEnd %>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

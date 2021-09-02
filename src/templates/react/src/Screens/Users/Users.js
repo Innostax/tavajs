@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+<%- demoUserComponentImports %>
+const Users = () => {
+  <%- demoUserDispatch %>
 
-export default function Users() {
   return (
     <div>
       <h1>Welcome to Users Screen</h1>
+      <%- demoUserDataRender %>
     </div>
   );
-}
+};
+
+export default Users;

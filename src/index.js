@@ -90,12 +90,24 @@ const QUESTIONS = [
     },
   },
   {
+    name: "redux",
+    type: "list",
+    message: "Do you want redux integration?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+    when: (answers) => {
+      return answers.projectChoice == "react";
+    },
+  },
+  {
     name: "dbService",
     type: "list",
     message: "Do you need database service?",
-    choices:[
-      { name:'yes',value:'yes' },
-      { name:'no',value:'no' }
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
     ],
     when: (answers) => {
       return (
@@ -214,19 +226,48 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
-  let useEffectImport = ''
-  let UseEffect = ''
-  let renderCondition = ''
+  const reduxIntegration = answers["redux"];
+
+  let useEffectImport = "";
+  let UseEffect = "";
+  let renderCondition = "";
   // let renderContent=''
-  let Imports =''
-  let reactName='';
-  let newDefaultRoute="";
+  let Imports = "";
+  let reactName = "";
+  let newDefaultRoute = "";
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}\\${projectName}`;
   fs.mkdirSync(`${CURR_DIR}/${projectName}`);
-  let screenName= "<%= projectName %>"
+  let screenName = "<%= projectName %>";
+  let demoUserIndexForRedux = "";
+  let demoUserComponentImports = "";
+  let demoUserDispatch = "";
+  let demoUserDataRender = "";
+  if (reduxIntegration === "yes") {
+    demoUserIndexForRedux = `import reducers from "./users.reducer";
+import * as selectors from "./users.selectors";
+import * as actions from "./users.actions";
+export const { getUsers } = actions;
+export const { name, reducer } = reducers;
+export const { selectAllUsers } = selectors;`;
 
+    demoUserComponentImports = `import { useSelector, useDispatch } from "react-redux";
+import { getUsers } from "./users.actions";
+import { selectAllUsers } from "./users.selectors";
+`;
+
+    demoUserDispatch = `const dispatch = useDispatch();
+const users = useSelector(selectAllUsers);
+
+useEffect(() => {
+  dispatch(getUsers());
+}, [dispatch]);
+`;
+    demoUserDataRender = `
+<h4>Welcome to React Redux Toolkit Crash Course</h4>
+      {users && users.map((user, i) => <p key={i}>{user.name}</p>)}`;
+  }
   //----------------------------------------------------------------------//
   //for react + node
   if (projectChoice == "react_Node") {
@@ -238,8 +279,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
     var reactPath = `${CURR_DIR}\\${projectName}\\${reactName}`;
-    if(answers["authentication-choice"]==="Auth0"){
-      renderCondition="isUserAuthenticated&&";
+    if (answers["authentication-choice"] === "Auth0") {
+      renderCondition = "isUserAuthenticated&&";
     }
     createDirectoryContents(
       reactTemplatePath,
@@ -250,19 +291,22 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       Imports,
       renderCondition,
       reactPath,
-      screenName
+      screenName,
+      demoUserIndexForRedux,
+      demoUserComponentImports,
+      demoUserDispatch,
+      demoUserDataRender
     );
     createDirectoryContents(
       nodeTemplatePath,
       `${projectName}/${nodeName}`,
       defaultRoute
     );
-  
   }
   // for react
   else if (projectChoice === "react") {
-    if(answers["authentication-choice"]==="Auth0"){
-      renderCondition="isUserAuthenticated&&";
+    if (answers["authentication-choice"] === "Auth0") {
+      renderCondition = "isUserAuthenticated&&";
     }
     createDirectoryContents(
       templatePath,
@@ -273,7 +317,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       Imports,
       renderCondition,
       reactPath,
-      screenName
+      screenName,
+      demoUserIndexForRedux,
+      demoUserComponentImports,
+      demoUserDispatch,
+      demoUserDataRender
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -283,8 +331,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(templatePath, projectName);
   }
   //creating utils dir
-  if(emailService==="yes" || blobService==="yes" || answers["loggerService"] === "yes" ){
-    fs.mkdirSync(nodePath+"/utils");
+  if (
+    emailService === "yes" ||
+    blobService === "yes" ||
+    answers["loggerService"] === "yes"
+  ) {
+    fs.mkdirSync(nodePath + "/utils");
   }
   //for email Sevices
   if (emailService == "yes") {
@@ -295,7 +347,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       emailServiceName
     );
 
-    createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirname);
+    createEmailSevice(emailServiceName, emailTemplatePath, nodePath, __dirname);
   }
 
   //for Blob service---------------------------------------------------------->
@@ -312,22 +364,74 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   console.log("Boiler-Plate created successfully");
 
   //<--------------------------------------------------------------------------------------->
-  if(answers["loggerService"]==="yes"){
-    let loggerServiceName=answers["loggerName"];
-    const loggerTemplatePath = path.join(
-      __dirname,
-      "logger"
-    );
-    createLogger(nodePath,loggerServiceName,loggerTemplatePath,defaultRoute);
+  if (answers["loggerService"] === "yes") {
+    let loggerServiceName = answers["loggerName"];
+    const loggerTemplatePath = path.join(__dirname, "logger");
+    createLogger(nodePath, loggerServiceName, loggerTemplatePath, defaultRoute);
   }
 
   //<------------------------------------------------------------------------------------------->
-  if(answers['dbService']==="yes"){
-    let dbName=answers["dbName"];
-    let connectionString= answers["connectionString"];
-    createDbConn(nodePath,dbName,__dirname,defaultRoute,connectionString);
+  if (answers["dbService"] === "yes") {
+    let dbName = answers["dbName"];
+    let connectionString = answers["connectionString"];
+    createDbConn(nodePath, dbName, __dirname, defaultRoute, connectionString);
   }
 
+  // <--------------------REDUX INTEGRATION------------------------->
+
+  if (reduxIntegration === "yes") {
+    const reduxFiles = [
+      {
+        srcFolder: "reduxTemplates/demoUser",
+        srcFileName: "users.actions.js",
+        destFolder: "/src/Screens/Users",
+        destFileName: "users.actions.js",
+      },
+      {
+        srcFolder: "reduxTemplates/demoUser",
+        srcFileName: "users.reducer.js",
+        destFolder: "/src/Screens/Users",
+        destFileName: "users.reducer.js",
+      },
+      {
+        srcFolder: "reduxTemplates/demoUser",
+        srcFileName: "users.selectors.js",
+        destFolder: "/src/Screens/Users",
+        destFileName: "users.selectors.js",
+      },
+      {
+        srcFolder: "reduxTemplates",
+        srcFileName: "store.js",
+        destFolder: "/src",
+        destFileName: "store.js",
+      },
+    ];
+
+    reduxFiles.map((each) => {
+      fs.copyFile(
+        `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
+        `${CURR_DIR}\\${projectName}\\${each.destFolder}\\${each.destFileName}`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    });
+
+    // C:\Users\HIMANSHU GAUTAM\Desktop\nodeCli\poc-cli-templates\src\reduxTemplates\abc
+
+    fsExtra.copy(
+      `${CURR_DIR}\\src\\reduxTemplates\\infrastructure`,
+      `${CURR_DIR}\\${projectName}\\src\\infrastructure`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+  }
   //<------------------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
     choice = "Auth0";
@@ -350,9 +454,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
     const package1 = { name: "@auth0/asdfsduth0-spa-js", version: "^1.112.0" };
-    let packagePath=path.join(CURR_DIR,projectName,reactName);
-    updatePackage(packagePath,package);
-    updatePackage(packagePath,package1);
+    let packagePath = path.join(CURR_DIR, projectName, reactName);
+    updatePackage(packagePath, package);
+    updatePackage(packagePath, package1);
 
     filesMap.map((each) => {
       fs.copyFile(
@@ -378,10 +482,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     ];
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
 
-    let packagePath=path.join(CURR_DIR,projectName,reactName);
-    updatePackage(packagePath,package)
-    
-   
+    let packagePath = path.join(CURR_DIR, projectName, reactName);
+    updatePackage(packagePath, package);
 
     filesMap.map((each) => {
       fs.copyFile(
@@ -394,36 +496,53 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
-  }else{
-    if(projectChoice==='react' || projectChoice==='react_Node'){
-      writeIndexfile("",reactPath);
+  } else {
+    if (projectChoice === "react" || projectChoice === "react_Node") {
+      writeIndexfile("", reactPath, reduxIntegration);
     }
   }
- 
 });
 
 //function to create db connection---------------------------------------------->
-function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionString){
-  connPath = nodePath + '/connections'
+function createDbConn(
+  nodePath,
+  dbName,
+  templatePath,
+  defaultRoute,
+  connectionString
+) {
+  connPath = nodePath + "/connections";
   fs.mkdirSync(connPath);
-  if(dbName==='postgres' || dbName==='mysql'){
-  let contents = fs.readFileSync(templatePath+'/dbTemplates/sequelize.js',"utf-8");
-  contents = render(contents,{ connectionString, dbName },(autoescape = false));
-  fs.writeFileSync(connPath + "/" + dbName + '.js' , contents, "utf-8");
-  let package={ name:'sequelize',version:'^6.6.5'}
-  updatePackage(nodePath,package)
+  if (dbName === "postgres" || dbName === "mysql") {
+    let contents = fs.readFileSync(
+      templatePath + "/dbTemplates/sequelize.js",
+      "utf-8"
+    );
+    contents = render(
+      contents,
+      { connectionString, dbName },
+      (autoescape = false)
+    );
+    fs.writeFileSync(connPath + "/" + dbName + ".js", contents, "utf-8");
+    let package = { name: "sequelize", version: "^6.6.5" };
+    updatePackage(nodePath, package);
+  } else {
+    let package = { name: "mongoose", version: "^6.0.2" };
+    updatePackage(nodePath, package);
+    let contents = fs.readFileSync(
+      templatePath + "/dbTemplates/mongoose/mongoose.js",
+      "utf-8"
+    );
+    fs.writeFileSync(connPath + "/" + dbName + ".js", contents, "utf-8");
+    contents = fs.readFileSync(
+      templatePath + "/dbTemplates/mongoose/routes.js",
+      "utf-8"
+    );
+    contents = render(contents, { defaultRoute });
+    fs.writeFileSync(connPath + "/routes" + ".js", contents, "utf-8");
   }
-  else{
-    let package={name:"mongoose",version:"^6.0.2"}
-    updatePackage(nodePath,package);
-    let contents = fs.readFileSync(templatePath+'/dbTemplates/mongoose/mongoose.js',"utf-8");
-    fs.writeFileSync(connPath + "/" + dbName + '.js' , contents, "utf-8");   
-    contents = fs.readFileSync(templatePath+'/dbTemplates/mongoose/routes.js',"utf-8");
-    contents = render(contents, {defaultRoute});
-    fs.writeFileSync(connPath + "/routes" + '.js' , contents, "utf-8"); 
-  }
-  contents = fs.readFileSync(templatePath+ '/envTemplates/.'+dbName+'Env');
-  fs.writeFileSync(connPath + "/.env",contents,"utf-8" );
+  contents = fs.readFileSync(templatePath + "/envTemplates/." + dbName + "Env");
+  fs.writeFileSync(connPath + "/.env", contents, "utf-8");
 }
 
 //function to create directory--------------------------------------------------->
@@ -436,7 +555,11 @@ function createDirectoryContents(
   Imports,
   renderCondition,
   reactPath,
-  screenName
+  screenName,
+  demoUserIndexForRedux,
+  demoUserComponentImports,
+  demoUserDispatch,
+  demoUserDataRender
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
 
@@ -449,9 +572,10 @@ function createDirectoryContents(
       let contents = fs.readFileSync(origFilePath, "utf8");
       const elements = newProjectPath.split("/");
       const NameProject = elements[elements.length - 1];
-      console.log(path.join(CURR_DIR,newProjectPath,file),reactPath+'\\src\\index.js')
-      if (path.join(CURR_DIR,newProjectPath,file)!=reactPath+'\\src\\index.js') {
-        
+      if (
+        path.join(CURR_DIR, newProjectPath, file) !=
+        reactPath + "\\src\\index.js"
+      ) {
         contents = render(
           contents,
           {
@@ -461,7 +585,11 @@ function createDirectoryContents(
             UseEffect,
             Imports,
             renderCondition,
-            screenName
+            screenName,
+            demoUserIndexForRedux,
+            demoUserComponentImports,
+            demoUserDispatch,
+            demoUserDataRender,
           },
           (autoescape = false)
         );
@@ -483,55 +611,72 @@ function createDirectoryContents(
         Imports,
         renderCondition,
         reactPath,
-        screenName
+        screenName,
+        demoUserIndexForRedux,
+        demoUserComponentImports,
+        demoUserDispatch,
+        demoUserDataRender
       );
     }
   });
 }
-function createLogger(utilpath,loggerName,loggerTemplatePath,defaultRoute){
-
-  let contents = fs.readFileSync(loggerTemplatePath + "/template/"+loggerName+".js", "utf-8");
-  contents = render(contents,{defaultRoute});
-  fs.writeFileSync(utilpath+'/index.js',contents,"utf-8");
-  if(loggerName==="winston"){
-    let servicePath = path.join(utilpath, "utils","logger");
+function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
+  let contents = fs.readFileSync(
+    loggerTemplatePath + "/template/" + loggerName + ".js",
+    "utf-8"
+  );
+  contents = render(contents, { defaultRoute });
+  fs.writeFileSync(utilpath + "/index.js", contents, "utf-8");
+  if (loggerName === "winston") {
+    let servicePath = path.join(utilpath, "utils", "logger");
     fs.mkdirSync(servicePath);
-    let package = {name:"winston",version:"^3.3.3"}
-    updatePackage(utilpath,package)
-    let contents = fs.readFileSync(loggerTemplatePath + "/"+loggerName+".js", "utf-8");
-    fs.writeFile(servicePath+"/index"+'.js',contents,function (err) {
+    let package = { name: "winston", version: "^3.3.3" };
+    updatePackage(utilpath, package);
+    let contents = fs.readFileSync(
+      loggerTemplatePath + "/" + loggerName + ".js",
+      "utf-8"
+    );
+    fs.writeFile(servicePath + "/index" + ".js", contents, function (err) {
       if (err) throw err;
       console.log("Email service created successfully.");
-    }
-  );
-  }else{
-    let package = {name:"raven",version:"^2.6.4"}
-  updatePackage(utilpath,package)
-
+    });
+  } else {
+    let package = { name: "raven", version: "^2.6.4" };
+    updatePackage(utilpath, package);
   }
 }
 
 //function to create email services
-function createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirname) {
-  
-  let package = {name:"dotenv",version:"^10.0.0"};
-  updatePackage(nodePath,package);
-  
+function createEmailSevice(
+  emailServiceName,
+  emailTemplatePath,
+  nodePath,
+  __dirname
+) {
+  let package = { name: "dotenv", version: "^10.0.0" };
+  updatePackage(nodePath, package);
+
   let contents = fs.readFileSync(emailTemplatePath + ".js", "utf-8");
-  let servicePath = path.join(nodePath, "utils","email");
+  let servicePath = path.join(nodePath, "utils", "email");
   fs.mkdirSync(servicePath);
-  if(emailServiceName==='sendgrid'){
-    fs.copyFileSync(__dirname+'/envTemplates/.sendgridEnv',servicePath+"/.env",)
-    package={name:"@sendgrid/mail",version:"^7.4.6"}
-    updatePackage(nodePath,package);
-  }else if(emailServiceName==="smtp"){
-    fs.copyFileSync(__dirname+'/envTemplates/.smtpEnv',servicePath+"/.env",)
-    package={name:"nodemailer",version:"^6.6.3"}
-    updatePackage(nodePath,package);
-  }else{
-    fs.copyFileSync(__dirname+'/envTemplates/.sesEnv',servicePath+"/.env",)
-    package={name:"aws-sdk",version:"^2.971.0"}
-    updatePackage(nodePath,package);
+  if (emailServiceName === "sendgrid") {
+    fs.copyFileSync(
+      __dirname + "/envTemplates/.sendgridEnv",
+      servicePath + "/.env"
+    );
+    package = { name: "@sendgrid/mail", version: "^7.4.6" };
+    updatePackage(nodePath, package);
+  } else if (emailServiceName === "smtp") {
+    fs.copyFileSync(
+      __dirname + "/envTemplates/.smtpEnv",
+      servicePath + "/.env"
+    );
+    package = { name: "nodemailer", version: "^6.6.3" };
+    updatePackage(nodePath, package);
+  } else {
+    fs.copyFileSync(__dirname + "/envTemplates/.sesEnv", servicePath + "/.env");
+    package = { name: "aws-sdk", version: "^2.971.0" };
+    updatePackage(nodePath, package);
   }
 
   fs.writeFile(
@@ -547,7 +692,7 @@ function createEmailSevice(emailServiceName, emailTemplatePath, nodePath,__dirna
 //function to create Blob services------------------------------------------------->
 function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
   let contents = fs.readFileSync(blobTemplatePath + ".js", "utf-8");
-  let servicePath = path.join(nodePath, "utils","blob");
+  let servicePath = path.join(nodePath, "utils", "blob");
   fs.mkdirSync(servicePath);
   // contents = render(contents, { projectName: projectName });
   fs.writeFile(
@@ -560,9 +705,9 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
   );
 }
 //to update package.json------------------------------------------------>
-function updatePackage(path,package){
-  let packagefile = fs.readFileSync(`${path}\\package.json`,"utf-8");
-  packagefile=JSON.parse(packagefile);
+function updatePackage(path, package) {
+  let packagefile = fs.readFileSync(`${path}\\package.json`, "utf-8");
+  packagefile = JSON.parse(packagefile);
   let newPackageFile = {
     ...packagefile,
     dependencies: {
@@ -570,17 +715,27 @@ function updatePackage(path,package){
       [package.name]: package.version,
     },
   };
-  newPackageFile = JSON.stringify(newPackageFile)
-  fs.writeFileSync(`${path}\\package.json`,newPackageFile,"utf-8");
+  newPackageFile = JSON.stringify(newPackageFile);
+  fs.writeFileSync(`${path}\\package.json`, newPackageFile, "utf-8");
 }
 
 //to write index.js file for authentication ----------------------------------------->
-function writeIndexfile(choice, reactPath) {
+function writeIndexfile(choice, reactPath, reduxIntegration) {
   let imports = "";
   let envInfo = "";
   let providerStart = "";
   let providerEnd = "";
+  let reduxProviderStart = "";
+  let reduxProviderEnd = "";
+  let reduxImport = "";
   let templatePath = path.join(__dirname, "templates/react/src", "index.js");
+
+  if (reduxIntegration === "yes") {
+    reduxProviderStart = "<Provider store={store}>";
+    reduxProviderEnd = "</Provider>";
+    reduxImport = `import { store } from "./store";
+import { Provider } from "react-redux";`;
+  }
 
   if (choice === "Auth0") {
     imports = `import { Auth0Provider } from './react-spa'`;
@@ -611,7 +766,15 @@ import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';`;
 
   contents = render(
     contents,
-    { imports, envInfo, providerStart, providerEnd },
+    {
+      imports,
+      envInfo,
+      providerStart,
+      providerEnd,
+      reduxImport,
+      reduxProviderStart,
+      reduxProviderEnd,
+    },
     (autoescape = false)
   );
 
