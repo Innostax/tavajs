@@ -12,7 +12,6 @@ export function handleException(exception, methodType, url) {
 export function createHeader(httpHeaders) {
   const requestOptions = {
     headers: { Accept: "application/json", "Content-Type": "application/json" },
-    body: JSON.stringify({ title: "React POST Request Example" }),
   };
 
   return httpHeaders
