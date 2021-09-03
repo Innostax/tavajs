@@ -1,2 +1,2 @@
-import <%= screenName %> from "./<%= screenName %>";
-export default <%= screenName %>;
+import <%- screenName %> from "./<%- screenName %>";
+export default <%- screenName %>;
