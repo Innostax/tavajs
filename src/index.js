@@ -6,6 +6,7 @@ const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
 
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
+var mongoSelected = false
 
 const QUESTIONS = [
   {
@@ -118,14 +119,6 @@ const QUESTIONS = [
     },
   },
   {
-    name: "connectionString",
-    type: "input",
-    message: "Enter your connection string?",
-    when: (answers) => {
-      return answers.dbService == "yes";
-    },
-  },
-  {
     name: "loggerService",
     type: "list",
     message: "do you want logger services?",
@@ -214,6 +207,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
+  mongoSelected = answers["dbName"] === "mongoose"
+  dbName = answers[""] 
   let useEffectImport = ''
   let UseEffect = ''
   let renderCondition = ''
@@ -257,7 +252,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       `${projectName}/${nodeName}`,
       defaultRoute
     );
-  
+    const newPath = `${CURR_DIR}\\${projectName}\\${nodeName}`
+    const fileNames=[{oldName:'route.js', folder:'Routes',newName:`${defaultRoute}.routes.js`},{oldName:'controller.js', folder:'Controllers',newName:`${defaultRoute}.controllers.js`}]
+    
+    fileNames.map((each)=>
+      fs.rename( `${newPath}\\${each.folder}\\${each.oldName}`, `${newPath}\\${each.folder}\\${each.newName}`,()=>{}))
   }
   // for react
   else if (projectChoice === "react") {
@@ -277,7 +276,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
-    createDirectoryContents(templatePath, projectName, defaultRoute);
+    createDirectoryContents(templatePath, projectName, defaultRoute,)
+    const newPath = `${CURR_DIR}\\${projectName}`
+    const fileNames=[{oldName:'route.js', folder:'Routes',newName:`${defaultRoute}.routes.js`},{oldName:'controller.js', folder:'Controllers',newName:`${defaultRoute}.controllers.js`}]
+    
+    fileNames.map((each)=>
+      fs.rename( `${newPath}\\${each.folder}\\${each.oldName}`, `${newPath}\\${each.folder}\\${each.newName}`,()=>{}))
+   
   } else {
     // var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(templatePath, projectName);
@@ -325,7 +330,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if(answers['dbService']==="yes"){
     let dbName=answers["dbName"];
     let connectionString= answers["connectionString"];
-    createDbConn(nodePath,dbName,__dirname,defaultRoute,connectionString);
+    createDbConn(nodePath,dbName,__dirname,defaultRoute,connectionString,projectName);
   }
 
   //<------------------------------------------------------------------------------------->
@@ -403,9 +408,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 });
 
 //function to create db connection---------------------------------------------->
-function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionString){
-  connPath = nodePath + '/connections'
-  fs.mkdirSync(connPath);
+function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionString,projectName){
+  // connPath = nodePath + '/connections'
+  // fs.mkdirSync(connPath);
   if(dbName==='postgres' || dbName==='mysql'){
   let contents = fs.readFileSync(templatePath+'/dbTemplates/sequelize.js',"utf-8");
   contents = render(contents,{ connectionString, dbName },(autoescape = false));
@@ -416,14 +421,35 @@ function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionSt
   else{
     let package={name:"mongoose",version:"^6.0.2"}
     updatePackage(nodePath,package);
-    let contents = fs.readFileSync(templatePath+'/dbTemplates/mongoose/mongoose.js',"utf-8");
-    fs.writeFileSync(connPath + "/" + dbName + '.js' , contents, "utf-8");   
-    contents = fs.readFileSync(templatePath+'/dbTemplates/mongoose/routes.js',"utf-8");
-    contents = render(contents, {defaultRoute});
-    fs.writeFileSync(connPath + "/routes" + '.js' , contents, "utf-8"); 
+    const modelPath = nodePath + '\\Models'
+    fs.mkdirSync(modelPath);
+    const filesMap = [
+      {
+        srcFolder: "dbTemplates",
+        srcFileName: "mongoose.js",
+        destFolder: nodePath,
+        destFileName: "mongoose.js",
+      },
+      {
+        srcFolder: "dbTemplates",
+        srcFileName: "mongooseModel.js",
+        destFolder: modelPath,
+        destFileName: defaultRoute + ".js",
+      },
+    ];
+
+    filesMap.map((each) => {
+      fs.copyFile(
+        `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
+        `${each.destFolder}\\${each.destFileName}`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    });
   }
-  contents = fs.readFileSync(templatePath+ '/envTemplates/.'+dbName+'Env');
-  fs.writeFileSync(connPath + "/.env",contents,"utf-8" );
 }
 
 //function to create directory--------------------------------------------------->
@@ -436,7 +462,7 @@ function createDirectoryContents(
   Imports,
   renderCondition,
   reactPath,
-  screenName
+  screenName,
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
 
@@ -449,7 +475,6 @@ function createDirectoryContents(
       let contents = fs.readFileSync(origFilePath, "utf8");
       const elements = newProjectPath.split("/");
       const NameProject = elements[elements.length - 1];
-      console.log(path.join(CURR_DIR,newProjectPath,file),reactPath+'\\src\\index.js')
       if (path.join(CURR_DIR,newProjectPath,file)!=reactPath+'\\src\\index.js') {
         
         contents = render(
@@ -461,7 +486,8 @@ function createDirectoryContents(
             UseEffect,
             Imports,
             renderCondition,
-            screenName
+            screenName,
+            mongoSelected
           },
           (autoescape = false)
         );
@@ -472,7 +498,6 @@ function createDirectoryContents(
       }
     } else if (stats.isDirectory()) {
       fs.mkdirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
-
       // recursive call
       createDirectoryContents(
         `${templatePath}/${file}`,
@@ -483,7 +508,7 @@ function createDirectoryContents(
         Imports,
         renderCondition,
         reactPath,
-        screenName
+        screenName,
       );
     }
   });
