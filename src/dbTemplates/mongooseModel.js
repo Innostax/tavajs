@@ -6,4 +6,4 @@ const schema = new mongoose.Schema({
   phone_number: Number,
 });
 
-module.exports = mongoose.model("<%= defaultRoute %>", schema);
+module.exports = mongoose.model('<%= defaultRoute %>', schema);

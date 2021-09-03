@@ -409,8 +409,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
 //function to create db connection---------------------------------------------->
 function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionString,projectName){
-  // connPath = nodePath + '/connections'
-  // fs.mkdirSync(connPath);
   if(dbName==='postgres' || dbName==='mysql'){
   let contents = fs.readFileSync(templatePath+'/dbTemplates/sequelize.js',"utf-8");
   contents = render(contents,{ connectionString, dbName },(autoescape = false));
@@ -430,12 +428,6 @@ function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionSt
         destFolder: nodePath,
         destFileName: "mongoose.js",
       },
-      {
-        srcFolder: "dbTemplates",
-        srcFileName: "mongooseModel.js",
-        destFolder: modelPath,
-        destFileName: defaultRoute + ".js",
-      },
     ];
 
     filesMap.map((each) => {
@@ -449,7 +441,11 @@ function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionSt
         }
       );
     });
-  }
+    const writePath = `${modelPath}\\${defaultRoute}.js`
+    let contents = fs.readFileSync(`${CURR_DIR}\\src\\dbTemplates\\mongooseModel.js`, "utf8")
+    contents = render(contents,{defaultRoute})
+    fs.writeFileSync(writePath, contents, "utf8")
+  } 
 }
 
 //function to create directory--------------------------------------------------->
@@ -582,7 +578,8 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
       if (err) throw err;
       console.log("Blob service created successfully.");
     }
-  );
+  )
+  
 }
 //to update package.json------------------------------------------------>
 function updatePackage(path,package){
@@ -623,9 +620,9 @@ import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';`;
       REACT_APP_REGION,
       REACT_APP_USER_POOL_ID,
       REACT_APP_USER_POOL_WEB_CLIENT_IT,
-  } = process.env;
-  Amplify.configure( REACT_APP_REGION,
-    REACT_APP_USER_POOL_ID,
+      } = process.env;
+      Amplify.configure( REACT_APP_REGION,
+      REACT_APP_USER_POOL_ID,
     REACT_APP_USER_POOL_WEB_CLIENT_IT)`;
     providerStart = `<AmplifyAuthenticator>`;
     providerEnd = `<AmplifySignOut />
