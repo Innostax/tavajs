@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
-const { createDirectoryContents,updatePackage } = require("./utils/helper");
+const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
@@ -60,7 +60,7 @@ const QUESTIONS = [
   {
     name: "authService",
     type: "list",
-    message: "do you want Authentication services?",
+    message: "Do you want Authentication services?",
     choices: [
       { name: "yes", value: "yes" },
       { name: "no", value: "no" },
@@ -101,8 +101,10 @@ const QUESTIONS = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.projectChoice === "react" ||
-      answers.projectChoice === "react_Node";
+      return (
+        answers.projectChoice === "react" ||
+        answers.projectChoice === "react_Node"
+      );
     },
   },
   {
@@ -123,7 +125,7 @@ const QUESTIONS = [
   {
     name: "dbName",
     type: "list",
-    message: "which db service do you want?",
+    message: "Which db service do you want?",
     choices: [
       { name: "Postgres", value: "postgres" },
       { name: "MySql", value: "mysql" },
@@ -136,7 +138,7 @@ const QUESTIONS = [
   {
     name: "loggerService",
     type: "list",
-    message: "do you want logger services?",
+    message: "Do you want logger services?",
     choices: [
       { name: "yes", value: "yes" },
       { name: "no", value: "no" },
@@ -151,7 +153,7 @@ const QUESTIONS = [
   {
     name: "loggerName",
     type: "list",
-    message: "which logger service do you want?",
+    message: "Which logger service do you want?",
     choices: [
       { name: "Winston", value: "winston" },
       { name: "sentry", value: "sentry" },
@@ -163,7 +165,7 @@ const QUESTIONS = [
   {
     name: "emailService",
     type: "list",
-    message: "do you want e-mail services?",
+    message: "Do you want e-mail services?",
     choices: [
       { name: "yes", value: "yes" },
       { name: "no", value: "no" },
@@ -178,7 +180,7 @@ const QUESTIONS = [
   {
     name: "emailServiceName",
     type: "list",
-    message: "which Email service do you want?",
+    message: "Which Email service do you want?",
     choices: [
       { name: "SendGrid", value: "sendgrid" },
       { name: "Amazon Ses", value: "amazon_ses" },
@@ -191,7 +193,7 @@ const QUESTIONS = [
   {
     name: "blobService",
     type: "list",
-    message: "do you want blob services?",
+    message: "Do you want blob services?",
     choices: [
       { name: "yes", value: "yes" },
       { name: "no", value: "no" },
@@ -206,7 +208,7 @@ const QUESTIONS = [
   {
     name: "blobServiceName",
     type: "list",
-    message: "which Blob service do you want?",
+    message: "Which Blob service do you want?",
     choices: [
       { name: "AWS-s3", value: "aws-s3" },
       { name: "Azure", value: "azure" },
@@ -233,47 +235,30 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}\\${projectName}`;
-  fs.mkdir(`${CURR_DIR}/${projectName}`,
-  (err, data) => {
+  fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
     }
-  }
-);
+  });
   let screenName = "<%= projectName %>";
- 
+
   //----------------------------------------------------------------------//
-  if(answers["authentication-choice"] === "Auth0"){
-     isAuth0 = true;
+  if (answers["authentication-choice"] === "Auth0") {
+    isAuth0 = true;
   }
-  if(answers["authentication-choice"] === "Cognito"){
-    isCognito=true;
+  if (answers["authentication-choice"] === "Cognito") {
+    isCognito = true;
   }
   //for react + node
   if (projectChoice == "react_Node") {
     reactName = answers["react-name"];
     const nodeName = answers["node-name"];
-    fs.mkdir(`${CURR_DIR}/${projectName}/${reactName}`,
-    (err, data) => {
-      if (err) {
-        console.error(err);
-      }
-    }
-  );
-    fs.mkdir(`${CURR_DIR}/${projectName}/${nodeName}`,
-    (err, data) => {
-      if (err) {
-        console.error(err);
-      }
-    }
-  );
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
     var reactPath = `${CURR_DIR}\\${projectName}\\${reactName}`;
-    if (answers["authentication-choice"] === "Auth0") {
-      isAuth0 = true;
-    }
+
+    fsExtra.ensureDirSync(`${CURR_DIR}\\${projectName}\\${reactName}`);
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
@@ -285,6 +270,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       mongoSelected
     );
+
+    fsExtra.ensureDirSync(`${CURR_DIR}\\${projectName}\\${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
       `${projectName}/${nodeName}`,
@@ -302,6 +289,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     fileNames.map((each)=>
       fs.rename( `${newPath}\\${each.folder}\\${each.oldName}`, `${newPath}\\${each.folder}\\${each.newName}`,()=>{}))
   }
+
   // for react
   else if (projectChoice === "react") {
     createDirectoryContents(
@@ -312,7 +300,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCognito,
       isRedux,
       reactPath,
-      screenName,
+      screenName
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -330,7 +318,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.rename( `${newPath}\\${each.folder}\\${each.oldName}`, `${newPath}\\${each.folder}\\${each.newName}`,()=>{}))
    
   } else {
-    // var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(templatePath, projectName);
   }
 
@@ -423,8 +410,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
 
-    // C:\Users\HIMANSHU GAUTAM\Desktop\nodeCli\poc-cli-templates\src\reduxTemplates\abc
-
     fsExtra.copy(
       `${CURR_DIR}\\src\\reduxTemplates\\infrastructure`,
       `${reactPath}\\src\\infrastructure`,
@@ -436,12 +421,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
- 
+
   //<--------For authentication----------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
-    // choice = "Auth0";
-    // writeIndexfile(choice, reactPath,reduxIntegration);
-
     const filesMap = [
       {
         srcFolder: "authTemplates",
@@ -476,7 +458,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   } else if (answers["authentication-choice"] === "Cognito") {
     choice = "cognito";
-    // writeIndexfile(choice, reactPath,reduxIntegration);
+
     const filesMap = [
       {
         srcFolder: "envTemplates",
@@ -501,26 +483,35 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
-  } else{
-    if (projectChoice === "react" || projectChoice === "react_Node") {
-      // writeIndexfile("", reactPath, reduxIntegration);
-    }
   }
 });
 
 //function to create db connection---------------------------------------------->
-function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionString,projectName){
-  if(dbName==='postgres' || dbName==='mysql'){
-  let contents = fs.readFileSync(templatePath+'/dbTemplates/sequelize.js',"utf-8");
-  contents = render(contents,{ connectionString, dbName },(autoescape = false));
-  fs.writeFileSync(connPath + "/" + dbName + '.js' , contents, "utf-8");
-  let package={ name:'sequelize',version:'^6.6.5'}
-  updatePackage(nodePath,package)
-  }
-  else{
-    let package={name:"mongoose",version:"^6.0.2"}
-    updatePackage(nodePath,package);
-    const modelPath = nodePath + '\\Models'
+function createDbConn(
+  nodePath,
+  dbName,
+  templatePath,
+  defaultRoute,
+  connectionString,
+  projectName
+) {
+  if (dbName === "postgres" || dbName === "mysql") {
+    let contents = fs.readFileSync(
+      templatePath + "/dbTemplates/sequelize.js",
+      "utf-8"
+    );
+    contents = render(
+      contents,
+      { connectionString, dbName },
+      (autoescape = false)
+    );
+    fs.writeFileSync(connPath + "/" + dbName + ".js", contents, "utf-8");
+    let package = { name: "sequelize", version: "^6.6.5" };
+    updatePackage(nodePath, package);
+  } else {
+    let package = { name: "mongoose", version: "^6.0.2" };
+    updatePackage(nodePath, package);
+    const modelPath = nodePath + "\\Models";
     fs.mkdirSync(modelPath);
     const filesMap = [
       {
@@ -542,20 +533,25 @@ function createDbConn(nodePath, dbName, templatePath, defaultRoute, connectionSt
         }
       );
     });
-    const writePath = `${modelPath}\\${defaultRoute}.js`
-    let contents = fs.readFileSync(`${CURR_DIR}\\src\\dbTemplates\\mongooseModel.js`, "utf8")
-    contents = render(contents,{defaultRoute})
-    fs.writeFileSync(writePath, contents, "utf8")
-  } 
+    const writePath = `${modelPath}\\${defaultRoute}.js`;
+    let contents = fs.readFileSync(
+      `${CURR_DIR}\\src\\dbTemplates\\mongooseModel.js`,
+      "utf8"
+    );
+    contents = render(contents, { defaultRoute });
+    fs.writeFileSync(writePath, contents, "utf8");
+  }
 }
 
-function createLogger(utilpath,loggerName,loggerTemplatePath,defaultRoute){
-
-  let contents = fs.readFileSync(loggerTemplatePath + "/template/"+loggerName+".js", "utf-8");
-  contents = render(contents,{defaultRoute});
-  fs.writeFileSync(utilpath+'/index.js',contents,"utf-8");
-  if(loggerName==="winston"){
-    let servicePath = path.join(utilpath, "utils","logger");
+function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
+  let contents = fs.readFileSync(
+    loggerTemplatePath + "/template/" + loggerName + ".js",
+    "utf-8"
+  );
+  contents = render(contents, { defaultRoute });
+  fs.writeFileSync(utilpath + "/index.js", contents, "utf-8");
+  if (loggerName === "winston") {
+    let servicePath = path.join(utilpath, "utils", "logger");
     fs.mkdirSync(servicePath);
     let package = { name: "winston", version: "^3.3.3" };
     updatePackage(utilpath, package);
@@ -621,7 +617,6 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
   let contents = fs.readFileSync(blobTemplatePath + ".js", "utf-8");
   let servicePath = path.join(nodePath, "utils", "blob");
   fs.mkdirSync(servicePath);
-  // contents = render(contents, { projectName: projectName });
   fs.writeFile(
     `${servicePath}` + "/" + `${blobServiceName}` + ".js",
     contents,
