@@ -2,8 +2,7 @@
 const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     <% } %>
  <% if(sequelizeSelected) {%> 
-  const { conn } = require("../sequelize")
-const <%= defaultRoute %> = conn
+  const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>

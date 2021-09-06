@@ -2,7 +2,6 @@
 <% if(isWinston) {%>const logger = require('./utils/logger')<%}%>
 const express = require("express");
 const bodyParser = require("body-parser");
-const logger = require('../../../imran/utils/logger');
 require("dotenv").config();
 const <%= defaultRoute %> = require(`./Routes/<%= defaultRoute %>.routes`);
 <% if (mongoSelected) { %>

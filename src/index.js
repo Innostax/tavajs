@@ -569,32 +569,21 @@ function createDbConn(nodePath, dbName, defaultRoute) {
   }
   const modelPath = nodePath + "\\Models";
   fs.mkdirSync(modelPath);
-  const filesMap = [
-    {
-      srcFolder: "dbTemplates",
-      srcFileName: fileName,
-      destFolder: nodePath,
-      destFileName: fileName,
-    },
-  ];
-
-  filesMap.map((each) => {
-    fs.copyFile(
-      `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
-      `${each.destFolder}\\${each.destFileName}`,
-      (err) => {
-        if (err) {
-          console.log("Error Found:", err);
-        }
-      }
-    );
-  });
-  const writePath = `${modelPath}\\${defaultRoute}.js`;
-  console.log(writePath);
+ 
+  let writePath = `${nodePath}\\${fileName}`;
   let contents = fs.readFileSync(
-    `${CURR_DIR}\\src\\dbTemplates\\` + modelName,
+    `${CURR_DIR}\\src\\dbTemplates\\` + fileName,
     "utf8"
   );
+  contents = render(contents, { defaultRoute });
+  fs.writeFileSync(writePath, contents, "utf8");
+  
+   writePath = `${modelPath}\\${defaultRoute}.js`;
+   console.log(writePath);
+   contents = fs.readFileSync(
+     `${CURR_DIR}\\src\\dbTemplates\\` + modelName,
+     "utf8"
+   );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
 }

@@ -9,7 +9,7 @@ const <%= defaultRoute %> = UserModel(sequelize, Sequelize)
       console.error("Unable to connect to the database:", error);
     }
 
-  sequelize.sync()
+  sequelize.sync({alter:true})
     .then(() => {
       console.log(`Database & tables created!`)
     })
