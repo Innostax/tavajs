@@ -4,7 +4,7 @@ app.use(express.json());
 const port =3000
 const fs = require('fs')
 var Raven = require("raven");
-Raven.config({ dsn: "https://examplePublicKey@o0.ingest.sentry.io/0" });
+Raven.config({ dsn: "paste your DSN here" });
 
 app.get('/',(req,res)=>{
     try{

@@ -1,7 +1,10 @@
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     <% } %>
- 
+ <% if(sequelizeSelected) {%> 
+  const { conn } = require("../sequelize")
+const <%= defaultRoute %> = conn
+  <%}%>
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.find(function(err, data){
@@ -11,7 +14,14 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               res.send(err);
             }
           })
-      <% } else{ %>  
+      <% } %>
+      <% if(sequelizeSelected){%>
+        <%= defaultRoute %>.findAll().then((users) => {
+          if (users.length > 0) res.json(users);
+          else res.send("no user found");
+        });
+        <%}%>
+      <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find Called')
      <% } %>
 
@@ -31,7 +41,13 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               res.send(err);
             }
           });
-      <% } else{ %>  
+      <%}%>
+      <% if(sequelizeSelected){%>
+        <%= defaultRoute %>.create(req.body)
+        .then(user => res.json(user))
+        .catch(err => res.send("User cannot be created"))
+        <%}%>
+      <% if(!(sequelizeSelected || mongoSelected)){ %> { %>  
         res.send('create  Called')
      <% } %>
      
@@ -50,7 +66,21 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               }
             }
           );
-      <% } else{ %>  
+      <% } %>
+      <% if(sequelizeSelected){%>
+        <%= defaultRoute %>.update(
+          { name:req.body.name,
+          phone_number:req.body.phone_number},
+          { where:
+              { id: req.params.id}
+          }
+      ).then((users) => {
+        if (users[0]) res.send("User updated");
+        else res.send("User with this ID can't be updated");
+      }
+    );
+        <%}%>
+      <% if(!(sequelizeSelected || mongoSelected)) { %>  
         res.send('patch Called')  
      <% } %>  
   }
@@ -61,7 +91,13 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
             if(!err) res.send('All deleted')
             else res.send(err)
         })
-      <% } else{ %>  
+      <% }%>
+      <% if(sequelizeSelected) {%>
+        <%= defaultRoute %>.destroy({
+          truncate : true
+       });
+       <%}%>
+       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('remove Called')
      <% } %>
   }
@@ -75,7 +111,18 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               res.send("No matching  was found.");
             }
           });
-      <% } else{ %>  
+      <% }%>
+      <% if(sequelizeSelected) {%>
+        <%= defaultRoute %>.destroy({
+          where: {
+              id: req.params.id
+          }
+      }).then((users) => {
+        if (users) res.send("user deleted");
+        else res.send("User with this ID can't be found");
+      });
+        <%}%> 
+      <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('remove by id Called')
      <% } %>
     
@@ -90,7 +137,18 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               res.send("No matching found.");
             }
           });
-      <% } else{ %>  
+      <% } %>
+      <% if(sequelizeSelected) {%>
+        <%= defaultRoute %>.findAll({
+          where:{
+              id:req.params.id
+          }
+      }).then((users) => {
+        if (users.length > 0) res.json(users);
+        else res.send("no user found");
+      });
+        <%}%>
+      <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find by id Called')
      <% } %>
     

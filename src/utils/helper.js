@@ -9,12 +9,16 @@ function createDirectoryContents(
     templatePath,
     newProjectPath,
     newDefaultRoute,
+    mongoSelected,
+    sequelizeSelected,
+    dbName,
+    isSentry,
+    isWinston,
     isAuth0,
     isCognito,
     isRedux,
     reactPath,
-    screenName,
-    mongoSelected,
+    screenName
   ) {
     const filesToCreate = fs.readdirSync(templatePath);
     filesToCreate.forEach((file) => {
@@ -23,6 +27,7 @@ function createDirectoryContents(
       const stats = fs.statSync(origFilePath);
       if (stats.isFile()) {
         let contents = fs.readFileSync(origFilePath, "utf8");
+       
         const elements = newProjectPath.split("/");
         const NameProject = elements[elements.length - 1];
 
@@ -36,13 +41,17 @@ function createDirectoryContents(
               isRedux,
               screenName,
               mongoSelected,
+              sequelizeSelected,
+              dbName,
+              isSentry,
+              isWinston,
             },
             (autoescape = false)
           );
           const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
           fs.writeFileSync(writePath, contents, "utf8");
       } else if (stats.isDirectory()) {
-        fs.mkdir(`${CURR_DIR}/${newProjectPath}/${file}`,
+       fs.mkdir(`${CURR_DIR}/${newProjectPath}/${file}`,
         (err, data) => {
           if (err) {
             console.error(err);
@@ -54,12 +63,16 @@ function createDirectoryContents(
           `${templatePath}/${file}`,
           `${newProjectPath}/${file}`,
           newDefaultRoute,
+          mongoSelected,
+          sequelizeSelected,
+          dbName,
+          isSentry,
+          isWinston,
           isAuth0,
           isCognito,
           isRedux,
           reactPath,
           screenName,
-          mongoSelected
         );
       }
     });

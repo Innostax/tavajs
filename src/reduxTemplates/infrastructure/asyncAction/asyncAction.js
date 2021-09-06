@@ -11,7 +11,11 @@ export function handleException(exception, methodType, url) {
 
 export function createHeader(httpHeaders) {
   const requestOptions = {
+<<<<<<< Updated upstream
     headers: { Accept: "application/json", "Content-Type": "application/json" },
+=======
+    headers: { Accept: "application/json", "Content-Type": "application/json" }
+>>>>>>> Stashed changes
   };
 
   return httpHeaders

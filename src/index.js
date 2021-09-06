@@ -5,9 +5,14 @@ const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
-
+var mongoSelected = false;
+var sequelizeSelected = false;
+var isAuth0 = false;
+var isCognito = false;
+var isRedux = false;
+var isWinston = false;
+var isSentry = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
-var mongoSelected = false
 
 const QUESTIONS = [
   {
@@ -84,7 +89,7 @@ const QUESTIONS = [
     name: "default-route",
     type: "input",
     message: "Enter the default route",
-    default:"users",
+    default: "users",
     when: (answers) => {
       return (
         answers.projectChoice == "node-js" ||
@@ -224,32 +229,39 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
-  mongoSelected = answers["dbName"] === "mongoose"
-  dbName = answers[""]
-  let newDefaultRoute="";
+  let newDefaultRoute = "";
   const reduxIntegration = answers["redux"];
   let reactName = "";
-  var isAuth0 = false;
-  var isCognito = false;
-  var isRedux = reduxIntegration;
+  var dbName = answers["dbName"];
+  isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}\\${projectName}`;
+  let screenName = "<%= projectName %>";
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
     }
   });
-  let screenName = "<%= projectName %>";
+  // //<------------------------------for logger-------------------------------->
+  if(answers['loggerName']==='winston')isWinston=true;
+  if(answers['loggerName']==='sentry')isSentry=true;
+  //<----------------------------------Db ----------------------------------->
+  if (answers["dbName"] === "mongoose") {
+    mongoSelected = true;
+  }
+  if (answers["dbName"] === "postgres" || answers["dbName"] === "mysql") {
+    sequelizeSelected = true;
+  }
 
-  //----------------------------------------------------------------------//
+  //---------------------------Authentication-------------------------------------------
   if (answers["authentication-choice"] === "Auth0") {
     isAuth0 = true;
   }
   if (answers["authentication-choice"] === "Cognito") {
     isCognito = true;
   }
-  //for react + node
+  //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     reactName = answers["react-name"];
     const nodeName = answers["node-name"];
@@ -263,12 +275,16 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactTemplatePath,
       `${projectName}/${reactName}`,
       newDefaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
       isAuth0,
       isCognito,
       isRedux,
       reactPath,
-      screenName,
-      mongoSelected
+      screenName
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}\\${projectName}\\${nodeName}`);
@@ -276,18 +292,38 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeTemplatePath,
       `${projectName}/${nodeName}`,
       defaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
       isAuth0,
       isCognito,
       isRedux,
       reactPath,
-      screenName,
-      mongoSelected,
+      screenName
     );
-    const newPath = `${CURR_DIR}\\${projectName}\\${nodeName}`
-    const fileNames=[{oldName:'route.js', folder:'Routes',newName:`${defaultRoute}.routes.js`},{oldName:'controller.js', folder:'Controllers',newName:`${defaultRoute}.controllers.js`}]
-    
-    fileNames.map((each)=>
-      fs.rename( `${newPath}\\${each.folder}\\${each.oldName}`, `${newPath}\\${each.folder}\\${each.newName}`,()=>{}))
+    const newPath = `${CURR_DIR}\\${projectName}\\${nodeName}`;
+    const fileNames = [
+      {
+        oldName: "route.js",
+        folder: "Routes",
+        newName: `${defaultRoute}.routes.js`,
+      },
+      {
+        oldName: "controller.js",
+        folder: "Controllers",
+        newName: `${defaultRoute}.controllers.js`,
+      },
+    ];
+
+    fileNames.map((each) =>
+      fs.rename(
+        `${newPath}\\${each.folder}\\${each.oldName}`,
+        `${newPath}\\${each.folder}\\${each.newName}`,
+        () => {}
+      )
+    );
   }
 
   // for react
@@ -296,6 +332,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       templatePath,
       projectName,
       newDefaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
       isAuth0,
       isCognito,
       isRedux,
@@ -304,19 +345,42 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
-    createDirectoryContents(templatePath, projectName, defaultRoute,      
+    createDirectoryContents(
+      templatePath,
+      projectName,
+      defaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
       isAuth0,
       isCognito,
       isRedux,
       reactPath,
-      screenName,
-      mongoSelected)
-    const newPath = `${CURR_DIR}\\${projectName}`
-    const fileNames=[{oldName:'route.js', folder:'Routes',newName:`${defaultRoute}.routes.js`},{oldName:'controller.js', folder:'Controllers',newName:`${defaultRoute}.controllers.js`}]
-    
-    fileNames.map((each)=>
-      fs.rename( `${newPath}\\${each.folder}\\${each.oldName}`, `${newPath}\\${each.folder}\\${each.newName}`,()=>{}))
-   
+      screenName
+    );
+    const newPath = `${CURR_DIR}\\${projectName}`;
+    const fileNames = [
+      {
+        oldName: "route.js",
+        folder: "Routes",
+        newName: `${defaultRoute}.routes.js`,
+      },
+      {
+        oldName: "controller.js",
+        folder: "Controllers",
+        newName: `${defaultRoute}.controllers.js`,
+      },
+    ];
+
+    fileNames.map((each) =>
+      fs.rename(
+        `${newPath}\\${each.folder}\\${each.oldName}`,
+        `${newPath}\\${each.folder}\\${each.newName}`,
+        () => {}
+      )
+    );
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -352,7 +416,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     createBlobService(blobServiceName, blobTemplatePath, nodePath);
   }
-  console.log("Boiler-Plate created successfully");
 
   //<-----------For Logger service---------------------------------------------------------------------------->
   if (answers["loggerService"] === "yes") {
@@ -362,10 +425,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
 
   //<------------------------------------------------------------------------------------------->
-  if(answers['dbService']==="yes"){
-    let dbName=answers["dbName"];
-    let connectionString= answers["connectionString"];
-    createDbConn(nodePath,dbName,__dirname,defaultRoute,connectionString,projectName);
+  if (answers["dbService"] === "yes") {
+    createDbConn(nodePath, dbName, defaultRoute);
   }
 
   // <--------------------REDUX INTEGRATION------------------------->
@@ -468,7 +529,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       },
     ];
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-
     let packagePath = path.join(CURR_DIR, projectName, reactName);
     updatePackage(packagePath, package);
 
@@ -484,65 +544,62 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
+  console.log("-------------Boiler plate is ready for use------------")
 });
 
-//function to create db connection---------------------------------------------->
-function createDbConn(
-  nodePath,
-  dbName,
-  templatePath,
-  defaultRoute,
-  connectionString,
-  projectName
-) {
+//function to create db service---------------------------------------------->
+function createDbConn(nodePath, dbName, defaultRoute) {
   if (dbName === "postgres" || dbName === "mysql") {
-    let contents = fs.readFileSync(
-      templatePath + "/dbTemplates/sequelize.js",
-      "utf-8"
-    );
-    contents = render(
-      contents,
-      { connectionString, dbName },
-      (autoescape = false)
-    );
-    fs.writeFileSync(connPath + "/" + dbName + ".js", contents, "utf-8");
     let package = { name: "sequelize", version: "^6.6.5" };
     updatePackage(nodePath, package);
+    var fileName = "sequelize.js";
+    var modelName = "sequelizeModel.js";
+    if(dbName==='mysql'){
+      package = { name: "mysql2" ,version: "^2.3.0" };
+      updatePackage(nodePath, package);
+    }else{
+      package = { name: "pg" ,version: "^8.7.1" };
+      updatePackage(nodePath, package);
+    }
   } else {
     let package = { name: "mongoose", version: "^6.0.2" };
     updatePackage(nodePath, package);
-    const modelPath = nodePath + "\\Models";
-    fs.mkdirSync(modelPath);
-    const filesMap = [
-      {
-        srcFolder: "dbTemplates",
-        srcFileName: "mongoose.js",
-        destFolder: nodePath,
-        destFileName: "mongoose.js",
-      },
-    ];
-
-    filesMap.map((each) => {
-      fs.copyFile(
-        `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
-        `${each.destFolder}\\${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
-    });
-    const writePath = `${modelPath}\\${defaultRoute}.js`;
-    let contents = fs.readFileSync(
-      `${CURR_DIR}\\src\\dbTemplates\\mongooseModel.js`,
-      "utf8"
-    );
-    contents = render(contents, { defaultRoute });
-    fs.writeFileSync(writePath, contents, "utf8");
+    var fileName = "mongoose.js";
+    var modelName = "mongooseModel.js";
   }
+  const modelPath = nodePath + "\\Models";
+  fs.mkdirSync(modelPath);
+  const filesMap = [
+    {
+      srcFolder: "dbTemplates",
+      srcFileName: fileName,
+      destFolder: nodePath,
+      destFileName: fileName,
+    },
+  ];
+
+  filesMap.map((each) => {
+    fs.copyFile(
+      `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
+      `${each.destFolder}\\${each.destFileName}`,
+      (err) => {
+        if (err) {
+          console.log("Error Found:", err);
+        }
+      }
+    );
+  });
+  const writePath = `${modelPath}\\${defaultRoute}.js`;
+  console.log(writePath);
+  let contents = fs.readFileSync(
+    `${CURR_DIR}\\src\\dbTemplates\\` + modelName,
+    "utf8"
+  );
+  contents = render(contents, { defaultRoute });
+  fs.writeFileSync(writePath, contents, "utf8");
 }
 
+//Function to create logger service ------------------------------------------------------------>
 function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
   let contents = fs.readFileSync(
     loggerTemplatePath + "/template/" + loggerName + ".js",
