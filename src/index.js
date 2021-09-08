@@ -326,7 +326,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
   }
 
-  // for react
+  //<---------------------------- for react---------------------------------->
   else if (projectChoice === "react") {
     createDirectoryContents(
       templatePath,
@@ -398,7 +398,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const emailServiceName = answers["emailServiceName"];
     const emailTemplatePath = path.join(
       __dirname,
-      "code_templates",
+      "emailTemplates",
       emailServiceName
     );
 
@@ -410,10 +410,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const blobServiceName = answers["blobServiceName"];
     const blobTemplatePath = path.join(
       __dirname,
-      "code_templates",
+      "blobTemplates",
       blobServiceName
     );
-
     createBlobService(blobServiceName, blobTemplatePath, nodePath);
   }
 
@@ -495,16 +494,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       {
         srcFolder: "envTemplates",
         srcFileName: ".authenv",
-        destFolder: "",
+        destFolder: reactName,
         destFileName: ".env",
       },
     ];
 
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    const package1 = { name: "@auth0/asdfsduth0-spa-js", version: "^1.112.0" };
     let packagePath = path.join(CURR_DIR, projectName, reactName);
     updatePackage(packagePath, package);
-    updatePackage(packagePath, package1);
 
     filesMap.map((each) => {
       fs.copyFile(
@@ -579,7 +576,6 @@ function createDbConn(nodePath, dbName, defaultRoute) {
   fs.writeFileSync(writePath, contents, "utf8");
   
    writePath = `${modelPath}\\${defaultRoute}.js`;
-   console.log(writePath);
    contents = fs.readFileSync(
      `${CURR_DIR}\\src\\dbTemplates\\` + modelName,
      "utf8"
@@ -590,12 +586,6 @@ function createDbConn(nodePath, dbName, defaultRoute) {
 
 //Function to create logger service ------------------------------------------------------------>
 function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
-  let contents = fs.readFileSync(
-    loggerTemplatePath + "/template/" + loggerName + ".js",
-    "utf-8"
-  );
-  contents = render(contents, { defaultRoute });
-  fs.writeFileSync(utilpath + "/index.js", contents, "utf-8");
   if (loggerName === "winston") {
     let servicePath = path.join(utilpath, "utils", "logger");
     fs.mkdirSync(servicePath);

@@ -1,7 +1,8 @@
-import React from "react";
+import React<% if(isAuth0){%>,{ useEffect }<%}%> from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import "./App.css";
-import Routes from "./Routes";
+import NavBar from "./NavBar/NavBar";
+<% if(isAuth0){%>import { useAuth0 } from './react-spa'<%}%>
 const App = () => {
   
   <% if(isAuth0){%> const { loginWithRedirect,isUserAuthenticated } = useAuth0()
@@ -12,19 +13,7 @@ const App = () => {
 }, [isUserAuthenticated, loginWithRedirect]) <%}%>
   return (
     <>
-            { <% if(isAuth0) {%>isUserAuthenticated&&<%}%>(<p>MADE IN INDIA</p>)}
-
-      <Router>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/users">Users</Link>
-          </li>
-        </ul>
-        <Routes />
-      </Router>
+            { <% if(isAuth0) {%>isUserAuthenticated&&<%}%>(<NavBar/>)}
     </>
   );
 };
