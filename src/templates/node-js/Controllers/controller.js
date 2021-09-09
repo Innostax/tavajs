@@ -46,7 +46,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         .then(user => res.json(user))
         .catch(err => res.send("User cannot be created"))
         <%}%>
-      <% if(!(sequelizeSelected || mongoSelected)){ %> { %>  
+      <% if(!(sequelizeSelected || mongoSelected)){ %> 
         res.send('create  Called')
      <% } %>
      

@@ -25,7 +25,6 @@ export function createHeader(httpHeaders) {
 }
 
 const asyncAction = ({ url, methodType = "get", httpHeaders = {} } = {}) => {
-  console.log(httpHeaders);
   try {
     httpHeaders = {
       ...httpHeaders,

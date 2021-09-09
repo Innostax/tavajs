@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React<% if(isRedux){%>,{ useEffect }<%}%> from "react";
 <% if(isRedux) {%>import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "./users.actions";
 import { selectAllUsers } from "./users.selectors";<%}%>

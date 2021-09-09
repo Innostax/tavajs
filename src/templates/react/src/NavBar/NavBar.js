@@ -3,8 +3,10 @@ import Routes from "../Routes";
 import { BrowserRouter as Router,Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container,Navbar,Nav} from 'react-bootstrap'
+import { useAuth0 } from "../react-spa";
 
 export default function NavBar() {
+  const { logout } = useAuth0();
   return (
     <>
       <Router>
@@ -18,7 +20,9 @@ export default function NavBar() {
                 <Link to="/users"><Nav.Link href="/users">Users</Nav.Link></Link>
               </Nav>
               <% if(isAuth0||isCognito) {%><Nav>
-                <Nav.Link href="logout({ returnTo: window.location.origin })">
+                <Nav.Link
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                >
                   Logout
                 </Nav.Link>
               </Nav><%}%>
