@@ -1,4 +1,5 @@
 const fs = require("fs");
+const fsExtra = require("fs-extra")
 const path = require("path");
 const CURR_DIR = process.cwd();
 const { render } = require("./template");
@@ -51,13 +52,7 @@ function createDirectoryContents(
           const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
           fs.writeFileSync(writePath, contents, "utf8");
       } else if (stats.isDirectory()) {
-       fs.mkdir(`${CURR_DIR}/${newProjectPath}/${file}`,
-        (err, data) => {
-          if (err) {
-            console.error(err);
-          }
-        }
-      );
+        fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}/${file}`)
         // recursive call
         createDirectoryContents(
           `${templatePath}/${file}`,
@@ -80,7 +75,7 @@ function createDirectoryContents(
 
   //to update package.json------------------------------------------------>
 function updatePackage(path, package) {
-    let packagefile = fs.readFileSync(`${path}\\package.json`, "utf-8");
+    let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
     packagefile = JSON.parse(packagefile);
     let newPackageFile = {
       ...packagefile,
@@ -90,7 +85,7 @@ function updatePackage(path, package) {
       },
     };
     newPackageFile = JSON.stringify(newPackageFile);
-    fs.writeFileSync(`${path}\\package.json`, newPackageFile, "utf-8");
+    fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
   }
   
   
