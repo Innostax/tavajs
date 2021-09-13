@@ -236,7 +236,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
-  var reactPath = `${CURR_DIR}\\${projectName}`;
+  var reactPath = `${CURR_DIR}/${projectName}`;
   let screenName = "<%= projectName %>";
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -268,9 +268,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    var reactPath = `${CURR_DIR}\\${projectName}\\${reactName}`;
+    var reactPath = `${CURR_DIR}/${projectName}/${reactName}`;
 
-    fsExtra.ensureDirSync(`${CURR_DIR}\\${projectName}\\${reactName}`);
+    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${reactName}`);
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
@@ -287,7 +287,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName
     );
 
-    fsExtra.ensureDirSync(`${CURR_DIR}\\${projectName}\\${nodeName}`);
+    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
       `${projectName}/${nodeName}`,
@@ -303,7 +303,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactPath,
       screenName
     );
-    const newPath = `${CURR_DIR}\\${projectName}\\${nodeName}`;
+    const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
         oldName: "route.js",
@@ -319,8 +319,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     fileNames.map((each) =>
       fs.rename(
-        `${newPath}\\${each.folder}\\${each.oldName}`,
-        `${newPath}\\${each.folder}\\${each.newName}`,
+        `${newPath}/${each.folder}/${each.oldName}`,
+        `${newPath}/${each.folder}/${each.newName}`,
         () => {}
       )
     );
@@ -360,7 +360,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactPath,
       screenName
     );
-    const newPath = `${CURR_DIR}\\${projectName}`;
+    const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
       {
         oldName: "route.js",
@@ -376,8 +376,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     fileNames.map((each) =>
       fs.rename(
-        `${newPath}\\${each.folder}\\${each.oldName}`,
-        `${newPath}\\${each.folder}\\${each.newName}`,
+        `${newPath}/${each.folder}/${each.oldName}`,
+        `${newPath}/${each.folder}/${each.newName}`,
         () => {}
       )
     );
@@ -460,8 +460,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     reduxFiles.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
-        `${reactPath}\\${each.destFolder}\\${each.destFileName}`,
+        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${reactPath}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -471,8 +471,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
 
     fsExtra.copy(
-      `${CURR_DIR}\\src\\reduxTemplates\\infrastructure`,
-      `${reactPath}\\src\\infrastructure`,
+      `${CURR_DIR}/src/reduxTemplates/infrastructure`,
+      `${reactPath}/src/infrastructure`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -493,8 +493,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       },
       {
         srcFolder: "envTemplates",
-        srcFileName: ".authenv",
-        destFolder: reactName,
+        srcFileName: ".authEnv",
+        destFolder: "",
         destFileName: ".env",
       },
     ];
@@ -505,8 +505,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     filesMap.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
-        `${CURR_DIR}\\${projectName}\\${each.destFolder}\\${each.destFileName}`,
+        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -531,8 +531,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     filesMap.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}\\src\\${each.srcFolder}\\${each.srcFileName}`,
-        `${CURR_DIR}\\${projectName}\\${each.destFolder}\\${each.destFileName}`,
+        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -564,20 +564,20 @@ function createDbConn(nodePath, dbName, defaultRoute) {
     var fileName = "mongoose.js";
     var modelName = "mongooseModel.js";
   }
-  const modelPath = nodePath + "\\Models";
+  const modelPath = nodePath + "/Models";
   fs.mkdirSync(modelPath);
  
-  let writePath = `${nodePath}\\${fileName}`;
+  let writePath = `${nodePath}/${fileName}`;
   let contents = fs.readFileSync(
-    `${CURR_DIR}\\src\\dbTemplates\\` + fileName,
+    `${CURR_DIR}/src/dbTemplates/` + fileName,
     "utf8"
   );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
   
-   writePath = `${modelPath}\\${defaultRoute}.js`;
+   writePath = `${modelPath}/${defaultRoute}.js`;
    contents = fs.readFileSync(
-     `${CURR_DIR}\\src\\dbTemplates\\` + modelName,
+     `${CURR_DIR}/src/dbTemplates/` + modelName,
      "utf8"
    );
   contents = render(contents, { defaultRoute });
