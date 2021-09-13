@@ -3,10 +3,10 @@ import Routes from "../Routes";
 import { BrowserRouter as Router,Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container,Navbar,Nav} from 'react-bootstrap'
-import { useAuth0 } from "../react-spa";
+<% if(isAuth0) {%>import { useAuth0 } from "../react-spa";<%}%>
 
 export default function NavBar() {
-  const { logout } = useAuth0();
+  <% if(isAuth0) {%>const { logout } = useAuth0();<%}%>
   return (
     <>
       <Router>
