@@ -7,6 +7,8 @@ const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
+var isDocker = false;
+var isCrud = false;
 var isAuth0 = false;
 var isCognito = false;
 var isRedux = false;
@@ -86,17 +88,18 @@ const QUESTIONS = [
     when: (answers) => answers.authService === "yes",
   },
   {
-    name: "default-route",
-    type: "input",
-    message: "Enter the default route",
-    default: "users",
+    name: "dockerService",
+    type: "list",
+    message: "Do you want Docker services",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
+      return answers.projectChoice == "react";
     },
   },
+
   {
     name: "redux",
     type: "list",
@@ -112,6 +115,33 @@ const QUESTIONS = [
       );
     },
   },
+
+  {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want React with CRUD",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.redux === true;
+    },
+  },
+
+  {
+    name: "default-route",
+    type: "input",
+    message: "Enter the default route",
+    default: "users",
+    when: (answers) => {
+      return (
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
+      );
+    },
+  },
+
   {
     name: "dbService",
     type: "list",
@@ -140,6 +170,7 @@ const QUESTIONS = [
       return answers.dbService == "yes";
     },
   },
+
   {
     name: "loggerService",
     type: "list",
@@ -231,6 +262,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const blobService = answers["blobService"];
   let newDefaultRoute = "";
   const reduxIntegration = answers["redux"];
+  const dockerService = answers["dockerService"];
+  isDocker = dockerService;
+  const crudOperation = answers["CRUD"];
+  isCrud = crudOperation;
   let reactName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
@@ -244,8 +279,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   });
   // //<------------------------------for logger-------------------------------->
-  if(answers['loggerName']==='winston')isWinston=true;
-  if(answers['loggerName']==='sentry')isSentry=true;
+  if (answers["loggerName"] === "winston") isWinston = true;
+  if (answers["loggerName"] === "sentry") isSentry = true;
   //<----------------------------------Db ----------------------------------->
   if (answers["dbName"] === "mongoose") {
     mongoSelected = true;
@@ -340,6 +375,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
+      isCrud,
       reactPath,
       screenName
     );
@@ -428,6 +464,28 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDbConn(nodePath, dbName, defaultRoute);
   }
 
+  //for Docker INTEGRATION-------------------------
+  if (isDocker) {
+    fs.copyFileSync(
+      `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+      `${reactPath}/Dockerfile`
+    );
+  }
+
+  //for Adding CRUD Operation----------------------------------------------------------------
+  if (isCrud) {
+    fsExtra.copy(
+      `${CURR_DIR}/src/reduxTemplates/useform`,
+      `${reactPath}/src/Screens/Users/useform`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+  }
+
   // <--------------------REDUX INTEGRATION------------------------->
 
   if (reduxIntegration) {
@@ -493,7 +551,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       },
       {
         srcFolder: "envTemplates",
-        srcFileName: ".authenv",
+        srcFileName: ".authEnv",
         destFolder: reactName,
         destFileName: ".env",
       },
@@ -541,7 +599,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
-  console.log("-------------Boiler plate is ready for use------------")
+  console.log("-------------Boiler plate is ready for use------------");
 });
 
 //function to create db service---------------------------------------------->
@@ -551,11 +609,11 @@ function createDbConn(nodePath, dbName, defaultRoute) {
     updatePackage(nodePath, package);
     var fileName = "sequelize.js";
     var modelName = "sequelizeModel.js";
-    if(dbName==='mysql'){
-      package = { name: "mysql2" ,version: "^2.3.0" };
+    if (dbName === "mysql") {
+      package = { name: "mysql2", version: "^2.3.0" };
       updatePackage(nodePath, package);
-    }else{
-      package = { name: "pg" ,version: "^8.7.1" };
+    } else {
+      package = { name: "pg", version: "^8.7.1" };
       updatePackage(nodePath, package);
     }
   } else {
@@ -566,7 +624,7 @@ function createDbConn(nodePath, dbName, defaultRoute) {
   }
   const modelPath = nodePath + "\\Models";
   fs.mkdirSync(modelPath);
- 
+
   let writePath = `${nodePath}\\${fileName}`;
   let contents = fs.readFileSync(
     `${CURR_DIR}\\src\\dbTemplates\\` + fileName,
@@ -574,12 +632,12 @@ function createDbConn(nodePath, dbName, defaultRoute) {
   );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
-  
-   writePath = `${modelPath}\\${defaultRoute}.js`;
-   contents = fs.readFileSync(
-     `${CURR_DIR}\\src\\dbTemplates\\` + modelName,
-     "utf8"
-   );
+
+  writePath = `${modelPath}\\${defaultRoute}.js`;
+  contents = fs.readFileSync(
+    `${CURR_DIR}\\src\\dbTemplates\\` + modelName,
+    "utf8"
+  );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
 }
