@@ -244,8 +244,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   });
   // //<------------------------------for logger-------------------------------->
-  if(answers['loggerName']==='winston')isWinston=true;
-  if(answers['loggerName']==='sentry')isSentry=true;
+  if (answers["loggerName"] === "winston") isWinston = true;
+  if (answers["loggerName"] === "sentry") isSentry = true;
   //<----------------------------------Db ----------------------------------->
   if (answers["dbName"] === "mongoose") {
     mongoSelected = true;
@@ -541,7 +541,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
-  console.log("-------------Boiler plate is ready for use------------")
+  console.log("-------------Boiler plate is ready for use------------");
 });
 
 //function to create db service---------------------------------------------->
@@ -551,11 +551,11 @@ function createDbConn(nodePath, dbName, defaultRoute) {
     updatePackage(nodePath, package);
     var fileName = "sequelize.js";
     var modelName = "sequelizeModel.js";
-    if(dbName==='mysql'){
-      package = { name: "mysql2" ,version: "^2.3.0" };
+    if (dbName === "mysql") {
+      package = { name: "mysql2", version: "^2.3.0" };
       updatePackage(nodePath, package);
-    }else{
-      package = { name: "pg" ,version: "^8.7.1" };
+    } else {
+      package = { name: "pg", version: "^8.7.1" };
       updatePackage(nodePath, package);
     }
   } else {
@@ -566,7 +566,7 @@ function createDbConn(nodePath, dbName, defaultRoute) {
   }
   const modelPath = nodePath + "/Models";
   fs.mkdirSync(modelPath);
- 
+
   let writePath = `${nodePath}/${fileName}`;
   let contents = fs.readFileSync(
     `${CURR_DIR}/src/dbTemplates/` + fileName,
@@ -574,12 +574,12 @@ function createDbConn(nodePath, dbName, defaultRoute) {
   );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
-  
-   writePath = `${modelPath}/${defaultRoute}.js`;
-   contents = fs.readFileSync(
-     `${CURR_DIR}/src/dbTemplates/` + modelName,
-     "utf8"
-   );
+
+  writePath = `${modelPath}/${defaultRoute}.js`;
+  contents = fs.readFileSync(
+    `${CURR_DIR}/src/dbTemplates/` + modelName,
+    "utf8"
+  );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
 }
