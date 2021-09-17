@@ -12,6 +12,7 @@ var isCognito = false;
 var isRedux = false;
 var isWinston = false;
 var isSentry = false;
+var isCrudWithNode = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 
 const QUESTIONS = [
@@ -110,6 +111,21 @@ const QUESTIONS = [
         answers.projectChoice === "react" ||
         answers.projectChoice === "react_Node"
       );
+    },
+  },
+  {
+    name: "reactNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with React-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice === "react_Node" &&
+        answers.redux === true
+        )
     },
   },
   {
@@ -229,6 +245,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
+  const reactNodeCrudOperations = answers["reactNodeCrud"];
+  isCrudWithNode = reactNodeCrudOperations;
   let newDefaultRoute = "";
   const reduxIntegration = answers["redux"];
   let reactName = "";
@@ -238,6 +256,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   let screenName = "<%= projectName %>";
+
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
@@ -284,7 +303,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCognito,
       isRedux,
       reactPath,
-      screenName
+      screenName,
+      isCrudWithNode,
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -301,7 +321,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCognito,
       isRedux,
       reactPath,
-      screenName
+      screenName,
+      isCrudWithNode,
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -426,6 +447,21 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   //<------------------------------------------------------------------------------------------->
   if (answers["dbService"] === "yes") {
     createDbConn(nodePath, dbName, defaultRoute);
+  }
+
+  //for Adding CRUD Operation----------------------------------------------------------------
+  if (isCrudWithNode) {
+    fsExtra.copy(
+      `${CURR_DIR}/src/reduxTemplates/userform`,
+      `${CURR_DIR}/${projectName}/${reactName}/src/Screens/Users/userform`,
+
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
   }
 
   // <--------------------REDUX INTEGRATION------------------------->
