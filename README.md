@@ -22,9 +22,9 @@ $ npm start
    Services:
 
     	• authentication - Set up authentication for the current application and come with different authentication options
-                           > Auth0
+                           > Auth0     Need to update env file for credentials.
                              Cognito
-                             Okta                
+                             Okta                                
     	• Redux - Initialize redux setup and infrastructure for async method.
 
   $ cd myReactProject
@@ -87,9 +87,9 @@ $ npm start
    Services:
 
     	• authentication - Set up authentication for the current application and come with different authentication options
-                           > Auth0
+                           > Auth0     Need to update env file for credentials.
                              Cognito
-                             Okta                
+                             Okta 
     	• default route - Initialize routes for current node application.
         • Redux - Initialize redux setup and infrastructure of async method inside react application.
         • crud-integration - Initialize crud operations setup.
