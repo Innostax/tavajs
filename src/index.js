@@ -499,8 +499,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     fsExtra.copy(
-      `${CURR_DIR}\\src\\reduxTemplates\\widgets\\modal`,
-      `${reactPath}\\src\\widgets\\modal`,
+      `${CURR_DIR}/src/reduxTemplates/widgets/modal`,
+      `${reactPath}/src/widgets/modal`,
       function (err) {
         if (err) {
           console.log("An error is occured");
