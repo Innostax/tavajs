@@ -456,6 +456,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         destFolder: "/src",
         destFileName: "store.js",
       },
+      {
+        srcFolder: "reduxTemplates",
+        srcFileName: "rootReducer.js",
+        destFolder: "/src",
+        destFileName: "rootReducer.js",
+      },
     ];
 
     reduxFiles.map((each) => {
@@ -471,6 +477,17 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
 
     fsExtra.copy(
+      `${CURR_DIR}/src/reduxTemplates/usersModal`,
+      `${reactPath}/src/Screens/usersModal`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    )
+
+    fsExtra.copy(
       `${CURR_DIR}/src/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
       function (err) {
@@ -478,6 +495,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           console.log("An error is occured");
           return console.error(err);
         }
+      }
+    );
+
+    fsExtra.copy(
+      `${CURR_DIR}\\src\\reduxTemplates\\widgets\\modal`,
+      `${reactPath}\\src\\widgets\\modal`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+        
       }
     );
   }

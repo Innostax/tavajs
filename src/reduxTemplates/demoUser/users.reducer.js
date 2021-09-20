@@ -1,17 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
-import * as actions from "./users.actions";
+import * as asyncActions from "./users.actions";
 
 const initialState = {
   users: [],
+  selectedUserModal: null,
+  selectedUser:{}
 };
 
-export default createSlice({
+const slice = createSlice({
   name: "users",
   initialState,
+  reducers: { setSelectedUserModal(state,action){
+      state.selectedUserModal = action.payload || initialState.selectedUserModal
+  }, 
+  setSelectedUser(state,action){
+    state.selectedUser = action.payload || initialState.selectedUser
+  }
+},
   extraReducers: {
-    [actions.getUsers.fulfilled]: (state, action) => {
+    [asyncActions.getUsers.fulfilled]: (state, action) => {
       state.status = "success";
       state.users = action.payload;
     },
   },
 });
+
+export default slice
+
+export const { name, actions, reducer } = slice
+
