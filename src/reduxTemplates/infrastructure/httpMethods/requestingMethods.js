@@ -39,7 +39,7 @@ function patch(url, requestWithConfig) {
 
 function deleteRequest(url, requestWithConfig) {
   requestWithConfig = {
-    method: "PATCH",
+    method: "DELETE",
     ...requestWithConfig,
   };
   return fetchApi(url, requestWithConfig);

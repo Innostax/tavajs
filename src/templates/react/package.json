@@ -15,11 +15,13 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1",
-    "react-bootstrap": "^2.0.0-beta.6",
-    "bootstrap": "^5.1.0"
+    "bootstrap": "^5.1.0",
+    "react-bootstrap-table-next": "^4.0.1",
+    "font-awesome": "^4.7.0",
+    "react-bootstrap": "^1.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node condition.js && react-scripts start",
     "screen": "node src/newScreen.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

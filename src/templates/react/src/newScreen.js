@@ -25,7 +25,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
   const projectName = answers["project-name"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
 
-  fs.mkdirSync(`${CURR_DIR}\\src\\Screens/${projectName}`);
+  fs.mkdirSync(`${CURR_DIR}/src/Screens/${projectName}`);
 
   createDirectoryContents(templatePath, projectName);
 });
@@ -35,7 +35,7 @@ function createDirectoryContents(templatePath, newProjectPath) {
 
   //Updating Routes
   var data = fs
-    .readFileSync(`${CURR_DIR}\\src\\Routes.js`)
+    .readFileSync(`${CURR_DIR}/src/Routes.js`)
     .toString()
     .split("\n");
   data.splice(
@@ -50,7 +50,7 @@ function createDirectoryContents(templatePath, newProjectPath) {
   );
   var text = data.join("\n");
 
-  fs.writeFile(`${CURR_DIR}\\src\\Routes.js`, text, function (err) {
+  fs.writeFile(`${CURR_DIR}/src/Routes.js`, text, function (err) {
     if (err) return console.log(err);
   });
 
@@ -64,14 +64,14 @@ function createDirectoryContents(templatePath, newProjectPath) {
       let contents = fs.readFileSync(origFilePath, "utf8");
       contents = render(contents, { projectName: newProjectPath });
 
-      const writePath = `${CURR_DIR}\\src\\Screens/${newProjectPath}/${file}`;
+      const writePath = `${CURR_DIR}/src/Screens/${newProjectPath}/${file}`;
 
       if (file.startsWith("screen")) {
         const filesName = [".constant", "", ".utils"];
         setTimeout(function name() {
           fs.rename(
-            `${CURR_DIR}\\src\\Screens/${newProjectPath}\\${file}`,
-            `${CURR_DIR}\\src\\Screens/${newProjectPath}\\${newProjectPath}${
+            `${CURR_DIR}/src/Screens/${newProjectPath}/${file}`,
+            `${CURR_DIR}/src/Screens/${newProjectPath}/${newProjectPath}${
               filesName[i - 1]
             }.js`,
             (error) => {
