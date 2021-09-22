@@ -16,10 +16,18 @@ function createDirectoryContents(
   isWinston,
   isAuth0,
   isCognito,
+<<<<<<< HEAD
   reactPath,
   isRedux,
   screenName,
   isCrudWithNode
+=======
+  isRedux,
+  reactName,
+  nodeName,
+  reactPath,
+  screenName
+>>>>>>> develop
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -39,12 +47,14 @@ function createDirectoryContents(
           defaultRoute: newDefaultRoute,
           isAuth0,
           isCognito,
+          isRedux,
+          reactName,
+          nodeName,
           screenName,
           mongoSelected,
           sequelizeSelected,
           dbName,
           isSentry,
-          isRedux,
           isWinston,
           isCrudWithNode,
         },
@@ -66,10 +76,18 @@ function createDirectoryContents(
         isWinston,
         isAuth0,
         isCognito,
+<<<<<<< HEAD
         reactPath,
         isRedux,
         screenName,
         isCrudWithNode
+=======
+        isRedux,
+        reactName,
+        nodeName,
+        reactPath,
+        screenName
+>>>>>>> develop
       );
     }
   });

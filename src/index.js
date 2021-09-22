@@ -7,6 +7,7 @@ const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
+var isDocker = false;
 var isAuth0 = false;
 var isCognito = false;
 var isRedux = false;
@@ -98,6 +99,23 @@ const QUESTIONS = [
       );
     },
   },
+  {
+    name: "dockerService",
+    type: "list",
+    message: "Do you want Docker services",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice == "react" ||
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
+      );
+    },
+  },
+
   {
     name: "redux",
     type: "list",
@@ -250,7 +268,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isCrudWithNode = reactNodeCrudOperations;
   let newDefaultRoute = "";
   const reduxIntegration = answers["redux"];
+  const dockerService = answers["dockerService"];
+  isDocker = dockerService;
   let reactName = "";
+  let nodeName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
@@ -284,7 +305,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     reactName = answers["react-name"];
-    const nodeName = answers["node-name"];
+    nodeName = answers["node-name"];
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
@@ -303,6 +324,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
+      reactName,
       reactPath,
       screenName,
       isCrudWithNode,
@@ -321,6 +343,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
+      nodeName,
       reactPath,
       screenName,
       isCrudWithNode,
@@ -449,7 +472,39 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["dbService"] === "yes") {
     createDbConn(nodePath, dbName, defaultRoute);
   }
-  
+
+  //for Docker INTEGRATION-------------------------
+  if (isDocker) {
+    if (projectChoice === "react") {
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${reactPath}/Dockerfile`
+      );
+    } else if (projectChoice === "node-js") {
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${nodePath}/Dockerfile`
+      );
+    } else if (projectChoice === "react_Node") {
+      let contents = fs.readFileSync(
+        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml`,
+        "utf8"
+      );
+
+      contents = render(contents, { reactName, nodeName });
+      writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
+      fs.writeFileSync(writePath, contents, "utf8");
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${reactPath}/Dockerfile`
+      );
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${nodePath}/Dockerfile`
+      );
+    }
+  }
+
   // <--------------------REDUX INTEGRATION------------------------->
 
   if (reduxIntegration) {
@@ -537,7 +592,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
         }
       }
-    )
+    );
 
     fsExtra.copy(
       `${CURR_DIR}/src/reduxTemplates/infrastructure`,
@@ -558,7 +613,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           console.log("An error is occured");
           return console.error(err);
         }
-        
       }
     );
     
