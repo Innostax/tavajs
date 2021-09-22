@@ -22,10 +22,21 @@ const slice = createSlice({
       state.status = "success";
       state.users = action.payload;
     },
+    [asyncActions.addUsers.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.users = [...state.users, action.payload];
+    },
+    [asyncActions.deleteUsers.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.users = action.payload
+    },
+    [asyncActions.updateUsers.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.users = action.payload
+    },
   },
 });
 
 export default slice
 
 export const { name, actions, reducer } = slice
-

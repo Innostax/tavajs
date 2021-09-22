@@ -21,7 +21,7 @@
     "react-bootstrap": "^1.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node condition.js && react-scripts start",
     "screen": "node src/newScreen.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

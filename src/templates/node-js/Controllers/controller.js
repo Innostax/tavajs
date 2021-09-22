@@ -21,7 +21,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         });
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
-        res.send('find Called')
+        res.send('find called');
      <% } %>
 
   }
@@ -29,13 +29,13 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
   const create =(req, res, next) => {
     <% if(mongoSelected){ %>
         const newData = new <%= defaultRoute %>({
-            _id: req.body.id,
             name: req.body.name,
-            phone_number: req.body.phone_number
+            username: req.body.username,
+            email:req.body.email
           });
-          newData.save(function(err){
+          newData.save(function(err,data){
             if (!err){  
-              res.send("Successfully added");
+              res.send(data);
             } else {
               res.send(err);
             }
@@ -55,15 +55,21 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
   const patch =(req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.updateOne(
-            {_id: req.params.id},
-            {$set: req.body},
-            function(err){
-              if(!err){
-                res.send("Successfully updated.");
-              } else {
-                res.send(err);
-              }
+          {_id: req.params.id},
+          {$set: req.body},
+          function(err,data){
+            if(!err){
+              users.find(function(err, data){
+                if (!err) {
+                  res.send(data);
+                } else {
+                  res.send(err);
+                }
+              })
+            } else {
+              res.send(err);
             }
+          }
           );
       <% } %>
       <% if(sequelizeSelected){%>
@@ -80,7 +86,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     );
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
-        res.send('patch Called')  
+        res.send('patch Called')
      <% } %>  
   }
   
@@ -104,11 +110,17 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
   const removeById =(req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.deleteOne({_id: req.params.id}, function(err, data){
-            if (data) {
-              res.send(data);
-            } else {
-              res.send("No matching  was found.");
-            }
+          if (data) {
+            users.find(function(err, data){
+              if (!err) {
+                res.send(data);
+              } else {
+                res.send(err);
+              }
+            })
+          } else {
+            res.send("No matching  was found.");
+          }
           });
       <% }%>
       <% if(sequelizeSelected) {%>

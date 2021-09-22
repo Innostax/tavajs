@@ -13,6 +13,7 @@ var isCognito = false;
 var isRedux = false;
 var isWinston = false;
 var isSentry = false;
+var isCrudWithNode = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 
 const QUESTIONS = [
@@ -159,6 +160,22 @@ const QUESTIONS = [
     },
   },
   {
+    name: "reactNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with React-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice === "react_Node" &&
+        answers.dbService == "yes" &&
+        answers.redux === true
+        )
+    },
+  },
+  {
     name: "loggerService",
     type: "list",
     message: "Do you want logger services?",
@@ -247,6 +264,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
+  const reactNodeCrudOperations = answers["reactNodeCrud"];
+  isCrudWithNode = reactNodeCrudOperations;
   let newDefaultRoute = "";
   const reduxIntegration = answers["redux"];
   const dockerService = answers["dockerService"];
@@ -259,6 +278,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   let screenName = "<%= projectName %>";
+
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
@@ -306,7 +326,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isRedux,
       reactName,
       reactPath,
-      screenName
+      screenName,
+      isCrudWithNode,
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -324,7 +345,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isRedux,
       nodeName,
       reactPath,
-      screenName
+      screenName,
+      isCrudWithNode,
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -539,6 +561,36 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           console.log("An error is occured");
           return console.error(err);
         }
+        else{
+          if (isCrudWithNode) {
+              fsExtra.copy(
+      `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
+      `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    )}
+          let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
+    let contents = fs.readFileSync(
+      `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
+      "utf8"
+    );
+    contents = render(contents, { isCrudWithNode });
+    fs.writeFileSync(writePath, contents, "utf8");
+
+    writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+    contents = fs.readFileSync(
+      `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
+      "utf8"
+    );
+    contents = render(contents, { isCrudWithNode });
+    fs.writeFileSync(writePath, contents,"utf8");  
+
+        }
       }
     );
 
@@ -563,6 +615,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     );
+    
   }
 
   //<--------For authentication----------------------------------------------------------------------------->
