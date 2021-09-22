@@ -449,22 +449,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["dbService"] === "yes") {
     createDbConn(nodePath, dbName, defaultRoute);
   }
-
-  //for Adding CRUD Operation----------------------------------------------------------------
-  // if (isCrudWithNode) {
-  //   fsExtra.copy(
-  //     `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
-  //     `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-
-  //     function (err) {
-  //       if (err) {
-  //         console.log("An error is occured");
-  //         return console.error(err);
-  //       }
-  //     }
-  //   );
-  // }
-
+  
   // <--------------------REDUX INTEGRATION------------------------->
 
   if (reduxIntegration) {
