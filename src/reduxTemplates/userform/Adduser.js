@@ -32,7 +32,7 @@ const AddUser = () => {
     const handleSubmit=()=>{
         if(Object.keys(user).length !== 0)
         {
-            dispatch(updateUsers({...formData,id:user.Id}))
+            dispatch(updateUsers({...formData,Id:user._id}))
         }
         else
         dispatch(

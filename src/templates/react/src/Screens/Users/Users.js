@@ -53,7 +53,7 @@ const userModal = useSelector(selectSelectedUserModal)
       <Button
       variant="danger"
       size="sm"
-      onClick={() => handleDelete(row.id)}
+      onClick={() => handleDelete(id)}
     >
       Delete
     </Button>
@@ -61,10 +61,6 @@ const userModal = useSelector(selectSelectedUserModal)
     <%}%>
     <% if(isRedux) {%> 
 const cols=[
-  {
-    dataField: 'id',
-    text: 'Id'
-  },
   {
     dataField: 'name',
     text: 'Name'
@@ -79,13 +75,13 @@ const cols=[
   },
   <% if(isCrudWithNode) {%>
     {
-      dataField: 'id',
+      dataField: '_id',
       text: '',
       align: 'right',
       formatter: deleteFormatter,
     },
     {
-      dataField: 'id',
+      dataField: '_id',
       text: '',
       align: 'left',
       formatter: editFormatter,
@@ -93,7 +89,7 @@ const cols=[
   <%}%>  
   <% if(isRedux&&!isCrudWithNode) {%>
   {
-    dataField: 'id',
+    dataField: '_id',
     text: '',
     align: 'right',
     formatter: buttonFormatter,
@@ -111,7 +107,7 @@ const cols=[
         <% if(isCrudWithNode) {%>
       <Button className='m-2' onClick={() => dispatch(setSelectedUserModal(USERS_MODAL_TYPES.ADD_USER_MODAL))}>Add User</Button>
       <%}%>
-      <% if(isRedux){%> <Table data={users} keyField='id'columns={cols}/><%}%> 
+      <% if(isRedux){%> <Table data={users} keyField='_id'columns={cols}/><%}%> 
     </div>
     </>
   );

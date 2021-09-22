@@ -27,16 +27,12 @@ const slice = createSlice({
       state.users = [...state.users, action.payload];
     },
     [asyncActions.deleteUsers.fulfilled]: (state, action) => {
-      state.users = action.payload;
+      state.status = "success";
+      state.users = action.payload
     },
     [asyncActions.updateUsers.fulfilled]: (state, action) => {
-      const { id, name, email, username } = action.payload;
-      const existingUser = state.users.find((user) => user.id === id);
-      if (existingUser) {
-        existingUser.name = name;
-        existingUser.email = email;
-        existingUser.username = username;
-      }
+      state.status = "success";
+      state.users = action.payload
     },
   },
 });
@@ -44,4 +40,3 @@ const slice = createSlice({
 export default slice
 
 export const { name, actions, reducer } = slice
-
