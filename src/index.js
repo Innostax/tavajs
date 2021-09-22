@@ -108,7 +108,9 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react" || answers.projectChoice == "node-js"
+        answers.projectChoice == "react" ||
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
       );
     },
   },
@@ -250,6 +252,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const dockerService = answers["dockerService"];
   isDocker = dockerService;
   let reactName = "";
+  let nodeName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
@@ -282,7 +285,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     reactName = answers["react-name"];
-    const nodeName = answers["node-name"];
+    nodeName = answers["node-name"];
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
@@ -301,6 +304,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
+      reactName,
       reactPath,
       screenName
     );
@@ -318,6 +322,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
+      nodeName,
       reactPath,
       screenName
     );
@@ -448,10 +453,34 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   //for Docker INTEGRATION-------------------------
   if (isDocker) {
-    fs.copyFileSync(
-      `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
-      `${reactPath}/Dockerfile`
-    );
+    if (projectChoice === "react") {
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${reactPath}/Dockerfile`
+      );
+    } else if (projectChoice === "node-js") {
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${nodePath}/Dockerfile`
+      );
+    } else if (projectChoice === "react_Node") {
+      let contents = fs.readFileSync(
+        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml`,
+        "utf8"
+      );
+
+      contents = render(contents, { reactName, nodeName });
+      writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
+      fs.writeFileSync(writePath, contents, "utf8");
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${reactPath}/Dockerfile`
+      );
+      fs.copyFileSync(
+        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${nodePath}/Dockerfile`
+      );
+    }
   }
 
   // <--------------------REDUX INTEGRATION------------------------->
