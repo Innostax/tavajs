@@ -1,70 +1,119 @@
-import React<% if(isRedux){%>,{ useEffect, useState }<%}%> from "react";
-<% if(isRedux) {%>import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "./users.actions";
-import { selectAllUsers } from "./users.selectors";<%}%>
+import React<% if(isRedux){%>,{ useEffect }<%}%> from "react";
 <% if(isCrudWithNode) {%>import { deleteUsers } from "./users.actions";
 import { Button } from "react-bootstrap";
-import Adduser from "./userform/Adduser";<%}%>
-
-
+<%}%>
+<% if(isRedux) {%>import { useSelector, useDispatch } from "react-redux";
+import { getUsers } from "./users.actions";
+import { selectAllUsers } from "./users.selectors";
+import Table from '../../widgets/table'
+import { USERS_MODAL_TYPES } from "../usersModal/userModal.constants";
+import { actions } from './users.reducer'
+import { selectSelectedUserModal } from "./users.selectors";
+import getUserModal from "../usersModal";
+const {setSelectedUserModal,setSelectedUser} = actions
+<%}%>
 const Users = () => {
-  <% if(isCrudWithNode) {%> const [editFormData, setEditFormData] = useState({
-    id: "",
-    name: "",
-    username: "",
-    email: "",
-  });<%}%>
-
   <% if(isRedux) {%>const dispatch = useDispatch();
-const users = useSelector(selectAllUsers);    
+const users = useSelector(selectAllUsers);
+const userModal = useSelector(selectSelectedUserModal)    
     useEffect(() => {
       dispatch(getUsers());
     }, [dispatch]);<%}%>
 
-    <% if(isCrudWithNode) {%> const handleDelete = (id) => {
+    <% if(isRedux&&!isCrudWithNode) {%>
+    const buttonFormatter = (id, row) => (
+      <button
+        size='sm'
+        variant='primary'
+        className='font-weight-normal'
+        onClick={()=>{
+          dispatch(setSelectedUser(row))
+          dispatch(setSelectedUserModal(USERS_MODAL_TYPES.SHOW_USER_MODAL))}}
+      >
+      Show All Details
+      </button>
+    )
+    <%}%>
+
+    <% if(isCrudWithNode) {%> 
+    const handleDelete = (id) => {
       dispatch(deleteUsers({ Id: id }));
     };
-  
-    const handleEditClick = (event, user) => {
-      setEditFormData(user);
-    };<%}%>
 
+  const editFormatter = (id, row) => (
+    <Button size="sm" onClick={() => {
+      dispatch(setSelectedUserModal(USERS_MODAL_TYPES.ADD_USER_MODAL))
+      dispatch(dispatch(setSelectedUser(row)))
+    }}>
+      Edit
+    </Button>
+  )
+
+    const deleteFormatter= (id,row)=>(
+      <Button
+      variant="danger"
+      size="sm"
+      onClick={() => handleDelete(row.id)}
+    >
+      Delete
+    </Button>
+    )
+    <%}%>
+    <% if(isRedux) {%> 
+const cols=[
+  {
+    dataField: 'id',
+    text: 'Id'
+  },
+  {
+    dataField: 'name',
+    text: 'Name'
+  },
+  {
+    dataField: 'username',
+    text: 'User Name'
+  },
+  {
+    dataField:'email',
+    text:'Email'  
+  },
+  <% if(isCrudWithNode) {%>
+    {
+      dataField: 'id',
+      text: '',
+      align: 'right',
+      formatter: deleteFormatter,
+    },
+    {
+      dataField: 'id',
+      text: '',
+      align: 'left',
+      formatter: editFormatter,
+    },
+  <%}%>  
+  <% if(isRedux&&!isCrudWithNode) {%>
+  {
+    dataField: 'id',
+    text: '',
+    align: 'right',
+    formatter: buttonFormatter,
+  },
+  <%}%>
+]
+<%}%>
   return (
+    <>
+    <% if(isRedux){%>{userModal&& getUserModal(userModal)}<%}%> 
     <div>
       <h1>Welcome to Users Screen</h1>
       <% if(isRedux){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
-      {users && users.map((user, i) => <p key={i}>{user.name}</p>)}<%}%>
-
-      <% if(isCrudWithNode) {%>
-      {users && <Adduser editFormData={editFormData} />}
-      {users &&
-        users.map((user, i) => {
-          const { id, name, username, email } = user;
-          return (
-            <tr key={i}>
-              <td>{id}</td>
-              <td>{name}</td>
-              <td>{username}</td>
-              <td>{email}</td>
-
-              <td>
-                <Button onClick={(event) => handleEditClick(event, user)}>
-                  Edit
-                </Button>
-                &nbsp;&nbsp;
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDelete(user.id)}
-                >
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          );
-        })} <%}%>
-
+      <%}%>
+        <% if(isCrudWithNode) {%>
+      <Button className='m-2' onClick={() => dispatch(setSelectedUserModal(USERS_MODAL_TYPES.ADD_USER_MODAL))}>Add User</Button>
+      <%}%>
+      <% if(isRedux){%> <Table data={users} keyField='id'columns={cols}/><%}%> 
     </div>
+    </>
   );
 };
 

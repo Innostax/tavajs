@@ -4,15 +4,6 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
-  const users = [
-    {
-      id: 1,
-      name: "Leanne Graham",
-      username: "Bret",
-      email: "Sincere@april.biz",
-    }
-  ];
-
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.find(function(err, data){
@@ -30,7 +21,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         });
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
-        res.send(users);
+        res.send('find called');
      <% } %>
 
   }
@@ -56,14 +47,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         .catch(err => res.send("User cannot be created"))
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %> 
-        const User = {
-          id: req.body.nextUserId,
-          name: req.body.name,
-          username: req.body.username,
-          email: req.body.email,
-        };
-        users.push(User);
-        res.send(User);
+        res.send('create  Called')
      <% } %>
      
   }
@@ -96,12 +80,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     );
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
-        const user = users.find((user) => user.id === parseInt(req.params.id));
-  if (!user) res.status(404).send("The user with given Id was not found");
-  user.name = req.body.name;
-  user.username = req.body.username;
-  user.email = req.body.email;
-  res.send(user);
+        res.send('patch Called')
      <% } %>  
   }
   
@@ -143,11 +122,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
       });
         <%}%> 
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
-        const user = users.find((user) => user.id === parseInt(req.params.id));
-  if (!user) res.status(404).send("The user with given Id was not found");
-  const index = users.indexOf(user);
-  users.splice(index, 1);
-  res.send(users);
+        res.send('remove by id Called')
      <% } %>
     
   }

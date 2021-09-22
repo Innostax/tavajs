@@ -114,21 +114,6 @@ const QUESTIONS = [
     },
   },
   {
-    name: "reactNodeCrud",
-    type: "list",
-    message: "Do you want crud integration with React-Node boiler plate?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.projectChoice === "react_Node" &&
-        answers.redux === true
-        )
-    },
-  },
-  {
     name: "dbService",
     type: "list",
     message: "Do you need database service?",
@@ -154,6 +139,22 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.dbService == "yes";
+    },
+  },
+  {
+    name: "reactNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with React-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice === "react_Node" &&
+        answers.dbService == "yes" &&
+        answers.redux === true
+        )
     },
   },
   {
@@ -450,19 +451,19 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
 
   //for Adding CRUD Operation----------------------------------------------------------------
-  if (isCrudWithNode) {
-    fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/userform`,
-      `${CURR_DIR}/${projectName}/${reactName}/src/Screens/Users/userform`,
+  // if (isCrudWithNode) {
+  //   fsExtra.copy(
+  //     `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
+  //     `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
 
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
-  }
+  //     function (err) {
+  //       if (err) {
+  //         console.log("An error is occured");
+  //         return console.error(err);
+  //       }
+  //     }
+  //   );
+  // }
 
   // <--------------------REDUX INTEGRATION------------------------->
 
@@ -492,6 +493,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         destFolder: "/src",
         destFileName: "store.js",
       },
+      {
+        srcFolder: "reduxTemplates",
+        srcFileName: "rootReducer.js",
+        destFolder: "/src",
+        destFileName: "rootReducer.js",
+      },
     ];
 
     reduxFiles.map((each) => {
@@ -507,6 +514,47 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
 
     fsExtra.copy(
+      `${CURR_DIR}/src/reduxTemplates/usersModal`,
+      `${reactPath}/src/Screens/usersModal`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+        else{
+          if (isCrudWithNode) {
+              fsExtra.copy(
+      `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
+      `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    )}
+          let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
+    let contents = fs.readFileSync(
+      `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
+      "utf8"
+    );
+    contents = render(contents, { isCrudWithNode });
+    fs.writeFileSync(writePath, contents, "utf8");
+
+    writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+    contents = fs.readFileSync(
+      `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
+      "utf8"
+    );
+    contents = render(contents, { isCrudWithNode });
+    fs.writeFileSync(writePath, contents,"utf8");  
+
+        }
+      }
+    )
+
+    fsExtra.copy(
       `${CURR_DIR}/src/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
       function (err) {
@@ -516,6 +564,19 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     );
+
+    fsExtra.copy(
+      `${CURR_DIR}/src/reduxTemplates/widgets/modal`,
+      `${reactPath}/src/widgets/modal`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+        
+      }
+    );
+    
   }
 
   //<--------For authentication----------------------------------------------------------------------------->
