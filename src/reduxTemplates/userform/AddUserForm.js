@@ -3,12 +3,11 @@ import Modal, { hideModal, showModal } from '../../widgets/modal'
 import { useDispatch,useSelector } from 'react-redux'
 import { actions } from '../Users/users.reducer'
 import { Row, Col, Button } from 'react-bootstrap'
-import { addUsers, updateUsers } from '../Users/users.actions'
 import { selectSelectedUser } from '../Users/users.selectors'
 
-const { setSelectedUserModal,setSelectedUser } = actions
+const { setSelectedUserModal,setSelectedUser,editUser,addNewUser } = actions
 
-const AddUser = () => {
+const AddUserForm = () => {
     const dispatch = useDispatch()
     const resetModal = () => {dispatch(setSelectedUserModal(null))
         dispatch(setSelectedUser(null))
@@ -30,18 +29,9 @@ const AddUser = () => {
 
     const handleSubmit=()=>{
         if(Object.keys(user).length !== 0)
-        {
-            dispatch(updateUsers({...formData,Id:user._id}))
-        }
+            dispatch(editUser(formData))
         else
-        dispatch(
-            addUsers(formData)
-          );
-        setFormData({
-            name: "",
-            username: "",
-            email: "",
-        })
+        dispatch(addNewUser(formData))
     }
     return (
         <Modal
@@ -112,4 +102,4 @@ const AddUser = () => {
         </Modal>
     )
 }
-export default AddUser
+export default AddUserForm

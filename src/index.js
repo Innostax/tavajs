@@ -8,6 +8,7 @@ const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
 var isDocker = false;
+var isCrud = false;
 var isAuth0 = false;
 var isCognito = false;
 var isRedux = false;
@@ -89,35 +90,6 @@ const QUESTIONS = [
     when: (answers) => answers.authService === "yes",
   },
   {
-    name: "default-route",
-    type: "input",
-    message: "Enter the default route",
-    default: "users",
-    when: (answers) => {
-      return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
-    },
-  },
-  {
-    name: "dockerService",
-    type: "list",
-    message: "Do you want Docker services",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.projectChoice == "react" ||
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
-    },
-  },
-
-  {
     name: "redux",
     type: "list",
     message: "Do you want redux integration?",
@@ -132,6 +104,32 @@ const QUESTIONS = [
       );
     },
   },
+  {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want React with CRUD",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.redux && answers.projectChoice === "react";
+    },
+  },
+
+  {
+    name: "default-route",
+    type: "input",
+    message: "Enter the default route",
+    default: "users",
+    when: (answers) => {
+      return (
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
+      );
+    },
+  },
+
   {
     name: "dbService",
     type: "list",
@@ -160,6 +158,7 @@ const QUESTIONS = [
       return answers.dbService == "yes";
     },
   },
+
   {
     name: "reactNodeCrud",
     type: "list",
@@ -258,6 +257,22 @@ const QUESTIONS = [
       return answers.blobService == "yes";
     },
   },
+  {
+    name: "dockerService",
+    type: "list",
+    message: "Do you want Docker services",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice == "react" ||
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
+      );
+    },
+  },
 ];
 
 inquirer.prompt(QUESTIONS).then(async (answers) => {
@@ -271,6 +286,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const reduxIntegration = answers["redux"];
   const dockerService = answers["dockerService"];
   isDocker = dockerService;
+  const crudOperation = answers["CRUD"];
+  isCrud = crudOperation;
   let reactName = "";
   let nodeName = "";
   var dbName = answers["dbName"];
@@ -587,12 +604,25 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     )}
+    if(isCrud){
+      fsExtra.copy(
+        `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
+        `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+  
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      )
+    }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
     let contents = fs.readFileSync(
       `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
       "utf8"
     );
-    contents = render(contents, { isCrudWithNode });
+    contents = render(contents, { isCrudWithNode, isCrud });
     fs.writeFileSync(writePath, contents, "utf8");
 
     writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
@@ -600,7 +630,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
       "utf8"
     );
-    contents = render(contents, { isCrudWithNode });
+    contents = render(contents, { isCrudWithNode, isCrud });
     fs.writeFileSync(writePath, contents,"utf8");  
 
         }
