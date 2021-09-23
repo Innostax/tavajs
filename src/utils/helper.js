@@ -72,13 +72,13 @@ function createDirectoryContents(
         isWinston,
         isAuth0,
         isCognito,
+        reactPath,
         isRedux,
         isCrud,
         screenName,
         isCrudWithNode,
         reactName,
         nodeName,
-        reactPath,
       );
     }
   });
