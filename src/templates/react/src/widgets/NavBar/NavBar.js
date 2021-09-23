@@ -19,7 +19,7 @@ export default function NavBar() {
                 <Link to="/home"><Nav.Link href="/home">Home</Nav.Link></Link>
                 <Link to="/users"><Nav.Link href="/users">Users</Nav.Link></Link>
               </Nav>
-              <% if(isAuth0||isCognito) {%><Nav>
+              <% if(isAuth0) {%><Nav>
                 <Nav.Link
                   onClick={() => logout({ returnTo: window.location.origin })}
                 >
