@@ -111,8 +111,6 @@ const cols=[
     </div>
     </>
   );
-  
-  <%}%>
 };
 
 export default Users;
