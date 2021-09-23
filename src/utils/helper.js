@@ -20,6 +20,7 @@ function createDirectoryContents(
   isRedux,
   screenName,
   isCrudWithNode,
+  isCrud,
   reactName,
   nodeName,
 ) {
@@ -51,6 +52,7 @@ function createDirectoryContents(
           isSentry,
           isWinston,
           isCrudWithNode,
+          isCrud,
         },
         (autoescape = false)
       );
@@ -74,6 +76,7 @@ function createDirectoryContents(
         isRedux,
         screenName,
         isCrudWithNode,
+        isCrud,
         reactName,
         nodeName,
       );
