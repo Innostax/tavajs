@@ -15,6 +15,7 @@ var isRedux = false;
 var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
+var isCrud = false
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 
 const QUESTIONS = [
@@ -355,11 +356,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      isRedux,
-      reactName,
       reactPath,
+      isRedux,
       screenName,
       isCrudWithNode,
+      isCrud,
+      reactName,
+      nodeName,
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -374,11 +377,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      isRedux,
-      nodeName,
       reactPath,
+      isRedux,
       screenName,
       isCrudWithNode,
+      isCrud,
+      reactName,
+      nodeName,
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -416,10 +421,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      isRedux,
-      isCrud,
       reactPath,
-      screenName
+      isRedux,
+      screenName,
+      isCrudWithNode,
+      isCrud,
+      reactName,
+      nodeName,
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -434,9 +442,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      isRedux,
       reactPath,
-      screenName
+      isRedux,
+      screenName,
+      isCrudWithNode,
+      isCrud,
+      reactName,
+      nodeName,
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
