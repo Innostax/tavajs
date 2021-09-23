@@ -18,7 +18,7 @@ const users = useSelector(selectAllUsers);
 const userModal = useSelector(selectSelectedUserModal)    
     useEffect(() => {
       dispatch(getUsers());
-    }, [dispatch]);
+    }, [dispatch]);<%}%>
 
     <% if(isRedux&&!isCrudWithNode) {%>
     const buttonFormatter = (id, row) => (
@@ -113,13 +113,6 @@ const cols=[
   );
   
   <%}%>
-  <% if((!isRedux)) {%> 
-    return(
-      <div>
-        <h1>Welcome to Users Screen</h1>
-      </div>
-    )
-    <%}%>
 };
 
 export default Users;
