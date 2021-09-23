@@ -16,18 +16,12 @@ function createDirectoryContents(
   isWinston,
   isAuth0,
   isCognito,
-<<<<<<< HEAD
   reactPath,
   isRedux,
   screenName,
-  isCrudWithNode
-=======
-  isRedux,
+  isCrudWithNode,
   reactName,
   nodeName,
-  reactPath,
-  screenName
->>>>>>> develop
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -76,18 +70,12 @@ function createDirectoryContents(
         isWinston,
         isAuth0,
         isCognito,
-<<<<<<< HEAD
         reactPath,
         isRedux,
         screenName,
-        isCrudWithNode
-=======
-        isRedux,
+        isCrudWithNode,
         reactName,
         nodeName,
-        reactPath,
-        screenName
->>>>>>> develop
       );
     }
   });
