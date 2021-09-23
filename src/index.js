@@ -90,36 +90,6 @@ const QUESTIONS = [
     when: (answers) => answers.authService === "yes",
   },
   {
-    name: "dockerService",
-    type: "list",
-    message: "Do you want Docker services",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return answers.projectChoice == "react";
-    },
-  },
-
-  {
-    name: "dockerService",
-    type: "list",
-    message: "Do you want Docker services",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.projectChoice == "react" ||
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
-    },
-  },
-
-  {
     name: "redux",
     type: "list",
     message: "Do you want redux integration?",
@@ -134,7 +104,6 @@ const QUESTIONS = [
       );
     },
   },
-
   {
     name: "CRUD",
     type: "list",
@@ -144,7 +113,7 @@ const QUESTIONS = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.redux === true;
+      return answers.redux && answers.projectChoice === "react";
     },
   },
 
@@ -286,6 +255,22 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.blobService == "yes";
+    },
+  },
+  {
+    name: "dockerService",
+    type: "list",
+    message: "Do you want Docker services",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice == "react" ||
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
+      );
     },
   },
 ];
@@ -619,12 +604,25 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     )}
+    if(isCrud){
+      fsExtra.copy(
+        `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
+        `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+  
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      )
+    }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
     let contents = fs.readFileSync(
       `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
       "utf8"
     );
-    contents = render(contents, { isCrudWithNode });
+    contents = render(contents, { isCrudWithNode, isCrud });
     fs.writeFileSync(writePath, contents, "utf8");
 
     writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
@@ -632,7 +630,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
       "utf8"
     );
-    contents = render(contents, { isCrudWithNode });
+    contents = render(contents, { isCrudWithNode, isCrud });
     fs.writeFileSync(writePath, contents,"utf8");  
 
         }

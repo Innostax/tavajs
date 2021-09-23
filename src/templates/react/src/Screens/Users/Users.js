@@ -1,7 +1,6 @@
 import React<% if(isRedux){%>,{ useEffect }<%}%> from "react";
-<% if(isCrudWithNode) {%>import { deleteUsers } from "./users.actions";
-import { Button } from "react-bootstrap";
-<%}%>
+<% if(isCrudWithNode) {%>import { deleteUsers } from "./users.actions";<%}%>
+<% if(isCrudWithNode||isCrud) {%>import { Button } from "react-bootstrap";<%}%>
 <% if(isRedux) {%>import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "./users.actions";
 import { selectAllUsers } from "./users.selectors";
@@ -11,6 +10,7 @@ import { actions } from './users.reducer'
 import { selectSelectedUserModal } from "./users.selectors";
 import getUserModal from "../usersModal";
 const {setSelectedUserModal,setSelectedUser} = actions
+<% if(isCrud) {%>const {deleteUser} = actions<%}%>
 <%}%>
 const Users = () => {
   <% if(isRedux) {%>const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const userModal = useSelector(selectSelectedUserModal)
       dispatch(getUsers());
     }, [dispatch]);<%}%>
 
-    <% if(isRedux&&!isCrudWithNode) {%>
+    <% if(isRedux && !isCrudWithNode &&!isCrud ) {%>
     const buttonFormatter = (id, row) => (
       <button
         size='sm'
@@ -35,9 +35,14 @@ const userModal = useSelector(selectSelectedUserModal)
     )
     <%}%>
 
-    <% if(isCrudWithNode) {%> 
+    <% if(isCrudWithNode||isCrud) {%> 
     const handleDelete = (id) => {
+      <% if(isCrud) {%>
+      dispatch(deleteUser(id))
+      <%}%>
+      <% if(isCrudWithNode) {%>
       dispatch(deleteUsers({ Id: id }));
+      <%}%>
     };
 
   const editFormatter = (id, row) => (
@@ -73,7 +78,7 @@ const cols=[
     dataField:'email',
     text:'Email'  
   },
-  <% if(isCrudWithNode) {%>
+  <% if(isCrudWithNode||isCrud) {%>
     {
       dataField: '_id',
       text: '',
@@ -87,7 +92,7 @@ const cols=[
       formatter: editFormatter,
     },
   <%}%>  
-  <% if(isRedux&&!isCrudWithNode) {%>
+  <% if(isRedux&&!isCrudWithNode&&!isCrud) {%>
   {
     dataField: '_id',
     text: '',
@@ -104,7 +109,7 @@ const cols=[
       <h1>Welcome to Users Screen</h1>
       <% if(isRedux){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
       <%}%>
-        <% if(isCrudWithNode) {%>
+        <% if(isCrudWithNode||isCrud) {%>
       <Button className='m-2' onClick={() => dispatch(setSelectedUserModal(USERS_MODAL_TYPES.ADD_USER_MODAL))}>Add User</Button>
       <%}%>
       <% if(isRedux){%> <Table data={users} keyField='_id'columns={cols}/><%}%> 
@@ -114,3 +119,4 @@ const cols=[
 };
 
 export default Users;
+

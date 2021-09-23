@@ -16,29 +16,23 @@ const slice = createSlice({
   setSelectedUser(state,action){
     state.selectedUser = action.payload || initialState.selectedUser
   },
-  userAdded(state, action) {
-    const { id, name, email, username } = action.payload;
-    const existingUser = state.users.find((user) => user.id === id);
-    if (existingUser) {
-      existingUser.name = name;
-      existingUser.email = email;
-      existingUser.username = username;
-    } else {
-      state.users.push(action.payload);
-    }
+  addNewUser(state, action) {
+   const _id = state.users.length 
+   const user = {...action.payload,_id} 
+   state.users = [...state.users,user]
   },
-  userDeleted(state, action) {
-    const { id } = action.payload;
-    const existingUser = state.users.find((user) => user.id === id);
-    if (existingUser) {
-      state.users = state.users.filter((user) => user.id !== id);
-    }
+  deleteUser(state, action) {
+    state.users = state.users.filter((each)=>each._id!==action.payload)
   },
+  editUser(state,action){
+    const newUsers = state.users.filter((each)=>each._id!==action.payload._id)
+    state.users=[...newUsers,action.payload]
+  }
 },
   extraReducers: {
     [asyncActions.getUsers.fulfilled]: (state, action) => {
       state.status = "success";
-      state.users = action.payload;
+      state.users = action.payload || initialState.users;
     },
     [asyncActions.addUsers.fulfilled]: (state, action) => {
       state.status = "success";
