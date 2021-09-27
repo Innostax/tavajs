@@ -15,8 +15,8 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
           })
       <% } %>
       <% if(sequelizeSelected){%>
-        <%= defaultRoute %>.findAll().then((users) => {
-          if (users.length > 0) res.json(users);
+        <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
+          if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
           else res.send("no user found");
         });
         <%}%>
@@ -79,8 +79,8 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
           { where:
               { id: req.params.id}
           }
-      ).then((users) => {
-        if (users[0]) res.send("User updated");
+      ).then((<%= defaultRoute %>) => {
+        if (<%= defaultRoute %>[0]) res.send("User updated");
         else res.send("User with this ID can't be updated");
       }
     );
@@ -128,8 +128,8 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
           where: {
               id: req.params.id
           }
-      }).then((users) => {
-        if (users) res.send("user deleted");
+      }).then((<%= defaultRoute %>) => {
+        if (<%= defaultRoute %>) res.send("user deleted");
         else res.send("User with this ID can't be found");
       });
         <%}%> 
@@ -154,8 +154,8 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
           where:{
               id:req.params.id
           }
-      }).then((users) => {
-        if (users.length > 0) res.json(users);
+      }).then((<%= defaultRoute %>) => {
+        if (<%= defaultRoute %> > 0) res.json(users);
         else res.send("no user found");
       });
         <%}%>

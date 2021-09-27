@@ -15,7 +15,7 @@ var isRedux = false;
 var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
-var isCrud = false
+var isCrud = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 
 const QUESTIONS = [
@@ -172,7 +172,7 @@ const QUESTIONS = [
         answers.projectChoice === "react_Node" &&
         answers.dbService == "yes" &&
         answers.redux === true
-        )
+      );
     },
   },
   {
@@ -348,6 +348,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName,
+      isDocker
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -369,6 +370,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName,
+      isDocker
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -412,10 +414,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
   } else if (projectChoice === "node-js") {
+    nodeName = answers["node-name"];
     var nodePath = path.join(CURR_DIR, projectName);
+
     createDirectoryContents(
       templatePath,
       projectName,
@@ -434,6 +438,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName,
+      isDocker
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -511,19 +516,37 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `${reactPath}/Dockerfile`
       );
     } else if (projectChoice === "node-js") {
+      let contents = fs.readFileSync(
+        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml`,
+        "utf8"
+      );
+      contents = render(contents, {
+        mongoSelected,
+        projectName,
+        sequelizeSelected,
+        isDocker,
+      });
+      writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
+      fs.writeFileSync(writePath, contents, "utf8");
+
       fs.copyFileSync(
         `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
         `${nodePath}/Dockerfile`
       );
     } else if (projectChoice === "react_Node") {
       let contents = fs.readFileSync(
-        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml`,
+        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml1`,
         "utf8"
       );
-
-      contents = render(contents, { reactName, nodeName });
+      contents = render(contents, {
+        reactName,
+        nodeName,
+        mongoSelected,
+        sequelizeSelected,
+      });
       writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(writePath, contents, "utf8");
+
       fs.copyFileSync(
         `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
         `${reactPath}/Dockerfile`
@@ -533,6 +556,24 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `${nodePath}/Dockerfile`
       );
     }
+  }
+
+  if (!isDocker && projectChoice !== "react") {
+    let contents = fs.readFileSync(
+      `${CURR_DIR}/src/envTemplates/.dbEnv`,
+      "utf8"
+    );
+    contents = render(contents, {
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+    });
+    if (projectChoice === "node-js") {
+      writePath = `${CURR_DIR}/${projectName}/.env`;
+    } else {
+      writePath = `${nodePath}/.env`;
+    }
+    fs.writeFileSync(writePath, contents, "utf8");
   }
 
   // <--------------------REDUX INTEGRATION------------------------->
@@ -590,49 +631,48 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         if (err) {
           console.log("An error is occured");
           return console.error(err);
-        }
-        else{
+        } else {
           if (isCrudWithNode) {
-              fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
-      `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+            fsExtra.copy(
+              `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
+              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
 
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    )}
-    if(isCrud){
-      fsExtra.copy(
-        `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
-        `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-  
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
+              function (err) {
+                if (err) {
+                  console.log("An error is occured");
+                  return console.error(err);
+                }
+              }
+            );
           }
-        }
-      )
-    }
+          if (isCrud) {
+            fsExtra.copy(
+              `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
+              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+
+              function (err) {
+                if (err) {
+                  console.log("An error is occured");
+                  return console.error(err);
+                }
+              }
+            );
+          }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-    let contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents, "utf8");
+          let contents = fs.readFileSync(
+            `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
 
-    writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-    contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents,"utf8");  
-
+          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+          contents = fs.readFileSync(
+            `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
         }
       }
     );
@@ -658,7 +698,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     );
-    
   }
 
   //<--------For authentication----------------------------------------------------------------------------->
@@ -784,7 +823,7 @@ function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
   }
 }
 
-//function to create email services
+//function to create email services------------------------------
 function createEmailSevice(
   emailServiceName,
   emailTemplatePath,
