@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node src/index.js",
+    "generate-Service": "node src/app1.js",
     "build": "shx rm -rf dist/templates && shx cp -r templates dist"
   },
   "license": "MIT",
@@ -22,6 +23,7 @@
     "winston": "^3.3.3"
   },
   "bin": {
-    "generate-tava": "src/index.js"
+    "generate-tava1": "src/index.js",
+    "generate-service2": "src/app1.js"
   }
 }
