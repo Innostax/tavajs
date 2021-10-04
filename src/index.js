@@ -1,6 +1,5 @@
 #! node
 
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
@@ -18,7 +17,7 @@ var isRedux = false;
 var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
-var isCrud = false
+var isCrud = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 
 const QUESTIONS = [
@@ -175,7 +174,7 @@ const QUESTIONS = [
         answers.projectChoice === "react_Node" &&
         answers.dbService == "yes" &&
         answers.redux === true
-        )
+      );
     },
   },
   {
@@ -350,7 +349,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -371,7 +370,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -415,7 +414,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -436,7 +435,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -593,49 +592,48 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         if (err) {
           console.log("An error is occured");
           return console.error(err);
-        }
-        else{
+        } else {
           if (isCrudWithNode) {
-              fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
-      `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+            fsExtra.copy(
+              `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
+              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
 
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    )}
-    if(isCrud){
-      fsExtra.copy(
-        `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
-        `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-  
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
+              function (err) {
+                if (err) {
+                  console.log("An error is occured");
+                  return console.error(err);
+                }
+              }
+            );
           }
-        }
-      )
-    }
+          if (isCrud) {
+            fsExtra.copy(
+              `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
+              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+
+              function (err) {
+                if (err) {
+                  console.log("An error is occured");
+                  return console.error(err);
+                }
+              }
+            );
+          }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-    let contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents, "utf8");
+          let contents = fs.readFileSync(
+            `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
 
-    writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-    contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents,"utf8");  
-
+          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+          contents = fs.readFileSync(
+            `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
         }
       }
     );
@@ -661,7 +659,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     );
-    
   }
 
   //<--------For authentication----------------------------------------------------------------------------->
@@ -676,7 +673,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       {
         srcFolder: "envTemplates",
         srcFileName: ".authEnv",
-        destFolder: "",
+        destFolder: reactName,
         destFileName: ".env",
       },
     ];

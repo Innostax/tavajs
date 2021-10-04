@@ -8,7 +8,7 @@ const <%= defaultRoute %> = require(`./Routes/<%= defaultRoute %>.routes`);
 <% if (mongoSelected) { %>
 const conn = require('./mongoose')
 <% } %>
-  
+  const authorization = require(`./authorization`);
 const port = process.env.PORT
 
 const app = express();
@@ -18,6 +18,7 @@ const app = express();
 <% } %>
 
 app.set('view engine', 'ejs');
+app.use(authorization);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
