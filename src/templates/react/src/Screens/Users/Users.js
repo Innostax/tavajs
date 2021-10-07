@@ -1,13 +1,11 @@
 import React<% if(isRedux){%>,{ useEffect }<%}%> from "react";
-<% if(isCrudWithNode) {%>import { deleteUsers } from "./users.actions";<%}%>
 <% if(isCrudWithNode||isCrud) {%>import { Button } from "react-bootstrap";<%}%>
 <% if(isRedux) {%>import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "./users.actions";
-import { selectAllUsers } from "./users.selectors";
+import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";
+import { selectAllUsers, selectSelectedUserModal } from "./users.selectors";
 import Table from '../../widgets/table'
 import { USERS_MODAL_TYPES } from "../usersModal/userModal.constants";
 import { actions } from './users.reducer'
-import { selectSelectedUserModal } from "./users.selectors";
 import getUserModal from "../usersModal";
 const {setSelectedUserModal,setSelectedUser} = actions
 <% if(isCrud) {%>const {deleteUser} = actions<%}%>
