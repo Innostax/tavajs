@@ -5,8 +5,9 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
 const path = require("path");
-const { render } = require("./utils/template");
+const { render } = require("../utils/template");
 const currentPath = path.join(__dirname);
+
 
 const QUESTIONS = [
   {
@@ -30,9 +31,9 @@ inquirer.prompt(QUESTIONS).then((answers) => {
   function createDirectoryContents(templatePath, projectName) {
     const filesToCreate = fs.readdirSync(templatePath);
 
-    //=============add to routers
+    
     const routePath = `${CURR_DIR}/src`;
-    // console.log("----routePath----", routePath);
+  
     var data = fs.readFileSync(`${routePath}/Routes.js`).toString().split("\n");
     data.splice(
       9,
@@ -45,19 +46,18 @@ inquirer.prompt(QUESTIONS).then((answers) => {
     fs.writeFile(`${routePath}/Routes.js`, text, function (err) {
       if (err) return console.log(err);
     });
-    //====================================
+  
 
     filesToCreate.forEach((file, i) => {
       const origFilePath = `${templatePath}/${file}`;
       const stats = fs.statSync(origFilePath);
       if (stats.isFile()) {
         let contents = fs.readFileSync(origFilePath, "utf8");
-        // console.log("****contents****", contents);
         contents = render(contents, { screenName: projectName });
 
         const writePath = `${CURR_DIR}/src/Screens/${projectName}/${file}`;
 
-        //================================================================
+      
         if (file.startsWith("screen")) {
           const filesName = [".constant", "", ".utils"];
           setTimeout(function name() {
@@ -77,7 +77,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
           }, 300);
         }
 
-        //=================================================
+        
 
         fs.writeFileSync(writePath, contents, "utf8");
       } else if (stats.isDirectory()) {
