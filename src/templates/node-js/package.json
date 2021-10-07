@@ -5,8 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node condition.js && node index.js"
+    "dev": "npm run pretty && npm run eslint && npm run dev-watch",
+    "dev-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"nodemon index.js\"",
+    "start": "npm run pretty && npm run eslint && npm run start-watch",
+    "start-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"node index.js\"",
+    "pretty": "npx prettier --write \"**/*.js\"",
+    "prettier-watch": "onchange \"**/*.js\" -- npx prettier --write {{changed}}",
+    "eslint": "npx eslint",
+    "eslint-watch": "onchange \"**/*.js\" -- npx eslint"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +27,19 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "mongoose": "^6.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "customize-cra": "^0.9.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.3.1",
+    "onchange": "^6.1.0",
+    "prettier": "^2.0.2"
   }
 }
