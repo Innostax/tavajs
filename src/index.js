@@ -1,6 +1,5 @@
 #! node
 
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
@@ -18,8 +17,9 @@ var isRedux = false;
 var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
-var isCrud = false
+var isCrud = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
+const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
   {
@@ -175,7 +175,7 @@ const QUESTIONS = [
         answers.projectChoice === "react_Node" &&
         answers.dbService == "yes" &&
         answers.redux === true
-        )
+      );
     },
   },
   {
@@ -298,6 +298,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
+
   let screenName = "<%= projectName %>";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -350,7 +351,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -371,7 +372,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -415,7 +416,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -436,7 +437,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
+      nodeName
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -491,6 +492,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       "blobTemplates",
       blobServiceName
     );
+
     createBlobService(blobServiceName, blobTemplatePath, nodePath);
   }
 
@@ -508,19 +510,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   //for Docker INTEGRATION-------------------------
   if (isDocker) {
+    const dockerPath = path.join(__dirname, "dockerTemplate");
     if (projectChoice === "react") {
-      fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
-        `${reactPath}/Dockerfile`
-      );
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${reactPath}/Dockerfile`);
     } else if (projectChoice === "node-js") {
-      fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
-        `${nodePath}/Dockerfile`
-      );
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
     } else if (projectChoice === "react_Node") {
       let contents = fs.readFileSync(
-        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml`,
+        `${dockerPath}/docker-compose.yml`,
         "utf8"
       );
 
@@ -528,11 +525,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(writePath, contents, "utf8");
       fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${currentPath}/dockerTemplate/Dockerfile`,
         `${reactPath}/Dockerfile`
       );
       fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${currentPath}/dockerTemplate/Dockerfile`,
         `${nodePath}/Dockerfile`
       );
     }
@@ -576,7 +573,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     reduxFiles.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${reactPath}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
@@ -587,61 +584,60 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
 
     fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/usersModal`,
+      `${currentPath}/reduxTemplates/usersModal`,
       `${reactPath}/src/Screens/usersModal`,
       function (err) {
         if (err) {
           console.log("An error is occured");
           return console.error(err);
-        }
-        else{
+        } else {
           if (isCrudWithNode) {
-              fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
-      `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+            fsExtra.copy(
+              `${currentPath}/reduxTemplates/userform/AddUser.js`,
+              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
 
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    )}
-    if(isCrud){
-      fsExtra.copy(
-        `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
-        `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-  
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
+              function (err) {
+                if (err) {
+                  console.log("An error is occured");
+                  return console.error(err);
+                }
+              }
+            );
           }
-        }
-      )
-    }
+          if (isCrud) {
+            fsExtra.copy(
+              `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
+              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+
+              function (err) {
+                if (err) {
+                  console.log("An error is occured");
+                  return console.error(err);
+                }
+              }
+            );
+          }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-    let contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents, "utf8");
+          let contents = fs.readFileSync(
+            `${currentPath}/reduxTemplates/usersModal/index.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
 
-    writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-    contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents,"utf8");  
-
+          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+          contents = fs.readFileSync(
+            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
         }
       }
     );
 
     fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/infrastructure`,
+      `${currentPath}/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
       function (err) {
         if (err) {
@@ -652,7 +648,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/widgets/modal`,
+      `${currentPath}/reduxTemplates/widgets/modal`,
       `${reactPath}/src/widgets/modal`,
       function (err) {
         if (err) {
@@ -661,7 +657,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     );
-    
   }
 
   //<--------For authentication----------------------------------------------------------------------------->
@@ -687,7 +682,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     filesMap.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
@@ -713,7 +708,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     filesMap.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
@@ -751,17 +746,14 @@ function createDbConn(nodePath, dbName, defaultRoute) {
 
   let writePath = `${nodePath}/${fileName}`;
   let contents = fs.readFileSync(
-    `${CURR_DIR}/src/dbTemplates/` + fileName,
+    `${currentPath}/dbTemplates/` + fileName,
     "utf8"
   );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
 
   writePath = `${modelPath}/${defaultRoute}.js`;
-  contents = fs.readFileSync(
-    `${CURR_DIR}/src/dbTemplates/` + modelName,
-    "utf8"
-  );
+  contents = fs.readFileSync(`${currentPath}/dbTemplates/` + modelName, "utf8");
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
 }
@@ -779,7 +771,6 @@ function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
     );
     fs.writeFile(servicePath + "/index" + ".js", contents, function (err) {
       if (err) throw err;
-      console.log("Email service created successfully.");
     });
   } else {
     let package = { name: "raven", version: "^2.6.4" };
@@ -825,7 +816,6 @@ function createEmailSevice(
     contents,
     function (err) {
       if (err) throw err;
-      console.log("Email service created successfully.");
     }
   );
 }
@@ -840,7 +830,7 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
     contents,
     function (err) {
       if (err) throw err;
-      console.log("Blob service created successfully.");
+      // console.log("Blob service created successfully.");
     }
   );
 }
