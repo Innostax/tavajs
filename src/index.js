@@ -647,7 +647,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
     let contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
+      `${currentPath}/reduxTemplates/usersModal/index.js`,
       "utf8"
     );
     contents = render(contents, { isCrudWithNode, isCrud });
@@ -655,7 +655,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
     contents = fs.readFileSync(
-      `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
+      `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
       "utf8"
     );
     contents = render(contents, { isCrudWithNode, isCrud });
