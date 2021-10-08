@@ -1,11 +1,13 @@
 #! node
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
+const chalk = require('chalk');
+const package = require('../package.json')
+
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
@@ -387,6 +389,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating ${projectName} using tava ${package.version}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
@@ -430,7 +434,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName
-    );
+    ); 
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating ${projectName} using tava ${package.version}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -452,6 +458,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating ${projectName} using tava ${package.version}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
       {
@@ -753,7 +761,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
-  console.log("-------------Boiler plate is ready for use------------");
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x1F947)} Successfully created`));
+  console.log('    ')
+  console.log(`${String.fromCodePoint(0x1F449)}`)
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
 });
 
 //function to create db service---------------------------------------------->
