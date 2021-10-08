@@ -23,17 +23,6 @@ const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
   {
-    name: "projectChoice",
-    type: "list",
-    message: "What project template would you like to generate?",
-    choices: [
-      { name: "React", value: "react" },
-      { name: "Node", value: "node-js" },
-      { name: "React + Node", value: "react_Node" },
-      { name: "React-Query-Boilerplate", value: "react-query-boilerplate" },
-    ],
-  },
-  {
     name: "project-name",
     type: "input",
     message: "Project name:",
@@ -44,29 +33,38 @@ const QUESTIONS = [
     },
   },
   {
-    name: "react-name",
+    name:"frontEnd",
+    type: "list",
+    message:"Do you want template for Frontend?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+  },
+  {
+    name:"frontEndChoice",
+    type: "list",
+    message:"Select the Framework",
+    choices: [
+      { name: "React", value: "react"},
+      { name: "Angular", value: "angular"},
+      { name: "Vue", value: "vue"},
+    ],
+    when: (answers) => {
+      return answers.frontEnd == "yes";
+    },
+  },
+  {
+    name: "FrontEnd-name",
     type: "input",
-    message: "React project name:",
+    message: "Front End project name:",
     validate: function (input) {
       if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
       else
         return "React Project name may only include letters, numbers, underscores and hashes.";
     },
     when: (answers) => {
-      return answers.projectChoice == "react_Node";
-    },
-  },
-  {
-    name: "node-name",
-    type: "input",
-    message: "Node Project name:",
-    validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
-    },
-    when: (answers) => {
-      return answers.projectChoice == "react_Node";
+      return answers.frontEnd == "yes";
     },
   },
   {
@@ -79,12 +77,10 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "react"
+        answers.frontEndChoice == "react"
       );
     },
   },
-
   {
     name: "authentication-choice",
     type: "list",
@@ -102,24 +98,43 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice === "react" ||
-        answers.projectChoice === "react_Node"
+        answers.frontEndChoice === "react"
       );
     },
   },
   {
-    name: "CRUD",
-    type: "list",
-    message: "Do you want React with CRUD",
+    name:"backEnd",
+    type:"list",
+    message:"Do you want template for Backend?",
     choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+},
+{
+    name:"backEndChoice",
+    type:"list",
+    message:"Select the Framework",
+    choices:[
+      { name: "Node", value: "node" },
     ],
     when: (answers) => {
-      return answers.redux && answers.projectChoice === "react";
+      return answers.backEnd == "yes";
     },
+},
+{
+  name: "node-name",
+  type: "input",
+  message: "Node Project name:",
+  validate: function (input) {
+    if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
+    else
+      return "Project name may only include letters, numbers, underscores and hashes.";
   },
-
+  when: (answers) => {
+    return answers.backEnd == "yes";
+  },
+},
   {
     name: "default-route",
     type: "input",
@@ -127,12 +142,10 @@ const QUESTIONS = [
     default: "users",
     when: (answers) => {
       return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
+        answers.backEnd == "yes"
       );
     },
   },
-
   {
     name: "dbService",
     type: "list",
@@ -143,8 +156,7 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
+        answers.backEnd == "yes"
       );
     },
   },
@@ -161,7 +173,18 @@ const QUESTIONS = [
       return answers.dbService == "yes";
     },
   },
-
+  {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want React with CRUD",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.redux && answers.frontEndChoice === "react" && answers.backEnd==='no';
+    },
+  },
   {
     name: "reactNodeCrud",
     type: "list",
@@ -172,8 +195,8 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice === "react_Node" &&
-        answers.dbService == "yes" &&
+        answers.backEnd == "yes" &&
+        answers.frontEnd == "yes" &&
         answers.redux === true
       );
     },
@@ -188,8 +211,7 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
+        answers.backEnd == "yes"
       );
     },
   },
@@ -215,8 +237,7 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
+        answers.backEnd == "yes"
       );
     },
   },
@@ -243,8 +264,7 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
+        answers.backEnd == "yes"
       );
     },
   },
@@ -270,16 +290,24 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react" ||
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
+        answers.frontEndChoice == "react" ||
+        answers.backEndChoice == "node"
       );
     },
   },
 ];
 
 inquirer.prompt(QUESTIONS).then(async (answers) => {
-  const projectChoice = answers["projectChoice"];
+  let projectChoice =''
+  const frontEndChoice = answers["frontEndChoice"]
+  const backEndChoice = answers["backEndChoice"]
+  
+  if(frontEndChoice==='react' && backEndChoice==='node')
+  projectChoice = 'react_Node'
+  else if(frontEndChoice==='react')
+  projectChoice = 'react'
+  else if(backEndChoice==='node')
+  projectChoice ='node-js'
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
@@ -326,7 +354,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
-    reactName = answers["react-name"];
+    reactName = answers["FrontEnd-name"];
     nodeName = answers["node-name"];
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
@@ -618,20 +646,20 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
             );
           }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-          let contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/index.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
+    let contents = fs.readFileSync(
+      `${currentPath}/reduxTemplates/usersModal/index.js`,
+      "utf8"
+    );
+    contents = render(contents, { isCrudWithNode, isCrud });
+    fs.writeFileSync(writePath, contents, "utf8");
 
-          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-          contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
+    writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+    contents = fs.readFileSync(
+      `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
+      "utf8"
+    );
+    contents = render(contents, { isCrudWithNode, isCrud });
+    fs.writeFileSync(writePath, contents,"utf8");  
         }
       }
     );
