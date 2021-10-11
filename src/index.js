@@ -1,3 +1,5 @@
+#! node
+
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
@@ -17,19 +19,9 @@ var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
+const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
-  {
-    name: "projectChoice",
-    type: "list",
-    message: "What project template would you like to generate?",
-    choices: [
-      { name: "React", value: "react" },
-      { name: "Node", value: "node-js" },
-      { name: "React + Node", value: "react_Node" },
-      { name: "React-Query-Boilerplate", value: "react-query-boilerplate" },
-    ],
-  },
   {
     name: "project-name",
     type: "input",
@@ -41,29 +33,38 @@ const QUESTIONS = [
     },
   },
   {
-    name: "react-name",
+    name: "frontEnd",
+    type: "list",
+    message: "Do you want template for Frontend?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+  },
+  {
+    name: "frontEndChoice",
+    type: "list",
+    message: "Select the Framework",
+    choices: [
+      { name: "React", value: "react" },
+      { name: "Angular", value: "angular" },
+      { name: "Vue", value: "vue" },
+    ],
+    when: (answers) => {
+      return answers.frontEnd == "yes";
+    },
+  },
+  {
+    name: "FrontEnd-name",
     type: "input",
-    message: "React project name:",
+    message: "Front End project name:",
     validate: function (input) {
       if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
       else
         return "React Project name may only include letters, numbers, underscores and hashes.";
     },
     when: (answers) => {
-      return answers.projectChoice == "react_Node";
-    },
-  },
-  {
-    name: "node-name",
-    type: "input",
-    message: "Node Project name:",
-    validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
-    },
-    when: (answers) => {
-      return answers.projectChoice == "react_Node";
+      return answers.frontEnd == "yes";
     },
   },
   {
@@ -75,13 +76,9 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "react"
-      );
+      return answers.frontEndChoice == "react";
     },
   },
-
   {
     name: "authentication-choice",
     type: "list",
@@ -98,38 +95,49 @@ const QUESTIONS = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice === "react" ||
-        answers.projectChoice === "react_Node"
-      );
+      return answers.frontEndChoice === "react";
     },
   },
   {
-    name: "CRUD",
+    name: "backEnd",
     type: "list",
-    message: "Do you want React with CRUD",
+    message: "Do you want template for Backend?",
     choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
     ],
+  },
+  {
+    name: "backEndChoice",
+    type: "list",
+    message: "Select the Framework",
+    choices: [{ name: "Node", value: "node" }],
     when: (answers) => {
-      return answers.redux && answers.projectChoice === "react";
+      return answers.backEnd == "yes";
     },
   },
-
+  {
+    name: "node-name",
+    type: "input",
+    message: "Node Project name:",
+    validate: function (input) {
+      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
+      else
+        return "Project name may only include letters, numbers, underscores and hashes.";
+    },
+    when: (answers) => {
+      return answers.backEnd == "yes";
+    },
+  },
   {
     name: "default-route",
     type: "input",
     message: "Enter the default route",
     default: "users",
     when: (answers) => {
-      return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
+      return answers.backEnd == "yes";
     },
   },
-
   {
     name: "dbService",
     type: "list",
@@ -139,10 +147,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -158,7 +163,22 @@ const QUESTIONS = [
       return answers.dbService == "yes";
     },
   },
-
+  {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want React with CRUD",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.redux &&
+        answers.frontEndChoice === "react" &&
+        answers.backEnd === "no"
+      );
+    },
+  },
   {
     name: "reactNodeCrud",
     type: "list",
@@ -169,8 +189,8 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice === "react_Node" &&
-        answers.dbService == "yes" &&
+        answers.backEnd == "yes" &&
+        answers.frontEnd == "yes" &&
         answers.redux === true
       );
     },
@@ -184,10 +204,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -211,10 +228,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -239,10 +253,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -267,16 +278,21 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react" ||
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
+        answers.frontEndChoice == "react" || answers.backEndChoice == "node"
       );
     },
   },
 ];
 
 inquirer.prompt(QUESTIONS).then(async (answers) => {
-  const projectChoice = answers["projectChoice"];
+  let projectChoice = "";
+  const frontEndChoice = answers["frontEndChoice"];
+  const backEndChoice = answers["backEndChoice"];
+
+  if (frontEndChoice === "react" && backEndChoice === "node")
+    projectChoice = "react_Node";
+  else if (frontEndChoice === "react") projectChoice = "react";
+  else if (backEndChoice === "node") projectChoice = "node-js";
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
@@ -295,6 +311,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
+
   let screenName = "<%= projectName %>";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -322,7 +339,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
-    reactName = answers["react-name"];
+    reactName = answers["FrontEnd-name"];
     nodeName = answers["node-name"];
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
@@ -347,8 +364,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
-      isDocker
+      nodeName
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -369,8 +385,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
-      isDocker
+      nodeName
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -417,9 +432,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName
     );
   } else if (projectChoice === "node-js") {
-    nodeName = answers["node-name"];
     var nodePath = path.join(CURR_DIR, projectName);
-
     createDirectoryContents(
       templatePath,
       projectName,
@@ -437,8 +450,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName,
-      isDocker
+      nodeName
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -493,6 +505,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       "blobTemplates",
       blobServiceName
     );
+
     createBlobService(blobServiceName, blobTemplatePath, nodePath);
   }
 
@@ -510,32 +523,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   //for Docker INTEGRATION-------------------------
   if (isDocker) {
+    const dockerPath = path.join(__dirname, "dockerTemplate");
     if (projectChoice === "react") {
-      fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
-        `${reactPath}/Dockerfile`
-      );
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${reactPath}/Dockerfile`);
     } else if (projectChoice === "node-js") {
-      let contents = fs.readFileSync(
-        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml`,
-        "utf8"
-      );
-      contents = render(contents, {
-        mongoSelected,
-        projectName,
-        sequelizeSelected,
-        isDocker,
-      });
-      writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
-      fs.writeFileSync(writePath, contents, "utf8");
-
-      fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
-        `${nodePath}/Dockerfile`
-      );
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
     } else if (projectChoice === "react_Node") {
       let contents = fs.readFileSync(
-        `${CURR_DIR}/src/dockerTemplate/db-docker-compose.yml`,
+        `${dockerPath}/db-docker-compose.yml`,
         "utf8"
       );
       contents = render(contents, {
@@ -548,11 +543,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.writeFileSync(writePath, contents, "utf8");
 
       fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${currentPath}/dockerTemplate/Dockerfile`,
         `${reactPath}/Dockerfile`
       );
       fs.copyFileSync(
-        `${CURR_DIR}/src/dockerTemplate/Dockerfile`,
+        `${currentPath}/dockerTemplate/Dockerfile`,
         `${nodePath}/Dockerfile`
       );
     }
@@ -575,7 +570,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
     fs.writeFileSync(writePath, contents, "utf8");
   }
-
   // <--------------------REDUX INTEGRATION------------------------->
 
   if (reduxIntegration) {
@@ -614,7 +608,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     reduxFiles.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${reactPath}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
@@ -625,7 +619,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
 
     fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/usersModal`,
+      `${currentPath}/reduxTemplates/usersModal`,
       `${reactPath}/src/Screens/usersModal`,
       function (err) {
         if (err) {
@@ -634,7 +628,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         } else {
           if (isCrudWithNode) {
             fsExtra.copy(
-              `${CURR_DIR}/src/reduxTemplates/userform/AddUser.js`,
+              `${currentPath}/reduxTemplates/userform/AddUser.js`,
               `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
 
               function (err) {
@@ -647,7 +641,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           }
           if (isCrud) {
             fsExtra.copy(
-              `${CURR_DIR}/src/reduxTemplates/userform/AddUserForm.js`,
+              `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
               `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
 
               function (err) {
@@ -660,7 +654,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
           let contents = fs.readFileSync(
-            `${CURR_DIR}/src/reduxTemplates/usersModal/index.js`,
+            `${currentPath}/reduxTemplates/usersModal/index.js`,
             "utf8"
           );
           contents = render(contents, { isCrudWithNode, isCrud });
@@ -668,7 +662,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
           writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
           contents = fs.readFileSync(
-            `${CURR_DIR}/src/reduxTemplates/usersModal/userModal.constants.js`,
+            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
             "utf8"
           );
           contents = render(contents, { isCrudWithNode, isCrud });
@@ -678,7 +672,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/infrastructure`,
+      `${currentPath}/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
       function (err) {
         if (err) {
@@ -689,7 +683,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     fsExtra.copy(
-      `${CURR_DIR}/src/reduxTemplates/widgets/modal`,
+      `${currentPath}/reduxTemplates/widgets/modal`,
       `${reactPath}/src/widgets/modal`,
       function (err) {
         if (err) {
@@ -723,7 +717,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     filesMap.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
@@ -749,7 +743,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     filesMap.map((each) => {
       fs.copyFile(
-        `${CURR_DIR}/src/${each.srcFolder}/${each.srcFileName}`,
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
@@ -787,17 +781,14 @@ function createDbConn(nodePath, dbName, defaultRoute) {
 
   let writePath = `${nodePath}/${fileName}`;
   let contents = fs.readFileSync(
-    `${CURR_DIR}/src/dbTemplates/` + fileName,
+    `${currentPath}/dbTemplates/` + fileName,
     "utf8"
   );
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
 
   writePath = `${modelPath}/${defaultRoute}.js`;
-  contents = fs.readFileSync(
-    `${CURR_DIR}/src/dbTemplates/` + modelName,
-    "utf8"
-  );
+  contents = fs.readFileSync(`${currentPath}/dbTemplates/` + modelName, "utf8");
   contents = render(contents, { defaultRoute });
   fs.writeFileSync(writePath, contents, "utf8");
 }
@@ -815,7 +806,6 @@ function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
     );
     fs.writeFile(servicePath + "/index" + ".js", contents, function (err) {
       if (err) throw err;
-      console.log("Email service created successfully.");
     });
   } else {
     let package = { name: "raven", version: "^2.6.4" };
@@ -823,7 +813,7 @@ function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
   }
 }
 
-//function to create email services------------------------------
+//function to create email services
 function createEmailSevice(
   emailServiceName,
   emailTemplatePath,
@@ -861,7 +851,6 @@ function createEmailSevice(
     contents,
     function (err) {
       if (err) throw err;
-      console.log("Email service created successfully.");
     }
   );
 }
@@ -876,7 +865,7 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
     contents,
     function (err) {
       if (err) throw err;
-      console.log("Blob service created successfully.");
+      // console.log("Blob service created successfully.");
     }
   );
 }
