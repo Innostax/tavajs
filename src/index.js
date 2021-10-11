@@ -389,7 +389,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating ${projectName} using tava ${package.version}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${reactName} using ${package.name} ${package.version}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${nodeName} using ${package.name} ${package.version}`))
     console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -435,7 +436,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     ); 
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating ${projectName} using tava ${package.version}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${projectName} using ${package.name} ${package.version}`))
     console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -458,7 +459,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating ${projectName} using tava ${package.version}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${projectName} using ${package.name} ${package.version}`))
     console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -760,15 +761,33 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
-  }
+  }if(projectChoice!="react_Node"){
   console.log(chalk.green.bold(`${String.fromCodePoint(0x1F947)} Successfully created`));
   console.log('    ')
-  console.log(`${String.fromCodePoint(0x1F449)}`)
   console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
   console.log('    ')
   console.log(chalk.cyanBright.italic.bold(`     npm install`))
   console.log(chalk.cyanBright.italic.bold(`     npm start`))
   console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
+  }
+  else{
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x1F947)} Successfully created`));
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For React:`))
+  console.log('   Inside',reactName);
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For Node:`))
+  console.log('   Inside',nodeName);
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
+
+  }
 });
 
 //function to create db service---------------------------------------------->
