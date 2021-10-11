@@ -535,7 +535,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     } else if (projectChoice === "react_Node") {
       let contents = fs.readFileSync(
-        `${CURR_DIR}/src/dockerTemplate/docker-compose.yml1`,
+        `${CURR_DIR}/src/dockerTemplate/db-docker-compose.yml`,
         "utf8"
       );
       contents = render(contents, {
@@ -560,7 +560,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   if (!isDocker && projectChoice !== "react") {
     let contents = fs.readFileSync(
-      `${CURR_DIR}/src/envTemplates/.dbEnv`,
+      `${currentPath}/envTemplates/.dbEnv`,
       "utf8"
     );
     contents = render(contents, {
