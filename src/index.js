@@ -33,22 +33,22 @@ const QUESTIONS = [
     },
   },
   {
-    name:"frontEnd",
+    name: "frontEnd",
     type: "list",
-    message:"Do you want template for Frontend?",
+    message: "Do you want template for Frontend?",
     choices: [
       { name: "yes", value: "yes" },
       { name: "no", value: "no" },
     ],
   },
   {
-    name:"frontEndChoice",
+    name: "frontEndChoice",
     type: "list",
-    message:"Select the Framework",
+    message: "Select the Framework",
     choices: [
-      { name: "React", value: "react"},
-      { name: "Angular", value: "angular"},
-      { name: "Vue", value: "vue"},
+      { name: "React", value: "react" },
+      { name: "Angular", value: "angular" },
+      { name: "Vue", value: "vue" },
     ],
     when: (answers) => {
       return answers.frontEnd == "yes";
@@ -76,9 +76,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.frontEndChoice == "react"
-      );
+      return answers.frontEndChoice == "react";
     },
   },
   {
@@ -97,53 +95,47 @@ const QUESTIONS = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return (
-        answers.frontEndChoice === "react"
-      );
+      return answers.frontEndChoice === "react";
     },
   },
   {
-    name:"backEnd",
-    type:"list",
-    message:"Do you want template for Backend?",
+    name: "backEnd",
+    type: "list",
+    message: "Do you want template for Backend?",
     choices: [
       { name: "yes", value: "yes" },
       { name: "no", value: "no" },
     ],
-},
-{
-    name:"backEndChoice",
-    type:"list",
-    message:"Select the Framework",
-    choices:[
-      { name: "Node", value: "node" },
-    ],
+  },
+  {
+    name: "backEndChoice",
+    type: "list",
+    message: "Select the Framework",
+    choices: [{ name: "Node", value: "node" }],
     when: (answers) => {
       return answers.backEnd == "yes";
     },
-},
-{
-  name: "node-name",
-  type: "input",
-  message: "Node Project name:",
-  validate: function (input) {
-    if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-    else
-      return "Project name may only include letters, numbers, underscores and hashes.";
   },
-  when: (answers) => {
-    return answers.backEnd == "yes";
+  {
+    name: "node-name",
+    type: "input",
+    message: "Node Project name:",
+    validate: function (input) {
+      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
+      else
+        return "Project name may only include letters, numbers, underscores and hashes.";
+    },
+    when: (answers) => {
+      return answers.backEnd == "yes";
+    },
   },
-},
   {
     name: "default-route",
     type: "input",
     message: "Enter the default route",
     default: "users",
     when: (answers) => {
-      return (
-        answers.backEnd == "yes"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -155,9 +147,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.backEnd == "yes"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -182,7 +172,11 @@ const QUESTIONS = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.redux && answers.frontEndChoice === "react" && answers.backEnd==='no';
+      return (
+        answers.redux &&
+        answers.frontEndChoice === "react" &&
+        answers.backEnd === "no"
+      );
     },
   },
   {
@@ -210,9 +204,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.backEnd == "yes"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -236,9 +228,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.backEnd == "yes"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -263,9 +253,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.backEnd == "yes"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -290,24 +278,21 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.frontEndChoice == "react" ||
-        answers.backEndChoice == "node"
+        answers.frontEndChoice == "react" || answers.backEndChoice == "node"
       );
     },
   },
 ];
 
 inquirer.prompt(QUESTIONS).then(async (answers) => {
-  let projectChoice =''
-  const frontEndChoice = answers["frontEndChoice"]
-  const backEndChoice = answers["backEndChoice"]
-  
-  if(frontEndChoice==='react' && backEndChoice==='node')
-  projectChoice = 'react_Node'
-  else if(frontEndChoice==='react')
-  projectChoice = 'react'
-  else if(backEndChoice==='node')
-  projectChoice ='node-js'
+  let projectChoice = "";
+  const frontEndChoice = answers["frontEndChoice"];
+  const backEndChoice = answers["backEndChoice"];
+
+  if (frontEndChoice === "react" && backEndChoice === "node")
+    projectChoice = "react_Node";
+  else if (frontEndChoice === "react") projectChoice = "react";
+  else if (backEndChoice === "node") projectChoice = "node-js";
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
@@ -545,13 +530,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
     } else if (projectChoice === "react_Node") {
       let contents = fs.readFileSync(
-        `${dockerPath}/docker-compose.yml`,
+        `${dockerPath}/db-docker-compose.yml`,
         "utf8"
       );
-
-      contents = render(contents, { reactName, nodeName });
+      contents = render(contents, {
+        reactName,
+        nodeName,
+        mongoSelected,
+        sequelizeSelected,
+      });
       writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(writePath, contents, "utf8");
+
       fs.copyFileSync(
         `${currentPath}/dockerTemplate/Dockerfile`,
         `${reactPath}/Dockerfile`
@@ -563,6 +553,23 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   }
 
+  if (!isDocker && projectChoice !== "react") {
+    let contents = fs.readFileSync(
+      `${currentPath}/envTemplates/.dbEnv`,
+      "utf8"
+    );
+    contents = render(contents, {
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+    });
+    if (projectChoice === "node-js") {
+      writePath = `${CURR_DIR}/${projectName}/.env`;
+    } else {
+      writePath = `${nodePath}/.env`;
+    }
+    fs.writeFileSync(writePath, contents, "utf8");
+  }
   // <--------------------REDUX INTEGRATION------------------------->
 
   if (reduxIntegration) {
@@ -646,20 +653,20 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
             );
           }
           let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-    let contents = fs.readFileSync(
-      `${currentPath}/reduxTemplates/usersModal/index.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents, "utf8");
+          let contents = fs.readFileSync(
+            `${currentPath}/reduxTemplates/usersModal/index.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
 
-    writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-    contents = fs.readFileSync(
-      `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
-      "utf8"
-    );
-    contents = render(contents, { isCrudWithNode, isCrud });
-    fs.writeFileSync(writePath, contents,"utf8");  
+          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+          contents = fs.readFileSync(
+            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
+            "utf8"
+          );
+          contents = render(contents, { isCrudWithNode, isCrud });
+          fs.writeFileSync(writePath, contents, "utf8");
         }
       }
     );
