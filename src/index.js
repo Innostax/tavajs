@@ -367,6 +367,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    shell.cd(`${reactPath}`);
+    shell.exec('npm install --legacy-peer-deps');
+    shell.exec('npm audit fix --force');
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -388,6 +391,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    
+    shell.cd(`${nodePath}`);
+    shell.exec('npm install --legacy-peer-deps');
+    shell.exec('npm audit fix --force');
+
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
@@ -432,6 +440,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    var projectPath=`${CURR_DIR}/${projectName}/${reactName}`;
+    shell.cd(`${projectPath}`);
+    shell.exec('npm install --legacy-peer-deps');
+    shell.exec('npm audit fix --force');
+
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -474,6 +487,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         () => {}
       )
     );
+    
+    var projectPath=`${CURR_DIR}/${projectName}/${nodeName}`;
+    shell.cd(`${projectPath}`);
+    shell.exec('npm install --legacy-peer-deps');
+    shell.exec('npm audit fix --force');
+
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -755,9 +774,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
   console.log("-------------Boiler plate is ready for use------------");
-  const projectPath=`${CURR_DIR}\\${projectName}`;
-  shell.cd(`${projectPath}`);
-  shell.exec('npm install');
+  
 });
 
 //function to create db service---------------------------------------------->
