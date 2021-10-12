@@ -2,6 +2,7 @@
 
 const inquirer = require("inquirer");
 const fs = require("fs");
+const shell = require("shelljs");
 const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
@@ -754,6 +755,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
   console.log("-------------Boiler plate is ready for use------------");
+  const projectPath=`${CURR_DIR}\\${projectName}`;
+  shell.cd(`${projectPath}`);
+  shell.exec('npm install');
 });
 
 //function to create db service---------------------------------------------->
