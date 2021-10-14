@@ -1,33 +1,59 @@
-# README
+<div id="top"></div>
+<h1 align="center">TAVA.js</h1>
 
+## About The Project 
+This project creates a template project for Node, React, Node + React with integrated servies as selected by user such as( authentication, logger, email, blob and so on), after creating project template user can also run it.
 
-$ npm start
+### FEATURES:
+
+* Time saving
+* Cost saving
+* Easy to use
+* Efficient
+* Reliable
+
+### Built with:
+We have implemented this project using latest technologies to make it faster and reliable, Some of them are listed below-
+* [React.js](https://reactjs.org/)
+* [Node.js](https://nodejs.org/en/)
+* [Bootstrap](https://getbootstrap.com)
+## Getting started
+This is an example of how you may give instructions to create a template project.
+
+$ npm install    - It will install required packages.
+  ```sh
+  npm install
+  ```
+
+$ npm start     - It will execute the program.
+```sh
+  npm start
+  ```
+To learn more about npm <a href="https://docs.npmjs.com/about-npm">click.</a>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ---------------------------------------------------------------
-  Commands:
- 
-     •start - Create a new application in the current folder.
- 
-  Options:
+### 1. Creating React project 
+  Options: (Use arrow to scroll and press Enter to select)
 
     ->React
       Node
       React + Node
       React-Query-Boilerplate
 
-   Prompt:
+   Prompt: (Enter project name)
     
           Project name: "myReactProject"
 
    Services:
 
     	• authentication - Set up authentication for the current application and come with different authentication options
-                           > Auth0     Need to update env file for credentials.
+                           > Auth0     
                              Cognito
                              Okta                                
     	• Redux - Initialize redux setup and infrastructure for async method.
 
-  $ cd myReactProject
+  $ cd myReactProject : (To select project directory)
     
    Commands:
       Usage: npm [type]
@@ -35,9 +61,11 @@ $ npm start
     	• run screen - Created new component with user entered name and accordingly added routes for that.
     	• start - Install required dependencies for the first after that project will start running on server.
 
----------------------------------------------------------------
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-  Options:
+---------------------------------------------------------------
+### 2. Creating Node project 
+  Options: (Use arrow to scroll and press Enter to select)
 
       React
     ->Node
@@ -69,9 +97,11 @@ $ npm start
   $ cd myNodeProject         
   
   $ npm start
-       
+<p align="right">(<a href="#top">back to top</a>)</p>       
+
 ---------------------------------------------------------------
-  Options:
+### 3. Creating React + Node project  
+Options: (Use arrow to scroll and press Enter to select)
 
       React
       Node
@@ -114,9 +144,9 @@ $ npm start
   $ cd reactProject, nodeProject
  
   $ npm start
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-
   Options:
 
       React
@@ -125,3 +155,10 @@ $ npm start
     ->React-Query-Boilerplate
       
   Coming soon
+## License
+
+Distributed under the MIT License.
+## Contact
+
+Innostax Software Labs - (https://innostax.com/)
+<p align="right">(<a href="#top">back to top</a>)</p>
