@@ -19,10 +19,16 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isNpm = false;
+var isYarn = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
+
+  
+
+
   {
     name: "project-name",
     type: "input",
@@ -33,6 +39,17 @@ const QUESTIONS = [
         return "Project name may only include letters, numbers, underscores and hashes.";
     },
   },
+
+  {
+    name: "managerChoice",
+    type: "list",
+    message: "Select Package Manager",
+    choices: [
+      { name: "NPM", value: "npm" },
+      { name: "YARN", value: "yarn" },
+    ],
+  },
+  
   {
     name: "frontEnd",
     type: "list",
@@ -289,6 +306,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   let projectChoice = "";
   const frontEndChoice = answers["frontEndChoice"];
   const backEndChoice = answers["backEndChoice"];
+  
 
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
@@ -320,6 +338,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       console.error(err);
     }
   });
+  // //<----------------------------managerChoice------------------------->
+  if (answers["managerChoice"] === "npm") isNpm = true;
+  if (answers["managerChoice"] === "yarn") isYarn = true;
   // //<------------------------------for logger-------------------------------->
   if (answers["loggerName"] === "winston") isWinston = true;
   if (answers["loggerName"] === "sentry") isSentry = true;
@@ -368,8 +389,17 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName
     );
     shell.cd(`${reactPath}`);
+    if(isNpm)
+      {
+    console.log("-------------NPM loading, Wait for finish--------------------");
     shell.exec('npm install --legacy-peer-deps');
-    shell.exec('npm audit fix --force');
+      }
+      if(isYarn)
+      {
+        console.log("-------------yarn loading, Wait for finish--------------------");
+    shell.exec('npm install -g yarn');
+    shell.exec('yarn');
+      }
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -391,10 +421,21 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
-    
+
     shell.cd(`${nodePath}`);
-    shell.exec('npm install --legacy-peer-deps');
-    shell.exec('npm audit fix --force');
+    if(isNpm)
+    {
+  console.log("-------------NPM loading, Wait for finish--------------------");
+  shell.exec('npm install --legacy-peer-deps');
+  console.log("-------------NPM process completed--------------------");
+}
+    if(isYarn)
+    {
+      console.log("-------------yarn loading, Wait for finish--------------------");
+  shell.exec('npm install -g yarn');
+  shell.exec('yarn');
+  console.log("-------------yarn process completed--------------------");
+    }
 
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -414,7 +455,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.rename(
         `${newPath}/${each.folder}/${each.oldName}`,
         `${newPath}/${each.folder}/${each.newName}`,
-        () => {}
+        () => { }
       )
     );
   }
@@ -440,10 +481,21 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
-    var projectPath=`${CURR_DIR}/${projectName}/${reactName}`;
+    var projectPath = `${CURR_DIR}/${projectName}/${reactName}`;
     shell.cd(`${projectPath}`);
+    if(isNpm)
+      {
+    console.log("-------------NPM loading, Wait for finish--------------------");
     shell.exec('npm install --legacy-peer-deps');
-    shell.exec('npm audit fix --force');
+    console.log("-------------NPM process completed--------------------");
+  }
+      if(isYarn)
+      {
+        console.log("-------------yarn loading, Wait for finish--------------------");
+    shell.exec('npm install -g yarn');
+    shell.exec('yarn');
+    console.log("-------------yarn process completed--------------------");
+      }
 
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -484,14 +536,25 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.rename(
         `${newPath}/${each.folder}/${each.oldName}`,
         `${newPath}/${each.folder}/${each.newName}`,
-        () => {}
+        () => { }
       )
     );
-    
-    var projectPath=`${CURR_DIR}/${projectName}/${nodeName}`;
+
+    var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     shell.cd(`${projectPath}`);
-    shell.exec('npm install --legacy-peer-deps');
-    shell.exec('npm audit fix --force');
+    if(isNpm)
+    {
+  console.log("-------------NPM loading, Wait for finish--------------------");
+  shell.exec('npm install --legacy-peer-deps');
+  console.log("-------------NPM process completed--------------------");
+}
+    if(isYarn)
+    {
+      console.log("-------------yarn loading, Wait for finish--------------------");
+  shell.exec('npm install -g yarn');
+  shell.exec('yarn');
+  console.log("-------------yarn process completed--------------------");
+    }
 
   } else {
     createDirectoryContents(templatePath, projectName);
@@ -774,7 +837,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
   console.log("-------------Boiler plate is ready for use------------");
-  
+
 });
 
 //function to create db service---------------------------------------------->
