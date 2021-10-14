@@ -1,11 +1,13 @@
 #! node
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
+const chalk = require('chalk');
+const package = require('../package.json')
+
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
@@ -387,6 +389,22 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${reactName} using ${package.name} ${package.version}`))
+    if(answers.authService==="yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
+    if(isRedux)
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
+    console.log(' ')
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${nodeName} using ${package.name} ${package.version}`))
+    if (answers["dbService"] === "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+    if (answers["loggerService"] === "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+    if (emailService == "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+    if (blobService == "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
@@ -430,7 +448,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName
-    );
+    ); 
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${projectName} using ${package.name} ${package.version}`))
+    if(answers.authService==="yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
+    if(isRedux)
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -452,6 +476,16 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${projectName} using ${package.name} ${package.version}`))
+    if (answers["dbService"] === "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+    if (answers["loggerService"] === "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+    if (emailService == "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+    if (blobService == "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
       {
@@ -752,8 +786,33 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
+  }if(projectChoice!="react_Node"){
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
   }
-  console.log("-------------Boiler plate is ready for use------------");
+  else{
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For React:`))
+  console.log('   Inside',reactName);
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For Node:`))
+  console.log('   Inside',nodeName);
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
+
+  }
 });
 
 //function to create db service---------------------------------------------->
