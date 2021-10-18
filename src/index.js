@@ -5,8 +5,8 @@ const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
-const chalk = require('chalk');
-const package = require('../package.json')
+const chalk = require("chalk");
+const package = require("../package.json");
 
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
@@ -20,6 +20,7 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isRedis = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const currentPath = path.join(__dirname);
 
@@ -88,6 +89,33 @@ const QUESTIONS = [
     choices: AUTH_CHOICES,
     when: (answers) => answers.authService === "yes",
   },
+
+  {
+    name: "cacheService",
+    type: "list",
+    message: "Do you want caching in app?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+    when: (answers) => {
+      return (
+        answers.projectChoice == "node-js" ||
+        answers.projectChoice == "react_Node"
+      );
+    },
+  },
+
+  {
+    name: "cacheServiceName",
+    type: "list",
+    message: "Select cache provider",
+    choices: [{ name: "Redis", value: "redis" }],
+    when: (answers) => {
+      return answers.cacheService == "yes";
+    },
+  },
+
   {
     name: "redux",
     type: "list",
@@ -306,10 +334,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isDocker = dockerService;
   const crudOperation = answers["CRUD"];
   isCrud = crudOperation;
+  const cacheService = answers["cacheService"];
+  isRedis = cacheService;
+
   let reactName = "";
   let nodeName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
+
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
@@ -339,6 +371,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["authentication-choice"] === "Cognito") {
     isCognito = true;
   }
+
+  //---------------------------Redis----------------------------------------------------
+  if (answers["cacheServiceName"] === "redis") {
+    isRedis = true;
+  }
+
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     reactName = answers["FrontEnd-name"];
@@ -366,7 +404,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      screenName,
+      isRedis
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -387,24 +427,79 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      isRedis
     );
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${reactName} using ${package.name} ${package.version}`))
-    if(answers.authService==="yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
-    if(isRedux)
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
-    console.log(' ')
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${nodeName} using ${package.name} ${package.version}`))
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${reactName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(" ");
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${nodeName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
     if (answers["dbService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
+        )
+      );
     if (answers["loggerService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
+        )
+      );
     if (emailService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
+        )
+      );
     if (blobService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
@@ -447,14 +542,37 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
-    ); 
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${projectName} using ${package.name} ${package.version}`))
-    if(answers.authService==="yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
-    if(isRedux)
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+      nodeName,
+      isRedis
+    );
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -474,18 +592,53 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      isRedis
     );
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${projectName} using ${package.name} ${package.version}`))
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
     if (answers["dbService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
+        )
+      );
     if (answers["loggerService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
+        )
+      );
     if (emailService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
+        )
+      );
     if (blobService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
       {
@@ -541,6 +694,17 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     createBlobService(blobServiceName, blobTemplatePath, nodePath);
+  }
+
+  //<---------------------for Redis service---------------------------------------------------------->
+  if (cacheService == "yes") {
+    const cacheServiceName = answers["cacheServiceName"];
+    const cacheTemplatePath = path.join(
+      __dirname,
+      "cacheTemplates",
+      cacheServiceName
+    );
+    createCacheService(cacheServiceName, cacheTemplatePath, nodePath);
   }
 
   //<-----------For Logger service---------------------------------------------------------------------------->
@@ -786,32 +950,55 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
-  }if(projectChoice!="react_Node"){
-  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
-  console.log('    ')
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
-  console.log('    ')
-  console.log(chalk.cyanBright.italic.bold(`     npm install`))
-  console.log(chalk.cyanBright.italic.bold(`     npm start`))
-  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
   }
-  else{
-  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
-  console.log('    ')
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
-  console.log('    ')
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For React:`))
-  console.log('   Inside',reactName);
-  console.log('    ')
-  console.log(chalk.cyanBright.italic.bold(`     npm install`))
-  console.log(chalk.cyanBright.italic.bold(`     npm start`))
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For Node:`))
-  console.log('   Inside',nodeName);
-  console.log('    ')
-  console.log(chalk.cyanBright.italic.bold(`     npm install`))
-  console.log(chalk.cyanBright.italic.bold(`     npm start`))
-  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
-
+  if (projectChoice != "react_Node") {
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(0x1f449)} To get Started:`
+      )
+    );
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
+  } else {
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(0x1f449)} To get Started:`
+      )
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
+    );
+    console.log("   Inside", reactName);
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
+    );
+    console.log("   Inside", nodeName);
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
   }
 });
 
@@ -927,4 +1114,34 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
       // console.log("Blob service created successfully.");
     }
   );
+}
+
+//function to create Cache services------------------------------------------------->
+function createCacheService(cacheServiceName, cacheTemplatePath, nodePath) {
+  let contents = fs.readFileSync(cacheTemplatePath + ".js", "utf-8");
+  //let servicePath = path.join(nodePath, "Cache");
+  // fs.mkdirSync(servicePath);
+  fs.writeFile(
+    `${nodePath}` + "/" + `${cacheServiceName}` + ".js",
+    contents,
+    function (err) {
+      if (err) throw err;
+    }
+  );
+
+  // let writePath = `${nodePath}/${fileName}`;
+  // let contents = fs.readFileSync(
+  //   `${CURR_DIR}/src/dbTemplates/` + fileName,
+  //   "utf8"
+  // );
+  // contents = render(contents, { defaultRoute });
+  // fs.writeFileSync(writePath, contents, "utf8");
+
+  // writePath = `${modelPath}/${defaultRoute}.js`;
+  // contents = fs.readFileSync(
+  //   `${CURR_DIR}/src/dbTemplates/` + modelName,
+  //   "utf8"
+  // );
+  // contents = render(contents, { defaultRoute });
+  // fs.writeFileSync(writePath, contents, "utf8");
 }

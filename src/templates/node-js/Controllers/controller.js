@@ -4,11 +4,28 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
+  
+<% if (isRedis) { %>
+  const { redis_set, client } = require("../redis.js");
+  const util = require("util");
+  client.get = util.promisify(client.get);
+<% } %>
+
+
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.find(function(err, data){
             if (!err) {
               res.send(data);
+              <% if (isRedis) { %>
+              redis_set(`/<%= defaultRoute %>`, JSON.stringify(users)).then((err, data) => {
+                return res.status(200).json({
+                success: true,
+                type: "set",
+                data: data,
+                });
+              });
+              <% } %>
             } else {
               res.send(err);
             }
@@ -16,7 +33,18 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
-          if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
+          if (<%= defaultRoute %>.length > 0) {
+            res.json(<%= defaultRoute %>);
+            <% if (isRedis) { %>
+            redis_set(`/<%= defaultRoute %>`, JSON.stringify(users)).then((err, data) => {
+              return res.status(200).json({
+                success: true,
+                type: "set",
+                data: data,
+                });
+              });
+            <% } %>
+          }
           else res.send("no user found");
         });
         <%}%>
@@ -25,7 +53,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
      <% } %>
 
   }
-  
+
   const create =(req, res, next) => {
     <% if(mongoSelected){ %>
         const newData = new <%= defaultRoute %>({
@@ -144,6 +172,16 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         <%= defaultRoute %>.findOne({_id: req.params.id}, function(err, data){
             if (data) {
               res.send(data);
+              <% if (isRedis) { %>
+              redis_set(`/<%= defaultRoute %>/${_id}`, JSON.stringify(users)).then((err, data) => {
+                console.log("Erro : ", err);
+                return res.status(200).json({
+                  success: true,
+                  type: "set",
+                  data: data,
+                });
+              });
+              <% } %>
             } else {
               res.send("No matching found.");
             }
@@ -155,7 +193,19 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %> > 0) res.json(users);
+        if (<%= defaultRoute %>.length > 0) {
+          res.json(users);
+          <% if (isRedis) { %>
+          redis_set(`/<%= defaultRoute %>/${id}`, JSON.stringify(users)).then((err, data) => {
+            console.log("Erro : ", err);
+            return res.status(200).json({
+              success: true,
+              type: "set",
+              data: data,
+            });
+          });   
+          <% } %>     
+        }
         else res.send("no user found");
       });
         <%}%>
