@@ -1,3 +1,22 @@
+<div align="center">
+  <a href="https://innostax.com/"> <img src="https://i2.wp.com/innostax.com/wp-content/uploads/2021/06/Innostax_-logo_edited.png?resize=400%2C82&ssl=1" alt="Logo" width="100%">
+  </a>
+</div>
+
+<br>
+<br>
+<div align="center">
+  
+![Tavajs License](https://img.shields.io/npm/l/dev-tava)
+![Tavajs Version](https://img.shields.io/npm/v/dev-tava)
+![Tavajs Release](https://img.shields.io/badge/release-2021-orange)
+![Tavajs Downloads](https://img.shields.io/npm/dw/dev-tava)
+![Tavajs Stars](https://img.shields.io/badge/stars-4.5k-blue)
+![Tavajs Language](https://img.shields.io/badge/javascript-70%25-green)
+![Tavajs CI](https://img.shields.io/badge/CI-passing-green)
+
+</div>
+
 <div id="top"></div>
 <h1 align="center">TAVA.js</h1>
 
