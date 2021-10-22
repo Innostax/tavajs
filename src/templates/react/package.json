@@ -16,6 +16,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-datepicker": "^4.2.1",
+    "react-dropzone": "^11.4.2",
     "web-vitals": "^1.0.1",
     "bootstrap": "^5.1.0",
     "react-bootstrap-table-next": "^4.0.1",

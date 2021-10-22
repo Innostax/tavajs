@@ -41,9 +41,9 @@ export const deleteUsers = createAsyncThunk(
 );
 export const updateUsers = createAsyncThunk(
   "users/getUsers/update",
-  async ({ Id, name, username, email }, thunkArgs) => {
+  async ({ id, name, username, email }, thunkArgs) => {
     return await asyncAction({
-      url: `users/${Id}`,
+      url: `users/${id}`,
       methodType: "patch",
       httpHeaders: {
         body: JSON.stringify({

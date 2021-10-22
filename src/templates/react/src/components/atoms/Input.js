@@ -1,7 +1,14 @@
-// import React, { useState } from 'react'
+import { Form } from 'react-bootstrap'
 
-const Input = () => {
-	return <input placeholder='Enter info' />
-}
+const Input = ({ placeholder, type, onChange, id, value, name }) => (
+	<Form.Control
+		placeholder={placeholder}
+		type={type}
+		id={id}
+		onChange={onChange}
+		value={value}
+		name={name}
+	/>
+)
 
 export default Input

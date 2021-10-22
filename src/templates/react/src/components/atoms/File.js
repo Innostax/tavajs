@@ -1,11 +1,45 @@
-const File = () => {
+
+import Dropzone from 'react-dropzone'
+import { Button } from 'react-bootstrap'
+
+const File = ({ setUploadedFiles }) => {
+	const onDropHandle = (acceptedFiles) => {
+		const uploads = []
+		acceptedFiles &&
+			acceptedFiles.forEach((file) => {
+				const reader = new FileReader()
+				reader.onload = (r) => {
+					uploads.push({
+						base64Data: r.target.result,
+						fileName: file.name,
+						fileType: file.type,
+						size: file.size,
+					})
+					setUploadedFiles(uploads)
+				}
+				reader.readAsDataURL(file)
+			})
+	}
+
 	return (
-		<form action='/action_page.php'>
-			<label htmlFor='myfile'>Select files:</label>
-			<input type='file' id='myfile' name='myfile' multiple />
-			<br />
-			<br />
-		</form>
+		
+			<Dropzone
+				onDrop={onDropHandle}
+				accept={['image/*', '.pdf', '.zip', 'xls', 'docs', '.txt']}
+			>
+				{({ getRootProps, getInputProps }) => (
+					<section>
+						<div {...getRootProps()}>
+							<input {...getInputProps()} />
+							<div className='d-flex align-items-center'>
+								<div className='flex-fill mr-3'>Please upload your Files</div>
+								<Button variant='secondary'>Select File</Button>
+							</div>
+						</div>
+					</section>
+				)}
+			</Dropzone>
+		
 	)
 }
 

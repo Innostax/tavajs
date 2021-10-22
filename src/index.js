@@ -583,73 +583,32 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
 
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/usersModal`,
-      `${reactPath}/src/Screens/usersModal`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        } else {
-          if (isCrudWithNode) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUser.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
-              }
-            );
+    if (isCrud) {
+      fs.copyFile(
+        `${currentPath}/reduxTemplates/userform/Adduser.js`,
+        `${reactPath}/src/Screens/Users/AddUser.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
           }
-          if (isCrud) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
-              }
-            );
-          }
-          let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-          let contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/index.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
-
-          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-          contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
         }
-      }
-    );
+      );
+    }
+    if (isCrudWithNode) {
+      fs.copyFile(
+        `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
+        `${reactPath}/src/Screens/Users/AddUser.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    }
 
     fsExtra.copy(
       `${currentPath}/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
-
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/widgets/modal`,
-      `${reactPath}/src/widgets/modal`,
       function (err) {
         if (err) {
           console.log("An error is occured");
