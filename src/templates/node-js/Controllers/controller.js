@@ -1,18 +1,22 @@
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     <% } %>
+const asyncHandler = require('../middleware/async')
+const ErrorResponse = require('../middleware/errResponse')
+
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
-  const find = (req, res, next) => {
-    <% if(mongoSelected){ %>
+
+  const find = asyncHandler(async(req, res, next) => {
+    <% if(mongoSelected){ %> await
         <%= defaultRoute %>.find(function(err, data){
             if (!err) {
               res.send(data);
             } else {
               res.send(err);
             }
-          })
+          }).clone()
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
@@ -24,11 +28,11 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         res.send('find called');
      <% } %>
 
-  }
+  })
   
-  const create =(req, res, next) => {
+  const create = asyncHandler(async(req, res, next) => {
     <% if(mongoSelected){ %>
-        const newData = new <%= defaultRoute %>({
+        const newData = await new <%= defaultRoute %>({
             name: req.body.name,
             username: req.body.username,
             email:req.body.email
@@ -37,7 +41,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
             if (!err){  
               res.send(data);
             } else {
-              res.send(err);
+              return next(new ErrorResponse(err, 400))
             }
           });
       <%}%>
@@ -50,9 +54,9 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         res.send('create  Called')
      <% } %>
      
-  }
+  })
   
-  const patch =(req, res, next) => {
+  const patch = asyncHandler(async(req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.updateOne(
           {_id: req.params.id},
@@ -70,7 +74,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               res.send(err);
             }
           }
-          );
+          ).clone();
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.update(
@@ -88,14 +92,14 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
         res.send('patch Called')
      <% } %>  
-  }
+  })
   
-  const remove =(req, res, next) => {
+  const remove = asyncHandler(async(req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.deleteMany(function(err){
             if(!err) res.send('All deleted')
             else res.send(err)
-        })
+        }).clone()
       <% }%>
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.destroy({
@@ -105,9 +109,9 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
        <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('remove Called')
      <% } %>
-  }
+  })
   
-  const removeById =(req, res, next) => {
+  const removeById = asyncHandler(async(req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.deleteOne({_id: req.params.id}, function(err, data){
           if (data) {
@@ -119,9 +123,12 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               }
             })
           } else {
-            res.send("No matching  was found.");
-          }
-          });
+            // res.send("No matching  was found.");
+              return next(
+				    	  new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+				      )
+            }
+          }).clone();
       <% }%>
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.destroy({
@@ -137,17 +144,20 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         res.send('remove by id Called')
      <% } %>
     
-  }
+  })
   
-  const findById = (req, res, next ) => {
+  const findById = asyncHandler(async(req, res, next ) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.findOne({_id: req.params.id}, function(err, data){
             if (data) {
               res.send(data);
             } else {
-              res.send("No matching found.");
+              // res.send("No matching found.");
+              return next(
+					      new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+				      )
             }
-          });
+          }).clone();
       <% } %>
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.findAll({
@@ -163,7 +173,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
         res.send('find by id Called')
      <% } %>
     
-  }
+  })
   
   module.exports = {
       find,

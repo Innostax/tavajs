@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-  name: String,
-  username: String,
-  email:String,
+  name: { type: String, required: true },
+  username: { type: String, required: true },
+  email: { type: String, required: true },
 });
 
-module.exports = mongoose.model('<%= defaultRoute %>', schema);
+module.exports = mongoose.model("<%= defaultRoute %>", schema);
