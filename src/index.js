@@ -26,7 +26,7 @@ const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
 
-  
+
 
 
   {
@@ -49,7 +49,7 @@ const QUESTIONS = [
       { name: "YARN", value: "yarn" },
     ],
   },
-  
+
   {
     name: "frontEnd",
     type: "list",
@@ -306,7 +306,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   let projectChoice = "";
   const frontEndChoice = answers["frontEndChoice"];
   const backEndChoice = answers["backEndChoice"];
-  
+
 
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
@@ -389,18 +389,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName
     );
     shell.cd(`${reactPath}`);
-    if(isNpm)
-      {
-    console.log("-------------NPM loading, Wait for finish--------------------");
-    shell.exec('npm install --legacy-peer-deps');
-      }
-      if(isYarn)
-      {
-        console.log("-------------yarn loading, Wait for finish--------------------");
-    shell.exec('npm install -g yarn');
-        shell.exec('yarn');
-  }
-
+    if (isNpm) {
+      console.log("-------------NPM loading, Wait for finish--------------------");
+      shell.exec('npm install --legacy-peer-deps');
+    }
+    if (isYarn) {
+      console.log("-------------yarn loading, Wait for finish--------------------");
+      shell.exec('npm install -g yarn');
+      shell.exec('yarn');
+    }
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -423,20 +420,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     shell.cd(`${nodePath}`);
-    if(isNpm)
-    {
-  console.log("-------------NPM loading, Wait for finish--------------------");
-  shell.exec('npm install --legacy-peer-deps');
-  console.log("-------------NPM process completed--------------------");
-}
-    if(isYarn)
-    {
+    if (isNpm) {
+      console.log("-------------NPM loading, Wait for finish--------------------");
+      shell.exec('npm install --legacy-peer-deps');
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
       console.log("-------------yarn loading, Wait for finish--------------------");
-  shell.exec('npm install -g yarn');
-  shell.exec('yarn');
-  console.log("-------------yarn process completed--------------------");
-    
-}
+      shell.exec('npm install -g yarn');
+      shell.exec('yarn');
+      console.log("-------------yarn process completed--------------------");
+
+    }
 
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -484,19 +479,17 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     var projectPath = `${CURR_DIR}/${projectName}/${reactName}`;
     shell.cd(`${projectPath}`);
-    if(isNpm)
-      {
-    console.log("-------------NPM loading, Wait for finish--------------------");
-    shell.exec('npm install --legacy-peer-deps');
-    console.log("-------------NPM process completed--------------------");
-  }
-      if(isYarn)
-      {
-        console.log("-------------yarn loading, Wait for finish--------------------");
-    shell.exec('npm install -g yarn');
-    shell.exec('yarn');
-    console.log("-------------yarn process completed--------------------");
-      }
+    if (isNpm) {
+      console.log("-------------NPM loading, Wait for finish--------------------");
+      shell.exec('npm install --legacy-peer-deps');
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log("-------------yarn loading, Wait for finish--------------------");
+      shell.exec('npm install -g yarn');
+      shell.exec('yarn');
+      console.log("-------------yarn process completed--------------------");
+    }
 
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
@@ -543,18 +536,16 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
     var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     shell.cd(`${projectPath}`);
-    if(isNpm)
-    {
-  console.log("-------------NPM loading, Wait for finish--------------------");
-  shell.exec('npm install --legacy-peer-deps');
-  console.log("-------------NPM process completed--------------------");
-}
-    if(isYarn)
-    {
+    if (isNpm) {
+      console.log("-------------NPM loading, Wait for finish--------------------");
+      shell.exec('npm install --legacy-peer-deps');
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
       console.log("-------------yarn loading, Wait for finish--------------------");
-  shell.exec('npm install -g yarn');
-  shell.exec('yarn');
-  console.log("-------------yarn process completed--------------------");
+      shell.exec('npm install -g yarn');
+      shell.exec('yarn');
+      console.log("-------------yarn process completed--------------------");
     }
 
   } else {
@@ -838,7 +829,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
   console.log("-------------Boiler plate is ready for use------------");
-
 });
 
 //function to create db service---------------------------------------------->
