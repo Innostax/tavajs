@@ -9,7 +9,12 @@ import Input from "../../components/atoms/Input";
 import { addUsers, updateUsers } from "./users.actions";
 import { selectSelectedUser } from "./users.selectors";
 const { setSelectedUserModal, setSelectedUser } = actions;
-
+import { isEmpty } from "../../helper";
+const initialUserData = {
+  name: "",
+  username: "",
+  email: "",
+};
 const AddUser = ({ show, handleClose, reset }) => {
   const dispatch = useDispatch();
   const resetModal = () => {
@@ -18,39 +23,26 @@ const AddUser = ({ show, handleClose, reset }) => {
   };
 
   handleClose = () => {
-    setFormData({
-      name: "",
-      username: "",
-      email: "",
-    });
+    setFormData(initialUserData);
     show(false);
     resetModal();
   };
 
   const user = useSelector(selectSelectedUser);
 
-  const [formData, setFormData] = useState(
-    Object.keys(user).length !== 0
-      ? user
-      : {
-          name: "",
-          username: "",
-          email: "",
-        }
-  );
+  const [formData, setFormData] = useState(isEmpty ? initialUserData : user);
 
   const handleSubmit = () => {
     const { _id: id } = user;
-    if (Object.keys(user).length !== 0)
-      dispatch(updateUsers({ id, ...formData }));
-    else dispatch(addUsers(formData));
+    if (isEmpty(user)) dispatch(addUsers(formData));
+    else dispatch(updateUsers({ id, ...formData }));
   };
   return (
     <>
       <Modal
         show={true}
         handleClose={handleClose}
-        title={Object.keys(user).length !== 0 ? "Edit User" : "Add User"}
+        title={isEmpty(user) ? "Add User" : "edit User"}
         reset={reset}
         size="lg"
       >
@@ -107,7 +99,7 @@ const AddUser = ({ show, handleClose, reset }) => {
         </Row>
         <Row className="pt-2">
           <Button
-            name={Object.keys(user).length !== 0 ? "EDIT" : "ADD"}
+            name={isEmpty(user) ? "ADD" : "EDIT"}
             onClick={handleSubmit}
             size="sm"
           />
