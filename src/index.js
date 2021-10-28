@@ -1,5 +1,4 @@
 #! node
-
 const inquirer = require("inquirer");
 const fs = require("fs");
 const shell = require("shelljs");
@@ -7,6 +6,9 @@ const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
+const chalk = require('chalk');
+const package = require('../package.json')
+
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
@@ -26,7 +28,7 @@ const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
 
-  
+
 
 
   {
@@ -49,7 +51,7 @@ const QUESTIONS = [
       { name: "YARN", value: "yarn" },
     ],
   },
-  
+
   {
     name: "frontEnd",
     type: "list",
@@ -306,7 +308,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   let projectChoice = "";
   const frontEndChoice = answers["frontEndChoice"];
   const backEndChoice = answers["backEndChoice"];
-  
+
 
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
@@ -389,17 +391,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName
     );
     shell.cd(`${reactPath}`);
-    if(isNpm)
-      {
-    console.log("-------------NPM loading, Wait for finish--------------------");
-    shell.exec('npm install --legacy-peer-deps');
-      }
-      if(isYarn)
-      {
-        console.log("-------------yarn loading, Wait for finish--------------------");
-    shell.exec('npm install -g yarn');
-    shell.exec('yarn');
-      }
+    if (isNpm) {
+      console.log("-------------NPM loading on react, Wait for finish--------------------");
+      shell.exec('npm install --legacy-peer-deps');
+    }
+    if (isYarn) {
+      console.log("-------------yarn loading on react, Wait for finish--------------------");
+      shell.exec('npm install -g yarn');
+      shell.exec('yarn');
+    }
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -423,20 +423,34 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     shell.cd(`${nodePath}`);
-    if(isNpm)
-    {
-  console.log("-------------NPM loading, Wait for finish--------------------");
-  shell.exec('npm install --legacy-peer-deps');
-  console.log("-------------NPM process completed--------------------");
-}
-    if(isYarn)
-    {
-      console.log("-------------yarn loading, Wait for finish--------------------");
-  shell.exec('npm install -g yarn');
-  shell.exec('yarn');
-  console.log("-------------yarn process completed--------------------");
+    if (isNpm) {
+      console.log("-------------NPM loading on node, Wait for finish--------------------");
+      shell.exec('npm install --legacy-peer-deps');
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log("-------------yarn loading on node, Wait for finish--------------------");
+      shell.exec('npm install -g yarn');
+      shell.exec('yarn');
+      console.log("-------------yarn process completed--------------------");
     }
 
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${reactName} using ${package.name} ${package.version}`))
+    if (answers.authService === "yes")
+      console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
+    if (isRedux)
+      console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
+    console.log(' ')
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${nodeName} using ${package.name} ${package.version}`))
+    if (answers["dbService"] === "yes")
+      console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+    if (answers["loggerService"] === "yes")
+      console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+    if (emailService == "yes")
+      console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+    if (blobService == "yes")
+      console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
+    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
@@ -483,360 +497,399 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     var projectPath = `${CURR_DIR}/${projectName}/${reactName}`;
     shell.cd(`${projectPath}`);
-    if(isNpm)
-      {
-    console.log("-------------NPM loading, Wait for finish--------------------");
+    if (isNpm) {
+      console.log("-------------NPM loading on react, Wait for finish--------------------");
+      shell.exec('npm install --legacy-peer-deps');
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log("-------------yarn loading on react, Wait for finish--------------------");
+      shell.exec('npm install -g yarn');
+      shell.exec('yarn');
+      console.log("-------------yarn process completed--------------------");
+    }
+
+    
+console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${projectName} using ${package.name} ${package.version}`))
+if (answers.authService === "yes")
+  console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
+if (isRedux)
+  console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
+console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+  } else if (projectChoice === "node-js") {
+  var nodePath = path.join(CURR_DIR, projectName);
+  createDirectoryContents(
+    templatePath,
+    projectName,
+    defaultRoute,
+    mongoSelected,
+    sequelizeSelected,
+    dbName,
+    isSentry,
+    isWinston,
+    isAuth0,
+    isCognito,
+    reactPath,
+    isRedux,
+    screenName,
+    isCrudWithNode,
+    isCrud,
+    reactName,
+    nodeName
+  );
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${projectName} using ${package.name} ${package.version}`))
+  if (answers["dbService"] === "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+  if (answers["loggerService"] === "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+  if (emailService == "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+  if (blobService == "yes")
+    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+  const newPath = `${CURR_DIR}/${projectName}`;
+  const fileNames = [
+    {
+      oldName: "route.js",
+      folder: "Routes",
+      newName: `${defaultRoute}.routes.js`,
+    },
+    {
+      oldName: "controller.js",
+      folder: "Controllers",
+      newName: `${defaultRoute}.controllers.js`,
+    },
+  ];
+
+  fileNames.map((each) =>
+    fs.rename(
+      `${newPath}/${each.folder}/${each.oldName}`,
+      `${newPath}/${each.folder}/${each.newName}`,
+      () => { }
+    )
+  );
+
+  var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
+  shell.cd(`${projectPath}`);
+  if (isNpm) {
+    console.log("-------------NPM loading on node, Wait for finish--------------------");
     shell.exec('npm install --legacy-peer-deps');
     console.log("-------------NPM process completed--------------------");
   }
-      if(isYarn)
-      {
-        console.log("-------------yarn loading, Wait for finish--------------------");
+  if (isYarn) {
+    console.log("-------------yarn loading on node, Wait for finish--------------------");
     shell.exec('npm install -g yarn');
     shell.exec('yarn');
     console.log("-------------yarn process completed--------------------");
-      }
+  }
 
-  } else if (projectChoice === "node-js") {
-    var nodePath = path.join(CURR_DIR, projectName);
-    createDirectoryContents(
-      templatePath,
-      projectName,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isCognito,
-      reactPath,
-      isRedux,
-      screenName,
-      isCrudWithNode,
-      isCrud,
-      reactName,
-      nodeName
-    );
-    const newPath = `${CURR_DIR}/${projectName}`;
-    const fileNames = [
-      {
-        oldName: "route.js",
-        folder: "Routes",
-        newName: `${defaultRoute}.routes.js`,
-      },
-      {
-        oldName: "controller.js",
-        folder: "Controllers",
-        newName: `${defaultRoute}.controllers.js`,
-      },
-    ];
-
-    fileNames.map((each) =>
-      fs.rename(
-        `${newPath}/${each.folder}/${each.oldName}`,
-        `${newPath}/${each.folder}/${each.newName}`,
-        () => { }
-      )
-    );
-
-    var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    shell.cd(`${projectPath}`);
-    if(isNpm)
-    {
-  console.log("-------------NPM loading, Wait for finish--------------------");
-  shell.exec('npm install --legacy-peer-deps');
-  console.log("-------------NPM process completed--------------------");
+} else {
+  createDirectoryContents(templatePath, projectName);
 }
-    if(isYarn)
-    {
-      console.log("-------------yarn loading, Wait for finish--------------------");
-  shell.exec('npm install -g yarn');
-  shell.exec('yarn');
-  console.log("-------------yarn process completed--------------------");
-    }
 
-  } else {
-    createDirectoryContents(templatePath, projectName);
-  }
+//creating utils dir
+if (
+  emailService === "yes" ||
+  blobService === "yes" ||
+  answers["loggerService"] === "yes"
+) {
+  fs.mkdirSync(nodePath + "/utils");
+}
+//for email Sevices
+if (emailService == "yes") {
+  const emailServiceName = answers["emailServiceName"];
+  const emailTemplatePath = path.join(
+    __dirname,
+    "emailTemplates",
+    emailServiceName
+  );
 
-  //creating utils dir
-  if (
-    emailService === "yes" ||
-    blobService === "yes" ||
-    answers["loggerService"] === "yes"
-  ) {
-    fs.mkdirSync(nodePath + "/utils");
-  }
-  //for email Sevices
-  if (emailService == "yes") {
-    const emailServiceName = answers["emailServiceName"];
-    const emailTemplatePath = path.join(
-      __dirname,
-      "emailTemplates",
-      emailServiceName
-    );
+  createEmailSevice(emailServiceName, emailTemplatePath, nodePath, __dirname);
+}
 
-    createEmailSevice(emailServiceName, emailTemplatePath, nodePath, __dirname);
-  }
+//for Blob service---------------------------------------------------------->
+if (blobService == "yes") {
+  const blobServiceName = answers["blobServiceName"];
+  const blobTemplatePath = path.join(
+    __dirname,
+    "blobTemplates",
+    blobServiceName
+  );
 
-  //for Blob service---------------------------------------------------------->
-  if (blobService == "yes") {
-    const blobServiceName = answers["blobServiceName"];
-    const blobTemplatePath = path.join(
-      __dirname,
-      "blobTemplates",
-      blobServiceName
-    );
+  createBlobService(blobServiceName, blobTemplatePath, nodePath);
+}
 
-    createBlobService(blobServiceName, blobTemplatePath, nodePath);
-  }
+//<-----------For Logger service---------------------------------------------------------------------------->
+if (answers["loggerService"] === "yes") {
+  let loggerServiceName = answers["loggerName"];
+  const loggerTemplatePath = path.join(__dirname, "logger");
+  createLogger(nodePath, loggerServiceName, loggerTemplatePath, defaultRoute);
+}
 
-  //<-----------For Logger service---------------------------------------------------------------------------->
-  if (answers["loggerService"] === "yes") {
-    let loggerServiceName = answers["loggerName"];
-    const loggerTemplatePath = path.join(__dirname, "logger");
-    createLogger(nodePath, loggerServiceName, loggerTemplatePath, defaultRoute);
-  }
+//<------------------------------------------------------------------------------------------->
+if (answers["dbService"] === "yes") {
+  createDbConn(nodePath, dbName, defaultRoute);
+}
 
-  //<------------------------------------------------------------------------------------------->
-  if (answers["dbService"] === "yes") {
-    createDbConn(nodePath, dbName, defaultRoute);
-  }
-
-  //for Docker INTEGRATION-------------------------
-  if (isDocker) {
-    const dockerPath = path.join(__dirname, "dockerTemplate");
-    if (projectChoice === "react") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${reactPath}/Dockerfile`);
-    } else if (projectChoice === "node-js") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
-    } else if (projectChoice === "react_Node") {
-      let contents = fs.readFileSync(
-        `${dockerPath}/db-docker-compose.yml`,
-        "utf8"
-      );
-      contents = render(contents, {
-        reactName,
-        nodeName,
-        mongoSelected,
-        sequelizeSelected,
-      });
-      writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
-      fs.writeFileSync(writePath, contents, "utf8");
-
-      fs.copyFileSync(
-        `${currentPath}/dockerTemplate/Dockerfile`,
-        `${reactPath}/Dockerfile`
-      );
-      fs.copyFileSync(
-        `${currentPath}/dockerTemplate/Dockerfile`,
-        `${nodePath}/Dockerfile`
-      );
-    }
-  }
-
-  if (!isDocker && projectChoice !== "react") {
+//for Docker INTEGRATION-------------------------
+if (isDocker) {
+  const dockerPath = path.join(__dirname, "dockerTemplate");
+  if (projectChoice === "react") {
+    fs.copyFileSync(`${dockerPath}/Dockerfile`, `${reactPath}/Dockerfile`);
+  } else if (projectChoice === "node-js") {
+    fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
+  } else if (projectChoice === "react_Node") {
     let contents = fs.readFileSync(
-      `${currentPath}/envTemplates/.dbEnv`,
+      `${dockerPath}/db-docker-compose.yml`,
       "utf8"
     );
     contents = render(contents, {
+      reactName,
+      nodeName,
       mongoSelected,
       sequelizeSelected,
-      dbName,
     });
-    if (projectChoice === "node-js") {
-      writePath = `${CURR_DIR}/${projectName}/.env`;
-    } else {
-      writePath = `${nodePath}/.env`;
-    }
+    writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
     fs.writeFileSync(writePath, contents, "utf8");
+
+    fs.copyFileSync(
+      `${currentPath}/dockerTemplate/Dockerfile`,
+      `${reactPath}/Dockerfile`
+    );
+    fs.copyFileSync(
+      `${currentPath}/dockerTemplate/Dockerfile`,
+      `${nodePath}/Dockerfile`
+    );
   }
-  // <--------------------REDUX INTEGRATION------------------------->
+}
 
-  if (reduxIntegration) {
-    const reduxFiles = [
-      {
-        srcFolder: "reduxTemplates/demoUser",
-        srcFileName: "users.actions.js",
-        destFolder: "/src/Screens/Users",
-        destFileName: "users.actions.js",
-      },
-      {
-        srcFolder: "reduxTemplates/demoUser",
-        srcFileName: "users.reducer.js",
-        destFolder: "/src/Screens/Users",
-        destFileName: "users.reducer.js",
-      },
-      {
-        srcFolder: "reduxTemplates/demoUser",
-        srcFileName: "users.selectors.js",
-        destFolder: "/src/Screens/Users",
-        destFileName: "users.selectors.js",
-      },
-      {
-        srcFolder: "reduxTemplates",
-        srcFileName: "store.js",
-        destFolder: "/src",
-        destFileName: "store.js",
-      },
-      {
-        srcFolder: "reduxTemplates",
-        srcFileName: "rootReducer.js",
-        destFolder: "/src",
-        destFileName: "rootReducer.js",
-      },
-    ];
+if (!isDocker && projectChoice !== "react") {
+  let contents = fs.readFileSync(
+    `${currentPath}/envTemplates/.dbEnv`,
+    "utf8"
+  );
+  contents = render(contents, {
+    mongoSelected,
+    sequelizeSelected,
+    dbName,
+  });
+  if (projectChoice === "node-js") {
+    writePath = `${CURR_DIR}/${projectName}/.env`;
+  } else {
+    writePath = `${nodePath}/.env`;
+  }
+  fs.writeFileSync(writePath, contents, "utf8");
+}
+// <--------------------REDUX INTEGRATION------------------------->
 
-    reduxFiles.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${reactPath}/${each.destFolder}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
-    });
+if (reduxIntegration) {
+  const reduxFiles = [
+    {
+      srcFolder: "reduxTemplates/demoUser",
+      srcFileName: "users.actions.js",
+      destFolder: "/src/Screens/Users",
+      destFileName: "users.actions.js",
+    },
+    {
+      srcFolder: "reduxTemplates/demoUser",
+      srcFileName: "users.reducer.js",
+      destFolder: "/src/Screens/Users",
+      destFileName: "users.reducer.js",
+    },
+    {
+      srcFolder: "reduxTemplates/demoUser",
+      srcFileName: "users.selectors.js",
+      destFolder: "/src/Screens/Users",
+      destFileName: "users.selectors.js",
+    },
+    {
+      srcFolder: "reduxTemplates",
+      srcFileName: "store.js",
+      destFolder: "/src",
+      destFileName: "store.js",
+    },
+    {
+      srcFolder: "reduxTemplates",
+      srcFileName: "rootReducer.js",
+      destFolder: "/src",
+      destFileName: "rootReducer.js",
+    },
+  ];
 
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/usersModal`,
-      `${reactPath}/src/Screens/usersModal`,
-      function (err) {
+  reduxFiles.map((each) => {
+    fs.copyFile(
+      `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+      `${reactPath}/${each.destFolder}/${each.destFileName}`,
+      (err) => {
         if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        } else {
-          if (isCrudWithNode) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUser.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+          console.log("Error Found:", err);
+        }
+      }
+    );
+  });
 
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
+  fsExtra.copy(
+    `${currentPath}/reduxTemplates/usersModal`,
+    `${reactPath}/src/Screens/usersModal`,
+    function (err) {
+      if (err) {
+        console.log("An error is occured");
+        return console.error(err);
+      } else {
+        if (isCrudWithNode) {
+          fsExtra.copy(
+            `${currentPath}/reduxTemplates/userform/AddUser.js`,
+            `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+
+            function (err) {
+              if (err) {
+                console.log("An error is occured");
+                return console.error(err);
               }
-            );
-          }
-          if (isCrud) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
+            }
+          );
+        }
+        if (isCrud) {
+          fsExtra.copy(
+            `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
+            `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
 
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
+            function (err) {
+              if (err) {
+                console.log("An error is occured");
+                return console.error(err);
               }
-            );
-          }
-          let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-          let contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/index.js`,
-            "utf8"
+            }
           );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
-
-          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-          contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
         }
-      }
-    );
+        let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
+        let contents = fs.readFileSync(
+          `${currentPath}/reduxTemplates/usersModal/index.js`,
+          "utf8"
+        );
+        contents = render(contents, { isCrudWithNode, isCrud });
+        fs.writeFileSync(writePath, contents, "utf8");
 
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/infrastructure`,
-      `${reactPath}/src/infrastructure`,
-      function (err) {
+        writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
+        contents = fs.readFileSync(
+          `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
+          "utf8"
+        );
+        contents = render(contents, { isCrudWithNode, isCrud });
+        fs.writeFileSync(writePath, contents, "utf8");
+      }
+    }
+  );
+
+  fsExtra.copy(
+    `${currentPath}/reduxTemplates/infrastructure`,
+    `${reactPath}/src/infrastructure`,
+    function (err) {
+      if (err) {
+        console.log("An error is occured");
+        return console.error(err);
+      }
+    }
+  );
+
+  fsExtra.copy(
+    `${currentPath}/reduxTemplates/widgets/modal`,
+    `${reactPath}/src/widgets/modal`,
+    function (err) {
+      if (err) {
+        console.log("An error is occured");
+        return console.error(err);
+      }
+    }
+  );
+}
+
+//<--------For authentication----------------------------------------------------------------------------->
+if (answers["authentication-choice"] === "Auth0") {
+  const filesMap = [
+    {
+      srcFolder: "authTemplates",
+      srcFileName: "react-spa.js",
+      destFolder: reactName + "/src",
+      destFileName: "react-spa.js",
+    },
+    {
+      srcFolder: "envTemplates",
+      srcFileName: ".authEnv",
+      destFolder: "",
+      destFileName: ".env",
+    },
+  ];
+
+  const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+  let packagePath = path.join(CURR_DIR, projectName, reactName);
+  updatePackage(packagePath, package);
+
+  filesMap.map((each) => {
+    fs.copyFile(
+      `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+      `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
+      (err) => {
         if (err) {
-          console.log("An error is occured");
-          return console.error(err);
+          console.log("Error Found:", err);
         }
       }
     );
+  });
+} else if (answers["authentication-choice"] === "Cognito") {
+  choice = "cognito";
 
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/widgets/modal`,
-      `${reactPath}/src/widgets/modal`,
-      function (err) {
+  const filesMap = [
+    {
+      srcFolder: "envTemplates",
+      srcFileName: ".cognitoEnv",
+      destFolder: "",
+      destFileName: ".env",
+    },
+  ];
+  const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+  let packagePath = path.join(CURR_DIR, projectName, reactName);
+  updatePackage(packagePath, package);
+
+  filesMap.map((each) => {
+    fs.copyFile(
+      `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+      `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
+      (err) => {
         if (err) {
-          console.log("An error is occured");
-          return console.error(err);
+          console.log("Error Found:", err);
         }
       }
     );
-  }
+  });
+} if (projectChoice != "react_Node") {
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
+}
+else {
+  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
+  console.log('    ')
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For React:`))
+  console.log('   Inside', reactName);
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For Node:`))
+  console.log('   Inside', nodeName);
+  console.log('    ')
+  console.log(chalk.cyanBright.italic.bold(`     npm install`))
+  console.log(chalk.cyanBright.italic.bold(`     npm start`))
+  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
 
-  //<--------For authentication----------------------------------------------------------------------------->
-  if (answers["authentication-choice"] === "Auth0") {
-    const filesMap = [
-      {
-        srcFolder: "authTemplates",
-        srcFileName: "react-spa.js",
-        destFolder: reactName + "/src",
-        destFileName: "react-spa.js",
-      },
-      {
-        srcFolder: "envTemplates",
-        srcFileName: ".authEnv",
-        destFolder: "",
-        destFileName: ".env",
-      },
-    ];
-
-    const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    let packagePath = path.join(CURR_DIR, projectName, reactName);
-    updatePackage(packagePath, package);
-
-    filesMap.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
-    });
-  } else if (answers["authentication-choice"] === "Cognito") {
-    choice = "cognito";
-
-    const filesMap = [
-      {
-        srcFolder: "envTemplates",
-        srcFileName: ".cognitoEnv",
-        destFolder: "",
-        destFileName: ".env",
-      },
-    ];
-    const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    let packagePath = path.join(CURR_DIR, projectName, reactName);
-    updatePackage(packagePath, package);
-
-    filesMap.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
-    });
-  }
-  console.log("-------------Boiler plate is ready for use------------");
+}
+console.log("-------------Boiler plate is ready for use------------");
 
 });
 
