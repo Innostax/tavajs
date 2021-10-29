@@ -1,11 +1,14 @@
 #! node
-
 const inquirer = require("inquirer");
 const fs = require("fs");
+const shell = require("shelljs");
 const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
+const chalk = require("chalk");
+const package = require("../package.json");
+
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
@@ -18,21 +21,12 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isNpm = false;
+var isYarn = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
-  {
-    name: "projectChoice",
-    type: "list",
-    message: "What project template would you like to generate?",
-    choices: [
-      { name: "React", value: "react" },
-      { name: "Node", value: "node-js" },
-      { name: "React + Node", value: "react_Node" },
-      { name: "React-Query-Boilerplate", value: "react-query-boilerplate" },
-    ],
-  },
   {
     name: "project-name",
     type: "input",
@@ -43,30 +37,50 @@ const QUESTIONS = [
         return "Project name may only include letters, numbers, underscores and hashes.";
     },
   },
+
   {
-    name: "react-name",
+    name: "managerChoice",
+    type: "list",
+    message: "Select Package Manager",
+    choices: [
+      { name: "NPM", value: "npm" },
+      { name: "YARN", value: "yarn" },
+    ],
+  },
+
+  {
+    name: "frontEnd",
+    type: "list",
+    message: "Do you want template for Frontend?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+  },
+  {
+    name: "frontEndChoice",
+    type: "list",
+    message: "Select the Framework",
+    choices: [
+      { name: "React", value: "react" },
+      { name: "Angular", value: "angular" },
+      { name: "Vue", value: "vue" },
+    ],
+    when: (answers) => {
+      return answers.frontEnd == "yes";
+    },
+  },
+  {
+    name: "FrontEnd-name",
     type: "input",
-    message: "React project name:",
+    message: "Front End project name:",
     validate: function (input) {
       if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
       else
         return "React Project name may only include letters, numbers, underscores and hashes.";
     },
     when: (answers) => {
-      return answers.projectChoice == "react_Node";
-    },
-  },
-  {
-    name: "node-name",
-    type: "input",
-    message: "Node Project name:",
-    validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
-    },
-    when: (answers) => {
-      return answers.projectChoice == "react_Node";
+      return answers.frontEnd == "yes";
     },
   },
   {
@@ -78,13 +92,9 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "react"
-      );
+      return answers.frontEndChoice == "react";
     },
   },
-
   {
     name: "authentication-choice",
     type: "list",
@@ -101,38 +111,49 @@ const QUESTIONS = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice === "react" ||
-        answers.projectChoice === "react_Node"
-      );
+      return answers.frontEndChoice === "react";
     },
   },
   {
-    name: "CRUD",
+    name: "backEnd",
     type: "list",
-    message: "Do you want React with CRUD",
+    message: "Do you want template for Backend?",
     choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
     ],
+  },
+  {
+    name: "backEndChoice",
+    type: "list",
+    message: "Select the Framework",
+    choices: [{ name: "Node", value: "node" }],
     when: (answers) => {
-      return answers.redux && answers.projectChoice === "react";
+      return answers.backEnd == "yes";
     },
   },
-
+  {
+    name: "node-name",
+    type: "input",
+    message: "Node Project name:",
+    validate: function (input) {
+      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
+      else
+        return "Project name may only include letters, numbers, underscores and hashes.";
+    },
+    when: (answers) => {
+      return answers.backEnd == "yes";
+    },
+  },
   {
     name: "default-route",
     type: "input",
     message: "Enter the default route",
     default: "users",
     when: (answers) => {
-      return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
+      return answers.backEnd == "yes";
     },
   },
-
   {
     name: "dbService",
     type: "list",
@@ -142,10 +163,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -161,7 +179,22 @@ const QUESTIONS = [
       return answers.dbService == "yes";
     },
   },
-
+  {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want React with CRUD",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.redux &&
+        answers.frontEndChoice === "react" &&
+        answers.backEnd === "no"
+      );
+    },
+  },
   {
     name: "reactNodeCrud",
     type: "list",
@@ -172,8 +205,8 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice === "react_Node" &&
-        answers.dbService == "yes" &&
+        answers.backEnd == "yes" &&
+        answers.frontEnd == "yes" &&
         answers.redux === true
       );
     },
@@ -187,10 +220,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -214,10 +244,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -242,10 +269,7 @@ const QUESTIONS = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return (
-        answers.projectChoice == "react_Node" ||
-        answers.projectChoice == "node-js"
-      );
+      return answers.backEnd == "yes";
     },
   },
   {
@@ -270,16 +294,21 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return (
-        answers.projectChoice == "react" ||
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
+        answers.frontEndChoice == "react" || answers.backEndChoice == "node"
       );
     },
   },
 ];
 
 inquirer.prompt(QUESTIONS).then(async (answers) => {
-  const projectChoice = answers["projectChoice"];
+  let projectChoice = "";
+  const frontEndChoice = answers["frontEndChoice"];
+  const backEndChoice = answers["backEndChoice"];
+
+  if (frontEndChoice === "react" && backEndChoice === "node")
+    projectChoice = "react_Node";
+  else if (frontEndChoice === "react") projectChoice = "react";
+  else if (backEndChoice === "node") projectChoice = "node-js";
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
@@ -306,6 +335,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       console.error(err);
     }
   });
+  // //<----------------------------managerChoice------------------------->
+  if (answers["managerChoice"] === "npm") isNpm = true;
+  if (answers["managerChoice"] === "yarn") isYarn = true;
   // //<------------------------------for logger-------------------------------->
   if (answers["loggerName"] === "winston") isWinston = true;
   if (answers["loggerName"] === "sentry") isSentry = true;
@@ -326,7 +358,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
-    reactName = answers["react-name"];
+    reactName = answers["FrontEnd-name"];
     nodeName = answers["node-name"];
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
@@ -353,6 +385,20 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    shell.cd(`${reactPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+    }
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -373,6 +419,93 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName
+    );
+    shell.cd(`${nodePath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
+
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${reactName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(" ");
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${nodeName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers["dbService"] === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
+        )
+      );
+    if (answers["loggerService"] === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
+        )
+      );
+    if (emailService == "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
+        )
+      );
+    if (blobService == "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -418,6 +551,52 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    var projectPath = `${CURR_DIR}/${projectName}/${reactName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
+
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -438,6 +617,50 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName
+    );
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers["dbService"] === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
+        )
+      );
+    if (answers["loggerService"] === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
+        )
+      );
+    if (emailService == "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
+        )
+      );
+    if (blobService == "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -460,6 +683,23 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         () => {}
       )
     );
+    var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -517,13 +757,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
     } else if (projectChoice === "react_Node") {
       let contents = fs.readFileSync(
-        `${dockerPath}/docker-compose.yml`,
+        `${dockerPath}/db-docker-compose.yml`,
         "utf8"
       );
-
-      contents = render(contents, { reactName, nodeName });
+      contents = render(contents, {
+        reactName,
+        nodeName,
+        mongoSelected,
+        sequelizeSelected,
+      });
       writePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(writePath, contents, "utf8");
+
       fs.copyFileSync(
         `${currentPath}/dockerTemplate/Dockerfile`,
         `${reactPath}/Dockerfile`
@@ -535,6 +780,23 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   }
 
+  if (!isDocker && projectChoice !== "react") {
+    let contents = fs.readFileSync(
+      `${currentPath}/envTemplates/.dbEnv`,
+      "utf8"
+    );
+    contents = render(contents, {
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+    });
+    if (projectChoice === "node-js") {
+      writePath = `${CURR_DIR}/${projectName}/.env`;
+    } else {
+      writePath = `${nodePath}/.env`;
+    }
+    fs.writeFileSync(writePath, contents, "utf8");
+  }
   // <--------------------REDUX INTEGRATION------------------------->
 
   if (reduxIntegration) {
@@ -676,6 +938,55 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
+  }
+  if (projectChoice != "react_Node") {
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(0x1f449)} To get Started:`
+      )
+    );
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
+  } else {
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(0x1f449)} To get Started:`
+      )
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
+    );
+    console.log("   Inside", reactName);
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
+    );
+    console.log("   Inside", nodeName);
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
   }
   console.log("-------------Boiler plate is ready for use------------");
 });

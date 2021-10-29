@@ -23,6 +23,7 @@ function createDirectoryContents(
   isCrud,
   reactName,
   nodeName,
+  isDocker
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -43,8 +44,6 @@ function createDirectoryContents(
           isAuth0,
           isCognito,
           isRedux,
-          reactName,
-          nodeName,
           screenName,
           mongoSelected,
           sequelizeSelected,
@@ -53,6 +52,7 @@ function createDirectoryContents(
           isWinston,
           isCrudWithNode,
           isCrud,
+          isDocker,
         },
         (autoescape = false)
       );
@@ -79,6 +79,7 @@ function createDirectoryContents(
         isCrud,
         reactName,
         nodeName,
+        isDocker
       );
     }
   });

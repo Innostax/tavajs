@@ -1,0 +1,70 @@
+<%if(sequelizeSelected){%> 
+version: "3.7"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./var/lib/postgresql/data
+
+  <%= nodeName %>:
+    build:
+      context: ./<%= nodeName %>
+    environment:
+      DB_SCHEMA: postgres
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_HOST: postgres
+      DATABASE_URL: postgres://postgres:password@postgres:5432/postgres
+      PORT: 3001
+    depends_on:
+      - postgres
+    ports:
+      - "3001:3001"
+  <%= reactName %>:
+    build:
+      context: ./<%= reactName %>
+      dockerfile: ./Dockerfile
+    image: "<%= reactName %>-frontend"
+    ports:
+      - "3000:3000"
+
+
+<%}%>
+
+<%if(mongoSelected){%>
+version: "3"
+
+services:
+  <%= nodeName %>:
+    environment:
+      DATABASE_URL: mongodb://mongo:27017/admin
+      PORT: 3001
+    build:
+      context: ./<%= nodeName %>
+      dockerfile: ./Dockerfile
+    image: "<%= nodeName %>-backend"
+    ports:
+      - "3001:3001"
+    links:
+      - mongo
+  mongo:
+    container_name: <%= nodeName %>-mongodb
+    image: mongo
+
+    ports:
+      - "27017:27017"
+  <%= reactName %>:
+    build:
+      context: ./<%= reactName %>
+      dockerfile: ./Dockerfile
+    image: "<%= reactName %>-frontend"
+    ports:
+      - "3000:3000"
+<%}%>
+
