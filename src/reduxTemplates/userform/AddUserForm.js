@@ -1,21 +1,22 @@
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Modal from "../../components/organisms/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
+import { addUsers, updateUsers } from "./users.actions";
+import { selectSelectedUser } from "./users.selectors";
 import Label from "../../components/atoms/Label";
 import Button from "../../components/atoms/Button";
 import { actions } from "../Users/users.reducer";
 import Input from "../../components/atoms/Input";
-import { addUsers, updateUsers } from "./users.actions";
-import { selectSelectedUser } from "./users.selectors";
-const { setSelectedUserModal, setSelectedUser } = actions;
 import { isEmpty } from "../../helper";
-const initialUserData = {
-  name: "",
-  username: "",
-  email: "",
-};
+
+const { setSelectedUserModal, setSelectedUser } = actions;
 const AddUser = ({ show, handleClose, reset }) => {
+  const initialUserData = {
+    name: "",
+    username: "",
+    email: "",
+  };
   const dispatch = useDispatch();
   const resetModal = () => {
     dispatch(setSelectedUserModal(null));
