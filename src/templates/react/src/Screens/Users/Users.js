@@ -1,39 +1,28 @@
-import React<% if(isRedux){%>,{ useEffect }<%}%> from "react";
+<% if(isRedux && (isCrudWithNode||isCrud)){%>import React, {useState,useEffect} from "react"<%}%>
 <% if(isCrudWithNode||isCrud) {%>import { Button } from "react-bootstrap";<%}%>
-<% if(isRedux) {%>import { useSelector, useDispatch } from "react-redux";
-import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";
-import { selectAllUsers, selectSelectedUserModal } from "./users.selectors";
-import Table from '../../widgets/table'
-import { USERS_MODAL_TYPES } from "../usersModal/userModal.constants";
-import { actions } from './users.reducer'
-import getUserModal from "../usersModal";
-const {setSelectedUserModal,setSelectedUser} = actions
+<% if(isRedux && (isCrudWithNode||isCrud)){%>import { useSelector, useDispatch } from "react-redux";<%}%>
+<% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
+<% if(isRedux && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
+<% if(isCrudWithNode||isCrud) {%>import AddUser from './AddUser'<%}%>
+<% if(isRedux && (isCrudWithNode||isCrud)){%> import Table from '../../components/organisms/Table'<%}%>
+
+
+<% if(isCrud ||isCrudWithNode) {%>import { actions } from './users.reducer'
+const {setSelectedUserModal,setSelectedUser} = actions<%}%>
 <% if(isCrud) {%>const {deleteUser} = actions<%}%>
-<%}%>
+
 const Users = () => {
-  <% if(isRedux) {%>const dispatch = useDispatch();
+  <% if(isRedux && (isCrudWithNode||isCrud)){%> const dispatch = useDispatch();
 const users = useSelector(selectAllUsers);
-const userModal = useSelector(selectSelectedUserModal)    
     useEffect(() => {
       dispatch(getUsers());
     }, [dispatch]);<%}%>
 
-    <% if(isRedux && !isCrudWithNode &&!isCrud ) {%>
-    const buttonFormatter = (id, row) => (
-      <button
-        size='sm'
-        variant='primary'
-        className='font-weight-normal'
-        onClick={()=>{
-          dispatch(setSelectedUser(row))
-          dispatch(setSelectedUserModal(USERS_MODAL_TYPES.SHOW_USER_MODAL))}}
-      >
-      Show All Details
-      </button>
-    )
-    <%}%>
+  
 
     <% if(isCrudWithNode||isCrud) {%> 
+      const [show, setShow] = useState(false)
+	const handleShow = () => setShow(true)
     const handleDelete = (id) => {
       <% if(isCrud) {%>
       dispatch(deleteUser(id))
@@ -45,7 +34,8 @@ const userModal = useSelector(selectSelectedUserModal)
 
   const editFormatter = (id, row) => (
     <Button size="sm" onClick={() => {
-      dispatch(setSelectedUserModal(USERS_MODAL_TYPES.ADD_USER_MODAL))
+      handleShow()
+      dispatch(setSelectedUserModal({id}))
       dispatch(dispatch(setSelectedUser(row)))
     }}>
       Edit
@@ -62,7 +52,7 @@ const userModal = useSelector(selectSelectedUserModal)
     </Button>
     )
     <%}%>
-    <% if(isRedux) {%> 
+    <% if(isCrudWithNode||isCrud) {%>
 const cols=[
   {
     dataField: 'name',
@@ -76,7 +66,7 @@ const cols=[
     dataField:'email',
     text:'Email'  
   },
-  <% if(isCrudWithNode||isCrud) {%>
+  
     {
       dataField: '_id',
       text: '',
@@ -89,29 +79,22 @@ const cols=[
       align: 'left',
       formatter: editFormatter,
     },
-  <%}%>  
-  <% if(isRedux&&!isCrudWithNode&&!isCrud) {%>
-  {
-    dataField: '_id',
-    text: '',
-    align: 'right',
-    formatter: buttonFormatter,
-  },
-  <%}%>
+  
 ]
 <%}%>
   return (
     <>
-    <% if(isRedux){%>{userModal&& getUserModal(userModal)}<%}%> 
     <div>
       <h1>Welcome to Users Screen</h1>
       <% if(isRedux){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
       <%}%>
         <% if(isCrudWithNode||isCrud) {%>
-      <Button className='m-2' onClick={() => dispatch(setSelectedUserModal(USERS_MODAL_TYPES.ADD_USER_MODAL))}>Add User</Button>
+      <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
       <%}%>
-      <% if(isRedux){%> <Table data={users} keyField='_id'columns={cols}/><%}%> 
+      <% if(isRedux && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='_id'columns={cols}/><%}%> 
     </div>
+    
+    <%if((isCrudWithNode||isCrud)){%>{show && <AddUser show={setShow} handleShow={handleShow} />}<%}%>
     </>
   );
 };
