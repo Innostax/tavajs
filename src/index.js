@@ -89,33 +89,6 @@ const QUESTIONS = [
     choices: AUTH_CHOICES,
     when: (answers) => answers.authService === "yes",
   },
-
-  {
-    name: "cacheService",
-    type: "list",
-    message: "Do you want caching in app?",
-    choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
-    ],
-    when: (answers) => {
-      return (
-        answers.projectChoice == "node-js" ||
-        answers.projectChoice == "react_Node"
-      );
-    },
-  },
-
-  {
-    name: "cacheServiceName",
-    type: "list",
-    message: "Select cache provider",
-    choices: [{ name: "Redis", value: "redis" }],
-    when: (answers) => {
-      return answers.cacheService == "yes";
-    },
-  },
-
   {
     name: "redux",
     type: "list",
@@ -157,6 +130,27 @@ const QUESTIONS = [
     },
     when: (answers) => {
       return answers.backEnd == "yes";
+    },
+  },
+  {
+    name: "cacheService",
+    type: "list",
+    message: "Do you want caching in app?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+    when: (answers) => {
+      return answers.backEndChoice == "node";
+    },
+  },
+  {
+    name: "cacheServiceName",
+    type: "list",
+    message: "Select cache provider",
+    choices: [{ name: "Redis", value: "redis" }],
+    when: (answers) => {
+      return answers.cacheService == "yes";
     },
   },
   {
@@ -1111,7 +1105,6 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
     contents,
     function (err) {
       if (err) throw err;
-      // console.log("Blob service created successfully.");
     }
   );
 }
@@ -1119,8 +1112,7 @@ function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
 //function to create Cache services------------------------------------------------->
 function createCacheService(cacheServiceName, cacheTemplatePath, nodePath) {
   let contents = fs.readFileSync(cacheTemplatePath + ".js", "utf-8");
-  //let servicePath = path.join(nodePath, "Cache");
-  // fs.mkdirSync(servicePath);
+
   fs.writeFile(
     `${nodePath}` + "/" + `${cacheServiceName}` + ".js",
     contents,
@@ -1128,20 +1120,4 @@ function createCacheService(cacheServiceName, cacheTemplatePath, nodePath) {
       if (err) throw err;
     }
   );
-
-  // let writePath = `${nodePath}/${fileName}`;
-  // let contents = fs.readFileSync(
-  //   `${CURR_DIR}/src/dbTemplates/` + fileName,
-  //   "utf8"
-  // );
-  // contents = render(contents, { defaultRoute });
-  // fs.writeFileSync(writePath, contents, "utf8");
-
-  // writePath = `${modelPath}/${defaultRoute}.js`;
-  // contents = fs.readFileSync(
-  //   `${CURR_DIR}/src/dbTemplates/` + modelName,
-  //   "utf8"
-  // );
-  // contents = render(contents, { defaultRoute });
-  // fs.writeFileSync(writePath, contents, "utf8");
 }
