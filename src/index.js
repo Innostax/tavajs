@@ -14,6 +14,7 @@ var sequelizeSelected = false;
 var isDocker = false;
 var isCrud = false;
 var isAuth0 = false;
+var isOkta = false;
 var isCognito = false;
 var isRedux = false;
 var isWinston = false;
@@ -339,6 +340,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["authentication-choice"] === "Cognito") {
     isCognito = true;
   }
+  if (answers["authentication-choice"] === "Okta") {
+    isOkta = true;
+  }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     reactName = answers["FrontEnd-name"];
@@ -359,6 +363,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       reactPath,
       isRedux,
@@ -380,6 +385,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       reactPath,
       isRedux,
@@ -440,6 +446,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       reactPath,
       isRedux,
@@ -467,6 +474,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       reactPath,
       isRedux,

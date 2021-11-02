@@ -1,3 +1,4 @@
+<% if(!isOkta) {%>
 import React<% if(isRedux){%>,{ useEffect }<%}%> from "react";
 <% if(isCrudWithNode||isCrud) {%>import { Button } from "react-bootstrap";<%}%>
 <% if(isRedux) {%>import { useSelector, useDispatch } from "react-redux";
@@ -114,7 +115,29 @@ const cols=[
     </div>
     </>
   );
-};
+};<%}%>
+
+<% if(isOkta) {%>
+  import React, { Component } from 'react'
+  import NavBar from '../../widgets/NavBar'
+  
+  class Users extends Component {
+    render() {
+      return (
+        <div>
+          <NavBar />
+          <p>
+            {' '}
+            <h1>Welcome to Users Screen</h1>
+          </p>
+        </div>
+      )
+    }
+  }
+  
+
+  
+  <%}%>
 
 export default Users;
 

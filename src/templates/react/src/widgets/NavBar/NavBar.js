@@ -1,3 +1,4 @@
+<% if(!isOkta) {%>
 import React from 'react'
 import Routes from "../../Routes";
 import { BrowserRouter as Router,Link } from "react-router-dom";
@@ -35,3 +36,43 @@ export default function NavBar() {
     </>
   );
 }
+<%}%>
+<% if(isOkta) {%>
+  import { Link } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Container, Navbar, Nav } from 'react-bootstrap'
+import React, { Component } from 'react'
+import { withAuth } from '@okta/okta-react'
+export default withAuth(
+	class NavBar extends Component {
+		state = { authenticated: null }
+		logout = async () => {
+			this.props.auth.logout('/')
+		}
+		render() {
+			return (
+				<Navbar bg='light' expand='lg'>
+					<Container>
+						<Navbar.Brand href='#home'>Made in India</Navbar.Brand>
+						<Navbar.Toggle aria-controls='basic-navbar-nav' />
+						<Navbar.Collapse id='basic-navbar-nav'>
+							<Nav className='me-auto'>
+								<Link to='/'>
+									<Nav.Link href='/'>Home</Nav.Link>
+								</Link>
+								<Link to='/users'>
+									<Nav.Link href='/users'>Users</Nav.Link>
+								</Link>
+							</Nav>
+						</Navbar.Collapse>{' '}
+						<button className='btn btn-light btn-lg' onClick={this.logout}>
+							Logout
+						</button>
+					</Container>
+				</Navbar>
+			)
+		}
+	}
+)
+
+  <%}%>
