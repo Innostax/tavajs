@@ -23,7 +23,9 @@ function createDirectoryContents(
   isCrud,
   reactName,
   nodeName,
-  isDocker
+  isDocker,
+  isBootstrap,
+  isTailwind
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -53,6 +55,8 @@ function createDirectoryContents(
           isCrudWithNode,
           isCrud,
           isDocker,
+          isBootstrap,
+          isTailwind,
         },
         (autoescape = false)
       );
@@ -79,7 +83,9 @@ function createDirectoryContents(
         isCrud,
         reactName,
         nodeName,
-        isDocker
+        isDocker,
+        isBootstrap,
+        isTailwind
       );
     }
   });

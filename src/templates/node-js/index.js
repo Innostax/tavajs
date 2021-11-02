@@ -5,7 +5,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const <%= defaultRoute %> = require(`./Routes/<%= defaultRoute %>.routes`); 
-const errorHandler = require('./middleware/error')
 <% if (mongoSelected) { %>
 const conn = require('./mongoose')
 <% } %>
@@ -27,14 +26,11 @@ app.use(cors());
 app.use(express.static("public"));
 
 app.use(`/<%= defaultRoute %>`, <%= defaultRoute %>);
-app.use(errorHandler);
 
 app.listen(port, function() {
   <% if(isWinston) {%>logger.info(`server started running on port ${port}`)<%}%>
   <% if(!(isWinston||isSentry)){%>
   console.log(`Server started on port ${port}`);<%}%>
 });
-process.on('unhandledRejection', (err, promise) => {
-	console.log(`Error: ${err.message}`.red)
-})
+
 module.exports = app;

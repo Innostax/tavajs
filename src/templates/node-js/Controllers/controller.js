@@ -1,14 +1,12 @@
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     <% } %>
-const asyncHandler = require('../middleware/async')
-const ErrorResponse = require('../middleware/errResponse')
 
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
 
-  const find = asyncHandler(async(req, res, next) => {
+  const find = (req, res, next) => {
     <% if(mongoSelected){ %> await
         <%= defaultRoute %>.find(function(err, data){
             if (!err) {
@@ -16,7 +14,7 @@ const ErrorResponse = require('../middleware/errResponse')
             } else {
               res.send(err);
             }
-          }).clone()
+          })
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
@@ -28,9 +26,9 @@ const ErrorResponse = require('../middleware/errResponse')
         res.send('find called');
      <% } %>
 
-  })
+  }
   
-  const create = asyncHandler(async(req, res, next) => {
+  const create = (req, res, next) => {
     <% if(mongoSelected){ %>
         const newData = await new <%= defaultRoute %>({
             name: req.body.name,
@@ -41,7 +39,7 @@ const ErrorResponse = require('../middleware/errResponse')
             if (!err){  
               res.send(data);
             } else {
-              return next(new ErrorResponse(err, 400))
+              res.send(err);
             }
           });
       <%}%>
@@ -54,9 +52,9 @@ const ErrorResponse = require('../middleware/errResponse')
         res.send('create  Called')
      <% } %>
      
-  })
+  }
   
-  const patch = asyncHandler(async(req, res, next) => {
+  const patch = async(req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.updateOne(
           {_id: req.params.id},
@@ -74,7 +72,7 @@ const ErrorResponse = require('../middleware/errResponse')
               res.send(err);
             }
           }
-          ).clone();
+          )
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.update(
@@ -92,14 +90,14 @@ const ErrorResponse = require('../middleware/errResponse')
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
         res.send('patch Called')
      <% } %>  
-  })
+  }
   
-  const remove = asyncHandler(async(req, res, next) => {
+  const remove = (req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.deleteMany(function(err){
             if(!err) res.send('All deleted')
             else res.send(err)
-        }).clone()
+        })
       <% }%>
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.destroy({
@@ -109,7 +107,7 @@ const ErrorResponse = require('../middleware/errResponse')
        <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('remove Called')
      <% } %>
-  })
+  }
   
   const removeById = asyncHandler(async(req, res, next) => {
     <% if(mongoSelected){ %>
@@ -123,12 +121,9 @@ const ErrorResponse = require('../middleware/errResponse')
               }
             })
           } else {
-            // res.send("No matching  was found.");
-              return next(
-				    	  new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
-				      )
+            res.send("No matching  was found.");
             }
-          }).clone();
+          });
       <% }%>
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.destroy({
@@ -146,18 +141,15 @@ const ErrorResponse = require('../middleware/errResponse')
     
   })
   
-  const findById = asyncHandler(async(req, res, next ) => {
+  const findById = (req, res, next ) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.findOne({_id: req.params.id}, function(err, data){
             if (data) {
               res.send(data);
             } else {
-              // res.send("No matching found.");
-              return next(
-					      new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
-				      )
+              res.send("No matching found.");
             }
-          }).clone();
+          });
       <% } %>
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.findAll({
@@ -173,7 +165,7 @@ const ErrorResponse = require('../middleware/errResponse')
         res.send('find by id Called')
      <% } %>
     
-  })
+  }
   
   module.exports = {
       find,

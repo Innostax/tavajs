@@ -5,8 +5,8 @@ const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
-const chalk = require('chalk');
-const package = require('../package.json')
+const chalk = require("chalk");
+const package = require("../package.json");
 
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
@@ -20,6 +20,8 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isBootstrap = false;
+var isTailwind = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const currentPath = path.join(__dirname);
 
@@ -56,6 +58,35 @@ const QUESTIONS = [
       return answers.frontEnd == "yes";
     },
   },
+
+  {
+    name: "cssFramework",
+    type: "list",
+    message: "Do you want CSS Framework?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+    when: (answers) => {
+      return (
+        answers.frontEndChoice === "react" ||
+        answers.projectChoice === "react_Node"
+      );
+    },
+  },
+  {
+    name: "cssFrameworkChoice",
+    type: "list",
+    message: "Select the CSS Framework",
+    choices: [
+      { name: "Bootstrap", value: "bootstrap" },
+      { name: "Tailwind CSS", value: "tailwindcss" },
+    ],
+    when: (answers) => {
+      return answers.cssFramework == "yes";
+    },
+  },
+
   {
     name: "FrontEnd-name",
     type: "input",
@@ -306,6 +337,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isDocker = dockerService;
   const crudOperation = answers["CRUD"];
   isCrud = crudOperation;
+  const cssFramework = answers["cssFramework"];
   let reactName = "";
   let nodeName = "";
   var dbName = answers["dbName"];
@@ -339,6 +371,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["authentication-choice"] === "Cognito") {
     isCognito = true;
   }
+
+  //---------------------------CSS Framework-------------------------------------------
+  if (answers["cssFrameworkChoice"] === "bootstrap") {
+    isBootstrap = true;
+  }
+  if (answers["cssFrameworkChoice"] === "tailwindcss") {
+    isTailwind = true;
+  }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     reactName = answers["FrontEnd-name"];
@@ -366,7 +406,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      isBootstrap,
+      isTailwind
     );
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -387,24 +429,80 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      isBootstrap,
+      isTailwind
     );
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${reactName} using ${package.name} ${package.version}`))
-    if(answers.authService==="yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
-    if(isRedux)
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
-    console.log(' ')
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${nodeName} using ${package.name} ${package.version}`))
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${reactName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(" ");
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${nodeName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
     if (answers["dbService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
+        )
+      );
     if (answers["loggerService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
+        )
+      );
     if (emailService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
+        )
+      );
     if (blobService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
@@ -447,14 +545,38 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
-    ); 
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating React project: ${projectName} using ${package.name} ${package.version}`))
-    if(answers.authService==="yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Authentication service: ${answers["authentication-choice"]}`))
-    if(isRedux)
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Redux pattern`))
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+      nodeName,
+      isBootstrap,
+      isTailwind
+    );
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -476,16 +598,50 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4C2)} Creating Node project: ${projectName} using ${package.name} ${package.version}`))
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
     if (answers["dbService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Database service: ${answers["dbName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
+        )
+      );
     if (answers["loggerService"] === "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Logger service: ${answers["loggerName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
+        )
+      );
     if (emailService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Email service: ${answers["emailServiceName"]}`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
+        )
+      );
     if (blobService == "yes")
-    console.log(chalk.green.bold(`   ${String.fromCodePoint(0x231B)} Integrating Blob service: ${answers["blobServiceName"]}`))
-    console.log(chalk.green.bold(`${String.fromCodePoint(0x1F4A1)} Powered by Innostax`))
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
       {
@@ -652,58 +808,28 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
 
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/usersModal`,
-      `${reactPath}/src/Screens/usersModal`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        } else {
-          if (isCrudWithNode) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUser.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
-              }
-            );
+    if (isCrud) {
+      fs.copyFile(
+        `${currentPath}/reduxTemplates/userform/Adduser.js`,
+        `${reactPath}/src/Screens/Users/AddUser.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
           }
-          if (isCrud) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
-              }
-            );
-          }
-          let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-          let contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/index.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
-
-          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-          contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
         }
-      }
-    );
+      );
+    }
+    if (isCrudWithNode) {
+      fs.copyFile(
+        `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
+        `${reactPath}/src/Screens/Users/AddUser.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    }
 
     fsExtra.copy(
       `${currentPath}/reduxTemplates/infrastructure`,
@@ -715,17 +841,40 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     );
+  }
 
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/widgets/modal`,
-      `${reactPath}/src/widgets/modal`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
+  //<------------For css Framework-------------------------->
+  if (answers["cssFrameworkChoice"] === "tailwindcss") {
+    const filesMap = [
+      {
+        srcFolder: "cssTemplates",
+        srcFileName: "craco.config.js",
+        destFolder: "",
+        destFileName: "craco.config.js",
+      },
+      {
+        srcFolder: "cssTemplates",
+        srcFileName: "tailwind.config.js",
+        destFolder: "",
+        destFileName: "tailwind.config.js",
+      },
+    ];
+
+    const package = { name: "@craco/craco", version: "^6.4.0" };
+    let packagePath = path.join(CURR_DIR, projectName, reactName);
+    updatePackage(packagePath, package);
+
+    filesMap.map((each) => {
+      fs.copyFile(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        `${reactPath}/${each.destFolder}/${each.destFileName}`,
+        (err) => {
+          if (err) {
+            console.log("Error Found: ", err);
+          }
         }
-      }
-    );
+      );
+    });
   }
 
   //<--------For authentication----------------------------------------------------------------------------->
@@ -786,32 +935,55 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
-  }if(projectChoice!="react_Node"){
-  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
-  console.log('    ')
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
-  console.log('    ')
-  console.log(chalk.cyanBright.italic.bold(`     npm install`))
-  console.log(chalk.cyanBright.italic.bold(`     npm start`))
-  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
   }
-  else{
-  console.log(chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`));
-  console.log('    ')
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} To get Started:`))
-  console.log('    ')
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For React:`))
-  console.log('   Inside',reactName);
-  console.log('    ')
-  console.log(chalk.cyanBright.italic.bold(`     npm install`))
-  console.log(chalk.cyanBright.italic.bold(`     npm start`))
-  console.log(chalk.magentaBright.bold(`${String.fromCodePoint(0x1F449)} For Node:`))
-  console.log('   Inside',nodeName);
-  console.log('    ')
-  console.log(chalk.cyanBright.italic.bold(`     npm install`))
-  console.log(chalk.cyanBright.italic.bold(`     npm start`))
-  console.log(chalk.cyanBright.italic.bold(`------------------------ Ready to go --------------------------`))
-
+  if (projectChoice != "react_Node") {
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(0x1f449)} To get Started:`
+      )
+    );
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
+  } else {
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(0x1f449)} To get Started:`
+      )
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
+    );
+    console.log("   Inside", reactName);
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
+    );
+    console.log("   Inside", nodeName);
+    console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     npm install`));
+    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
   }
 });
 
