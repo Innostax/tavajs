@@ -308,6 +308,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
   else if (frontEndChoice === "react") projectChoice = "react";
+  else if (frontEndChoice === "vue") projectChoice = "vue";
   else if (backEndChoice === "node") projectChoice = "node-js";
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
@@ -700,6 +701,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       shell.exec("yarn");
       console.log("-------------yarn process completed--------------------");
     }
+  } else if (projectChoice === "vue") {
+    createDirectoryContents(templatePath, projectName);
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -795,7 +798,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     } else {
       writePath = `${nodePath}/.env`;
     }
-    fs.writeFileSync(writePath, contents, "utf8");
+    // fs.writeFileSync(writePath, contents, "utf8");
   }
   // <--------------------REDUX INTEGRATION------------------------->
 
