@@ -1,19 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-const Datepicker = (handleStartDate) => {
-	const handleStartDate = (date) => {
-		setStartDate(date)
-	}
-	const [startDate, setStartDate] = useState(new Date())
+const Datepicker = ({ date, setDate }) => {
 	return (
 		<span>
 			Enter Date
-			<DatePicker
-				selected={startDate}
-				onChange={handleStartDate}
-			/>
+			<DatePicker selected={date} onChange={setDate} />
 		</span>
 	)
 }
