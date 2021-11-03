@@ -991,8 +991,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     console.log("    ");
-    console.log(chalk.cyanBright.italic.bold(`     npm install`));
-    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    if (isNpm) {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (isYarn) {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
+
     console.log(
       chalk.cyanBright.italic.bold(
         `------------------------ Ready to go --------------------------`
@@ -1014,15 +1019,23 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     console.log("   Inside", reactName);
     console.log("    ");
-    console.log(chalk.cyanBright.italic.bold(`     npm install`));
-    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    if (isNpm) {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (isYarn) {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
     console.log(
       chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
     );
     console.log("   Inside", nodeName);
     console.log("    ");
-    console.log(chalk.cyanBright.italic.bold(`     npm install`));
-    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    if (isNpm) {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (isYarn) {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
     console.log(
       chalk.cyanBright.italic.bold(
         `------------------------ Ready to go --------------------------`
