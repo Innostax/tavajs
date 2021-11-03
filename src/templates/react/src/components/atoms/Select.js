@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Select = ({ label, options }) => {
+const Select = ({ label, options, handleInputChange }) => {
 	const [selectedOne, setSelectedOne] = useState('Select AnyOne')
 	const handleInputChange = (e) => {
 		setSelectedOne(e.target.value)
@@ -15,7 +15,7 @@ const Select = ({ label, options }) => {
 					<select
 						className='form-control'
 						name={label}
-						onChange={(e) => handleInputChange(e)}
+						onChange={handleInputChange}
 					>
 						{options.map((each) => (
 							<option value={each.value} key={each.value}>

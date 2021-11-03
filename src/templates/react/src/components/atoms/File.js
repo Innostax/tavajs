@@ -2,7 +2,7 @@
 import Dropzone from 'react-dropzone'
 import { Button } from 'react-bootstrap'
 
-const File = ({ setUploadedFiles }) => {
+const File = ({ setUploadedFiles, uploadFiletypes }) => {
 	const onDropHandle = (acceptedFiles) => {
 		const uploads = []
 		acceptedFiles &&
@@ -25,7 +25,7 @@ const File = ({ setUploadedFiles }) => {
 		
 			<Dropzone
 				onDrop={onDropHandle}
-				accept={['image/*', '.pdf', '.zip', 'xls', 'docs', '.txt']}
+				accept={uploadFiletypes}
 			>
 				{({ getRootProps, getInputProps }) => (
 					<section>

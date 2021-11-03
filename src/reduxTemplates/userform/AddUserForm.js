@@ -8,7 +8,7 @@ import Label from "../../components/atoms/Label";
 import Button from "../../components/atoms/Button";
 import { actions } from "../Users/users.reducer";
 import Input from "../../components/atoms/Input";
-import { isEmpty } from "../../helper";
+import { isEmpty } from "../../helper/isEmpty.js";
 
 const { setSelectedUserModal, setSelectedUser } = actions;
 const AddUser = ({ show, handleClose, reset }) => {
