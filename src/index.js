@@ -1,6 +1,7 @@
 #! node
 const inquirer = require("inquirer");
 const fs = require("fs");
+const shell = require("shelljs");
 const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
@@ -21,6 +22,8 @@ var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
 var isRedis = false;
+var isNpm = false;
+var isYarn = false;
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const currentPath = path.join(__dirname);
 
@@ -35,6 +38,17 @@ const QUESTIONS = [
         return "Project name may only include letters, numbers, underscores and hashes.";
     },
   },
+
+  {
+    name: "managerChoice",
+    type: "list",
+    message: "Select Package Manager",
+    choices: [
+      { name: "NPM", value: "npm" },
+      { name: "YARN", value: "yarn" },
+    ],
+  },
+
   {
     name: "frontEnd",
     type: "list",
@@ -347,6 +361,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       console.error(err);
     }
   });
+  // //<----------------------------managerChoice------------------------->
+  if (answers["managerChoice"] === "npm") isNpm = true;
+  if (answers["managerChoice"] === "yarn") isYarn = true;
   // //<------------------------------for logger-------------------------------->
   if (answers["loggerName"] === "winston") isWinston = true;
   if (answers["loggerName"] === "sentry") isSentry = true;
@@ -402,6 +419,20 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isRedis
     );
+    shell.cd(`${reactPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+    }
 
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -424,6 +455,58 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       isRedis
     );
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${reactName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(" ");
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${nodeName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    shell.cd(`${nodePath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
+
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -539,6 +622,24 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       isRedis
     );
+    var projectPath = `${CURR_DIR}/${projectName}/${reactName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on react, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
+
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -588,6 +689,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName,
       isRedis
+    );
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
     );
     console.log(
       chalk.green.bold(
@@ -654,6 +764,23 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         () => {}
       )
     );
+    var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on node, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -810,73 +937,32 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
 
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/usersModal`,
-      `${reactPath}/src/Screens/usersModal`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        } else {
-          if (isCrudWithNode) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUser.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
-              }
-            );
+    if (isCrud) {
+      fs.copyFile(
+        `${currentPath}/reduxTemplates/userform/Adduser.js`,
+        `${reactPath}/src/Screens/Users/AddUser.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
           }
-          if (isCrud) {
-            fsExtra.copy(
-              `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-              `${CURR_DIR}/${projectName}/${reactName}/src/Screens/usersModal/AddUser.js`,
-
-              function (err) {
-                if (err) {
-                  console.log("An error is occured");
-                  return console.error(err);
-                }
-              }
-            );
-          }
-          let writePath = `${reactPath}/src/Screens/usersModal/index.js`;
-          let contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/index.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
-
-          writePath = `${reactPath}/src/Screens/usersModal/userModal.constants.js`;
-          contents = fs.readFileSync(
-            `${currentPath}/reduxTemplates/usersModal/userModal.constants.js`,
-            "utf8"
-          );
-          contents = render(contents, { isCrudWithNode, isCrud });
-          fs.writeFileSync(writePath, contents, "utf8");
         }
-      }
-    );
+      );
+    }
+    if (isCrudWithNode) {
+      fs.copyFile(
+        `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
+        `${reactPath}/src/Screens/Users/AddUser.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    }
 
     fsExtra.copy(
       `${currentPath}/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
-
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/widgets/modal`,
-      `${reactPath}/src/widgets/modal`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -956,8 +1042,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     console.log("    ");
-    console.log(chalk.cyanBright.italic.bold(`     npm install`));
-    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    if (isNpm) {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (isYarn) {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
+
     console.log(
       chalk.cyanBright.italic.bold(
         `------------------------ Ready to go --------------------------`
@@ -979,21 +1070,30 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     console.log("   Inside", reactName);
     console.log("    ");
-    console.log(chalk.cyanBright.italic.bold(`     npm install`));
-    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    if (isNpm) {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (isYarn) {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
     console.log(
       chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
     );
     console.log("   Inside", nodeName);
     console.log("    ");
-    console.log(chalk.cyanBright.italic.bold(`     npm install`));
-    console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    if (isNpm) {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (isYarn) {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
     console.log(
       chalk.cyanBright.italic.bold(
         `------------------------ Ready to go --------------------------`
       )
     );
   }
+  console.log("-------------Boiler plate is ready for use------------");
 });
 
 //function to create db service---------------------------------------------->
