@@ -369,8 +369,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
-      newDefaultRoute,
-      mongoSelected,
+       // newDefaultRoute,
+       defaultRoute,
+       mongoSelected,
       sequelizeSelected,
       dbName,
       isSentry,
@@ -385,6 +386,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
+    
     shell.cd(`${reactPath}`);
     if (isNpm) {
       console.log(
@@ -801,12 +803,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   if (reduxIntegration) {
     const reduxFiles = [
-      {
-        srcFolder: "reduxTemplates/demoUser",
-        srcFileName: "users.actions.js",
-        destFolder: "/src/Screens/Users",
-        destFileName: "users.actions.js",
-      },
+      // {
+      //   srcFolder: "reduxTemplates/demoUser",
+      //   srcFileName: "users.actions.js",
+      //   destFolder: "/src/Screens/Users",
+      //   destFileName: "users.actions.js",
+      // },
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.reducer.js",
@@ -845,6 +847,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
 
+    let contents = fs.readFileSync(
+      `reduxTemplates/demoUser/users.action.js`,
+      "utf8"
+    );
+    contents = render(contents, {
+      defaultRoute
+    });
+    writePath = `/src/Screens/Users/users.actions.js`;
+    fs.writeFileSync(writePath, contents, "utf8");
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,

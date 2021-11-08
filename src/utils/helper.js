@@ -25,6 +25,7 @@ function createDirectoryContents(
   nodeName,
   isDocker
 ) {
+  
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
     const origFilePath = `${templatePath}/${file}`;
