@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "generate-route":"node generateRoutes/index.js",
+    
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run pretty && npm run eslint && npm run dev-watch",
     "dev-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"nodemon index.js\"",

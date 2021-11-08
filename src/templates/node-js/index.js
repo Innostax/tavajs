@@ -4,8 +4,7 @@ const express = require("express");
 const cors=require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-const <%= defaultRoute %> = require(`./Routes/<%= defaultRoute %>.routes`);
-const secondUser = require(`./Routes/secondUser.routes`)
+const { selectionRoute } = require('./Routes')
 <% if (mongoSelected) { %>
 const conn = require('./mongoose')
 <% } %>
@@ -24,9 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static("public"));
-
-app.use(`/<%= defaultRoute %>`, <%= defaultRoute %>);
-app.use('/secondUser', secondUser)
+app.get(selectionRoute(app))
 app.listen(port, function() {
   <% if(isWinston) {%>logger.info(`server started running on port ${port}`)<%}%>
   <% if(!(isWinston||isSentry)){%>

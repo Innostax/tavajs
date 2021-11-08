@@ -6,4 +6,4 @@ const schema = new mongoose.Schema({
 	email: String,
 })
 
-module.exports = mongoose.model('secondUser', schema)
+module.exports = mongoose.model('<%= routeName %>', schema)
