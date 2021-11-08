@@ -30,7 +30,7 @@ const AddUser = ({ show, handleClose, reset }) => {
 
   const user = useSelector(selectSelectedUser);
 
-  const [formData, setFormData] = useState(isEmpty ? initialUserData : user);
+  const [formData, setFormData] = useState(isEmpty(user) ? initialUserData : user);
 
   const handleSubmit = () => {
     const { _id: id } = user;
