@@ -44,13 +44,13 @@ services:
   <%= nodeName %>:
     environment:
       DATABASE_URL: mongodb://mongo:27017/admin
-      PORT: 3001
+      PORT: 3040
     build:
       context: ./<%= nodeName %>
       dockerfile: ./Dockerfile
     image: "<%= nodeName %>-backend"
     ports:
-      - "3001:3001"
+      - "3040:3040"
     links:
       - mongo
   mongo:
