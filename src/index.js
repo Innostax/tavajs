@@ -323,6 +323,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isCrud = crudOperation;
   let reactName = "";
   let nodeName = "";
+  let vueName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
@@ -702,7 +703,24 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       console.log("-------------yarn process completed--------------------");
     }
   } else if (projectChoice === "vue") {
-    createDirectoryContents(templatePath, projectName);
+    createDirectoryContents(templatePath, projectName, vueName);
+    var projectPath = `${CURR_DIR}/${projectName}/${vueName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on vue, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on vue, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -954,10 +972,20 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     console.log("    ");
     if (isNpm) {
-      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+      if (projectChoice === "vue") {
+        console.log("   Inside", projectName);
+        console.log(chalk.cyanBright.italic.bold(`     npm run serve`));
+      } else {
+        console.log(chalk.cyanBright.italic.bold(`     npm start`));
+      }
     }
     if (isYarn) {
-      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+      if (projectChoice === "vue") {
+        console.log("   Inside", projectName);
+        console.log(chalk.cyanBright.italic.bold(`     yarn run serve`));
+      } else {
+        console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+      }
     }
 
     console.log(
@@ -1004,7 +1032,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
   }
-  console.log("-------------Boiler plate is ready for use------------");
+  // console.log("-------------Boiler plate is ready for use------------");
 });
 
 //function to create db service---------------------------------------------->

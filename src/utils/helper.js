@@ -23,7 +23,8 @@ function createDirectoryContents(
   isCrud,
   reactName,
   nodeName,
-  isDocker
+  isDocker,
+  vueName
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -80,7 +81,8 @@ function createDirectoryContents(
           isCrud,
           reactName,
           nodeName,
-          isDocker
+          isDocker,
+          vueName
         );
       }
     }
