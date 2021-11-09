@@ -801,7 +801,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   }
 
-  if (!isDocker && projectChoice !== "react") {
+  if (!isDocker && projectChoice !== "react" && projectChoice !== "vue") {
     let contents = fs.readFileSync(
       `${currentPath}/envTemplates/.dbEnv`,
       "utf8"
@@ -816,7 +816,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     } else {
       writePath = `${nodePath}/.env`;
     }
-    // fs.writeFileSync(writePath, contents, "utf8");
+    fs.writeFileSync(writePath, contents, "utf8");
   }
   // <--------------------REDUX INTEGRATION------------------------->
 
@@ -1003,6 +1003,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `${String.fromCodePoint(0x1f449)} To get Started:`
       )
     );
+    console.log(" Inside ", projectName);
     console.log("    ");
     console.log(
       chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
