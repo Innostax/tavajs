@@ -20,16 +20,17 @@
 <div id="top"></div>
 <h1 align="center">TAVA.js</h1>
 
-## About The Project 
+## About The Project
+
 TAVAjs is an interactive Command Line Interface tool, which helps developers to set up project template with some trendy web technologies such as Node, React, Angular, Vue and some of the best-integrated services such as Authentication, Logger, Email, Blob, and others.
 
 ### FEATURES:
 
-* Time saving
-* Cost saving
-* Easy to use
-* Efficient
-* Reliable
+- Time saving
+- Cost saving
+- Easy to use
+- Efficient
+- Reliable
 
 ### Built with:
 
@@ -40,145 +41,147 @@ TAVAjs is an interactive Command Line Interface tool, which helps developers to 
 <p align="left"> <a href="https://www.docker.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="100" height="100"/> </a> <a href="https://www.mongodb.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="100" height="100"/> </a> <a href="https://www.mysql.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="100" height="100"/> </a> <a href="https://www.postgresql.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="100" height="100"/> </a><a href="https://azure.microsoft.com/en-in/" target="_blank"> <img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" alt="azure" width="100" height="100"/><a href="https://aws.amazon.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="100" height="100"/> </a></p>
 
 ## Getting started
+
 This is an example of how you may give instructions to create a template project.
 
-$ npm install    - It will install required packages.
-  ```sh
-  npm install
-  ```
+$ generate-tava - It will execute the program.
 
-$ npm start     - It will execute the program.
-  ```sh
-  npm start
-  ```
+```sh
+generate-tava
+```
+
 To learn more about npm <a href="https://docs.npmjs.com/about-npm">click.</a>
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
----------------------------------------------------------------
-## Creating First project 
- 
-  Options: (Use arrow to scroll and press Enter to select)
- 
-  
-  A. &nbsp; Enter the project name.
+---
+
+## Creating First project
+
+Options: (Use arrow to scroll and press Enter to select)
+
+A. &nbsp; Enter the project name.
 
      ? Project name: MyProject
-  
-  B.&nbsp; Select "Yes" to create template for frontend.   
-  
+
+B.&nbsp; Select "Yes" to create template for frontend.
+
      ? Do you want template for Frontend? (Use arrow keys)
      > yes
        no
-  C.&nbsp; Choose any framework according to your need.
-     
-     ? Select the Framework (Use arrow keys) 
+
+C.&nbsp; Choose any framework according to your need.
+
+     ? Select the Framework (Use arrow keys)
      > React
        Angular
        Vue
-  D.&nbsp; Enter frontend project name.
+
+D.&nbsp; Enter frontend project name.
 
       ? Front End project name: Front_End
-  
-  E.&nbsp; Authentication service : &nbsp;You can use authentication to manage which users have access to which pages. Select "Yes to use this service.     
-     
+
+E.&nbsp; Authentication service : &nbsp;You can use authentication to manage which users have access to which pages. Select "Yes to use this service.
+
      ? Do you want Authentication services? (Use arrow keys)
      > yes
        no
-  
-  F.&nbsp; Choose any authentication service according to your need.
-  
+
+F.&nbsp; Choose any authentication service according to your need.
+
     ? What Authentication Service you want to use? (Use arrow keys)
     > Auth0
       Cognito
       Okta
-  
-  G.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
 
-    ? Do you want redux integration? (Use arrow keys)   
-      > yes
-        no
-  
-  H.&nbsp; Select "yes" to implement backend in your project.
+G.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
 
-    ? Do you want template for Backend? (Use arrow keys) 
+    ? Do you want redux integration? (Use arrow keys)
       > yes
         no
 
-  I.&nbsp; Choose any framework as required.
-      
-      ? Select the Framework 
+H.&nbsp; Select "yes" to implement backend in your project.
+
+    ? Do you want template for Backend? (Use arrow keys)
+      > yes
+        no
+
+I.&nbsp; Choose any framework as required.
+
+      ? Select the Framework
         Node
-  
-  J.&nbsp; Enter the backend project name.
-      
+
+J.&nbsp; Enter the backend project name.
+
       ? Node Project name: Back_End
 
-  K.&nbsp; Enter the route (press "Enter" to select default).
+K.&nbsp; Enter the route (press "Enter" to select default).
 
       ? Enter the default route (users)
 
-  L.&nbsp; Select "yes" to integrate database service.
+L.&nbsp; Select "yes" to integrate database service.
 
       ? Do you need database service? (Use arrow keys)
       > yes
         no
 
-  M.&nbsp; Choose database service as required.
+M.&nbsp; Choose database service as required.
 
       ? Which db service do you want? (Use arrow keys)
       > Postgres
         MySql
-        Mongoose       
-  
-  N.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
-      
+        Mongoose
+
+N.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
+
       ? Do you want crud integration with React-Node boiler plate? (Use arrow keys)
       > yes
         no
 
-  O.&nbsp; Select "yes" to integrate logger services.
-      
+O.&nbsp; Select "yes" to integrate logger services.
+
       ? Do you want logger services? (Use arrow keys)
       > yes
         no
 
-  P.&nbsp; Choose logger service as required.
-      
+P.&nbsp; Choose logger service as required.
+
       ? Which logger service do you want? (Use arrow keys)
       > Winston
         sentry
 
-  Q.&nbsp; Select "yes" to integrate e-mail service.
+Q.&nbsp; Select "yes" to integrate e-mail service.
 
       ? Do you want e-mail services? (Use arrow keys)
       > yes
         no
 
-  R.&nbsp; Choose e-mail service which you want to integrate.
-      
+R.&nbsp; Choose e-mail service which you want to integrate.
+
       ? Which Email service do you want? (Use arrow keys)
       > SendGrid
         Amazon Ses
         SMTP
 
-  S.&nbsp; Select "yes" to integrate blob service.
-      
+S.&nbsp; Select "yes" to integrate blob service.
+
       ? Do you want blob services? (Use arrow keys)
       > yes
         no
 
-  T.&nbsp; Choose blob service as require.
-      
+T.&nbsp; Choose blob service as require.
+
       ? Which Blob service do you want? (Use arrow keys)
       > AWS-s3
-        Azure         
-  U.&nbsp; Select "yes" to integrate docker service.
-      
+        Azure
+
+U.&nbsp; Select "yes" to integrate docker service.
+
       ? Do you want Docker services (Use arrow keys)
       > yes
-        no        
+        no
 
-  !! Successfully created !! 
+!! Successfully created !!
 
   <p align="right">(<a href="#top">back to top</a>)</p>
   
@@ -186,35 +189,39 @@ To learn more about npm <a href="https://docs.npmjs.com/about-npm">click.</a>
 
 ### How to run created template
 
- Use "cd" command to chanage the current directory.
-   
-  1. Select project folder
+Use "cd" command to chanage the current directory.
+
+1. Select project folder
+
 
     cd MyProject
 
-  2. Select created template (cd template_name)
+2. Select created template (cd template_name)
+
 
     cd Front_End
-    
+
     (or)
-    
+
     cd Back_End
-         
-  3. Use npm install command to install required modules.
-    
+
+
+3. Use npm install command to install required modules.
+
+
     npm install
 
-  4. Use npm start to execute the template.
+4. Use npm start to execute the template.
+
 
     npm start
 
- 
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
------------------------------------------------------------------------
+---
 
 ## License
+
 Copyright (C)2021 Innostax
 
 Licensed under the MIT License.
@@ -222,4 +229,5 @@ Licensed under the MIT License.
 ## Contact
 
 <a href="https://innostax.com/"> Innostax Software Labs</a>
+
 <p align="right">(<a href="#top">back to top</a>)</p>
