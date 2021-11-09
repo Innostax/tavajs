@@ -308,6 +308,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
   else if (frontEndChoice === "react") projectChoice = "react";
+  else if (frontEndChoice === "vue") projectChoice = "vue";
   else if (backEndChoice === "node") projectChoice = "node-js";
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
@@ -322,6 +323,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isCrud = crudOperation;
   let reactName = "";
   let nodeName = "";
+  let vueName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
@@ -369,8 +371,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
-      newDefaultRoute,
-      mongoSelected,
+       defaultRoute,
+       mongoSelected,
       sequelizeSelected,
       dbName,
       isSentry,
@@ -702,6 +704,25 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       shell.exec("yarn");
       console.log("-------------yarn process completed--------------------");
     }
+  } else if (projectChoice === "vue") {
+    createDirectoryContents(templatePath, projectName, vueName);
+    var projectPath = `${CURR_DIR}/${projectName}/${vueName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on vue, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on vue, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -782,7 +803,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   }
 
-  if (!isDocker && projectChoice !== "react") {
+  if (!isDocker && projectChoice !== "react" && projectChoice !== "vue") {
     let contents = fs.readFileSync(
       `${currentPath}/envTemplates/.dbEnv`,
       "utf8"
@@ -804,12 +825,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   if (reduxIntegration) {
     const reduxFiles = [
-      {
-        srcFolder: "reduxTemplates/demoUser",
-        srcFileName: "users.actions.js",
-        destFolder: "/src/Screens/Users",
-        destFileName: "users.actions.js",
-      },
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.reducer.js",
@@ -848,6 +863,16 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
 
+    let contents = fs.readFileSync(
+      `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
+      "utf8"
+    );
+    contents = render(contents, {
+      defaultRoute
+    });
+    writePath = `${reactPath}/src/Screens/Users/users.actions.js`;
+    fs.writeFileSync(writePath, contents, "utf8");
+    
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
@@ -954,10 +979,20 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     console.log("    ");
     if (isNpm) {
-      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+      if (projectChoice === "vue") {
+        console.log("   Inside", projectName);
+        console.log(chalk.cyanBright.italic.bold(`     npm run serve`));
+      } else {
+        console.log(chalk.cyanBright.italic.bold(`     npm start`));
+      }
     }
     if (isYarn) {
-      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+      if (projectChoice === "vue") {
+        console.log("   Inside", projectName);
+        console.log(chalk.cyanBright.italic.bold(`     yarn run serve`));
+      } else {
+        console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+      }
     }
 
     console.log(
@@ -975,6 +1010,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `${String.fromCodePoint(0x1f449)} To get Started:`
       )
     );
+    console.log(" Inside ", projectName);
     console.log("    ");
     console.log(
       chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
@@ -1004,7 +1040,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
   }
-  console.log("-------------Boiler plate is ready for use------------");
 });
 
 //function to create db service---------------------------------------------->

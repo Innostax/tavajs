@@ -23,9 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static("public"));
-
 app.use(`/<%= defaultRoute %>`, <%= defaultRoute %>);
-
 app.listen(port, function() {
   <% if(isWinston) {%>logger.info(`server started running on port ${port}`)<%}%>
   <% if(!(isWinston||isSentry)){%>
