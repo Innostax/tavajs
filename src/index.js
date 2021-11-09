@@ -848,14 +848,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
 
     let contents = fs.readFileSync(
-      `reduxTemplates/demoUser/users.action.js`,
+      `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
       "utf8"
     );
     contents = render(contents, {
       defaultRoute
     });
-    writePath = `/src/Screens/Users/users.actions.js`;
+    writePath = `${reactPath}/src/Screens/Users/users.actions.js`;
     fs.writeFileSync(writePath, contents, "utf8");
+    
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
