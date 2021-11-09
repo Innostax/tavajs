@@ -418,7 +418,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      projectChoice
     );
     shell.cd(`${nodePath}`);
     if (isNpm) {
@@ -616,7 +617,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      projectChoice
     );
     console.log(
       chalk.green.bold(
@@ -789,6 +791,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
+      projectChoice
     });
     if (projectChoice === "node-js") {
       writePath = `${CURR_DIR}/${projectName}/.env`;

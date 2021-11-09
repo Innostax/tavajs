@@ -21,11 +21,11 @@ services:
       DB_PASSWORD: password
       DB_HOST: postgres
       DATABASE_URL: postgres://postgres:password@postgres:5432/postgres
-      PORT: 3001
+      PORT: 3040
     depends_on:
       - postgres
     ports:
-      - "3001:3001"
+      - "3040:3040"
   <%= reactName %>:
     build:
       context: ./<%= reactName %>

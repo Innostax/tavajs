@@ -1,5 +1,5 @@
-PORT=3040
-
+<% if (projectChoice==="node-js") {%>PORT=3000 <% } %>
+<% if (projectChoice==="react_Node") {%>PORT=3040 <% } %>
 
 <% if (sequelizeSelected) { %>
 DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres

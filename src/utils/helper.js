@@ -23,8 +23,9 @@ function createDirectoryContents(
   isCrud,
   reactName,
   nodeName,
-  isDocker
-) {
+  projectChoice,
+  isDocker,
+) { 
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
     const origFilePath = `${templatePath}/${file}`;
@@ -53,6 +54,7 @@ function createDirectoryContents(
           isCrudWithNode,
           isCrud,
           isDocker,
+          projectChoice,
         },
         (autoescape = false)
       );
@@ -79,7 +81,8 @@ function createDirectoryContents(
         isCrud,
         reactName,
         nodeName,
-        isDocker
+        projectChoice,
+        isDocker,
       );
     }
   });
