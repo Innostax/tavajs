@@ -369,7 +369,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
-       // newDefaultRoute,
        defaultRoute,
        mongoSelected,
       sequelizeSelected,
@@ -386,7 +385,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       reactName,
       nodeName
     );
-    
     shell.cd(`${reactPath}`);
     if (isNpm) {
       console.log(
@@ -803,12 +801,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   if (reduxIntegration) {
     const reduxFiles = [
-      // {
-      //   srcFolder: "reduxTemplates/demoUser",
-      //   srcFileName: "users.actions.js",
-      //   destFolder: "/src/Screens/Users",
-      //   destFileName: "users.actions.js",
-      // },
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.reducer.js",
