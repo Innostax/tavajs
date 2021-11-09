@@ -21,7 +21,6 @@
 <h1 align="center">TAVA.js</h1>
 
 ## About The Project
-
 TAVAjs is an interactive Command Line Interface tool, which helps developers to set up project template with some trendy web technologies such as Node, React, Angular, Vue and some of the best-integrated services such as Authentication, Logger, Email, Blob, and others.
 
 ### FEATURES:
@@ -64,118 +63,124 @@ A. &nbsp; Enter the project name.
 
      ? Project name: MyProject
 
-B.&nbsp; Select "Yes" to create template for frontend.
+B.&nbsp; Choose any package manager.
+ 
+     ?Select Package Manager (Use arrow keys)
+     > NPM
+       YARN
+
+C.&nbsp; Select "Yes" to create template for frontend.
 
      ? Do you want template for Frontend? (Use arrow keys)
      > yes
        no
 
-C.&nbsp; Choose any framework according to your need.
+D.&nbsp; Choose any framework according to your need.
 
      ? Select the Framework (Use arrow keys)
      > React
        Angular
        Vue
 
-D.&nbsp; Enter frontend project name.
+E.&nbsp; Enter frontend project name.
 
       ? Front End project name: Front_End
 
-E.&nbsp; Authentication service : &nbsp;You can use authentication to manage which users have access to which pages. Select "Yes to use this service.
+F.&nbsp; Authentication service : &nbsp;You can use authentication to manage which users have access to which pages. Select "Yes to use this service.
 
      ? Do you want Authentication services? (Use arrow keys)
      > yes
        no
 
-F.&nbsp; Choose any authentication service according to your need.
+G.&nbsp; Choose any authentication service according to your need.
 
     ? What Authentication Service you want to use? (Use arrow keys)
     > Auth0
       Cognito
       Okta
 
-G.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
+H.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
 
     ? Do you want redux integration? (Use arrow keys)
       > yes
         no
 
-H.&nbsp; Select "yes" to implement backend in your project.
+I.&nbsp; Select "yes" to implement backend in your project.
 
     ? Do you want template for Backend? (Use arrow keys)
       > yes
         no
 
-I.&nbsp; Choose any framework as required.
+J.&nbsp; Choose any framework as required.
 
       ? Select the Framework
         Node
 
-J.&nbsp; Enter the backend project name.
+K.&nbsp; Enter the backend project name.
 
       ? Node Project name: Back_End
 
-K.&nbsp; Enter the route (press "Enter" to select default).
+L.&nbsp; Enter the route (press "Enter" to select default).
 
       ? Enter the default route (users)
 
-L.&nbsp; Select "yes" to integrate database service.
+M.&nbsp; Select "yes" to integrate database service.
 
       ? Do you need database service? (Use arrow keys)
       > yes
         no
 
-M.&nbsp; Choose database service as required.
+N.&nbsp; Choose database service as required.
 
       ? Which db service do you want? (Use arrow keys)
       > Postgres
         MySql
         Mongoose
 
-N.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
+O.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
 
       ? Do you want crud integration with React-Node boiler plate? (Use arrow keys)
       > yes
         no
 
-O.&nbsp; Select "yes" to integrate logger services.
+P.&nbsp; Select "yes" to integrate logger services.
 
       ? Do you want logger services? (Use arrow keys)
       > yes
         no
 
-P.&nbsp; Choose logger service as required.
+Q.&nbsp; Choose logger service as required.
 
       ? Which logger service do you want? (Use arrow keys)
       > Winston
         sentry
 
-Q.&nbsp; Select "yes" to integrate e-mail service.
+R.&nbsp; Select "yes" to integrate e-mail service.
 
       ? Do you want e-mail services? (Use arrow keys)
       > yes
         no
 
-R.&nbsp; Choose e-mail service which you want to integrate.
+S.&nbsp; Choose e-mail service which you want to integrate.
 
       ? Which Email service do you want? (Use arrow keys)
       > SendGrid
         Amazon Ses
         SMTP
 
-S.&nbsp; Select "yes" to integrate blob service.
+T.&nbsp; Select "yes" to integrate blob service.
 
       ? Do you want blob services? (Use arrow keys)
       > yes
         no
 
-T.&nbsp; Choose blob service as require.
+U.&nbsp; Choose blob service as require.
 
       ? Which Blob service do you want? (Use arrow keys)
       > AWS-s3
         Azure
 
-U.&nbsp; Select "yes" to integrate docker service.
+V.&nbsp; Select "yes" to integrate docker service.
 
       ? Do you want Docker services (Use arrow keys)
       > yes

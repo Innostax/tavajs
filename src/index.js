@@ -1033,7 +1033,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
   }
-  // console.log("-------------Boiler plate is ready for use------------");
 });
 
 //function to create db service---------------------------------------------->
