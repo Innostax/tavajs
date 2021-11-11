@@ -308,6 +308,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
   else if (frontEndChoice === "react") projectChoice = "react";
+  else if (frontEndChoice === "angular") projectChoice = "angular";
   else if (frontEndChoice === "vue") projectChoice = "vue";
   else if (backEndChoice === "node") projectChoice = "node-js";
   const projectName = answers["project-name"];
@@ -324,11 +325,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   let reactName = "";
   let nodeName = "";
   let vueName = "";
+  let angularName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
+  var angularPath = `${CURR_DIR}/${projectName}`;
 
   let screenName = "<%= projectName %>";
 
@@ -600,7 +603,76 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
-  } else if (projectChoice === "node-js") {
+  } 
+   //<---------------------------- for angular---------------------------------->
+  else if (projectChoice === "angular") {
+    createDirectoryContents(
+      templatePath,
+      projectName,
+      newDefaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
+      isAuth0,
+      isCognito,
+      isRedux,
+      screenName,
+      isCrudWithNode,
+      isCrud,
+      nodeName,
+      angularPath,
+      angularName
+    );
+    var projectPath = `${CURR_DIR}/${projectName}/${angularName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on angular, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on angular, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
+
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
+    }
+  else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
       templatePath,
@@ -803,7 +875,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   }
 
-  if (!isDocker && projectChoice !== "react" && projectChoice !== "vue") {
+  if (!isDocker && projectChoice !== "react" && projectChoice !== "vue" && projectChoice !== "angular") {
     let contents = fs.readFileSync(
       `${currentPath}/envTemplates/.dbEnv`,
       "utf8"
