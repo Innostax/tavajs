@@ -10,3 +10,8 @@ DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres
 DATABASE_URL=mongodb://localhost:27017/admin
 <% } %>
 
+<% if (isAuth0) { %>
+AUTH_SECRET="6nEspT7In8Nrch1xT5X8HJ8zHHsSeuOH"
+AUTH_AUDIENCE="https://test-cli-dev"
+AUTH_ISSUER="https://dev-tajmahal-cli.us.auth0.com/"
+<% } %>

@@ -371,8 +371,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
-       defaultRoute,
-       mongoSelected,
+      defaultRoute,
+      mongoSelected,
       sequelizeSelected,
       dbName,
       isSentry,
@@ -560,7 +560,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       console.log(
         "-------------NPM loading on react, Wait for finish--------------------"
       );
-      shell.exec("npm install --legacy-peer-deps");
+      // shell.exec("npm install --legacy-peer-deps");
       console.log("-------------NPM process completed--------------------");
     }
     if (isYarn) {
@@ -812,7 +812,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
-      projectChoice
+      projectChoice,
+      isAuth0,
     });
     if (projectChoice === "node-js") {
       writePath = `${CURR_DIR}/${projectName}/.env`;
@@ -839,9 +840,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       },
       {
         srcFolder: "reduxTemplates",
-        srcFileName: "store.js",
+        srcFileName: "createStore.js",
         destFolder: "/src",
-        destFileName: "store.js",
+        destFileName: "createStore.js",
       },
       {
         srcFolder: "reduxTemplates",
@@ -868,11 +869,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       "utf8"
     );
     contents = render(contents, {
-      defaultRoute
+      defaultRoute,
     });
     writePath = `${reactPath}/src/Screens/Users/users.actions.js`;
     fs.writeFileSync(writePath, contents, "utf8");
-    
+
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,

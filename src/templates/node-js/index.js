@@ -5,6 +5,7 @@ const cors=require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const <%= defaultRoute %> = require(`./Routes/<%= defaultRoute %>.routes`);
+<% if(isAuth0){%>const authorization = require(`./authorization`) <%}%>
 <% if (mongoSelected) { %>
 const conn = require('./mongoose')
 <% } %>
@@ -18,6 +19,7 @@ const app = express();
 <% } %>
 
 app.set('view engine', 'ejs');
+<% if(isAuth0){%>app.use(authorization)<%}%>
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
