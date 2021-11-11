@@ -331,7 +331,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
-  var angularPath = `${CURR_DIR}/${projectName}`;
 
   let screenName = "<%= projectName %>";
 

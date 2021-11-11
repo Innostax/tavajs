@@ -26,8 +26,7 @@ function createDirectoryContents(
   projectChoice,
   isDocker,
   vueName,
-  angularPath,
-  angularName
+  angularName,
   
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
@@ -89,7 +88,6 @@ function createDirectoryContents(
           projectChoice,
           isDocker,
           vueName,
-          angularPath,
           angularName
          
         );
