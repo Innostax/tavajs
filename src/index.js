@@ -621,7 +621,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       nodeName,
-      angularPath,
       angularName
     );
     var projectPath = `${CURR_DIR}/${projectName}/${angularName}`;
