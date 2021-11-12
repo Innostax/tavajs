@@ -9,7 +9,7 @@
             <Label name="Name:" />
           </b-col>
           <b-col>
-            <input type="text" v-model="selectedUser.name" placeholder="ABC" />
+            <Input type="text" v-model="selectedUser.name" placeholder="ABC" />
           </b-col>
         </b-row>
         <br />
@@ -18,7 +18,7 @@
             <Label name="User Name:" />
           </b-col>
           <b-col>
-            <input
+            <Input
               type="text"
               v-model="selectedUser.username"
               placeholder="ABC"
@@ -31,7 +31,7 @@
             <Label name="Email:" />
           </b-col>
           <b-col>
-            <input
+            <Input
               type="text"
               v-model="selectedUser.email"
               placeholder="abc@gmail.com"
@@ -40,14 +40,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-button
-              class="mt-3"
-              block
-              variant="primary"
-              v-on:click="onSubmitOne"
-              @click="$bvModal.hide('bv-modal-edit')"
-              >Edit User</b-button
-            >
+            <Button name="Edit User" color="primary" @submit="onSubmitOne" @onClick="$bvModal.hide('bv-modal-edit')" />
           </b-col>
         </b-row>
       </div>
@@ -57,11 +50,15 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Label from "../components/atoms/Label";
+import Label from "../components/atoms/Label.vue";
+import Button from "../components/atoms/Button.vue";
+import Input from "../components/atoms/Input.vue"
 export default {
   name: "EditUser",
   components: {
     Label,
+    Button,
+    Input
   },
   data() {
     return {

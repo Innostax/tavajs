@@ -11,17 +11,10 @@
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <td>
-          <b-button variant="danger" v-on:click="removeOne(user.id)"
-            >Delete</b-button
-          >
+          <Button name="Delete" color="danger" @onClick="removeOne(user.id)" />
         </td>
         <td>
-          <b-button
-            variant="primary"
-            v-on:click="editOne(user.id)"
-            @click="$bvModal.show('bv-modal-edit')"
-            >Edit</b-button
-          >
+          <Button name="Edit" color="primary" @onClick="$bvModal.show('bv-modal-edit')" />
         </td>
       </tr>
     </table>
@@ -30,8 +23,12 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Button from "../components/atoms/Button.vue";
 export default {
   name: "ShowUsers",
+  components: {
+    Button,
+  },
 
   data() {
     return {
