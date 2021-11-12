@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Users from "./Screens/Users";
+import Users from "./screens/users";
 
 export default function Routes() {
   return (

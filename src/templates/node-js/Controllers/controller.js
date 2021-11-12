@@ -1,5 +1,5 @@
 <% if (mongoSelected) { %>
-const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
+const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% } %>
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
