@@ -10,7 +10,7 @@
             <Label name="Name:" />
           </b-col>
           <b-col>
-            <Input type="text" v-model="name" placeholder="ABCD" />
+            <Input type="text" v-model="name" placeholder="Name" />
           </b-col>
         </b-row>
         <br />
@@ -19,7 +19,7 @@
             <Label name="User Name:" />
           </b-col>
           <b-col>
-            <Input type="text" v-model="username" placeholder="ABC" />
+            <Input type="text" v-model="username" placeholder="Username" />
           </b-col>
         </b-row>
         <br />
@@ -28,7 +28,7 @@
             <Label name="Email:" />
           </b-col>
           <b-col>
-            <Input type="text" v-model="email" placeholder="abc@gmail.com" />
+            <Input type="text" v-model="email" placeholder="example@email.com" />
           </b-col>
         </b-row>
         <b-row>
