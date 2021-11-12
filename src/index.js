@@ -17,6 +17,7 @@ var isCrud = false;
 var isAuth0 = false;
 var isCognito = false;
 var isRedux = false;
+var isVuex = false;
 var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
@@ -112,6 +113,18 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.frontEndChoice === "react";
+    },
+  },
+  {
+    name: "vuex",
+    type: "list",
+    message: "Do you want vuex integration?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "vue";
     },
   },
   {
@@ -326,9 +339,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   let vueName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
+  isVuex = answers["vuex"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
+  var vuePath =`${CURR_DIR}/${projectName}`;
 
   let screenName = "<%= projectName %>";
 
@@ -385,7 +400,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      projectChoice,
+      vueName,
+      isVuex
     );
     shell.cd(`${reactPath}`);
     if (isNpm) {
@@ -421,7 +439,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName,
-      projectChoice
+      projectChoice,
+      vueName,
+      isVuex
     );
     shell.cd(`${nodePath}`);
     if (isNpm) {
@@ -538,7 +558,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       templatePath,
       projectName,
-      newDefaultRoute,
+      defaultRoute,
       mongoSelected,
       sequelizeSelected,
       dbName,
@@ -552,7 +572,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       reactName,
-      nodeName
+      nodeName,
+      projectChoice,
+      vueName,
+      isVuex
     );
     var projectPath = `${CURR_DIR}/${projectName}/${reactName}`;
     shell.cd(`${projectPath}`);
@@ -600,7 +623,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
-  } else if (projectChoice === "node-js") {
+  }
+  //<------------------------------------for node------------------------------------------> 
+  else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
       templatePath,
@@ -620,7 +645,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrud,
       reactName,
       nodeName,
-      projectChoice
+      projectChoice,
+      vueName,
+      isVuex
     );
     console.log(
       chalk.green.bold(
@@ -704,8 +731,30 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       shell.exec("yarn");
       console.log("-------------yarn process completed--------------------");
     }
-  } else if (projectChoice === "vue") {
-    createDirectoryContents(templatePath, projectName, vueName);
+  } 
+  //<--------------------------------for vue----------------------------->
+  else if (projectChoice === "vue") {
+    createDirectoryContents(templatePath,
+      projectName,
+      defaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
+      isAuth0,
+      isCognito,
+      reactPath,
+      isRedux,
+      screenName,
+      isCrudWithNode,
+      isCrud,
+      reactName,
+      nodeName,
+      projectChoice,
+      vueName,
+      isVuex
+      );
     var projectPath = `${CURR_DIR}/${projectName}/${vueName}`;
     shell.cd(`${projectPath}`);
     if (isNpm) {
@@ -907,7 +956,29 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
-
+  //<---------------------------------VUEX INTEGRATION---------------------------->
+  if (isVuex) {
+    fsExtra.copy(
+      `${currentPath}/vuexTemplates/store`,
+      `${vuePath}/src/store`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/vuexTemplates/userModal`,
+      `${vuePath}/src/userModal`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+  }
   //<--------For authentication----------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
     const filesMap = [
