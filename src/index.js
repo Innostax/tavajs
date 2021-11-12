@@ -560,7 +560,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       console.log(
         "-------------NPM loading on react, Wait for finish--------------------"
       );
-      // shell.exec("npm install --legacy-peer-deps");
+      shell.exec("npm install --legacy-peer-deps");
       console.log("-------------NPM process completed--------------------");
     }
     if (isYarn) {
@@ -921,7 +921,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       {
         srcFolder: "envTemplates",
         srcFileName: ".authEnv",
-        destFolder: "",
+        destFolder: reactName + "",
         destFileName: ".env",
       },
     ];
