@@ -371,8 +371,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
-       defaultRoute,
-       mongoSelected,
+      defaultRoute,
+      mongoSelected,
       sequelizeSelected,
       dbName,
       isSentry,
@@ -514,12 +514,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const fileNames = [
       {
         oldName: "route.js",
-        folder: "Routes",
+        folder: "routes",
         newName: `${defaultRoute}.routes.js`,
       },
       {
         oldName: "controller.js",
-        folder: "Controllers",
+        folder: "controllers",
         newName: `${defaultRoute}.controllers.js`,
       },
     ];
@@ -670,12 +670,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const fileNames = [
       {
         oldName: "route.js",
-        folder: "Routes",
+        folder: "routes",
         newName: `${defaultRoute}.routes.js`,
       },
       {
         oldName: "controller.js",
-        folder: "Controllers",
+        folder: "controllers",
         newName: `${defaultRoute}.controllers.js`,
       },
     ];
@@ -812,7 +812,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
-      projectChoice
+      projectChoice,
     });
     if (projectChoice === "node-js") {
       writePath = `${CURR_DIR}/${projectName}/.env`;
@@ -828,13 +828,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.reducer.js",
-        destFolder: "/src/Screens/Users",
+        destFolder: "/src/screens/users",
         destFileName: "users.reducer.js",
       },
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.selectors.js",
-        destFolder: "/src/Screens/Users",
+        destFolder: "/src/screens/users",
         destFileName: "users.selectors.js",
       },
       {
@@ -868,15 +868,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       "utf8"
     );
     contents = render(contents, {
-      defaultRoute
+      defaultRoute,
     });
-    writePath = `${reactPath}/src/Screens/Users/users.actions.js`;
+    writePath = `${reactPath}/src/screens/Users/users.actions.js`;
     fs.writeFileSync(writePath, contents, "utf8");
-    
+
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
-        `${reactPath}/src/Screens/Users/AddUser.js`,
+        `${reactPath}/src/screens/users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -887,7 +887,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     if (isCrudWithNode) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-        `${reactPath}/src/Screens/Users/AddUser.js`,
+        `${reactPath}/src/screens/Users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -1062,7 +1062,7 @@ function createDbConn(nodePath, dbName, defaultRoute) {
     var fileName = "mongoose.js";
     var modelName = "mongooseModel.js";
   }
-  const modelPath = nodePath + "/Models";
+  const modelPath = nodePath + "/models";
   fs.mkdirSync(modelPath);
 
   let writePath = `${nodePath}/${fileName}`;

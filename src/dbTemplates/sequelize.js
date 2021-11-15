@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const UserModel = require('./Models/<%= defaultRoute %>')
+const UserModel = require('./models/<%= defaultRoute %>')
 const sequelize = new Sequelize(process.env.DATABASE_URL)
 const <%= defaultRoute %> = UserModel(sequelize, Sequelize)
     try {

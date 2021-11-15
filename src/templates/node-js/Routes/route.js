@@ -1,5 +1,5 @@
 const express = require('express');
-const <%= defaultRoute %> = require('../Controllers/<%= defaultRoute %>.controllers');
+const <%= defaultRoute %> = require('../controllers/<%= defaultRoute %>.controllers');
 const router = express.Router();
 
 router.post('/', <%= defaultRoute %>.create);
