@@ -323,9 +323,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const crudOperation = answers["CRUD"];
   isCrud = crudOperation;
   let reactName = "";
+  let frontEndName = "";
   let nodeName = "";
   let vueName = "";
-  let angularName = "";
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   const templatePath = path.join(__dirname, "templates", projectChoice);
@@ -373,8 +373,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
-       defaultRoute,
-       mongoSelected,
+      defaultRoute,
+      mongoSelected,
       sequelizeSelected,
       dbName,
       isSentry,
@@ -602,8 +602,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
-  } 
-   //<---------------------------- for angular---------------------------------->
+  }
+  //<---------------------------- for angular---------------------------------->
   else if (projectChoice === "angular") {
     createDirectoryContents(
       templatePath,
@@ -621,9 +621,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       nodeName,
-      angularName
+      frontEndName
     );
-    var projectPath = `${CURR_DIR}/${projectName}/${angularName}`;
+    var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     shell.cd(`${projectPath}`);
     if (isNpm) {
       console.log(
@@ -669,8 +669,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
-    }
-  else if (projectChoice === "node-js") {
+  } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
       templatePath,
@@ -873,7 +872,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   }
 
-  if (!isDocker && projectChoice !== "react" && projectChoice !== "vue" && projectChoice !== "angular") {
+  if (
+    !isDocker &&
+    projectChoice !== "react" &&
+    projectChoice !== "vue" &&
+    projectChoice !== "angular"
+  ) {
     let contents = fs.readFileSync(
       `${currentPath}/envTemplates/.dbEnv`,
       "utf8"
@@ -882,7 +886,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
-      projectChoice
+      projectChoice,
     });
     if (projectChoice === "node-js") {
       writePath = `${CURR_DIR}/${projectName}/.env`;
@@ -938,11 +942,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       "utf8"
     );
     contents = render(contents, {
-      defaultRoute
+      defaultRoute,
     });
     writePath = `${reactPath}/src/Screens/Users/users.actions.js`;
     fs.writeFileSync(writePath, contents, "utf8");
-    
+
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
