@@ -11,10 +11,10 @@
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <td>
-          <Button name="Delete" color="danger" @onClick="removeOne(user.id)" />
+          <Button id="show-btn" className="mt-3" name="Delete" color="danger" @onClick="removeOne(user.id)" />
         </td>
         <td>
-          <Button name="Edit" color="primary" @onClick="$bvModal.show('bv-modal-edit')" />
+          <Button id="show-btn" className="mt-3" name="Edit" color="primary" @submit="editOne(user.id)" @onClick="$bvModal.show('bv-modal-editUser')" />
         </td>
       </tr>
     </table>

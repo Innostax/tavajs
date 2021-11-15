@@ -1,8 +1,8 @@
 <template>
   <div id="addModal">
-    <Button name="Add User" color="primary" @onClick="$bvModal.show('bv-modal-example')"/>
+    <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="$bvModal.show('bv-modal-addUser')"/>
 
-    <b-modal id="bv-modal-example" hide-footer>
+    <b-modal id="bv-modal-addUser" hide-footer>
       <template #modal-title> ADD USER: </template>
       <div class="d-block text-center">
         <b-row>
@@ -33,7 +33,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <Button name="Add User" color="primary" @submit="onSubmit" @onClick="$bvModal.hide('bv-modal-example')" />
+            <Button id="show-btn" className="mt-3" name="Add User" color="primary" @submit="onSubmit" @onClick="$bvModal.hide('bv-modal-addUser')" />
           </b-col>
         </b-row>
       </div>
