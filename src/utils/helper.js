@@ -25,7 +25,9 @@ function createDirectoryContents(
   nodeName,
   projectChoice,
   vueName,
-  isVuex
+  isVuex,
+  angularName,
+  
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -85,7 +87,9 @@ function createDirectoryContents(
           nodeName,
           projectChoice,
           vueName,
-          isVuex
+          isVuex,
+          angularName
+         
         );
       }
     }

@@ -4,7 +4,7 @@ const express = require("express");
 const cors=require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-const <%= defaultRoute %> = require(`./Routes/<%= defaultRoute %>.routes`);
+const <%= defaultRoute %> = require(`./routes/<%= defaultRoute %>.routes`);
 <% if (mongoSelected) { %>
 const conn = require('./mongoose')
 <% } %>

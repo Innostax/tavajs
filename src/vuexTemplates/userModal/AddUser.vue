@@ -1,14 +1,8 @@
 <template>
   <div id="addModal">
-    <b-button
-      id="show-btn"
-      @click="$bvModal.show('bv-modal-example')"
-      class="mt-3"
-      variant="primary"
-      >Add User</b-button
-    >
+    <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="$bvModal.show('bv-modal-addUser')"/>
 
-    <b-modal id="bv-modal-example" hide-footer>
+    <b-modal id="bv-modal-addUser" hide-footer>
       <template #modal-title> ADD USER: </template>
       <div class="d-block text-center">
         <b-row>
@@ -16,7 +10,7 @@
             <Label name="Name:" />
           </b-col>
           <b-col>
-            <input type="text" v-model="name" placeholder="ABCD" />
+            <Input type="text" v-model="name" placeholder="Name" />
           </b-col>
         </b-row>
         <br />
@@ -25,7 +19,7 @@
             <Label name="User Name:" />
           </b-col>
           <b-col>
-            <input type="text" v-model="username" placeholder="ABC" />
+            <Input type="text" v-model="username" placeholder="Username" />
           </b-col>
         </b-row>
         <br />
@@ -34,19 +28,12 @@
             <Label name="Email:" />
           </b-col>
           <b-col>
-            <input type="text" v-model="email" placeholder="abc@gmail.com" />
+            <Input type="text" v-model="email" placeholder="example@email.com" />
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <b-button
-              class="mt-3"
-              block
-              variant="primary"
-              v-on:click="onSubmit"
-              @click="$bvModal.hide('bv-modal-example')"
-              >Add User</b-button
-            >
+            <Button id="show-btn" className="mt-3" name="Add User" color="primary" @submit="onSubmit" @onClick="$bvModal.hide('bv-modal-addUser')" />
           </b-col>
         </b-row>
       </div>
@@ -57,10 +44,14 @@
 <script>
 import { mapActions } from "vuex";
 import Label from "../components/atoms/Label";
+import Button from "../components/atoms/Button";
+import Input from "../components/atoms/Input";
 export default {
   name: "AddUser",
   components: {
     Label,
+    Button,
+    Input
   },
   data() {
     return {

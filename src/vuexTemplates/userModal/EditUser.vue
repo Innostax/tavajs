@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal id="bv-modal-edit" hide-footer>
+    <b-modal id="bv-modal-editUser" hide-footer>
       <template #modal-title> Edit User </template>
 
       <div class="d-block text-center">
@@ -9,7 +9,7 @@
             <Label name="Name:" />
           </b-col>
           <b-col>
-            <input type="text" v-model="selectedUser.name" placeholder="ABC" />
+            <Input type="text" v-model="selectedUser.name" placeholder="Name" />
           </b-col>
         </b-row>
         <br />
@@ -18,10 +18,10 @@
             <Label name="User Name:" />
           </b-col>
           <b-col>
-            <input
+            <Input
               type="text"
               v-model="selectedUser.username"
-              placeholder="ABC"
+              placeholder="Username"
             />
           </b-col>
         </b-row>
@@ -31,23 +31,16 @@
             <Label name="Email:" />
           </b-col>
           <b-col>
-            <input
+            <Input
               type="text"
               v-model="selectedUser.email"
-              placeholder="abc@gmail.com"
+              placeholder="example@email.com"
             />
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <b-button
-              class="mt-3"
-              block
-              variant="primary"
-              v-on:click="onSubmitOne"
-              @click="$bvModal.hide('bv-modal-edit')"
-              >Edit User</b-button
-            >
+            <Button id="show-btn" className="mt-3" name="Edit User" color="primary" @submit="onSubmitOne" @onClick="$bvModal.hide('bv-modal-editUser')" />
           </b-col>
         </b-row>
       </div>
@@ -57,11 +50,15 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Label from "../components/atoms/Label";
+import Label from "../components/atoms/Label.vue";
+import Button from "../components/atoms/Button.vue";
+import Input from "../components/atoms/Input.vue";
 export default {
   name: "EditUser",
   components: {
     Label,
+    Button,
+    Input
   },
   data() {
     return {

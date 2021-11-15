@@ -321,6 +321,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
   else if (frontEndChoice === "react") projectChoice = "react";
+  else if (frontEndChoice === "angular") projectChoice = "angular";
   else if (frontEndChoice === "vue") projectChoice = "vue";
   else if (backEndChoice === "node") projectChoice = "node-js";
   const projectName = answers["project-name"];
@@ -335,6 +336,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const crudOperation = answers["CRUD"];
   isCrud = crudOperation;
   let reactName = "";
+  let frontEndName = "";
   let nodeName = "";
   let vueName = "";
   var dbName = answers["dbName"];
@@ -386,8 +388,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     createDirectoryContents(
       reactTemplatePath,
       `${projectName}/${reactName}`,
-       defaultRoute,
-       mongoSelected,
+      defaultRoute,
+      mongoSelected,
       sequelizeSelected,
       dbName,
       isSentry,
@@ -534,12 +536,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const fileNames = [
       {
         oldName: "route.js",
-        folder: "Routes",
+        folder: "routes",
         newName: `${defaultRoute}.routes.js`,
       },
       {
         oldName: "controller.js",
-        folder: "Controllers",
+        folder: "controllers",
         newName: `${defaultRoute}.controllers.js`,
       },
     ];
@@ -624,8 +626,73 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
   }
-  //<------------------------------------for node------------------------------------------> 
-  else if (projectChoice === "node-js") {
+  //<---------------------------- for angular---------------------------------->
+  else if (projectChoice === "angular") {
+    createDirectoryContents(
+      templatePath,
+      projectName,
+      newDefaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
+      isAuth0,
+      isCognito,
+      isRedux,
+      screenName,
+      isCrudWithNode,
+      isCrud,
+      nodeName,
+      frontEndName
+    );
+    var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
+    shell.cd(`${projectPath}`);
+    if (isNpm) {
+      console.log(
+        "-------------NPM loading on angular, Wait for finish--------------------"
+      );
+      shell.exec("npm install --legacy-peer-deps");
+      console.log("-------------NPM process completed--------------------");
+    }
+    if (isYarn) {
+      console.log(
+        "-------------yarn loading on angular, Wait for finish--------------------"
+      );
+      shell.exec("npm install -g yarn");
+      shell.exec("yarn");
+      console.log("-------------yarn process completed--------------------");
+    }
+
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating React project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers.authService === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
+          }`
+        )
+      );
+    if (isRedux)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
+  } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
       templatePath,
@@ -697,12 +764,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const fileNames = [
       {
         oldName: "route.js",
-        folder: "Routes",
+        folder: "routes",
         newName: `${defaultRoute}.routes.js`,
       },
       {
         oldName: "controller.js",
-        folder: "Controllers",
+        folder: "controllers",
         newName: `${defaultRoute}.controllers.js`,
       },
     ];
@@ -852,7 +919,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
   }
 
-  if (!isDocker && projectChoice !== "react" && projectChoice !== "vue") {
+  if (
+    !isDocker &&
+    projectChoice !== "react" &&
+    projectChoice !== "vue" &&
+    projectChoice !== "angular"
+  ) {
     let contents = fs.readFileSync(
       `${currentPath}/envTemplates/.dbEnv`,
       "utf8"
@@ -861,7 +933,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
-      projectChoice
+      projectChoice,
     });
     if (projectChoice === "node-js") {
       writePath = `${CURR_DIR}/${projectName}/.env`;
@@ -877,13 +949,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.reducer.js",
-        destFolder: "/src/Screens/Users",
+        destFolder: "/src/screens/users",
         destFileName: "users.reducer.js",
       },
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.selectors.js",
-        destFolder: "/src/Screens/Users",
+        destFolder: "/src/screens/users",
         destFileName: "users.selectors.js",
       },
       {
@@ -917,15 +989,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       "utf8"
     );
     contents = render(contents, {
-      defaultRoute
+      defaultRoute,
     });
-    writePath = `${reactPath}/src/Screens/Users/users.actions.js`;
+    writePath = `${reactPath}/src/screens/Users/users.actions.js`;
     fs.writeFileSync(writePath, contents, "utf8");
-    
+
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
-        `${reactPath}/src/Screens/Users/AddUser.js`,
+        `${reactPath}/src/screens/users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -936,7 +1008,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     if (isCrudWithNode) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-        `${reactPath}/src/Screens/Users/AddUser.js`,
+        `${reactPath}/src/screens/Users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -1133,7 +1205,7 @@ function createDbConn(nodePath, dbName, defaultRoute) {
     var fileName = "mongoose.js";
     var modelName = "mongooseModel.js";
   }
-  const modelPath = nodePath + "/Models";
+  const modelPath = nodePath + "/models";
   fs.mkdirSync(modelPath);
 
   let writePath = `${nodePath}/${fileName}`;
