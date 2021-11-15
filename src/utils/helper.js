@@ -24,8 +24,8 @@ function createDirectoryContents(
   reactName,
   nodeName,
   projectChoice,
-  isDocker,
   vueName,
+  isVuex,
   angularName,
   
 ) {
@@ -58,7 +58,7 @@ function createDirectoryContents(
             isCrudWithNode,
             isCrud,
             projectChoice,
-            isDocker,
+            isVuex
           },
           (autoescape = false)
         );
@@ -86,8 +86,8 @@ function createDirectoryContents(
           reactName,
           nodeName,
           projectChoice,
-          isDocker,
           vueName,
+          isVuex,
           angularName
          
         );
