@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import * as users from "./Screens/Users";
 import * as userContext from "./infrastructure/userContext";
+import * as users from "./screens/users";
 
 export default combineReducers({
   [users.name]: users.reducer,

@@ -1,15 +1,17 @@
 <template>
   <div>
     <h1>Welcome to Users Screen</h1>
-    <h3>Welcome to Vue Vuex Crash Course</h3>
-
+<%if(isVuex) { %>
+<h3>Welcome to Vue Vuex Crash Course</h3>
     <AddUser />
     <ShowUsers />
     <EditUser />
+    <% } %>
   </div>
 </template>
 
 <script>
+<%if(isVuex) { %>
 import AddUser from "../userModal/AddUser";
 import ShowUsers from "../userModal/ShowUsers";
 import EditUser from "../userModal/EditUser";
@@ -21,6 +23,7 @@ export default {
     EditUser,
   },
 };
+<% } %>
 </script>
 
 <style scope>

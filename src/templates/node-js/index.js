@@ -4,10 +4,12 @@ const express = require("express");
 const cors=require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-const <%= defaultRoute %> = require(`./Routes/<%= defaultRoute %>.routes`);
-<% if(isAuth0){%>const authorization = require(`./authorization`) <%}%>
+const <%= defaultRoute %> = require(`./routes/<%= defaultRoute %>.routes`);
 <% if (mongoSelected) { %>
 const conn = require('./mongoose')
+<% } %>
+<% if (isAuth0) { %>
+const authorization = require(`./authorization`)
 <% } %>
   
 const port = process.env.PORT
