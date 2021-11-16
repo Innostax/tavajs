@@ -336,8 +336,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isDocker = dockerService;
   const crudOperation = answers["CRUD"];
   isCrud = crudOperation;
-  let frontEndName = answers["FrontEnd-name"];
-  let nodeName = answers["node-name"];
+  let frontEndName = "";
+  let nodeName = "";
   let managerChoice=answers["managerChoice"];
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
@@ -374,6 +374,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
+    frontEndName = answers["FrontEnd-name"];
+    nodeName = answers["node-name"];
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
@@ -541,7 +543,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex
     );
-    var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
+    var projectPath = `${CURR_DIR}/${projectName}`;
     packageInstaller(managerChoice,frontEndChoice,projectPath);
     console.log(
       chalk.green.bold(
