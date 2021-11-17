@@ -5,7 +5,7 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
 const path = require("path");
-const { render } = require("../utils/template");
+const { render } = require("ejs");
 const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
