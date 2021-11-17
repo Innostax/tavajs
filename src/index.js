@@ -21,7 +21,7 @@ var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
 const currentPath = path.join(__dirname);
-const {render} = require("ejs");
+const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
 const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
@@ -338,14 +338,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isCrud = crudOperation;
   let frontEndName = "";
   let nodeName = "";
-  let managerChoice=answers["managerChoice"];
+  let managerChoice = answers["managerChoice"];
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   isVuex = answers["vuex"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
-  var vuePath =`${CURR_DIR}/${projectName}`;
+  var vuePath = `${CURR_DIR}/${projectName}`;
 
   let screenName = "<%= projectName %>";
 
@@ -403,7 +403,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex
     );
-    packageInstaller(managerChoice,frontEndChoice,reactPath)
+    packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -426,7 +426,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex
     );
-    packageInstaller(managerChoice,backEndChoice,nodePath);
+    packageInstaller(managerChoice, backEndChoice, nodePath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -544,7 +544,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isVuex
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
-    packageInstaller(managerChoice,frontEndChoice,projectPath);
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -595,7 +595,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice,frontEndChoice,projectPath);
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -713,7 +713,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    packageInstaller(managerChoice,backEndChoice,projectPath);
+    packageInstaller(managerChoice, backEndChoice, projectPath);
   } else if (projectChoice === "vue") {
     createDirectoryContents(
       templatePath,
@@ -734,9 +734,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex);
+      isVuex
+    );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice,frontEndChoice,projectPath);
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -782,7 +783,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   //<------------------------------------------------------------------------------------------->
   if (answers["dbService"] === "yes") {
-    createDbConn(nodePath, dbName, defaultRoute,`${currentPath}`);
+    createDbConn(nodePath, dbName, defaultRoute, `${currentPath}`);
   }
 
   //for Docker INTEGRATION-------------------------
@@ -847,13 +848,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.reducer.js",
-        destFolder: "/src/screens/users",
+        destFolder: "/src/screens/Users",
         destFileName: "users.reducer.js",
       },
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.selectors.js",
-        destFolder: "/src/screens/users",
+        destFolder: "/src/screens/Users",
         destFileName: "users.selectors.js",
       },
       {
@@ -895,7 +896,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
-        `${reactPath}/src/screens/users/AddUser.js`,
+        `${reactPath}/src/screens/Users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -1019,7 +1020,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     console.log("    ");
-    if (managerChoice==="npm") {
+    if (managerChoice === "npm") {
       if (projectChoice === "vue") {
         console.log("   Inside", projectName);
         console.log(chalk.cyanBright.italic.bold(`     npm run serve`));
@@ -1027,7 +1028,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         console.log(chalk.cyanBright.italic.bold(`     npm start`));
       }
     }
-    if (managerChoice==="yarn") {
+    if (managerChoice === "yarn") {
       if (projectChoice === "vue") {
         console.log("   Inside", projectName);
         console.log(chalk.cyanBright.italic.bold(`     yarn run serve`));
@@ -1058,10 +1059,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     console.log("   Inside", frontEndName);
     console.log("    ");
-    if (managerChoice==="npm") {
+    if (managerChoice === "npm") {
       console.log(chalk.cyanBright.italic.bold(`     npm start`));
     }
-    if (managerChoice==="yarn") {
+    if (managerChoice === "yarn") {
       console.log(chalk.cyanBright.italic.bold(`     yarn start`));
     }
     console.log(
@@ -1069,10 +1070,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     console.log("   Inside", nodeName);
     console.log("    ");
-    if (managerChoice==="npm") {
+    if (managerChoice === "npm") {
       console.log(chalk.cyanBright.italic.bold(`     npm start`));
     }
-    if (managerChoice==="yarn") {
+    if (managerChoice === "yarn") {
       console.log(chalk.cyanBright.italic.bold(`     yarn start`));
     }
     console.log(
