@@ -6,6 +6,7 @@ const Table = ({ keyField, data, columns }) => (
 		keyField={keyField}
 		data={data}
 		columns={columns}
+		rowStyle={{ color: 'red', backgroundColor: 'white' }}
 	/>
 )
 
