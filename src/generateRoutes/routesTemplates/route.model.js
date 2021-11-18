@@ -1,9 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
-	name: String,
-	username: String,
-	email: String,
-})
+const schema = new mongoose.Schema({});
 
-module.exports = mongoose.model('<%= routeName %>', schema)
+module.exports = mongoose.model("<%= routeName %>", schema);

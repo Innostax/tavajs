@@ -17,6 +17,6 @@
   "bin": {
     "generate-tava": "src/index.js",
     "generate-screen": "src/generateScreens/generate-react-screen.js",
-    "tava-generate-route": "src/generateRoutes/generate-route.js"
+    "generate-route": "src/generateRoutes/generate-route.js"
   }
 }

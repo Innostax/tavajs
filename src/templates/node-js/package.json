@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
     
+  "scripts": {    
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run pretty && npm run eslint && npm run dev-watch",
     "dev-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"nodemon index.js\"",
@@ -28,8 +28,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.12",
-    "mongoose": "^6.0.2"
+    "nodemon": "^2.0.12"
+   
   },
   "devDependencies": {
     "concurrently": "^5.1.0",

@@ -20,89 +20,187 @@ const QUESTIONS = [
   },
 ];
 inquirer.prompt(QUESTIONS).then((answers) => {
-  const projectName = answers["routeName"];
-  console.log("");
-  const templatePath = `${currentPath}/routesTemplates`;
+  var newRouteName = answers["routeName"];
 
-  function createDirectoryContents(templatePath, projectName) {
-    const filesToCreate = fs.readdirSync(templatePath);
+  const dbName = JSON.parse(fs.readFileSync(`${CURR_DIR}/package.json`));
 
-    var data = fs
-      .readFileSync(`${CURR_DIR}/Routes/index.js`)
-      .toString()
-      .split("\n");
+  console.log(
+    Object.keys(dbName["dependencies"]).some((each) => each === "sequelize")
+  );
 
-    data.splice(5, 0, `app.use( '/${projectName}', ${projectName})`);
+  if (
+    Object.keys(dbName["dependencies"]).some((each) => each === "sequelize") ===
+    true
+  ) {
+    var templatePath = `${currentPath}/postgresTemplates`;
+    function createDirectoryContents(templatePath, newRouteName) {
+      const filesToCreates = fs.readdirSync(templatePath);
+      var data = fs
+        .readFileSync(`${CURR_DIR}/routes/index.js`)
+        .toString()
+        .split("\n");
 
-    data.splice(
-      2,
-      0,
-      `const  ${projectName}= require("./${projectName}.routes");`
-    );
-    var text = data.join("\n");
-    fs.writeFile(`${CURR_DIR}/Routes/index.js`, text, function (err) {
-      if (err) return console.log(err);
-    });
+      data.splice(
+        data.findIndex((each) => each === "const selectionRoute = (app) => {") +
+          1,
+        0,
+        `app.use( '/${newRouteName}', ${newRouteName})`
+      );
+      data.splice(
+        1,
+        0,
+        `const  ${newRouteName}= require("./${newRouteName}.routes");`
+      );
+      var text = data.join("\n");
+      fs.writeFile(`${CURR_DIR}/Routes/index.js`, text, function (err) {
+        if (err) return console.log(err);
+      });
 
-    filesToCreate.forEach((file, i) => {
-      const origFilePath = `${templatePath}/${file}`;
-      const stats = fs.statSync(origFilePath);
-      if (stats.isFile()) {
-        let contents = fs.readFileSync(origFilePath, "utf8");
+      var newData = fs
+        .readFileSync(`${CURR_DIR}/sequelize.js`)
+        .toString()
+        .split("\n");
+      newData.splice(
+        4,
+        0,
+        `var UserModel = require('./models/${newRouteName}')`
+      );
+      newData.splice(
+        5,
+        0,
+        `var ${newRouteName}= UserModel(sequelize, Sequelize);`
+      );
+      newData.splice(
+        newData.findIndex((each) => each === "module.exports = {") + 1,
+        0,
+        ` ${newRouteName},`
+      );
+      var text = newData.join("\n");
+      fs.writeFile(`${CURR_DIR}/sequelize.js`, text, function (err) {
+        if (err) return console.log(err);
+      });
 
-        contents = render(contents, { routeName: projectName });
-        const writePath = [
-          `${CURR_DIR}/Controllers/${file}`,
-          `${CURR_DIR}/Models/${file}`,
-          `${CURR_DIR}/Routes/${file}`,
-        ];
+      filesToCreates.forEach((file, i) => {
+        const origFilePath = `${templatePath}/${file}`;
+        const stats = fs.statSync(origFilePath);
+        if (stats.isFile()) {
+          let contents = fs.readFileSync(origFilePath, "utf8");
 
-        fs.writeFileSync(writePath[i], contents, "utf8");
-        i++;
+          contents = render(contents, { routeName: newRouteName });
+          const writePath = [
+            `${CURR_DIR}/Controllers/${file}`,
+            `${CURR_DIR}/Models/${file}`,
+            `${CURR_DIR}/Routes/${file}`,
+          ];
 
-        //--------------------rename file-----------
+          fs.writeFileSync(writePath[i], contents, "utf8");
+          i++;
 
-        if (file.startsWith("route")) {
-          const fileName = [".controller", "", ".routes"];
-          setTimeout(function name() {
-            fs.rename(
-              `${CURR_DIR}/Controllers/${file}`,
-              `${CURR_DIR}/Controllers/${projectName}.controllers.js`,
-              (error) => {
-                if (error) {
-                  // Show the error
-                } else {
-                  // List all the filenames after renaming
-                }
-              }
-            );
-            fs.rename(
-              `${CURR_DIR}/Routes/${file}`,
-              `${CURR_DIR}/Routes/${projectName}.routes.js`,
-              (error) => {
-                if (error) {
-                  // Show the error
-                } else {
-                  // List all the filenames after renaming
-                }
-              }
-            );
-            fs.rename(
-              `${CURR_DIR}/Models/${file}`,
-              `${CURR_DIR}/Models/${projectName}.js`,
-              (error) => {
-                if (error) {
-                  // Show the error
-                } else {
-                  // List all the filenames after renaming
-                }
-              }
-            );
-          }, 300);
+          //--------------------rename file-----------
+          renameFile(file, newRouteName);
         }
-      }
-    });
+      });
+    }
+  } else if (
+    Object.keys(dbName["dependencies"]).some((each) => each === "mySql") ===
+    true
+  ) {
+    console.log(" +++  mysql is selected");
+  } else if (
+    Object.keys(dbName["dependencies"]).some((each) => each === "mongoose") ===
+    true
+  ) {
+    var templatePath = `${currentPath}/routesTemplates`;
+    function createDirectoryContents(templatePath, newRouteName) {
+      const filesToCreate = fs.readdirSync(templatePath);
+
+      var data = fs
+        .readFileSync(`${CURR_DIR}/Routes/index.js`)
+        .toString()
+        .split("\n");
+
+      data.splice(
+        data.findIndex((each) => each === "const selectionRoute = (app) => {") +
+          1,
+        0,
+        `app.use( '/${newRouteName}', ${newRouteName})`
+      );
+
+      data.splice(
+        2,
+        0,
+        `const  ${newRouteName}= require("./${newRouteName}.routes");`
+      );
+      var text = data.join("\n");
+      fs.writeFile(`${CURR_DIR}/Routes/index.js`, text, function (err) {
+        if (err) return console.log(err);
+      });
+
+      filesToCreate.forEach((file, i) => {
+        const origFilePath = `${templatePath}/${file}`;
+        const stats = fs.statSync(origFilePath);
+        if (stats.isFile()) {
+          let contents = fs.readFileSync(origFilePath, "utf8");
+
+          contents = render(contents, { routeName: newRouteName });
+          const writePath = [
+            `${CURR_DIR}/Controllers/${file}`,
+            `${CURR_DIR}/Models/${file}`,
+            `${CURR_DIR}/Routes/${file}`,
+          ];
+
+          fs.writeFileSync(writePath[i], contents, "utf8");
+          i++;
+
+          //--------------------rename file-----------
+          renameFile(file, newRouteName);
+        }
+      });
+    }
   }
-  createDirectoryContents(templatePath, projectName);
-  console.log(`New Routes is ready for use by /${projectName}-----`);
+  createDirectoryContents(templatePath, newRouteName);
+  console.log(`New Routes is ready for use by /${newRouteName}-----`);
 });
+
+// function to rename Files to Files
+
+function renameFile(file, newRouteName) {
+  if (file.startsWith("route")) {
+    const fileName = [".controller", "", ".routes"];
+    setTimeout(function name() {
+      fs.rename(
+        `${CURR_DIR}/Controllers/${file}`,
+        `${CURR_DIR}/Controllers/${newRouteName}.controllers.js`,
+        (error) => {
+          if (error) {
+            // Show the error
+          } else {
+            // List all the filenames after renaming
+          }
+        }
+      );
+      fs.rename(
+        `${CURR_DIR}/Routes/${file}`,
+        `${CURR_DIR}/Routes/${newRouteName}.routes.js`,
+        (error) => {
+          if (error) {
+            // Show the error
+          } else {
+            // List all the filenames after renaming
+          }
+        }
+      );
+      fs.rename(
+        `${CURR_DIR}/Models/${file}`,
+        `${CURR_DIR}/Models/${newRouteName}.js`,
+        (error) => {
+          if (error) {
+            // Show the error
+          } else {
+            // List all the filenames after renaming
+          }
+        }
+      );
+    }, 300);
+  }
+}

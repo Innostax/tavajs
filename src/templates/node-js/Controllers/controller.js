@@ -1,5 +1,5 @@
 <% if (mongoSelected) { %>
-const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
+const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% } %>
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
@@ -59,7 +59,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
           {$set: req.body},
           function(err,data){
             if(!err){
-              users.find(function(err, data){
+              <%= defaultRoute %>.find(function(err, data){
                 if (!err) {
                   res.send(data);
                 } else {
@@ -111,7 +111,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.deleteOne({_id: req.params.id}, function(err, data){
           if (data) {
-            users.find(function(err, data){
+            <%= defaultRoute %>.find(function(err, data){
               if (!err) {
                 res.send(data);
               } else {
@@ -155,7 +155,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %> > 0) res.json(users);
+        if (<%= defaultRoute %> > 0) res.json(<%= defaultRoute %>);
         else res.send("no user found");
       });
         <%}%>

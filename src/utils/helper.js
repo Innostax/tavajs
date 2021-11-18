@@ -23,64 +23,75 @@ function createDirectoryContents(
   isCrud,
   reactName,
   nodeName,
-  isDocker
+  projectChoice,
+  vueName,
+  isVuex,
+  angularName,
+  
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
-    const origFilePath = `${templatePath}/${file}`;
-    // get stats about the current file
-    const stats = fs.statSync(origFilePath);
-    if (stats.isFile()) {
-      let contents = fs.readFileSync(origFilePath, "utf8");
+    if (file !== ".git") {
+      const origFilePath = `${templatePath}/${file}`;
+      // get stats about the current file
+      const stats = fs.statSync(origFilePath);
+      if (stats.isFile()) {
+        let contents = fs.readFileSync(origFilePath, "utf8");
 
-      const elements = newProjectPath.split("/");
-      const NameProject = elements[elements.length - 1];
+        const elements = newProjectPath.split("/");
+        const NameProject = elements[elements.length - 1];
 
-      contents = render(
-        contents,
-        {
-          projectName: NameProject,
-          defaultRoute: newDefaultRoute,
-          isAuth0,
-          isCognito,
-          isRedux,
-          screenName,
+        contents = render(
+          contents,
+          {
+            projectName: NameProject,
+            defaultRoute: newDefaultRoute,
+            isAuth0,
+            isCognito,
+            isRedux,
+            screenName,
+            mongoSelected,
+            sequelizeSelected,
+            dbName,
+            isSentry,
+            isWinston,
+            isCrudWithNode,
+            isCrud,
+            projectChoice,
+            isVuex
+          },
+          (autoescape = false)
+        );
+        const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
+        fs.writeFileSync(writePath, contents, "utf8");
+      } else if (stats.isDirectory()) {
+        fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
+        // recursive call
+        createDirectoryContents(
+          `${templatePath}/${file}`,
+          `${newProjectPath}/${file}`,
+          newDefaultRoute,
           mongoSelected,
           sequelizeSelected,
           dbName,
           isSentry,
           isWinston,
+          isAuth0,
+          isCognito,
+          reactPath,
+          isRedux,
+          screenName,
           isCrudWithNode,
           isCrud,
-          isDocker,
-        },
-        (autoescape = false)
-      );
-      const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
-      fs.writeFileSync(writePath, contents, "utf8");
-    } else if (stats.isDirectory()) {
-      fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
-      // recursive call
-      createDirectoryContents(
-        `${templatePath}/${file}`,
-        `${newProjectPath}/${file}`,
-        newDefaultRoute,
-        mongoSelected,
-        sequelizeSelected,
-        dbName,
-        isSentry,
-        isWinston,
-        isAuth0,
-        isCognito,
-        reactPath,
-        isRedux,
-        screenName,
-        isCrudWithNode,
-        isCrud,
-        reactName,
-        nodeName,
-        isDocker
-      );
+          reactName,
+          nodeName,
+          projectChoice,
+          vueName,
+          isVuex,
+          angularName
+         
+        );
+      }
     }
   });
 }
