@@ -5,16 +5,12 @@ const initialState = {
   users: [],
   selectedUserModal: null,
   selectedUser:{},
-  appMode: 'light',
 };
 
 const slice = createSlice({
   name: "users",
   initialState,
-  reducers: { 
-  setAppMode(state, action) {
-			state.appMode = action.payload || initialState.appMode
-	},
+  reducers: {
   setSelectedUserModal(state,action){
       state.selectedUserModal = action.payload || initialState.selectedUserModal
   }, 
