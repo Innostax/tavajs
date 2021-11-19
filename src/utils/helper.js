@@ -55,7 +55,8 @@ function createDirectoryContents(
             isCrud,
             projectChoice,
             isVuex,
-            isTheme
+            isTheme,
+            nodeName
           },
           (autoescape = false)
         );
