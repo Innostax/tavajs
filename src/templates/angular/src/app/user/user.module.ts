@@ -6,8 +6,6 @@ import {StoreModule} from '@ngrx/store';
 import {userFeatureKey, reducer} from './store/reducer/user.reducer';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [
     UserViewComponent,

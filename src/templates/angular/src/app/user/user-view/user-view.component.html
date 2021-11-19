@@ -8,30 +8,21 @@
       <th scope="col">Actions</th>
     </tr>
   </thead>
-    
   <tbody>
     <tr *ngFor="let user of users$ | async">
            <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td >{{ user.username }}</td>
             <td >{{ user.email }}</td>
-            <td>
-              
-              
-              
-              <button class="btn btn-primary" (click)="open(content,user)">Edit</button>
-
-              &nbsp;
-              <button class="btn btn-danger" (click)="deleteuser(user.id)">
-                Delete</button
-              >
+            <td> 
+              <button class="btn btn-primary btn-space" (click)="open(editusermodal,user)">Edit</button>
+              <button class="btn btn-danger btn-space" (click)="deleteuser(user.id)"> Delete</button >
             </td>
           </tr>
         </tbody>
       </table>
 
-
-      <ng-template #content let-modal>
+      <ng-template #editusermodal let-modal>
         <div class="modal-header">
           <h4 class="modal-title" id="modal-basic-title">Edit User</h4>
           <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -45,27 +36,19 @@
                       <label>Name</label>
                       <input type="text"  class="form-control" formControlName="name" />
                     </div>
-              
                     <div class="mb-3">
                       <label>UserName</label>
                       <input type="username" class="form-control" formControlName="username" />
-                     
                       </div>
-              
                     <div class="mb-3">
                       <label>Email</label>
                       <input type="email"  class="form-control" formControlName="email"  />
-                      
                       </div>
               </div>
-
               </form>
               <div class="modal-footer">
                 <button type="button"  class="btn btn-primary" (click)="modal.close(edituser())">EDIT</button>
               </div>
-             
         </div>
-        
       </ng-template>
      
- 
