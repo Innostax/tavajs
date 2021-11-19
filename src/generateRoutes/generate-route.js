@@ -4,7 +4,7 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const CURR_DIR = process.cwd();
 const path = require("path");
-const { render } = require("../../src/utils/template");
+const { render } = require("ejs");
 const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
@@ -23,10 +23,6 @@ inquirer.prompt(QUESTIONS).then((answers) => {
   var newRouteName = answers["routeName"];
 
   const dbName = JSON.parse(fs.readFileSync(`${CURR_DIR}/package.json`));
-
-  console.log(
-    Object.keys(dbName["dependencies"]).some((each) => each === "sequelize")
-  );
 
   if (
     Object.keys(dbName["dependencies"]).some((each) => each === "sequelize") ===
@@ -110,7 +106,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
     Object.keys(dbName["dependencies"]).some((each) => each === "mongoose") ===
     true
   ) {
-    var templatePath = `${currentPath}/routesTemplates`;
+    var templatePath = `${currentPath}/mongooseTemplates`;
     function createDirectoryContents(templatePath, newRouteName) {
       const filesToCreate = fs.readdirSync(templatePath);
 
@@ -157,6 +153,16 @@ inquirer.prompt(QUESTIONS).then((answers) => {
         }
       });
     }
+  } else if (
+    Object.keys(dbName["dependencies"]).some((each) => each === "nodemon") !==
+      true &&
+    Object.keys(dbName["dependencies"]).some((each) => each === "express") !==
+      true
+  ) {
+    console.log(
+      "------You are not currently in node directory. Switch it node directory and run the commands again.------  "
+    );
+    return;
   }
   createDirectoryContents(templatePath, newRouteName);
   console.log(`New Routes is ready for use by /${newRouteName}-----`);

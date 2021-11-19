@@ -26,11 +26,11 @@ services:
       - postgres
     ports:
       - "3040:3040"
-  <%= reactName %>:
+  <%= frontEndName %>:
     build:
-      context: ./<%= reactName %>
+      context: ./<%= frontEndName %>
       dockerfile: ./Dockerfile
-    image: "<%= reactName %>-frontend"
+    image: "<%= frontEndName %>-frontend"
     ports:
       - "3000:3000"
 
@@ -59,11 +59,11 @@ services:
 
     ports:
       - "27017:27017"
-  <%= reactName %>:
+  <%= frontEndName %>:
     build:
-      context: ./<%= reactName %>
+      context: ./<%= frontEndName %>
       dockerfile: ./Dockerfile
-    image: "<%= reactName %>-frontend"
+    image: "<%= frontEndName %>-frontend"
     ports:
       - "3000:3000"
 <%}%>

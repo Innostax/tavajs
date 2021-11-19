@@ -1,9 +1,7 @@
 const fs = require("fs");
 const fsExtra = require("fs-extra");
-const path = require("path");
 const CURR_DIR = process.cwd();
-const { render } = require("./template");
-
+const { render } = require("ejs");
 //<-----------------------To create Directory Contents------------------------------------>
 function createDirectoryContents(
   templatePath,
@@ -21,13 +19,10 @@ function createDirectoryContents(
   screenName,
   isCrudWithNode,
   isCrud,
-  reactName,
+  frontEndName,
   nodeName,
   projectChoice,
-  vueName,
-  isVuex,
-  angularName,
-  
+  isVuex
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -58,7 +53,7 @@ function createDirectoryContents(
             isCrudWithNode,
             isCrud,
             projectChoice,
-            isVuex
+            isVuex,
           },
           (autoescape = false)
         );
@@ -83,13 +78,10 @@ function createDirectoryContents(
           screenName,
           isCrudWithNode,
           isCrud,
-          reactName,
+          frontEndName,
           nodeName,
           projectChoice,
-          vueName,
-          isVuex,
-          angularName
-         
+          isVuex
         );
       }
     }

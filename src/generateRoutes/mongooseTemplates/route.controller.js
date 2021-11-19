@@ -1,6 +1,5 @@
-// const { default: routeName } = require("../index.js")
+
 const <%= routeName %> = require(`../Models/<%= routeName %>.js`)
-// routeName
 const find = (req, res, next) => {
 	<%= routeName %>.find(function (err, data) {
 		if (!err) {
