@@ -20,6 +20,7 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isTheme =false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
@@ -126,6 +127,18 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.frontEndChoice === "vue";
+    },
+  },
+  {
+    name: "theme",
+    type: "list",
+    message: "Do you want Light and Dark mode?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "react";
     },
   },
   {
@@ -346,7 +359,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
-
+  isTheme = answers["theme"]; 
   let screenName = "<%= projectName %>";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -401,7 +414,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isTheme
     );
     packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -541,7 +555,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isTheme
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -591,8 +606,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isCrudWithNode,
       isCrud,
+      frontEndName,
       nodeName,
-      frontEndName
+      projectChoice,
+      isVuex,
+      isTheme
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -645,7 +663,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isTheme
     );
     console.log(
       chalk.green.bold(
@@ -734,7 +753,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isTheme
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -1008,6 +1028,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
+  }
+  //<-----------------------themes----------------------------->
+  if(isTheme)
+  {
+    fs.copyFile(`${currentPath}/themeTemplates/themes.js`,
+    `${reactPath}/src/themes.js`,
+    (err) => {
+      if (err) {
+        console.log("Error Found:", err);
+      }
+    }
+  );
   }
   if (projectChoice != "react_Node") {
     console.log(

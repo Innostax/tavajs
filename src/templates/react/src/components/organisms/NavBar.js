@@ -2,8 +2,8 @@ import Routes from '../../Routes'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-const NavBar = ({ brand, links, clickTheme }) => {
+<% if(isTheme) { %>import { DarkToggle } from '../../themes'<% } %>
+const NavBar = ({ brand, links }) => {
 	return (
 		<Router>
 			<Navbar expand='lg'>
@@ -17,13 +17,7 @@ const NavBar = ({ brand, links, clickTheme }) => {
 							</Link>
 						))}
 					</Navbar.Collapse>
-					<BootstrapSwitchButton
-						checked={false}
-						width={100}
-						onlabel='Dark'
-						offlabel='Light'
-						onstyle='secondary'
-						onChange={clickTheme}/>
+					<% if(isTheme) { %><DarkToggle/><% } %>
 				</Container>
 			</Navbar>
 			<Routes />
