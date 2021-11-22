@@ -13,20 +13,20 @@ import { deleteUser } from '../store/action/user.actions';
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
   styleUrls: ['./user-view.component.css']
-})
+});
 export class UserViewComponent implements OnInit {
   userForm: FormGroup ;
   users$: Observable<User[]>;
   constructor(private store: Store<userState>,private modalService: NgbModal) { 
     this.users$ = this.store.pipe(select(selectusers));
-   } 
+   };
    open(editusermodal:any,user:User) {
     this.modalService.open(editusermodal, {ariaLabelledBy: 'modal-basic-title'})
     this.userForm.controls['name'].setValue(user.name)
     this.userForm.controls['username'].setValue(user.username)
     this.userForm.controls['email'].setValue(user.email)
     this.userForm.controls['id'].setValue(user.id)
-  }  
+  };
   edituser() {
     const user: User = {
       id:this.userForm.value.id,   
@@ -35,10 +35,10 @@ export class UserViewComponent implements OnInit {
       email: this.userForm.value.email,
     };
     this.store.dispatch(updateUser({user}));
-  }
+  };
    deleteuser(id:string){
     this.store.dispatch(deleteUser({id}))
-   } 
+   }; 
   ngOnInit(): void {
     this.userForm = new FormGroup({
       id:new FormControl(),
@@ -46,5 +46,5 @@ export class UserViewComponent implements OnInit {
       username: new FormControl(),
      email: new FormControl()
      });
-  } 
-}
+  };
+};

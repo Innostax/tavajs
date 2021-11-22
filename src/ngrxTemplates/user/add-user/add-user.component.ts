@@ -10,14 +10,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.css']
-})
+});
 export class AddUserComponent implements OnInit {
   userForm: FormGroup ;
   constructor(private store: Store<userState>,private modalService: NgbModal) {
-      }
+      };
       open(addusermodal:any) {
         this.modalService.open(addusermodal, {ariaLabelledBy: 'modal-basic-title'})   
-      }    
+      } ;   
       adduser(): void {
         const user: User = {
           id:this.userForm.value.id,
@@ -27,13 +27,13 @@ export class AddUserComponent implements OnInit {
         };
         this.store.dispatch(addUser({user}));
         this.userForm.reset();
-      }
+      };
   ngOnInit(): void {
     this.userForm = new FormGroup({
       id:new FormControl(),
      name: new FormControl(),
      username: new FormControl(),
     email: new FormControl()
-    })
-  }
-}
+    });
+  };
+};

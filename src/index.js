@@ -525,7 +525,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.rename(
         `${newPath}/${each.folder}/${each.oldName}`,
         `${newPath}/${each.folder}/${each.newName}`,
-        () => { }
+        () => {}
       )
     );
   }
@@ -716,7 +716,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       fs.rename(
         `${newPath}/${each.folder}/${each.oldName}`,
         `${newPath}/${each.folder}/${each.newName}`,
-        () => { }
+        () => {}
       )
     );
     var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
