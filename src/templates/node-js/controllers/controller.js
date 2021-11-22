@@ -1,5 +1,5 @@
 <% if (mongoSelected) { %>
-const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
+const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% } %>
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
@@ -18,13 +18,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
             if (!err) {
               res.send(data);
               <% if (isRedis) { %>
-              redis_set(`/<%= defaultRoute %>`, JSON.stringify(users)).then((err, data) => {
-                return res.status(200).json({
-                success: true,
-                type: "set",
-                data: data,
-                });
-              });
+              redis_set(`/<%= defaultRoute %>`, JSON.stringify(data))
               <% } %>
             } else {
               res.send(err);
@@ -36,13 +30,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
           if (<%= defaultRoute %>.length > 0) {
             res.json(<%= defaultRoute %>);
             <% if (isRedis) { %>
-            redis_set(`/<%= defaultRoute %>`, JSON.stringify(users)).then((err, data) => {
-              return res.status(200).json({
-                success: true,
-                type: "set",
-                data: data,
-                });
-              });
+            redis_set(`/<%= defaultRoute %>`, JSON.stringify(<%= defaultRoute %>))
             <% } %>
           }
           else res.send("no user found");
@@ -87,7 +75,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
           {$set: req.body},
           function(err,data){
             if(!err){
-              users.find(function(err, data){
+              <%= defaultRoute %>.find(function(err, data){
                 if (!err) {
                   res.send(data);
                 } else {
@@ -139,7 +127,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.deleteOne({_id: req.params.id}, function(err, data){
           if (data) {
-            users.find(function(err, data){
+            <%= defaultRoute %>.find(function(err, data){
               if (!err) {
                 res.send(data);
               } else {
@@ -167,21 +155,11 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
     
   }
   
-  const findById = (req, res, next ) => {
+   const findById = (req, res, next ) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.findOne({_id: req.params.id}, function(err, data){
             if (data) {
               res.send(data);
-              <% if (isRedis) { %>
-              redis_set(`/<%= defaultRoute %>/${_id}`, JSON.stringify(users)).then((err, data) => {
-                console.log("Erro : ", err);
-                return res.status(200).json({
-                  success: true,
-                  type: "set",
-                  data: data,
-                });
-              });
-              <% } %>
             } else {
               res.send("No matching found.");
             }
@@ -193,19 +171,7 @@ const <%= defaultRoute %> = require("../Models/<%- defaultRoute %>.js");
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %>.length > 0) {
-          res.json(users);
-          <% if (isRedis) { %>
-          redis_set(`/<%= defaultRoute %>/${id}`, JSON.stringify(users)).then((err, data) => {
-            console.log("Erro : ", err);
-            return res.status(200).json({
-              success: true,
-              type: "set",
-              data: data,
-            });
-          });   
-          <% } %>     
-        }
+        if (<%= defaultRoute %> > 0) res.json(<%= defaultRoute %>);
         else res.send("no user found");
       });
         <%}%>

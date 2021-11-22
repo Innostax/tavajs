@@ -21,16 +21,16 @@ services:
       DB_PASSWORD: password
       DB_HOST: postgres
       DATABASE_URL: postgres://postgres:password@postgres:5432/postgres
-      PORT: 3001
+      PORT: 3040
     depends_on:
       - postgres
     ports:
-      - "3001:3001"
-  <%= reactName %>:
+      - "3040:3040"
+  <%= frontEndName %>:
     build:
-      context: ./<%= reactName %>
+      context: ./<%= frontEndName %>
       dockerfile: ./Dockerfile
-    image: "<%= reactName %>-frontend"
+    image: "<%= frontEndName %>-frontend"
     ports:
       - "3000:3000"
 
@@ -44,13 +44,13 @@ services:
   <%= nodeName %>:
     environment:
       DATABASE_URL: mongodb://mongo:27017/admin
-      PORT: 3001
+      PORT: 3040
     build:
       context: ./<%= nodeName %>
       dockerfile: ./Dockerfile
     image: "<%= nodeName %>-backend"
     ports:
-      - "3001:3001"
+      - "3040:3040"
     links:
       - mongo
   mongo:
@@ -59,11 +59,11 @@ services:
 
     ports:
       - "27017:27017"
-  <%= reactName %>:
+  <%= frontEndName %>:
     build:
-      context: ./<%= reactName %>
+      context: ./<%= frontEndName %>
       dockerfile: ./Dockerfile
-    image: "<%= reactName %>-frontend"
+    image: "<%= frontEndName %>-frontend"
     ports:
       - "3000:3000"
 <%}%>
