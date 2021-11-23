@@ -11,11 +11,11 @@ const QUESTIONS = [
   {
     name: "routeName",
     type: "input",
-    message: "what will be name of Routes?",
+    message: "what will be the name of the Route?",
     validate: function (input) {
       if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
       else
-        return "Route name may only include letters, numbers, underscores and hashes.";
+        return "Route name may only include letters, numbers, underscores, and hashes";
     },
   },
 ];
@@ -59,12 +59,12 @@ inquirer.prompt(QUESTIONS).then((answers) => {
       newData.splice(
         4,
         0,
-        `var UserModel = require('./models/${newRouteName}')`
+        `const ${newRouteName}Model = require('./models/${newRouteName}')`
       );
       newData.splice(
         5,
         0,
-        `var ${newRouteName}= UserModel(sequelize, Sequelize);`
+        `const ${newRouteName}= ${newRouteName}Model(sequelize, Sequelize);`
       );
       newData.splice(
         newData.findIndex((each) => each === "module.exports = {") + 1,
@@ -160,7 +160,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
       true
   ) {
     console.log(
-      "------You are not currently in node directory. Switch it node directory and run the commands again.------  "
+      "You are not currently in the node directory. Switch it node directory and run the commands again."
     );
     return;
   }

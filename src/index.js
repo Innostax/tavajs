@@ -20,6 +20,7 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isNgrx = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
@@ -126,6 +127,18 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.frontEndChoice === "vue";
+    },
+  },
+  {
+    name: "ngrx",
+    type: "list",
+    message: "Do you want ngrx integration?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "angular";
     },
   },
   {
@@ -342,10 +355,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   isVuex = answers["vuex"];
+  isNgrx = answers["ngrx"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
+  var angularPath = `${CURR_DIR}/${projectName}`;
 
   let screenName = "<%= projectName %>";
 
@@ -401,9 +416,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isNgrx
     );
-    // packageInstaller(managerChoice, frontEndChoice, reactPath);
+    packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -424,15 +440,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isNgrx
     );
-    // packageInstaller(managerChoice, backEndChoice, nodePath);
+    packageInstaller(managerChoice, backEndChoice, nodePath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${frontEndName} using ${package.name} ${
-          package.version
+        )} Creating React project: ${frontEndName} using ${package.name} ${package.version
         }`
       )
     );
@@ -441,8 +457,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
+          )} Integrating Authentication service: ${answers["authentication-choice"]
           }`
         )
       );
@@ -457,40 +472,35 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating Node project: ${nodeName} using ${package.name} ${
-          package.version
+        )} Creating Node project: ${nodeName} using ${package.name} ${package.version
         }`
       )
     );
     if (answers["dbService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${answers["dbName"]
           }`
         )
       );
     if (answers["loggerService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${answers["loggerName"]
           }`
         )
       );
     if (emailService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${answers["emailServiceName"]
           }`
         )
       );
     if (blobService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${answers["blobServiceName"]
           }`
         )
       );
@@ -541,7 +551,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -549,8 +560,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
-          package.version
+        )} Creating React project: ${projectName} using ${package.name} ${package.version
         }`
       )
     );
@@ -559,8 +569,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
+          )} Integrating Authentication service: ${answers["authentication-choice"]
           }`
         )
       );
@@ -592,7 +601,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       nodeName,
-      frontEndName
+      frontEndName,
+      nodeName,
+      projectChoice,
+      isVuex,
+      isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -600,8 +613,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
-          package.version
+        )} Creating React project: ${projectName} using ${package.name} ${package.version
         }`
       )
     );
@@ -610,15 +622,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
+          )} Integrating Authentication service: ${answers["authentication-choice"]
           }`
         )
       );
-    if (isRedux)
+    if (isNgrx)
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+          `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
     console.log(
@@ -645,46 +656,42 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isNgrx
     );
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating Node project: ${projectName} using ${package.name} ${
-          package.version
+        )} Creating Node project: ${projectName} using ${package.name} ${package.version
         }`
       )
     );
     if (answers["dbService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${answers["dbName"]
           }`
         )
       );
     if (answers["loggerService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${answers["loggerName"]
           }`
         )
       );
     if (emailService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${answers["emailServiceName"]
           }`
         )
       );
     if (blobService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${answers["blobServiceName"]
           }`
         )
       );
@@ -734,7 +741,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -950,6 +958,39 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
+  //<---------------------------------ngrx INTEGRATION---------------------------->
+  if (isNgrx) {
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/module`,
+      `${angularPath}/src/app/module`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/reducers`,
+      `${angularPath}/src/app/reducers`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/user`,
+      `${angularPath}/src/app/user`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+  }
   //<--------For authentication----------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
     const filesMap = [
@@ -1009,12 +1050,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
-  //----------------------------------------------------------------
-  if ((projectChoice = "react_Node")) {
-    packageInstaller(managerChoice, frontEndChoice, reactPath);
-    packageInstaller(managerChoice, backEndChoice, nodePath);
-  }
-  //--------------------------------------
+
   if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)

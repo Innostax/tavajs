@@ -1,4 +1,3 @@
-
 const <%= routeName %> = require(`../Models/<%= routeName %>.js`)
 const find = (req, res, next) => {
 	<%= routeName %>.find(function (err, data) {
