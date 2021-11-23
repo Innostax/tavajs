@@ -11,7 +11,6 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
   client.get = util.promisify(client.get);
 <% } %>
 
-
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.find(function(err, data){
@@ -39,7 +38,6 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find called');
      <% } %>
-
   }
 
   const create =(req, res, next) => {
@@ -64,8 +62,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %> 
         res.send('create  Called')
-     <% } %>
-     
+     <% } %> 
   }
   
   const patch =(req, res, next) => {
@@ -152,7 +149,6 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('remove by id Called')
      <% } %>
-    
   }
   
    const findById = (req, res, next ) => {
@@ -178,7 +174,6 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find by id Called')
      <% } %>
-    
   }
   
   module.exports = {

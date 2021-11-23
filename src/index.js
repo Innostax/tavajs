@@ -21,9 +21,7 @@ var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
 var isRedis = false;
-// var isNpm = false;
-// var isYarn = false;
-// const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
+var isNgrx = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
@@ -130,6 +128,18 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.frontEndChoice === "vue";
+    },
+  },
+  {
+    name: "ngrx",
+    type: "list",
+    message: "Do you want ngrx integration?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "angular";
     },
   },
   {
@@ -369,10 +379,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   isVuex = answers["vuex"];
+  isNgrx = answers["ngrx"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
+  var angularPath = `${CURR_DIR}/${projectName}`;
 
   let screenName = "<%= projectName %>";
 
@@ -435,7 +447,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isRedis
+      isRedis,
+      isNgrx
     );
     packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -459,7 +472,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isRedis
+      isRedis,
+      isNgrx
     );
     console.log(
       chalk.green.bold(
@@ -612,7 +626,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isRedis
+      isRedis,
+      isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -663,7 +678,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       nodeName,
-      frontEndName
+      frontEndName,
+      nodeName,
+      projectChoice,
+      isVuex,
+      isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -686,10 +705,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           }`
         )
       );
-    if (isRedux)
+    if (isNgrx)
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+          `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
     console.log(
@@ -717,7 +736,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isRedis
+      isRedis,
+      isNgrx
     );
     console.log(
       chalk.green.bold(
@@ -815,7 +835,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     packageInstaller(managerChoice, frontEndChoice, projectPath);
@@ -1034,6 +1055,39 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     fsExtra.copy(
       `${currentPath}/vuexTemplates/userModal`,
       `${vuePath}/src/userModal`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+  }
+  //<---------------------------------ngrx INTEGRATION---------------------------->
+  if (isNgrx) {
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/module`,
+      `${angularPath}/src/app/module`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/reducers`,
+      `${angularPath}/src/app/reducers`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/user`,
+      `${angularPath}/src/app/user`,
       function (err) {
         if (err) {
           console.log("An error is occured");
