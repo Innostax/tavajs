@@ -166,7 +166,7 @@ const QUESTIONS = [
   {
     name: "cacheService",
     type: "list",
-    message: "Do you want caching in app?",
+    message: "Do you want cache service in the app?",
     choices: [
       { name: "yes", value: "yes" },
       { name: "no", value: "no" },

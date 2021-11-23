@@ -8,21 +8,14 @@ const <%= defaultRoute %> = require(`./routes/<%= defaultRoute %>.routes`);
 <% if (mongoSelected) { %>
 const conn = require('./mongoose')
 <% } %>
-
 <% if (isRedis) { %>
 const { redis_get, client } = require("./redis");
 <% } %>
-  
-
 const port = process.env.PORT
-
 const app = express();
-
-
 <% if (mongoSelected) { %>
  conn()
 <% } %>
-
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -1,5 +1,6 @@
 const redis = require("redis");
-const client = redis.createClient(6379);
+const redisPort = 6379;
+const client = redis.createClient(redisPort);
 const util = require("util");
 client.get = util.promisify(client.get);
 client.set = util.promisify(client.set);
