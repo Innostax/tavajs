@@ -91,8 +91,6 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
           fs.writeFileSync(writePath[i], contents, "utf8");
           i++;
-
-          //--------------------rename file-----------
           renameFile(file, newRouteName);
         }
       });
@@ -114,14 +112,12 @@ inquirer.prompt(QUESTIONS).then((answers) => {
         .readFileSync(`${CURR_DIR}/Routes/index.js`)
         .toString()
         .split("\n");
-
       data.splice(
         data.findIndex((each) => each === "const selectionRoute = (app) => {") +
           1,
         0,
         `app.use( '/${newRouteName}', ${newRouteName})`
       );
-
       data.splice(
         2,
         0,
@@ -147,8 +143,6 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
           fs.writeFileSync(writePath[i], contents, "utf8");
           i++;
-
-          //--------------------rename file-----------
           renameFile(file, newRouteName);
         }
       });
@@ -165,10 +159,10 @@ inquirer.prompt(QUESTIONS).then((answers) => {
     return;
   }
   createDirectoryContents(templatePath, newRouteName);
-  console.log(`New Routes is ready for use by /${newRouteName}-----`);
+  console.log(`New Route is ready for use by /${newRouteName}-----`);
 });
 
-// function to rename Files to Files
+//Function to rename files of the route.
 
 function renameFile(file, newRouteName) {
   if (file.startsWith("route")) {
