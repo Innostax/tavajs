@@ -4,14 +4,13 @@ import * as asyncActions from "./users.actions";
 const initialState = {
   users: [],
   selectedUserModal: null,
-  selectedUser:{},
+  selectedUser:{}
 };
 
 const slice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-  setSelectedUserModal(state,action){
+  reducers: { setSelectedUserModal(state,action){
       state.selectedUserModal = action.payload || initialState.selectedUserModal
   }, 
   setSelectedUser(state,action){

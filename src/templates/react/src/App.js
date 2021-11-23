@@ -10,15 +10,13 @@ const App = () => {
  loginWithRedirect({ appState: { target: window.location.pathname } })
    }
 }, [isUserAuthenticated, loginWithRedirect]) <%}%>
-
   return (
     <>
             { <% if(isAuth0) {%>isUserAuthenticated&&<%}%>(<NavBar brand='Made in India'
 					links={[
 						{ href: '/home', label: 'Home' },
 						{ href: '/users', label: 'Users' },
-					]}
-          />)}
+					]}/>)}
     </>
   );
 };

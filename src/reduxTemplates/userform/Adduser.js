@@ -39,68 +39,66 @@ const AddUser = ({ show, handleClose, reset }) => {
     else dispatch(editUser(formData));
   };
   return (
-    <>
-	<Modal
-				show={true}
-				handleClose={handleClose}
-				title={isEmpty(user) ? 'Add User' : 'edit User'}
-				reset={reset}
-				size='sm-down'
-			>
-				<Row>
-					<Label title='Name' />
-				</Row>
-				<Row>
-					<Input
-						className='u-full-width'
-						type='text'
-						placeholder='ABC'
-						id='nameInput'
-						onChange={(e) =>
-							setFormData((data) => ({ ...data, name: e.target.value }))
-						}
-						value={formData.name}
-					/>
-				</Row>
-				<Row className='pt-2'>
-					<Label title='User Name' />
-				</Row>
-				<Row>
-					<Input
-						className='u-full-width'
-						type='text'
-						placeholder='curiousgeek'
-						id='usernameInput'
-						onChange={(e) =>
-							setFormData((data) => ({ ...data, username: e.target.value }))
-						}
-						value={formData.username}
-					/>
-				</Row>
-				<Row className='pt-2'>
-					<Label title='Email' />
-				</Row>
-				<Row>
-					<Input
-						className='u-full-width'
-						type='email'
-						placeholder='test@mailbox.com'
-						id='emailInput'
-						onChange={(e) =>
-							setFormData((data) => ({ ...data, email: e.target.value }))
-						}
-						value={formData.email}
-					/>
-				</Row>
-				<Row className='pt-2'>
-					<Button
-						name={isEmpty(user) ? 'ADD' : 'EDIT'}
-						onClick={handleSubmit}
-						size='sm'
-					/>
-				</Row>
-			</Modal>
-    </>
+    <Modal
+      show={true}
+      handleClose={handleClose}
+      title={isEmpty(user) ? "Add User" : "edit User"}
+      reset={reset}
+      size="sm-down"
+    >
+      <Row>
+        <Label title="Name" />
+      </Row>
+      <Row>
+        <Input
+          className="u-full-width"
+          type="text"
+          placeholder="Name"
+          id="nameInput"
+          onChange={(e) =>
+            setFormData((data) => ({ ...data, name: e.target.value }))
+          }
+          value={formData.name}
+        />
+      </Row>
+      <Row className="pt-2">
+        <Label title="User Name" />
+      </Row>
+      <Row>
+        <Input
+          className="u-full-width"
+          type="Username"
+          placeholder="curiousgeek"
+          id="usernameInput"
+          onChange={(e) =>
+            setFormData((data) => ({ ...data, username: e.target.value }))
+          }
+          value={formData.username}
+        />
+      </Row>
+      <Row className="pt-2">
+        <Label title="Email" />
+      </Row>
+      <Row>
+        <Input
+          className="u-full-width"
+          type="email"
+          placeholder="test@mailbox.com"
+          id="emailInput"
+          onChange={(e) =>
+            setFormData((data) => ({ ...data, email: e.target.value }))
+          }
+          value={formData.email}
+        />
+      </Row>
+      <Row className="pt-2">
+        <Button
+          name={isEmpty(user) ? "ADD" : "EDIT"}
+          onClick={handleSubmit}
+          size="sm"
+        />
+      </Row>
+    </Modal>
   );
 };
 
