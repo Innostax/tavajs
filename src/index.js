@@ -479,7 +479,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${reactName} using ${package.name} ${
+        )} Creating React project: ${frontEndName} using ${package.name} ${
           package.version
         }`
       )
