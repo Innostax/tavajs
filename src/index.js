@@ -1,14 +1,12 @@
 #! node
 const inquirer = require("inquirer");
 const fs = require("fs");
-const shell = require("shelljs");
-const { render } = require("./utils/template");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
 const chalk = require("chalk");
 const package = require("../package.json");
-
+const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
 var sequelizeSelected = false;
@@ -22,10 +20,14 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
-var isNpm = false;
-var isYarn = false;
-const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
+var isNgrx = false;
 const currentPath = path.join(__dirname);
+const { render } = require("ejs");
+const createBlobService = require("./utils/createBlobService");
+const createDbConn = require("./utils/createDbConn");
+const createLogger = require("./utils/createLogger");
+const createEmailSevice = require("./utils/createEmailSevice");
+const packageInstaller = require("./utils/packageInstaller");
 
 const QUESTIONS = [
   {
@@ -38,7 +40,6 @@ const QUESTIONS = [
         return "Project name may only include letters, numbers, underscores and hashes.";
     },
   },
-
   {
     name: "managerChoice",
     type: "list",
@@ -48,7 +49,6 @@ const QUESTIONS = [
       { name: "YARN", value: "yarn" },
     ],
   },
-
   {
     name: "frontEnd",
     type: "list",
@@ -125,6 +125,18 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.frontEndChoice === "vue";
+    },
+  },
+  {
+    name: "ngrx",
+    type: "list",
+    message: "Do you want ngrx integration?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "angular";
     },
   },
   {
@@ -335,17 +347,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isDocker = dockerService;
   const crudOperation = answers["CRUD"];
   isCrud = crudOperation;
-  let reactName = "";
   let frontEndName = "";
   let nodeName = "";
-  let vueName = "";
+  let managerChoice = answers["managerChoice"];
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   isVuex = answers["vuex"];
+  isNgrx = answers["ngrx"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
+  var angularPath = `${CURR_DIR}/${projectName}`;
 
   let screenName = "<%= projectName %>";
 
@@ -354,9 +367,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       console.error(err);
     }
   });
-  // //<----------------------------managerChoice------------------------->
-  if (answers["managerChoice"] === "npm") isNpm = true;
-  if (answers["managerChoice"] === "yarn") isYarn = true;
   // //<------------------------------for logger-------------------------------->
   if (answers["loggerName"] === "winston") isWinston = true;
   if (answers["loggerName"] === "sentry") isSentry = true;
@@ -377,17 +387,17 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
-    reactName = answers["FrontEnd-name"];
+    frontEndName = answers["FrontEnd-name"];
     nodeName = answers["node-name"];
     let reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    var reactPath = `${CURR_DIR}/${projectName}/${reactName}`;
+    var reactPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
 
-    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${reactName}`);
+    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${frontEndName}`);
     createDirectoryContents(
       reactTemplatePath,
-      `${projectName}/${reactName}`,
+      `${projectName}/${frontEndName}`,
       defaultRoute,
       mongoSelected,
       sequelizeSelected,
@@ -401,27 +411,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isCrudWithNode,
       isCrud,
-      reactName,
+      frontEndName,
       nodeName,
       projectChoice,
-      vueName,
-      isVuex
+      isVuex,
+      isNgrx
     );
-    shell.cd(`${reactPath}`);
-    if (isNpm) {
-      console.log(
-        "-------------NPM loading on react, Wait for finish--------------------"
-      );
-      shell.exec("npm install --legacy-peer-deps");
-    }
-    if (isYarn) {
-      console.log(
-        "-------------yarn loading on react, Wait for finish--------------------"
-      );
-      shell.exec("npm install -g yarn");
-      shell.exec("yarn");
-    }
-
+    packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -439,34 +435,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isCrudWithNode,
       isCrud,
-      reactName,
+      frontEndName,
       nodeName,
       projectChoice,
-      vueName,
-      isVuex
+      isVuex,
+      isNgrx
     );
-    shell.cd(`${nodePath}`);
-    if (isNpm) {
-      console.log(
-        "-------------NPM loading on node, Wait for finish--------------------"
-      );
-      shell.exec("npm install --legacy-peer-deps");
-      console.log("-------------NPM process completed--------------------");
-    }
-    if (isYarn) {
-      console.log(
-        "-------------yarn loading on node, Wait for finish--------------------"
-      );
-      shell.exec("npm install -g yarn");
-      shell.exec("yarn");
-      console.log("-------------yarn process completed--------------------");
-    }
-
+    packageInstaller(managerChoice, backEndChoice, nodePath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${reactName} using ${package.name} ${
+        )} Creating React project: ${frontEndName} using ${package.name} ${
           package.version
         }`
       )
@@ -573,30 +553,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isCrudWithNode,
       isCrud,
-      reactName,
+      frontEndName,
       nodeName,
       projectChoice,
-      vueName,
-      isVuex
+      isVuex,
+      isNgrx
     );
-    var projectPath = `${CURR_DIR}/${projectName}/${reactName}`;
-    shell.cd(`${projectPath}`);
-    if (isNpm) {
-      console.log(
-        "-------------NPM loading on react, Wait for finish--------------------"
-      );
-      shell.exec("npm install --legacy-peer-deps");
-      console.log("-------------NPM process completed--------------------");
-    }
-    if (isYarn) {
-      console.log(
-        "-------------yarn loading on react, Wait for finish--------------------"
-      );
-      shell.exec("npm install -g yarn");
-      shell.exec("yarn");
-      console.log("-------------yarn process completed--------------------");
-    }
-
+    var projectPath = `${CURR_DIR}/${projectName}`;
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -644,26 +608,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       nodeName,
-      frontEndName
+      frontEndName,
+      nodeName,
+      projectChoice,
+      isVuex,
+      isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    shell.cd(`${projectPath}`);
-    if (isNpm) {
-      console.log(
-        "-------------NPM loading on angular, Wait for finish--------------------"
-      );
-      shell.exec("npm install --legacy-peer-deps");
-      console.log("-------------NPM process completed--------------------");
-    }
-    if (isYarn) {
-      console.log(
-        "-------------yarn loading on angular, Wait for finish--------------------"
-      );
-      shell.exec("npm install -g yarn");
-      shell.exec("yarn");
-      console.log("-------------yarn process completed--------------------");
-    }
-
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -683,10 +635,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           }`
         )
       );
-    if (isRedux)
+    if (isNgrx)
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+          `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
     console.log(
@@ -710,11 +662,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isCrudWithNode,
       isCrud,
-      reactName,
+      frontEndName,
       nodeName,
       projectChoice,
-      vueName,
-      isVuex
+      isVuex,
+      isNgrx
     );
     console.log(
       chalk.green.bold(
@@ -782,25 +734,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    shell.cd(`${projectPath}`);
-    if (isNpm) {
-      console.log(
-        "-------------NPM loading on node, Wait for finish--------------------"
-      );
-      shell.exec("npm install --legacy-peer-deps");
-      console.log("-------------NPM process completed--------------------");
-    }
-    if (isYarn) {
-      console.log(
-        "-------------yarn loading on node, Wait for finish--------------------"
-      );
-      shell.exec("npm install -g yarn");
-      shell.exec("yarn");
-      console.log("-------------yarn process completed--------------------");
-    }
-  }
-  //<--------------------------------for vue----------------------------->
-  else if (projectChoice === "vue") {
+    packageInstaller(managerChoice, backEndChoice, projectPath);
+  } else if (projectChoice === "vue") {
     createDirectoryContents(
       templatePath,
       projectName,
@@ -817,29 +752,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isCrudWithNode,
       isCrud,
-      reactName,
+      frontEndName,
       nodeName,
       projectChoice,
-      vueName,
-      isVuex
+      isVuex,
+      isNgrx
     );
-    var projectPath = `${CURR_DIR}/${projectName}/${vueName}`;
-    shell.cd(`${projectPath}`);
-    if (isNpm) {
-      console.log(
-        "-------------NPM loading on vue, Wait for finish--------------------"
-      );
-      shell.exec("npm install --legacy-peer-deps");
-      console.log("-------------NPM process completed--------------------");
-    }
-    if (isYarn) {
-      console.log(
-        "-------------yarn loading on vue, Wait for finish--------------------"
-      );
-      shell.exec("npm install -g yarn");
-      shell.exec("yarn");
-      console.log("-------------yarn process completed--------------------");
-    }
+    var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -885,7 +805,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   //<------------------------------------------------------------------------------------------->
   if (answers["dbService"] === "yes") {
-    createDbConn(nodePath, dbName, defaultRoute);
+    createDbConn(nodePath, dbName, defaultRoute, `${currentPath}`);
   }
 
   //for Docker INTEGRATION-------------------------
@@ -901,7 +821,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         "utf8"
       );
       contents = render(contents, {
-        reactName,
+        frontEndName,
         nodeName,
         mongoSelected,
         sequelizeSelected,
@@ -951,13 +871,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.reducer.js",
-        destFolder: "/src/screens/users",
+        destFolder: "/src/screens/Users",
         destFileName: "users.reducer.js",
       },
       {
         srcFolder: "reduxTemplates/demoUser",
         srcFileName: "users.selectors.js",
-        destFolder: "/src/screens/users",
+        destFolder: "/src/screens/Users",
         destFileName: "users.selectors.js",
       },
       {
@@ -985,7 +905,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
-
     let contents = fs.readFileSync(
       `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
       "utf8"
@@ -994,12 +913,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       defaultRoute,
     });
     writePath = `${reactPath}/src/screens/Users/users.actions.js`;
+
     fs.writeFileSync(writePath, contents, "utf8");
 
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
-        `${reactPath}/src/screens/users/AddUser.js`,
+        `${reactPath}/src/screens/Users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -1018,7 +938,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     }
-
     fsExtra.copy(
       `${currentPath}/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
@@ -1053,25 +972,52 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
+  //<---------------------------------ngrx INTEGRATION---------------------------->
+  if (isNgrx) {
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/module`,
+      `${angularPath}/src/app/module`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/reducers`,
+      `${angularPath}/src/app/reducers`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/user`,
+      `${angularPath}/src/app/user`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+  }
   //<--------For authentication----------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
     const filesMap = [
       {
-        srcFolder: "authTemplates",
-        srcFileName: "react-spa.js",
-        destFolder: reactName + "/src",
-        destFileName: "react-spa.js",
-      },
-      {
         srcFolder: "envTemplates",
         srcFileName: ".authEnv",
-        destFolder: reactName + "",
+        destFolder: frontEndName + "",
         destFileName: ".env",
       },
     ];
 
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    let packagePath = path.join(CURR_DIR, projectName, reactName);
+    let packagePath = path.join(CURR_DIR, projectName, frontEndName);
     updatePackage(packagePath, package);
 
     filesMap.map((each) => {
@@ -1085,6 +1031,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
+    let reactSpaPath = path.join(__dirname, "authTemplates");
+    let newContents = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
+    newContents = render(newContents, { isRedux });
+    writePath = `${CURR_DIR}/${projectName}/${frontEndName}/src/react-spa.js`;
+    fs.writeFileSync(writePath, newContents, "utf8");
   } else if (answers["authentication-choice"] === "Cognito") {
     choice = "cognito";
 
@@ -1097,7 +1048,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       },
     ];
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    let packagePath = path.join(CURR_DIR, projectName, reactName);
+    let packagePath = path.join(CURR_DIR, projectName, frontEndName);
     updatePackage(packagePath, package);
 
     filesMap.map((each) => {
@@ -1123,7 +1074,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     console.log("    ");
-    if (isNpm) {
+    if (managerChoice === "npm") {
       if (projectChoice === "vue") {
         console.log("   Inside", projectName);
         console.log(chalk.cyanBright.italic.bold(`     npm run serve`));
@@ -1131,7 +1082,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         console.log(chalk.cyanBright.italic.bold(`     npm start`));
       }
     }
-    if (isYarn) {
+    if (managerChoice === "yarn") {
       if (projectChoice === "vue") {
         console.log("   Inside", projectName);
         console.log(chalk.cyanBright.italic.bold(`     yarn run serve`));
@@ -1160,12 +1111,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     console.log(
       chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
     );
-    console.log("   Inside", reactName);
+    console.log("   Inside", frontEndName);
     console.log("    ");
-    if (isNpm) {
+    if (managerChoice === "npm") {
       console.log(chalk.cyanBright.italic.bold(`     npm start`));
     }
-    if (isYarn) {
+    if (managerChoice === "yarn") {
       console.log(chalk.cyanBright.italic.bold(`     yarn start`));
     }
     console.log(
@@ -1173,10 +1124,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
     console.log("   Inside", nodeName);
     console.log("    ");
-    if (isNpm) {
+    if (managerChoice === "npm") {
       console.log(chalk.cyanBright.italic.bold(`     npm start`));
     }
-    if (isYarn) {
+    if (managerChoice === "yarn") {
       console.log(chalk.cyanBright.italic.bold(`     yarn start`));
     }
     console.log(
@@ -1186,117 +1137,3 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
   }
 });
-
-//function to create db service---------------------------------------------->
-function createDbConn(nodePath, dbName, defaultRoute) {
-  if (dbName === "postgres" || dbName === "mysql") {
-    let package = { name: "sequelize", version: "^6.6.5" };
-    updatePackage(nodePath, package);
-    var fileName = "sequelize.js";
-    var modelName = "sequelizeModel.js";
-    if (dbName === "mysql") {
-      package = { name: "mysql2", version: "^2.3.0" };
-      updatePackage(nodePath, package);
-    } else {
-      package = { name: "pg", version: "^8.7.1" };
-      updatePackage(nodePath, package);
-    }
-  } else {
-    let package = { name: "mongoose", version: "^6.0.2" };
-    updatePackage(nodePath, package);
-    var fileName = "mongoose.js";
-    var modelName = "mongooseModel.js";
-  }
-  const modelPath = nodePath + "/models";
-  fs.mkdirSync(modelPath);
-
-  let writePath = `${nodePath}/${fileName}`;
-  let contents = fs.readFileSync(
-    `${currentPath}/dbTemplates/` + fileName,
-    "utf8"
-  );
-  contents = render(contents, { defaultRoute });
-  fs.writeFileSync(writePath, contents, "utf8");
-
-  writePath = `${modelPath}/${defaultRoute}.js`;
-  contents = fs.readFileSync(`${currentPath}/dbTemplates/` + modelName, "utf8");
-  contents = render(contents, { defaultRoute });
-  fs.writeFileSync(writePath, contents, "utf8");
-}
-
-//Function to create logger service ------------------------------------------------------------>
-function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
-  if (loggerName === "winston") {
-    let servicePath = path.join(utilpath, "utils", "logger");
-    fs.mkdirSync(servicePath);
-    let package = { name: "winston", version: "^3.3.3" };
-    updatePackage(utilpath, package);
-    let contents = fs.readFileSync(
-      loggerTemplatePath + "/" + loggerName + ".js",
-      "utf-8"
-    );
-    fs.writeFile(servicePath + "/index" + ".js", contents, function (err) {
-      if (err) throw err;
-    });
-  } else {
-    let package = { name: "raven", version: "^2.6.4" };
-    updatePackage(utilpath, package);
-  }
-}
-
-//function to create email services
-function createEmailSevice(
-  emailServiceName,
-  emailTemplatePath,
-  nodePath,
-  __dirname
-) {
-  let package = { name: "dotenv", version: "^10.0.0" };
-  updatePackage(nodePath, package);
-
-  let contents = fs.readFileSync(emailTemplatePath + ".js", "utf-8");
-  let servicePath = path.join(nodePath, "utils", "email");
-  fs.mkdirSync(servicePath);
-  if (emailServiceName === "sendgrid") {
-    fs.copyFileSync(
-      __dirname + "/envTemplates/.sendgridEnv",
-      servicePath + "/.env"
-    );
-    package = { name: "@sendgrid/mail", version: "^7.4.6" };
-    updatePackage(nodePath, package);
-  } else if (emailServiceName === "smtp") {
-    fs.copyFileSync(
-      __dirname + "/envTemplates/.smtpEnv",
-      servicePath + "/.env"
-    );
-    package = { name: "nodemailer", version: "^6.6.3" };
-    updatePackage(nodePath, package);
-  } else {
-    fs.copyFileSync(__dirname + "/envTemplates/.sesEnv", servicePath + "/.env");
-    package = { name: "aws-sdk", version: "^2.971.0" };
-    updatePackage(nodePath, package);
-  }
-
-  fs.writeFile(
-    `${servicePath}` + "/" + `${emailServiceName}` + ".js",
-    contents,
-    function (err) {
-      if (err) throw err;
-    }
-  );
-}
-
-//function to create Blob services------------------------------------------------->
-function createBlobService(blobServiceName, blobTemplatePath, nodePath) {
-  let contents = fs.readFileSync(blobTemplatePath + ".js", "utf-8");
-  let servicePath = path.join(nodePath, "utils", "blob");
-  fs.mkdirSync(servicePath);
-  fs.writeFile(
-    `${servicePath}` + "/" + `${blobServiceName}` + ".js",
-    contents,
-    function (err) {
-      if (err) throw err;
-      // console.log("Blob service created successfully.");
-    }
-  );
-}

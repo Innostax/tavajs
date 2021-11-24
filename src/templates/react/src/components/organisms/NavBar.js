@@ -2,10 +2,10 @@ import Routes from '../../Routes'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
-import { useAuth0 } from '../../react-spa'
+<% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 
 const NavBar = ({ brand, links }) => {
-	const { logout } = useAuth0()
+<% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 	return (
 		<Router>
 			<Navbar bg='light' expand='lg'>
@@ -20,6 +20,7 @@ const NavBar = ({ brand, links }) => {
 								</Link>
 							))}
 						</Nav>
+						<% if(isAuth0) {%>
 						<Nav>
 							<Nav.Link
 								onClick={() => logout({ returnTo: window.location.origin })}
@@ -27,6 +28,7 @@ const NavBar = ({ brand, links }) => {
 								Logout
 							</Nav.Link>
 						</Nav>
+						<%}%>
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>

@@ -28,7 +28,6 @@
     "morgan": "~1.9.1",
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.12",
-    "mongoose": "^6.0.2",
     "express-jwt": "^6.1.0"
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSelectedUser } from "./users.selectors";
 import Label from "../../components/atoms/Label";
 import Button from "../../components/atoms/Button";
-import { actions } from "../users/users.reducer";
+import { actions } from "../Users/users.reducer";
 import Input from "../../components/atoms/Input";
 import { isEmpty } from "../../helper/isEmpty.js";
 
