@@ -4,7 +4,7 @@ import createAuth0Client from '@auth0/auth0-spa-js'
 import { actions } from './infrastructure/userContext/userContext.reducer'
 const { setjwtToken } = actions <%}%>
 const DEFAULT_REDIRECT_CALLBACK = () =>
-	window.history.replaceState({}, document.title, window.location.pathname)
+window.history.replaceState({}, document.title, window.location.pathname)
 
 export const Auth0Context = React.createContext()
 export const useAuth0 = () => useContext(Auth0Context)

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-<% if(isRedux){%>import    createStore   from "./createStore";
+<% if(isRedux){%>import createStore from "./createStore";
 import { Provider } from "react-redux";<%}%>
 <% if(isCognito) {%>import Amplify from 'aws-amplify';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';<%}%>

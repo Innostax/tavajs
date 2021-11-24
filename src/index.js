@@ -1032,10 +1032,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
     let reactSpaPath = path.join(__dirname, "authTemplates");
-    let newContents = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
-    newContents = render(newContents, { isRedux });
+    let newContent = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
+    newContent = render(newContent, { isRedux });
     writePath = `${CURR_DIR}/${projectName}/${frontEndName}/src/react-spa.js`;
-    fs.writeFileSync(writePath, newContents, "utf8");
+    fs.writeFileSync(writePath, newContent, "utf8");
   } else if (answers["authentication-choice"] === "Cognito") {
     choice = "cognito";
 
