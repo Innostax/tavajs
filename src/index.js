@@ -419,7 +419,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isVuex,
       isNgrx
     );
-    packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -443,12 +442,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isVuex,
       isNgrx
     );
-    packageInstaller(managerChoice, backEndChoice, nodePath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${frontEndName} using ${package.name} ${package.version
+        )} Creating React project: ${frontEndName} using ${package.name} ${
+          package.version
         }`
       )
     );
@@ -457,7 +456,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${answers["authentication-choice"]
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
           }`
         )
       );
@@ -472,35 +472,40 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating Node project: ${nodeName} using ${package.name} ${package.version
+        )} Creating Node project: ${nodeName} using ${package.name} ${
+          package.version
         }`
       )
     );
     if (answers["dbService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${answers["dbName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
           }`
         )
       );
     if (answers["loggerService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${answers["loggerName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
           }`
         )
       );
     if (emailService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${answers["emailServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
           }`
         )
       );
     if (blobService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${answers["blobServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
           }`
         )
       );
@@ -555,12 +560,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${package.version
+        )} Creating React project: ${projectName} using ${package.name} ${
+          package.version
         }`
       )
     );
@@ -569,7 +574,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${answers["authentication-choice"]
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
           }`
         )
       );
@@ -608,12 +614,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${package.version
+        )} Creating React project: ${projectName} using ${package.name} ${
+          package.version
         }`
       )
     );
@@ -622,7 +628,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${answers["authentication-choice"]
+          )} Integrating Authentication service: ${
+            answers["authentication-choice"]
           }`
         )
       );
@@ -663,35 +670,40 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating Node project: ${projectName} using ${package.name} ${package.version
+        )} Creating Node project: ${projectName} using ${package.name} ${
+          package.version
         }`
       )
     );
     if (answers["dbService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${answers["dbName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
           }`
         )
       );
     if (answers["loggerService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${answers["loggerName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
           }`
         )
       );
     if (emailService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${answers["emailServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
           }`
         )
       );
     if (blobService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${answers["blobServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
           }`
         )
       );
@@ -720,7 +732,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    packageInstaller(managerChoice, backEndChoice, projectPath);
   } else if (projectChoice === "vue") {
     createDirectoryContents(
       templatePath,
@@ -745,7 +756,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -1051,6 +1061,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
 
+  if (projectChoice === "react_Node") {
+    packageInstaller(managerChoice, frontEndChoice, reactPath);
+    packageInstaller(managerChoice, backEndChoice, nodePath);
+  } else if (frontEndChoice) {
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
+  } else if (backEndChoice) {
+    packageInstaller(managerChoice, backEndChoice, projectPath);
+  }
+
   if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
@@ -1084,7 +1103,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `------------------------ Ready to go --------------------------`
       )
     );
-  } else {
+  } else if (projectChoice == "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
     );
