@@ -1063,6 +1063,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
+
   if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
