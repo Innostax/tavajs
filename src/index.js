@@ -1060,19 +1060,16 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
-  //----------------------------------------------------------------
+
   if (projectChoice === "react_Node") {
     packageInstaller(managerChoice, frontEndChoice, reactPath);
     packageInstaller(managerChoice, backEndChoice, nodePath);
   } else if (frontEndChoice) {
-    console.log("--frontEndChoice--", frontEndChoice);
     packageInstaller(managerChoice, frontEndChoice, projectPath);
   } else if (backEndChoice) {
-    console.log("--backEndChoice--", backEndChoice);
     packageInstaller(managerChoice, backEndChoice, projectPath);
   }
 
-  //----------------------------------------------------
   if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)

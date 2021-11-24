@@ -55,7 +55,7 @@ function createDirectoryContents(
             isCrud,
             projectChoice,
             isVuex,
-            isNgrx
+            isNgrx,
           },
           (autoescape = false)
         );
