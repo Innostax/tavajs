@@ -16,6 +16,7 @@
   },
   "bin": {
     "generate-tava": "src/index.js",
-    "generate-screen": "src/generateScreens/generate-react-screen.js"
+    "generate-screen": "src/generateScreens/generate-react-screen.js",
+    "generate-route": "src/generateRoutes/generate-route.js"
   }
 }
