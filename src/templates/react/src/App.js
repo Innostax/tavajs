@@ -11,7 +11,7 @@ const App = () => {
  loginWithRedirect({ appState: { target: window.location.pathname } })
    }
 }, [isUserAuthenticated, loginWithRedirect]) <%}%>
-  return (<% if(isOkta){ %>		<Router>
+  return (<% if(isOkta){ %><Router>
     <AppWithRouterAccess />
   </Router>
     <%}%>

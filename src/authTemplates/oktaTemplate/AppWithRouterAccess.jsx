@@ -11,15 +11,16 @@ const AppWithRouterAccess = () => {
 		history.push('/login')
 	}
 	console.log('enviorment ', process.env)
-	const CLIENT_ID = process.env.REACT_APP_OKTA_CLIENT_ID
-	const ISSUER = process.env.REACT_APP_OKTA_ISSUER
-	if (!CLIENT_ID || !ISSUER) {
-		throw new Error('All environmental variables must be set')
+	const clientId = process.env.REACT_APP_OKTA_CLIENT_ID
+	const issuer = process.env.REACT_APP_OKTA_ISSUER
+	if (!clientId || !issuer) {
+		throw new Error('All environment variables must be set')
 	}
+	const locationOrigin = window.location.origin
 	const oktaAuth = new OktaAuth({
-		issuer: ISSUER,
-		clientId: CLIENT_ID,
-		redirectUri: window.location.origin + '/login/callback',
+		issuer,
+		clientId,
+		redirectUri: locationOrigin + '/login/callback',
 		onAuthRequired: onAuthRequired,
 		pkce: true,
 	})

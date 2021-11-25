@@ -6,13 +6,14 @@ import { useOktaAuth } from '@okta/okta-react'
 const SignIn = () => {
 	const { authState } = useOktaAuth()
 
-	if (!authState) {
-		return <div>Loading...</div>
-	}
-	return authState.isAuthenticated ? (
-		<Redirect to={{ pathname: '/' }} />
+	return authState ? (
+		authState.isAuthenticated ? (
+			<Redirect to={{ pathname: '/' }} />
+		) : (
+			<SignInForm />
+		)
 	) : (
-		<SignInForm />
+		<div>Loading...</div>
 	)
 }
 
