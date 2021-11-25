@@ -1,6 +1,7 @@
 import React<% if(isAuth0){%>,{ useEffect }<%}%> from "react";
-import NavBar from "./components/organisms/NavBar";
 import "./App.css";
+<% if(!isOkta){ %>import NavBar from "./components/organisms/NavBar";<%}%><% if(isOkta){ %>import { BrowserRouter as Router } from 'react-router-dom'
+import AppWithRouterAccess from './oktaFiles/AppWithRouterAccess'<%}%>
 <% if(isAuth0){%>import { useAuth0 } from './react-spa'<%}%>
 const App = () => {
   
@@ -10,7 +11,11 @@ const App = () => {
  loginWithRedirect({ appState: { target: window.location.pathname } })
    }
 }, [isUserAuthenticated, loginWithRedirect]) <%}%>
-  return (
+  return (<% if(isOkta){ %>		<Router>
+    <AppWithRouterAccess />
+  </Router>
+    <%}%>
+    <% if(!isOkta){ %>
     <>
             { <% if(isAuth0) {%>isUserAuthenticated&&<%}%>(<NavBar brand='Made in India'
 					links={[
@@ -18,6 +23,7 @@ const App = () => {
 						{ href: '/users', label: 'Users' },
 					]}/>)}
     </>
+    <%}%>
   );
 };
 

@@ -21,6 +21,7 @@ var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
 var isNgrx = false;
+var isOkta = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
@@ -387,6 +388,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["authentication-choice"] === "Cognito") {
     isCognito = true;
   }
+  if (answers["authentication-choice"] === "Okta") {
+    isOkta = true;
+  }
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     frontEndName = answers["FrontEnd-name"];
@@ -417,7 +421,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isOkta
     );
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -440,7 +445,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isOkta
     );
     console.log(
       chalk.green.bold(
@@ -557,7 +563,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isOkta
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
     console.log(
@@ -611,7 +618,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isOkta
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     console.log(
@@ -664,7 +672,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isOkta
     );
     console.log(
       chalk.green.bold(
@@ -753,7 +762,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isOkta
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
   } else {
@@ -1060,7 +1070,38 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
-
+ else if (answers["authentication-choice"] === "Okta")
+ {
+  fsExtra.copy(
+    `${currentPath}/authTemplates/oktaTemplate`,
+    `${CURR_DIR}/${projectName}/${frontEndName}/src/oktaFiles`,
+    function (err) {
+      if (err) {
+        console.log("An error is occured");
+        return console.error(err);
+      }
+    }
+  );
+  const filesMap = [
+    {
+      srcFolder: "envTemplates",
+      srcFileName: ".oktaEnv",
+      destFolder:  frontEndName,
+      destFileName: ".env",
+    },
+  ];
+  filesMap.map((each) => {
+    fs.copyFile(
+      `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+      `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
+      (err) => {
+        if (err) {
+          console.log("Error Found:", err);
+        }
+      }
+    );
+  });
+}
   if (projectChoice === "react_Node") {
     packageInstaller(managerChoice, frontEndChoice, reactPath);
     packageInstaller(managerChoice, backEndChoice, nodePath);

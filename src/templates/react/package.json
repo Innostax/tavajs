@@ -21,7 +21,9 @@
     "bootstrap": "^5.1.0",
     "react-bootstrap-table-next": "^4.0.1",
     "font-awesome": "^4.7.0",
-    "react-bootstrap": "^1.0.0"
+    "react-bootstrap": "^1.0.0",
+    "@okta/okta-auth-js": "^5.8.0",
+    "@okta/okta-react": "^6.3.0"
   },
   "scripts": {
     "start": "npm run pretty && npm run eslint && npm run start-watch",

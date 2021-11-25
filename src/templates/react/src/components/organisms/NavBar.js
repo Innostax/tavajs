@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 
-const NavBar = ({ brand, links }) => {
+const NavBar = ({ brand, links<%if(isOkta){%>, oktaLoginButton<%}%> }) => {
 	return (
 		<Router>
 			<Navbar bg='light' expand='lg'>
@@ -17,6 +17,7 @@ const NavBar = ({ brand, links }) => {
 							</Link>
 						))}
 					</Navbar.Collapse>
+					<%if(isOkta){%> {oktaLoginButton}<%}%>
 				</Container>
 			</Navbar>
 			<Routes />
