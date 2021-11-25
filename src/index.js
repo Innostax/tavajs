@@ -20,7 +20,8 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
-var isTheme =false;
+var isTheme = false;
+var isNgrx = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
@@ -139,6 +140,18 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.frontEndChoice === "react";
+    },
+  },
+  {
+    name: "ngrx",
+    type: "list",
+    message: "Do you want ngrx integration?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "angular";
     },
   },
   {
@@ -355,11 +368,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
   isVuex = answers["vuex"];
+  isNgrx = answers["ngrx"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
-  isTheme = answers["theme"]; 
+  isTheme = answers["theme"];
+  var angularPath = `${CURR_DIR}/${projectName}`;
   let screenName = "<%= projectName %>";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -415,9 +430,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isNgrx,
       isTheme
     );
-    packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -438,9 +453,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       frontEndName,
       nodeName,
       projectChoice,
-      isVuex
+      isVuex,
+      isNgrx
     );
-    packageInstaller(managerChoice, backEndChoice, nodePath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -556,10 +571,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isNgrx,
       isTheme
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -610,10 +625,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isNgrx,
       isTheme
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -633,10 +648,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
           }`
         )
       );
-    if (isRedux)
+    if (isNgrx)
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+          `  ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
     console.log(
@@ -664,6 +679,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isNgrx,
       isTheme
     );
     console.log(
@@ -732,7 +748,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    packageInstaller(managerChoice, backEndChoice, projectPath);
   } else if (projectChoice === "vue") {
     createDirectoryContents(
       templatePath,
@@ -754,10 +769,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isNgrx,
       isTheme
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -970,6 +985,39 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
+  //<---------------------------------ngrx INTEGRATION---------------------------->
+  if (isNgrx) {
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/module`,
+      `${angularPath}/src/app/module`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/reducers`,
+      `${angularPath}/src/app/reducers`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/ngrxTemplates/user`,
+      `${angularPath}/src/app/user`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+  }
   //<--------For authentication----------------------------------------------------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
     const filesMap = [
@@ -1030,17 +1078,27 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
   //<-----------------------themes----------------------------->
-  if(isTheme)
-  {
-    fs.copyFile(`${currentPath}/themeTemplates/themes.js`,
-    `${reactPath}/src/themes.js`,
-    (err) => {
-      if (err) {
-        console.log("Error Found:", err);
+  if (isTheme) {
+    fs.copyFile(
+      `${currentPath}/themeTemplates/themes.js`,
+      `${reactPath}/src/themes.js`,
+      (err) => {
+        if (err) {
+          console.log("Error Found:", err);
+        }
       }
-    }
-  );
+    );
   }
+
+  if (projectChoice === "react_Node") {
+    packageInstaller(managerChoice, frontEndChoice, reactPath);
+    packageInstaller(managerChoice, backEndChoice, nodePath);
+  } else if (frontEndChoice) {
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
+  } else if (backEndChoice) {
+    packageInstaller(managerChoice, backEndChoice, projectPath);
+  }
+
   if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
@@ -1074,7 +1132,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `------------------------ Ready to go --------------------------`
       )
     );
-  } else {
+  } else if (projectChoice == "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
     );
