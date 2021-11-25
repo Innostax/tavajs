@@ -88,6 +88,18 @@ const QUESTIONS = [
     },
   },
   {
+    name: "theme",
+    type: "list",
+    message: "Do you want Light and Dark theme?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "react";
+    },
+  },
+  {
     name: "authService",
     type: "list",
     message: "Do you want Authentication services?",
@@ -128,18 +140,6 @@ const QUESTIONS = [
     ],
     when: (answers) => {
       return answers.frontEndChoice === "vue";
-    },
-  },
-  {
-    name: "theme",
-    type: "list",
-    message: "Do you want Light and Dark mode?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return answers.frontEndChoice === "react";
     },
   },
   {
