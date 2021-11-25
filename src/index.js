@@ -1064,26 +1064,65 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (projectChoice === "react_Node") {
     packageInstaller(managerChoice, frontEndChoice, reactPath);
     packageInstaller(managerChoice, backEndChoice, nodePath);
-  } else if (frontEndChoice) {
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
-  } else if (backEndChoice) {
-    packageInstaller(managerChoice, backEndChoice, projectPath);
-  }
-
-  if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
     );
     console.log("    ");
     console.log(
       chalk.magentaBright.bold(
-        `${String.fromCodePoint(0x1f449)} To get Started:`
+        `${String.fromCodePoint(45)}${String.fromCodePoint(62)} To get Started:`
+      )
+    );
+    console.log("  ");
+    console.log(chalk.cyanBright.italic.bold(`     cd ${projectName}`));
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(45)}${String.fromCodePoint(62)} For React:`
+      )
+    );
+    console.log("  ");
+    console.log(chalk.cyanBright.italic.bold(`     cd ${frontEndName}`));
+    if (managerChoice === "npm") {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (managerChoice === "yarn") {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
+    console.log("  ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(45)}${String.fromCodePoint(62)} For Node:`
+      )
+    );
+    console.log(" ");
+    console.log(chalk.cyanBright.italic.bold(`     cd ${nodeName}`));
+    if (managerChoice === "npm") {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (managerChoice === "yarn") {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
+  } else if (frontEndChoice) {
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(45)}${String.fromCodePoint(62)} To get Started:`
       )
     );
     console.log("    ");
+    console.log(chalk.cyanBright.italic.bold(`     cd ${projectName}`));
     if (managerChoice === "npm") {
       if (projectChoice === "vue") {
-        console.log("   Inside", projectName);
         console.log(chalk.cyanBright.italic.bold(`     npm run serve`));
       } else {
         console.log(chalk.cyanBright.italic.bold(`     npm start`));
@@ -1091,7 +1130,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     }
     if (managerChoice === "yarn") {
       if (projectChoice === "vue") {
-        console.log("   Inside", projectName);
         console.log(chalk.cyanBright.italic.bold(`     yarn run serve`));
       } else {
         console.log(chalk.cyanBright.italic.bold(`     yarn start`));
@@ -1103,38 +1141,22 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `------------------------ Ready to go --------------------------`
       )
     );
-  } else if (projectChoice == "react_Node") {
+  } else if (backEndChoice) {
+    packageInstaller(managerChoice, backEndChoice, projectPath);
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
     );
     console.log("    ");
     console.log(
       chalk.magentaBright.bold(
-        `${String.fromCodePoint(0x1f449)} To get Started:`
+        `${String.fromCodePoint(45)}${String.fromCodePoint(62)} To get Started:`
       )
     );
-    console.log(" Inside ", projectName);
-    console.log("    ");
-    console.log(
-      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
-    );
-    console.log("   Inside", frontEndName);
-    console.log("    ");
+    console.log(" ");
+    console.log(chalk.cyanBright.italic.bold(`     cd ${projectName}`));
     if (managerChoice === "npm") {
       console.log(chalk.cyanBright.italic.bold(`     npm start`));
-    }
-    if (managerChoice === "yarn") {
-      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
-    }
-    console.log(
-      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
-    );
-    console.log("   Inside", nodeName);
-    console.log("    ");
-    if (managerChoice === "npm") {
-      console.log(chalk.cyanBright.italic.bold(`     npm start`));
-    }
-    if (managerChoice === "yarn") {
+    } else if (managerChoice === "yarn") {
       console.log(chalk.cyanBright.italic.bold(`     yarn start`));
     }
     console.log(
