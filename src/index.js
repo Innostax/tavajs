@@ -450,7 +450,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isRedis,
       isNgrx
     );
-    packageInstaller(managerChoice, frontEndChoice, reactPath);
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -475,42 +474,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isRedis,
       isNgrx
     );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating React project: ${frontEndName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isRedux)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-        )
-      );
-    console.log(" ");
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${nodeName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    packageInstaller(managerChoice, backEndChoice, nodePath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -630,7 +593,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -685,7 +647,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -738,15 +699,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isVuex,
       isRedis,
       isNgrx
-    );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
     );
     console.log(
       chalk.green.bold(
@@ -814,7 +766,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       )
     );
     var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    packageInstaller(managerChoice, backEndChoice, projectPath);
   } else if (projectChoice === "vue") {
     createDirectoryContents(
       templatePath,
@@ -839,7 +790,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -1155,6 +1105,16 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       );
     });
   }
+
+  if (projectChoice === "react_Node") {
+    packageInstaller(managerChoice, frontEndChoice, reactPath);
+    packageInstaller(managerChoice, backEndChoice, nodePath);
+  } else if (frontEndChoice) {
+    packageInstaller(managerChoice, frontEndChoice, projectPath);
+  } else if (backEndChoice) {
+    packageInstaller(managerChoice, backEndChoice, projectPath);
+  }
+
   if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
@@ -1188,7 +1148,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         `------------------------ Ready to go --------------------------`
       )
     );
-  } else {
+  } else if (projectChoice == "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
     );
