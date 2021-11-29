@@ -20,6 +20,7 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isRedis = false;
 var isNgrx = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
@@ -170,6 +171,27 @@ const QUESTIONS = [
     },
     when: (answers) => {
       return answers.backEnd == "yes";
+    },
+  },
+  {
+    name: "cacheService",
+    type: "list",
+    message: "Do you want cache service in the app?",
+    choices: [
+      { name: "yes", value: "yes" },
+      { name: "no", value: "no" },
+    ],
+    when: (answers) => {
+      return answers.backEndChoice == "node";
+    },
+  },
+  {
+    name: "cacheServiceName",
+    type: "list",
+    message: "Select cache provider",
+    choices: [{ name: "Redis", value: "redis" }],
+    when: (answers) => {
+      return answers.cacheService == "yes";
     },
   },
   {
@@ -349,6 +371,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   isDocker = dockerService;
   const crudOperation = answers["CRUD"];
   isCrud = crudOperation;
+  const cacheService = answers["cacheService"];
+  isRedis = cacheService;
   let frontEndName = "";
   let nodeName = "";
   let managerChoice = answers["managerChoice"];
@@ -387,6 +411,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["authentication-choice"] === "Cognito") {
     isCognito = true;
   }
+
+  //---------------------------Redis----------------------------------------------------
+  if (answers["cacheServiceName"] === "redis") {
+    isRedis = true;
+  }
+
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
     frontEndName = answers["FrontEnd-name"];
@@ -417,6 +447,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isRedis,
       isNgrx
     );
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
@@ -440,6 +471,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isRedis,
       isNgrx
     );
     console.log(
@@ -557,6 +589,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isRedis,
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
@@ -664,6 +697,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
+      isRedis,
       isNgrx
     );
     console.log(
@@ -790,6 +824,17 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
 
     createBlobService(blobServiceName, blobTemplatePath, nodePath);
+  }
+
+  //<---------------------for Redis service---------------------------------------------------------->
+  if (cacheService == "yes") {
+    const cacheServiceName = answers["cacheServiceName"];
+    const cacheTemplatePath = path.join(
+      __dirname,
+      "cacheTemplates",
+      cacheServiceName
+    );
+    createCacheService(cacheServiceName, cacheTemplatePath, nodePath);
   }
 
   //<-----------For Logger service---------------------------------------------------------------------------->
@@ -1144,3 +1189,15 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
   }
 });
+//function to create Cache services------------------------------------------------->
+function createCacheService(cacheServiceName, cacheTemplatePath, nodePath) {
+  let contents = fs.readFileSync(cacheTemplatePath + ".js", "utf-8");
+
+  fs.writeFile(
+    `${nodePath}` + "/" + `${cacheServiceName}` + ".js",
+    contents,
+    function (err) {
+      if (err) throw err;
+    }
+  );
+}

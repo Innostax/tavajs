@@ -4,11 +4,21 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
+  
+<% if (isRedis) { %>
+  const { redis_set, client } = require("../redis.js");
+  const util = require("util");
+  client.get = util.promisify(client.get);
+<% } %>
+
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.find(function(err, data){
             if (!err) {
               res.send(data);
+              <% if (isRedis) { %>
+              redis_set(`/<%= defaultRoute %>`, JSON.stringify(data))
+              <% } %>
             } else {
               res.send(err);
             }
@@ -16,16 +26,20 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
-          if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
+          if (<%= defaultRoute %>.length > 0) {
+            res.json(<%= defaultRoute %>);
+            <% if (isRedis) { %>
+            redis_set(`/<%= defaultRoute %>`, JSON.stringify(<%= defaultRoute %>))
+            <% } %>
+          }
           else res.send("no user found");
         });
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find called');
      <% } %>
-
   }
-  
+
   const create =(req, res, next) => {
     <% if(mongoSelected){ %>
         const newData = new <%= defaultRoute %>({
@@ -48,8 +62,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %> 
         res.send('create  Called')
-     <% } %>
-     
+     <% } %> 
   }
   
   const patch =(req, res, next) => {
@@ -136,10 +149,9 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('remove by id Called')
      <% } %>
-    
   }
   
-  const findById = (req, res, next ) => {
+   const findById = (req, res, next ) => {
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.findOne({_id: req.params.id}, function(err, data){
             if (data) {
@@ -162,7 +174,6 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find by id Called')
      <% } %>
-    
   }
   
   module.exports = {
