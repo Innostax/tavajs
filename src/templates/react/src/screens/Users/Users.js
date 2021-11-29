@@ -23,12 +23,12 @@ const users = useSelector(selectAllUsers);
     <% if(isCrudWithNode||isCrud) {%> 
       const [show, setShow] = useState(false)
 	const handleShow = () => setShow(true)
-    const handleDelete = (id) => {
+    const handleDelete = (id,row) => {
       <% if(isCrud) {%>
       dispatch(deleteUser(id))
       <%}%>
       <% if(isCrudWithNode) {%>
-      dispatch(deleteUsers({ Id: id }));
+      dispatch(deleteUsers({ id: row.id }));
       <%}%>
     };
 
@@ -46,7 +46,7 @@ const users = useSelector(selectAllUsers);
       <Button
       variant="danger"
       size="sm"
-      onClick={() => handleDelete(id)}
+      onClick={() => handleDelete(id,row)}
     >
       Delete
     </Button>
