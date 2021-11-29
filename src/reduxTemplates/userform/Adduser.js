@@ -42,9 +42,8 @@ const AddUser = ({ show, handleClose, reset }) => {
     <Modal
       show={true}
       handleClose={handleClose}
-      title={isEmpty(user) ? "Add User" : "edit User"}
+      title={isEmpty(user) ? "Add User" : "Edit User"}
       reset={reset}
-      size="sm-down"
     >
       <Row>
         <Label title="Name" />

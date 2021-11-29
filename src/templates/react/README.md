@@ -28,7 +28,7 @@ One of the first things to remember about React project development is that it i
 <ul>
 <% if(isAuth0 ) { %><li> Authentication Service</li><%}%>
 <% if(isRedux) {%><li> Redux Service</li><%}%>
-<% if(isTheme) {%><li> Theme Service</li><%}%>
+<% if(isDark) {%><li> Theme Service</li><%}%>
 </ul>
 ### Built with:
 
@@ -44,7 +44,7 @@ One of the first things to remember about React project development is that it i
 
 
     npm start
-<% if(isTheme) {%>
+<% if(isDark) {%>
 ### Light and dark mode
 
 A ReactJS-based switch to change style of page from Light to Dark or vice versa.

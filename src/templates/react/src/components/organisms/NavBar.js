@@ -2,7 +2,7 @@ import Routes from '../../Routes'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
-<% if(isTheme) { %>import { DarkToggle } from '../../themes'<% } %>
+<% if(isDark) { %>import { DarkToggle } from '../../themes'<% } %>
 const NavBar = ({ brand, links }) => {
 	return (
 		<Router>
@@ -17,7 +17,7 @@ const NavBar = ({ brand, links }) => {
 							</Link>
 						))}
 					</Navbar.Collapse>
-					<% if(isTheme) { %><DarkToggle/><% } %>
+					<% if(isDark) { %><DarkToggle/><% } %>
 				</Container>
 			</Navbar>
 			<Routes />

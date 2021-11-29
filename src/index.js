@@ -20,7 +20,7 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
-var isTheme = false;
+var isDark = false;
 var isNgrx = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
@@ -90,7 +90,7 @@ const QUESTIONS = [
   {
     name: "theme",
     type: "list",
-    message: "Do you want Light and Dark theme?",
+    message: "Do you want Dark Mode?",
     choices: [
       { name: "yes", value: true },
       { name: "no", value: false },
@@ -373,7 +373,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
-  isTheme = answers["theme"];
+  isDark = answers["theme"];
   var angularPath = `${CURR_DIR}/${projectName}`;
   let screenName = "<%= projectName %>";
 
@@ -431,7 +431,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isTheme
+      isDark
     );
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -572,7 +572,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isTheme
+      isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
     console.log(
@@ -626,7 +626,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isTheme
+      isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
     console.log(
@@ -680,7 +680,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isTheme
+      isDark
     );
     console.log(
       chalk.green.bold(
@@ -770,7 +770,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isTheme
+      isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
   } else {
@@ -1078,7 +1078,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
   //<-----------------------themes----------------------------->
-  if (isTheme) {
+  if (isDark) {
     fs.copyFile(
       `${currentPath}/themeTemplates/themes.js`,
       `${reactPath}/src/themes.js`,

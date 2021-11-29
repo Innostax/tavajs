@@ -44,7 +44,7 @@ html {
 	--headingTextColor: #1d1717;
 	--secondaryBackgroundColor: floralWhite;
 }
-<% if(isTheme) { %>
+<% if(isDark) { %>
 html.dark {
 	--primaryTextColor: floralWhite;
 	--primaryBackgroundColor: #1d1717;

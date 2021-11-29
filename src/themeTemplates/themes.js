@@ -17,8 +17,8 @@ export const DarkToggle = () => {
 
 	const [isDark, setIsDark] = useState(systemPrefersDark)
 
-	const handleChange = (event) => {
-		if (event) {
+	const handleChange = (isChecked) => {
+		if (isChecked) {
 			setIsDark(document.documentElement.classList.add(DARK_CLASS))
 		} else {
 			setIsDark(document.documentElement.classList.remove(DARK_CLASS))
