@@ -27,7 +27,7 @@ const createBlobService = require("./utils/createBlobService");
 const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
-const projectEndConsole = require("./utils/packageInstaller");
+const projectSetUp = require("./utils/projectSetUp");
 
 const QUESTIONS = [
   {
@@ -395,7 +395,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
     var reactPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    var projectPath = { backEndPath: nodePath, frontEndPath: reactPath };
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${frontEndName}`);
     createDirectoryContents(
       reactTemplatePath,
@@ -1061,12 +1060,14 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     });
   }
 
-  projectEndConsole(
+  projectSetUp(
     projectName,
     frontEndName,
     nodeName,
     managerChoice,
     projectChoice,
-    projectPath
+    projectPath,
+    reactPath,
+    nodePath
   );
 });
