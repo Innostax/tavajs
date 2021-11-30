@@ -15,8 +15,8 @@
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
       <td>
-        <button class="btn btn-primary btn-space" (click)="open(editusermodal,user)">Edit</button>
-        <button class="btn btn-danger btn-space" (click)="deleteuser(user.id)"> Delete</button>
+        <app-button [name]="'Edit'" [class]="'btn btn-primary btn-space'"  (onClick)="open(editusermodal,user)"></app-button>
+        <app-button [name]="'Delete'" [class]="'btn btn-danger btn-space'"  (onClick)="deleteuser(user.id)"></app-button>
       </td>
     </tr>
   </tbody>
@@ -30,24 +30,24 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="userForm">
+    <form>
       <div class="form-group">
         <div class="mb-3">
-          <label>Name</label>
-          <input type="text" class="form-control" formControlName="name" />
+          <app-label [name]="'Name'"></app-label>
+          <app-input [type]="'text'" [class]="'form-control'" [value]="userTobeEdited.name" (changevalue)="checkupdate('name',$event)"></app-input>
         </div>
         <div class="mb-3">
-          <label>UserName</label>
-          <input type="username" class="form-control" formControlName="username" />
+          <app-label [name]="'Username'"></app-label>
+          <app-input [type]="'text'" [class]="'form-control'" [value]="userTobeEdited.username" (changevalue)="checkupdate('username',$event)"></app-input>
         </div>
         <div class="mb-3">
-          <label>Email</label>
-          <input type="email" class="form-control" formControlName="email" />
+          <app-label [name]="'Email'"></app-label>
+          <app-input [type]="'email'" [class]="'form-control'" [value]="userTobeEdited.email" (changevalue)="checkupdate('email',$event)"></app-input>
         </div>
       </div>
     </form>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="modal.close(edituser())">Edit</button>
+      <app-button [name]="'Edit'" [class]="'btn btn-primary'" (onClick)="modal.close(edituser())"></app-button>
     </div>
   </div>
 </ng-template>

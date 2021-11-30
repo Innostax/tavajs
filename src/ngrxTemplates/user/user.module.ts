@@ -4,11 +4,13 @@ import { UserViewComponent } from './user-view/user-view.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import {StoreModule} from '@ngrx/store';
 import {userFeatureKey, reducer} from './store/reducer/user.reducer';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { UsersComponent } from '../pages/users/users.component';
-import { ButtonComponent } from '../components/atoms/Button/button.component';
-import { LabelComponent } from '../components/atoms/Label/label.component';
-import { InputComponent } from '../components/atoms/Input/input.component';
+import { ButtonComponent } from '../components/atoms/Button/Button';
+import { LabelComponent } from '../components/atoms/Label/Label';
+import { InputComponent } from '../components/atoms/Input/Input';
+import { DatepickerComponent } from '../components/atoms/Datepicker/Datepicker';
+import { IgxDatePickerModule } from 'igniteui-angular';
 
 @NgModule({
   declarations: [
@@ -17,11 +19,14 @@ import { InputComponent } from '../components/atoms/Input/input.component';
     UsersComponent,
     ButtonComponent,
     LabelComponent,
-    InputComponent
+    InputComponent,
+    DatepickerComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
+    IgxDatePickerModule,
     StoreModule.forFeature(userFeatureKey, reducer),
   ],
   exports: [
@@ -30,7 +35,8 @@ import { InputComponent } from '../components/atoms/Input/input.component';
         UsersComponent,
         ButtonComponent,
         LabelComponent,
-        InputComponent
+        InputComponent,
+        DatepickerComponent
       ]
 })
 export class UserModule { };

@@ -16,6 +16,7 @@ import { deleteUser } from "../store/action/user.actions";
 })
 export class UserViewComponent implements OnInit {
   userForm: FormGroup;
+  userTobeEdited : User;
   users$: Observable<User[]>;
   constructor(private store: Store<userState>, private modalService: NgbModal) {
     this.users$ = this.store.pipe(select(selectusers));
@@ -24,17 +25,14 @@ export class UserViewComponent implements OnInit {
     this.modalService.open(editusermodal, {
       ariaLabelledBy: "modal-basic-title",
     });
-    this.userForm.controls["name"].setValue(user.name);
-    this.userForm.controls["username"].setValue(user.username);
-    this.userForm.controls["email"].setValue(user.email);
-    this.userForm.controls["id"].setValue(user.id);
+    this.userTobeEdited = user;
   }
   edituser() {
     const user: User = {
-      id: this.userForm.value.id,
-      name: this.userForm.value.name,
-      username: this.userForm.value.username,
-      email: this.userForm.value.email,
+      id: this.userTobeEdited.id,
+      name: this.userForm.value.name || this.userTobeEdited.name,
+      username: this.userForm.value.username || this.userTobeEdited.username,
+      email: this.userForm.value.email || this.userTobeEdited.email,
     };
     this.store.dispatch(updateUser({ user }));
   }
@@ -49,4 +47,7 @@ export class UserViewComponent implements OnInit {
       email: new FormControl(),
     });
   }
+  checkupdate(key:any,event:any){
+    this.userForm.value[key]=event.target.value; 
+}
 }
