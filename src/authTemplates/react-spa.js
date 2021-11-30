@@ -2,9 +2,11 @@ import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
 <% if(isRedux){%>import { useDispatch } from 'react-redux'
 import { actions } from './infrastructure/userContext/userContext.reducer'
+
 const { setjwtToken } = actions <%}%>
 const DEFAULT_REDIRECT_CALLBACK = () =>
     window.history.replaceState({}, document.title, window.location.pathname)
+
 export const Auth0Context = React.createContext()
 export const useAuth0 = () => useContext(Auth0Context)
 export const Auth0Provider = ({
@@ -13,8 +15,9 @@ export const Auth0Provider = ({
     ...initOptions
 }) => {
 	const [auth0Client, setAuth0] = useState()
-	const [ isUserAuthenticated, setIsUserAuthenticated ] = useState()   
+	const [ isUserAuthenticated, setIsUserAuthenticated ] = useState()
 	<% if(isRedux){%>const dispatch = useDispatch()<%}%>
+
     useEffect(() => {
         const initAuth0 = async () => {
             /* isTestAuthenticated:
@@ -36,6 +39,7 @@ export const Auth0Provider = ({
                 const { appState } = await auth0FromHook.handleRedirectCallback()
                 onRedirectCallback(appState)
             }
+            
             const isAuthenticated =
                 (await auth0FromHook.isAuthenticated()) || isTestAuthenticated
             setIsUserAuthenticated(isAuthenticated)
@@ -59,12 +63,14 @@ export const Auth0Provider = ({
 		initAuth0()
 		// eslint-disable-next-line
 	}, [])
+
     const handleRedirectCallback = async () => {
         await auth0Client.handleRedirectCallback()
         // const user = await auth0Client.getUser()
         // dispatch(setIsAuthenticated(true))
         // dispatch(setUser(user))
     }
+
     return (
         <Auth0Context.Provider
             value={{    
