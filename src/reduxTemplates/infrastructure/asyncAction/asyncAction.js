@@ -1,4 +1,4 @@
-import http from "../httpMethods";
+import http from '../httpMethods'
 import { getStore } from "../../createStore";
 import { selectjwtToken } from "../userContext/userContext.selectors";
 
@@ -32,13 +32,13 @@ export function createHeader(httpHeaders) {
     : requestOptions;
 }
 
-const asyncAction = ({ url, methodType = "get", httpHeaders = {} } = {}) => {
-   httpHeaders = {
+const asyncAction = ({ url, methodType = 'get', httpHeaders = {} } = {}) => {
+	httpHeaders = {
 		...httpHeaders,
 		...createHeader(httpHeaders),
 	}
 
-  return http[methodType](url, httpHeaders)
+	return http[methodType](url, httpHeaders)
 		.then((body) => {
 			return Promise.resolve(body)
 		})
@@ -48,6 +48,6 @@ const asyncAction = ({ url, methodType = "get", httpHeaders = {} } = {}) => {
 		.then((response) => {
 			return response
 		})
-};
+}
 
-export default asyncAction;
+export default asyncAction
