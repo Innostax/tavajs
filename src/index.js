@@ -4,8 +4,6 @@ const fs = require("fs");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
-const chalk = require("chalk");
-const package = require("../package.json");
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
@@ -361,6 +359,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
   var angularPath = `${CURR_DIR}/${projectName}`;
+  const loggerService = answers["loggerService"];
+  const dbService = answers["dbService"];
+  const authService = answers["authService"];
+  const authenticationChoice = answers["authentication-choice"];
+  const loggerName = answers["loggerName"];
+  const emailServiceName = answers["emailServiceName"];
+  const blobServiceName = answers["blobServiceName"];
 
   let screenName = "<%= projectName %>";
 
@@ -441,76 +446,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isVuex,
       isNgrx
     );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating React project: ${frontEndName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isRedux)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-        )
-      );
-    console.log(" ");
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${nodeName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers["dbService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
-          }`
-        )
-      );
-    if (answers["loggerService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
-          }`
-        )
-      );
-    if (emailService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
-          }`
-        )
-      );
-    if (blobService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
-          }`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
-    );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
@@ -559,34 +494,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isRedux)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
-    );
   }
   //<---------------------------- for angular---------------------------------->
   else if (projectChoice === "angular") {
@@ -613,34 +520,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isNgrx)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
-    );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -664,50 +543,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx
-    );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers["dbService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
-          }`
-        )
-      );
-    if (answers["loggerService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
-          }`
-        )
-      );
-    if (emailService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
-          }`
-        )
-      );
-    if (blobService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
-          }`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -1068,6 +903,19 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     projectChoice,
     projectPath,
     reactPath,
-    nodePath
+    nodePath,
+    dbService,
+    dbName,
+    loggerService,
+    loggerName,
+    emailService,
+    emailServiceName,
+    blobService,
+    blobServiceName,
+    authService,
+    authenticationChoice,
+    isNgrx,
+    isRedux,
+    isVuex
   );
 });

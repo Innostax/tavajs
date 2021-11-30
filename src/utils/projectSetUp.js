@@ -1,4 +1,6 @@
 const chalk = require("chalk");
+const backEndTraitShow = require("./backEndTraitShow");
+const frontEndTraitShow = require("./frontEndTraitShow");
 const packageInstaller = require("./packageInstaller");
 const projectInvokeInstructions = require("./projectInvokeInstructions");
 
@@ -10,12 +12,72 @@ function projectSetUp(
   projectChoice,
   projectPath,
   reactPath,
-  nodePath
+  nodePath,
+  dbService,
+  dbName,
+  loggerService,
+  loggerName,
+  emailService,
+  emailServiceName,
+  blobService,
+  blobServiceName,
+  authService,
+  authenticationChoice,
+  isNgrx,
+  isRedux,
+  isVuex
 ) {
   if (projectChoice === "react_Node") {
+    frontEndTraitShow(
+      frontEndName,
+      "react",
+      authService,
+      authenticationChoice,
+      isNgrx,
+      isRedux,
+      isVuex
+    );
+    backEndTraitShow(
+      nodeName,
+      dbService,
+      dbName,
+      loggerService,
+      loggerName,
+      emailService,
+      emailServiceName,
+      blobService,
+      blobServiceName
+    );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
     packageInstaller(managerChoice, "react", reactPath);
     packageInstaller(managerChoice, "node-js", nodePath);
   } else {
+    projectChoice === "node-js"
+      ? backEndTraitShow(
+          projectName,
+          dbService,
+          dbName,
+          loggerService,
+          loggerName,
+          emailService,
+          emailServiceName,
+          blobService,
+          blobServiceName
+        )
+      : frontEndTraitShow(
+          projectName,
+          projectChoice,
+          authService,
+          authenticationChoice,
+          isNgrx,
+          isRedux,
+          isVuex
+        );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
     packageInstaller(managerChoice, projectChoice, projectPath);
   }
   console.log(
