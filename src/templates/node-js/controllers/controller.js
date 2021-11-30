@@ -134,8 +134,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           where: {
               id: req.params.id
           },
-          returning: true,
-		  checkExistance: true,
+          returning: true,checkExistance: true,
       }).then((<%= defaultRoute %>) => {
         if (<%= defaultRoute %>) res.send("user deleted");
         else res.send("User with this ID can't be found");
