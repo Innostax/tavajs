@@ -1072,6 +1072,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
  else if (answers["authentication-choice"] === "Okta")
  {
+   const package =[{name:"@okta/okta-auth-js", version:"^5.8.0"},{name:"@okta/okta-react",version:"^6.3.0"}];
+   let packagePath = path.join(CURR_DIR, projectName, frontEndName);
+   package.map((each)=>{
+    updatePackage(packagePath,each)
+   })
   fsExtra.copy(
     `${currentPath}/authTemplates/oktaTemplate`,
     `${CURR_DIR}/${projectName}/${frontEndName}/src/oktaFiles`,
