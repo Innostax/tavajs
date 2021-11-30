@@ -66,16 +66,16 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           {$set: req.body},
           function(err,data){
             if(!err){
-              <%= defaultRoute %>.findOne({ id: req.params.id }, function (err, data) {
-					if (data) {
-						res.send(data)
-					} else {
-						res.send('No matching found.')
-					}
-				})
-      } else {
-          res.send(err);
-        }
+              <%= defaultRoute %>.findOne({id: req.params.id},function(err, data){
+                if (data) {
+                  res.send(data);
+                } else {
+                  res.send("No Matching found");
+                }
+              })
+            } else {
+              res.send(err);
+            }
           }
           );
       <% } %>
@@ -83,7 +83,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         <%= defaultRoute %>.update(
           { name:req.body.name,
           username:req.body.username,
-        email:req.body.email},
+          email:req.body.email},
           { where:
               { id: req.params.id},
               returning:true, plain:true
@@ -135,7 +135,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               id: req.params.id
           },
           returning: true,
-			checkExistance: true,
+		  checkExistance: true,
       }).then((<%= defaultRoute %>) => {
         if (<%= defaultRoute %>) res.send("user deleted");
         else res.send("User with this ID can't be found");
