@@ -6,7 +6,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
   <%}%>
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>
-      let projection = { id: '$_id', _id: 0, name: 1, username: 1, email: 1 }
+      const projection = { id: '$_id', _id: 0, name: 1, username: 1, email: 1 }
         <%= defaultRoute %>.find({},projection,function(err, data){
             if (!err) {
               res.send(data);
@@ -36,7 +36,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           });
           newData.save(function(err,data){
             if (!err){ 
-              projection = { id: '$_id', _id: 0, name: 1, username: 1, email: 1 } 
+             const projection = { id: '$_id', _id: 0, name: 1, username: 1, email: 1 } 
               <%= defaultRoute %>.findOne({ _id: data._id }, projection, function (err, data) {
 				if (!err) {
 					res.send(data)
@@ -89,8 +89,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               returning:true, plain:true
           }
       ).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %>[0]) res.send(<%= defaultRoute %>[1]);
-        else res.send("User with this ID can't be updated");
+        res.send(<%= defaultRoute %>[1]);
       }
     );
         <%}%>

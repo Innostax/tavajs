@@ -23,12 +23,12 @@ const users = useSelector(selectAllUsers);
     <% if(isCrudWithNode||isCrud) {%> 
       const [show, setShow] = useState(false)
 	const handleShow = () => setShow(true)
-    const handleDelete = (id,row) => {
+    const handleDelete = (id) => {
       <% if(isCrud) {%>
-      dispatch(deleteUser(id))
+      dispatch(deleteUser({id}))
       <%}%>
       <% if(isCrudWithNode) {%>
-      dispatch(deleteUsers({ id: row.id }));
+      dispatch(deleteUsers({ id}));
       <%}%>
     };
 
@@ -36,17 +36,17 @@ const users = useSelector(selectAllUsers);
     <Button size="sm" onClick={() => {
       handleShow()
       dispatch(setSelectedUserModal({id}))
-      dispatch(dispatch(setSelectedUser(row)))
+      dispatch(setSelectedUser(row))
     }}>
       Edit
     </Button>
   )
 
-    const deleteFormatter= (id,row)=>(
+    const deleteFormatter= (id)=>(
       <Button
       variant="danger"
       size="sm"
-      onClick={() => handleDelete(id,row)}
+      onClick={() => handleDelete(id)}
     >
       Delete
     </Button>
@@ -68,13 +68,13 @@ const cols=[
   },
   
     {
-      dataField: '_id',
+      dataField: 'id',
       text: '',
       align: 'right',
       formatter: deleteFormatter,
     },
     {
-      dataField: '_id',
+      dataField: 'id',
       text: '',
       align: 'left',
       formatter: editFormatter,
@@ -91,7 +91,7 @@ const cols=[
         <% if(isCrudWithNode||isCrud) {%>
       <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
       <%}%>
-      <% if(isRedux && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='_id'columns={cols}/><%}%> 
+      <% if(isRedux && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id'columns={cols}/><%}%> 
     </div>
     
     <%if((isCrudWithNode||isCrud)){%>{show && <AddUser show={setShow} handleShow={handleShow} />}<%}%>
