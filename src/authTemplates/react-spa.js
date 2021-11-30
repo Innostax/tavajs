@@ -12,8 +12,8 @@ export const Auth0Provider = ({
     onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
     ...initOptions
 }) => {
-    const [auth0Client, setAuth0] = useState()
-    const [ isUserAuthenticated, setIsUserAuthenticated ] = useState()
+	const [auth0Client, setAuth0] = useState()
+	const [ isUserAuthenticated, setIsUserAuthenticated ] = useState()   
 	<% if(isRedux){%>const dispatch = useDispatch()<%}%>
     useEffect(() => {
         const initAuth0 = async () => {
@@ -53,12 +53,12 @@ export const Auth0Provider = ({
                     token = await auth0FromHook.getTokenSilently()
                     console.log(user,token) // Added for warning purpose.
                 }
-				<% if(isRedux){%>  dispatch(setjwtToken(token))<%}%>
-            }
-        }
-        initAuth0()
-        // eslint-disable-next-line
-    }, [])
+                <% if(isRedux){%>  dispatch(setjwtToken(token))<%}%>
+			}
+		}
+		initAuth0()
+		// eslint-disable-next-line
+	}, [])
     const handleRedirectCallback = async () => {
         await auth0Client.handleRedirectCallback()
         // const user = await auth0Client.getUser()

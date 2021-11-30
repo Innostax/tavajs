@@ -446,8 +446,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${frontEndName} using ${package.name} ${
-          package.version
+        )} Creating React project: ${frontEndName} using ${package.name} ${package.version
         }`
       )
     );
@@ -559,8 +558,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
-          package.version
+        )} Creating React project: ${projectName} using ${package.name} ${package.version
         }`
       )
     );
@@ -622,8 +620,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
+          )} Integrating Authentication service: ${answers["authentication-choice"]
           }`
         )
       );
