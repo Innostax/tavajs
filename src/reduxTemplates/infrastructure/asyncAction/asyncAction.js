@@ -3,12 +3,12 @@ import { getStore } from "../../createStore";
 import { selectjwtToken } from "../userContext/userContext.selectors";
 
 export function handleException(exception, methodType, url) {
-  console.log(
-    `Unable to process this ${methodType} request 
+	console.log(
+		`Unable to process this ${methodType} request 
       for end-point ${url}
       Failed with response:`,
-    exception.status
-  );
+		exception.status
+	)
 }
 
 export function createHeader(httpHeaders) {
@@ -33,21 +33,21 @@ export function createHeader(httpHeaders) {
 }
 
 const asyncAction = ({ url, methodType = "get", httpHeaders = {} } = {}) => {
-  httpHeaders = {
-    ...httpHeaders,
-    ...createHeader(httpHeaders),
-  };
+   httpHeaders = {
+		...httpHeaders,
+		...createHeader(httpHeaders),
+	}
 
   return http[methodType](url, httpHeaders)
-    .then((body) => {
-      return Promise.resolve(body);
-    })
-    .catch((exception) => {
-      handleException(exception, methodType, url);
-    })
-    .then((response) => {
-      return response;
-    });
+		.then((body) => {
+			return Promise.resolve(body)
+		})
+		.catch((exception) => {
+			handleException(exception, methodType, url)
+		})
+		.then((response) => {
+			return response
+		})
 };
 
 export default asyncAction;

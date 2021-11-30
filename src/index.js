@@ -456,8 +456,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
+          )} Integrating Authentication service: ${answers["authentication-choice"]
           }`
         )
       );
@@ -472,40 +471,35 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating Node project: ${nodeName} using ${package.name} ${
-          package.version
+        )} Creating Node project: ${nodeName} using ${package.name} ${package.version
         }`
       )
     );
     if (answers["dbService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${answers["dbName"]
           }`
         )
       );
     if (answers["loggerService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${answers["loggerName"]
           }`
         )
       );
     if (emailService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${answers["emailServiceName"]
           }`
         )
       );
     if (blobService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${answers["blobServiceName"]
           }`
         )
       );
@@ -575,8 +569,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
+          )} Integrating Authentication service: ${answers["authentication-choice"]
           }`
         )
       );
@@ -620,8 +613,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
-          package.version
+        )} Creating React project: ${projectName} using ${package.name} ${package.version
         }`
       )
     );
@@ -672,40 +664,35 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating Node project: ${projectName} using ${package.name} ${
-          package.version
+        )} Creating Node project: ${projectName} using ${package.name} ${package.version
         }`
       )
     );
     if (answers["dbService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${answers["dbName"]
           }`
         )
       );
     if (answers["loggerService"] === "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${answers["loggerName"]
           }`
         )
       );
     if (emailService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${answers["emailServiceName"]
           }`
         )
       );
     if (blobService == "yes")
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${answers["blobServiceName"]
           }`
         )
       );
