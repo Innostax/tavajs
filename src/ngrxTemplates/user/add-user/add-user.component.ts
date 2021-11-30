@@ -16,7 +16,7 @@ export class AddUserComponent implements OnInit {
   constructor(
     private store: Store<userState>,
     private modalService: NgbModal
-  ) {}
+  ) { }
   open(addusermodal: any) {
     this.modalService.open(addusermodal, {
       ariaLabelledBy: "modal-basic-title",
@@ -40,7 +40,7 @@ export class AddUserComponent implements OnInit {
       email: new FormControl(),
     });
   }
-  checkupdate(key:any,event:any){
-    this.userForm.value[key]=event.target.value;
- }
+  checkupdate(key: any, event: any) {
+    this.userForm.value[key] = event.target.value;
+  }
 }

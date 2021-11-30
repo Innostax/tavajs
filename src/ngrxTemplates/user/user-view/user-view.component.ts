@@ -16,7 +16,7 @@ import { deleteUser } from "../store/action/user.actions";
 })
 export class UserViewComponent implements OnInit {
   userForm: FormGroup;
-  userTobeEdited : User;
+  userTobeEdited: User;
   users$: Observable<User[]>;
   constructor(private store: Store<userState>, private modalService: NgbModal) {
     this.users$ = this.store.pipe(select(selectusers));
@@ -47,7 +47,7 @@ export class UserViewComponent implements OnInit {
       email: new FormControl(),
     });
   }
-  checkupdate(key:any,event:any){
-    this.userForm.value[key]=event.target.value; 
-}
+  checkupdate(key: any, event: any) {
+    this.userForm.value[key] = event.target.value;
+  }
 }
