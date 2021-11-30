@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+
+html {
+	/* our light-mode / default theme variable values */
+	--primaryTextColor: black;
+	--primaryBackgroundColor: floralWhite;
+	--headingTextColor: #1d1717;
+	--secondaryBackgroundColor: floralWhite;
+}
+<% if(isDark) { %>
+html.dark {
+	--primaryTextColor: floralWhite;
+	--primaryBackgroundColor: #1d1717;
+	--headingTextColor: floralWhite;
+	--secondaryBackgroundColor: #1d1717;
+}
+<% } %>
+body {
+	background: var(--secondaryBackgroundColor);
+	color: var(--headingTextColor);
+}
+.navbar {
+	border: 1px solid #434343 !important;
+}
+.navbar-brand {
+	color: var(--headingTextColor) !important;
+	font-weight: bold;
+}
+.modal-content {
+	background: var(--secondaryBackgroundColor);
+	color: var(--headingTextColor);
+}
+.table {
+	background: var(--secondaryBackgroundColor);
+	color: var(--headingTextColor);
+	font-weight: bold;
+}
+
+.btn {
+	background: var(--secondaryBackgroundColor);
+	color: var(--headingTextColor);
+}

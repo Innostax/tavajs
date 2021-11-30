@@ -18,6 +18,7 @@ var isWinston = false;
 var isSentry = false;
 var isCrudWithNode = false;
 var isCrud = false;
+var isDark = false;
 var isNgrx = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
@@ -82,6 +83,18 @@ const QUESTIONS = [
     },
     when: (answers) => {
       return answers.frontEnd == "yes";
+    },
+  },
+  {
+    name: "theme",
+    type: "list",
+    message: "Do you want Dark Mode?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "react";
     },
   },
   {
@@ -358,6 +371,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const defaultRoute = answers["default-route"];
   var reactPath = `${CURR_DIR}/${projectName}`;
   var vuePath = `${CURR_DIR}/${projectName}`;
+  isDark = answers["theme"];
   var angularPath = `${CURR_DIR}/${projectName}`;
   const loggerService = answers["loggerService"];
   const dbService = answers["dbService"];
@@ -366,7 +380,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const loggerName = answers["loggerName"];
   const emailServiceName = answers["emailServiceName"];
   const blobServiceName = answers["blobServiceName"];
-
   let screenName = "<%= projectName %>";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -421,7 +434,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isDark
     );
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -491,7 +505,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
   }
@@ -512,12 +527,12 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       screenName,
       isCrudWithNode,
       isCrud,
-      nodeName,
       frontEndName,
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
   } else if (projectChoice === "node-js") {
@@ -542,7 +557,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isDark
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -587,7 +603,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
   } else {
@@ -893,6 +910,18 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
+  }
+  //<-----------------------themes----------------------------->
+  if (isDark) {
+    fs.copyFile(
+      `${currentPath}/themeTemplates/themes.js`,
+      `${reactPath}/src/themes.js`,
+      (err) => {
+        if (err) {
+          console.log("Error Found:", err);
+        }
+      }
+    );
   }
 
   projectSetUp(

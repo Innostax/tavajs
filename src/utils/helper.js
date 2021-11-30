@@ -23,7 +23,8 @@ function createDirectoryContents(
   nodeName,
   projectChoice,
   isVuex,
-  isNgrx
+  isNgrx,
+  isDark
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -56,6 +57,8 @@ function createDirectoryContents(
             projectChoice,
             isVuex,
             isNgrx,
+            isDark,
+            nodeName,
           },
           (autoescape = false)
         );
@@ -84,7 +87,8 @@ function createDirectoryContents(
           nodeName,
           projectChoice,
           isVuex,
-          isNgrx
+          isNgrx,
+          isDark
         );
       }
     }
