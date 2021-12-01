@@ -7,7 +7,7 @@ export default function ViceModal({
 	handleClose,
 	footer,
 	title,
-	size = 'lg',
+	size="sm-down",
 }) {
 	
 	return (

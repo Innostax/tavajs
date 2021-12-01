@@ -11,13 +11,12 @@ export const getUsers = createAsyncThunk(
 
 export const addUsers = createAsyncThunk(
   "users/getUsers/ADD",
-  async ({ nextUserId, name, username, email }, thunkArgs) => {
+  async ({ name, username, email }, thunkArgs) => {
     return await asyncAction({
       url: `<%= defaultRoute %>`,
       methodType: "post",
       httpHeaders: {
         body: JSON.stringify({
-          nextUserId,
           name,
           username,
           email,
@@ -31,9 +30,9 @@ export const addUsers = createAsyncThunk(
 
 export const deleteUsers = createAsyncThunk(
   "users/getUsers/delete",
-  async ({ Id }, thunkArgs) => {
+  async ({ id }, thunkArgs) => {
     return await asyncAction({
-      url: `<%= defaultRoute %>/${Id}`,
+      url: `<%= defaultRoute %>/${id}`,
       methodType: "delete",
       ...thunkArgs,
     });
