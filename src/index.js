@@ -864,8 +864,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       "utf8"
     );
     contents = render(contents, {
-      mongoSelected,
-      sequelizeSelected,
       dbName,
       projectChoice,
     });

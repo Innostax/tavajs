@@ -162,7 +162,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %> > 0) res.json(<%= defaultRoute %>);
+        if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
         else res.send("no user found");
       });
         <%}%>
