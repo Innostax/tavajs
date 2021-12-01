@@ -27,6 +27,8 @@ const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
 const projectSetUp = require("./utils/projectSetUp");
+const projectInfo = require("./utils/projectInfo");
+const projectExecutionCommand = require("./utils/projectExecutionCommand");
 
 const QUESTIONS = [
   {
@@ -923,16 +925,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
-
-  projectSetUp(
+  projectInfo(
     projectName,
     frontEndName,
     nodeName,
-    managerChoice,
     projectChoice,
-    projectPath,
-    reactPath,
-    nodePath,
     dbService,
     dbName,
     loggerService,
@@ -946,5 +943,13 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     isNgrx,
     isRedux,
     isVuex
+  );
+  projectSetUp(managerChoice, projectChoice, projectPath, reactPath, nodePath);
+  projectExecutionCommand(
+    projectName,
+    frontEndName,
+    nodeName,
+    managerChoice,
+    projectChoice
   );
 });
