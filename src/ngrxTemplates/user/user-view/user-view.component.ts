@@ -47,7 +47,7 @@ export class UserViewComponent implements OnInit {
       email: new FormControl(),
     });
   }
-  checkupdate(key: any, event: any) {
+  UpdateValue(key: any, event: any) {
     this.userForm.value[key] = event.target.value;
   }
 }

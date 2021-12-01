@@ -10,9 +10,9 @@ export class InputComponent implements OnInit {
   @Input() type:string;
   @Input() class:any;
   @Input() placeholder:any
-  @Output() changevalue = new EventEmitter();
+  @Output() OnChange = new EventEmitter();
   ngOnInit(){}
-  emit(event:any){
-    this.changevalue.emit(event);
+  handleOnChange(event:any){
+    this.OnChange.emit(event);
   };
 };

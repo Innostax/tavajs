@@ -36,17 +36,17 @@
         <div class="mb-3">
           <app-label [name]="'Name'"></app-label>
           <app-input [type]="'text'" [class]="'form-control'" [value]="userTobeEdited.name"
-            (changevalue)="checkupdate('name',$event)"></app-input>
+            (OnChange)="UpdateValue('name',$event)"></app-input>
         </div>
         <div class="mb-3">
           <app-label [name]="'Username'"></app-label>
           <app-input [type]="'text'" [class]="'form-control'" [value]="userTobeEdited.username"
-            (changevalue)="checkupdate('username',$event)"></app-input>
+            (OnChange)="UpdateValue('username',$event)"></app-input>
         </div>
         <div class="mb-3">
           <app-label [name]="'Email'"></app-label>
           <app-input [type]="'email'" [class]="'form-control'" [value]="userTobeEdited.email"
-            (changevalue)="checkupdate('email',$event)"></app-input>
+            (OnChange)="UpdateValue('email',$event)"></app-input>
         </div>
       </div>
     </form>

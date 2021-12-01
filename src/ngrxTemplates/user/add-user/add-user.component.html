@@ -1,4 +1,4 @@
-<ng-template #addusermodal let-modal>
+<ng-template #addUserModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Add User</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -11,25 +11,25 @@
         <div class="mb-3">
           <app-label [name]="'Name'"></app-label>
           <app-input [type]="'text'" [class]="'form-control'" [placeholder]="'Enter Name'"
-            (changevalue)="checkupdate('name',$event)"></app-input>
+            (OnChange)="UpdateValue('name',$event)"></app-input>
         </div>
         <div class="mb-3">
           <app-label [name]="'Username'"></app-label>
           <app-input [type]="'text'" [class]="'form-control'" [placeholder]="'Enter Username'"
-            (changevalue)="checkupdate('username',$event)"></app-input>
+            (OnChange)="UpdateValue('username',$event)"></app-input>
         </div>
         <div class="mb-3">
           <app-label [name]="'Email'"></app-label>
           <app-input [type]="'email'" [class]="'form-control'" [placeholder]="'Enter Email'"
-            (changevalue)="checkupdate('email',$event)"></app-input>
+            (OnChange)="UpdateValue('email',$event)"></app-input>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <app-button [name]="'Add'" [class]="'btn btn-primary'" (onClick)="modal.close(adduser())"></app-button>
+    <app-button [name]="'Add'" [class]="'btn btn-primary'" (onClick)="modal.close(addUser())"></app-button>
   </div>
 </ng-template>
 <div style="text-align: center;">
-  <app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="open(addusermodal)"></app-button>
+  <app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="open(addUserModal)"></app-button>
 </div>
