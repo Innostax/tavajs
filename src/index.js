@@ -634,7 +634,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
+        )} Creating Angular project: ${projectName} using ${package.name} ${
           package.version
         }`
       )
@@ -989,16 +989,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   //<---------------------------------ngrx INTEGRATION---------------------------->
   if (isNgrx) {
     fsExtra.copy(
-      `${currentPath}/ngrxTemplates/module`,
-      `${angularPath}/src/app/module`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
-    fsExtra.copy(
       `${currentPath}/ngrxTemplates/reducers`,
       `${angularPath}/src/app/reducers`,
       function (err) {
@@ -1009,8 +999,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
     fsExtra.copy(
-      `${currentPath}/ngrxTemplates/user`,
-      `${angularPath}/src/app/user`,
+      `${currentPath}/ngrxTemplates/modules`,
+      `${angularPath}/src/app/modules`,
       function (err) {
         if (err) {
           console.log("An error is occured");

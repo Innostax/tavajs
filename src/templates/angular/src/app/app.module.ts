@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
   import { reducers, metaReducers } from './reducers';
   import { StoreDevtoolsModule } from '@ngrx/store-devtools';
   import { environment } from '../environments/environment';
-  import { UserModule } from './user/user.module'; <% } %>
+  import { UserModule } from './modules/Users/user.module'; <% } %>
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
