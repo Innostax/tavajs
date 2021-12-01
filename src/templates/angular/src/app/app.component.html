@@ -1,13 +1,20 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to user Screen!
-  </h1>
-</div><% if(isNgrx) { %>
-<div style="text-align:center">
-  <h3>
-    Welcome to Angular Ngrx Crash Course
-  </h3>
-</div>
-<app-add-user></app-add-user>
-<app-user-view></app-user-view>
-<% } %>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+      aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand">Made in India</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a routerLink="/home" routerLinkActive="active">home</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/user" routerLinkActive="active">User</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>

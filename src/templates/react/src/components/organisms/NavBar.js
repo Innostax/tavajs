@@ -4,11 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 
+<% if(isDark) { %>import { DarkToggle } from '../../themes'<% } %>
 const NavBar = ({ brand, links }) => {
 <% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 	return (
 		<Router>
-			<Navbar bg='light' expand='lg'>
+			<Navbar expand='lg'>
 				<Container>
 					<Navbar.Brand href='#home'>{brand}</Navbar.Brand>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -30,6 +31,7 @@ const NavBar = ({ brand, links }) => {
 						</Nav>
 						<%}%>
 					</Navbar.Collapse>
+					<% if(isDark) { %><DarkToggle/><% } %>
 				</Container>
 			</Navbar>
 			<Routes />

@@ -22,7 +22,9 @@
     "react-bootstrap-table-next": "^4.0.1",
     "font-awesome": "^4.7.0",
     "react-bootstrap": "^1.0.0",
-    "@auth0/auth0-spa-js": "^1.10.0"
+    "@auth0/auth0-spa-js": "^1.10.0",
+    "react-responsive": "^9.0.0-beta.4",
+    "bootstrap-switch-button-react": "^1.2.0"
   },
   "scripts": {
     "start": "npm run pretty && npm run eslint && npm run start-watch",
