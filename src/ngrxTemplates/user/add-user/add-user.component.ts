@@ -17,12 +17,12 @@ export class AddUserComponent implements OnInit {
     private store: Store<userState>,
     private modalService: NgbModal
   ) {}
-  open(addusermodal: any) {
-    this.modalService.open(addusermodal, {
+  open(addUserModal: any) {
+    this.modalService.open(addUserModal, {
       ariaLabelledBy: "modal-basic-title",
     });
   }
-  adduser(): void {
+  addUser(): void {
     const user: User = {
       id: this.userForm.value.id,
       name: this.userForm.value.name,
@@ -39,5 +39,8 @@ export class AddUserComponent implements OnInit {
       username: new FormControl(),
       email: new FormControl(),
     });
+  }
+  UpdateValue(key: any, event: any) {
+    this.userForm.value[key] = event.target.value;
   }
 }

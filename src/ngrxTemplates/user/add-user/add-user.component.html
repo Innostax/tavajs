@@ -1,4 +1,4 @@
-<ng-template #addusermodal let-modal>
+<ng-template #addUserModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Add User</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -6,27 +6,30 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="userForm">
+    <form>
       <div class="form-group">
         <div class="mb-3">
-          <label>Name</label>
-          <input type="text" class="form-control" formControlName="name" placeholder="Enter Name" />
+          <app-label [name]="'Name'"></app-label>
+          <app-input [type]="'text'" [class]="'form-control'" [placeholder]="'Enter Name'"
+            (OnChange)="UpdateValue('name',$event)"></app-input>
         </div>
         <div class="mb-3">
-          <label>UserName</label>
-          <input type="username" class="form-control" formControlName="username" placeholder="Enter UserName" />
+          <app-label [name]="'Username'"></app-label>
+          <app-input [type]="'text'" [class]="'form-control'" [placeholder]="'Enter Username'"
+            (OnChange)="UpdateValue('username',$event)"></app-input>
         </div>
         <div class="mb-3">
-          <label>Email</label>
-          <input type="email" class="form-control" formControlName="email" placeholder="Enter Email" />
+          <app-label [name]="'Email'"></app-label>
+          <app-input [type]="'email'" [class]="'form-control'" [placeholder]="'Enter Email'"
+            (OnChange)="UpdateValue('email',$event)"></app-input>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="modal.close(adduser())">Add</button>
+    <app-button [name]="'Add'" [class]="'btn btn-primary'" (onClick)="modal.close(addUser())"></app-button>
   </div>
 </ng-template>
 <div style="text-align: center;">
-  <button class="btn btn-primary" (click)="open(addusermodal)">Add User</button>
+  <app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="open(addUserModal)"></app-button>
 </div>

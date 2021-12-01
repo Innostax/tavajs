@@ -617,6 +617,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
+      reactPath,
       isRedux,
       screenName,
       isCrudWithNode,
