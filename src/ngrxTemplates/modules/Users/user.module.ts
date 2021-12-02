@@ -11,6 +11,9 @@ import { LabelComponent } from 'src/app/components/atoms/Label/Label';
 import { InputComponent } from 'src/app/components/atoms/Input/Input';
 import { DatepickerComponent } from 'src/app/components/atoms/Datepicker/Datepicker';
 import { IgxDatePickerModule } from 'igniteui-angular';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EditUserModal } from 'src/app/modules/UsersModal/EditUserModal/EditUserModal';
+import { TableComponent } from 'src/app/components/organisms/Table/Table';
 
 @NgModule({
   declarations: [
@@ -20,15 +23,19 @@ import { IgxDatePickerModule } from 'igniteui-angular';
     ButtonComponent,
     LabelComponent,
     InputComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    EditUserModal,
+    TableComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    NgbModule,
     IgxDatePickerModule,
     StoreModule.forFeature(userFeatureKey, reducer),
   ],
+  providers: [ NgbActiveModal],
   exports: [
     UsersModule,
     AddUserModal,
@@ -36,7 +43,9 @@ import { IgxDatePickerModule } from 'igniteui-angular';
     ButtonComponent,
     LabelComponent,
     InputComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    EditUserModal,
+    TableComponent
   ]
 })
 export class UserModule { };

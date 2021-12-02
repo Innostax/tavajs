@@ -1,3 +1,10 @@
+<div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="openAddModal()"></app-button>
+    </div>
+  </div>
+</div>
 <table class="table mt-3" style="text-align:center">
   <thead>
     <tr>
@@ -15,7 +22,7 @@
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
       <td>
-        <app-button [name]="'Edit'" [class]="'btn btn-primary btn-space'" (onClick)="open(editusermodal,user)">
+        <app-button [name]="'Edit'" [class]="'btn btn-primary btn-space'" (onClick)="openModal(user)">
         </app-button>
         <app-button [name]="'Delete'" [class]="'btn btn-danger btn-space'" (onClick)="deleteuser(user.id)"></app-button>
       </td>
@@ -23,35 +30,4 @@
   </tbody>
 </table>
 
-<ng-template #editusermodal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Edit User</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <div class="mb-3">
-          <app-label [name]="'Name'"></app-label>
-          <app-input [type]="'text'" [class]="'form-control'" [value]="userTobeEdited.name"
-            (OnChange)="UpdateValue('name',$event)"></app-input>
-        </div>
-        <div class="mb-3">
-          <app-label [name]="'Username'"></app-label>
-          <app-input [type]="'text'" [class]="'form-control'" [value]="userTobeEdited.username"
-            (OnChange)="UpdateValue('username',$event)"></app-input>
-        </div>
-        <div class="mb-3">
-          <app-label [name]="'Email'"></app-label>
-          <app-input [type]="'email'" [class]="'form-control'" [value]="userTobeEdited.email"
-            (OnChange)="UpdateValue('email',$event)"></app-input>
-        </div>
-      </div>
-    </form>
-    <div class="modal-footer">
-      <app-button [name]="'Edit'" [class]="'btn btn-primary'" (onClick)="modal.close(edituser())"></app-button>
-    </div>
-  </div>
-</ng-template>
+<app-table [data]="users"></app-table>

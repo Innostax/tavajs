@@ -1,0 +1,12 @@
+<table class="table mt-3" style="text-align:center">
+    <thead>
+        <tr>
+                <th *ngFor="let col of cols">{{ col }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dataa of data">
+            <td *ngFor="let key of keys">{{ dataa[key] }}</td>
+        </tr>
+    </tbody>
+</table>
