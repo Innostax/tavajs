@@ -7,11 +7,11 @@ import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: "app-adduser",
-  templateUrl: "./AddUser.html",
-  styleUrls: ["./AddUser.css"],
+  selector: "add-user-modal",
+  templateUrl: "./AddUserModal.html",
+  styleUrls: ["./AddUserModal.css"],
 })
-export class AddUserComponent implements OnInit {
+export class AddUserModal implements OnInit {
   userForm: FormGroup;
   constructor(
     private store: Store<userState>,

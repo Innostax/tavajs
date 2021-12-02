@@ -10,11 +10,11 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { deleteUser } from "../store/action/user.actions";
 
 @Component({
-  selector: "app-users",
+  selector: "users-module",
   templateUrl: "./Users.html",
   styleUrls: ["./Users.css"],
 })
-export class UsersComponent implements OnInit {
+export class UsersModule implements OnInit {
   userForm: FormGroup;
   userTobeEdited: User;
   users$: Observable<User[]>;
