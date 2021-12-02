@@ -9,7 +9,15 @@ const { selectionRoute } = require('./routes')
 const conn = require('./mongoose')
 <% } %>
 <% if (isAuth0) { %>
-const authorization = require(`./authorization`)
+let jwt = require('express-jwt')
+
+const authorization=jwt({
+	secret: process.env.AUTH_SECRET,
+	audience: process.env.AUTH_AUDIENCE,
+	issuer: process.env.AUTH_ISSUER,
+	algorithms: ['HS256'],
+})
+
 <% } %>
   
 const port = process.env.PORT
