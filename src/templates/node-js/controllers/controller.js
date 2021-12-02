@@ -88,10 +88,19 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               { id: req.params.id},
               returning:true, plain:true
           }
-      ).then((<%= defaultRoute %>) => {
+      )<%if(dbName==="postgres") { %>.then((<%= defaultRoute %>) => {
         res.send(<%= defaultRoute %>[1]);
       }
-    );
+    ); <%}%> <%if(dbName==="mysql") { %>
+      <%= defaultRoute %>.findAll({
+        where:{
+            id:req.params.id
+        }
+    }).then((<%= defaultRoute %>) => {
+      if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
+      else res.send("no user found");
+    });
+    <%}%>
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
         res.send('patch Called')
