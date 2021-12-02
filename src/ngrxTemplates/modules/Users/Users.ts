@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { User } from "src/app/module/user";
+import { User } from "./User";
 import { select, Store } from "@ngrx/store";
 import { selectusers } from "../store/selector/user.selectors";
 import { userState } from "../store/reducer/user.reducer";
@@ -10,11 +10,11 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { deleteUser } from "../store/action/user.actions";
 
 @Component({
-  selector: "app-user-view",
-  templateUrl: "./user-view.component.html",
-  styleUrls: ["./user-view.component.css"],
+  selector: "users-module",
+  templateUrl: "./Users.html",
+  styleUrls: ["./Users.css"],
 })
-export class UserViewComponent implements OnInit {
+export class UsersModule implements OnInit {
   userForm: FormGroup;
   userTobeEdited: User;
   users$: Observable<User[]>;
