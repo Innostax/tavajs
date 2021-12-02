@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 
-function projectExecutionCommand(
+function projectExecutionCommands(
   projectName,
   frontEndName,
   nodeName,
@@ -43,8 +43,6 @@ function projectExecutionCommand(
   );
 }
 
-module.exports = projectExecutionCommand;
-
 //---------------------------------------------------------------------------
 function projectInvokeInstructions(projectChoice, managerChoice) {
   if (managerChoice === "npm") {
@@ -62,3 +60,5 @@ function projectInvokeInstructions(projectChoice, managerChoice) {
     }
   }
 }
+
+module.exports = projectExecutionCommands;

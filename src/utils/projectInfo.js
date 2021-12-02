@@ -6,15 +6,10 @@ function projectInfo(
   frontEndName,
   nodeName,
   projectChoice,
-  dbService,
   dbName,
-  loggerService,
   loggerName,
-  emailService,
   emailServiceName,
-  blobService,
   blobServiceName,
-  authService,
   authenticationChoice,
   isNgrx,
   isRedux,
@@ -30,7 +25,7 @@ function projectInfo(
         }`
       )
     );
-    if (authService === "yes")
+    if (authenticationChoice)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -65,7 +60,7 @@ function projectInfo(
         }`
       )
     );
-    if (dbService === "yes")
+    if (dbName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -73,7 +68,7 @@ function projectInfo(
           )} Integrating Database service: ${dbName}`
         )
       );
-    if (loggerService === "yes")
+    if (loggerName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -81,7 +76,7 @@ function projectInfo(
           )} Integrating Logger service: ${loggerName}`
         )
       );
-    if (emailService == "yes")
+    if (emailServiceName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -89,7 +84,7 @@ function projectInfo(
           )} Integrating Email service: ${emailServiceName}`
         )
       );
-    if (blobService == "yes")
+    if (blobServiceName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -107,7 +102,7 @@ function projectInfo(
         } ${package.version}`
       )
     );
-    if (authService === "yes")
+    if (authenticationChoice)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -133,7 +128,7 @@ function projectInfo(
           `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
         )
       );
-    if (dbService === "yes")
+    if (dbName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -141,7 +136,7 @@ function projectInfo(
           )} Integrating Database service: ${dbName}`
         )
       );
-    if (loggerService === "yes")
+    if (loggerName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -149,7 +144,7 @@ function projectInfo(
           )} Integrating Logger service: ${loggerName}`
         )
       );
-    if (emailService == "yes")
+    if (emailServiceName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
@@ -157,7 +152,7 @@ function projectInfo(
           )} Integrating Email service: ${emailServiceName}`
         )
       );
-    if (blobService == "yes")
+    if (blobServiceName)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(

@@ -1,36 +1,14 @@
 const shell = require("shelljs");
 
-function projectSetUp(
-  managerChoice,
-  projectChoice,
-  projectPath,
-  reactPath,
-  nodePath
-) {
-  const path = [
-    {
-      projectChoice: "react",
-      projectPath: `${reactPath}`,
-    },
-    {
-      projectChoice: "node",
-      projectPath: `${nodePath}`,
-    },
-  ];
-
+function projectSetUp(managerChoice, projectChoice, projectPath) {
   if (projectChoice === "react_Node") {
-    path.map((each) => {
-      packageInstaller(
-        managerChoice,
-        `${each.projectChoice}`,
-        `${each.projectPath}`
-      );
-    });
+    const [frontEnd, backEnd] = projectPath;
+    projectSetUp(managerChoice, frontEnd.projectChoice, frontEnd.projectPath);
+    projectSetUp(managerChoice, backEnd.projectChoice, backEnd.projectPath);
   } else {
     packageInstaller(managerChoice, projectChoice, projectPath);
   }
 }
-module.exports = projectSetUp;
 
 function packageInstaller(managerChoice, projectChoice, path) {
   shell.cd(`${path}`);
@@ -54,3 +32,5 @@ function packageInstaller(managerChoice, projectChoice, path) {
     console.log("-------------yarn process completed--------------------");
   }
 }
+
+module.exports = projectSetUp;

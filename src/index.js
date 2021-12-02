@@ -28,7 +28,7 @@ const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
-const projectExecutionCommand = require("./utils/projectExecutionCommand");
+const projectExecutionCommands = require("./utils/projectExecutionCommands");
 
 const QUESTIONS = [
   {
@@ -375,9 +375,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   var vuePath = `${CURR_DIR}/${projectName}`;
   isDark = answers["theme"];
   var angularPath = `${CURR_DIR}/${projectName}`;
-  const loggerService = answers["loggerService"];
-  const dbService = answers["dbService"];
-  const authService = answers["authService"];
   const authenticationChoice = answers["authentication-choice"];
   const loggerName = answers["loggerName"];
   const emailServiceName = answers["emailServiceName"];
@@ -925,27 +922,36 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
+
+  if (projectChoice === "react_Node") {
+    projectPath = [
+      {
+        projectChoice: "react",
+        projectPath: `${reactPath}`,
+      },
+      {
+        projectChoice: "node",
+        projectPath: `${nodePath}`,
+      },
+    ];
+  }
+
   projectInfo(
     projectName,
     frontEndName,
     nodeName,
     projectChoice,
-    dbService,
     dbName,
-    loggerService,
     loggerName,
-    emailService,
     emailServiceName,
-    blobService,
     blobServiceName,
-    authService,
     authenticationChoice,
     isNgrx,
     isRedux,
     isVuex
   );
-  projectSetUp(managerChoice, projectChoice, projectPath, reactPath, nodePath);
-  projectExecutionCommand(
+  projectSetUp(managerChoice, projectChoice, projectPath);
+  projectExecutionCommands(
     projectName,
     frontEndName,
     nodeName,
