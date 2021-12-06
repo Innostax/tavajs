@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
+<% if(isRedux){%>import { useDispatch } from 'react-redux'
+import { actions } from './infrastructure/userContext/userContext.reducer'
 
+const { setjwtToken } = actions <%}%>
 const DEFAULT_REDIRECT_CALLBACK = () =>
     window.history.replaceState({}, document.title, window.location.pathname)
 
 export const Auth0Context = React.createContext()
 export const useAuth0 = () => useContext(Auth0Context)
-
 export const Auth0Provider = ({
     children,
     onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
     ...initOptions
 }) => {
 	const [auth0Client, setAuth0] = useState()
-	const [ isUserAuthenticated, setIsUserAuthenticated ] = useState() 
+	const [ isUserAuthenticated, setIsUserAuthenticated ] = useState()
+	<% if(isRedux){%>const dispatch = useDispatch()<%}%>
 
     useEffect(() => {
         const initAuth0 = async () => {
@@ -36,24 +39,25 @@ export const Auth0Provider = ({
                 const { appState } = await auth0FromHook.handleRedirectCallback()
                 onRedirectCallback(appState)
             }
-
-			const isAuthenticated =
-				(await auth0FromHook.isAuthenticated()) || isTestAuthenticated
-			setIsUserAuthenticated(isAuthenticated)	
-			// dispatch(setIsAuthenticated(isAuthenticated))
-			if (isAuthenticated) {
-				let token, user
-				/* Check if this is a test environment and override typical auth0 token with the Cypress one. */
-				if (isTestAuthenticated) {
-					user = auth0FromHook._verifyIdToken(
-						localStorage.getItem('testJwtIdToken')
-					).user
-					token = localStorage.getItem('testJwtToken')
-				} else {
-					user = await auth0FromHook.getUser()
-					token = await auth0FromHook.getTokenSilently()
+            
+            const isAuthenticated =
+                (await auth0FromHook.isAuthenticated()) || isTestAuthenticated
+            setIsUserAuthenticated(isAuthenticated)
+            // dispatch(setIsAuthenticated(isAuthenticated))
+            if (isAuthenticated) {
+                let token, user
+                /* Check if this is a test environment and override typical auth0 token with the Cypress one. */
+                if (isTestAuthenticated) {
+                    user = auth0FromHook._verifyIdToken(
+                        localStorage.getItem('testJwtIdToken')
+                    ).user
+                    token = localStorage.getItem('testJwtToken')
+                } else {
+                    user = await auth0FromHook.getUser()
+                    token = await auth0FromHook.getTokenSilently()
                     console.log(user,token) // Added for warning purpose.
-				}
+                }
+                <% if(isRedux){%>  dispatch(setjwtToken(token))<%}%>
 			}
 		}
 		initAuth0()
@@ -63,24 +67,23 @@ export const Auth0Provider = ({
     const handleRedirectCallback = async () => {
         await auth0Client.handleRedirectCallback()
         // const user = await auth0Client.getUser()
-        
         // dispatch(setIsAuthenticated(true))
         // dispatch(setUser(user))
     }
 
-	return (
-		<Auth0Context.Provider
-			value={{    
-				isUserAuthenticated,
-				handleRedirectCallback,
-				getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
-				loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
-				getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
-				getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
-				logout: (...p) => auth0Client.logout(...p),
-			}}
-		>
-			{children}
-		</Auth0Context.Provider>
-	)
+    return (
+        <Auth0Context.Provider
+            value={{    
+                isUserAuthenticated,
+                handleRedirectCallback,
+                getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
+                loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
+                getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
+                getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
+                logout: (...p) => auth0Client.logout(...p),
+            }}
+        >
+            {children}
+        </Auth0Context.Provider>
+    )
 }

@@ -41,7 +41,6 @@ const QUESTIONS = [
         return "Project name may only include letters, numbers, underscores and hashes.";
     },
   },
-
   {
     name: "managerChoice",
     type: "list",
@@ -51,7 +50,6 @@ const QUESTIONS = [
       { name: "YARN", value: "yarn" },
     ],
   },
-
   {
     name: "frontEnd",
     type: "list",
@@ -867,6 +865,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     contents = render(contents, {
       dbName,
       projectChoice,
+      isAuth0,
     });
     if (projectChoice === "node-js") {
       writePath = `${CURR_DIR}/${projectName}/.env`;
@@ -893,9 +892,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       },
       {
         srcFolder: "reduxTemplates",
-        srcFileName: "store.js",
+        srcFileName: "createStore.js",
         destFolder: "/src",
-        destFileName: "store.js",
+        destFileName: "createStore.js",
       },
       {
         srcFolder: "reduxTemplates",
@@ -916,7 +915,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
-
     let contents = fs.readFileSync(
       `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
       "utf8"
@@ -925,6 +923,7 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       defaultRoute,
     });
     writePath = `${reactPath}/src/screens/Users/users.actions.js`;
+
     fs.writeFileSync(writePath, contents, "utf8");
 
     if (isCrud) {
@@ -949,7 +948,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     }
-
     fsExtra.copy(
       `${currentPath}/reduxTemplates/infrastructure`,
       `${reactPath}/src/infrastructure`,
@@ -1011,15 +1009,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   if (answers["authentication-choice"] === "Auth0") {
     const filesMap = [
       {
-        srcFolder: "authTemplates",
-        srcFileName: "react-spa.js",
-        destFolder: frontEndName + "/src",
-        destFileName: "react-spa.js",
-      },
-      {
         srcFolder: "envTemplates",
         srcFileName: ".authEnv",
-        destFolder: "",
+        destFolder: frontEndName + "",
         destFileName: ".env",
       },
     ];
@@ -1039,6 +1031,11 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       );
     });
+    let reactSpaPath = path.join(__dirname, "authTemplates");
+    let newContent = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
+    newContent = render(newContent, { isRedux });
+    writePath = `${CURR_DIR}/${projectName}/${frontEndName}/src/react-spa.js`;
+    fs.writeFileSync(writePath, newContent, "utf8");
   } else if (answers["authentication-choice"] === "Cognito") {
     choice = "cognito";
 
