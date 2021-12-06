@@ -252,6 +252,22 @@ const QUESTIONS = [
     },
   },
   {
+    name: "vueNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with Vue-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.backEnd == "yes" &&
+        answers.frontEnd == "yes" &&
+        answers.vuex === true
+      );
+    },
+  },
+  {
     name: "loggerService",
     type: "list",
     message: "Do you want logger services?",
@@ -347,15 +363,19 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
 
   if (frontEndChoice === "react" && backEndChoice === "node")
     projectChoice = "react_Node";
+  else if (frontEndChoice === "vue" && backEndChoice === "node")
+    projectChoice = "vue_Node";
   else if (frontEndChoice === "react") projectChoice = "react";
   else if (frontEndChoice === "angular") projectChoice = "angular";
   else if (frontEndChoice === "vue") projectChoice = "vue";
   else if (backEndChoice === "node") projectChoice = "node-js";
+
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
   const reactNodeCrudOperations = answers["reactNodeCrud"];
-  isCrudWithNode = reactNodeCrudOperations;
+  const vueNodeCrudOperations = answers["vueNodeCrud"];
+  isCrudWithNode = reactNodeCrudOperations || vueNodeCrudOperations || false;
   let newDefaultRoute = "";
   const reduxIntegration = answers["redux"];
   const dockerService = answers["dockerService"];
@@ -774,6 +794,85 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
+  } else if (projectChoice === "vue_Node") {
+    //--------------------------------------------------------
+    frontEndName = answers["FrontEnd-name"];
+    nodeName = answers["node-name"];
+    let vueTemplatePath = path.join(__dirname, "templates", "vue");
+    const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
+    var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
+    var vuePath = `${CURR_DIR}/${projectName}/${frontEndName}`;
+
+    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${frontEndName}`);
+    createDirectoryContents(
+      vueTemplatePath,
+      `${projectName}/${frontEndName}`,
+      defaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
+      isAuth0,
+      isCognito,
+      reactPath,
+      isRedux,
+      screenName,
+      isCrudWithNode,
+      isCrud,
+      frontEndName,
+      nodeName,
+      projectChoice,
+      isVuex,
+      isNgrx,
+      isDark
+    );
+    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
+    createDirectoryContents(
+      nodeTemplatePath,
+      `${projectName}/${nodeName}`,
+      defaultRoute,
+      mongoSelected,
+      sequelizeSelected,
+      dbName,
+      isSentry,
+      isWinston,
+      isAuth0,
+      isCognito,
+      reactPath,
+      isRedux,
+      screenName,
+      isCrudWithNode,
+      isCrud,
+      frontEndName,
+      nodeName,
+      projectChoice,
+      isVuex,
+      isNgrx
+    );
+    const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
+    const fileNames = [
+      {
+        oldName: "route.js",
+        folder: "routes",
+        newName: `${defaultRoute}.routes.js`,
+      },
+      {
+        oldName: "controller.js",
+        folder: "controllers",
+        newName: `${defaultRoute}.controllers.js`,
+      },
+    ];
+
+    fileNames.map((each) =>
+      fs.rename(
+        `${newPath}/${each.folder}/${each.oldName}`,
+        `${newPath}/${each.folder}/${each.newName}`,
+        () => {}
+      )
+    );
+
+    //------------------------------------------------------------------
   } else {
     createDirectoryContents(templatePath, projectName);
   }
@@ -965,16 +1064,21 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
   //<---------------------------------VUEX INTEGRATION---------------------------->
   if (isVuex) {
-    fsExtra.copy(
-      `${currentPath}/vuexTemplates/store`,
-      `${vuePath}/src/store`,
-      function (err) {
+    fs.mkdir(`${vuePath}/src/store`, (err, data) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    fs.copyFile(
+      `${currentPath}/vuexTemplates/store/index.js`,
+      `${vuePath}/src/store/index.js`,
+      (err) => {
         if (err) {
-          console.log("An error is occured");
-          return console.error(err);
+          console.log("Error Found:", err);
         }
       }
     );
+
     fsExtra.copy(
       `${currentPath}/vuexTemplates/userModal`,
       `${vuePath}/src/userModal`,
@@ -985,6 +1089,43 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
         }
       }
     );
+    fs.mkdir(`${vuePath}/src/store/modules`, (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    if (isCrudWithNode) {
+      let contents = fs.readFileSync(
+        `${currentPath}/vuexTemplates/store/modules/users.asyncActions.js`,
+        "utf8"
+      );
+      contents = render(contents, {
+        defaultRoute,
+      });
+      writePath = `${vuePath}/src/store/modules/users.js`;
+      fs.writeFileSync(writePath, contents, "utf8");
+
+      fsExtra.copy(
+        `${currentPath}/reduxTemplates/infrastructure`,
+        `${vuePath}/src/infrastructure`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      );
+    } else if (!isCrudWithNode) {
+      fs.copyFile(
+        `${currentPath}/vuexTemplates/store/modules/users.js`,
+        `${vuePath}/src/store/modules/users.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    }
   }
   //<---------------------------------ngrx INTEGRATION---------------------------->
   if (isNgrx) {
@@ -1091,7 +1232,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     );
   }
 
-  if (projectChoice === "react_Node") {
+  if (projectChoice === "vue_Node") {
+    packageInstaller(managerChoice, frontEndChoice, vuePath);
+    packageInstaller(managerChoice, backEndChoice, nodePath);
+  } else if (projectChoice === "react_Node") {
     packageInstaller(managerChoice, frontEndChoice, reactPath);
     packageInstaller(managerChoice, backEndChoice, nodePath);
   } else if (frontEndChoice) {
@@ -1100,7 +1244,46 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     packageInstaller(managerChoice, backEndChoice, projectPath);
   }
 
-  if (projectChoice != "react_Node") {
+  if (projectChoice === "vue_Node") {
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
+    );
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(
+        `${String.fromCodePoint(0x1f449)} To get Started:`
+      )
+    );
+    console.log(" Inside ", projectName);
+    console.log("    ");
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Vue:`)
+    );
+    console.log("   Inside", frontEndName);
+    console.log("    ");
+    if (managerChoice === "npm") {
+      console.log(chalk.cyanBright.italic.bold(`     npm run serve`));
+    }
+    if (managerChoice === "yarn") {
+      console.log(chalk.cyanBright.italic.bold(`     yarn run serve`));
+    }
+    console.log(
+      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
+    );
+    console.log("   Inside", nodeName);
+    console.log("    ");
+    if (managerChoice === "npm") {
+      console.log(chalk.cyanBright.italic.bold(`     npm start`));
+    }
+    if (managerChoice === "yarn") {
+      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
+    }
+    console.log(
+      chalk.cyanBright.italic.bold(
+        `------------------------ Ready to go --------------------------`
+      )
+    );
+  } else if (projectChoice != "react_Node") {
     console.log(
       chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
     );
