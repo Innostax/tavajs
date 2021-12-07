@@ -6,7 +6,8 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
   <%}%>
   const find = (req, res, next) => {
     <% if(mongoSelected){ %>
-        <%= defaultRoute %>.find(function(err, data){
+      const projection = { id: '$_id', _id: 0, name: 1, username: 1, email: 1 }
+        <%= defaultRoute %>.find({},projection,function(err, data){
             if (!err) {
               res.send(data);
             } else {
@@ -34,8 +35,15 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
             email:req.body.email
           });
           newData.save(function(err,data){
-            if (!err){  
-              res.send(data);
+            if (!err){ 
+             const projection = { id: '$_id', _id: 0, name: 1, username: 1, email: 1 } 
+              <%= defaultRoute %>.findOne({ _id: data._id }, projection, function (err, data) {
+				if (!err) {
+					res.send(data)
+				} else {
+					res.send(err)
+				}
+			})
             } else {
               res.send(err);
             }
@@ -49,7 +57,6 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(!(sequelizeSelected || mongoSelected)){ %> 
         res.send('create  Called')
      <% } %>
-     
   }
   
   const patch =(req, res, next) => {
@@ -59,11 +66,11 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           {$set: req.body},
           function(err,data){
             if(!err){
-              <%= defaultRoute %>.find(function(err, data){
-                if (!err) {
+              <%= defaultRoute %>.findOne({id: req.params.id},function(err, data){
+                if (data) {
                   res.send(data);
                 } else {
-                  res.send(err);
+                  res.send("No Matching found");
                 }
               })
             } else {
@@ -75,15 +82,25 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.update(
           { name:req.body.name,
-          phone_number:req.body.phone_number},
+          username:req.body.username,
+          email:req.body.email},
           { where:
-              { id: req.params.id}
+              { id: req.params.id},
+              returning:true, plain:true
           }
-      ).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %>[0]) res.send("User updated");
-        else res.send("User with this ID can't be updated");
+      )<%if(dbName==="postgres") { %>.then((<%= defaultRoute %>) => {
+        res.send(<%= defaultRoute %>[1]);
       }
-    );
+    ); <%}%> <%if(dbName==="mysql") { %>
+      <%= defaultRoute %>.findAll({
+        where:{
+            id:req.params.id
+        }
+    }).then((<%= defaultRoute %>) => {
+      if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
+      else res.send("no user found");
+    });
+    <%}%>
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
         res.send('patch Called')
@@ -111,13 +128,11 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% if(mongoSelected){ %>
         <%= defaultRoute %>.deleteOne({_id: req.params.id}, function(err, data){
           if (data) {
-            <%= defaultRoute %>.find(function(err, data){
               if (!err) {
                 res.send(data);
               } else {
                 res.send(err);
-              }
-            })
+              } 
           } else {
             res.send("No matching  was found.");
           }
@@ -127,7 +142,8 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         <%= defaultRoute %>.destroy({
           where: {
               id: req.params.id
-          }
+          },
+          returning: true,checkExistance: true,
       }).then((<%= defaultRoute %>) => {
         if (<%= defaultRoute %>) res.send("user deleted");
         else res.send("User with this ID can't be found");
@@ -155,7 +171,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %> > 0) res.json(<%= defaultRoute %>);
+        if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
         else res.send("no user found");
       });
         <%}%>
