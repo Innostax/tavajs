@@ -533,37 +533,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-<<<<<<< HEAD
-=======
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Angular project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isNgrx)
-      console.log(
-        chalk.green.bold(
-          `  ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
-    );
->>>>>>> develop
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
