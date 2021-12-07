@@ -49,6 +49,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const blobService = answers["blobService"];
   const blobServiceName = answers["blobServiceName"];
   const loggerName = answers["loggerName"];
+  const backend = answers["backEnd"];
   const screenName = "<%= projectName %>";
   isVuex = answers["vuex"];
   isNgrx = answers["ngrx"];
@@ -58,15 +59,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   isCrudWithNode = answers["reactNodeCrud"];
   isDocker = answers["dockerService"];
 
-  if (frontEndChoice === "react" && backEndChoice === "node")
-    projectChoice = "react_Node";
-  else if (frontEndChoice === "react") projectChoice = "react";
-  else if (frontEndChoice === "angular") projectChoice = "angular";
-  else if (frontEndChoice === "vue") projectChoice = "vue";
-  else if (backEndChoice === "node") projectChoice = "node-js";
+  if (backend === "yes") {
+    if (frontEndChoice === "react") projectChoice = "react_Node";
+    else projectChoice = backEndChoice;
+  } else projectChoice = frontEndChoice;
 
   const templatePath = path.join(__dirname, "templates", projectChoice);
   var reactPath = `${CURR_DIR}/${projectName}`;
+  let frontEndPath = `${CURR_DIR}/${projectName}`;
+  let backEndPath = `${CURR_DIR}/${projectName}`;
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -98,6 +99,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (projectChoice == "react_Node") {
     frontEndName = answers["FrontEnd-name"];
     nodeName = answers["node-name"];
+    frontEndPath = `${frontEndPath}/${frontEndName}`;
+    backEndPath = `${backEndPath}/${nodeName}`;
 
     const reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
@@ -105,7 +108,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     const reactPath = `${projectName}/${frontEndName}`;
     const nodePath = `${projectName}/${nodeName}`;
 
-    fsExtra.ensureDirSync(`${CURR_DIR}/${reactPath}`);
+    fsExtra.ensureDirSync(frontEndPath);
     createDirectoryContents(
       reactTemplatePath,
       reactPath,
@@ -128,7 +131,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isNgrx,
       isDark
     );
-    fsExtra.ensureDirSync(`${CURR_DIR}/${nodePath}`);
+    fsExtra.ensureDirSync(backEndPath);
     createDirectoryContents(
       nodeTemplatePath,
       nodePath,
@@ -150,7 +153,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isVuex,
       isNgrx
     );
-    const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
       {
         oldName: "route.js",
@@ -166,8 +168,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     fileNames.map((each) =>
       fs.rename(
-        `${newPath}/${each.folder}/${each.oldName}`,
-        `${newPath}/${each.folder}/${each.newName}`,
+        `${backEndPath}/${each.folder}/${each.oldName}`,
+        `${backEndPath}/${nodePath}/${each.folder}/${each.newName}`,
         () => {}
       )
     );
@@ -186,7 +188,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      reactPath,
       isRedux,
       screenName,
       isCrudWithNode,
@@ -213,7 +214,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      reactPath,
       isRedux,
       screenName,
       isCrudWithNode,
@@ -239,7 +239,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      reactPath,
       isRedux,
       screenName,
       isCrudWithNode,
@@ -251,7 +250,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isNgrx,
       isDark
     );
-    const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
       {
         oldName: "route.js",
@@ -267,8 +265,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     fileNames.map((each) =>
       fs.rename(
-        `${newPath}/${each.folder}/${each.oldName}`,
-        `${newPath}/${each.folder}/${each.newName}`,
+        `${backEndPath}/${each.folder}/${each.oldName}`,
+        `${backEndPath}/${each.folder}/${each.newName}`,
         () => {}
       )
     );
@@ -285,7 +283,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      reactPath,
       isRedux,
       screenName,
       isCrudWithNode,
@@ -308,7 +305,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     blobService === "yes" ||
     answers["loggerService"] === "yes"
   ) {
-    fs.mkdirSync(nodePath + "/utils");
+    fs.mkdirSync(backEndPath + "/utils");
   }
   //for email Sevices
   if (emailService == "yes") {
@@ -319,7 +316,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       emailServiceName
     );
 
-    createEmailSevice(emailServiceName, emailTemplatePath, nodePath, __dirname);
+    createEmailSevice(
+      emailServiceName,
+      emailTemplatePath,
+      backEndPath,
+      __dirname
+    );
   }
 
   //for Blob service---------------------------------------------------------->
@@ -331,19 +333,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       blobServiceName
     );
 
-    createBlobService(blobServiceName, blobTemplatePath, nodePath);
+    createBlobService(blobServiceName, blobTemplatePath, backEndPath);
   }
 
   //<-----------For Logger service---------------------------------------------------------------------------->
   if (answers["loggerService"] === "yes") {
     let loggerServiceName = answers["loggerName"];
     const loggerTemplatePath = path.join(__dirname, "logger");
-    createLogger(nodePath, loggerServiceName, loggerTemplatePath, defaultRoute);
+    createLogger(
+      backEndPath,
+      loggerServiceName,
+      loggerTemplatePath,
+      defaultRoute
+    );
   }
 
   //<------------------------------------------------------------------------------------------->
   if (answers["dbService"] === "yes") {
-    createDbConn(nodePath, dbName, defaultRoute, `${currentPath}`);
+    createDbConn(backEndPath, dbName, defaultRoute, `${currentPath}`);
   }
 
   //for Docker INTEGRATION-------------------------
@@ -369,11 +376,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
       fs.copyFileSync(
         `${currentPath}/dockerTemplate/Dockerfile`,
-        `${reactPath}/Dockerfile`
+        `${frontEndPath}/Dockerfile`
       );
       fs.copyFileSync(
         `${currentPath}/dockerTemplate/Dockerfile`,
-        `${nodePath}/Dockerfile`
+        `${backEndPath}/Dockerfile`
       );
     }
   }
@@ -396,7 +403,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (projectChoice === "node-js") {
       writePath = `${CURR_DIR}/${projectName}/.env`;
     } else {
-      writePath = `${nodePath}/.env`;
+      writePath = `${backEndPath}/.env`;
     }
     fs.writeFileSync(writePath, contents, "utf8");
   }
@@ -433,7 +440,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     reduxFiles.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${reactPath}/${each.destFolder}/${each.destFileName}`,
+        `${frontEndPath}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -448,7 +455,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     contents = render(contents, {
       defaultRoute,
     });
-    writePath = `${reactPath}/src/screens/Users/users.actions.js`;
+    writePath = `${frontEndPath}/src/screens/Users/users.actions.js`;
 
     fs.writeFileSync(writePath, contents, "utf8");
 
@@ -466,7 +473,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (isCrudWithNode) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-        `${reactPath}/src/screens/Users/AddUser.js`,
+        `${frontEndPath}/src/screens/Users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -593,7 +600,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (isDark) {
     fs.copyFile(
       `${currentPath}/themeTemplates/themes.js`,
-      `${reactPath}/src/themes.js`,
+      `${frontEndPath}/src/themes.js`,
       (err) => {
         if (err) {
           console.log("Error Found:", err);

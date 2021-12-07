@@ -133,7 +133,7 @@ module.exports = [
     name: "backEndChoice",
     type: "list",
     message: "Select the Framework",
-    choices: [{ name: "Node", value: "node" }],
+    choices: [{ name: "Node", value: "node-js" }],
     when: (answers) => {
       return answers.backEnd == "yes";
     },
