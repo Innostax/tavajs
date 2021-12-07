@@ -238,7 +238,7 @@ const QUESTIONS = [
   {
     name: "reactNodeCrud",
     type: "list",
-    message: "Do you want crud integration with React-Node boiler plate?",
+    message: "Do you want CRUD integration with React-Node boiler plate?",
     choices: [
       { name: "yes", value: true },
       { name: "no", value: false },
@@ -254,7 +254,7 @@ const QUESTIONS = [
   {
     name: "vueNodeCrud",
     type: "list",
-    message: "Do you want crud integration with Vue-Node boiler plate?",
+    message: "Do you want CRUD integration with Vue-Node boiler plate?",
     choices: [
       { name: "yes", value: true },
       { name: "no", value: false },
@@ -373,9 +373,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   const projectName = answers["project-name"];
   const emailService = answers["emailService"];
   const blobService = answers["blobService"];
-  const reactNodeCrudOperations = answers["reactNodeCrud"];
-  const vueNodeCrudOperations = answers["vueNodeCrud"];
-  isCrudWithNode = reactNodeCrudOperations || vueNodeCrudOperations || false;
+  const isReactNodeCrudOperations = answers["reactNodeCrud"];
+  const isVueNodeCrudOperations = answers["vueNodeCrud"];
+  isCrudWithNode =
+    isReactNodeCrudOperations || isVueNodeCrudOperations || false;
   let newDefaultRoute = "";
   const reduxIntegration = answers["redux"];
   const dockerService = answers["dockerService"];
@@ -794,8 +795,9 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-  } else if (projectChoice === "vue_Node") {
-    //--------------------------------------------------------
+  }
+  //------------------------vue_Node-----------------------
+  else if (projectChoice === "vue_Node") {
     frontEndName = answers["FrontEnd-name"];
     nodeName = answers["node-name"];
     let vueTemplatePath = path.join(__dirname, "templates", "vue");
@@ -827,6 +829,24 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isNgrx,
       isDark
     );
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Vue project: ${frontEndName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (isVuex)
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+    );
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
       nodeTemplatePath,
@@ -849,6 +869,50 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx
+    );
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating Node project: ${projectName} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+    if (answers["dbService"] === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
+        )
+      );
+    if (answers["loggerService"] === "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
+        )
+      );
+    if (emailService == "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
+        )
+      );
+    if (blobService == "yes")
+      console.log(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
+        )
+      );
+    console.log(
+      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
