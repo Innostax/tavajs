@@ -12,6 +12,7 @@ const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
+const getProjectDetails = require("./utils/getProjectDetails");
 const questionnaire = require("./questionnaire");
 
 const currentPath = path.join(__dirname);
@@ -33,15 +34,13 @@ var isDark = false;
 var isNgrx = false;
 
 inquirer.prompt(questionnaire).then(async (answers) => {
-  let projectChoice = "";
-  let newDefaultRoute = "";
-  let frontEndName = "";
-  let nodeName = "";
   const projectName = answers["project-name"];
   const managerChoice = answers["managerChoice"];
   const frontEndChoice = answers["frontEndChoice"];
+  const frontEndName = answers["FrontEnd-name"];
   const authenticationChoice = answers["authentication-choice"];
   const backEndChoice = answers["backEndChoice"];
+  const backEndName = answers["node-name"];
   const defaultRoute = answers["default-route"];
   const dbName = answers["dbName"];
   const emailService = answers["emailService"];
@@ -49,7 +48,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const blobService = answers["blobService"];
   const blobServiceName = answers["blobServiceName"];
   const loggerName = answers["loggerName"];
-  const backend = answers["backEnd"];
   const screenName = "<%= projectName %>";
   isVuex = answers["vuex"];
   isNgrx = answers["ngrx"];
@@ -59,20 +57,23 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   isCrudWithNode = answers["reactNodeCrud"];
   isDocker = answers["dockerService"];
 
-  if (backend === "yes") {
-    if (frontEndChoice === "react") projectChoice = "react_Node";
-    else projectChoice = backEndChoice;
-  } else projectChoice = frontEndChoice;
-
-  const templatePath = path.join(__dirname, "templates", projectChoice);
-  let frontEndPath = `${CURR_DIR}/${projectName}`;
-  let backEndPath = `${CURR_DIR}/${projectName}`;
-
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
     }
   });
+
+  let frontEndPath = `${CURR_DIR}/${projectName}`;
+  let backEndPath = `${CURR_DIR}/${projectName}`;
+
+  const { projectChoice, projectPath } = getProjectDetails(
+    `${CURR_DIR}/${projectName}`,
+    frontEndChoice,
+    backEndChoice,
+    frontEndName,
+    backEndName
+  );
+  const templatePath = path.join(__dirname, "templates", projectChoice);
 
   // //<------------------------------for logger-------------------------------->
   if (answers["loggerName"] === "winston") isWinston = true;
@@ -96,16 +97,14 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   //-----------------------------------------for react + node---------------------------
   if (projectChoice == "react_Node") {
-    frontEndName = answers["FrontEnd-name"];
-    nodeName = answers["node-name"];
     frontEndPath = `${frontEndPath}/${frontEndName}`;
-    backEndPath = `${backEndPath}/${nodeName}`;
+    backEndPath = `${backEndPath}/${backEndName}`;
 
     const reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
 
     const reactPath = `${projectName}/${frontEndName}`;
-    const nodePath = `${projectName}/${nodeName}`;
+    const nodePath = `${projectName}/${backEndName}`;
 
     fsExtra.ensureDirSync(frontEndPath);
     createDirectoryContents(
@@ -124,7 +123,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       frontEndName,
-      nodeName,
+      backEndName,
       projectChoice,
       isVuex,
       isNgrx,
@@ -147,107 +146,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       frontEndName,
-      nodeName,
+      backEndName,
       projectChoice,
       isVuex,
       isNgrx
-    );
-    const fileNames = [
-      {
-        oldName: "route.js",
-        folder: "routes",
-        newName: `${defaultRoute}.routes.js`,
-      },
-      {
-        oldName: "controller.js",
-        folder: "controllers",
-        newName: `${defaultRoute}.controllers.js`,
-      },
-    ];
-
-    fileNames.map((each) =>
-      fs.rename(
-        `${backEndPath}/${each.folder}/${each.oldName}`,
-        `${backEndPath}/${nodePath}/${each.folder}/${each.newName}`,
-        () => {}
-      )
-    );
-  }
-
-  //<---------------------------- for react---------------------------------->
-  else if (projectChoice === "react") {
-    createDirectoryContents(
-      templatePath,
-      projectName,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isCognito,
-      isRedux,
-      screenName,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      nodeName,
-      projectChoice,
-      isVuex,
-      isNgrx,
-      isDark
-    );
-    var projectPath = `${CURR_DIR}/${projectName}`;
-  }
-  //<---------------------------- for angular---------------------------------->
-  else if (projectChoice === "angular") {
-    createDirectoryContents(
-      templatePath,
-      projectName,
-      newDefaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isCognito,
-      isRedux,
-      screenName,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      nodeName,
-      projectChoice,
-      isVuex,
-      isNgrx,
-      isDark
-    );
-    var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-  } else if (projectChoice === "node-js") {
-    var nodePath = path.join(CURR_DIR, projectName);
-    createDirectoryContents(
-      templatePath,
-      projectName,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isCognito,
-      isRedux,
-      screenName,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      nodeName,
-      projectChoice,
-      isVuex,
-      isNgrx,
-      isDark
     );
     const fileNames = [
       {
@@ -269,8 +171,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         () => {}
       )
     );
-    var projectPath = `${CURR_DIR}/${projectName}/${nodeName}`;
-  } else if (projectChoice === "vue") {
+  }
+
+  //<---------------------------- for react---------------------------------->
+  else if (
+    projectChoice === "react" ||
+    projectChoice === "angular" ||
+    projectChoice === "vue" ||
+    projectChoice === "node-js"
+  ) {
     createDirectoryContents(
       templatePath,
       projectName,
@@ -287,15 +196,34 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       frontEndName,
-      nodeName,
+      backEndName,
       projectChoice,
       isVuex,
       isNgrx,
       isDark
     );
-    var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-  } else {
-    createDirectoryContents(templatePath, projectName);
+  }
+  if (projectChoice === "node-js") {
+    const fileNames = [
+      {
+        oldName: "route.js",
+        folder: "routes",
+        newName: `${defaultRoute}.routes.js`,
+      },
+      {
+        oldName: "controller.js",
+        folder: "controllers",
+        newName: `${defaultRoute}.controllers.js`,
+      },
+    ];
+
+    fileNames.map((each) =>
+      fs.rename(
+        `${backEndPath}/${each.folder}/${each.oldName}`,
+        `${backEndPath}/${each.folder}/${each.newName}`,
+        () => {}
+      )
+    );
   }
 
   //creating utils dir
@@ -358,7 +286,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (projectChoice === "react") {
       fs.copyFileSync(`${dockerPath}/Dockerfile`, `${frontEndPath}/Dockerfile`);
     } else if (projectChoice === "node-js") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${backEndPath}/Dockerfile`);
     } else if (projectChoice === "react_Node") {
       let contents = fs.readFileSync(
         `${dockerPath}/db-docker-compose.yml`,
@@ -366,7 +294,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
       contents = render(contents, {
         frontEndName,
-        nodeName,
+        backEndName,
         mongoSelected,
         sequelizeSelected,
       });
@@ -608,23 +536,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
   }
 
-  if (projectChoice === "react_Node") {
-    projectPath = [
-      {
-        projectChoice: "react",
-        projectPath: `${frontEndPath}`,
-      },
-      {
-        projectChoice: "node",
-        projectPath: `${backEndPath}`,
-      },
-    ];
-  }
-
   projectInfo(
     projectName,
     frontEndName,
-    nodeName,
+    backEndName,
     projectChoice,
     dbName,
     loggerName,
@@ -639,7 +554,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   projectExecutionCommands(
     projectName,
     frontEndName,
-    nodeName,
+    backEndName,
     managerChoice,
     projectChoice
   );
