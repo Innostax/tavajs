@@ -4,8 +4,6 @@ const fs = require("fs");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
-const chalk = require("chalk");
-const package = require("../package.json");
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const CURR_DIR = process.cwd();
 var mongoSelected = false;
@@ -28,7 +26,9 @@ const createBlobService = require("./utils/createBlobService");
 const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
-const packageInstaller = require("./utils/packageInstaller");
+const projectSetUp = require("./utils/projectSetUp");
+const projectInfo = require("./utils/projectInfo");
+const projectExecutionCommands = require("./utils/projectExecutionCommands");
 
 const QUESTIONS = [
   {
@@ -373,6 +373,10 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   var vuePath = `${CURR_DIR}/${projectName}`;
   isDark = answers["theme"];
   var angularPath = `${CURR_DIR}/${projectName}`;
+  const authenticationChoice = answers["authentication-choice"];
+  const loggerName = answers["loggerName"];
+  const emailServiceName = answers["emailServiceName"];
+  const blobServiceName = answers["blobServiceName"];
   let screenName = "<%= projectName %>";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -406,7 +410,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
     var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
     var reactPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${frontEndName}`);
     createDirectoryContents(
       reactTemplatePath,
@@ -453,76 +456,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx
-    );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating React project: ${frontEndName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isRedux)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-        )
-      );
-    console.log(" ");
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${nodeName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers["dbService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
-          }`
-        )
-      );
-    if (answers["loggerService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
-          }`
-        )
-      );
-    if (emailService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
-          }`
-        )
-      );
-    if (blobService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
-          }`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -573,34 +506,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating React project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isRedux)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
-    );
   }
   //<---------------------------- for angular---------------------------------->
   else if (projectChoice === "angular") {
@@ -628,34 +533,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isDark
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Angular project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isNgrx)
-      console.log(
-        chalk.green.bold(
-          `  ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
-    );
   } else if (projectChoice === "node-js") {
     var nodePath = path.join(CURR_DIR, projectName);
     createDirectoryContents(
@@ -680,50 +557,6 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       isVuex,
       isNgrx,
       isDark
-    );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${projectName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (answers["dbService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
-          }`
-        )
-      );
-    if (answers["loggerService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
-          }`
-        )
-      );
-    if (emailService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
-          }`
-        )
-      );
-    if (blobService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
-          }`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -1077,85 +910,38 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   }
 
   if (projectChoice === "react_Node") {
-    packageInstaller(managerChoice, frontEndChoice, reactPath);
-    packageInstaller(managerChoice, backEndChoice, nodePath);
-  } else if (frontEndChoice) {
-    packageInstaller(managerChoice, frontEndChoice, projectPath);
-  } else if (backEndChoice) {
-    packageInstaller(managerChoice, backEndChoice, projectPath);
+    projectPath = [
+      {
+        projectChoice: "react",
+        projectPath: `${reactPath}`,
+      },
+      {
+        projectChoice: "node",
+        projectPath: `${nodePath}`,
+      },
+    ];
   }
 
-  if (projectChoice != "react_Node") {
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
-    );
-    console.log("    ");
-    console.log(
-      chalk.magentaBright.bold(
-        `${String.fromCodePoint(0x1f449)} To get Started:`
-      )
-    );
-    console.log("    ");
-    if (managerChoice === "npm") {
-      if (projectChoice === "vue") {
-        console.log("   Inside", projectName);
-        console.log(chalk.cyanBright.italic.bold(`     npm run serve`));
-      } else {
-        console.log(chalk.cyanBright.italic.bold(`     npm start`));
-      }
-    }
-    if (managerChoice === "yarn") {
-      if (projectChoice === "vue") {
-        console.log("   Inside", projectName);
-        console.log(chalk.cyanBright.italic.bold(`     yarn run serve`));
-      } else {
-        console.log(chalk.cyanBright.italic.bold(`     yarn start`));
-      }
-    }
-
-    console.log(
-      chalk.cyanBright.italic.bold(
-        `------------------------ Ready to go --------------------------`
-      )
-    );
-  } else if (projectChoice == "react_Node") {
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created`)
-    );
-    console.log("    ");
-    console.log(
-      chalk.magentaBright.bold(
-        `${String.fromCodePoint(0x1f449)} To get Started:`
-      )
-    );
-    console.log(" Inside ", projectName);
-    console.log("    ");
-    console.log(
-      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For React:`)
-    );
-    console.log("   Inside", frontEndName);
-    console.log("    ");
-    if (managerChoice === "npm") {
-      console.log(chalk.cyanBright.italic.bold(`     npm start`));
-    }
-    if (managerChoice === "yarn") {
-      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
-    }
-    console.log(
-      chalk.magentaBright.bold(`${String.fromCodePoint(0x1f449)} For Node:`)
-    );
-    console.log("   Inside", nodeName);
-    console.log("    ");
-    if (managerChoice === "npm") {
-      console.log(chalk.cyanBright.italic.bold(`     npm start`));
-    }
-    if (managerChoice === "yarn") {
-      console.log(chalk.cyanBright.italic.bold(`     yarn start`));
-    }
-    console.log(
-      chalk.cyanBright.italic.bold(
-        `------------------------ Ready to go --------------------------`
-      )
-    );
-  }
+  projectInfo(
+    projectName,
+    frontEndName,
+    nodeName,
+    projectChoice,
+    dbName,
+    loggerName,
+    emailServiceName,
+    blobServiceName,
+    authenticationChoice,
+    isNgrx,
+    isRedux,
+    isVuex
+  );
+  projectSetUp(managerChoice, projectChoice, projectPath);
+  projectExecutionCommands(
+    projectName,
+    frontEndName,
+    nodeName,
+    managerChoice,
+    projectChoice
+  );
 });
