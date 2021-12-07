@@ -89,7 +89,8 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               returning:true, plain:true
           }
       )<%if(dbName==="postgres") { %>.then((<%= defaultRoute %>) => {
-        res.send(<%= defaultRoute %>[1]);
+        if (<%= defaultRoute %>[1]) res.send('<%= defaultRoute %> updated')
+        else res.send("<%= defaultRoute %> with this ID can't be found")
       }
     ); <%}%> <%if(dbName==="mysql") { %>
       <%= defaultRoute %>.findAll({
@@ -117,6 +118,9 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.destroy({
           truncate : true
+       })
+       .then(() => {
+        res.send('<%= defaultRoute %> updated')
        });
        <%}%>
        <% if(!(sequelizeSelected || mongoSelected)){ %>  
