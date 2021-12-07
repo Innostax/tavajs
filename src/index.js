@@ -12,34 +12,23 @@ const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
-const getProjectDetails = require("./utils/getProjectDetails");
+const { getProjectDetails } = require("./utils/getProjectDetails");
 const questionnaire = require("./questionnaire");
 
 const currentPath = path.join(__dirname);
 const CURR_DIR = process.cwd();
 
-var mongoSelected = false;
-var sequelizeSelected = false;
-var isDocker = false;
-var isCrud = false;
-var isAuth0 = false;
-var isCognito = false;
-var isRedux = false;
-var isVuex = false;
-var isWinston = false;
-var isSentry = false;
-var isCrudWithNode = false;
-var isCrud = false;
-var isDark = false;
-var isNgrx = false;
-
 inquirer.prompt(questionnaire).then(async (answers) => {
+  let mongoSelected = false;
+  let sequelizeSelected = false;
+  let isAuth0 = false;
+  let isCognito = false;
+  let isWinston = false;
+  let isSentry = false;
   const projectName = answers["project-name"];
   const managerChoice = answers["managerChoice"];
-  const frontEndChoice = answers["frontEndChoice"];
   const frontEndName = answers["FrontEnd-name"];
   const authenticationChoice = answers["authentication-choice"];
-  const backEndChoice = answers["backEndChoice"];
   const backEndName = answers["node-name"];
   const defaultRoute = answers["default-route"];
   const dbName = answers["dbName"];
@@ -49,13 +38,13 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const blobServiceName = answers["blobServiceName"];
   const loggerName = answers["loggerName"];
   const screenName = "<%= projectName %>";
-  isVuex = answers["vuex"];
-  isNgrx = answers["ngrx"];
-  isRedux = answers["redux"];
-  isDark = answers["theme"];
-  isCrud = answers["CRUD"];
-  isCrudWithNode = answers["reactNodeCrud"];
-  isDocker = answers["dockerService"];
+  const isVuex = Boolean(answers["vuex"]);
+  const isNgrx = Boolean(answers["ngrx"]);
+  const isRedux = Boolean(answers["redux"]);
+  const isDark = Boolean(answers["theme"]);
+  const isCrud = Boolean(answers["CRUD"]);
+  const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
+  const isDocker = Boolean(answers["dockerService"]);
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -68,10 +57,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   const { projectChoice, projectPath } = getProjectDetails(
     `${CURR_DIR}/${projectName}`,
-    frontEndChoice,
-    backEndChoice,
-    frontEndName,
-    backEndName
+    answers
   );
   const templatePath = path.join(__dirname, "templates", projectChoice);
 

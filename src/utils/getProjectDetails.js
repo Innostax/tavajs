@@ -1,35 +1,29 @@
-function getProjectDetails(
-  currentDirectory,
-  frontEndChoice,
-  backEndChoice,
-  frontEndName,
-  backEndName
-) {
-  if (backEndChoice === "node-js") {
-    if (frontEndChoice === "react")
+function getProjectDetails(currentDirectory, answers) {
+  if (answers["backEndChoice"] === "node-js") {
+    if (answers["frontEndChoice"] === "react")
       return {
         projectChoice: "react_Node",
         projectPath: [
           {
             projectChoice: "react",
-            projectPath: `${currentDirectory}/${frontEndName}`,
+            projectPath: `${currentDirectory}/${answers["FrontEnd-name"]}`,
           },
           {
             projectChoice: "node",
-            projectPath: `${currentDirectory}/${backEndName}`,
+            projectPath: `${currentDirectory}/${answers["node-name"]}`,
           },
         ],
       };
     else
       return {
-        projectChoice: backEndChoice,
-        projectPath: `${currentDirectory}/${backEndName}`,
+        projectChoice: answers["backEndChoice"],
+        projectPath: `${currentDirectory}/${answers["node-name"]}`,
       };
   } else
     return {
-      projectChoice: frontEndChoice,
-      projectPath: `${currentDirectory}/${frontEndName}`,
+      projectChoice: answers["frontEndChoice"],
+      projectPath: `${currentDirectory}/${answers["FrontEnd-name"]}`,
     };
 }
 
-module.exports = getProjectDetails;
+module.exports = { getProjectDetails };
