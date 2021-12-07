@@ -65,7 +65,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   } else projectChoice = frontEndChoice;
 
   const templatePath = path.join(__dirname, "templates", projectChoice);
-  var reactPath = `${CURR_DIR}/${projectName}`;
   let frontEndPath = `${CURR_DIR}/${projectName}`;
   let backEndPath = `${CURR_DIR}/${projectName}`;
 
@@ -357,7 +356,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
     if (projectChoice === "react") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${reactPath}/Dockerfile`);
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${frontEndPath}/Dockerfile`);
     } else if (projectChoice === "node-js") {
       fs.copyFileSync(`${dockerPath}/Dockerfile`, `${nodePath}/Dockerfile`);
     } else if (projectChoice === "react_Node") {
@@ -462,7 +461,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (isCrud) {
       fs.copyFile(
         `${currentPath}/reduxTemplates/userform/Adduser.js`,
-        `${reactPath}/src/screens/Users/AddUser.js`,
+        `${frontEndPath}/src/screens/Users/AddUser.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -483,7 +482,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
     fsExtra.copy(
       `${currentPath}/reduxTemplates/infrastructure`,
-      `${reactPath}/src/infrastructure`,
+      `${frontEndPath}/src/infrastructure`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -496,7 +495,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (isVuex) {
     fsExtra.copy(
       `${currentPath}/vuexTemplates/store`,
-      `${reactPath}/src/store`,
+      `${frontEndPath}/src/store`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -506,7 +505,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
     fsExtra.copy(
       `${currentPath}/vuexTemplates/userModal`,
-      `${reactPath}/src/userModal`,
+      `${frontEndPath}/src/userModal`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -519,7 +518,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (isNgrx) {
     fsExtra.copy(
       `${currentPath}/ngrxTemplates/reducers`,
-      `${reactPath}/src/app/reducers`,
+      `${frontEndPath}/src/app/reducers`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -529,7 +528,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
     fsExtra.copy(
       `${currentPath}/ngrxTemplates/modules`,
-      `${reactPath}/src/app/modules`,
+      `${frontEndPath}/src/app/modules`,
       function (err) {
         if (err) {
           console.log("An error is occured");
@@ -613,11 +612,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     projectPath = [
       {
         projectChoice: "react",
-        projectPath: `${reactPath}`,
+        projectPath: `${frontEndPath}`,
       },
       {
         projectChoice: "node",
-        projectPath: `${nodePath}`,
+        projectPath: `${backEndPath}`,
       },
     ];
   }
