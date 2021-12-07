@@ -5,8 +5,12 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let dataa of data">
-            <td *ngFor="let key of keys">{{ dataa[key] }}</td>
-        </tr>
+        <tr *ngFor="let record of data">
+            <td *ngFor="let key of keys ">{{ record[key] }}</td>
+            <td>
+                <button *ngIf="true" class="btn btn-primary btn-space" (click)="handleOnEditClick(record)">Edit</button>
+                <button *ngIf="true" class="btn btn-danger btn-space" (click)="handleOnDeleteClick(record.id)">Delete</button>
+            </td>
+         </tr>
     </tbody>
 </table>

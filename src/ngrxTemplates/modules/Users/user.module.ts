@@ -14,6 +14,7 @@ import { IgxDatePickerModule } from 'igniteui-angular';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditUserModal } from 'src/app/modules/UsersModal/EditUserModal/EditUserModal';
 import { TableComponent } from 'src/app/components/organisms/Table/Table';
+import { ModalComponent } from 'src/app/components/organisms/Modal/modal/Modal';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TableComponent } from 'src/app/components/organisms/Table/Table';
     InputComponent,
     DatepickerComponent,
     EditUserModal,
-    TableComponent
+    TableComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { TableComponent } from 'src/app/components/organisms/Table/Table';
     InputComponent,
     DatepickerComponent,
     EditUserModal,
-    TableComponent
+    TableComponent,
+    ModalComponent
   ]
 })
 export class UserModule { };

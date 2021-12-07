@@ -7,7 +7,7 @@ import { userState } from 'src/app/modules/store/reducer/user.reducer';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'edit-user-modal',
   templateUrl: './EditUserModal.html',
   styleUrls: ['./EditUserModal.css']
 })

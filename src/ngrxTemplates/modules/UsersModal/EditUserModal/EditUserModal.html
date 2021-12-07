@@ -1,31 +1,23 @@
-<div class="modal-header">
-    <h5 class="modal-title">Edit User</h5>
-    <button type="button" class="close" data-dismiss="modal" (click)="activeModal.close('dismiss')">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<div class="modal-body">
-    <form>
-        <div class="form-group">
-          <div class="mb-3">
-            <app-label [name]="'Name'"></app-label>
-            <app-input [type]="'text'" [class]="'form-control'" [value]="user.name"
-              (OnChange)="UpdateValue('name',$event)"></app-input>
-          </div>
-          <div class="mb-3">
-            <app-label [name]="'Username'"></app-label>
-            <app-input [type]="'text'" [class]="'form-control'" [value]="user.username"
-              (OnChange)="UpdateValue('username',$event)"></app-input>
-          </div>
-          <div class="mb-3">
-            <app-label [name]="'Email'"></app-label>
-            <app-input [type]="'email'" [class]="'form-control'" [value]="user.email"
-              (OnChange)="UpdateValue('email',$event)"></app-input>
-          </div>
-        </div>
-      </form>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal"
-        (click)="activeModal.close(edituser())">Edit</button>
-</div>
+<app-modal [title]="'Edit User'">
+  <form>
+    <div class="form-group">
+      <div class="mb-3">
+        <app-label [name]="'Name'"></app-label>
+        <app-input [type]="'text'" [class]="'form-control'" [value]="user.name"
+          (OnChange)="UpdateValue('name',$event)"></app-input>
+      </div>
+      <div class="mb-3">
+        <app-label [name]="'Username'"></app-label>
+        <app-input [type]="'text'" [class]="'form-control'" [value]="user.username"
+          (OnChange)="UpdateValue('username',$event)"></app-input>
+      </div>
+      <div class="mb-3">
+        <app-label [name]="'Email'"></app-label>
+        <app-input [type]="'email'" [class]="'form-control'" [value]="user.email"
+          (OnChange)="UpdateValue('email',$event)"></app-input>
+      </div>
+    </div>
+  </form>
+  <button type="button" class="btn btn-primary" data-dismiss="modal"
+  (click)="activeModal.close(edituser())">Edit</button>
+</app-modal>

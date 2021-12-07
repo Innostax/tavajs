@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { User,usersData } from "./User";
+import { User } from "./User";
 import { select, Store } from "@ngrx/store";
 import { selectusers } from "../store/selector/user.selectors";
 import { userState } from "../store/reducer/user.reducer";
@@ -18,28 +18,32 @@ import { AddUserModal } from "../UsersModal/AddUserModal/AddUserModal";
 export class UsersModule implements OnInit {
   userForm: FormGroup;
   userTobeEdited: User;
-  users = usersData;
+  userCols = ["Id","Name","Username","Email","Action"];
+  userKeys = ["id","name","username","email"];
+  allData: any;
   closeModal: any;
   users$: Observable<User[]>;
   constructor(private store: Store<userState>, private modalService: NgbModal) {
     this.users$ = this.store.pipe(select(selectusers));
   }
-  openModal(user: User) {
+  openModal(user: any) {
     const modalRef = this.modalService.open(EditUserModal);
     modalRef.componentInstance.user = user
     modalRef.result.then((result: any) => {
-      console.log(result);
     }, (reason: any) => {
     });
   }
   openAddModal() {
     const modalRef = this.modalService.open(AddUserModal);
     modalRef.result.then((result: any) => {
-      console.log(result);
+      this.users$.subscribe((each)=> this.allData=each);
+      // this.allData=this.allData.map(function(user:any) {
+      //   return {...user,isDelete:true, deleteText:'Delete',isEdit:true,editText:'Edit'}
+      // })
     }, (reason: any) => {
     });
   }
-  deleteuser(id: string) {
+  deleteuser(id: any) {
     this.store.dispatch(deleteUser({ id }));
   }
   ngOnInit(): void { }

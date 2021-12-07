@@ -5,7 +5,7 @@
     </div>
   </div>
 </div>
-<table class="table mt-3" style="text-align:center">
+<!--<table class="table mt-3" style="text-align:center">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -28,6 +28,6 @@
       </td>
     </tr>
   </tbody>
-</table>
+</table>-->
 
-<app-table [data]="users"></app-table>
+<app-table [data]="allData" [cols]="userCols" [keys]="userKeys" (OnDeleteClick)="deleteuser($event)" (OnEditClick)="openModal($event)"></app-table>
