@@ -8,8 +8,8 @@ const requetMethods = {
   delete: deleteRequest,
 };
 
-function get(url) {
-  return fetchApi(url);
+function get(url, requestWithConfig) {
+  return fetchApi(url, requestWithConfig);
 }
 
 function post(url, requestWithConfig) {
@@ -39,7 +39,7 @@ function patch(url, requestWithConfig) {
 
 function deleteRequest(url, requestWithConfig) {
   requestWithConfig = {
-    method: "PATCH",
+    method: "DELETE",
     ...requestWithConfig,
   };
   return fetchApi(url, requestWithConfig);

@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  <%= nodeName %>:
+    env_file: "./<%= nodeName %>/.env"
+    build:
+      context: ./<%= nodeName %>
+      dockerfile: ./Dockerfile
+    image: "<%= nodeName%>-backend"
+    ports:
+      - "8080:8080"
+  <%= frontEndName %>:
+    build:
+      context: ./<%= frontEndName %>
+      dockerfile: ./Dockerfile
+    image: "<%= frontEndName %>-frontend"
+    ports:
+      - "3000:3000"
