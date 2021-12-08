@@ -9,20 +9,20 @@ function getProjectDetails(currentDirectory, answers) {
             projectPath: `${currentDirectory}/${answers["FrontEnd-name"]}`,
           },
           {
-            projectChoice: "node",
-            projectPath: `${currentDirectory}/${answers["node-name"]}`,
+            projectChoice: "node-js",
+            projectPath: `ecurrentDirectory}/${answers["node-name"]}`,
           },
         ],
       };
     else
       return {
         projectChoice: answers["backEndChoice"],
-        projectPath: `${currentDirectory}/${answers["node-name"]}`,
+        projectPath: currentDirectory,
       };
   } else
     return {
       projectChoice: answers["frontEndChoice"],
-      projectPath: `${currentDirectory}/${answers["FrontEnd-name"]}`,
+      projectPath: currentDirectory,
     };
 }
 

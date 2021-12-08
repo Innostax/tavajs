@@ -19,32 +19,35 @@ const currentPath = path.join(__dirname);
 const CURR_DIR = process.cwd();
 
 inquirer.prompt(questionnaire).then(async (answers) => {
-  let mongoSelected = false;
-  let sequelizeSelected = false;
-  let isAuth0 = false;
-  let isCognito = false;
-  let isWinston = false;
-  let isSentry = false;
   const projectName = answers["project-name"];
   const managerChoice = answers["managerChoice"];
   const frontEndName = answers["FrontEnd-name"];
   const authenticationChoice = answers["authentication-choice"];
   const backEndName = answers["node-name"];
   const defaultRoute = answers["default-route"];
+  const dbService = answers["dbService"];
   const dbName = answers["dbName"];
   const emailService = answers["emailService"];
   const emailServiceName = answers["emailServiceName"];
   const blobService = answers["blobService"];
   const blobServiceName = answers["blobServiceName"];
-  const loggerName = answers["loggerName"];
-  const screenName = "<%= projectName %>";
+  const loggerService = answers["loggerService"];
+  const loggerServiceName = answers["loggerName"];
+
   const isVuex = Boolean(answers["vuex"]);
   const isNgrx = Boolean(answers["ngrx"]);
   const isRedux = Boolean(answers["redux"]);
   const isDark = Boolean(answers["theme"]);
   const isCrud = Boolean(answers["CRUD"]);
-  const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
   const isDocker = Boolean(answers["dockerService"]);
+  const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
+
+  const isAuth0 = authenticationChoice === "Auth0";
+  const isCognito = authenticationChoice === "Cognito";
+  const mongoSelected = dbName === "mongoose";
+  const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
+  const isWinston = loggerServiceName === "winston";
+  const isSentry = loggerServiceName === "sentry";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -52,36 +55,17 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
   });
 
-  let frontEndPath = `${CURR_DIR}/${projectName}`;
-  let backEndPath = `${CURR_DIR}/${projectName}`;
-
   const { projectChoice, projectPath } = getProjectDetails(
     `${CURR_DIR}/${projectName}`,
     answers
   );
+
+  let frontEndPath = `${CURR_DIR}/${projectName}`;
+  let backEndPath = `${CURR_DIR}/${projectName}`;
+
   const templatePath = path.join(__dirname, "templates", projectChoice);
 
-  // //<------------------------------for logger-------------------------------->
-  if (answers["loggerName"] === "winston") isWinston = true;
-  if (answers["loggerName"] === "sentry") isSentry = true;
-
-  //<----------------------------------Db ----------------------------------->
-  if (answers["dbName"] === "mongoose") {
-    mongoSelected = true;
-  }
-  if (answers["dbName"] === "postgres" || answers["dbName"] === "mysql") {
-    sequelizeSelected = true;
-  }
-
-  //---------------------------Authentication-------------------------------------------
-  if (answers["authentication-choice"] === "Auth0") {
-    isAuth0 = true;
-  }
-  if (answers["authentication-choice"] === "Cognito") {
-    isCognito = true;
-  }
-
-  //-----------------------------------------for react + node---------------------------
+  //<---------------------------- for react + node-js ---------------------------------->
   if (projectChoice == "react_Node") {
     frontEndPath = `${frontEndPath}/${frontEndName}`;
     backEndPath = `${backEndPath}/${backEndName}`;
@@ -105,7 +89,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
-      screenName,
       isCrudWithNode,
       isCrud,
       frontEndName,
@@ -128,7 +111,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
-      screenName,
       isCrudWithNode,
       isCrud,
       frontEndName,
@@ -137,29 +119,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isVuex,
       isNgrx
     );
-    const fileNames = [
-      {
-        oldName: "route.js",
-        folder: "routes",
-        newName: `${defaultRoute}.routes.js`,
-      },
-      {
-        oldName: "controller.js",
-        folder: "controllers",
-        newName: `${defaultRoute}.controllers.js`,
-      },
-    ];
-
-    fileNames.map((each) =>
-      fs.rename(
-        `${backEndPath}/${each.folder}/${each.oldName}`,
-        `${backEndPath}/${each.folder}/${each.newName}`,
-        () => {}
-      )
-    );
   }
 
-  //<---------------------------- for react---------------------------------->
+  //<---------------------------- For react, angular, vue, node-js ---------------------------------->
   else if (
     projectChoice === "react" ||
     projectChoice === "angular" ||
@@ -178,7 +140,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isAuth0,
       isCognito,
       isRedux,
-      screenName,
       isCrudWithNode,
       isCrud,
       frontEndName,
@@ -189,7 +150,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isDark
     );
   }
-  if (projectChoice === "node-js") {
+  if (projectChoice === "node-js" || projectChoice === "react_Node") {
     const fileNames = [
       {
         oldName: "route.js",
@@ -216,13 +177,13 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (
     emailService === "yes" ||
     blobService === "yes" ||
-    answers["loggerService"] === "yes"
+    loggerService === "yes"
   ) {
     fs.mkdirSync(backEndPath + "/utils");
   }
-  //for email Sevices
+
+  //<---------------------------- For Email service ---------------------------------->
   if (emailService == "yes") {
-    const emailServiceName = answers["emailServiceName"];
     const emailTemplatePath = path.join(
       __dirname,
       "emailTemplates",
@@ -237,9 +198,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
   }
 
-  //for Blob service---------------------------------------------------------->
+  //<---------------------------- For Blob service ---------------------------------->
   if (blobService == "yes") {
-    const blobServiceName = answers["blobServiceName"];
     const blobTemplatePath = path.join(
       __dirname,
       "blobTemplates",
@@ -249,10 +209,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     createBlobService(blobServiceName, blobTemplatePath, backEndPath);
   }
 
-  //<-----------For Logger service---------------------------------------------------------------------------->
-  if (answers["loggerService"] === "yes") {
-    let loggerServiceName = answers["loggerName"];
+  //<---------------------------- For Logger service ---------------------------------->
+  if (loggerService === "yes") {
     const loggerTemplatePath = path.join(__dirname, "logger");
+
     createLogger(
       backEndPath,
       loggerServiceName,
@@ -261,12 +221,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
   }
 
-  //<------------------------------------------------------------------------------------------->
-  if (answers["dbService"] === "yes") {
+  //<---------------------------- For Database service ---------------------------------->
+  if (dbService === "yes") {
     createDbConn(backEndPath, dbName, defaultRoute, `${currentPath}`);
   }
 
-  //for Docker INTEGRATION-------------------------
+  //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
     if (projectChoice === "react") {
@@ -320,8 +280,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
     fs.writeFileSync(writePath, contents, "utf8");
   }
-  // <--------------------REDUX INTEGRATION------------------------->
 
+  //<---------------------------- For Redux integration ---------------------------------->
   if (isRedux) {
     const reduxFiles = [
       {
@@ -405,7 +365,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     );
   }
-  //<---------------------------------VUEX INTEGRATION---------------------------->
+
+  //<---------------------------- For Vuex integration ---------------------------------->
   if (isVuex) {
     fsExtra.copy(
       `${currentPath}/vuexTemplates/store`,
@@ -428,7 +389,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     );
   }
-  //<---------------------------------ngrx INTEGRATION---------------------------->
+
+  //<---------------------------- For Ngrx integration ---------------------------------->
   if (isNgrx) {
     fsExtra.copy(
       `${currentPath}/ngrxTemplates/reducers`,
@@ -451,25 +413,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     );
   }
-  //<--------For authentication----------------------------------------------------------------------------->
+
+  //<---------------------------- For Authentication service ---------------------------------->
   if (answers["authentication-choice"] === "Auth0") {
     const filesMap = [
       {
         srcFolder: "envTemplates",
         srcFileName: ".authEnv",
-        destFolder: frontEndName + "",
         destFileName: ".env",
       },
     ];
 
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    let packagePath = path.join(CURR_DIR, projectName, frontEndName);
-    updatePackage(packagePath, package);
+    updatePackage(frontEndPath, package);
 
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
+        `${frontEndpath}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -509,7 +470,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     });
   }
-  //<-----------------------themes----------------------------->
+
+  //<---------------------------- For Themes integration ---------------------------------->
   if (isDark) {
     fs.copyFile(
       `${currentPath}/themeTemplates/themes.js`,
@@ -528,7 +490,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     backEndName,
     projectChoice,
     dbName,
-    loggerName,
+    loggerServiceName,
     emailServiceName,
     blobServiceName,
     authenticationChoice,
