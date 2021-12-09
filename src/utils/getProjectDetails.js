@@ -6,11 +6,11 @@ function getProjectDetails(currentDirectory, answers) {
         projectPath: [
           {
             projectChoice: "react",
-            projectPath: `${currentDirectory}/${answers["FrontEnd-name"]}`,
+            projectPath: `${currentDirectory}/${answers["frontEndName"]}`,
           },
           {
             projectChoice: "node-js",
-            projectPath: `ecurrentDirectory}/${answers["node-name"]}`,
+            projectPath: `${currentDirectory}/${answers["nodeName"]}`,
           },
         ],
       };

@@ -11,9 +11,7 @@ function projectInfo(
   emailServiceName,
   blobServiceName,
   authenticationChoice,
-  isNgrx,
-  isRedux,
-  isVuex
+  isStore
 ) {
   if (projectChoice === "react_Node") {
     console.log(
@@ -33,24 +31,24 @@ function projectInfo(
           )} Integrating Authentication service: ${authenticationChoice}`
         )
       );
-    if (isRedux)
+    if (isStore)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
         )
       );
-    if (isNgrx)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
-        )
-      );
-    if (isVuex)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
-        )
-      );
+    // if (isNgrx)
+    //   console.log(
+    //     chalk.green.bold(
+    //       `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
+    //     )
+    //   );
+    // if (isVuex)
+    //   console.log(
+    //     chalk.green.bold(
+    //       `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
+    //     )
+    //   );
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -110,19 +108,19 @@ function projectInfo(
           )} Integrating Authentication service: ${authenticationChoice}`
         )
       );
-    if (isRedux)
+    if (projectChoice === "react" && isStore)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
         )
       );
-    if (isNgrx)
+    if (projectChoice === "angular" && isStore)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
-    if (isVuex)
+    if (projectChoice === "vue" && isStore)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`

@@ -1,6 +1,6 @@
 module.exports = [
   {
-    name: "project-name",
+    name: "projectName",
     type: "input",
     message: "Project name:",
     validate: function (input) {
@@ -23,8 +23,8 @@ module.exports = [
     type: "list",
     message: "Do you want template for Frontend?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
   },
   {
@@ -37,11 +37,11 @@ module.exports = [
       { name: "Vue", value: "vue" },
     ],
     when: (answers) => {
-      return answers.frontEnd == "yes";
+      return answers.frontEnd;
     },
   },
   {
-    name: "FrontEnd-name",
+    name: "frontEndName",
     type: "input",
     message: "Front End project name:",
     validate: function (input) {
@@ -50,7 +50,7 @@ module.exports = [
         return "React Project name may only include letters, numbers, underscores and hashes.";
     },
     when: (answers) => {
-      return answers.frontEnd == "yes";
+      return answers.frontEnd;
     },
   },
   {
@@ -70,22 +70,22 @@ module.exports = [
     type: "list",
     message: "Do you want Authentication services?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
     when: (answers) => {
       return answers.frontEndChoice == "react";
     },
   },
   {
-    name: "authentication-choice",
+    name: "authenticationChoice",
     type: "list",
     message: "What Authentication Service you want to use?",
     choices: ["Auth0", "Cognito", "Okta"],
-    when: (answers) => answers.authService === "yes",
+    when: (answers) => answers.authService,
   },
   {
-    name: "redux",
+    name: "store",
     type: "list",
     message: "Do you want redux integration?",
     choices: [
@@ -97,7 +97,7 @@ module.exports = [
     },
   },
   {
-    name: "vuex",
+    name: "store",
     type: "list",
     message: "Do you want vuex integration?",
     choices: [
@@ -109,7 +109,7 @@ module.exports = [
     },
   },
   {
-    name: "ngrx",
+    name: "store",
     type: "list",
     message: "Do you want ngrx integration?",
     choices: [
@@ -125,8 +125,8 @@ module.exports = [
     type: "list",
     message: "Do you want template for Backend?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
   },
   {
@@ -135,11 +135,11 @@ module.exports = [
     message: "Select the Framework",
     choices: [{ name: "Node", value: "node-js" }],
     when: (answers) => {
-      return answers.backEnd == "yes";
+      return answers.backEnd;
     },
   },
   {
-    name: "node-name",
+    name: "nodeName",
     type: "input",
     message: "Node Project name:",
     validate: function (input) {
@@ -148,16 +148,16 @@ module.exports = [
         return "Project name may only include letters, numbers, underscores and hashes.";
     },
     when: (answers) => {
-      return answers.backEnd == "yes";
+      return answers.backEnd;
     },
   },
   {
-    name: "default-route",
+    name: "defaultRoute",
     type: "input",
     message: "Enter the default route",
     default: "users",
     when: (answers) => {
-      return answers.backEnd == "yes";
+      return answers.backEnd;
     },
   },
   {
@@ -165,11 +165,11 @@ module.exports = [
     type: "list",
     message: "Do you need database service?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd == "yes";
+      return answers.backEnd;
     },
   },
   {
@@ -182,7 +182,7 @@ module.exports = [
       { name: "Mongoose", value: "mongoose" },
     ],
     when: (answers) => {
-      return answers.dbService == "yes";
+      return answers.dbService;
     },
   },
   {
@@ -195,9 +195,7 @@ module.exports = [
     ],
     when: (answers) => {
       return (
-        answers.redux &&
-        answers.frontEndChoice === "react" &&
-        answers.backEnd === "no"
+        answers.store && answers.frontEndChoice === "react" && !answers.backEnd
       );
     },
   },
@@ -210,11 +208,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return (
-        answers.backEnd == "yes" &&
-        answers.frontEnd == "yes" &&
-        answers.redux === true
-      );
+      return answers.backEnd && answers.frontEnd && answers.redux;
     },
   },
   {
@@ -222,15 +216,15 @@ module.exports = [
     type: "list",
     message: "Do you want logger services?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd == "yes";
+      return answers.backEnd;
     },
   },
   {
-    name: "loggerName",
+    name: "loggerServiceName",
     type: "list",
     message: "Which logger service do you want?",
     choices: [
@@ -238,7 +232,7 @@ module.exports = [
       { name: "sentry", value: "sentry" },
     ],
     when: (answers) => {
-      return answers.loggerService == "yes";
+      return answers.loggerService;
     },
   },
   {
@@ -246,11 +240,11 @@ module.exports = [
     type: "list",
     message: "Do you want e-mail services?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd == "yes";
+      return answers.backEnd;
     },
   },
   {
@@ -263,7 +257,7 @@ module.exports = [
       { name: "SMTP", value: "smtp" },
     ],
     when: (answers) => {
-      return answers.emailService == "yes";
+      return answers.emailService;
     },
   },
   {
@@ -271,11 +265,11 @@ module.exports = [
     type: "list",
     message: "Do you want blob services?",
     choices: [
-      { name: "yes", value: "yes" },
-      { name: "no", value: "no" },
+      { name: "yes", value: true },
+      { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd == "yes";
+      return answers.backEnd;
     },
   },
   {
@@ -287,7 +281,7 @@ module.exports = [
       { name: "Azure", value: "azure" },
     ],
     when: (answers) => {
-      return answers.blobService == "yes";
+      return answers.blobService;
     },
   },
   {

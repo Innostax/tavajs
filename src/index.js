@@ -19,12 +19,12 @@ const currentPath = path.join(__dirname);
 const CURR_DIR = process.cwd();
 
 inquirer.prompt(questionnaire).then(async (answers) => {
-  const projectName = answers["project-name"];
+  const projectName = answers["projectName"];
   const managerChoice = answers["managerChoice"];
-  const frontEndName = answers["FrontEnd-name"];
-  const authenticationChoice = answers["authentication-choice"];
-  const backEndName = answers["node-name"];
-  const defaultRoute = answers["default-route"];
+  const frontEndName = answers["frontEndName"];
+  const authenticationChoice = answers["authenticationChoice"];
+  const backEndName = answers["nodeName"];
+  const defaultRoute = answers["defaultRoute"];
   const dbService = answers["dbService"];
   const dbName = answers["dbName"];
   const emailService = answers["emailService"];
@@ -32,16 +32,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const blobService = answers["blobService"];
   const blobServiceName = answers["blobServiceName"];
   const loggerService = answers["loggerService"];
-  const loggerServiceName = answers["loggerName"];
-
-  const isVuex = Boolean(answers["vuex"]);
-  const isNgrx = Boolean(answers["ngrx"]);
-  const isRedux = Boolean(answers["redux"]);
+  const loggerServiceName = answers["loggerServiceName"];
+  const isStore = Boolean(answers["store"]);
   const isDark = Boolean(answers["theme"]);
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
-
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
   const mongoSelected = dbName === "mongoose";
@@ -88,14 +84,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      isRedux,
+      isStore,
       isCrudWithNode,
       isCrud,
       frontEndName,
       backEndName,
       projectChoice,
-      isVuex,
-      isNgrx,
       isDark
     );
     fsExtra.ensureDirSync(backEndPath);
@@ -110,14 +104,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      isRedux,
+      isStore,
       isCrudWithNode,
       isCrud,
       frontEndName,
       backEndName,
-      projectChoice,
-      isVuex,
-      isNgrx
+      projectChoice
     );
   }
 
@@ -139,14 +131,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isWinston,
       isAuth0,
       isCognito,
-      isRedux,
+      isStore,
       isCrudWithNode,
       isCrud,
       frontEndName,
       backEndName,
       projectChoice,
-      isVuex,
-      isNgrx,
       isDark
     );
   }
@@ -174,16 +164,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   }
 
   //creating utils dir
-  if (
-    emailService === "yes" ||
-    blobService === "yes" ||
-    loggerService === "yes"
-  ) {
+  if (emailService || blobService || loggerService) {
     fs.mkdirSync(backEndPath + "/utils");
   }
 
   //<---------------------------- For Email service ---------------------------------->
-  if (emailService == "yes") {
+  if (emailService) {
     const emailTemplatePath = path.join(
       __dirname,
       "emailTemplates",
@@ -199,18 +185,17 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   }
 
   //<---------------------------- For Blob service ---------------------------------->
-  if (blobService == "yes") {
+  if (blobService) {
     const blobTemplatePath = path.join(
       __dirname,
       "blobTemplates",
       blobServiceName
     );
-
     createBlobService(blobServiceName, blobTemplatePath, backEndPath);
   }
 
   //<---------------------------- For Logger service ---------------------------------->
-  if (loggerService === "yes") {
+  if (loggerService) {
     const loggerTemplatePath = path.join(__dirname, "logger");
 
     createLogger(
@@ -222,7 +207,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   }
 
   //<---------------------------- For Database service ---------------------------------->
-  if (dbService === "yes") {
+  if (dbService) {
     createDbConn(backEndPath, dbName, defaultRoute, `${currentPath}`);
   }
 
@@ -282,7 +267,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   }
 
   //<---------------------------- For Redux integration ---------------------------------->
-  if (isRedux) {
+  if (
+    (projectChoice === "react" || projectChoice === "react_Node") &&
+    isStore
+  ) {
     const reduxFiles = [
       {
         srcFolder: "reduxTemplates/demoUser",
@@ -365,9 +353,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     );
   }
-
-  //<---------------------------- For Vuex integration ---------------------------------->
-  if (isVuex) {
+  //<---------------------------------VUEX INTEGRATION---------------------------->
+  if (projectChoice === "vue" && isStore) {
     fsExtra.copy(
       `${currentPath}/vuexTemplates/store`,
       `${frontEndPath}/src/store`,
@@ -390,8 +377,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
   }
 
-  //<---------------------------- For Ngrx integration ---------------------------------->
-  if (isNgrx) {
+  //<---------------------------------ngrx INTEGRATION---------------------------->
+  if (projectChoice === "angular" && isStore) {
     fsExtra.copy(
       `${currentPath}/ngrxTemplates/reducers`,
       `${frontEndPath}/src/app/reducers`,
@@ -415,7 +402,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
-  if (answers["authentication-choice"] === "Auth0") {
+  if (answers["authenticationChoice"] === "Auth0") {
     const filesMap = [
       {
         srcFolder: "envTemplates",
@@ -430,7 +417,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEndpath}/${each.destFileName}`,
+        `${frontEndPath}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -440,10 +427,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     });
     let reactSpaPath = path.join(__dirname, "authTemplates");
     let newContent = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
-    newContent = render(newContent, { isRedux });
-    writePath = `${CURR_DIR}/${projectName}/${frontEndName}/src/react-spa.js`;
+    newContent = render(newContent, { isStore });
+    writePath = `${frontEndPath}/src/react-spa.js`;
     fs.writeFileSync(writePath, newContent, "utf8");
-  } else if (answers["authentication-choice"] === "Cognito") {
+  } else if (answers["authenticationChoice"] === "Cognito") {
     choice = "cognito";
 
     const filesMap = [
@@ -455,13 +442,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       },
     ];
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    let packagePath = path.join(CURR_DIR, projectName, frontEndName);
-    updatePackage(packagePath, package);
+    updatePackage(frontEndPath, package);
 
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${CURR_DIR}/${projectName}/${each.destFolder}/${each.destFileName}`,
+        `${frontEndPath}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -494,9 +480,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     emailServiceName,
     blobServiceName,
     authenticationChoice,
-    isNgrx,
-    isRedux,
-    isVuex
+    isStore
   );
   projectSetUp(managerChoice, projectChoice, projectPath);
   projectExecutionCommands(
