@@ -208,7 +208,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd && answers.frontEnd && answers.redux;
+      return answers.backEnd && answers.frontEnd && answers.store;
     },
   },
   {
@@ -293,9 +293,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return (
-        answers.frontEndChoice == "react" || answers.backEndChoice == "node"
-      );
+      return answers.frontEndChoice == "react" || answers.backEnd;
     },
   },
 ];

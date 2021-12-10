@@ -33,11 +33,13 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const blobServiceName = answers["blobServiceName"];
   const loggerService = answers["loggerService"];
   const loggerServiceName = answers["loggerServiceName"];
+
   const isStore = Boolean(answers["store"]);
   const isDark = Boolean(answers["theme"]);
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
+
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
   const mongoSelected = dbName === "mongoose";
@@ -51,21 +53,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
   });
 
-  const { projectChoice, projectPath } = getProjectDetails(
+  const { frontEnd, backEnd } = getProjectDetails(
     `${CURR_DIR}/${projectName}`,
     answers
   );
 
-  let frontEndPath = `${CURR_DIR}/${projectName}`;
-  let backEndPath = `${CURR_DIR}/${projectName}`;
+  const projectChoice = frontEnd?.choice || backEnd?.choice;
 
-  const templatePath = path.join(__dirname, "templates", projectChoice);
+  const frontEndPath = frontEnd?.path;
+  const backEndPath = backEnd?.path;
+
+  const templatePath = path.join(
+    __dirname,
+    "templates",
+    frontEnd?.choice || backEnd?.choice
+  );
 
   //<---------------------------- for react + node-js ---------------------------------->
-  if (projectChoice == "react_Node") {
-    frontEndPath = `${frontEndPath}/${frontEndName}`;
-    backEndPath = `${backEndPath}/${backEndName}`;
-
+  if (frontEnd && backEnd) {
     const reactTemplatePath = path.join(__dirname, "templates", "react");
     const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
 
@@ -89,9 +94,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrud,
       frontEndName,
       backEndName,
-      projectChoice,
+      frontEnd.choice,
       isDark
     );
+
     fsExtra.ensureDirSync(backEndPath);
     createDirectoryContents(
       nodeTemplatePath,
@@ -108,18 +114,13 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrudWithNode,
       isCrud,
       frontEndName,
-      backEndName,
-      projectChoice
+      backEnd.choice,
+      isDark
     );
   }
 
   //<---------------------------- For react, angular, vue, node-js ---------------------------------->
-  else if (
-    projectChoice === "react" ||
-    projectChoice === "angular" ||
-    projectChoice === "vue" ||
-    projectChoice === "node-js"
-  ) {
+  else {
     createDirectoryContents(
       templatePath,
       projectName,
@@ -136,11 +137,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrud,
       frontEndName,
       backEndName,
-      projectChoice,
+      frontEnd?.choice || backEnd?.choice,
       isDark
     );
   }
-  if (projectChoice === "node-js" || projectChoice === "react_Node") {
+  if (backEnd) {
     const fileNames = [
       {
         oldName: "route.js",
@@ -153,7 +154,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         newName: `${defaultRoute}.controllers.js`,
       },
     ];
-
     fileNames.map((each) =>
       fs.rename(
         `${backEndPath}/${each.folder}/${each.oldName}`,
@@ -214,11 +214,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
-    if (projectChoice === "react") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${frontEndPath}/Dockerfile`);
-    } else if (projectChoice === "node-js") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${backEndPath}/Dockerfile`);
-    } else if (projectChoice === "react_Node") {
+    if (frontEnd?.choice === "react" && backEnd?.choice === "node-js") {
       let contents = fs.readFileSync(
         `${dockerPath}/db-docker-compose.yml`,
         "utf8"
@@ -240,37 +236,34 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         `${currentPath}/dockerTemplate/Dockerfile`,
         `${backEndPath}/Dockerfile`
       );
+    } else if (projectChoice === "react") {
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${frontEndPath}/Dockerfile`);
+    } else if (projectChoice === "node-js") {
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${backEndPath}/Dockerfile`);
     }
   }
 
-  if (
-    !isDocker &&
-    projectChoice !== "react" &&
-    projectChoice !== "vue" &&
-    projectChoice !== "angular"
-  ) {
+  if (!isDocker && backEnd) {
     let contents = fs.readFileSync(
       `${currentPath}/envTemplates/.dbEnv`,
       "utf8"
     );
     contents = render(contents, {
       dbName,
-      projectChoice,
+      frontEnd,
+      backEnd,
       isAuth0,
     });
-    if (projectChoice === "node-js") {
-      writePath = `${CURR_DIR}/${projectName}/.env`;
-    } else {
+    if (frontEnd?.choice && backEnd?.choice) {
       writePath = `${backEndPath}/.env`;
+    } else {
+      writePath = `${CURR_DIR}/${projectName}/.env`;
     }
     fs.writeFileSync(writePath, contents, "utf8");
   }
 
   //<---------------------------- For Redux integration ---------------------------------->
-  if (
-    (projectChoice === "react" || projectChoice === "react_Node") &&
-    isStore
-  ) {
+  if (frontEnd?.choice === "react" && isStore) {
     const reduxFiles = [
       {
         srcFolder: "reduxTemplates/demoUser",
@@ -353,7 +346,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     );
   }
-  //<---------------------------------VUEX INTEGRATION---------------------------->
+
+  //<--------------------------------- For Vuex integration ---------------------------->
   if (projectChoice === "vue" && isStore) {
     fsExtra.copy(
       `${currentPath}/vuexTemplates/store`,
@@ -377,7 +371,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
   }
 
-  //<---------------------------------ngrx INTEGRATION---------------------------->
+  //<--------------------------------- For Ngrx integration ---------------------------->
   if (projectChoice === "angular" && isStore) {
     fsExtra.copy(
       `${currentPath}/ngrxTemplates/reducers`,
@@ -474,7 +468,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     projectName,
     frontEndName,
     backEndName,
-    projectChoice,
+    frontEnd?.choice,
+    backEnd?.choice,
     dbName,
     loggerServiceName,
     emailServiceName,
@@ -482,12 +477,13 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     authenticationChoice,
     isStore
   );
-  projectSetUp(managerChoice, projectChoice, projectPath);
+  projectSetUp(managerChoice, frontEnd, backEnd);
   projectExecutionCommands(
     projectName,
     frontEndName,
     backEndName,
     managerChoice,
-    projectChoice
+    frontEnd?.choice,
+    backEnd?.choice
   );
 });

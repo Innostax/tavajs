@@ -5,7 +5,8 @@ function projectExecutionCommands(
   frontEndName,
   nodeName,
   managerChoice,
-  projectChoice
+  frontEndChoice,
+  backEndChoice
 ) {
   console.log(
     chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created \n `)
@@ -18,23 +19,23 @@ function projectExecutionCommands(
     )
   );
   console.log(chalk.cyanBright.italic.bold(`     cd ${projectName} \n`));
-  if (projectChoice === "react_Node") {
+  if (frontEndChoice && backEndChoice) {
     console.log(
       chalk.magentaBright.bold(
         `${String.fromCodePoint(45)}${String.fromCodePoint(62)} For React: \n`
       )
     );
     console.log(chalk.cyanBright.italic.bold(`     cd ${frontEndName}`));
-    projectInvokeInstructions((projectChoice = "react"), managerChoice);
+    projectInvokeInstructions(frontEndChoice, managerChoice);
     console.log(
       chalk.magentaBright.bold(
         `\n ${String.fromCodePoint(45)}${String.fromCodePoint(62)} For Node: \n`
       )
     );
     console.log(chalk.cyanBright.italic.bold(`     cd ${nodeName}`));
-    projectInvokeInstructions((projectChoice = "node-js"), managerChoice);
+    projectInvokeInstructions(backEndChoice, managerChoice);
   } else {
-    projectInvokeInstructions(projectChoice, managerChoice);
+    projectInvokeInstructions(frontEndChoice || backEndChoice, managerChoice);
   }
   console.log(
     chalk.cyanBright.italic.bold(

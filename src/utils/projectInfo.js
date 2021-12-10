@@ -5,7 +5,8 @@ function projectInfo(
   projectName,
   frontEndName,
   nodeName,
-  projectChoice,
+  frontEndChoice,
+  backEndChoice,
   dbName,
   loggerName,
   emailServiceName,
@@ -13,7 +14,7 @@ function projectInfo(
   authenticationChoice,
   isStore
 ) {
-  if (projectChoice === "react_Node") {
+  if (frontEndChoice && backEndChoice) {
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -91,6 +92,7 @@ function projectInfo(
         )
       );
   } else {
+    const projectChoice = frontEndChoice || backEndChoice;
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
@@ -108,19 +110,19 @@ function projectInfo(
           )} Integrating Authentication service: ${authenticationChoice}`
         )
       );
-    if (projectChoice === "react" && isStore)
+    if (frontEndChoice === "react" && isStore)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
         )
       );
-    if (projectChoice === "angular" && isStore)
+    if (frontEndChoice === "angular" && isStore)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
-    if (projectChoice === "vue" && isStore)
+    if (frontEndChoice === "vue" && isStore)
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
