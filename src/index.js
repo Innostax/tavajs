@@ -85,9 +85,22 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       choice,
       isDark
     );
+
+    //<---------------------------- For Themes integration ---------------------------------->
+    if (isDark) {
+      fs.copyFile(
+        `${currentPath}/themeTemplates/themes.js`,
+        `${frontEnd.path}/src/themes.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    }
   }
 
-  //<----------------------------  node-js ---------------------------------->
+  //<---------------------------- node-js ---------------------------------->
   if (backEnd) {
     const { choice, path: backEndPath } = backEnd;
     const templatePath = path.join(__dirname, "templates", choice);
@@ -182,6 +195,26 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (dbService) {
       createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
     }
+
+    //<---------------------------- For ENV file ---------------------------------->
+    if (!isDocker) {
+      let contents = fs.readFileSync(
+        `${currentPath}/envTemplates/.dbEnv`,
+        "utf8"
+      );
+      contents = render(contents, {
+        dbName,
+        frontEnd,
+        backEnd,
+        isAuth0,
+      });
+      if (frontEnd?.choice && backEnd?.choice) {
+        writePath = `${backEnd.path}/.env`;
+      } else {
+        writePath = `${CURR_DIR}/${projectName}/.env`;
+      }
+      fs.writeFileSync(writePath, contents, "utf8");
+    }
   }
 
   //<---------------------------- For Docker integration ---------------------------------->
@@ -219,29 +252,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
   }
 
-  if (!isDocker && backEnd) {
-    let contents = fs.readFileSync(
-      `${currentPath}/envTemplates/.dbEnv`,
-      "utf8"
-    );
-    contents = render(contents, {
-      dbName,
-      frontEnd,
-      backEnd,
-      isAuth0,
-    });
-    if (frontEnd?.choice && backEnd?.choice) {
-      writePath = `${backEnd.path}/.env`;
-    } else {
-      writePath = `${CURR_DIR}/${projectName}/.env`;
-    }
-    fs.writeFileSync(writePath, contents, "utf8");
-  }
-
   //<---------------------------- For Store integration ---------------------------------->
-
   if (isStore) {
-    //<---------------------------- Redux  ---------------------------------->
+    //<---------------------------- Redux ---------------------------------->
     if (frontEnd?.choice === "react") {
       const reduxFiles = [
         {
@@ -322,7 +335,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     }
-    //<--------------------------------- Vuex  ---------------------------->
+    //<--------------------------------- Vuex ---------------------------->
     if (frontEnd?.choice === "vue") {
       fsExtra.copy(
         `${currentPath}/vuexTemplates/store`,
@@ -345,7 +358,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     }
-    //<---------------------------------  Ngrx  ---------------------------->
+    //<--------------------------------- Ngrx ---------------------------->
     if (frontEnd?.choice === "angular") {
       fsExtra.copy(
         `${currentPath}/ngrxTemplates/reducers`,
@@ -424,19 +437,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     });
-  }
-
-  //<---------------------------- For Themes integration ---------------------------------->
-  if (isDark) {
-    fs.copyFile(
-      `${currentPath}/themeTemplates/themes.js`,
-      `${frontEnd.path}/src/themes.js`,
-      (err) => {
-        if (err) {
-          console.log("Error Found:", err);
-        }
-      }
-    );
   }
 
   projectInfo(frontEnd, backEnd, answers);
