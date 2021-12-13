@@ -202,13 +202,25 @@ module.exports = [
   {
     name: "reactNodeCrud",
     type: "list",
-    message: "Do you want crud integration with React-Node boiler plate?",
+    message: "Do you want CRUD integration with React-Node boiler plate?",
     choices: [
       { name: "yes", value: true },
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd && answers.frontEnd && answers.store;
+      return answers.backEnd && answers.frontEndChoice === "react" && answers.store;
+    },
+  },
+  {
+    name: "vueNodeCrud",
+    type: "list",
+    message: "Do you want CRUD integration with Vue-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.backEnd && answers.frontEndChoice === "vue" && answers.store;
     },
   },
   {

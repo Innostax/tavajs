@@ -37,7 +37,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isDark = Boolean(answers["theme"]);
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
-  const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
+  const isCrudWithNode = Boolean(answers["reactNodeCrud"]|| answers["vueNodeCrud"]);
 
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
@@ -337,16 +337,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
     //<--------------------------------- Vuex ---------------------------->
     if (frontEnd?.choice === "vue") {
-      fsExtra.copy(
-        `${currentPath}/vuexTemplates/store`,
-        `${frontEnd.path}/src/store`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
-          }
+
+      fs.mkdir(`${frontEnd.path}/src/store`, (err, data) =>  {
+      if (err) {
+        console.error(err);
+      }
+      });
+     fs.copyFile(
+      `${currentPath}/vuexTemplates/store/index.js`,
+      `${frontEnd.path}/src/store/index.js`,
+      (err) => {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+          console.log("Error Found:", err);
         }
-      );
+      }
+     );
+      
       fsExtra.copy(
         `${currentPath}/vuexTemplates/userModal`,
         `${frontEnd.path}/src/userModal`,
@@ -357,6 +365,44 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           }
         }
       );
+      fs.mkdir(`${frontEnd.path}/src/store/modules`, (err) => {
+      if (err) {
+        console.error(err);
+      }
+     });
+     if (isCrudWithNode) { 
+      let contents = fs.readFileSync(
+        `${currentPath}/vuexTemplates/store/modules/users.asyncActions.js`,
+        "utf8"
+      );
+      contents = render(contents, {
+        defaultRoute,
+      });
+      writePath = `${frontEnd.path}/src/store/modules/users.js`;
+      fs.writeFileSync(writePath, contents, "utf8");
+
+      fsExtra.copy(
+        `${currentPath}/vuexTemplates/infrastructure`,
+        `${frontEnd.path}/src/infrastructure`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      );
+     } 
+     if (!isCrudWithNode) {
+      fs.copyFile(
+        `${currentPath}/vuexTemplates/store/modules/users.js`,
+        `${frontEnd.path}/src/store/modules/users.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+     }
     }
     //<--------------------------------- Ngrx ---------------------------->
     if (frontEnd?.choice === "angular") {
