@@ -1,25 +1,23 @@
-<app-modal [title]="'Add User'">
-
+<app-modal [title]="'Edit User'">
   <form>
     <div class="form-group">
       <div class="mb-3">
         <app-label [name]="'Name'"></app-label>
-        <app-input [type]="'text'" [class]="'form-control'" [placeholder]="'Enter Name'"
+        <app-input [type]="'text'" [class]="'form-control'" [value]="user.name"
           (OnChange)="UpdateValue('name',$event)"></app-input>
       </div>
       <div class="mb-3">
         <app-label [name]="'Username'"></app-label>
-        <app-input [type]="'text'" [class]="'form-control'" [placeholder]="'Enter Username'"
+        <app-input [type]="'text'" [class]="'form-control'" [value]="user.username"
           (OnChange)="UpdateValue('username',$event)"></app-input>
       </div>
       <div class="mb-3">
         <app-label [name]="'Email'"></app-label>
-        <app-input [type]="'email'" [class]="'form-control'" [placeholder]="'Enter Email'"
+        <app-input [type]="'email'" [class]="'form-control'" [value]="user.email"
           (OnChange)="UpdateValue('email',$event)"></app-input>
       </div>
     </div>
   </form>
-
-  <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="activeModal.close(addUser())">Add</button>
-
+  <button type="button" class="btn btn-primary" data-dismiss="modal"
+  (click)="activeModal.close(edituser())">Edit</button>
 </app-modal>

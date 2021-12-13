@@ -3,8 +3,8 @@ import { User } from "../../Users/User";
 import { userState } from "../../store/reducer/user.reducer";
 import { addUser } from "../../store/action/user.actions";
 import { Store } from "@ngrx/store";
-import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormGroup, FormControl } from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "add-user-modal",
@@ -15,13 +15,8 @@ export class AddUserModal implements OnInit {
   userForm: FormGroup;
   constructor(
     private store: Store<userState>,
-    private modalService: NgbModal
+    public activeModal:NgbActiveModal
   ) {}
-  open(addUserModal: any) {
-    this.modalService.open(addUserModal, {
-      ariaLabelledBy: "modal-basic-title",
-    });
-  }
   addUser(): void {
     const user: User = {
       id: this.userForm.value.id,
@@ -31,6 +26,7 @@ export class AddUserModal implements OnInit {
     };
     this.store.dispatch(addUser({ user }));
     this.userForm.reset();
+    this.activeModal.close();
   }
   ngOnInit(): void {
     this.userForm = new FormGroup({

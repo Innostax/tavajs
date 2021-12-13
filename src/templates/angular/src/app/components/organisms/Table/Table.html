@@ -1,0 +1,16 @@
+<table class="table mt-3" style="text-align:center">
+    <thead>
+        <tr>
+                <th *ngFor="let col of cols">{{ col }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let record of data">
+            <td *ngFor="let key of keys ">{{ record[key] }}</td>
+            <td>
+                <button *ngIf="true" class="btn btn-primary btn-space" (click)="handleOnEditClick(record)">Edit</button>
+                <button *ngIf="true" class="btn btn-danger btn-space" (click)="handleOnDeleteClick(record.id)">Delete</button>
+            </td>
+         </tr>
+    </tbody>
+</table>
