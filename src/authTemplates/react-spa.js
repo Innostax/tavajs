@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
-<% if(isRedux){%>import { useDispatch } from 'react-redux'
+<% if(isStore){%>import { useDispatch } from 'react-redux'
 import { actions } from './infrastructure/userContext/userContext.reducer'
 
 const { setjwtToken } = actions <%}%>
@@ -16,7 +16,7 @@ export const Auth0Provider = ({
 }) => {
 	const [auth0Client, setAuth0] = useState()
 	const [ isUserAuthenticated, setIsUserAuthenticated ] = useState()
-	<% if(isRedux){%>const dispatch = useDispatch()<%}%>
+	<% if(isStore){%>const dispatch = useDispatch()<%}%>
 
     useEffect(() => {
         const initAuth0 = async () => {
@@ -57,7 +57,7 @@ export const Auth0Provider = ({
                     token = await auth0FromHook.getTokenSilently()
                     console.log(user,token) // Added for warning purpose.
                 }
-                <% if(isRedux){%>  dispatch(setjwtToken(token))<%}%>
+                <% if(isStore){%>  dispatch(setjwtToken(token))<%}%>
 			}
 		}
 		initAuth0()

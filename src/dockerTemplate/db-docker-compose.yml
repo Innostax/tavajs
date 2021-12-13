@@ -12,9 +12,9 @@ services:
     volumes:
       - ./var/lib/postgresql/data
 
-  <%= nodeName %>:
+  <%= backEndName %>:
     build:
-      context: ./<%= nodeName %>
+      context: ./<%= backEndName %>
     environment:
       DB_SCHEMA: postgres
       DB_USER: postgres
@@ -41,20 +41,20 @@ services:
 version: "3"
 
 services:
-  <%= nodeName %>:
+  <%= backEndName %>:
     environment:
       DATABASE_URL: mongodb://mongo:27017/admin
       PORT: 3040
     build:
-      context: ./<%= nodeName %>
+      context: ./<%= backEndName %>
       dockerfile: ./Dockerfile
-    image: "<%= nodeName %>-backend"
+    image: "<%= backEndName %>-backend"
     ports:
       - "3040:3040"
     links:
       - mongo
   mongo:
-    container_name: <%= nodeName %>-mongodb
+    container_name: <%= backEndName %>-mongodb
     image: mongo
 
     ports:
