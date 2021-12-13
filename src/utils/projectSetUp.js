@@ -1,11 +1,13 @@
 const shell = require("shelljs");
 
-function projectSetUp(managerChoice, frontEnd, backEnd) {
-  if (frontEnd && backEnd) {
-    packageInstaller(managerChoice, frontEnd.choice, frontEnd.path);
-    packageInstaller(managerChoice, backEnd.choice, backEnd.path);
-  } else {
-    const { choice, path } = frontEnd || backEnd;
+function projectSetUp(frontEnd, backEnd, answers) {
+  const managerChoice = answers["managerChoice"];
+  if (frontEnd) {
+    const { choice, path } = frontEnd;
+    packageInstaller(managerChoice, choice, path);
+  }
+  if (backEnd) {
+    const { choice, path } = backEnd;
     packageInstaller(managerChoice, choice, path);
   }
 }

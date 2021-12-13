@@ -1,163 +1,94 @@
 const chalk = require("chalk");
 const package = require("../../package.json");
 
-function projectInfo(
-  projectName,
-  frontEndName,
-  nodeName,
-  frontEndChoice,
-  backEndChoice,
-  dbName,
-  loggerName,
-  emailServiceName,
-  blobServiceName,
-  authenticationChoice,
-  isStore
-) {
-  if (frontEndChoice && backEndChoice) {
+function projectInfo(frontEnd, backEnd, answers) {
+  //<---------------------------- For frontEnd ---------------------------------->
+
+  if (frontEnd) {
+    const { name, choice } = frontEnd;
     console.log(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating React project: ${frontEndName} using ${package.name} ${
+        )} Creating ${choice} project: ${name} using ${package.name} ${
           package.version
         }`
       )
     );
-    if (authenticationChoice)
+    if (answers["authenticationChoice"])
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
-          )} Integrating Authentication service: ${authenticationChoice}`
+          )} Integrating Authentication service: ${
+            answers["authenticationChoice"]
+          }`
         )
       );
-    if (isStore)
+    if (choice === "react" && answers["store"])
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
         )
       );
-    // if (isNgrx)
-    //   console.log(
-    //     chalk.green.bold(
-    //       `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
-    //     )
-    //   );
-    // if (isVuex)
-    //   console.log(
-    //     chalk.green.bold(
-    //       `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
-    //     )
-    //   );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${nodeName} using ${package.name} ${
-          package.version
-        }`
-      )
-    );
-    if (dbName)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Database service: ${dbName}`
-        )
-      );
-    if (loggerName)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Logger service: ${loggerName}`
-        )
-      );
-    if (emailServiceName)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Email service: ${emailServiceName}`
-        )
-      );
-    if (blobServiceName)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Blob service: ${blobServiceName}`
-        )
-      );
-  } else {
-    const projectChoice = frontEndChoice || backEndChoice;
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating ${projectChoice} project: ${projectName} using ${
-          package.name
-        } ${package.version}`
-      )
-    );
-    if (authenticationChoice)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${authenticationChoice}`
-        )
-      );
-    if (frontEndChoice === "react" && isStore)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-        )
-      );
-    if (frontEndChoice === "angular" && isStore)
+    if (choice === "angular" && answers["store"])
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
-    if (frontEndChoice === "vue" && isStore)
+    if (choice === "vue" && answers["store"])
       console.log(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
         )
       );
-    if (dbName)
+  }
+
+  //<---------------------------- For backEnd ---------------------------------->
+
+  if (backEnd) {
+    const { name, choice } = backEnd;
+    console.log(
+      chalk.green.bold(
+        `${String.fromCodePoint(
+          0x1f4c2
+        )} Creating ${choice} project: ${name} using ${package.name} ${
+          package.version
+        }`
+      )
+    );
+
+    if (answers["dbName"])
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Database service: ${dbName}`
+          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+            answers["dbName"]
+          }`
         )
       );
-    if (loggerName)
+    if (answers["loggerName"])
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Logger service: ${loggerName}`
+          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+            answers["loggerName"]
+          }`
         )
       );
-    if (emailServiceName)
+    if (answers["emailServiceName"])
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Email service: ${emailServiceName}`
+          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+            answers["emailServiceName"]
+          }`
         )
       );
-    if (blobServiceName)
+    if (answers["blobServiceName"])
       console.log(
         chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Blob service: ${blobServiceName}`
+          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+            answers["blobServiceName"]
+          }`
         )
       );
   }

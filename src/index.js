@@ -20,10 +20,9 @@ const CURR_DIR = process.cwd();
 
 inquirer.prompt(questionnaire).then(async (answers) => {
   const projectName = answers["projectName"];
-  const managerChoice = answers["managerChoice"];
   const frontEndName = answers["frontEndName"];
   const authenticationChoice = answers["authenticationChoice"];
-  const backEndName = answers["nodeName"];
+  const backEndName = answers["backEndName"];
   const defaultRoute = answers["defaultRoute"];
   const dbService = answers["dbService"];
   const dbName = answers["dbName"];
@@ -58,29 +57,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     answers
   );
 
-  const projectChoice = frontEnd?.choice || backEnd?.choice;
-
-  const frontEndPath = frontEnd?.path;
-  const backEndPath = backEnd?.path;
-
-  const templatePath = path.join(
-    __dirname,
-    "templates",
-    frontEnd?.choice || backEnd?.choice
-  );
-
-  //<---------------------------- for react + node-js ---------------------------------->
-  if (frontEnd && backEnd) {
-    const reactTemplatePath = path.join(__dirname, "templates", "react");
-    const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
-
-    const reactPath = `${projectName}/${frontEndName}`;
-    const nodePath = `${projectName}/${backEndName}`;
+  //<---------------------------- For react, angular, vue ---------------------------------->
+  if (frontEnd) {
+    const { choice, path: frontEndPath } = frontEnd;
+    const templatePath = path.join(__dirname, "templates", choice);
+    const projectPath = backEnd
+      ? `${projectName}/${frontEndName}`
+      : projectName;
 
     fsExtra.ensureDirSync(frontEndPath);
     createDirectoryContents(
-      reactTemplatePath,
-      reactPath,
+      templatePath,
+      projectPath,
       defaultRoute,
       mongoSelected,
       sequelizeSelected,
@@ -94,36 +82,23 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrud,
       frontEndName,
       backEndName,
-      frontEnd.choice,
+      choice,
       isDark
     );
+  }
+
+  //<----------------------------  node-js ---------------------------------->
+  if (backEnd) {
+    const { choice, path: backEndPath } = backEnd;
+    const templatePath = path.join(__dirname, "templates", choice);
+    const projectPath = frontEnd
+      ? `${projectName}/${backEndName}`
+      : projectName;
 
     fsExtra.ensureDirSync(backEndPath);
     createDirectoryContents(
-      nodeTemplatePath,
-      nodePath,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isCognito,
-      isStore,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      backEnd.choice,
-      isDark
-    );
-  }
-
-  //<---------------------------- For react, angular, vue, node-js ---------------------------------->
-  else {
-    createDirectoryContents(
       templatePath,
-      projectName,
+      projectPath,
       defaultRoute,
       mongoSelected,
       sequelizeSelected,
@@ -137,11 +112,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isCrud,
       frontEndName,
       backEndName,
-      frontEnd?.choice || backEnd?.choice,
+      choice,
       isDark
     );
-  }
-  if (backEnd) {
     const fileNames = [
       {
         oldName: "route.js",
@@ -156,59 +129,59 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     ];
     fileNames.map((each) =>
       fs.rename(
-        `${backEndPath}/${each.folder}/${each.oldName}`,
-        `${backEndPath}/${each.folder}/${each.newName}`,
+        `${backEnd.path}/${each.folder}/${each.oldName}`,
+        `${backEnd.path}/${each.folder}/${each.newName}`,
         () => {}
       )
     );
-  }
 
-  //creating utils dir
-  if (emailService || blobService || loggerService) {
-    fs.mkdirSync(backEndPath + "/utils");
-  }
+    //creating utils dir
+    if (emailService || blobService || loggerService) {
+      fs.mkdirSync(backEnd.path + "/utils");
+    }
 
-  //<---------------------------- For Email service ---------------------------------->
-  if (emailService) {
-    const emailTemplatePath = path.join(
-      __dirname,
-      "emailTemplates",
-      emailServiceName
-    );
+    //<---------------------------- For Email service ---------------------------------->
+    if (emailService) {
+      const emailTemplatePath = path.join(
+        __dirname,
+        "emailTemplates",
+        emailServiceName
+      );
 
-    createEmailSevice(
-      emailServiceName,
-      emailTemplatePath,
-      backEndPath,
-      __dirname
-    );
-  }
+      createEmailSevice(
+        emailServiceName,
+        emailTemplatePath,
+        backEnd.path,
+        __dirname
+      );
+    }
 
-  //<---------------------------- For Blob service ---------------------------------->
-  if (blobService) {
-    const blobTemplatePath = path.join(
-      __dirname,
-      "blobTemplates",
-      blobServiceName
-    );
-    createBlobService(blobServiceName, blobTemplatePath, backEndPath);
-  }
+    //<---------------------------- For Blob service ---------------------------------->
+    if (blobService) {
+      const blobTemplatePath = path.join(
+        __dirname,
+        "blobTemplates",
+        blobServiceName
+      );
+      createBlobService(blobServiceName, blobTemplatePath, backEnd.path);
+    }
 
-  //<---------------------------- For Logger service ---------------------------------->
-  if (loggerService) {
-    const loggerTemplatePath = path.join(__dirname, "logger");
+    //<---------------------------- For Logger service ---------------------------------->
+    if (loggerService) {
+      const loggerTemplatePath = path.join(__dirname, "logger");
 
-    createLogger(
-      backEndPath,
-      loggerServiceName,
-      loggerTemplatePath,
-      defaultRoute
-    );
-  }
+      createLogger(
+        backEnd.path,
+        loggerServiceName,
+        loggerTemplatePath,
+        defaultRoute
+      );
+    }
 
-  //<---------------------------- For Database service ---------------------------------->
-  if (dbService) {
-    createDbConn(backEndPath, dbName, defaultRoute, `${currentPath}`);
+    //<---------------------------- For Database service ---------------------------------->
+    if (dbService) {
+      createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
+    }
   }
 
   //<---------------------------- For Docker integration ---------------------------------->
@@ -230,16 +203,19 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
       fs.copyFileSync(
         `${currentPath}/dockerTemplate/Dockerfile`,
-        `${frontEndPath}/Dockerfile`
+        `${frontEnd.path}/Dockerfile`
       );
       fs.copyFileSync(
         `${currentPath}/dockerTemplate/Dockerfile`,
-        `${backEndPath}/Dockerfile`
+        `${backEnd.path}/Dockerfile`
       );
-    } else if (projectChoice === "react") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${frontEndPath}/Dockerfile`);
-    } else if (projectChoice === "node-js") {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${backEndPath}/Dockerfile`);
+    } else if (frontEnd?.choice === "react") {
+      fs.copyFileSync(
+        `${dockerPath}/Dockerfile`,
+        `${frontEnd.path}/Dockerfile`
+      );
+    } else if (backEnd?.choice === "node-js") {
+      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${backEnd.path}/Dockerfile`);
     }
   }
 
@@ -255,144 +231,143 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isAuth0,
     });
     if (frontEnd?.choice && backEnd?.choice) {
-      writePath = `${backEndPath}/.env`;
+      writePath = `${backEnd.path}/.env`;
     } else {
       writePath = `${CURR_DIR}/${projectName}/.env`;
     }
     fs.writeFileSync(writePath, contents, "utf8");
   }
 
-  //<---------------------------- For Redux integration ---------------------------------->
-  if (frontEnd?.choice === "react" && isStore) {
-    const reduxFiles = [
-      {
-        srcFolder: "reduxTemplates/demoUser",
-        srcFileName: "users.reducer.js",
-        destFolder: "/src/screens/Users",
-        destFileName: "users.reducer.js",
-      },
-      {
-        srcFolder: "reduxTemplates/demoUser",
-        srcFileName: "users.selectors.js",
-        destFolder: "/src/screens/Users",
-        destFileName: "users.selectors.js",
-      },
-      {
-        srcFolder: "reduxTemplates",
-        srcFileName: "createStore.js",
-        destFolder: "/src",
-        destFileName: "createStore.js",
-      },
-      {
-        srcFolder: "reduxTemplates",
-        srcFileName: "rootReducer.js",
-        destFolder: "/src",
-        destFileName: "rootReducer.js",
-      },
-    ];
+  //<---------------------------- For Store integration ---------------------------------->
 
-    reduxFiles.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEndPath}/${each.destFolder}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
+  if (isStore) {
+    //<---------------------------- Redux  ---------------------------------->
+    if (frontEnd?.choice === "react") {
+      const reduxFiles = [
+        {
+          srcFolder: "reduxTemplates/demoUser",
+          srcFileName: "users.reducer.js",
+          destFolder: "/src/screens/Users",
+          destFileName: "users.reducer.js",
+        },
+        {
+          srcFolder: "reduxTemplates/demoUser",
+          srcFileName: "users.selectors.js",
+          destFolder: "/src/screens/Users",
+          destFileName: "users.selectors.js",
+        },
+        {
+          srcFolder: "reduxTemplates",
+          srcFileName: "createStore.js",
+          destFolder: "/src",
+          destFileName: "createStore.js",
+        },
+        {
+          srcFolder: "reduxTemplates",
+          srcFileName: "rootReducer.js",
+          destFolder: "/src",
+          destFileName: "rootReducer.js",
+        },
+      ];
+      reduxFiles.map((each) => {
+        fs.copyFile(
+          `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+          `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+          (err) => {
+            if (err) {
+              console.log("Error Found:", err);
+            }
           }
-        }
+        );
+      });
+      let contents = fs.readFileSync(
+        `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
+        "utf8"
       );
-    });
-    let contents = fs.readFileSync(
-      `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
-      "utf8"
-    );
-    contents = render(contents, {
-      defaultRoute,
-    });
-    writePath = `${frontEndPath}/src/screens/Users/users.actions.js`;
-
-    fs.writeFileSync(writePath, contents, "utf8");
-
-    if (isCrud) {
-      fs.copyFile(
-        `${currentPath}/reduxTemplates/userform/Adduser.js`,
-        `${frontEndPath}/src/screens/Users/AddUser.js`,
-        (err) => {
+      contents = render(contents, {
+        defaultRoute,
+      });
+      writePath = `${frontEnd.path}/src/screens/Users/users.actions.js`;
+      fs.writeFileSync(writePath, contents, "utf8");
+      if (isCrud) {
+        fs.copyFile(
+          `${currentPath}/reduxTemplates/userform/Adduser.js`,
+          `${frontEnd.path}/src/screens/Users/AddUser.js`,
+          (err) => {
+            if (err) {
+              console.log("Error Found:", err);
+            }
+          }
+        );
+      }
+      if (isCrudWithNode) {
+        fs.copyFile(
+          `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
+          `${frontEnd.path}/src/screens/Users/AddUser.js`,
+          (err) => {
+            if (err) {
+              console.log("Error Found:", err);
+            }
+          }
+        );
+      }
+      fsExtra.copy(
+        `${currentPath}/reduxTemplates/infrastructure`,
+        `${frontEnd.path}/src/infrastructure`,
+        function (err) {
           if (err) {
-            console.log("Error Found:", err);
+            console.log("An error is occured");
+            return console.error(err);
           }
         }
       );
     }
-    if (isCrudWithNode) {
-      fs.copyFile(
-        `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-        `${frontEndPath}/src/screens/Users/AddUser.js`,
-        (err) => {
+    //<--------------------------------- Vuex  ---------------------------->
+    if (frontEnd?.choice === "vue") {
+      fsExtra.copy(
+        `${currentPath}/vuexTemplates/store`,
+        `${frontEnd.path}/src/store`,
+        function (err) {
           if (err) {
-            console.log("Error Found:", err);
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      );
+      fsExtra.copy(
+        `${currentPath}/vuexTemplates/userModal`,
+        `${frontEnd.path}/src/userModal`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
           }
         }
       );
     }
-    fsExtra.copy(
-      `${currentPath}/reduxTemplates/infrastructure`,
-      `${frontEndPath}/src/infrastructure`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
+    //<---------------------------------  Ngrx  ---------------------------->
+    if (frontEnd?.choice === "angular") {
+      fsExtra.copy(
+        `${currentPath}/ngrxTemplates/reducers`,
+        `${frontEnd.path}/src/app/reducers`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
         }
-      }
-    );
-  }
-
-  //<--------------------------------- For Vuex integration ---------------------------->
-  if (projectChoice === "vue" && isStore) {
-    fsExtra.copy(
-      `${currentPath}/vuexTemplates/store`,
-      `${frontEndPath}/src/store`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
+      );
+      fsExtra.copy(
+        `${currentPath}/ngrxTemplates/modules`,
+        `${frontEnd.path}/src/app/modules`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
         }
-      }
-    );
-    fsExtra.copy(
-      `${currentPath}/vuexTemplates/userModal`,
-      `${frontEndPath}/src/userModal`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
-  }
-
-  //<--------------------------------- For Ngrx integration ---------------------------->
-  if (projectChoice === "angular" && isStore) {
-    fsExtra.copy(
-      `${currentPath}/ngrxTemplates/reducers`,
-      `${frontEndPath}/src/app/reducers`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
-    fsExtra.copy(
-      `${currentPath}/ngrxTemplates/modules`,
-      `${frontEndPath}/src/app/modules`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
+      );
+    }
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
@@ -406,12 +381,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     ];
 
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    updatePackage(frontEndPath, package);
+    updatePackage(frontEnd.path, package);
 
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEndPath}/${each.destFileName}`,
+        `${frontEnd.path}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -419,14 +394,14 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     });
-    let reactSpaPath = path.join(__dirname, "authTemplates");
+
+    const reactSpaPath = path.join(__dirname, "authTemplates");
     let newContent = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
     newContent = render(newContent, { isStore });
-    writePath = `${frontEndPath}/src/react-spa.js`;
+    writePath = `${frontEnd.path}/src/react-spa.js`;
     fs.writeFileSync(writePath, newContent, "utf8");
   } else if (answers["authenticationChoice"] === "Cognito") {
     choice = "cognito";
-
     const filesMap = [
       {
         srcFolder: "envTemplates",
@@ -436,12 +411,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       },
     ];
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    updatePackage(frontEndPath, package);
+    updatePackage(frontEnd.path, package);
 
-    filesMap.map((each) => {
+    filesMap.map(() => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEndPath}/${each.destFolder}/${each.destFileName}`,
+        `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -455,7 +430,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (isDark) {
     fs.copyFile(
       `${currentPath}/themeTemplates/themes.js`,
-      `${frontEndPath}/src/themes.js`,
+      `${frontEnd.path}/src/themes.js`,
       (err) => {
         if (err) {
           console.log("Error Found:", err);
@@ -464,26 +439,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
   }
 
-  projectInfo(
-    projectName,
-    frontEndName,
-    backEndName,
-    frontEnd?.choice,
-    backEnd?.choice,
-    dbName,
-    loggerServiceName,
-    emailServiceName,
-    blobServiceName,
-    authenticationChoice,
-    isStore
-  );
-  projectSetUp(managerChoice, frontEnd, backEnd);
-  projectExecutionCommands(
-    projectName,
-    frontEndName,
-    backEndName,
-    managerChoice,
-    frontEnd?.choice,
-    backEnd?.choice
-  );
+  projectInfo(frontEnd, backEnd, answers);
+  projectSetUp(frontEnd, backEnd, answers);
+  projectExecutionCommands(frontEnd, backEnd, answers);
 });

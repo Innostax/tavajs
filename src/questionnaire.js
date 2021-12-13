@@ -139,9 +139,9 @@ module.exports = [
     },
   },
   {
-    name: "nodeName",
+    name: "backEndName",
     type: "input",
-    message: "Node Project name:",
+    message: "BackEnd Project name:",
     validate: function (input) {
       if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
       else
@@ -293,7 +293,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice == "react" || answers.backEnd;
+      return answers.frontEndChoice === "react" || answers.backEnd;
     },
   },
 ];

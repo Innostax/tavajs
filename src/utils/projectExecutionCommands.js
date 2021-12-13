@@ -1,13 +1,6 @@
 const chalk = require("chalk");
 
-function projectExecutionCommands(
-  projectName,
-  frontEndName,
-  nodeName,
-  managerChoice,
-  frontEndChoice,
-  backEndChoice
-) {
+function projectExecutionCommands(frontEnd, backEnd, answers) {
   console.log(
     chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created \n `)
   );
@@ -18,25 +11,32 @@ function projectExecutionCommands(
       )} To get Started: \n`
     )
   );
-  console.log(chalk.cyanBright.italic.bold(`     cd ${projectName} \n`));
-  if (frontEndChoice && backEndChoice) {
-    console.log(
-      chalk.magentaBright.bold(
-        `${String.fromCodePoint(45)}${String.fromCodePoint(62)} For React: \n`
-      )
-    );
-    console.log(chalk.cyanBright.italic.bold(`     cd ${frontEndName}`));
-    projectInvokeInstructions(frontEndChoice, managerChoice);
-    console.log(
-      chalk.magentaBright.bold(
-        `\n ${String.fromCodePoint(45)}${String.fromCodePoint(62)} For Node: \n`
-      )
-    );
-    console.log(chalk.cyanBright.italic.bold(`     cd ${nodeName}`));
-    projectInvokeInstructions(backEndChoice, managerChoice);
+  console.log(
+    chalk.cyanBright.italic.bold(`     cd ${answers["projectName"]} \n`)
+  );
+
+  if (frontEnd && backEnd) {
+    const managerChoice = answers["managerChoice"];
+    const project = [frontEnd, backEnd];
+
+    project.map(({ name, choice }) => {
+      console.log(
+        chalk.magentaBright.bold(
+          `${String.fromCodePoint(45)}${String.fromCodePoint(
+            62
+          )} For ${choice}: \n`
+        )
+      );
+      console.log(chalk.cyanBright.italic.bold(`     cd ${name}`));
+      projectInvokeInstructions(choice, managerChoice);
+      console.log("");
+    });
   } else {
-    projectInvokeInstructions(frontEndChoice || backEndChoice, managerChoice);
+    const { name, choice } = backEnd || frontEnd;
+    const managerChoice = answers["managerChoice"];
+    projectInvokeInstructions(choice, managerChoice);
   }
+
   console.log(
     chalk.cyanBright.italic.bold(
       `------------------------ Ready to go --------------------------`
