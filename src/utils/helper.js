@@ -14,16 +14,13 @@ function createDirectoryContents(
   isWinston,
   isAuth0,
   isCognito,
-  reactPath,
-  isRedux,
-  screenName,
+  isStore,
   isCrudWithNode,
   isCrud,
   frontEndName,
   nodeName,
   projectChoice,
-  isVuex,
-  isNgrx,
+  isDark,
   isOkta
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
@@ -45,19 +42,18 @@ function createDirectoryContents(
             defaultRoute: newDefaultRoute,
             isAuth0,
             isCognito,
-            isRedux,
-            screenName,
             mongoSelected,
             sequelizeSelected,
             dbName,
             isSentry,
             isWinston,
+            isStore,
             isCrudWithNode,
             isCrud,
             projectChoice,
-            isVuex,
-            isNgrx,
-            isOkta
+            isDark,
+            nodeName,
+            isOkta,
           },
           (autoescape = false)
         );
@@ -77,17 +73,14 @@ function createDirectoryContents(
           isWinston,
           isAuth0,
           isCognito,
-          reactPath,
-          isRedux,
-          screenName,
+          isStore,
           isCrudWithNode,
           isCrud,
           frontEndName,
           nodeName,
           projectChoice,
-          isVuex,
-          isNgrx,
-          isOkta
+          isDark,
+          isOkta,
         );
       }
     }

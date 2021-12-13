@@ -1,4 +1,6 @@
 import http from '../httpMethods'
+import { getStore } from "../../createStore";
+import { selectjwtToken } from "../userContext/userContext.selectors";
 
 export function handleException(exception, methodType, url) {
 	console.log(
@@ -10,18 +12,24 @@ export function handleException(exception, methodType, url) {
 }
 
 export function createHeader(httpHeaders) {
-	const requestOptions = {
-		headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-	}
+  const accessToken = selectjwtToken(getStore().getState());
+  const requestOptions = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
 
-	return httpHeaders
-		? {
-				headers: {
-					...requestOptions.headers,
-					...httpHeaders.headers,
-				},
-		  }
-		: requestOptions
+  return httpHeaders
+    ? {
+        headers: {
+          ...requestOptions.headers,
+          ...httpHeaders.headers,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    : requestOptions;
 }
 
 const asyncAction = ({ url, methodType = 'get', httpHeaders = {} } = {}) => {

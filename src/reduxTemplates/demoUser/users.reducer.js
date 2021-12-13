@@ -17,15 +17,15 @@ const slice = createSlice({
     state.selectedUser = action.payload || initialState.selectedUser
   },
   addNewUser(state, action) {
-   const _id = state.users.length 
-   const user = {...action.payload,_id} 
+   const id = state.users.length
+   const user = {...action.payload,id}
    state.users = [...state.users,user]
   },
   deleteUser(state, action) {
-    state.users = state.users.filter((each)=>each._id!==action.payload)
+    state.users = state.users.filter((each)=>each.id!==action.payload.id)
   },
   editUser(state,action){
-    const newUsers = state.users.filter((each)=>each._id!==action.payload._id)
+    const newUsers = state.users.filter((each)=>each.id!==action.payload.id)
     state.users=[...newUsers,action.payload]
   }
 },
@@ -37,14 +37,6 @@ const slice = createSlice({
     [asyncActions.addUsers.fulfilled]: (state, action) => {
       state.status = "success";
       state.users = [...state.users, action.payload];
-    },
-    [asyncActions.deleteUsers.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.users = action.payload
-    },
-    [asyncActions.updateUsers.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.users = action.payload
     },
   },
 });
