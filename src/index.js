@@ -41,6 +41,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
+  const isOkta = authenticationChoice === "Okta"
   const mongoSelected = dbName === "mongoose";
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
   const isWinston = loggerServiceName === "winston";
@@ -83,7 +84,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark
+      isDark,
+      isOkta,
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -126,7 +128,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark
+      isDark,
+      isOkta
     );
     const fileNames = [
       {
@@ -438,7 +441,43 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     });
   }
-
+ else if (answers["authenticationChoice"] === "Okta")
+ {
+   const package =[{name:"@okta/okta-auth-js", version:"^5.8.0"},{name:"@okta/okta-react",version:"^6.3.0"}];
+  //  let packagePath = path.join(CURR_DIR, projectName, frontEndName);
+   package.map((each)=>{
+    updatePackage(frontEnd.path,each)
+   })
+  fsExtra.copy(
+    `${currentPath}/authTemplates/oktaTemplate`,
+    `${frontEnd.path}/src/oktaFiles`,
+    function (err) {
+      if (err) {
+        console.log("An error is occured");
+        return console.error(err);
+      }
+    }
+  );
+  const filesMap = [
+    {
+      srcFolder: "envTemplates",
+      srcFileName: ".oktaEnv",
+      destFileName: ".env",
+    },
+  ];
+  filesMap.map((each) => {
+    fs.copyFile(
+      `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+      `${frontEnd.path}/${each.destFileName}`,
+      (err) => {
+        if (err) {
+          console.log("Error Found:", err);
+        }
+      }
+    );
+  });
+}
+  
   projectInfo(frontEnd, backEnd, answers);
   projectSetUp(frontEnd, backEnd, answers);
   projectExecutionCommands(frontEnd, backEnd, answers);

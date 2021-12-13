@@ -5,7 +5,7 @@ import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 
 <% if(isDark) { %>import { DarkToggle } from '../../themes'<% } %>
-const NavBar = ({ brand, links }) => {
+const NavBar = ({ brand, links<%if(isOkta){%>, oktaLoginButton<%}%> }) => {
 <% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 	return (
 		<Router>
@@ -31,6 +31,7 @@ const NavBar = ({ brand, links }) => {
 						</Nav>
 						<%}%>
 					</Navbar.Collapse>
+					<%if(isOkta){%> {oktaLoginButton}<%}%>
 					<% if(isDark) { %><DarkToggle/><% } %>
 				</Container>
 			</Navbar>

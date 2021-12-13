@@ -20,7 +20,8 @@ function createDirectoryContents(
   frontEndName,
   nodeName,
   projectChoice,
-  isDark
+  isDark,
+  isOkta
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -41,7 +42,6 @@ function createDirectoryContents(
             defaultRoute: newDefaultRoute,
             isAuth0,
             isCognito,
-            isStore,
             mongoSelected,
             sequelizeSelected,
             dbName,
@@ -53,6 +53,7 @@ function createDirectoryContents(
             projectChoice,
             isDark,
             nodeName,
+            isOkta,
           },
           (autoescape = false)
         );
@@ -78,7 +79,8 @@ function createDirectoryContents(
           frontEndName,
           nodeName,
           projectChoice,
-          isDark
+          isDark,
+          isOkta,
         );
       }
     }

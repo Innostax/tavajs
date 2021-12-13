@@ -4,7 +4,7 @@ function projectSetUp(frontEnd, backEnd, answers) {
   const managerChoice = answers["managerChoice"];
   if (frontEnd) {
     const { choice, path } = frontEnd;
-    packageInstaller(managerChoice, choice, path);
+     packageInstaller(managerChoice, choice, path);
   }
   if (backEnd) {
     const { choice, path } = backEnd;
