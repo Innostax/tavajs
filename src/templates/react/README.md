@@ -27,7 +27,7 @@ One of the first things to remember about React project development is that it i
 ### FEATURES:
 <ul>
 <% if(isAuth0 ) { %><li> Authentication Service</li><%}%>
-<% if(isRedux) {%><li> Redux Service</li><%}%>
+<% if(isStore) {%><li> Redux Service</li><%}%>
 <% if(isDark) {%><li> Theme Service</li><%}%>
 </ul>
 ### Built with:

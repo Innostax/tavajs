@@ -88,10 +88,20 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               { id: req.params.id},
               returning:true, plain:true
           }
-      ).then((<%= defaultRoute %>) => {
-        res.send(<%= defaultRoute %>[1]);
+      )<%if(dbName==="postgres") { %>.then((<%= defaultRoute %>) => {
+        if (<%= defaultRoute %>[1]) res.send('<%= defaultRoute %> updated')
+        else res.send("<%= defaultRoute %> with this ID can't be found")
       }
-    );
+    ); <%}%> <%if(dbName==="mysql") { %>
+      <%= defaultRoute %>.findAll({
+        where:{
+            id:req.params.id
+        }
+    }).then((<%= defaultRoute %>) => {
+      if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
+      else res.send("no user found");
+    });
+    <%}%>
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
         res.send('patch Called')
@@ -108,6 +118,9 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% if(sequelizeSelected) {%>
         <%= defaultRoute %>.destroy({
           truncate : true
+       })
+       .then(() => {
+        res.send('<%= defaultRoute %> updated')
        });
        <%}%>
        <% if(!(sequelizeSelected || mongoSelected)){ %>  
@@ -162,7 +175,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %> > 0) res.json(<%= defaultRoute %>);
+        if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
         else res.send("no user found");
       });
         <%}%>

@@ -1,5 +1,5 @@
 import Users from "./Users";
-<% if(isRedux) {%>import reducers from "./users.reducer";
+<% if(isStore) {%>import reducers from "./users.reducer";
 import * as selectors from "./users.selectors";
 import * as actions from "./users.actions";
 export const { getUsers } = actions;

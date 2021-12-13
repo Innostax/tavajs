@@ -1,17 +1,17 @@
 import { Component, OnInit } from "@angular/core";
-import { User } from "src/app/module/user";
-import { userState } from "../store/reducer/user.reducer";
-import { addUser } from "../store/action/user.actions";
+import { User } from "../../Users/User";
+import { userState } from "../../store/reducer/user.reducer";
+import { addUser } from "../../store/action/user.actions";
 import { Store } from "@ngrx/store";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: "app-add-user",
-  templateUrl: "./add-user.component.html",
-  styleUrls: ["./add-user.component.css"],
+  selector: "add-user-modal",
+  templateUrl: "./AddUserModal.html",
+  styleUrls: ["./AddUserModal.css"],
 })
-export class AddUserComponent implements OnInit {
+export class AddUserModal implements OnInit {
   userForm: FormGroup;
   constructor(
     private store: Store<userState>,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Welcome to Users Screen</h1>
-    <%if(isVuex) { %>
+    <%if(isStore) { %>
     <h3>Welcome to Vue Vuex Crash Course</h3>
     <AddUser />
     <Table :fields="columns" :items="allUsers"></Table>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-<%if(isVuex) { %>
+<%if(isStore) { %>
 import { mapGetters, mapActions } from "vuex";
 import AddUser from "../userModal/AddUser";
 import Table from "../components/organisms/Table.vue";

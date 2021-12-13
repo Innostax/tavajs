@@ -1,12 +1,12 @@
 version: "3"
 
 services:
-  <%= nodeName %>:
-    env_file: "./<%= nodeName %>/.env"
+  <%= backEndName %>:
+    env_file: "./<%= backEndName %>/.env"
     build:
-      context: ./<%= nodeName %>
+      context: ./<%= backEndName %>
       dockerfile: ./Dockerfile
-    image: "<%= nodeName%>-backend"
+    image: "<%= backEndName%>-backend"
     ports:
       - "8080:8080"
   <%= frontEndName %>:

@@ -27,7 +27,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "express-jwt": "^6.1.0"
   },
   "devDependencies": {
     "concurrently": "^5.1.0",
