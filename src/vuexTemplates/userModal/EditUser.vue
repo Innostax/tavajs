@@ -1,9 +1,7 @@
 <template>
   <div>
-    <b-modal id="bv-modal-editUser" hide-footer>
-      <template #modal-title> Edit User </template>
-
-      <div class="d-block text-center">
+    <Modal id="bv-modal-editUser" title="EDIT USER:"
+      ><div class="d-block text-center">
         <b-row>
           <b-col>
             <Label name="Name:" />
@@ -40,11 +38,17 @@
         </b-row>
         <b-row>
           <b-col>
-            <Button id="show-btn" className="mt-3" name="Edit User" color="primary" @submit="onSubmitOne" @onClick="$bvModal.hide('bv-modal-editUser')" />
+            <Button
+              id="show-btn"
+              className="mt-3"
+              name="Edit User"
+              color="primary"
+              @submit="onSubmitOne"
+              @onClick="$bvModal.hide('bv-modal-editUser')"
+            />
           </b-col>
-        </b-row>
-      </div>
-    </b-modal>
+        </b-row></div
+    ></Modal>
   </div>
 </template>
 
@@ -53,12 +57,14 @@ import { mapGetters, mapActions } from "vuex";
 import Label from "../components/atoms/Label.vue";
 import Button from "../components/atoms/Button.vue";
 import Input from "../components/atoms/Input.vue";
+import Modal from "../components/organisms/Modal.vue";
 export default {
   name: "EditUser",
   components: {
     Label,
     Button,
-    Input
+    Input,
+    Modal,
   },
   data() {
     return {
