@@ -1,9 +1,13 @@
 <template>
   <div id="addModal">
-    <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="$bvModal.show('bv-modal-addUser')"/>
-
-    <b-modal id="bv-modal-addUser" hide-footer>
-      <template #modal-title> ADD USER: </template>
+    <Button
+      id="show-btn"
+      className="mt-3"
+      name="Add User"
+      color="primary"
+      @onClick="$bvModal.show('bv-modal-addUser')"
+    />
+    <Modal id="bv-modal-addUser" title="ADD USER:">
       <div class="d-block text-center">
         <b-row>
           <b-col>
@@ -28,30 +32,43 @@
             <Label name="Email:" />
           </b-col>
           <b-col>
-            <Input type="text" v-model="email" placeholder="example@email.com" />
+            <Input
+              type="text"
+              v-model="email"
+              placeholder="example@email.com"
+            />
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <Button id="show-btn" className="mt-3" name="Add User" color="primary" @submit="onSubmit" @onClick="$bvModal.hide('bv-modal-addUser')" />
+            <Button
+              id="show-btn"
+              className="mt-3"
+              name="Add User"
+              color="primary"
+              @submit="onSubmit"
+              @onClick="$bvModal.hide('bv-modal-addUser')"
+            />
           </b-col>
         </b-row>
       </div>
-    </b-modal>
+    </Modal>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import Label from "../components/atoms/Label";
+import Modal from "../components/organisms/Modal.vue";
 import Button from "../components/atoms/Button";
-import Input from "../components/atoms/Input";
+import Label from "../components/atoms/Label.vue";
+import Input from "../components/atoms/Input.vue";
 export default {
   name: "AddUser",
   components: {
-    Label,
     Button,
-    Input
+    Modal,
+    Label,
+    Input,
   },
   data() {
     return {

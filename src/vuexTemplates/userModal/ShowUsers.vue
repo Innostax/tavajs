@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table :fields=columns :items=allUsers> </Table>
+    <Table :fields="columns" :items="allUsers"> </Table>
   </div>
 </template>
 
@@ -15,12 +15,12 @@ export default {
 
   data() {
     return {
-      columns:[
-        {key:"name" },
-        {key:"username"},
-        {key:"email"},
-        {key:"edit"},
-        {key:"delete"}
+      columns: [
+        { key: "name", label: "Name" },
+        { key: "username", label: "UserName" },
+        { key: "email", label: "Email" },
+        { key: "edit", label: "" },
+        { key: "delete", label: "" },
       ],
       modalShow: true,
     };
