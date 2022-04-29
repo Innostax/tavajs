@@ -1,0 +1,72 @@
+{
+  "name": "<%= projectName %>",
+  "version": "0.1.0",
+  "private": true,
+  "config-overrides-path": "node_modules/react-app-rewired/config-overrides.js",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "create-components-react": "^2.1.4",
+    "create-react-component-folder": "^0.3.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-datepicker": "^4.2.1",
+    "react-dropzone": "^11.4.2",
+    "web-vitals": "^1.0.1",
+    "bootstrap": "^5.1.0",
+    "react-bootstrap-table-next": "^4.0.1",
+    "font-awesome": "^4.7.0",
+    "react-bootstrap": "^1.0.0",
+    "@auth0/auth0-spa-js": "^1.10.0",
+    "react-responsive": "^9.0.0-beta.4",
+    "bootstrap-switch-button-react": "^1.2.0"
+  },
+  "scripts": {
+    "start": "npm run pretty && npm run eslint && npm run start-watch",
+    "start-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"react-app-rewired start --no-cache\"",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "pretty": "npx prettier --write \"src/**/*.js\" \"src/**/*.css\"",
+    "prettier-watch": "onchange \"src/**/*.js\" \"src/**/*.css\" -- npx prettier --write {{changed}}",
+    "eslint": "npx eslint src",
+    "eslint-watch": "onchange \"src/**/*.js\" -- npx eslint src"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "customize-cra": "^0.9.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "onchange": "^6.1.0",
+    "prettier": "^2.0.2",
+    "react-app-rewired": "^2.1.8"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
