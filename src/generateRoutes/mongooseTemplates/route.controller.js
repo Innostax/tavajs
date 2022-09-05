@@ -49,6 +49,7 @@ const remove = (req, res, next) => {
 		if (!err) res.send('All deleted')
 		else res.send(err)
 	})
+	.then(()=>{res.send("<%= routeName %> table deleted")})
 }
 
 const removeById = (req, res, next) => {

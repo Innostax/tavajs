@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Welcome to Users Screen</h1>
-<%if(isVuex) { %>
-<h3>Welcome to Vue Vuex Crash Course</h3>
+    <%if(isStore) { %>
+    <h3>Welcome to Vue Vuex Crash Course</h3>
     <AddUser />
     <ShowUsers />
     <EditUser />
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-<%if(isVuex) { %>
+<%if(isStore) { %>
 import AddUser from "../userModal/AddUser";
 import ShowUsers from "../userModal/ShowUsers";
 import EditUser from "../userModal/EditUser";
