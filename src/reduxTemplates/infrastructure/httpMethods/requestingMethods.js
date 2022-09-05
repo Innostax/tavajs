@@ -8,8 +8,8 @@ const requetMethods = {
   delete: deleteRequest,
 };
 
-function get(url) {
-  return fetchApi(url);
+function get(url, requestWithConfig) {
+  return fetchApi(url, requestWithConfig);
 }
 
 function post(url, requestWithConfig) {

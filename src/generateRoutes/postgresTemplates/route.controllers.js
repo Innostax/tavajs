@@ -30,6 +30,7 @@ const remove = (req, res, next) => {
 	<%= routeName %>.destroy({
 		truncate: true,
 	})
+	.then(()=>{res.send("<%= routeName %> table deleted")})
 }
 
 const removeById = (req, res, next) => {
@@ -53,7 +54,7 @@ const findById = (req, res, next) => {
 			},
 		})
 		.then((<%= routeName %>) => {
-			if (<%= routeName %> > 0) res.json(<%= routeName %>)
+			if (<%= routeName %>.length > 0) res.json(<%= routeName %>)
 			else res.send('no user found')
 		})
 }

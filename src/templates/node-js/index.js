@@ -11,12 +11,25 @@ const conn = require('./mongoose')
 <% if (isRedis) { %>
 const { redis_get, client } = require("./redis");
 <% } %>
+<% if (isAuth0) { %>
+let jwt = require('express-jwt')
+
+const authorization=jwt({
+	secret: process.env.AUTH_SECRET,
+	audience: process.env.AUTH_AUDIENCE,
+	issuer: process.env.AUTH_ISSUER,
+	algorithms: ['HS256'],
+})
+
+<% } %>
+  
 const port = process.env.PORT
 const app = express();
 <% if (mongoSelected) { %>
  conn()
 <% } %>
 app.set('view engine', 'ejs');
+<% if(isAuth0){%>app.use(authorization)<%}%>
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
