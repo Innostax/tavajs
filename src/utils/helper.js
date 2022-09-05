@@ -24,7 +24,8 @@ function createDirectoryContents(
   projectChoice,
   isVuex,
   isNgrx,
-  isDark
+  isDark,
+  isMaterialUI
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -32,7 +33,8 @@ function createDirectoryContents(
       const origFilePath = `${templatePath}/${file}`;
       // get stats about the current file
       const stats = fs.statSync(origFilePath);
-      if (stats.isFile()) {
+      if (stats.isFile())
+      {
         let contents = fs.readFileSync(origFilePath, "utf8");
 
         const elements = newProjectPath.split("/");
@@ -59,17 +61,22 @@ function createDirectoryContents(
             isNgrx,
             isDark,
             nodeName,
+            isMaterialUI
           },
           (autoescape = false)
         );
         const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
         fs.writeFileSync(writePath, contents, "utf8");
-      } else if (stats.isDirectory()) {
-        fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
+      } 
+      else if (stats.isDirectory()) 
+      {
+        // fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
         // recursive call
+        if(isMaterialUI === true && `${file}`=== 'material'){
+        fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
         createDirectoryContents(
           `${templatePath}/${file}`,
-          `${newProjectPath}/${file}`,
+          `${newProjectPath}`,
           newDefaultRoute,
           mongoSelected,
           sequelizeSelected,
@@ -88,8 +95,73 @@ function createDirectoryContents(
           projectChoice,
           isVuex,
           isNgrx,
-          isDark
-        );
+          isDark,
+          isMaterialUI
+        );}
+        else if(isMaterialUI ===false && `${file}` === "material"){ 
+          return ;
+         }
+        else if(isMaterialUI === false && `${file}`=== 'bootstrap')
+        {
+          fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
+          createDirectoryContents(
+            `${templatePath}/${file}`,
+            `${newProjectPath}`,
+            newDefaultRoute,
+            mongoSelected,
+            sequelizeSelected,
+            dbName,
+            isSentry,
+            isWinston,
+            isAuth0,
+            isCognito,
+            reactPath,
+            isRedux,
+            screenName,
+            isCrudWithNode,
+            isCrud,
+            frontEndName,
+            nodeName,
+            projectChoice,
+            isVuex,
+            isNgrx,
+            isDark,
+            isMaterialUI
+          );
+        }
+        else if(isMaterialUI === true && `${file}`=== 'bootstrap')
+        {
+          return;
+        }
+          else
+          {
+            fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
+            createDirectoryContents(
+              `${templatePath}/${file}`,
+              `${newProjectPath}/${file}`,
+              newDefaultRoute,
+              mongoSelected,
+              sequelizeSelected,
+              dbName,
+              isSentry,
+              isWinston,
+              isAuth0,
+              isCognito,
+              reactPath,
+              isRedux,
+              screenName,
+              isCrudWithNode,
+              isCrud,
+              frontEndName,
+              nodeName,
+              projectChoice,
+              isVuex,
+              isNgrx,
+              isDark,
+              isMaterialUI
+            );
+          }
+        
       }
     }
   });

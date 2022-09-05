@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as asyncActions from "./users.actions";
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   users: [],
@@ -17,7 +18,7 @@ const slice = createSlice({
     state.selectedUser = action.payload || initialState.selectedUser
   },
   addNewUser(state, action) {
-   const id = state.users.length
+   const id = uuidv4()
    const user = {...action.payload,id}
    state.users = [...state.users,user]
   },
@@ -25,8 +26,11 @@ const slice = createSlice({
     state.users = state.users.filter((each)=>each.id!==action.payload.id)
   },
   editUser(state,action){
-    const newUsers = state.users.filter((each)=>each.id!==action.payload.id)
-    state.users=[...newUsers,action.payload]
+    const newUser = state.users.find((each) => each.id === action.payload.id)
+			const keys = Object.keys(action.payload)
+			keys.forEach((key) => {
+				newUser[key] = action.payload[key]
+			})
   }
 },
   extraReducers: {

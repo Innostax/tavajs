@@ -3,7 +3,9 @@ import Modal, { hideModal, showModal } from "../../widgets/modal";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../users/users.reducer";
 import { selectSelectedUser } from "../../screens/users/users.selectors";
-import { Row, Col } from "react-bootstrap";
+<% if(isMaterialUI) {%> import {Grid} from '@mui/material' <%}%>
+<% if(!isMaterialUI) {%> import { Row,Col } from "react-bootstrap" <%}%>
+
 
 const { setSelectedUserModal } = actions;
 
@@ -20,7 +22,8 @@ const ShowDetails = () => {
 
   return (
     <Modal title="Show User" reset={resetModal} size="lg">
-      <Row>
+      <% if(isMaterialUI === false) {%> 
+       <Row>
         <Col className="p-2">
           <b>{user.name}</b>
         </Col>
@@ -39,6 +42,33 @@ const ShowDetails = () => {
         </Col>
         <Col>{user.company.name}</Col>
       </Row>
+      <%}%>
+
+    <% if(isMaterialUI) {%> 
+      <>
+      <Grid container>
+        <Grid item xs={12} sm={12} md={12}>
+          <b>{user.name}</b>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={6} sm={6} md={6}>
+          <b>ADDRESS</b>
+        </Grid>
+        <Grid item xs={6} sm={6} md={6}>
+          <b>{user.address.suite},{user.address.street},{user.address.city}</b>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={6} sm={6} md={6}>
+          <b>COMPANY</b>
+        </Grid>
+        <Grid item xs={6} sm={6} md={6}>
+          <b>{user.company.name}</b>
+        </Grid>
+      </Grid>
+      </>
+    <%}%>
     </Modal>
   );
 };

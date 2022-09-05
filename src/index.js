@@ -6,20 +6,20 @@ const path = require("path");
 const fsExtra = require("fs-extra");
 const AUTH_CHOICES = ["Auth0", "Cognito", "Okta"];
 const CURR_DIR = process.cwd();
-var mongoSelected = false;
-var sequelizeSelected = false;
-var isDocker = false;
-var isCrud = false;
-var isAuth0 = false;
-var isCognito = false;
-var isRedux = false;
-var isVuex = false;
-var isWinston = false;
-var isSentry = false;
-var isCrudWithNode = false;
-var isCrud = false;
-var isDark = false;
-var isNgrx = false;
+let mongoSelected = false;
+let sequelizeSelected = false;
+let isDocker = false;
+let isCrud = false;
+let isAuth0 = false;
+let isCognito = false;
+let isRedux = false;
+let isVuex = false;
+let isWinston = false;
+let isSentry = false;
+let isCrudWithNode = false;
+let isDark = false;
+let isNgrx = false;
+let isMaterialUI = false;
 const currentPath = path.join(__dirname);
 const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
@@ -72,6 +72,21 @@ const QUESTIONS = [
       return answers.frontEnd == "yes";
     },
   },
+
+  /* CSS Framework question added here */
+  {
+    name: "materialuiChoice",
+    type: "list",
+    message: "Which CSS Framework do you want?",
+    choices: [
+      {name: "MaterialUi", value: true},
+      {name: "Bootstrap", value: false }
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice == "react";
+    },
+  },
+  /*CSS Framework question ended here */
   {
     name: "FrontEnd-name",
     type: "input",
@@ -223,7 +238,7 @@ const QUESTIONS = [
     message: "Do you want React with CRUD",
     choices: [
       { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "no", value: false }, 
     ],
     when: (answers) => {
       return (
@@ -365,6 +380,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
   let managerChoice = answers["managerChoice"];
   var dbName = answers["dbName"];
   isRedux = reduxIntegration;
+  const materialLib = answers["materialuiChoice"];
+  isMaterialUI = materialLib;
   isVuex = answers["vuex"];
   isNgrx = answers["ngrx"];
   const templatePath = path.join(__dirname, "templates", projectChoice);
@@ -432,7 +449,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isDark
+      isDark,
+      isMaterialUI
     );
     fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
     createDirectoryContents(
@@ -455,7 +473,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       nodeName,
       projectChoice,
       isVuex,
-      isNgrx
+      isNgrx,
+      isMaterialUI
     );
     const newPath = `${CURR_DIR}/${projectName}/${nodeName}`;
     const fileNames = [
@@ -503,7 +522,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isDark
+      isDark,
+      isMaterialUI
     );
     var projectPath = `${CURR_DIR}/${projectName}`;
   }
@@ -530,7 +550,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isDark
+      isDark,
+      isMaterialUI
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
   } else if (projectChoice === "node-js") {
@@ -556,7 +577,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isDark
+      isDark,
+      isMaterialUI
     );
     const newPath = `${CURR_DIR}/${projectName}`;
     const fileNames = [
@@ -602,7 +624,8 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       projectChoice,
       isVuex,
       isNgrx,
-      isDark
+      isDark,
+      isMaterialUI
     );
     var projectPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
   } else {
@@ -760,26 +783,26 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
     fs.writeFileSync(writePath, contents, "utf8");
 
     if (isCrud) {
-      fs.copyFile(
-        `${currentPath}/reduxTemplates/userform/Adduser.js`,
-        `${reactPath}/src/screens/Users/AddUser.js`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
+    // Start
+    let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
+    newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode });
+    writePath = `${reactPath}/src/screens/Users/AddUser.js`;
+    fs.writeFileSync(writePath, newContent, "utf8");
+    
+    let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
+    newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
+
+   
     }
     if (isCrudWithNode) {
-      fs.copyFile(
-        `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-        `${reactPath}/src/screens/Users/AddUser.js`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
+      let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
+      newContent = render(newContent, { isMaterialUI });
+      writePath = `${reactPath}/src/screens/Users/AddUser.js`;
+      fs.writeFileSync(writePath, newContent, "utf8");
+
+      let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
+      newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
+     
     }
     fsExtra.copy(
       `${currentPath}/reduxTemplates/infrastructure`,
@@ -792,6 +815,17 @@ inquirer.prompt(QUESTIONS).then(async (answers) => {
       }
     );
   }
+  //<---------------------------------MaterialUI Dark Theme----------------------->
+
+  if (isDark) {
+    // Start
+    let newContent = fs.readFileSync(`${currentPath}/templates/react/src/App.js`, "utf8");
+    newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode,isAuth0,isDark });
+    writePath = `${reactPath}/src/App.js`;
+    fs.writeFileSync(writePath, newContent, "utf8");
+
+    }
+   
   //<---------------------------------VUEX INTEGRATION---------------------------->
   if (isVuex) {
     fsExtra.copy(
