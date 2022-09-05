@@ -5,8 +5,8 @@
 
 <br>
 <br>
+
 <div align="center">
-  
 ![Tavajs License](https://img.shields.io/npm/l/dev-tava)
 ![Tavajs Version](https://img.shields.io/npm/v/dev-tava)
 ![Tavajs Release](https://img.shields.io/badge/release-2021-orange)
