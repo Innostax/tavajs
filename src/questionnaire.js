@@ -160,7 +160,7 @@ module.exports = [
       { name: "no", value: "no" },
     ],
     when: (answers) => {
-      return answers.backEndChoice == "node";
+      return answers.backEndChoice == "node-js";
     },
   },
   {

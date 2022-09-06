@@ -4,8 +4,8 @@ const fs = require("fs");
 const { createDirectoryContents, updatePackage } = require("./utils/helper");
 const path = require("path");
 const fsExtra = require("fs-extra");
-const chalk = require("chalk");
-const projectMetaData = require("../package.json");
+// const chalk = require("chalk");
+// const projectMetaData = require("../package.json");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
@@ -21,52 +21,54 @@ const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
 
 inquirer.prompt(questionnaire).then(async (answers) => {
-  const projectName = answers["projectName"];
-  // const frontEndName = answers["frontEndName"];
-  const authenticationChoice = answers["authenticationChoice"];
-  const backEndName = answers["backEndName"];
-  const defaultRoute = answers["defaultRoute"];
-  const dbService = answers["dbService"];
-  const dbName = answers["dbName"];
-  const emailService = answers["emailService"];
-  const emailServiceName = answers["emailServiceName"];
-  const blobService = answers["blobService"];
-  const reduxIntegration = answers["redux"];
-  let frontEndName = "";
-  let nodeName = "";
-  const isRedux = reduxIntegration;
-  const isVuex = answers["vuex"];
-  const isNgrx = answers["ngrx"];
-  // const defaultRoute = answers["default-route"];
+  console.log("answers===>", answers)
+  const { frontEnd, backEnd, frontEndName, backEndName } = answers;
+  let projectName = answers["projectName"];
+  // let frontEndName = answers["frontEndName"];
+  let authenticationChoice = answers["authenticationChoice"];
+  let defaultRoute = answers["defaultRoute"];
+  let dbService = answers["dbService"];
+  let dbName = answers["dbName"];
+  let emailService = answers["emailService"];
+  let emailServiceName = answers["emailServiceName"];
+  let blobService = answers["blobService"];
+  // let defaultRoute = answers["default-route"];
   // var reactPath = `${CURR_DIR}/${projectName}`;
   // var vuePath = `${CURR_DIR}/${projectName}`;
   // var angularPath = `${CURR_DIR}/${projectName}`;
 
-  let screenName = "<%= projectName %>";
-  const blobServiceName = answers["blobServiceName"];
-  const loggerService = answers["loggerService"];
-  const loggerServiceName = answers["loggerServiceName"];
+  // let screenName = "<%= projectName %>";
+  let blobServiceName = answers["blobServiceName"];
+  let loggerService = answers["loggerService"];
+  let loggerServiceName = answers["loggerServiceName"];
 
-  const isStore = Boolean(answers["store"]);
-  const isDark = Boolean(answers["theme"]);
-  const isCrud = Boolean(answers["CRUD"]);
-  const isDocker = Boolean(answers["dockerService"]);
-  const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
-  const cacheService = Boolean(answers["cacheService"]);
-  const isRedis = cacheService;
+  let isStore = Boolean(answers["store"]);
+  let isDark = Boolean(answers["theme"]);
+  let isCrud = Boolean(answers["CRUD"]);
+  let isDocker = Boolean(answers["dockerService"]);
+  let isCrudWithNode = Boolean(answers["reactNodeCrud"]);
+  let cacheService = Boolean(answers["cacheService"]);
+  let isRedis = cacheService;
 
-  const isAuth0 = authenticationChoice === "Auth0";
-  const isCognito = authenticationChoice === "Cognito";
-  const mongoSelected = dbName === "mongoose";
-  const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
-  const isWinston = loggerServiceName === "winston";
-  const isSentry = loggerServiceName === "sentry";
+  let isAuth0 = authenticationChoice === "Auth0";
+  let isCognito = authenticationChoice === "Cognito";
+  let mongoSelected = dbName === "mongoose";
+  let sequelizeSelected = dbName === "postgres" || dbName === "mysql";
+  let isWinston = loggerServiceName === "winston";
+  let isSentry = loggerServiceName === "sentry";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
     }
   });
+  
+  /* <---------------------------  Get Project Details  ----------------------------> */
+  const { frontEnd: frontEndAttributes, backEnd: backEndAttributes } = getProjectDetails(
+    `${CURR_DIR}/${projectName}`,
+    answers
+  );
+
   // //<------------------------------for logger-------------------------------->
   if (answers["loggerName"] === "winston") isWinston = true;
   if (answers["loggerName"] === "sentry") isSentry = true;
@@ -92,141 +94,135 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   }
 
   //-----------------------------------------for react + node---------------------------
-  if (projectChoice == "react_Node") {
-    frontEndName = answers["FrontEnd-name"];
-    nodeName = answers["node-name"];
-    let reactTemplatePath = path.join(__dirname, "templates", "react");
-    const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
-    var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
-    var reactPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
+  // if (projectChoice == "react_Node") {
+  //   frontEndName = answers["FrontEnd-name"];
+  //   let reactTemplatePath = path.join(__dirname, "templates", "react");
+  //   const nodeTemplatePath = path.join(__dirname, "templates", "node-js");
+  //   var nodePath = `${CURR_DIR}/${projectName}/${nodeName}`;
+  //   var reactPath = `${CURR_DIR}/${projectName}/${frontEndName}`;
 
-    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${frontEndName}`);
-    createDirectoryContents(
-      reactTemplatePath,
-      `${projectName}/${frontEndName}`,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isCognito,
-      reactPath,
-      isRedux,
-      screenName,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      nodeName,
-      projectChoice,
-      isVuex,
-      isRedis,
-      isNgrx
-    );
-    fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
-    createDirectoryContents(
-      nodeTemplatePath,
-      `${projectName}/${nodeName}`,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isCognito,
-      reactPath,
-      isRedux,
-      screenName,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      nodeName,
-      projectChoice,
-      isVuex,
-      isRedis,
-      isNgrx
-    );
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating React project: ${frontEndName} using ${
-          projectMetaData.name
-        } ${projectMetaData.version}`
-      )
-    );
-    if (answers.authService === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(
-            0x231b
-          )} Integrating Authentication service: ${
-            answers["authentication-choice"]
-          }`
-        )
-      );
-    if (isRedux)
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-        )
-      );
-    console.log(" ");
-    console.log(
-      chalk.green.bold(
-        `${String.fromCodePoint(
-          0x1f4c2
-        )} Creating Node project: ${nodeName} using ${projectMetaData.name} ${
-          projectMetaData.version
-        }`
-      )
-    );
-    if (answers["dbService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-            answers["dbName"]
-          }`
-        )
-      );
-    if (answers["loggerService"] === "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
-          }`
-        )
-      );
-    if (emailService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-            answers["emailServiceName"]
-          }`
-        )
-      );
-    if (blobService == "yes")
-      console.log(
-        chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-            answers["blobServiceName"]
-          }`
-        )
-      );
-    console.log(
-      chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
-    );
+  //   fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${frontEndName}`);
+  //   createDirectoryContents(
+  //     reactTemplatePath,
+  //     `${projectName}/${frontEndName}`,
+  //     defaultRoute,
+  //     mongoSelected,
+  //     sequelizeSelected,
+  //     dbName,
+  //     isSentry,
+  //     isWinston,
+  //     isAuth0,
+  //     isCognito,
+  //     reactPath,
+  //     screenName,
+  //     isCrudWithNode,
+  //     isCrud,
+  //     frontEndName,
+  //     nodeName,
+  //     projectChoice,
+  //     isRedis,
+  //   );
+  //   fsExtra.ensureDirSync(`${CURR_DIR}/${projectName}/${nodeName}`);
+  //   createDirectoryContents(
+  //     nodeTemplatePath,
+  //     `${projectName}/${nodeName}`,
+  //     defaultRoute,
+  //     mongoSelected,
+  //     sequelizeSelected,
+  //     dbName,
+  //     isSentry,
+  //     isWinston,
+  //     isAuth0,
+  //     isCognito,
+  //     reactPath,
+  //     screenName,
+  //     isCrudWithNode,
+  //     isCrud,
+  //     frontEndName,
+  //     nodeName,
+  //     projectChoice,
+  //     isRedis,
+  //   );
+  //   console.log(
+  //     chalk.green.bold(
+  //       `${String.fromCodePoint(
+  //         0x1f4c2
+  //       )} Creating React project: ${frontEndName} using ${
+  //         projectMetaData.name
+  //       } ${projectMetaData.version}`
+  //     )
+  //   );
+  //   if (answers.authService === "yes")
+  //     console.log(
+  //       chalk.green.bold(
+  //         `   ${String.fromCodePoint(
+  //           0x231b
+  //         )} Integrating Authentication service: ${
+  //           answers["authentication-choice"]
+  //         }`
+  //       )
+  //     );
+  //   if (isRedux)  // Use isStore instead
+  //     console.log(
+  //       chalk.green.bold(
+  //         `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
+  //       )
+  //     );
+  //   console.log(" ");
+  //   console.log(
+  //     chalk.green.bold(
+  //       `${String.fromCodePoint(
+  //         0x1f4c2
+  //       )} Creating Node project: ${nodeName} using ${projectMetaData.name} ${
+  //         projectMetaData.version
+  //       }`
+  //     )
+  //   );
+  //   if (answers["dbService"] === "yes")
+  //     console.log(
+  //       chalk.green.bold(
+  //         `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
+  //           answers["dbName"]
+  //         }`
+  //       )
+  //     );
+  //   if (answers["loggerService"] === "yes")
+  //     console.log(
+  //       chalk.green.bold(
+  //         `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
+  //           answers["loggerName"]
+  //         }`
+  //       )
+  //     );
+  //   if (emailService == "yes")
+  //     console.log(
+  //       chalk.green.bold(
+  //         `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
+  //           answers["emailServiceName"]
+  //         }`
+  //       )
+  //     );
+  //   if (blobService == "yes")
+  //     console.log(
+  //       chalk.green.bold(
+  //         `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
+  //           answers["blobServiceName"]
+  //         }`
+  //       )
+  //     );
+  //   console.log(
+  //     chalk.green.bold(`${String.fromCodePoint(0x1f4a1)} Powered by Innostax`)
+  //   );
 
-    const { frontEnd, backEnd } = getProjectDetails(
-      `${CURR_DIR}/${projectName}`,
-      answers
-    );
+  //   const { frontEnd, backEnd } = getProjectDetails(
+  //     `${CURR_DIR}/${projectName}`,
+  //     answers
+  //   );
+  // }
 
     //<---------------------------- For react, angular, vue ---------------------------------->
     if (frontEnd) {
-      const { choice, path: frontEndPath } = frontEnd;
+      const { choice, path: frontEndPath } = frontEndAttributes;
       const templatePath = path.join(__dirname, "templates", choice);
       const projectPath = backEnd
         ? `${projectName}/${frontEndName}`
@@ -248,11 +244,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         isCrudWithNode,
         isCrud,
         frontEndName,
-        nodeName,
-        projectChoice,
-        isVuex,
         isRedis,
-        isNgrx,
         backEndName,
         choice,
         isDark
@@ -272,7 +264,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       if (isDark) {
         fs.copyFile(
           `${currentPath}/themeTemplates/themes.js`,
-          `${frontEnd.path}/src/themes.js`,
+          `${frontEndAttributes.path}/src/themes.js`,
           (err) => {
             if (err) {
               console.log("Error Found:", err);
@@ -284,7 +276,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------- node-js ---------------------------------->
     if (backEnd) {
-      const { choice, path: backEndPath } = backEnd;
+      const { choice, path: backEndPath } = backEndAttributes;
       const templatePath = path.join(__dirname, "templates", choice);
       const projectPath = frontEnd
         ? `${projectName}/${backEndName}`
@@ -306,11 +298,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         isCrudWithNode,
         isCrud,
         frontEndName,
-        nodeName,
-        projectChoice,
-        isVuex,
         isRedis,
-        isNgrx,
         backEndName,
         choice,
         isDark
@@ -329,15 +317,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       ];
       fileNames.map((each) =>
         fs.rename(
-          `${backEnd.path}/${each.folder}/${each.oldName}`,
-          `${backEnd.path}/${each.folder}/${each.newName}`,
+          `${backEndAttributes.path}/${each.folder}/${each.oldName}`,
+          `${backEndAttributes.path}/${each.folder}/${each.newName}`,
           () => {}
         )
       );
 
       //creating utils dir
       if (emailService || blobService || loggerService) {
-        fs.mkdirSync(backEnd.path + "/utils");
+        fs.mkdirSync(backEndAttributes.path + "/utils");
       }
 
       //<---------------------------- For Email service ---------------------------------->
@@ -351,7 +339,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         createEmailSevice(
           emailServiceName,
           emailTemplatePath,
-          backEnd.path,
+          backEndAttributes.path,
           __dirname
         );
       }
@@ -363,7 +351,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           "blobTemplates",
           blobServiceName
         );
-        createBlobService(blobServiceName, blobTemplatePath, backEnd.path);
+        createBlobService(blobServiceName, blobTemplatePath, backEndAttributes.path);
       }
 
       //<---------------------for Redis service---------------------------------------------------------->
@@ -389,7 +377,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         const loggerTemplatePath = path.join(__dirname, "logger");
 
         createLogger(
-          backEnd.path,
+          backEndAttributes.path,
           loggerServiceName,
           loggerTemplatePath,
           defaultRoute
@@ -398,7 +386,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
       //<---------------------------- For Database service ---------------------------------->
       if (dbService) {
-        createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
+        createDbConn(backEndAttributes.path, dbName, defaultRoute, `${currentPath}`);
       }
 
       //<---------------------------- For ENV file ---------------------------------->
@@ -415,7 +403,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           isAuth0,
         });
         if (frontEnd?.choice && backEnd?.choice) {
-          writePath = `${backEnd.path}/.env`;
+          writePath = `${backEndAttributes.path}/.env`;
         } else {
           writePath = `${CURR_DIR}/${projectName}/.env`;
         }
@@ -442,21 +430,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
         fs.copyFileSync(
           `${currentPath}/dockerTemplate/Dockerfile`,
-          `${frontEnd.path}/Dockerfile`
+          `${frontEndAttributes.path}/Dockerfile`
         );
         fs.copyFileSync(
           `${currentPath}/dockerTemplate/Dockerfile`,
-          `${backEnd.path}/Dockerfile`
+          `${backEndAttributes.path}/Dockerfile`
         );
       } else if (frontEnd?.choice === "react") {
         fs.copyFileSync(
           `${dockerPath}/Dockerfile`,
-          `${frontEnd.path}/Dockerfile`
+          `${frontEndAttributes.path}/Dockerfile`
         );
       } else if (backEnd?.choice === "node-js") {
         fs.copyFileSync(
           `${dockerPath}/Dockerfile`,
-          `${backEnd.path}/Dockerfile`
+          `${backEndAttributes.path}/Dockerfile`
         );
       }
     }
@@ -494,7 +482,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         reduxFiles.map((each) => {
           fs.copyFile(
             `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-            `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+            `${frontEndAttributes.path}/${each.destFolder}/${each.destFileName}`,
             (err) => {
               if (err) {
                 console.log("Error Found:", err);
@@ -509,12 +497,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         contents = render(contents, {
           defaultRoute,
         });
-        const writePath = `${frontEnd.path}/src/screens/Users/users.actions.js`;
+        const writePath = `${frontEndAttributes.path}/src/screens/Users/users.actions.js`;
         fs.writeFileSync(writePath, contents, "utf8");
         if (isCrud) {
           fs.copyFile(
             `${currentPath}/reduxTemplates/userform/Adduser.js`,
-            `${frontEnd.path}/src/screens/Users/AddUser.js`,
+            `${frontEndAttributes.path}/src/screens/Users/AddUser.js`,
             (err) => {
               if (err) {
                 console.log("Error Found:", err);
@@ -525,7 +513,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         if (isCrudWithNode) {
           fs.copyFile(
             `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-            `${frontEnd.path}/src/screens/Users/AddUser.js`,
+            `${frontEndAttributes.path}/src/screens/Users/AddUser.js`,
             (err) => {
               if (err) {
                 console.log("Error Found:", err);
@@ -535,7 +523,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
         fsExtra.copy(
           `${currentPath}/reduxTemplates/infrastructure`,
-          `${frontEnd.path}/src/infrastructure`,
+          `${frontEndAttributes.path}/src/infrastructure`,
           function (err) {
             if (err) {
               console.log("An error is occured");
@@ -548,7 +536,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       if (frontEnd?.choice === "vue") {
         fsExtra.copy(
           `${currentPath}/vuexTemplates/store`,
-          `${frontEnd.path}/src/store`,
+          `${frontEndAttributes.path}/src/store`,
           function (err) {
             if (err) {
               console.log("An error is occured");
@@ -558,7 +546,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         );
         fsExtra.copy(
           `${currentPath}/vuexTemplates/userModal`,
-          `${frontEnd.path}/src/userModal`,
+          `${frontEndAttributes.path}/src/userModal`,
           function (err) {
             if (err) {
               console.log("An error is occured");
@@ -571,7 +559,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       if (frontEnd?.choice === "angular") {
         fsExtra.copy(
           `${currentPath}/ngrxTemplates/reducers`,
-          `${frontEnd.path}/src/app/reducers`,
+          `${frontEndAttributes.path}/src/app/reducers`,
           function (err) {
             if (err) {
               console.log("An error is occured");
@@ -581,7 +569,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         );
         fsExtra.copy(
           `${currentPath}/ngrxTemplates/modules`,
-          `${frontEnd.path}/src/app/modules`,
+          `${frontEndAttributes.path}/src/app/modules`,
           function (err) {
             if (err) {
               console.log("An error is occured");
@@ -606,12 +594,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         name: "@auth0/auth0-spa-js",
         version: "^1.10.0",
       };
-      updatePackage(frontEnd.path, projectMetaData);
+      updatePackage(frontEndAttributes.path, projectMetaData);
 
       filesMap.map((each) => {
         fs.copyFile(
           `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          `${frontEnd.path}/${each.destFileName}`,
+          `${frontEndAttributes.path}/${each.destFileName}`,
           (err) => {
             if (err) {
               console.log("Error Found:", err);
@@ -623,7 +611,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       const reactSpaPath = path.join(__dirname, "authTemplates");
       let newContent = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
       newContent = render(newContent, { isStore });
-      const writePath = `${frontEnd.path}/src/react-spa.js`;
+      const writePath = `${frontEndAttributes.path}/src/react-spa.js`;
       fs.writeFileSync(writePath, newContent, "utf8");
     } else if (answers["authenticationChoice"] === "Cognito") {
       // const choice = "cognito";  // Need to figure out
@@ -639,12 +627,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         name: "@auth0/auth0-spa-js",
         version: "^1.10.0",
       };
-      updatePackage(frontEnd.path, projectMetaData);
+      updatePackage(frontEndAttributes.path, projectMetaData);
 
       filesMap.map(() => {
         fs.copyFile(
           `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+          `${frontEndAttributes.path}/${each.destFolder}/${each.destFileName}`,
           (err) => {
             if (err) {
               console.log("Error Found:", err);
@@ -654,10 +642,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
     }
 
-    projectInfo(frontEnd, backEnd, answers);
-    projectSetUp(frontEnd, backEnd, answers);
-    projectExecutionCommands(frontEnd, backEnd, answers);
-  }
+    projectInfo(frontEndAttributes, backEndAttributes, answers);
+    projectSetUp(frontEndAttributes, backEndAttributes, answers);
+    projectExecutionCommands(frontEndAttributes, backEndAttributes, answers);
 });
 //function to create Cache services------------------------------------------------->
 function createCacheService(cacheServiceName, cacheTemplatePath, nodePath) {
