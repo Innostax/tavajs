@@ -22,7 +22,7 @@ const NavBar = ({ brand, links, mode, setMode }) => {
 					<Typography variant='h4' sx={{ flexGrow: '1', cursor: 'pointer' }}>
 						{brand}
 					</Typography>
-					<div sx={{ marginLeft: 2, display: 'flex' }}>
+					<div>
 						{links.map((each) => (
 							<Link
 								to={each.href}

@@ -32,6 +32,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const blobServiceName = answers["blobServiceName"];
   const loggerService = answers["loggerService"];
   const loggerServiceName = answers["loggerServiceName"];
+  const isMaterialUI = answers["materialuiChoice"];
 
   const isStore = Boolean(answers["store"]);
   const isDark = Boolean(answers["theme"]);
@@ -83,7 +84,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark
+      isDark,
+      isMaterialUI
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -126,7 +128,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark
+      isDark,
+      isMaterialUI
     );
     const fileNames = [
       {
@@ -302,27 +305,29 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       writePath = `${frontEnd.path}/src/screens/Users/users.actions.js`;
       fs.writeFileSync(writePath, contents, "utf8");
+
+
       if (isCrud) {
-        fs.copyFile(
-          `${currentPath}/reduxTemplates/userform/Adduser.js`,
-          `${frontEnd.path}/src/screens/Users/AddUser.js`,
-          (err) => {
-            if (err) {
-              console.log("Error Found:", err);
-            }
-          }
-        );
+       
+        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
+        newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode });
+        writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
+        fs.writeFileSync(writePath, newContent, "utf8");
+        
+        let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
+        newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
+
       }
       if (isCrudWithNode) {
-        fs.copyFile(
-          `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-          `${frontEnd.path}/src/screens/Users/AddUser.js`,
-          (err) => {
-            if (err) {
-              console.log("Error Found:", err);
-            }
-          }
-        );
+       
+        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
+        newContent = render(newContent, { isMaterialUI });
+        writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
+        fs.writeFileSync(writePath, newContent, "utf8");
+
+        let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
+        newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
+
       }
       fsExtra.copy(
         `${currentPath}/reduxTemplates/infrastructure`,
@@ -335,6 +340,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     }
+
+    //<---------------------------------MaterialUI Dark Theme----------------------->
+
+    if (isDark) {
+     
+      let newContent = fs.readFileSync(`${currentPath}/templates/react/src/App.js`, "utf8");
+      newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode,isAuth0,isDark });
+      writePath = `${frontEnd.path}/src/App.js`;
+      fs.writeFileSync(writePath, newContent, "utf8");
+
+    }
+
     //<--------------------------------- Vuex ---------------------------->
     if (frontEnd?.choice === "vue") {
       fsExtra.copy(

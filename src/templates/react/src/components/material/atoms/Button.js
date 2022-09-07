@@ -9,4 +9,3 @@ const Button = ({ variant, name, color, onClick, size }) => {
 }
 
 export default Button
-

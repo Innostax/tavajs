@@ -40,6 +40,20 @@ module.exports = [
       return answers.frontEnd;
     },
   },
+   /* CSS Framework question added here */
+  {
+    name: "materialuiChoice",
+    type: "list",
+    message: "Which CSS Framework do you want?",
+    choices: [
+      {name: "MaterialUI", value: true},
+      {name: "Bootstrap", value: false }
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice == "react";
+    },
+  },
+  /*CSS Framework question ended here */
   {
     name: "frontEndName",
     type: "input",

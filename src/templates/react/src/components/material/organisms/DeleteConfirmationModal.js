@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import { useDispatch } from 'react-redux'
 import { actions } from '../../screens/Users/users.reducer'
 
-const DeleteConfirmation = ({ id }) => {
+const DeleteConfirmationModal = ({ id }) => {
 	const dispatch = useDispatch()
 	const { deleteUser } = actions
 
@@ -45,4 +45,4 @@ const DeleteConfirmation = ({ id }) => {
 	)
 }
 
-export default DeleteConfirmation
+export default DeleteConfirmationModal

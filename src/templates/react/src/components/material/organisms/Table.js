@@ -7,7 +7,7 @@ import {
 	TableRow,
 	Paper,
 } from '@mui/material'
-import Delete from './DeleteConfirmation'
+import Delete from './DeleteConfirmationModal'
 
 const Table = ({ keyField, data, columns }) => {
 	return (

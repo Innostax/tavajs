@@ -73,7 +73,3 @@ body {
 	font-weight: bold;
 }
 
-.btn {
-	background: var(--secondaryBackgroundColor);
-	color: var(--headingTextColor);
-}
