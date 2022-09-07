@@ -1,6 +1,6 @@
 <template>
   <div id="addModal">
-    <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="$bvModal.show('bv-modal-addUser')"/>
+    <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="showAddUserModal"/>
 
     <b-modal id="bv-modal-addUser" hide-footer>
       <template #modal-title> ADD USER: </template>
@@ -46,6 +46,9 @@ import { mapActions } from "vuex";
 import Label from "../components/atoms/Label";
 import Button from "../components/atoms/Button";
 import Input from "../components/atoms/Input";
+
+const emptyString = "";
+
 export default {
   name: "AddUser",
   components: {
@@ -69,9 +72,13 @@ export default {
         email: this.email,
       };
       this.addUser(data);
-      this.name = "";
-      this.username = "";
-      this.email = "";
+      this.$bvModal.hide('bv-modal-addUser')
+    },
+    showAddUserModal () {
+      this.$bvModal.show('bv-modal-addUser')
+      this.name = emptyString;
+      this.username = emptyString;
+      this.email = emptyString;
     },
   },
 };

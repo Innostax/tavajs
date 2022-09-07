@@ -11,10 +11,10 @@ const getters = {
     return state.selectedUser;
   },
 };
-
+let userId = 0
 const actions = {
   addUser({ commit }, newData) {
-    const id = state.users.length;
+    const id = userId++
     const data = { ...newData, id };
     commit("addUser", data);
   },
@@ -30,15 +30,14 @@ const actions = {
 };
 
 const mutations = {
-  addUser: (state, data) => state.users.unshift(data),
+  addUser: (state, data) => state.users.push(data),
   removeUser: (state, id) =>
     (state.users = state.users.filter((user) => user.id !== id)),
   selectedUser: (state, id) => {
     state.selectedUser = state.users.find((user) => user.id == id);
   },
   editUser: (state, data) => {
-    const newUsers = state.users.filter((user) => user.id !== data.id);
-    state.users = [...newUsers, data];
+    state.users = state.users.map(user => user.id === data.id ? { ...data } : user);
   },
 };
 
