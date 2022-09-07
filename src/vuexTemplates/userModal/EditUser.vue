@@ -42,7 +42,6 @@
         <template #footer>
             <Button id="show-btn" name="Edit User" color="primary" @submit="submitButonHandler"/>
         </template>
-      
     </Modal>
   </div>
 </template>
