@@ -2,7 +2,7 @@
   <div id="addModal">
     <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="showAddUserModal"/>
 
-    <Modal id="bv-modal-addUser" title="ADD USER:"> 
+    <Modal id="bv-modal-addUser" title="Add User"> 
       <template #body>
         <div class="d-block text-center">
           <b-row>
