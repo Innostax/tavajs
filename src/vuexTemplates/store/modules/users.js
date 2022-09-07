@@ -37,7 +37,7 @@ const mutations = {
     state.selectedUser = state.users.find((user) => user.id == id);
   },
   editUser: (state, data) => {
-    state.users = state.users.map(user => user.id === data.id ? { ...data } : user);
+    state.users = state.users.map(user => user.id === data.id ? data : user);
   },
 };
 
