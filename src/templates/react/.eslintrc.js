@@ -34,6 +34,7 @@ module.exports = {
 				jsxSingleQuote: true,
 				singleQuote: true,
 				useTabs: true,
+				endOfLine: 'auto',
 			},
 		],
 		'react/react-in-jsx-scope': 'off',
