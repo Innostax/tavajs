@@ -6,40 +6,42 @@
       <template #body>
         <form ref="form">
           <b-form-group class="p-1">
-          <Label class="p-1" input-id="name-input" name="Name"></Label>
-          <b-form-input
-            id="name-input"
-            type="text"
-            placeholder="Name"
-            v-model="name"
-            autofocus
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group class="p-1">
-          <Label class="p-1" input-id="username-input" name="Username"></Label>
-          <b-form-input
-            id="username-input"
-            type="text"
-            placeholder="Username"
-            v-model="username"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group class="p-1">
-          <Label class="p-1" input-id="email-input" name="Email"></Label>
-          <b-form-input
-            id="email-input"
-            type="email"
-            placeholder="example@email.com"
-            v-model="email"
-          ></b-form-input>
-        </b-form-group>
-      </form>
+            <Label class="p-1" input-id="name-input" name="Name"></Label>
+            <b-form-input
+              id="name-input"
+              type="text"
+              placeholder="Name"
+              v-model="name"
+              autofocus
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group class="p-1">
+            <Label
+              class="p-1"
+              input-id="username-input"
+              name="Username"
+            ></Label>
+            <b-form-input
+              id="username-input"
+              type="text"
+              placeholder="Username"
+              v-model="username"
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group class="p-1">
+            <Label class="p-1" input-id="email-input" name="Email"></Label>
+            <b-form-input
+              id="email-input"
+              type="email"
+              placeholder="example@email.com"
+              v-model="email"
+            ></b-form-input>
+          </b-form-group>
+        </form>
       </template>
       <template #footer>
-          <Button id="show-btn" name="Add User" color="primary" @submit="onSubmit"/>
-          <Button id="close-btn" name="Cancel" color="outline-secondary" @onClick="$bvModal.hide('bv-modal-addUser')"/>
+        <Button id="show-btn" name="Add User" color="primary" @submit="onSubmit"/>
+        <Button id="close-btn" name="Cancel" color="outline-secondary" @onClick="$bvModal.hide('bv-modal-addUser')"/>
       </template>
     </Modal>
   </div>
