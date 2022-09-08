@@ -66,6 +66,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       : projectName;
 
     fsExtra.ensureDirSync(frontEndPath);
+    
     createDirectoryContents(
       templatePath,
       projectPath,
