@@ -9,7 +9,7 @@
             <Label name="Name:" />
           </b-col>
           <b-col>
-            <Input type="text" v-model="selectedUser.name" placeholder="Name" />
+            <Input type="text" v-model="user.name" placeholder="Name" />
           </b-col>
         </b-row>
         <br />
@@ -20,7 +20,7 @@
           <b-col>
             <Input
               type="text"
-              v-model="selectedUser.username"
+              v-model="user.username"
               placeholder="Username"
             />
           </b-col>
@@ -33,14 +33,14 @@
           <b-col>
             <Input
               type="text"
-              v-model="selectedUser.email"
+              v-model="user.email"
               placeholder="example@email.com"
             />
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <Button id="show-btn" className="mt-3" name="Edit User" color="primary" @submit="onSubmitOne" @onClick="$bvModal.hide('bv-modal-editUser')" />
+            <Button id="show-btn" className="mt-3" name="Edit User" color="primary" @submit="submitButonHandler" />
           </b-col>
         </b-row>
       </div>
@@ -69,18 +69,22 @@ export default {
   },
   methods: {
     ...mapActions(["selectedItem", "editItem"]),
-    onSubmitOne() {
+    submitButonHandler() {
       const data = {
         id: this.selectedUser.id,
-        name: this.selectedUser.name,
-        username: this.selectedUser.username,
-        email: this.selectedUser.email,
+        name: this.user.name,
+        username: this.user.username,
+        email: this.user.email,
       };
       this.editItem(data);
+      this.$bvModal.hide('bv-modal-editUser')
     },
   },
   computed: {
     ...mapGetters(["selectedUser"]),
+    user () {
+      return { ...this.selectedUser }
+    }
   },
 };
 </script>
