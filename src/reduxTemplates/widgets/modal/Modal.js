@@ -49,9 +49,7 @@ export default function ViceModal({
 			<Dialog open={open} onClose={handleClose} maxWidth={size}>
 				<DialogTitle>{title}</DialogTitle>
 				<DialogContent>
-
 					{children}
-
 				</DialogContent>
 				<DialogContent>
 					{footer}

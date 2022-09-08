@@ -4,16 +4,12 @@ import React, { useState } from "react";
 <% if(isMaterialUI) {%>import Label from "../../components/atoms/Label";<%}%>
 <% if(isMaterialUI) {%>import Button from "../../components/atoms/Button";<%}%>
 <% if(isMaterialUI) {%>import Input from "../../components/atoms/Input";<%}%>
-
 <% if(!isMaterialUI) {%>import { Form, Button } from "react-bootstrap";<%}%>
-
 
 import Modal from "../../components/organisms/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSelectedUser } from "./users.selectors";
-
 import { actions } from "../Users/users.reducer";
-
 import { isEmpty } from "../../helper/isEmpty.js";
 
 const { setSelectedUserModal, setSelectedUser, editUser, addNewUser } = actions;
@@ -42,7 +38,6 @@ const AddUser = ({ show, handleClose, reset }) => {
   );
 
   const handleSubmit = () => {
-    
     if (isEmpty(user)) 
     {
       dispatch(addNewUser(formData));
@@ -54,6 +49,7 @@ const AddUser = ({ show, handleClose, reset }) => {
       handleClose();
     }
   };
+
   return (
     <Modal
     show={true}
@@ -84,7 +80,6 @@ const AddUser = ({ show, handleClose, reset }) => {
           value={formData.name}
         />
       </Form.Group>
-
       <Form.Group className='mb-1' controlId='usernameInput'>
         <Form.Label>Username</Form.Label>
         <Form.Control
@@ -109,7 +104,6 @@ const AddUser = ({ show, handleClose, reset }) => {
       </Form.Group>
     </Form>
     <%}%>
-
       <% if(isMaterialUI) {%>
         <Grid>
         <Grid
@@ -131,7 +125,6 @@ const AddUser = ({ show, handleClose, reset }) => {
             value={formData.name}
           />
         </Grid>
-
         <Grid
           mb={2}
           container
@@ -151,7 +144,6 @@ const AddUser = ({ show, handleClose, reset }) => {
             value={formData.username}
           />
         </Grid>
-
         <Grid
           mb={2}
           container
@@ -171,7 +163,6 @@ const AddUser = ({ show, handleClose, reset }) => {
             value={formData.email}
           />
         </Grid>
-
         <Grid
           container
           direction='row'

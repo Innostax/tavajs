@@ -43,7 +43,6 @@ const ShowDetails = () => {
         <Col>{user.company.name}</Col>
       </Row>
       <%}%>
-
       <% if(isMaterialUI) {%> 
         <>
         <Grid container>

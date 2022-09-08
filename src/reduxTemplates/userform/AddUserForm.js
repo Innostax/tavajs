@@ -84,7 +84,6 @@ const AddUser = ({ show, handleClose, reset }) => {
           value={formData.name}
         />
       </Form.Group>
-
       <Form.Group className='mb-1' controlId='usernameInput'>
         <Form.Label>Username</Form.Label>
         <Form.Control
@@ -109,7 +108,6 @@ const AddUser = ({ show, handleClose, reset }) => {
       </Form.Group>
     </Form>
     <%}%>
-
       <% if(isMaterialUI) {%>
         <Grid>
         <Grid
@@ -131,7 +129,6 @@ const AddUser = ({ show, handleClose, reset }) => {
             value={formData.name}
           />
         </Grid>
-
         <Grid
           mb={2}
           container
@@ -151,7 +148,6 @@ const AddUser = ({ show, handleClose, reset }) => {
             value={formData.username}
           />
         </Grid>
-
         <Grid
           mb={2}
           container
@@ -171,7 +167,6 @@ const AddUser = ({ show, handleClose, reset }) => {
             value={formData.email}
           />
         </Grid>
-
         <Grid
           container
           direction='row'

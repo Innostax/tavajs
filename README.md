@@ -17,7 +17,6 @@
 </div>
 
 <div id="top"></div>
-
 <h1 align="center">TAVA.js</h1>
 
 ## About The Project

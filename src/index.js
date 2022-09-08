@@ -306,9 +306,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       writePath = `${frontEnd.path}/src/screens/Users/users.actions.js`;
       fs.writeFileSync(writePath, contents, "utf8");
 
-
       if (isCrud) {
-       
         let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
         newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode });
         writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
@@ -316,10 +314,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         
         let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
         newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
-
       }
       if (isCrudWithNode) {
-       
         let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/AdduserForm.js`, "utf8");
         newContent = render(newContent, { isMaterialUI });
         writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
@@ -327,7 +323,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
         let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
         newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
-
       }
       fsExtra.copy(
         `${currentPath}/reduxTemplates/infrastructure`,
@@ -344,12 +339,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------------MaterialUI Dark Theme----------------------->
 
     if (isDark) {
-     
       let newContent = fs.readFileSync(`${currentPath}/templates/react/src/App.js`, "utf8");
       newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode,isAuth0,isDark });
       writePath = `${frontEnd.path}/src/App.js`;
       fs.writeFileSync(writePath, newContent, "utf8");
-
     }
 
     //<--------------------------------- Vuex ---------------------------->
