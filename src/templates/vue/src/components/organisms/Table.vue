@@ -20,7 +20,9 @@ export default {
   methods: {
     ...mapActions(["deleteUser", "selectedItem"]),
     removeButtonHandler: function (id) {
-      this.deleteUser(id);
+      this.selectedItem(id);
+      this.modalShow = false;
+      this.$bvModal.show('bv-modal-deleteUser');
     },
     editButtonHandler: function (id) {
       this.selectedItem(id);
