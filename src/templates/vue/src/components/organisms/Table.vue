@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table :fields="fields" :items="items" striped>
+    <b-table :fields="fields" :items="items" striped hover fixed :tbody-tr-class="rowClass">
       <template v-for="user in allUsers" #cell(edit)="data">
         <b-button variant="primary" :key="user.id" @click="editButtonHandler(data.item.id)"> Edit </b-button>
       </template>
@@ -27,7 +27,9 @@ export default {
       this.modalShow = false;
       this.$bvModal.show('bv-modal-editUser')
     },
-    
+    rowClass() {
+      return 'align-middle'
+    }
   },
   computed: {
     ...mapGetters(["allUsers", "selectedUser"]),
