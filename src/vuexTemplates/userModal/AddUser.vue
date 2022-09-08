@@ -2,7 +2,7 @@
   <div id="addModal">
     <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="showAddUserModal"/>
 
-    <Modal id="bv-modal-addUser" title="Add User" title-class="text-danger"> 
+    <Modal id="bv-modal-addUser" title="Add User"> 
       <template #body>
         <form ref="form">
           <b-form-group class="p-1">
