@@ -11,7 +11,6 @@
 ![Tavajs Version](https://img.shields.io/npm/v/dev-tava)
 ![Tavajs Release](https://img.shields.io/badge/release-2021-orange)
 ![Tavajs Downloads](https://img.shields.io/npm/dw/dev-tava)
-![Tavajs Stars](https://img.shields.io/badge/stars-4.5k-blue)
 ![Tavajs Language](https://img.shields.io/badge/javascript-70%25-green)
 ![Tavajs CI](https://img.shields.io/badge/CI-passing-green)
 
