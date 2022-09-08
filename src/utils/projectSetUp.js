@@ -1,12 +1,14 @@
 const shell = require("shelljs");
 
-function projectSetUp(managerChoice, projectChoice, projectPath) {
-  if (projectChoice === "react_Node") {
-    const [frontEnd, backEnd] = projectPath;
-    projectSetUp(managerChoice, frontEnd.projectChoice, frontEnd.projectPath);
-    projectSetUp(managerChoice, backEnd.projectChoice, backEnd.projectPath);
-  } else {
-    packageInstaller(managerChoice, projectChoice, projectPath);
+function projectSetUp(frontEnd, backEnd, answers) {
+  const managerChoice = answers["managerChoice"];
+  if (frontEnd) {
+    const { choice, path } = frontEnd;
+    packageInstaller(managerChoice, choice, path);
+  }
+  if (backEnd) {
+    const { choice, path } = backEnd;
+    packageInstaller(managerChoice, choice, path);
   }
 }
 

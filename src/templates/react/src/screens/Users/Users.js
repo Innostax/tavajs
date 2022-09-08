@@ -1,10 +1,10 @@
-<% if(isRedux && (isCrudWithNode||isCrud)){%>import React, {useState,useEffect} from "react"<%}%>
+<% if(isStore && (isCrudWithNode||isCrud)){%>import React, {useState,useEffect} from "react"<%}%>
 <% if(isCrudWithNode||isCrud) {%>import { Button } from "react-bootstrap";<%}%>
-<% if(isRedux && (isCrudWithNode||isCrud)){%>import { useSelector, useDispatch } from "react-redux";<%}%>
+<% if(isStore && (isCrudWithNode||isCrud)){%>import { useSelector, useDispatch } from "react-redux";<%}%>
 <% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
-<% if(isRedux && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
+<% if(isStore && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
 <% if(isCrudWithNode||isCrud) {%>import AddUser from './AddUser'<%}%>
-<% if(isRedux && (isCrudWithNode||isCrud)){%> import Table from '../../components/organisms/Table'<%}%>
+<% if(isStore && (isCrudWithNode||isCrud)){%> import Table from '../../components/organisms/Table'<%}%>
 
 
 <% if(isCrud ||isCrudWithNode) {%>import { actions } from './users.reducer'
@@ -12,7 +12,7 @@ const {setSelectedUserModal,setSelectedUser} = actions<%}%>
 <% if(isCrud) {%>const {deleteUser} = actions<%}%>
 
 const Users = () => {
-  <% if(isRedux && (isCrudWithNode||isCrud)){%> const dispatch = useDispatch();
+  <% if(isStore && (isCrudWithNode||isCrud)){%> const dispatch = useDispatch();
 const users = useSelector(selectAllUsers);
     useEffect(() => {
       dispatch(getUsers());
@@ -86,12 +86,12 @@ const cols=[
     <>
     <div>
       <h1>Welcome to Users Screen</h1>
-      <% if(isRedux){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
+      <% if(isStore){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
       <%}%>
         <% if(isCrudWithNode||isCrud) {%>
       <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
       <%}%>
-      <% if(isRedux && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id'columns={cols}/><%}%> 
+      <% if(isStore && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id'columns={cols}/><%}%> 
     </div>
     
     <%if((isCrudWithNode||isCrud)){%>{show && <AddUser show={setShow} handleShow={handleShow} />}<%}%>

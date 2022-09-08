@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import App from "./App.vue";
-<% if(isVuex){ %>
+<% if(isStore){ %>
 import store from "./store/index";
 <% } %>
 import Vuex from "vuex";
@@ -17,7 +17,7 @@ Vue.use(VueRouter);
 Vue.config.productionTip = false;
 
 new Vue({
-  <% if(isVuex){ %>  store,  <% } %>
+  <% if(isStore){ %>  store,  <% } %>
   router: router,
   render: (h) => h(App),
 }).$mount("#app");
