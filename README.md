@@ -85,101 +85,76 @@ E.&nbsp; Enter frontend project name.
 
       ? Front End project name: Front_End
 
-F.&nbsp; Authentication service : &nbsp;You can use authentication to manage which users have access to which pages. Select "Yes to use this service.
-
-     ? Do you want Authentication services? (Use arrow keys)
-     > yes
-       no
-
-G.&nbsp; Choose any authentication service according to your need.
+F.&nbsp; Choose any authentication service according to your need.
 
     ? What Authentication Service you want to use? (Use arrow keys)
     > Auth0
       Cognito
       Okta
+      None
 
-H.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
+G.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
 
     ? Do you want redux integration? (Use arrow keys)
       > yes
         no
 
-I.&nbsp; Select "yes" to implement backend in your project.
+H.&nbsp; Select "yes" to implement backend in your project.
 
     ? Do you want template for Backend? (Use arrow keys)
       > yes
         no
 
-J.&nbsp; Choose any framework as required.
+I.&nbsp; Choose any framework as required.
 
       ? Select the Framework
         Node
 
-K.&nbsp; Enter the backend project name.
+J.&nbsp; Enter the backend project name.
 
       ? Node Project name: Back_End
 
-L.&nbsp; Enter the route (press "Enter" to select default).
+K.&nbsp; Enter the route (press "Enter" to select default).
 
       ? Enter the default route (users)
 
-M.&nbsp; Select "yes" to integrate database service.
-
-      ? Do you need database service? (Use arrow keys)
-      > yes
-        no
-
-N.&nbsp; Choose database service as required.
+L.&nbsp; Choose database service as required.
 
       ? Which db service do you want? (Use arrow keys)
       > Postgres
         MySql
         Mongoose
+        None
 
-O.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
+M.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
 
       ? Do you want crud integration with React-Node boiler plate? (Use arrow keys)
       > yes
         no
 
-P.&nbsp; Select "yes" to integrate logger services.
-
-      ? Do you want logger services? (Use arrow keys)
-      > yes
-        no
-
-Q.&nbsp; Choose logger service as required.
+N.&nbsp; Choose logger service as required.
 
       ? Which logger service do you want? (Use arrow keys)
       > Winston
         sentry
+        None
 
-R.&nbsp; Select "yes" to integrate e-mail service.
-
-      ? Do you want e-mail services? (Use arrow keys)
-      > yes
-        no
-
-S.&nbsp; Choose e-mail service which you want to integrate.
+O.&nbsp; Choose e-mail service which you want to integrate.
 
       ? Which Email service do you want? (Use arrow keys)
       > SendGrid
         Amazon Ses
         SMTP
+        None
 
-T.&nbsp; Select "yes" to integrate blob service.
-
-      ? Do you want blob services? (Use arrow keys)
-      > yes
-        no
-
-U.&nbsp; Choose blob service as require.
+P.&nbsp; Choose blob service as require.
 
       ? Which Blob service do you want? (Use arrow keys)
       > AWS-s3
         Azure
+        None
 
-V.&nbsp; Select "yes" to integrate docker service.
+Q.&nbsp; Select "yes" to integrate docker service.
 
       ? Do you want Docker services (Use arrow keys)
       > yes
