@@ -47,7 +47,7 @@ module.exports = [
     validate: function (input) {
       if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
       else
-        return "React Project name may only include letters, numbers, underscores and hashes.";
+        return "Project name may only include letters, numbers, underscores and hashes.";
     },
     when: (answers) => {
       return answers.frontEnd;
@@ -66,23 +66,16 @@ module.exports = [
     },
   },
   {
-    name: "authService",
-    type: "list",
-    message: "Do you want Authentication services?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return answers.frontEndChoice == "react";
-    },
-  },
-  {
     name: "authenticationChoice",
     type: "list",
     message: "What Authentication Service you want to use?",
-    choices: ["Auth0", "Cognito", "Okta"],
-    when: (answers) => answers.authService,
+    choices: [
+      { name: "Auth0", value: "Auth0" },
+      { name: "Cognito", value: "Cognito" },
+      { name: "Okta", value: "Okta" },
+      { name: "None", value: false },
+    ],
+    when: (answers) => answers.frontEndChoice == "react",
   },
   {
     name: "store",
@@ -161,18 +154,6 @@ module.exports = [
     },
   },
   {
-    name: "dbService",
-    type: "list",
-    message: "Do you need database service?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return answers.backEnd;
-    },
-  },
-  {
     name: "dbName",
     type: "list",
     message: "Which db service do you want?",
@@ -180,9 +161,10 @@ module.exports = [
       { name: "Postgres", value: "postgres" },
       { name: "MySql", value: "mysql" },
       { name: "Mongoose", value: "mongoose" },
+      { name: "None", value: false },
     ],
     when: (answers) => {
-      return answers.dbService;
+      return answers.backEnd;
     },
   },
   {
@@ -208,19 +190,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd && answers.frontEnd && answers.store;
-    },
-  },
-  {
-    name: "loggerService",
-    type: "list",
-    message: "Do you want logger services?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return answers.backEnd;
+      return answers.backEnd && answers.frontEnd && answers.store && answers.dbName;
     },
   },
   {
@@ -230,18 +200,7 @@ module.exports = [
     choices: [
       { name: "Winston", value: "winston" },
       { name: "sentry", value: "sentry" },
-    ],
-    when: (answers) => {
-      return answers.loggerService;
-    },
-  },
-  {
-    name: "emailService",
-    type: "list",
-    message: "Do you want e-mail services?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "None", value: false}
     ],
     when: (answers) => {
       return answers.backEnd;
@@ -255,18 +214,7 @@ module.exports = [
       { name: "SendGrid", value: "sendgrid" },
       { name: "Amazon Ses", value: "amazon_ses" },
       { name: "SMTP", value: "smtp" },
-    ],
-    when: (answers) => {
-      return answers.emailService;
-    },
-  },
-  {
-    name: "blobService",
-    type: "list",
-    message: "Do you want blob services?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "None", value: false },
     ],
     when: (answers) => {
       return answers.backEnd;
@@ -279,9 +227,10 @@ module.exports = [
     choices: [
       { name: "AWS-s3", value: "aws-s3" },
       { name: "Azure", value: "azure" },
+      { name: "None", value: false },
     ],
     when: (answers) => {
-      return answers.blobService;
+      return answers.backEnd;
     },
   },
   {
