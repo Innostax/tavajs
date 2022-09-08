@@ -56,7 +56,7 @@ module.exports = [
   {
     name: "theme",
     type: "list",
-    message: "Do you want Dark Mode?",
+    message: "Do you want ThemeProvider?",
     choices: [
       { name: "yes", value: true },
       { name: "no", value: false },
