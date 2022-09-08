@@ -1,5 +1,5 @@
 
-import React<% if(isAuth0){%>,{ useEffect }<%}%><% if(isDark){%>,{useState}<%}%> from "react";
+import {React<% if(isAuth0){%> ,useEffect <%}%><% if(isDark){%> ,useState<%}%>} from "react";
 import NavBar from "./components/organisms/NavBar";
 <% if(isDark){%>import { ThemeProvider, createTheme } from '@mui/material/styles'<%}%>
 import "./App.css";

@@ -1,7 +1,8 @@
 import { Modal, Button } from 'react-bootstrap'
 
-const DeleteConfirmationModal = ({ open, setOpen, deleteUser }) => {
+const DeleteConfirmationModal = ({open, setOpen, userId}) => {
 	const handleClose = () => setOpen(false)
+
 	return (
 		<div>
 			<Modal show={open} onHide={handleClose}>
@@ -24,9 +25,10 @@ const DeleteConfirmationModal = ({ open, setOpen, deleteUser }) => {
 					<Button
 						variant="danger"
 						onClick={() => {
-							deleteUser()
+							userId()
 							handleClose()
-						}}
+							}
+						} 
 					>
 						Delete
 					</Button>

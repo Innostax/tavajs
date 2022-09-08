@@ -75,7 +75,7 @@ const users = useSelector(selectAllUsers);
         variant="outline-danger"
       size="sm"
       onClick={() => {
-				deleteId = id
+        deleteId = id
         setConfirmDelete(true)
       }}
     >
@@ -150,7 +150,7 @@ const cols=[
       <DeleteConfirmationModal
         open={confirmDelete}
         setOpen={setConfirmDelete}
-        deleteUser={() => handleDelete(deleteId)}
+        userId={() => handleDelete(deleteId)}
       />
     )}
     <%}%>

@@ -6,17 +6,29 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { useDispatch } from 'react-redux'
-import { actions } from '../../screens/Users/users.reducer'
+<% if(isCrud) {%>import { actions } from '../../screens/Users/users.reducer'<%}%>
+<% if(isCrudWithNode) {%>import { deleteUsers } from '../../screens/Users/users.actions'<%}%>
+
 
 const DeleteConfirmationModal = ({ id }) => {
 	const dispatch = useDispatch()
-	const { deleteUser } = actions
 
+	<% if(isCrud) {%>
+	const { deleteUser } = actions
+	<%}%>
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => setOpen(false)
-	const handleDelete = () => dispatch(deleteUser({ id }))
-
+	const handleDelete = () => {
+		<%if(isCrud) {%>
+			dispatch(deleteUser({ id }))
+			handleClose()
+		<%}%>
+		<%if(isCrudWithNode) {%>
+			dispatch(deleteUsers({ id }))
+			handleClose()
+			<%}%>
+		}
 	return (
 		<div>
 			<Button

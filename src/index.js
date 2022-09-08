@@ -320,7 +320,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
       if (isCrudWithNode) {
        
-        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
+        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/AdduserForm.js`, "utf8");
         newContent = render(newContent, { isMaterialUI });
         writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
         fs.writeFileSync(writePath, newContent, "utf8");
