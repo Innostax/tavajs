@@ -61,6 +61,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (frontEnd) {
     const { choice, path: frontEndPath } = frontEnd;
     const templatePath = path.join(__dirname, "templates", choice);
+    
     const projectPath = backEnd
       ? `${projectName}/${frontEndName}`
       : projectName;
