@@ -4,6 +4,7 @@
     <%if(isStore) { %>
     <h3>Welcome to Vue Vuex Crash Course</h3>
     <AddUser />
+    <br/>
     <ShowUsers />
     <EditUser />
     <DeleteUser />
