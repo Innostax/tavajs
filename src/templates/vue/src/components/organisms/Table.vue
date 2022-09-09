@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-table :fields="fields" :items="items" striped>
-      <template v-for="user in allUsers" #cell(edit)="data">
-        <b-button variant="primary" :key="user.id" @click="editButtonHandler(data.item.id)"> Edit </b-button>
+      <template v-for="item in items" #cell(edit)="data">
+        <b-button variant="primary" :key="item.id" @click="editButtonHandler(data.item.id)"> Edit </b-button>
       </template>
-      <template v-for="user in allUsers" #cell(delete)="data">
-        <b-button variant="danger" :key="user.id" @click="removeButtonHandler(data.item.id)"> Delete </b-button>
+      <template v-for="item in items" #cell(delete)="data">
+        <b-button variant="danger" :key="item.id" @click="removeButtonHandler(data.item.id)"> Delete </b-button>
       </template>
     </b-table>
   </div>
@@ -18,9 +18,11 @@ export default {
   },
   props: ["fields","items"],
   methods: {
-    ...mapActions(["deleteUser", "selectedItem"]),
+    ...mapActions(["selectedItem"]),
     removeButtonHandler: function (id) {
-      this.deleteUser(id);
+      this.selectedItem(id);
+      this.modalShow = false;
+      this.$bvModal.show('bv-modal-deleteUser');
     },
     editButtonHandler: function (id) {
       this.selectedItem(id);
@@ -30,7 +32,7 @@ export default {
     
   },
   computed: {
-    ...mapGetters(["allUsers", "selectedUser"]),
+    ...mapGetters(["selectedUser"]),
   },
   created() {
     this.mapActions;

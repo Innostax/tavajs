@@ -6,6 +6,7 @@
     <AddUser />
     <ShowUsers />
     <EditUser />
+    <DeleteUser />
     <% } %>
   </div>
 </template>
@@ -15,12 +16,15 @@
 import AddUser from "../userModal/AddUser";
 import ShowUsers from "../userModal/ShowUsers";
 import EditUser from "../userModal/EditUser";
+import DeleteUser from "../userModal/DeleteUser";
+
 export default {
   name: "Users",
   components: {
     ShowUsers,
     AddUser,
     EditUser,
+    DeleteUser
   },
 };
 <% } %>
