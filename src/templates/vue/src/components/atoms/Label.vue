@@ -1,14 +1,10 @@
 <template>
-  <div>
-    <label
-      ><b>{{ name }}</b></label
-    >
-  </div>
+    <label :for="inputId">{{ name }}</label>
 </template>
 
 <script>
 export default {
   name: "Label",
-  props: ["name"],
+  props: ["name","inputId"],
 };
 </script>

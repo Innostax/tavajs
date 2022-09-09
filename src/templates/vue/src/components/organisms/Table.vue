@@ -1,11 +1,11 @@
 <template>
   <div>
-    <b-table :fields="fields" :items="items" striped>
-      <template v-for="user in allUsers" #cell(edit)="">
-        <b-button variant="primary" :key="user.id" v-on:click="$bvModal.show('bv-modal-editUser')" @click="editOne(user.id)"> Edit </b-button>
+    <b-table :fields="fields" :items="items" striped hover fixed :tbody-tr-class="rowClass">
+      <template v-for="item in items" #cell(edit)="data">
+        <b-button variant="primary" :key="item.id" @click="editButtonHandler(data.item.id)"> Edit </b-button>
       </template>
-      <template v-for="user in allUsers" #cell(delete)="">
-        <b-button variant="danger" :key="user.id" v-on:click="removeOne(user.id)"> Delete </b-button>
+      <template v-for="item in items" #cell(delete)="data">
+        <b-button variant="danger" :key="item.id" @click="removeButtonHandler(data.item.id)"> Delete </b-button>
       </template>
     </b-table>
   </div>
@@ -18,18 +18,23 @@ export default {
   },
   props: ["fields","items"],
   methods: {
-    ...mapActions(["deleteUser", "selectedItem"]),
-    removeOne: function (id) {
-      this.deleteUser(id);
-    },
-    editOne: function (id) {
+    ...mapActions(["selectedItem"]),
+    removeButtonHandler: function (id) {
       this.selectedItem(id);
       this.modalShow = false;
+      this.$bvModal.show('bv-modal-deleteUser');
     },
-    
+    editButtonHandler: function (id) {
+      this.selectedItem(id);
+      this.modalShow = false;
+      this.$bvModal.show('bv-modal-editUser')
+    },
+    rowClass() {
+      return 'align-middle'
+    }
   },
   computed: {
-    ...mapGetters(["allUsers", "selectedUser"]),
+    ...mapGetters(["selectedUser"]),
   },
   created() {
     this.mapActions;
