@@ -10,7 +10,6 @@ const AppWithRouterAccess = () => {
 	const onAuthRequired = () => {
 		history.push('/login')
 	}
-	console.log('enviorment ', process.env)
 	const CLIENT_ID = process.env.REACT_APP_OKTA_CLIENT_ID
 	const ISSUER = process.env.REACT_APP_OKTA_ISSUER
 	if (!CLIENT_ID || !ISSUER) {

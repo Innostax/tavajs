@@ -40,9 +40,6 @@ const Home = () => {
 					oktaLoginButton={button}
 				/>
 			}
-			{/* <Link to='/'>Home</Link> */}
-			{/* <br />
-			{button} */}
 		</div>
 	)
 }

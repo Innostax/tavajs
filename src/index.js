@@ -430,7 +430,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
     updatePackage(frontEnd.path, package);
 
-    filesMap.map(() => {
+    filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,

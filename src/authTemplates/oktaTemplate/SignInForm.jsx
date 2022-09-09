@@ -9,7 +9,6 @@ const SignInForm = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-
 		oktaAuth
 			.signInWithCredentials({ username, password })
 			.then((res) => {

@@ -5,7 +5,6 @@ import { useOktaAuth } from '@okta/okta-react'
 
 const SignIn = () => {
 	const { authState } = useOktaAuth()
-
 	if (!authState) {
 		return <div>Loading...</div>
 	}
