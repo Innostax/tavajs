@@ -1,18 +1,15 @@
 <template>
   <b-navbar toggleable="lg" variant="light">
-    <b-navbar-brand href="#">Made in India</b-navbar-brand>
+    <b-navbar-brand class="mx-4" href="#">Made in India</b-navbar-brand>
 
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-navbar-toggle class="mx-4" target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
-        <router-link to="/"><b-nav-item href="/">Home</b-nav-item></router-link>
-        <router-link to="/users">
-          <b-nav-item href="/users">Users</b-nav-item></router-link
-        >
+        <b-nav-item to="/">Home</b-nav-item>
+        <b-nav-item to="/users">Users</b-nav-item>
       </b-navbar-nav>
 
-      <b-navbar-nav class="ml-auto"> </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>

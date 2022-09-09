@@ -4,8 +4,10 @@
     <%if(isStore) { %>
     <h3>Welcome to Vue Vuex Crash Course</h3>
     <AddUser />
-    <Table :fields="columns" :items="allUsers"></Table>
+    <br/>
+    <ShowUsers />
     <EditUser />
+    <DeleteUser />
     <% } %>
   </div>
 </template>
@@ -16,12 +18,15 @@ import { mapGetters, mapActions } from "vuex";
 import AddUser from "../userModal/AddUser";
 import Table from "../components/organisms/Table.vue";
 import EditUser from "../userModal/EditUser";
+import DeleteUser from "../userModal/DeleteUser";
+
 export default {
   name: "Users",
   components: {
     AddUser,
     Table,
     EditUser,
+    DeleteUser
   },
    data() {
     return {
