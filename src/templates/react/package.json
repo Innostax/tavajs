@@ -24,7 +24,9 @@
     "react-bootstrap": "^1.0.0",
     "@auth0/auth0-spa-js": "^1.10.0",
     "react-responsive": "^9.0.0-beta.4",
-    "bootstrap-switch-button-react": "^1.2.0"
+    "bootstrap-switch-button-react": "^1.2.0",
+    "@okta/okta-auth-js": "^5.8.0",
+    "@okta/okta-react": "^6.3.0"
   },
   "scripts": {
     "start": "npm run pretty && npm run eslint && npm run start-watch",
