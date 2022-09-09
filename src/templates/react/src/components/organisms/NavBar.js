@@ -13,7 +13,7 @@ const NavBar = ({ brand, links<% if(isOkta) { %> , oktaLoginButton <%}%> }) => {
 			<Navbar expand='lg'>
 				<Container>
 					<Navbar.Brand href='#home'>{brand}</Navbar.Brand>
-					<Navbar.Toggle aria-controls='basic-navbar-nav' />
+					<Navbar.Toggle className='collapse-btn' aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='me-auto'>
 							{links.map((each) => (

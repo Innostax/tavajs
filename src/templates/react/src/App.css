@@ -43,6 +43,7 @@ html {
 	--primaryBackgroundColor: floralWhite;
 	--headingTextColor: #1d1717;
 	--secondaryBackgroundColor: floralWhite;
+  --primaryButtonColor: floralWhite;
 }
 <% if(isDark) { %>
 html.dark {
@@ -50,6 +51,7 @@ html.dark {
 	--primaryBackgroundColor: #1d1717;
 	--headingTextColor: floralWhite;
 	--secondaryBackgroundColor: #1d1717;
+  --primaryButtonColor: floralWhite;
 }
 <% } %>
 body {
@@ -63,6 +65,12 @@ body {
 	color: var(--headingTextColor) !important;
 	font-weight: bold;
 }
+.collapse-btn{
+  background-color: var(--primaryButtonColor) !important;
+}
+.nav-link {
+  color: var(--headingTextColor) !important;
+}
 .modal-content {
 	background: var(--secondaryBackgroundColor);
 	color: var(--headingTextColor);
@@ -72,7 +80,6 @@ body {
 	color: var(--headingTextColor);
 	font-weight: bold;
 }
-
 .btn {
 	background: var(--secondaryBackgroundColor);
 	color: var(--headingTextColor);
