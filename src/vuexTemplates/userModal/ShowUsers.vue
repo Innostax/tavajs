@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import Table from "../components/organisms/Table.vue";
 export default {
   name: "ShowUsers",
@@ -25,21 +25,8 @@ export default {
       modalShow: true,
     };
   },
-  methods: {
-    ...mapActions(["deleteUser", "selectedItem"]),
-    removeOne: function (id) {
-      this.deleteUser(id);
-    },
-    editOne: function (id) {
-      this.selectedItem(id);
-      this.modalShow = false;
-    },
-  },
   computed: {
-    ...mapGetters(["allUsers", "selectedUser"]),
-  },
-  created() {
-    this.mapActions;
+    ...mapGetters(["allUsers"]),
   },
 };
 </script>

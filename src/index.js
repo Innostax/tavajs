@@ -24,13 +24,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const authenticationChoice = answers["authenticationChoice"];
   const backEndName = answers["backEndName"];
   const defaultRoute = answers["defaultRoute"];
-  const dbService = answers["dbService"];
   const dbName = answers["dbName"];
-  const emailService = answers["emailService"];
   const emailServiceName = answers["emailServiceName"];
-  const blobService = answers["blobService"];
   const blobServiceName = answers["blobServiceName"];
-  const loggerService = answers["loggerService"];
   const loggerServiceName = answers["loggerServiceName"];
   const isMaterialUI = answers["materialuiChoice"];
 
@@ -152,12 +148,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
 
     //creating utils dir
-    if (emailService || blobService || loggerService) {
+    if (emailServiceName || blobServiceName || loggerServiceName) {
       fs.mkdirSync(backEnd.path + "/utils");
     }
 
     //<---------------------------- For Email service ---------------------------------->
-    if (emailService) {
+    if (emailServiceName) {
       const emailTemplatePath = path.join(
         __dirname,
         "emailTemplates",
@@ -173,7 +169,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<---------------------------- For Blob service ---------------------------------->
-    if (blobService) {
+    if (blobServiceName) {
       const blobTemplatePath = path.join(
         __dirname,
         "blobTemplates",
@@ -183,7 +179,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<---------------------------- For Logger service ---------------------------------->
-    if (loggerService) {
+    if (loggerServiceName) {
       const loggerTemplatePath = path.join(__dirname, "logger");
 
       createLogger(
@@ -195,7 +191,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<---------------------------- For Database service ---------------------------------->
-    if (dbService) {
+    if (dbName) {
       createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
     }
 
