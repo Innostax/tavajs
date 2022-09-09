@@ -34,7 +34,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const loggerServiceName = answers["loggerServiceName"];
 
   const isStore = Boolean(answers["store"]);
-  const isDark = Boolean(answers["theme"]);
+  const isDark = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
