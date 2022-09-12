@@ -2,11 +2,7 @@
   <div id="deleteModal">
     <Modal id="bv-modal-deleteUser" title="Delete User">
       <template #body>
-        <div class="d-flex fs-6 flex-row">
-          <p class="mx-1">Are you sure you want to delete</p>
-          <p class="fw-bold">{{ selectedUser.name }}</p>
-          <p>?</p>
-        </div>
+        <div class="mx-1">Are you sure you want to delete <span class="fw-bold">{{ selectedUser.name }}</span> ?</div>
       </template>
       <template #footer>
         <Button
