@@ -1,0 +1,89 @@
+<% if(isDark) { %>
+    html {	
+    --bs-body-color: #212529;
+    --bs-body-bg: #fff;
+    --bs-border-color: #dee2e6;
+    --navbar-color: rgba(0, 0, 0, 0.55);
+    --navbar-hover-color: rgba(0, 0, 0, 0.7);
+    --navbar-disabled-color: rgba(0, 0, 0, 0.3);
+    --navbar-active-color: rgba(0, 0, 0, 0.9);
+    --navbar-brand-color: rgba(0, 0, 0, 0.9);
+    --navbar-brand-hover-color: rgba(0, 0, 0, 0.9);
+    --navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    --modal-color: ;
+    --modal-bg: #fff;
+    --table-color: var(--bs-body-color);
+    --table-bg: transparent;
+    --table-border-color: var(--bs-border-color);
+    --table-striped-color: var(--bs-body-color);
+    --table-striped-bg: rgba(0, 0, 0, 0.05);
+    --table-active-color: var(--bs-body-color);
+    --table-active-bg: rgba(0, 0, 0, 0.1);
+    --table-hover-color: var(--bs-body-color);
+    --table-hover-bg: rgba(0, 0, 0, 0.075);
+    --btn-primary-bg : #0d6efd;
+    --btn-danger-bg : #dc3545;
+    --btn-close-filter: none;
+    }
+    html.dark {
+    --bs-body-color : #fff;
+    --bs-body-bg: #212529;
+    --bs-border-color: #212529;
+    --navbar-color: rgba(255, 255, 255, 0.55);
+    --navbar-hover-color: rgba(255, 255, 255, 0.75);
+    --navbar-disabled-color: rgba(255, 255, 255, 0.25);
+    --navbar-active-color: #fff;
+    --navbar-brand-color: #fff;
+    --navbar-brand-hover-color: #fff;
+    --navbar-toggler-border-color: rgba(255, 255, 255, 0.1);
+    --navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    --modal-color: #fff;
+    --modal-bg: #212529;
+    --table-color: #fff;
+    --table-bg: #212529;
+    --table-border-color: #373b3e;
+    --table-striped-bg: #2c3034;
+    --table-striped-color: #fff;
+    --table-active-bg: #373b3e;
+    --table-active-color: #fff;
+    --table-hover-bg: #323539;
+    --table-hover-color: #fff;
+    --btn-primary-bg: transparent;
+    --btn-danger-bg : transparent;
+    --btn-close-filter: invert(1) grayscale(100%) brightness(200%);
+    }
+    .navbar {
+    --bs-navbar-color: var(--navbar-color);
+    --bs-navbar-hover-color: var(--navbar-hover-color);
+    --bs-navbar-disabled-color: var(--navbar-disabled-color);
+    --bs-navbar-active-color: var(--navbar-active-color);
+    --bs-navbar-brand-color: var(--navbar-brand-color);
+    --bs-navbar-brand-hover-color: var(--navbar-brand-hover-color);
+    --bs-navbar-toggler-border-color:var(--navbar-toggler-border-color);
+    --bs-navbar-toggler-icon-bg: var(--navbar-toggler-icon-bg);
+    }
+    .modal {
+    --bs-modal-color: var(--modal-color);
+    --bs-modal-bg: var(--modal-bg);
+    }
+    .table {
+    --bs-table-bg: var(--table-bg);
+    --bs-table-color: var(--table-color);
+    --bs-table-border-color: var(--table-border-color);
+    --bs-table-striped-bg: var(--table-striped-bg);
+    --bs-table-striped-color: var(--table-striped-color);
+    --bs-table-active-bg: var(--table-active-bg);
+    --bs-table-active-color: var(--table-active-color);
+    --bs-table-hover-bg: var(--table-hover-bg);
+    --bs-table-hover-color: var(--table-hover-color);
+    }
+    .btn-primary{
+    --bs-btn-bg: var(--btn-primary-bg)
+    }
+    .btn-danger{
+    --bs-btn-bg: var(--btn-danger-bg)
+    }
+    .btn-close{
+    filter : var(--btn-close-filter);
+    }
+    <% } %>
