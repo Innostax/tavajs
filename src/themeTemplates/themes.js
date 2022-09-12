@@ -1,27 +1,29 @@
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import React, { useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
+import React, { useState, useEffect } from 'react'
 
 const DARK_CLASS = 'dark'
 
 export const DarkToggle = () => {
-	const systemPrefersDark = useMediaQuery(
-		{
-			query: '(prefers-color-scheme: dark)',
-		},
-		undefined,
-		(prefersDark) => {
-			setIsDark(prefersDark)
+	const [isDark, setIsDark] = useState(false)
+	useEffect(() => {
+		if (localStorage.getItem('theme') === DARK_CLASS) {
+			document.documentElement.classList.add(DARK_CLASS)
+			setIsDark(true)
+		} else {
+			document.documentElement.classList.remove(DARK_CLASS)
+			setIsDark(false)
 		}
-	)
-
-	const [isDark, setIsDark] = useState(systemPrefersDark)
+	}, [])
 
 	const handleChange = (isChecked) => {
 		if (isChecked) {
-			setIsDark(document.documentElement.classList.add(DARK_CLASS))
+			document.documentElement.classList.add(DARK_CLASS)
+			localStorage.setItem('theme', 'dark')
+			setIsDark(true)
 		} else {
-			setIsDark(document.documentElement.classList.remove(DARK_CLASS))
+			document.documentElement.classList.remove(DARK_CLASS)
+			localStorage.setItem('theme', 'light')
+			setIsDark(false)
 		}
 	}
 	return (
