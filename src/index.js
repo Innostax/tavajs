@@ -38,6 +38,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
+  const isOkta = authenticationChoice === "Okta";
   const mongoSelected = dbName === "mongoose";
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
   const isWinston = loggerServiceName === "winston";
@@ -73,6 +74,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       isStore,
       isCrudWithNode,
@@ -117,6 +119,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       isStore,
       isCrudWithNode,
@@ -206,6 +209,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         frontEnd,
         backEnd,
         isAuth0,
+        isOkta
       });
       if (frontEnd?.choice && backEnd?.choice) {
         writePath = `${backEnd.path}/.env`;
@@ -432,7 +436,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
     updatePackage(frontEnd.path, package);
 
-    filesMap.map(() => {
+    filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
@@ -443,6 +447,37 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     });
+  } else if (answers["authenticationChoice"] === "Okta") {
+    fsExtra.copy(
+      `${currentPath}/authTemplates/oktaTemplate`,
+      `${frontEnd.path}/src/oktaFiles`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    const filesMap = [
+      {
+        srcFolder: "envTemplates",
+        srcFileName: ".oktaEnv",
+        destFolder:  frontEndName,
+        destFileName: ".env",
+      },
+    ];
+    filesMap.map((each) => {
+      fs.copyFile(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        `${frontEnd.path}/${each.destFileName}`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    });
+
   }
 
   projectInfo(frontEnd, backEnd, answers);
