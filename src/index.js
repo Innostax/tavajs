@@ -31,7 +31,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isMaterialUI = answers["materialuiChoice"];
 
   const isStore = Boolean(answers["store"]);
-  const isDark = Boolean(answers["theme"]);
+  const isDark = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
@@ -59,6 +59,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (frontEnd) {
     const { choice, path: frontEndPath } = frontEnd;
     const templatePath = path.join(__dirname, "templates", choice);
+    
     const projectPath = backEnd
       ? `${projectName}/${frontEndName}`
       : projectName;

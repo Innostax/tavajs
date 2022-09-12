@@ -70,10 +70,10 @@ module.exports = [
   {
     name: "theme",
     type: "list",
-    message: "Do you want Dark Mode?",
+    message: "Do you want Theme-provider?",
     choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "Light/Dark Mode", value: "light-dark-mode" },
+      { name: "None", value: false },
     ],
     when: (answers) => {
       return answers.frontEndChoice === "react";
@@ -204,7 +204,9 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.backEnd && answers.frontEnd && answers.store && answers.dbName;
+      return (
+        answers.backEnd && answers.frontEnd && answers.store && answers.dbName
+      );
     },
   },
   {
@@ -214,7 +216,7 @@ module.exports = [
     choices: [
       { name: "Winston", value: "winston" },
       { name: "sentry", value: "sentry" },
-      { name: "None", value: false}
+      { name: "None", value: false },
     ],
     when: (answers) => {
       return answers.backEnd;
