@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
     this.data = {};
   }
 
-  EditUser(data: any) {
+  editUser(data: any) {
     $('#addUser_modal').modal('show');
      this.data= data;
   }
@@ -40,6 +40,7 @@ export class UsersComponent implements OnInit {
 
   closeModal() {
     $('#addUser_modal').modal('hide');
+    this.data = {};
   }
   <%}%>
 }
