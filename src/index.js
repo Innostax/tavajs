@@ -21,6 +21,7 @@ const CURR_DIR = process.cwd();
 inquirer.prompt(questionnaire).then(async (answers) => {
   const projectName = answers["projectName"];
   const frontEndName = answers["frontEndName"];
+  const frontEndChoice = answers["frontEndChoice"];
   const authenticationChoice = answers["authenticationChoice"];
   const backEndName = answers["backEndName"];
   const defaultRoute = answers["defaultRoute"];
@@ -34,7 +35,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isDark = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
-  const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
+  const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
 
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
@@ -65,6 +66,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       : projectName;
 
     fsExtra.ensureDirSync(frontEndPath);
+    
     createDirectoryContents(
       templatePath,
       projectPath,
@@ -88,10 +90,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
-    if (isDark) {
+    if (isDark && frontEndChoice==='react') {
       fs.copyFile(
         `${currentPath}/themeTemplates/themes.js`,
         `${frontEnd.path}/src/themes.js`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    }
+    if (isDark && frontEndChoice==='vue') {
+      fs.copyFile(
+        `${currentPath}/themeTemplates/Theme.vue`,
+        `${frontEnd.path}/src/Theme.vue`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -348,26 +361,64 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<--------------------------------- Vuex ---------------------------->
     if (frontEnd?.choice === "vue") {
-      fsExtra.copy(
-        `${currentPath}/vuexTemplates/store`,
-        `${frontEnd.path}/src/store`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
+      const { choice, path: frontEndPath } = frontEnd;
+      const templates = [path.join(__dirname, "vuexTemplates", "store"), path.join(__dirname, "vuexTemplates", "userModal")]
+      const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
+      const backEndUserModalPath = `${projectName}/${frontEndName}/src/userModal`;
+      const frontEndStorePath = `${projectName}/src/store`;
+      const frontEndUserModalPath = `${projectName}/src/userModal`;
+
+      fs.mkdirSync(backEnd ? backEndStorePath : frontEndStorePath);
+      fs.mkdirSync(backEnd ? backEndUserModalPath : frontEndUserModalPath);
+
+      const projectPaths = backEnd ? [backEndStorePath, backEndUserModalPath] : [frontEndStorePath, frontEndUserModalPath];
+
+      templates.forEach((templatePath, index) => {
+        fsExtra.ensureDirSync(frontEndPath);
+        createDirectoryContents(
+          templatePath,
+          projectPaths[index],
+          defaultRoute,
+          mongoSelected,
+          sequelizeSelected,
+          dbName,
+          isSentry,
+          isWinston,
+          isAuth0,
+          isOkta,
+          isCognito,
+          isStore,
+          isCrudWithNode,
+          isCrud,
+          frontEndName,
+          backEndName,
+          choice,
+          isDark,
+        );
+      })
+
+      if (isCrudWithNode) {
+        fsExtra.copy(
+          `${currentPath}/vuexTemplates/doAsync`,
+          `${frontEnd.path}/src/doAsync`,
+          function (err) {
+            if (err) {
+              console.log("An error is occured");
+              return console.error(err);
+            }
           }
-        }
-      );
-      fsExtra.copy(
-        `${currentPath}/vuexTemplates/userModal`,
-        `${frontEnd.path}/src/userModal`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
+        );
+        fsExtra.copy(
+          `${currentPath}/vuexTemplates/httpMethod`,
+          `${frontEnd.path}/src/httpMethod`,
+          function (err) {
+            if (err) {
+              console.log("An error is occured");
+              return console.error(err);
+            }
           }
-        }
-      );
+        );
+      }
     }
     //<--------------------------------- Ngrx ---------------------------->
     if (frontEnd?.choice === "angular") {
@@ -382,8 +433,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
       fsExtra.copy(
-        `${currentPath}/ngrxTemplates/modules`,
-        `${frontEnd.path}/src/app/modules`,
+        `${currentPath}/ngrxTemplates/store`,
+        `${frontEnd.path}/src/app/utils/store`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      );
+      fsExtra.copy(
+        `${currentPath}/ngrxTemplates/add-user-modal`,
+        `${frontEnd.path}/src/app/shared/components/add-user-modal`,
         function (err) {
           if (err) {
             console.log("An error is occured");

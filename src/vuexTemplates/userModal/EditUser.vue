@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 import Button from "../components/atoms/Button.vue";
 import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal.vue";
@@ -65,7 +64,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["selectedItem", "editItem"]),
     submitButonHandler() {
       const data = {
         id: this.selectedUser.id,
@@ -73,12 +71,14 @@ export default {
         username: this.user.username,
         email: this.user.email,
       };
-      this.editItem(data);
+      this.$store.dispatch("editItem", data);
       this.$bvModal.hide('bv-modal-editUser')
     },
   },
   computed: {
-    ...mapGetters(["selectedUser"]),
+    selectedUser () {
+      return this.$store.getters["selectedUser"]
+    },
     user () {
       return { ...this.selectedUser }
     }

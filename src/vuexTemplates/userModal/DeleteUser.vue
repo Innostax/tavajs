@@ -2,11 +2,7 @@
   <div id="deleteModal">
     <Modal id="bv-modal-deleteUser" title="Delete User">
       <template #body>
-        <div class="d-flex fs-6 flex-row">
-          <p class="mx-1">Are you sure you want to delete</p>
-          <p class="fw-bold">{{ selectedUser.name }}</p>
-          <p>?</p>
-        </div>
+        <div class="mx-1">Are you sure you want to delete <span class="fw-bold">{{ selectedUser.name }}</span> ?</div>
       </template>
       <template #footer>
         <Button
@@ -20,7 +16,6 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
 import Button from "../components/atoms/Button";
 import Modal from "../components/organisms/Modal";
 
@@ -31,14 +26,15 @@ export default {
     Modal,
   },
   methods: {
-    ...mapActions(["deleteUser"]),
     deleteButtonHandler: function (id) {
-      this.deleteUser(id);
+      this.$store.dispatch("deleteUser", id);
       this.$bvModal.hide("bv-modal-deleteUser");
     },
   },
   computed: {
-    ...mapGetters(["selectedUser"]),
+    selectedUser: function () {
+      return this.$store.getters["selectedUser"]
+    }
   },
 };
 </script>

@@ -76,7 +76,7 @@ module.exports = [
       { name: "None", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "react";
+      return answers.frontEndChoice === "react" || answers.frontEndChoice === "vue";
     },
   },
   {
@@ -205,7 +205,35 @@ module.exports = [
     ],
     when: (answers) => {
       return (
-        answers.backEnd && answers.frontEnd && answers.store && answers.dbName
+        answers.backEnd && answers.frontEnd && answers.store && answers.dbName && answers.frontEndChoice === "react"
+      );
+    },
+  },
+  {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want Vue with CRUD?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.store && answers.frontEndChoice === "vue" && !answers.backEnd
+      );
+    },
+  },
+  {
+    name: "vueNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with Vue-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.backEnd && answers.frontEnd && answers.store && answers.dbName && answers.frontEndChoice === "vue"
       );
     },
   },
