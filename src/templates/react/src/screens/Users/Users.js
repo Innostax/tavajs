@@ -86,8 +86,6 @@ const cols=[
     <>
     <div>
       <h1>Welcome to Users Screen</h1>
-      <% if(isStore){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
-      <%}%>
         <% if(isCrudWithNode||isCrud) {%>
       <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
       <%}%>

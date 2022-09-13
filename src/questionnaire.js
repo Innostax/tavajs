@@ -41,6 +41,24 @@ module.exports = [
     },
   },
   {
+    name: "testCaseFramework",
+    type: "list",
+    message: "Select the Test Case Framework",
+    choices: [
+      { name: "MochaJS", value: "mochaJS" },
+      { name: "Jest", value: "jest" },
+      { name: "Jasmine", value: "jasmine" },
+      { name: "Karma", value: "karma" },
+      { name: "Puppeteer (Node Library)", value: "puppeteer" },
+      { name: "NightwatchJS", value: "nightwatchJS" },
+      { name: "Cypress", value: "cypress" },
+      { name: "None", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEnd;
+    },
+  },
+  {
     name: "frontEndName",
     type: "input",
     message: "Front End project name:",
