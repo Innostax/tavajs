@@ -24,23 +24,20 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const authenticationChoice = answers["authenticationChoice"];
   const backEndName = answers["backEndName"];
   const defaultRoute = answers["defaultRoute"];
-  const dbService = answers["dbService"];
   const dbName = answers["dbName"];
-  const emailService = answers["emailService"];
   const emailServiceName = answers["emailServiceName"];
-  const blobService = answers["blobService"];
   const blobServiceName = answers["blobServiceName"];
-  const loggerService = answers["loggerService"];
   const loggerServiceName = answers["loggerServiceName"];
 
   const isStore = Boolean(answers["store"]);
-  const isDark = Boolean(answers["theme"]);
+  const isDark = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
 
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
+  const isOkta = authenticationChoice === "Okta";
   const mongoSelected = dbName === "mongoose";
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
   const isWinston = loggerServiceName === "winston";
@@ -61,6 +58,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (frontEnd) {
     const { choice, path: frontEndPath } = frontEnd;
     const templatePath = path.join(__dirname, "templates", choice);
+    
     const projectPath = backEnd
       ? `${projectName}/${frontEndName}`
       : projectName;
@@ -77,6 +75,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       isStore,
       isCrudWithNode,
@@ -120,6 +119,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isSentry,
       isWinston,
       isAuth0,
+      isOkta,
       isCognito,
       isStore,
       isCrudWithNode,
@@ -150,12 +150,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
 
     //creating utils dir
-    if (emailService || blobService || loggerService) {
+    if (emailServiceName || blobServiceName || loggerServiceName) {
       fs.mkdirSync(backEnd.path + "/utils");
     }
 
     //<---------------------------- For Email service ---------------------------------->
-    if (emailService) {
+    if (emailServiceName) {
       const emailTemplatePath = path.join(
         __dirname,
         "emailTemplates",
@@ -171,7 +171,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<---------------------------- For Blob service ---------------------------------->
-    if (blobService) {
+    if (blobServiceName) {
       const blobTemplatePath = path.join(
         __dirname,
         "blobTemplates",
@@ -181,7 +181,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<---------------------------- For Logger service ---------------------------------->
-    if (loggerService) {
+    if (loggerServiceName) {
       const loggerTemplatePath = path.join(__dirname, "logger");
 
       createLogger(
@@ -193,7 +193,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<---------------------------- For Database service ---------------------------------->
-    if (dbService) {
+    if (dbName) {
       createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
     }
 
@@ -208,6 +208,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         frontEnd,
         backEnd,
         isAuth0,
+        isOkta
       });
       if (frontEnd?.choice && backEnd?.choice) {
         writePath = `${backEnd.path}/.env`;
@@ -437,7 +438,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
     updatePackage(frontEnd.path, package);
 
-    filesMap.map(() => {
+    filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
@@ -448,6 +449,37 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     });
+  } else if (answers["authenticationChoice"] === "Okta") {
+    fsExtra.copy(
+      `${currentPath}/authTemplates/oktaTemplate`,
+      `${frontEnd.path}/src/oktaFiles`,
+      function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      }
+    );
+    const filesMap = [
+      {
+        srcFolder: "envTemplates",
+        srcFileName: ".oktaEnv",
+        destFolder:  frontEndName,
+        destFileName: ".env",
+      },
+    ];
+    filesMap.map((each) => {
+      fs.copyFile(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        `${frontEnd.path}/${each.destFileName}`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    });
+
   }
 
   projectInfo(frontEnd, backEnd, answers);
