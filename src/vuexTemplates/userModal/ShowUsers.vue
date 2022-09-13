@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import Table from "../components/organisms/Table.vue";
+
 export default {
   name: "ShowUsers",
   components: {
@@ -26,7 +26,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["allUsers"]),
+    allUsers: function () {
+      return this.$store.getters["allUsers"]
+    }
   },
+  <% if(isCrudWithNode) { %>
+  created () {
+    this.$store.dispatch('getAllUsers')
+  }
+  <% } %>
 };
 </script>

@@ -1,6 +1,7 @@
 //jshint esversion:6
 <% if(isWinston) {%>const logger = require('./utils/logger')<%}%>
 const express = require("express");
+const { auth } = require('express-openid-connect')
 const cors=require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
@@ -11,12 +12,16 @@ const conn = require('./mongoose')
 <% if (isAuth0) { %>
 let jwt = require('express-jwt')
 
-const authorization=jwt({
+
+const config = {
+	authRequired: false,
+	auth0Logout: true,
+	baseURL: 'http://localhost:3040',
+	clientID: process.env.AUTH_CLIENTID,
+	issuerBaseURL: 'https://dev-gbyd4ldp.us.auth0.com',
 	secret: process.env.AUTH_SECRET,
-	audience: process.env.AUTH_AUDIENCE,
-	issuer: process.env.AUTH_ISSUER,
-	algorithms: ['HS256'],
-})
+}
+
 
 <% } %>
   
@@ -29,7 +34,7 @@ const app = express();
 <% } %>
 
 app.set('view engine', 'ejs');
-<% if(isAuth0){%>app.use(authorization)<%}%>
+<% if(isAuth0){%>app.use(auth(config))<%}%>
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
