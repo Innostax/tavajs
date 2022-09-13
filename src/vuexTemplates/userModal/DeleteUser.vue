@@ -20,7 +20,6 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
 import Button from "../components/atoms/Button";
 import Modal from "../components/organisms/Modal";
 
@@ -31,14 +30,15 @@ export default {
     Modal,
   },
   methods: {
-    ...mapActions(["deleteUser"]),
     deleteButtonHandler: function (id) {
-      this.deleteUser(id);
+      this.$store.dispatch("deleteUser", id);
       this.$bvModal.hide("bv-modal-deleteUser");
     },
   },
   computed: {
-    ...mapGetters(["selectedUser"]),
+    selectedUser: function () {
+      return this.$store.getters["selectedUser"]
+    }
   },
 };
 </script>
