@@ -1,5 +1,10 @@
 import React from 'react'
-import  Modal from 'react-bootstrap/Modal'
+
+<% if(isMaterialUI) {%>
+	import  Modal from '@mui/material';
+	import {Dialog,DialogActions,DialogContent,DialogTitle} from '@mui/material'	
+<%}%>
+<% if(!isMaterialUI) {%>import  Modal from 'react-bootstrap/Modal';<%}%>
 import { useSelector, useDispatch } from 'react-redux'
 import { selectShowModal } from './modal.selectors'
 import { actions } from './modal.slice'
@@ -20,6 +25,8 @@ export default function ViceModal({
 		if (reset) reset()
 	}
 	return (
+		<>
+		<% if(!isMaterialUI) {%>
 		<Modal
 			show={show}
 			onHide={handleClose}
@@ -37,6 +44,22 @@ export default function ViceModal({
 				{footer}
 			</Modal.Footer>
 		</Modal>
+		<%}%>
+		<% if(isMaterialUI) {%>
+			<Dialog open={open} onClose={handleClose} maxWidth={size}>
+				<DialogTitle>{title}</DialogTitle>
+				<DialogContent>
+					{children}
+				</DialogContent>
+				<DialogContent>
+					{footer}
+				</DialogContent>
+				<DialogActions>
+				<Button onClick={handleClose}>Close</Button>
+				</DialogActions>
+			</Dialog>
+			<%}%>
+			</>
 	)
 }
 
