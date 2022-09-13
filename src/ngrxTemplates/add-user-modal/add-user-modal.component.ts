@@ -60,6 +60,7 @@ export class AddUserModalComponent implements OnInit, OnChanges {
   }
 
   closeModlRef() {
-    this.closeEvent.emit()
+    this.closeEvent.emit();
+    this.registerForm.reset();
   }
 }
