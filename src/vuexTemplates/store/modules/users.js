@@ -16,6 +16,7 @@ const getters = {
   },
 };
 <% if (isCrudWithNode) { %>
+const SUCCESS = 200
 const actions = {
     getAllUsers({ commit }) {
       return doAsync({
@@ -23,10 +24,8 @@ const actions = {
         errorMessage: 'Unable to fetch users',
         successMessage: 'Users are successfully fetched',
       }).then((res) => {
-        if (res.status === 200) commit('updateAllUsers', res.data)
-        return res.data
-      }).catch((error) => {
-        console.log("error", error)
+        if (res.status === SUCCESS) commit('updateAllUsers', res.data)
+        return res
       })
     },
     addUser({ dispatch }, newData) {
@@ -34,9 +33,9 @@ const actions = {
         url: `users`,
         httpMethod: 'post',
         data: newData,
-        erroMessage: 'Unable to add user.  Please try again later',
+        erroMessage: 'Unable to add user. Please try again later',
       }).then((res) => {
-        if (res.status === 200) dispatch("getAllUsers")
+        if (res.status === SUCCESS) dispatch("getAllUsers")
         return res
       })
     },
@@ -44,9 +43,9 @@ const actions = {
       return doAsync({
         url: `users/${id}`,
         httpMethod: 'delete',
-        erroMessage: 'Unable to delete user.  Please try again later',
+        erroMessage: 'Unable to delete user. Please try again later',
       }).then((res) => {
-        if (res.status === 200) dispatch("getAllUsers")
+        if (res.status === SUCCESS) dispatch("getAllUsers")
         return res
       })
     },
@@ -60,7 +59,7 @@ const actions = {
         data: newData,
         erroMessage: 'Unable to update user. Please try again later',
       }).then((res) => {
-        if (res.status === 200) dispatch("getAllUsers")
+        if (res.status === SUCCESS) dispatch("getAllUsers")
         return res
       })
     },
