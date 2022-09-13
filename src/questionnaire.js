@@ -243,7 +243,7 @@ module.exports = [
     message: "Which logger service do you want?",
     choices: [
       { name: "Winston", value: "winston" },
-      { name: "sentry", value: "sentry" },
+      { name: "Sentry", value: "sentry" },
       { name: "None", value: false },
     ],
     when: (answers) => {

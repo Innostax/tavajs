@@ -36,7 +36,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
-
+  
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
   const isOkta = authenticationChoice === "Okta";
@@ -44,7 +44,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
   const isWinston = loggerServiceName === "winston";
   const isSentry = loggerServiceName === "sentry";
-
+  const isSMTP = emailServiceName === "smtp";
+  
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
@@ -74,6 +75,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
+      isSMTP,
       isSentry,
       isWinston,
       isAuth0,
@@ -130,6 +132,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
+      isSMTP,
       isSentry,
       isWinston,
       isAuth0,
@@ -223,7 +226,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         frontEnd,
         backEnd,
         isAuth0,
-        isOkta
+        isOkta,
+        isSMTP
       });
       if (frontEnd?.choice && backEnd?.choice) {
         writePath = `${backEnd.path}/.env`;

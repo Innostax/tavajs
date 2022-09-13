@@ -1,43 +1,38 @@
-const nodemailer = require('nodemailer');
-require("dotenv").config();
+const nodemailer = require('nodemailer')
+require('dotenv').config()
 
-const sendMail=(FROM_ADDRESS, to, html, subject, text)=>{
-  const { USERNAME, PASSWORD, HOST } = process.env
+const sendEmail = async (mailObj) => {
+	const { from, recipients, subject, message} = mailObj
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    port:465,
-    secure: true, // true for 465, false for other ports
-    logger: true,
-    debug: true,
-    secureConnection: false,
-    auth: {
-        user: 'test@gmail.com', // generated ethereal user
-        pass: '*****', // generated ethereal password
-    },
-    tls:{
-        rejectUnAuthorized:true
-    }
-  })
-  
-  // setup e-mail data with unicode symbols
-  var mailOptions = {
-    from :FROM_ADDRESS, // sender address
-    to:to, // list of receivers
-    subject:subject,
-    text:text,
-    html:html,
-  }
-  
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, function(error, response){
-      if(error){
-          console.log(error);
-      }else{
-          console.log("Message sent: " + response.message);
-      }
-  
-      // if you don't want to use this transport object anymore, uncomment following line
-      //smtpTransport.close(); // shut down the connection pool, no more messages
-  });
-  }
+	const USERNAME = process.env.SMTP_USERNAME
+	const PASSWORD = process.env.SMTP_PASSWORD
+	const HOST = process.env.SMTP_HOST
+	try {
+		let transporter = nodemailer.createTransport({
+			host: HOST,
+			port: 587,
+			auth: {
+				user: USERNAME,
+				pass: PASSWORD,
+			},
+		})
+		let mailStatus = await transporter.sendMail({
+			from: from, 
+			to: recipients, 
+			subject: subject, 
+			text: message, 
+		})
+
+		console.log(`Message sent: ${mailStatus.messageId}`)
+		return `Message sent: ${mailStatus.messageId}`
+	} catch (error) {
+		console.error(error)
+		throw new Error(
+			`Something went wrong in the sendmail method. Error: ${error.message}`
+		)
+	}
+}
+
+module.exports = {
+	sendEmail,
+}
