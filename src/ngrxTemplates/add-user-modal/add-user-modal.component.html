@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-between">
+  <div class="fs-3 fw-bold mb-3">
+    {{ actionBtnText + ' User' }} 
+  </div>
+  <div>
+    <button type="button" class="btn " (click)="closeModlRef()" aria-label="Close">
+      <span aria-hidden="true">X</span>
+    </button>
+  </div>
+</div>
+
+
+<form [formGroup]="registerForm">
+  <div class="form-group mb-3">
+    <label for="name" class="fw-bolder">Name</label>
+    <input
+      id="name"
+      type="text"
+      class="form-control"
+      placeholder="Jason Matt"
+      formControlName="name"
+    />
+  </div>
+  <div class="form-group mb-3">
+    <label for="username" class="fw-bolder">Username</label>
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      placeholder="jasonmatt"
+      formControlName="username"
+    />
+  </div>
+  <div class="form-group mb-3">
+    <label for="emailAddress" class="fw-bolder">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="emailAddress"
+      placeholder="name@example.com"
+      formControlName="email"
+    />
+  </div>
+  <div class="d-grid">
+    <button class="btn btn-primary" type="submit" class="btn btn-primary" (click)="onSubmit()">{{ actionBtnText }}</button>
+  </div>
+</form>
