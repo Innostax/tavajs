@@ -103,7 +103,23 @@ function updatePackage(path, package) {
   fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
 }
 
+// To update the scripts in Package.json
+function updatePackageJsonScripts(path, package) {
+  let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
+  packagefile = JSON.parse(packagefile);
+  let newPackageFile = {
+    ...packagefile,
+    scripts: {
+      ...packagefile.scripts,
+      [package.name]: package.script,
+    },
+  };
+  newPackageFile = JSON.stringify(newPackageFile);
+  fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
+}
+
 module.exports = {
   createDirectoryContents,
   updatePackage,
+  updatePackageJsonScripts
 };

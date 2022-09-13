@@ -8,7 +8,7 @@ const createBlobService = require("./utils/createBlobService");
 const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
-const { createDirectoryContents, updatePackage } = require("./utils/helper");
+const { createDirectoryContents, updatePackage, updatePackageJsonScripts } = require("./utils/helper");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
@@ -42,6 +42,14 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
   const isWinston = loggerServiceName === "winston";
   const isSentry = loggerServiceName === "sentry";
+
+  /* START: Testcases Framework */
+  const isTestCasesFramework = Boolean(answers["testCaseFramework"]);
+  // Start CYPRESS
+  const isCypress = answers["testCaseFramework"] === "cypress";
+  // End CYPRESS
+
+  /* END: Testcases Framework */
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -96,6 +104,37 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           }
         }
       );
+    }
+
+    //<---------------------------- For TestCases Framework ------------------------------------>
+    console.log("isTestCasesFramework=============>", isTestCasesFramework)
+    if(isTestCasesFramework) {
+      console.log("isCypress=============>", isCypress)
+      if(isCypress) {
+        fs.copyFile(
+          `${currentPath}/uiTests/CypressTests/cypress.config.js`,
+          `${frontEnd.path}/cypress.config.js`,
+          (err) => {
+            if (err) {
+              console.log("Error Found:", err);
+            }
+          }
+        );
+        fsExtra.copy(
+          `${currentPath}/uiTests/CypressTests/TestScripts`,
+          `${frontEnd.path}`,
+          (err) => {
+            if (err) {
+              console.log("Error Found:", err);
+            }
+          }
+        )
+
+        const package = { name: "cypress", version: "^10.7.0" };
+        updatePackage(frontEnd.path, package);
+        const updatedScripts = { name: "cypress", script: "npm install cypress --dev && npx cypress install && npx cypress open" };
+        updatePackageJsonScripts(frontEnd.path, updatedScripts);
+      }
     }
   }
 
