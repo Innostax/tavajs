@@ -23,3 +23,9 @@ AUTH_SECRET=Enter your secret key
 AUTH_AUDIENCE=Enter your audience
 AUTH_ISSUER=Enter your issuer
 <% } %>
+
+<%if (isEmail) {%>
+SMTP_USERNAME = Enter sender Email
+SMTP_PASSWORD = Enter your password
+SMTP_HOST = Enter Host  
+<%}%>

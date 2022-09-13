@@ -1,6 +1,12 @@
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% } %>
+
+    <% if(isEmail) {%>
+      require('dotenv').config()
+      const smtp = require('../utils/email/smtp')
+      <%}%> 
+
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
@@ -27,7 +33,24 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
 
   }
   
-  const create =(req, res, next) => {
+  const create = async(req, res, next) => {
+
+    <% if(isEmail) {%>
+      const USERNAME = process.env.SMTP_USERNAME
+      const mailObj = {
+        from: USERNAME,
+        recipients: [],  //Enter the Recipient's mail Id
+        subject: 'Sending email by nodejs',
+        message: 'Hello World;',
+        html: '<h1></h1>'
+      }
+    
+      await smtp.sendEmail(mailObj).then((res) => {
+        console.log('email response', res)
+      })
+    <%}%>
+
+
     <% if(mongoSelected){ %>
         const newData = new <%= defaultRoute %>({
             name: req.body.name,

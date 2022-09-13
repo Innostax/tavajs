@@ -21,11 +21,11 @@ const App = () => {
       </Router>
     <%}%>
     <% if(!isOkta){ %>
-      <% if(isAuth0) {%>isUserAuthenticated&&<%}%><NavBar brand='Made in India'
+      <% if(isAuth0) {%> {isUserAuthenticated && <%}%><NavBar brand='Made in India'
       links={[
         { href: '/home', label: 'Home' },
         { href: '/users', label: 'Users' },
-      ]}/>
+      ]}/><% if(isAuth0) {%> } <%}%>
     <%}%>
     </>);
 };

@@ -42,6 +42,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
   const isWinston = loggerServiceName === "winston";
   const isSentry = loggerServiceName === "sentry";
+  const isEmail = emailServiceName === "smtp";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -71,6 +72,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
+      isEmail,
       isSentry,
       isWinston,
       isAuth0,
@@ -115,6 +117,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
+      isEmail,
       isSentry,
       isWinston,
       isAuth0,
@@ -207,7 +210,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         frontEnd,
         backEnd,
         isAuth0,
-        isOkta
+        isOkta,
+        isEmail
       });
       if (frontEnd?.choice && backEnd?.choice) {
         writePath = `${backEnd.path}/.env`;
