@@ -64,6 +64,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       : projectName;
 
     fsExtra.ensureDirSync(frontEndPath);
+    
     createDirectoryContents(
       templatePath,
       projectPath,
@@ -410,8 +411,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
       fsExtra.copy(
-        `${currentPath}/ngrxTemplates/modules`,
-        `${frontEnd.path}/src/app/modules`,
+        `${currentPath}/ngrxTemplates/store`,
+        `${frontEnd.path}/src/app/utils/store`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      );
+      fsExtra.copy(
+        `${currentPath}/ngrxTemplates/add-user-modal`,
+        `${frontEnd.path}/src/app/shared/components/add-user-modal`,
         function (err) {
           if (err) {
             console.log("An error is occured");
