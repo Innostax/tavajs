@@ -2,7 +2,7 @@
 const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% } %>
 
-    <% if(isEmail) {%>
+    <% if(isSMTP) {%>
       require('dotenv').config()
       const smtp = require('../utils/email/smtp')
       <%}%> 
@@ -35,7 +35,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
   
   const create = async(req, res, next) => {
 
-    <% if(isEmail) {%>
+    <% if(isSMTP) {%>
       const USERNAME = process.env.SMTP_USERNAME
       const mailObj = {
         from: USERNAME,
