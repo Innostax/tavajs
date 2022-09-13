@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import Button from "../components/atoms/Button";
 import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal";
@@ -70,14 +69,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addUser"]),
     onSubmit() {
       const data = {
         name: this.name,
         username: this.username,
         email: this.email,
       };
-      this.addUser(data);
+      this.$store.dispatch("addUser", data);
       this.$bvModal.hide('bv-modal-addUser')
     },
     showAddUserModal () {
