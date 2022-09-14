@@ -47,10 +47,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   /* START: Testcases Framework */
   const isTestCasesFramework = Boolean(answers["testCaseFramework"]);
-  // Start CYPRESS
   const isCypress = answers["testCaseFramework"] === "cypress";
-  // End CYPRESS
-
   /* END: Testcases Framework */
 
   const isSMTP = emailServiceName === "smtp";
@@ -114,9 +111,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<---------------------------- For TestCases Framework ------------------------------------>
-    console.log("isTestCasesFramework=============>", isTestCasesFramework)
     if(isTestCasesFramework) {
-      console.log("isCypress=============>", isCypress)
+      // CYPRESSS
       if(isCypress) {
         fs.copyFile(
           `${currentPath}/uiTests/CypressTests/cypress.config.js`,
@@ -142,7 +138,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         const updatedScripts = { name: "cypress", script: "npm install cypress --dev && npx cypress install && npx cypress open" };
         updatePackageJsonScripts(frontEnd.path, updatedScripts);
       }
-  }
+      // MochaJS
+      // JEST
+      // JESMINE
+      // KARMA
+    }
 
   //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
   if (isDark && frontEndChoice==='vue') {
