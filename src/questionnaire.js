@@ -40,6 +40,20 @@ module.exports = [
       return answers.frontEnd;
     },
   },
+   /* CSS Framework question added here */
+  {
+    name: "materialuiChoice",
+    type: "list",
+    message: "Which CSS Framework do you want?",
+    choices: [
+      {name: "MaterialUI", value: true},
+      {name: "Bootstrap", value: false }
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice == "react";
+    },
+  },
+  /*CSS Framework question ended here */
   {
     name: "frontEndName",
     type: "input",
@@ -80,7 +94,7 @@ module.exports = [
       { name: "None", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "react";
+      return answers.frontEndChoice === "react" || answers.frontEndChoice === "vue";
     },
   },
   {
@@ -209,7 +223,35 @@ module.exports = [
     ],
     when: (answers) => {
       return (
-        answers.backEnd && answers.frontEnd && answers.store && answers.dbName
+        answers.backEnd && answers.frontEnd && answers.store && answers.dbName && answers.frontEndChoice === "react"
+      );
+    },
+  },
+  {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want Vue with CRUD?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.store && answers.frontEndChoice === "vue" && !answers.backEnd
+      );
+    },
+  },
+  {
+    name: "vueNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with Vue-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.backEnd && answers.frontEnd && answers.store && answers.dbName && answers.frontEndChoice === "vue"
       );
     },
   },
@@ -219,7 +261,7 @@ module.exports = [
     message: "Which logger service do you want?",
     choices: [
       { name: "Winston", value: "winston" },
-      { name: "sentry", value: "sentry" },
+      { name: "Sentry", value: "sentry" },
       { name: "None", value: false },
     ],
     when: (answers) => {

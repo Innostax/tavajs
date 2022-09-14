@@ -21,6 +21,7 @@ const CURR_DIR = process.cwd();
 inquirer.prompt(questionnaire).then(async (answers) => {
   const projectName = answers["projectName"];
   const frontEndName = answers["frontEndName"];
+  const frontEndChoice = answers["frontEndChoice"];
   const authenticationChoice = answers["authenticationChoice"];
   const backEndName = answers["backEndName"];
   const defaultRoute = answers["defaultRoute"];
@@ -28,13 +29,14 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const emailServiceName = answers["emailServiceName"];
   const blobServiceName = answers["blobServiceName"];
   const loggerServiceName = answers["loggerServiceName"];
+  const isMaterialUI = answers["materialuiChoice"];
 
   const isStore = Boolean(answers["store"]);
   const isDark = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
-  const isCrudWithNode = Boolean(answers["reactNodeCrud"]);
-
+  const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
+  
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
   const isOkta = authenticationChoice === "Okta";
@@ -51,6 +53,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   /* END: Testcases Framework */
 
+  const isSMTP = emailServiceName === "smtp";
+  
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
@@ -72,6 +76,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       : projectName;
 
     fsExtra.ensureDirSync(frontEndPath);
+    
     createDirectoryContents(
       templatePath,
       projectPath,
@@ -79,6 +84,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
+      isSMTP,
       isSentry,
       isWinston,
       isAuth0,
@@ -90,11 +96,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark
+      isDark,
+      isMaterialUI
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
-    if (isDark) {
+    if (isDark && frontEndChoice==='react') {
       fs.copyFile(
         `${currentPath}/themeTemplates/themes.js`,
         `${frontEnd.path}/src/themes.js`,
@@ -135,8 +142,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         const updatedScripts = { name: "cypress", script: "npm install cypress --dev && npx cypress install && npx cypress open" };
         updatePackageJsonScripts(frontEnd.path, updatedScripts);
       }
-    }
   }
+
+  //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
+  if (isDark && frontEndChoice==='vue') {
+    fs.copyFile(
+      `${currentPath}/themeTemplates/Theme.vue`,
+      `${frontEnd.path}/src/Theme.vue`,
+      (err) => {
+        if (err) {
+          console.log("Error Found:", err);
+        }
+      }
+    );
+  }
+}
 
   //<---------------------------- node-js ---------------------------------->
   if (backEnd) {
@@ -154,6 +174,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       mongoSelected,
       sequelizeSelected,
       dbName,
+      isSMTP,
       isSentry,
       isWinston,
       isAuth0,
@@ -165,7 +186,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark
+      isDark,
+      isMaterialUI
     );
     const fileNames = [
       {
@@ -246,7 +268,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         frontEnd,
         backEnd,
         isAuth0,
-        isOkta
+        isOkta,
+        isSMTP
       });
       if (frontEnd?.choice && backEnd?.choice) {
         writePath = `${backEnd.path}/.env`;
@@ -342,27 +365,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       writePath = `${frontEnd.path}/src/screens/Users/users.actions.js`;
       fs.writeFileSync(writePath, contents, "utf8");
+
       if (isCrud) {
-        fs.copyFile(
-          `${currentPath}/reduxTemplates/userform/Adduser.js`,
-          `${frontEnd.path}/src/screens/Users/AddUser.js`,
-          (err) => {
-            if (err) {
-              console.log("Error Found:", err);
-            }
-          }
-        );
+        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
+        newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode });
+        writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
+        fs.writeFileSync(writePath, newContent, "utf8");
+        
+        let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
+        newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
       }
       if (isCrudWithNode) {
-        fs.copyFile(
-          `${currentPath}/reduxTemplates/userform/AddUserForm.js`,
-          `${frontEnd.path}/src/screens/Users/AddUser.js`,
-          (err) => {
-            if (err) {
-              console.log("Error Found:", err);
-            }
-          }
-        );
+        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/AdduserForm.js`, "utf8");
+        newContent = render(newContent, { isMaterialUI });
+        writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
+        fs.writeFileSync(writePath, newContent, "utf8");
+
+        let newModalContent = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
+        newModalContent = render (newContent, {isMaterialUI,isCrud, isCrudWithNode});
       }
       fsExtra.copy(
         `${currentPath}/reduxTemplates/infrastructure`,
@@ -375,28 +395,78 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     }
+
+    //<---------------------------------MaterialUI Dark Theme----------------------->
+
+    if (isDark) {
+      let newContent = fs.readFileSync(`${currentPath}/templates/react/src/App.js`, "utf8");
+      newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode,isAuth0,isDark, isOkta });
+      writePath = `${frontEnd.path}/src/App.js`;
+      fs.writeFileSync(writePath, newContent, "utf8");
+    }
+
     //<--------------------------------- Vuex ---------------------------->
     if (frontEnd?.choice === "vue") {
-      fsExtra.copy(
-        `${currentPath}/vuexTemplates/store`,
-        `${frontEnd.path}/src/store`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
+      const { choice, path: frontEndPath } = frontEnd;
+      const templates = [path.join(__dirname, "vuexTemplates", "store"), path.join(__dirname, "vuexTemplates", "userModal")]
+      const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
+      const backEndUserModalPath = `${projectName}/${frontEndName}/src/userModal`;
+      const frontEndStorePath = `${projectName}/src/store`;
+      const frontEndUserModalPath = `${projectName}/src/userModal`;
+
+      fs.mkdirSync(backEnd ? backEndStorePath : frontEndStorePath);
+      fs.mkdirSync(backEnd ? backEndUserModalPath : frontEndUserModalPath);
+
+      const projectPaths = backEnd ? [backEndStorePath, backEndUserModalPath] : [frontEndStorePath, frontEndUserModalPath];
+
+      templates.forEach((templatePath, index) => {
+        fsExtra.ensureDirSync(frontEndPath);
+        createDirectoryContents(
+          templatePath,
+          projectPaths[index],
+          defaultRoute,
+          mongoSelected,
+          sequelizeSelected,
+          dbName,
+          isSMTP,
+          isSentry,
+          isWinston,
+          isAuth0,
+          isOkta,
+          isCognito,
+          isStore,
+          isCrudWithNode,
+          isCrud,
+          frontEndName,
+          backEndName,
+          choice,
+          isDark,
+          isMaterialUI,
+        );
+      })
+
+      if (isCrudWithNode) {
+        fsExtra.copy(
+          `${currentPath}/vuexTemplates/doAsync`,
+          `${frontEnd.path}/src/doAsync`,
+          function (err) {
+            if (err) {
+              console.log("An error is occured");
+              return console.error(err);
+            }
           }
-        }
-      );
-      fsExtra.copy(
-        `${currentPath}/vuexTemplates/userModal`,
-        `${frontEnd.path}/src/userModal`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
+        );
+        fsExtra.copy(
+          `${currentPath}/vuexTemplates/httpMethod`,
+          `${frontEnd.path}/src/httpMethod`,
+          function (err) {
+            if (err) {
+              console.log("An error is occured");
+              return console.error(err);
+            }
           }
-        }
-      );
+        );
+      }
     }
     //<--------------------------------- Ngrx ---------------------------->
     if (frontEnd?.choice === "angular") {
@@ -411,8 +481,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
       fsExtra.copy(
-        `${currentPath}/ngrxTemplates/modules`,
-        `${frontEnd.path}/src/app/modules`,
+        `${currentPath}/ngrxTemplates/store`,
+        `${frontEnd.path}/src/app/utils/store`,
+        function (err) {
+          if (err) {
+            console.log("An error is occured");
+            return console.error(err);
+          }
+        }
+      );
+      fsExtra.copy(
+        `${currentPath}/ngrxTemplates/add-user-modal`,
+        `${frontEnd.path}/src/app/shared/components/add-user-modal`,
         function (err) {
           if (err) {
             console.log("An error is occured");
