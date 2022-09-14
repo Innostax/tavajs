@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-<% if(isDark){%> import { FormBuilder, FormGroup } from '@angular/forms';
+<% if(isDark){%>import { FormBuilder, FormGroup } from '@angular/forms';
+
+const DARK= 'dark';
+const LIGHT= 'light';
 const $body = document.body; <%}%>
 @Component({
   selector: 'app-header',
@@ -12,20 +15,26 @@ export class HeaderComponent implements OnInit {
   constructor( <% if(isDark){%> private fb: FormBuilder <%}%>) { }
   ngOnInit(): void {
     <% if(isDark){%>
-    let isThemeSelected: any = sessionStorage.getItem('isDarkModeSelected');
-    let selected = JSON.parse(isThemeSelected);
-    if(selected) $body.setAttribute('data-theme', 'dark')
-    else $body.setAttribute('data-theme', 'light');
-    this.initForm(selected)  <%}%>
+    this.selectedTheme()
+    <%}%>
   }
   <% if(isDark){%>
+  
+  selectedTheme() {
+    let isThemeSelected: any = sessionStorage.getItem('isDarkModeSelected');
+    let selected = JSON.parse(isThemeSelected);
+    if(selected) $body.setAttribute('data-theme', DARK)
+    else $body.setAttribute('data-theme', LIGHT);
+    this.initForm(selected)
+  }  
+
   initForm(data: any) {
     this.headerForm = this.fb.group({
-      themeSelection: [data || '']
+      selectedTheme: [data || '']
     })
   }
   handleSelection(event: any) {
-    (event.target.checked) ? $body.setAttribute('data-theme', 'dark') : $body.setAttribute('data-theme', 'light');
+    $body.setAttribute('data-theme', event.target.checked ? DARK : LIGHT);
     sessionStorage.setItem('isDarkModeSelected', JSON.stringify(event.target.checked));
   }
   <%}%>

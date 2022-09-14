@@ -119,9 +119,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         `${currentPath}/themeTemplates/angular-themes`,
         `${frontEnd.path}/src/angular-themes`,
         (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
+          if (err) console.log("Unable to integrate theme template, Ref:", err);
         }
       );
     }
