@@ -31,8 +31,8 @@ export const DarkToggle = () => {
 			className='DarkToggle'
 			checked={isDark}
 			width={50}
-			onlabel='🌙'
-			offlabel='🔆'
+			offlabel='🌙'
+			onlabel='🔆'
 			onstyle='secondary'
 			onChange={(event) => handleChange(event)}
 			aria-label='Dark mode'
