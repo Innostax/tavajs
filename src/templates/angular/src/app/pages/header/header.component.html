@@ -15,8 +15,8 @@
           </li>
         </ul>
         <% if(isDark){%>
-          <form class="d-flex" role="button" [formGroup]="headerForm">
-            <div class="menu">
+          <form class="d-flex  align-items-center" role="button" [formGroup]="headerForm">
+            <div class="menu me-2">
               <div class="icon">
                 <label class="icon-switcher" data-js-icon-switcher="data-js-icon-switcher" (change)="handleSelection($event)">
                   <input id="themeSelector" class="control" type="checkbox" formControlName="themeSelection"/>
@@ -26,7 +26,17 @@
               </div>
             </div>
           </form>
-          <%}%>
+        <%}%>
+        <% if(isOkta){%>
+          <div class="auth-btn-group">
+            <ng-container *ngIf="(isAuthenticated$ | async) === false; else signout">
+              <button class="btn btn-outline-secondary"  (click)="signIn()"> Sign in </button>
+            </ng-container>
+            <ng-template #signout>
+              <button class="btn btn-outline-secondary"  (click)="signOut()">Sign out</button>
+            </ng-template>
+          </div>
+        <%}%>
       </div>
     </div>
   </nav>

@@ -89,7 +89,7 @@ module.exports = [
       { name: "Okta", value: "Okta" },
       { name: "None", value: false },
     ],
-    when: (answers) => answers.frontEndChoice == "react",
+    when: (answers) => answers.frontEndChoice == "react" || answers.frontEndChoice == "angular",
   },
   {
     name: "store",

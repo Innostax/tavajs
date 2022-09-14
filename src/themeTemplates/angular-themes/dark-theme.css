@@ -29,3 +29,8 @@
 [data-theme='dark'] .btn .close-icon {
   color: var(--dark-text-color);
 }
+
+[data-theme='dark'] .auth-btn-group .btn {
+  color: var(--dark-text-color);
+  border: 1px solid var(--dark-text-color);
+}
