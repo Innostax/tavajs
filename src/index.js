@@ -386,6 +386,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           mongoSelected,
           sequelizeSelected,
           dbName,
+          isSMTP,
           isSentry,
           isWinston,
           isAuth0,
@@ -398,6 +399,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           backEndName,
           choice,
           isDark,
+          isMaterialUI,
         );
       })
 
