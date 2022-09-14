@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { updatePackage } = require("./helper");
+const { updateProjectDependencies } = require("./helper");
 const path = require("path");
 //function to create email services
 function createEmailSevice(
@@ -9,7 +9,7 @@ function createEmailSevice(
   __dirname
 ) {
   let package = { name: "dotenv", version: "^10.0.0" };
-  updatePackage(nodePath, package);
+  updateProjectDependencies(nodePath, package);
 
   let contents = fs.readFileSync(emailTemplatePath + ".js", "utf-8");
   let servicePath = path.join(nodePath, "utils", "email");
@@ -20,18 +20,18 @@ function createEmailSevice(
       servicePath + "/.env"
     );
     package = { name: "@sendgrid/mail", version: "^7.4.6" };
-    updatePackage(nodePath, package);
+    updateProjectDependencies(nodePath, package);
   } else if (emailServiceName === "smtp") {
     fs.copyFileSync(
       __dirname + "/envTemplates/.smtpEnv",
       servicePath + "/.env"
     );
     package = { name: "nodemailer", version: "^6.6.3" };
-    updatePackage(nodePath, package);
+    updateProjectDependencies(nodePath, package);
   } else {
     fs.copyFileSync(__dirname + "/envTemplates/.sesEnv", servicePath + "/.env");
     package = { name: "aws-sdk", version: "^2.971.0" };
-    updatePackage(nodePath, package);
+    updateProjectDependencies(nodePath, package);
   }
 
   fs.writeFile(

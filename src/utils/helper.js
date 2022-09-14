@@ -159,14 +159,14 @@ function createDirectoryContents(
 }
 
 //to update package.json------------------------------------------------>
-function updatePackage(path, package) {
+function updateProjectDependencies(path, dependency) {
   let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
   packagefile = JSON.parse(packagefile);
   let newPackageFile = {
     ...packagefile,
     dependencies: {
       ...packagefile.dependencies,
-      [package.name]: package.version,
+      [dependency.name]: dependency.version,
     },
   };
   newPackageFile = JSON.stringify(newPackageFile);
@@ -174,14 +174,14 @@ function updatePackage(path, package) {
 }
 
 // To update the scripts in Package.json
-function updatePackageJsonScripts(path, package) {
+function updateProjectScripts(path, script) {
   let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
   packagefile = JSON.parse(packagefile);
   let newPackageFile = {
     ...packagefile,
     scripts: {
       ...packagefile.scripts,
-      [package.name]: package.script,
+      [script.name]: script.command,
     },
   };
   newPackageFile = JSON.stringify(newPackageFile);
@@ -190,6 +190,6 @@ function updatePackageJsonScripts(path, package) {
 
 module.exports = {
   createDirectoryContents,
-  updatePackage,
-  updatePackageJsonScripts
+  updateProjectDependencies,
+  updateProjectScripts
 };

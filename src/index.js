@@ -8,7 +8,7 @@ const createBlobService = require("./utils/createBlobService");
 const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
-const { createDirectoryContents, updatePackage, updatePackageJsonScripts } = require("./utils/helper");
+const { createDirectoryContents, updateProjectDependencies, updateProjectScripts } = require("./utils/helper");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
@@ -119,7 +119,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           `${frontEnd.path}/cypress.config.js`,
           (err) => {
             if (err) {
-              console.log("Error Found:", err);
+              console.error(`Error occurred while coping the config file for cypress: ${err}`);
             }
           }
         );
@@ -128,15 +128,16 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           `${frontEnd.path}`,
           (err) => {
             if (err) {
-              console.log("Error Found:", err);
+              console.error(`Error occurred while coping the test scripts for cypress: ${err}`);
             }
           }
         )
 
-        const package = { name: "cypress", version: "^10.7.0" };
-        updatePackage(frontEnd.path, package);
-        const updatedScripts = { name: "cypress", script: "npm install cypress --dev && npx cypress install && npx cypress open" };
-        updatePackageJsonScripts(frontEnd.path, updatedScripts);
+        const newDependency = { name: "cypress", version: "^10.7.0" };
+        updateProjectDependencies(frontEnd.path, newDependency);
+
+        const newScript = { name: "cypress", command: "npm install cypress --dev && npx cypress install && npx cypress open" };
+        updateProjectScripts(frontEnd.path, newScript);
       }
       // MochaJS
       // JEST
@@ -513,8 +514,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       },
     ];
 
-    const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    updatePackage(frontEnd.path, package);
+    const newDependency = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+    updateProjectDependencies(frontEnd.path, newDependency);
 
     filesMap.map((each) => {
       fs.copyFile(
@@ -543,8 +544,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         destFileName: ".env",
       },
     ];
-    const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    updatePackage(frontEnd.path, package);
+    const newDependency = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+    updateProjectDependencies(frontEnd.path, newDependency);
 
     filesMap.map((each) => {
       fs.copyFile(
