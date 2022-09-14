@@ -1,15 +1,9 @@
-// Entrypoint for vuex
-
-import Vuex from "vuex";
-import Vue from "vue";
+import Vuex from 'vuex'
 import users from "./modules/users";
 
-// Load vuex
-Vue.use(Vuex);
-
-// Create store
-export default new Vuex.Store({
+export default Vuex.createStore({
   modules: {
     users,
   },
-});
+})
+
