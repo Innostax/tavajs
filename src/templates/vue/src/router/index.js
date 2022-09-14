@@ -1,5 +1,4 @@
-import VueRouter from "vue-router";
-
+import { createRouter, createWebHistory } from "vue-router";
 import Home from "../pages/Home.vue";
 import Users from "../pages/Users.vue";
 
@@ -8,9 +7,9 @@ const routes = [
   { path: "/users", component: Users },
 ];
 
-const router = new VueRouter({
-  routes,
-  mode: "history",
-});
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
 
 export default router;
