@@ -1,0 +1,31 @@
+
+[data-theme='dark'] {
+  background-color: var(--dark-background-color);
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .bg-light {
+  background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity)) !important;
+  box-shadow: 1px 1px 5px var(--dark-text-color);
+}
+
+[data-theme='dark'] .navbar .container .navbar-brand {
+  color: var(--dark-text-color) !important;
+}
+
+[data-theme='dark'] .navbar-nav .nav-link {
+  color: var(--dark-text-color);
+}
+
+/* Table styling */
+[data-theme='dark'] .table {
+  color: var(--dark-text-color);
+}
+
+/* Modal styling */
+[data-theme='dark'] .modal-content {
+  background-color: var(--dark-background-color);
+}
+[data-theme='dark'] .btn .close-icon {
+  color: var(--dark-text-color);
+}
