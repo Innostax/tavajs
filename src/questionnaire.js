@@ -62,7 +62,7 @@ module.exports = [
       { name: "None", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "react";
+      return answers.frontEndChoice === "react" || answers.frontEndChoice === "angular";
     },
   },
   {

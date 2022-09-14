@@ -88,15 +88,28 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------- For Themes integration ---------------------------------->
     if (isDark) {
-      fs.copyFile(
-        `${currentPath}/themeTemplates/themes.js`,
-        `${frontEnd.path}/src/themes.js`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
+      if(frontEnd?.choice === "react") {
+        fs.copyFile(
+          `${currentPath}/themeTemplates/themes.js`,
+          `${frontEnd.path}/src/themes.js`,
+          (err) => {
+            if (err) {
+              console.log("Error Found:", err);
+            }
           }
-        }
-      );
+        );
+      }
+      if(frontEnd?.choice === "angular") {
+        fsExtra.copy(
+          `${currentPath}/themeTemplates/angular-theme`,
+          `${frontEnd.path}/src/angular-theme`,
+          (err) => {
+            if (err) {
+              console.log("Error Found:", err);
+            }
+          }
+        );
+      }
     }
   }
 

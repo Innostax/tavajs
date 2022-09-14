@@ -1,2 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
+
+<% if(isDark){%> 
+@import "./angular-theme/dark-theme.css";
+
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --background-color: #fff;
+  --text-color: #121416d8;
+  --link-color: #543fd7;
+  --dark-background-color: #212a2e;
+  --dark-text-color: #F7F8F8;
+  --dark-link-color: #828fff;
+}<%}%>

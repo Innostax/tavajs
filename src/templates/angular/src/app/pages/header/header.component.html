@@ -14,6 +14,19 @@
             <a class="nav-link" [routerLink]="'/users'" routerLinkActive="active">User</a>
           </li>
         </ul>
+        <% if(isDark){%>
+        <form class="d-flex" role="button" [formGroup]="headerForm">
+          <div class="menu">
+            <div class="icon">
+              <label class="icon-switcher" data-js-icon-switcher="data-js-icon-switcher" (change)="handleSelection($event)">
+                <input id="themeSelector" class="control" type="checkbox" formControlName="themeSelection"/>
+                <div class="peg"></div>
+                <div class="bg"></div>
+              </label>
+            </div>
+          </div>
+        </form>
+        <%}%>
       </div>
     </div>
   </nav>
