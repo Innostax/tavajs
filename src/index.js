@@ -108,7 +108,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         `${frontEnd.path}/src/dark-theme.constants.js`,
         (err) => {
           if (err) {
-            console.log("Getting error while copying theme constants file:", err);
+            console.error("Getting error while copying theme constants file:", err);
           }
         }
       );
