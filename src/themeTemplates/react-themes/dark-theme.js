@@ -1,40 +1,37 @@
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import React, { useState, useEffect } from 'react'
+import { THEMES } from './dark-theme.constants'
 
-const DARK_CLASS = 'dark'
+const THEME = 'theme'
 
 export const DarkToggle = () => {
-	const [isDark, setIsDark] = useState(false)
+	const [isDarkTheme, setIsDarkTheme] = useState(false)
+
 	useEffect(() => {
-		if (localStorage.getItem('theme') === DARK_CLASS) {
-			document.documentElement.classList.add(DARK_CLASS)
-			setIsDark(true)
-		} else {
-			document.documentElement.classList.remove(DARK_CLASS)
-			setIsDark(false)
-		}
+		const isDarkThemeSelected = localStorage.getItem(THEME) === THEMES.DARK
+        setIsDarkTheme(isDarkThemeSelected)
+        if (isDarkThemeSelected) document.documentElement.classList.add(THEMES.DARK)
+        else document.documentElement.classList.remove(THEMES.DARK)
 	}, [])
 
-	const handleChange = (isChecked) => {
-		if (isChecked) {
-			document.documentElement.classList.add(DARK_CLASS)
-			localStorage.setItem('theme', 'dark')
-			setIsDark(true)
-		} else {
-			document.documentElement.classList.remove(DARK_CLASS)
-			localStorage.setItem('theme', 'light')
-			setIsDark(false)
-		}
+	const handleThemeChange = (isChecked) => {
+		if (isChecked) document.documentElement.classList.add(THEMES.DARK)
+		else document.documentElement.classList.remove(THEMES.DARK)
+
+		const selectedTheme = isChecked ? THEMES.DARK : THEMES.LIGHT
+		localStorage.setItem(THEME, selectedTheme)
+		setIsDarkTheme(isChecked)
 	}
+
 	return (
 		<BootstrapSwitchButton
 			className='DarkToggle'
-			checked={isDark}
+			checked={isDarkTheme}
 			width={50}
 			offlabel='🌙'
 			onlabel='🔆'
 			onstyle='secondary'
-			onChange={(event) => handleChange(event)}
+			onChange={(event) => handleThemeChange(event)}
 			aria-label='Dark mode'
 		/>
 	)

@@ -102,6 +102,16 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           }
         }
       );
+
+      fs.copyFile(
+        `${currentPath}/themeTemplates/react-themes/dark-theme.constants.js`,
+        `${frontEnd.path}/src/dark-theme.constants.js`,
+        (err) => {
+          if (err) {
+            console.log("Getting error while copying theme constants file:", err);
+          }
+        }
+      );
     }
     if (isDark && frontEndChoice==='vue') {
       fs.copyFile(
