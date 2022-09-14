@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 
-<% if(isMaterialUI) {%>import {Grid} from '@mui/material';<%}%>
-<% if(isMaterialUI) {%>import Label from "../../components/atoms/Label";<%}%>
-<% if(isMaterialUI) {%>import Button from "../../components/atoms/Button";<%}%>
-<% if(isMaterialUI) {%>import Input from "../../components/atoms/Input";<%}%>
+<% if(isMaterialUI) {%>
+  
+  
+  import {Grid} from '@mui/material';
+  import Label from "../../components/atoms/Label";
+  import Button from "../../components/atoms/Button";
+  import Input from "../../components/atoms/Input";
+  
+<%}%>
 
 <% if(!isMaterialUI) {%>import { Form, Button } from "react-bootstrap";<%}%>
 import Modal from "../../components/organisms/Modal";
@@ -46,13 +51,12 @@ const AddUser = ({ show, handleClose, reset }) => {
     if (isEmpty(user)) 
     {
       dispatch(addUsers(formData));
-      handleClose();
     }
     else 
     {
       dispatch(updateUsers({id , ...formData}));
-      handleClose();
     }
+    handleClose();
   };
   return (
     <Modal

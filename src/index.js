@@ -29,13 +29,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const emailServiceName = answers["emailServiceName"];
   const blobServiceName = answers["blobServiceName"];
   const loggerServiceName = answers["loggerServiceName"];
-  const isMaterialUI = answers["materialuiChoice"];
-
+  const isMaterialUI = answers["cssFrameworkChoice"] == "materialUI";
   const isStore = Boolean(answers["store"]);
-  const isDark = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
+  const isDark = answers["theme"] === "light-dark-mode";
   
   const isAuth0 = authenticationChoice === "Auth0";
   const isCognito = authenticationChoice === "Cognito";
@@ -325,7 +324,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(writePath, contents, "utf8");
 
       if (isCrud) {
-        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
+        let newContent = fs.readFileSync(`${currentPath}/reduxTemplates/userform/AddUser.js`, "utf8");
         newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode });
         writePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
         fs.writeFileSync(writePath, newContent, "utf8");

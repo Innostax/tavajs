@@ -42,12 +42,12 @@ module.exports = [
   },
    /* CSS Framework question added here */
   {
-    name: "materialuiChoice",
+    name: "cssFrameworkChoice",
     type: "list",
     message: "Which CSS Framework do you want?",
     choices: [
-      {name: "MaterialUI", value: true},
-      {name: "Bootstrap", value: false }
+      {name: "MaterialUI", value: "materialUI"},
+      {name: "Bootstrap", value: "bootstrap" }
     ],
     when: (answers) => {
       return answers.frontEndChoice == "react";

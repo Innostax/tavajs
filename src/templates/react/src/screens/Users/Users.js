@@ -1,6 +1,6 @@
 <% if(isStore && (isCrudWithNode||isCrud)){%>import React, {useState,useEffect} from "react";<%}%>
-<% if((isCrudWithNode||isCrud) && isMaterialUI === false) {%>import { Button } from "react-bootstrap";<%}%>
-<% if((isCrudWithNode||isCrud) && isMaterialUI === true) {%>import { Button,Box } from "@mui/material";<%}%>
+<% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>import { Button } from "react-bootstrap";<%}%>
+<% if((isCrudWithNode||isCrud) && isMaterialUI) {%>import { Button,Box } from "@mui/material";<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%>import { useSelector, useDispatch } from "react-redux";<%}%>
 <% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
@@ -37,7 +37,7 @@ const Users = () => {
     };
 
     const editFormatter = (id, row) => (
-      <% if(isMaterialUI === false) {%>
+      <% if(!isMaterialUI) {%>
         <>
           <Button size="sm" variant="outline-primary" onClick={() => {
             handleShow()
@@ -48,7 +48,7 @@ const Users = () => {
           </Button>
         </>
       <%}%>
-      <% if(isMaterialUI === true) {%>
+      <% if(isMaterialUI) {%>
         <>
           <Button  variant='outlined' size='small' onClick={() => {
             handleShow()
@@ -62,7 +62,7 @@ const Users = () => {
     )
 
     const deleteFormatter= (id)=>(
-      <% if(isMaterialUI === false) {%>
+      <% if(!isMaterialUI) {%>
         <>
           <Button
             variant="outline-danger"
@@ -76,7 +76,7 @@ const Users = () => {
           </Button>
         </>
       <%}%>
-      <% if(isMaterialUI === true) {%>
+      <% if(isMaterialUI) {%>
         <>
           <Button
             variant='outlined'
@@ -125,10 +125,10 @@ const Users = () => {
         <h1>Welcome to Users Screen</h1>
         <% if(isStore){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
         <%}%>
-        <% if((isCrudWithNode||isCrud) && isMaterialUI === false) {%>
+        <% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>
           <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
         <%}%>
-        <% if((isCrudWithNode||isCrud) && isMaterialUI === true) {%>
+        <% if((isCrudWithNode||isCrud) && isMaterialUI) {%>
           <Button variant='contained' onClick={() => handleShow()}>Add User</Button>
           <Box sx={{ height: '1.5rem' }} />
         <%}%>
