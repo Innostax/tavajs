@@ -358,7 +358,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     if (isDark) {
       let newContent = fs.readFileSync(`${currentPath}/templates/react/src/App.js`, "utf8");
-      newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode,isAuth0,isDark });
+      newContent = render(newContent, { isMaterialUI,isCrud,isCrudWithNode,isAuth0,isDark, isOkta });
       writePath = `${frontEnd.path}/src/App.js`;
       fs.writeFileSync(writePath, newContent, "utf8");
     }
@@ -386,6 +386,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           mongoSelected,
           sequelizeSelected,
           dbName,
+          isSMTP,
           isSentry,
           isWinston,
           isAuth0,
@@ -398,6 +399,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           backEndName,
           choice,
           isDark,
+          isMaterialUI,
         );
       })
 
