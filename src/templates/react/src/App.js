@@ -50,7 +50,10 @@ const App = () => {
           <NavBar brand='Made in India' links={linksOfNav}/>
         <%}%>
       <%}%>
-      <%if(isDark) {%>
+
+      
+
+      <%if(isDark && isMaterialUI) {%>
           <% if(isOkta) {%>
             <Router>
               <AppWithRouterAccess />
@@ -75,6 +78,28 @@ const App = () => {
                     </ThemeProvider>
           <%}%>
       <%}%>
+
+
+      <%if(isDark && !isMaterialUI) {%>
+        <% if(isOkta) {%>
+          <Router>
+            <AppWithRouterAccess />
+          </Router>
+        <%} else if(isAuth0) { %>
+                isUserAuthenticated && ((<NavBar brand='Made in India'
+                    links={[
+                      { href: '/home', label: 'Home' },
+                      { href: '/users', label: 'Users' },
+                    ]}/>
+                    ))
+        <%} else { %>
+                 
+                    <NavBar
+                      brand='Made in India'
+                        links={linksOfNav}/>
+                  
+        <%}%>
+    <%}%>
   )
 };
 

@@ -65,16 +65,16 @@ const AddUser = ({ show, handleClose, reset }) => {
     handleClose={handleClose}
     title={isEmpty(user) ? 'Add User' : 'Edit User'}
     reset={reset}			
+    <% if(!isMaterialUI) {%>
     footer= {
-      <% if(!isMaterialUI) {%>
         <>
           <Button variant='outline-primary' type='submit' onClick={handleSubmit} active>
             {isEmpty(user) ? 'Add' : 'Edit'}
           </Button>
           <Button onClick={handleClose} variant="outline-primary">Cancel</Button>
         </>
+      }
       <%}%>
-    }
   >
   <% if(!isMaterialUI) {%>
     <Form>
