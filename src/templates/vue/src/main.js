@@ -1,23 +1,17 @@
-import Vue from "vue";
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import { createApp } from "vue";
 import router from "./router/index";
-import VueRouter from "vue-router";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-
+import BootstrapVue3 from "bootstrap-vue-3";
 import App from "./App.vue";
 <% if(isStore){ %>
 import store from "./store/index";
 <% } %>
 import Vuex from "vuex";
-Vue.use(Vuex);
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
-Vue.use(VueRouter);
-Vue.config.productionTip = false;
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
-new Vue({
-  <% if(isStore){ %>  store,  <% } %>
-  router: router,
-  render: (h) => h(App),
-}).$mount("#app");
+createApp(App)
+<% if(isStore){ %> .use(store)  <% } %>
+.use(router)
+.use(Vuex)
+.use(BootstrapVue3)
+.mount('#app')
