@@ -471,26 +471,27 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       },
     ];
 
-    const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    updatePackage(frontEnd.path, package);
-
     filesMap.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEnd.path}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
+      let newContent = fs.readFileSync( `${currentPath}/${each.srcFolder}/${each.srcFileName}`, "utf8");
+      newContent = render(newContent, { frontEndChoice });
+      let writePath = `${frontEnd.path}/${each.destFileName}`;
+      fs.writeFileSync(writePath, newContent, "utf8");
     });
+    
+    if (frontEndChoice === "react") {
+      const package = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+      updatePackage(frontEnd.path, package);
 
-    const reactSpaPath = path.join(__dirname, "authTemplates");
-    let newContent = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
-    newContent = render(newContent, { isStore });
-    writePath = `${frontEnd.path}/src/react-spa.js`;
-    fs.writeFileSync(writePath, newContent, "utf8");
+      const reactSpaPath = path.join(__dirname, "authTemplates");
+      let newContent = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
+      newContent = render(newContent, { isStore });
+      writePath = `${frontEnd.path}/src/react-spa.js`;
+      fs.writeFileSync(writePath, newContent, "utf8");
+    }
+    if (frontEndChoice === "vue") {
+      const package = { name: "@auth0/auth0-vue", version: "^1.0.2" };
+      updatePackage(frontEnd.path, package);
+    }
   } else if (answers["authenticationChoice"] === "Cognito") {
     choice = "cognito";
     const filesMap = [
