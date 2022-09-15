@@ -511,7 +511,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === FRAMEWORKS?.ANGULAR) {
+    if (frontEnd?.choice === ANGULAR) {
       fsExtra.copy(
         `${currentPath}/ngrxTemplates/reducers`,
         `${frontEnd.path}/src/app/reducers`,
