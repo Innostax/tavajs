@@ -5,13 +5,12 @@ import App from "./App.vue";
 <% if(isStore){ %>
 import store from "./store/index";
 <% } %>
-import Vuex from "vuex";
+import "bootstrap"
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
+import "bootstrap/dist/css/bootstrap.min.css"
 
 createApp(App)
 <% if(isStore){ %> .use(store)  <% } %>
 .use(router)
-.use(Vuex)
 .use(BootstrapVue3)
 .mount('#app')

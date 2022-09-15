@@ -1,33 +1,31 @@
 <template>
   <div>
-    <b-table :fields="fields" :items="items" striped hover fixed :tbody-tr-class="rowClass">
+    <b-table :fields="fields" :items="items" striped hover>
       <template v-for="item in items" #cell(edit)="data">
-        <b-button variant="primary" :key="item.id" @click="editButtonHandler(data.item.id)"> Edit </b-button>
+        <Button color="primary" :key="item.id" data-bs-toggle="modal" data-bs-target="#bv-modal-editUser" @onClick="editButtonHandler(data.item.id)" name="Edit"/>
       </template>
       <template v-for="item in items" #cell(delete)="data">
-        <b-button variant="danger" :key="item.id" @click="removeButtonHandler(data.item.id)"> Delete </b-button>
+        <Button color="danger" :key="item.id" data-bs-toggle="modal" data-bs-target="#bv-modal-deleteUser" @onClick="removeButtonHandler(data.item.id)" name="Delete"/> 
       </template>
     </b-table>
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Button from "../atoms/Button.vue"
 export default {
-  name: "Table",
+  name: "Table", 
   components: {
+    Button
   },
   props: ["fields","items"],
   methods: {
     ...mapActions(["selectedItem"]),
     removeButtonHandler: function (id) {
       this.selectedItem(id);
-      this.modalShow = false;
-      this.$bvModal.show('bv-modal-deleteUser');
     },
     editButtonHandler: function (id) {
       this.selectedItem(id);
-      this.modalShow = false;
-      this.$bvModal.show('bv-modal-editUser')
     },
     rowClass() {
       return 'align-middle'
@@ -41,3 +39,10 @@ export default {
   },
 };
 </script>
+
+<style>
+  .table{
+    table-layout: fixed ;
+    vertical-align: middle !important;
+  }
+</style>

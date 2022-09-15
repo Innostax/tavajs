@@ -3,57 +3,38 @@
     <Modal id="bv-modal-editUser" title="Edit User">
       <template #body>
         <form>
-          <b-form-group class="p-1">
-            <Label class="p-1 pt-0" input-id="name-input" name="Name"></Label>
-            <b-form-input
-              id="name-input"
-              type="text"
-              placeholder="Name"
-              v-model="user.name"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group class="p-1">
-            <Label
-              class="p-1"
-              input-id="username-input"
-              name="Username"
-            ></Label>
-            <b-form-input
-              id="username-input"
-              type="text"
-              placeholder="Username"
-              v-model="user.username"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group class="p-1">
-            <Label class="p-1" input-id="email-input" name="Email"></Label>
-            <b-form-input
-              id="email-input"
-              type="email"
-              placeholder="example@email.com"
-              v-model="user.email"
-            ></b-form-input>
-          </b-form-group>
-        </form>
+          <div class="mb-3">
+            <Label for="name-input" class="form-label" name="Name">Name</Label>
+            <input type="text" class="form-control" id="name-input" placeholder="Name" v-model="user.name" />
+          </div>
+        <div class="mb-3">
+          <Label for="username-input" class="form-label" name="Username"></Label>
+          <input type="text" class="form-control" id="username-input" placeholder="Username" v-model="user.username" />
+        </div>
+        <div class="mb-3">
+          <Label for="email-input" class="form-label" name="Email"></Label>
+          <input type="text" class="form-control" id="email-input" placeholder="example@email.com" v-model="user.email" />
+        </div> 
+      </form>
       </template>
       <template #footer>
-        <Button id="show-btn" name="Edit User" color="primary" @submit="submitButonHandler"/>
-        <Button id="close-btn" name="Cancel" color="outline-secondary" @onClick="$bvModal.hide('bv-modal-editUser')"/>
+        <Button type="submit" color="primary" data-bs-dismiss="modal" @onClick="submitButonHandler" name="Edit User"></Button>
+        <Button type="button" color="outline-secondary" data-bs-dismiss="modal" name="Cancel"></Button>
       </template>
     </Modal>
   </div>
 </template>
 
 <script>
+  import Label from "../components/atoms/Label";
 import Button from "../components/atoms/Button.vue";
-import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal.vue";
 
 export default {
   name: "EditUser",
   components: {
-    Button,
     Label,
+    Button,    
     Modal
   },
   data() {
@@ -72,7 +53,6 @@ export default {
         email: this.user.email,
       };
       this.$store.dispatch("editItem", data);
-      this.$bvModal.hide('bv-modal-editUser')
     },
   },
   computed: {
