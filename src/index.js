@@ -106,8 +106,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------- For Themes integration ---------------------------------->
     if (isDark && frontEndChoice === REACT) {
       fs.copyFile(
-        `${currentPath}/themeProviderTemplates/react-themes/light-dark-theme.js`,
-        `${frontEnd.path}/src/light-dark-theme.js`,
+        `${currentPath}/themeProviderTemplates/react-themes/theme.js`,
+        `${frontEnd.path}/src/theme.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -129,8 +129,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isDark && frontEndChoice === VUE) {
       fs.copyFile(
-        `${currentPath}/themeProviderTemplates/vue-themes/light-dark-theme.vue`,
-        `${frontEnd.path}/src/light-dark-theme.vue`,
+        `${currentPath}/themeProviderTemplates/vue-themes/theme.vue`,
+        `${frontEnd.path}/src/theme.vue`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);

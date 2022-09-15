@@ -4,7 +4,7 @@ import { THEMES } from '../theme.constants'
 
 const THEME = 'theme'
 
-export const ThemeToggle = () => {
+export const ThemeToggler = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false)
 
   useEffect(() => {

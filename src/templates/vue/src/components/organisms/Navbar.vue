@@ -26,7 +26,7 @@
 
 <script>
 <% if(isDark) { %> 
-import ThemeVue from '../../light-dark-theme.vue';
+import ThemeVue from '../../theme.vue';
 <% } %> 
 <% if(isAuth0) { %> 
 import LogoutButton from '../atoms/LogoutButton.vue'

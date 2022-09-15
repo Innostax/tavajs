@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 
-<% if(isDark) { %>import { ThemeToggle } from '../../light-dark-theme'<% } %>
+<% if(isDark) { %>import { ThemeToggler } from '../../theme'<% } %>
 const NavBar = ({ brand, links<% if(isOkta) { %> , oktaLoginButton <%}%> }) => {
 
 <% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
@@ -32,7 +32,7 @@ const NavBar = ({ brand, links<% if(isOkta) { %> , oktaLoginButton <%}%> }) => {
 						</Nav>
 						<%}%>
 					</Navbar.Collapse>
-					<% if(isDark) { %><ThemeToggle/><% } %>
+					<% if(isDark) { %><ThemeToggler/><% } %>
 					<% if(isOkta){%> {oktaLoginButton}<%}%>
 				</Container>
 			</Navbar>
