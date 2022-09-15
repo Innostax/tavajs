@@ -22,7 +22,7 @@
 
 <script>
 <% if(isDark) { %> 
-import ThemeVue from '../../Theme.vue';
+import ThemeVue from '../../dark-theme.vue';
 <% } %> 
 
 export default {
