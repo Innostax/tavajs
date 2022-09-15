@@ -1,3 +1,4 @@
+/* To-DO: isDark will updated once done in 'index.js:35' */
 <% if(isDark){%>
 .icon-switcher {
   width: 50px;

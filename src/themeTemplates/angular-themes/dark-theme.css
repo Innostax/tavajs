@@ -26,6 +26,7 @@
 [data-theme='dark'] .modal-content {
   background-color: var(--dark-background-color);
 }
+
 [data-theme='dark'] .btn .close-icon {
   color: var(--dark-text-color);
 }

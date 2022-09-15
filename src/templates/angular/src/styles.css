@@ -1,3 +1,5 @@
+
+/* To-DO: isDark will updated once done in 'index.js:35' */
 <% if(isDark){%>
 @import "./angular-themes/dark-theme.css";
 :root {
