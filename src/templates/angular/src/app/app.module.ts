@@ -14,8 +14,8 @@ import { OktaAuth } from '@okta/okta-auth-js';<% } %>
 
 <% if (isOkta) { %>
 const oktaAuth = new OktaAuth({
-issuer: 'https://dev-92460433.okta.com/oauth2/default',
-clientId: '0oa6hbg1zjS6c8oON5d7',
+issuer: '{Issuer URI}',
+clientId: '{Client ID }',
 redirectUri: window.location.origin+'/login/callback'});
 <% } %>
 @NgModule({
