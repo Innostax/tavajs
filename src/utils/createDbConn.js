@@ -1,23 +1,23 @@
 const fs = require("fs");
-const { updatePackage } = require("./helper");
+const { updateProjectDependencies } = require("./helper");
 const { render } = require("ejs");
 //function to create db service---------------------------------------------->
 function createDbConn(nodePath, dbName, defaultRoute,currentPath) {
   if (dbName === "postgres" || dbName === "mysql") {
     let package = { name: "sequelize", version: "^6.6.5" };
-    updatePackage(nodePath, package);
+    updateProjectDependencies(nodePath, package);
     var fileName = "sequelize.js";
     var modelName = "sequelizeModel.js";
     if (dbName === "mysql") {
       package = { name: "mysql2", version: "^2.3.0" };
-      updatePackage(nodePath, package);
+      updateProjectDependencies(nodePath, package);
     } else {
       package = { name: "pg", version: "^8.7.1" };
-      updatePackage(nodePath, package);
+      updateProjectDependencies(nodePath, package);
     }
   } else {
     let package = { name: "mongoose", version: "^6.0.2" };
-    updatePackage(nodePath, package);
+    updateProjectDependencies(nodePath, package);
     var fileName = "mongoose.js";
     var modelName = "mongooseModel.js";
   }
