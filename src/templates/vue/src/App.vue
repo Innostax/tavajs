@@ -1,5 +1,9 @@
 <template>
+  <% if (isAuth0) { %>
+  <div v-if="isAuthenticated" id="app">
+  <% } else { %> 
   <div id="app">
+  <% } %>
     <Navbar />
     <router-view></router-view>
   </div>
@@ -12,6 +16,13 @@ export default {
   components: {
     Navbar,
   },
+  <% if (isAuth0) { %>
+  data () {
+    return {
+      isAuthenticated: this.$auth0.isAuthenticated
+    }
+  }
+  <% } %>
 };
 </script>
 

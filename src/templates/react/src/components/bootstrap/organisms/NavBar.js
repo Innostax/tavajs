@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
-<% if(isDark) { %>import { DarkToggle } from '../../dark-theme'<% } %>
+<% if(isDark) { %>import { ThemeToggler } from '../../theme'<% } %>
 const NavBar = ({ brand, links }) => {
 
 <% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
@@ -32,10 +32,8 @@ const NavBar = ({ brand, links }) => {
 						</Nav>
 						<%}%>
 					</Navbar.Collapse>
-					<% if(isDark) { %><DarkToggle/><% } %>
-					<% if(isOkta) {%>
-					<AppWithRouterAccess />
-					<%}%>
+					<% if(isDark) { %><ThemeToggler/><% } %>
+					<% if(isOkta) { %><AppWithRouterAccess /> <% } %>
 				</Container>
 			</Navbar>
 			<Routes />

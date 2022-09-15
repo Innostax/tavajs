@@ -69,7 +69,7 @@ function createDirectoryContents(
       {
         
         // recursive call
-        if(isMaterialUI === true && `${file}`=== 'material'){
+        if(isMaterialUI && `${file}`=== 'material'){
         fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
         createDirectoryContents(
           `${templatePath}/${file}`,
@@ -93,10 +93,10 @@ function createDirectoryContents(
           isDark,
           isMaterialUI
         );}
-        else if(isMaterialUI === false && `${file}` === "material"){ 
+        else if(!isMaterialUI && `${file}` === "material"){ 
           return ;
          }
-        else if(isMaterialUI === false && `${file}`=== 'bootstrap')
+        else if(!isMaterialUI && `${file}`=== 'bootstrap')
         {
           fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
           createDirectoryContents(
@@ -122,7 +122,7 @@ function createDirectoryContents(
             isMaterialUI
           );
         }
-        else if(isMaterialUI === true && `${file}`=== 'bootstrap')
+        else if(isMaterialUI && `${file}`=== 'bootstrap')
         {
           return;
         }
@@ -159,14 +159,29 @@ function createDirectoryContents(
 }
 
 //to update package.json------------------------------------------------>
-function updatePackage(path, package) {
+function updateProjectDependencies(path, dependency) {
   let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
   packagefile = JSON.parse(packagefile);
   let newPackageFile = {
     ...packagefile,
     dependencies: {
       ...packagefile.dependencies,
-      [package.name]: package.version,
+      [dependency.name]: dependency.version,
+    },
+  };
+  newPackageFile = JSON.stringify(newPackageFile);
+  fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
+}
+
+// To update the scripts in Package.json
+function updateProjectScripts(path, script) {
+  let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
+  packagefile = JSON.parse(packagefile);
+  let newPackageFile = {
+    ...packagefile,
+    scripts: {
+      ...packagefile.scripts,
+      [script.name]: script.command,
     },
   };
   newPackageFile = JSON.stringify(newPackageFile);
@@ -175,5 +190,6 @@ function updatePackage(path, package) {
 
 module.exports = {
   createDirectoryContents,
-  updatePackage,
+  updateProjectDependencies,
+  updateProjectScripts
 };
