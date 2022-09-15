@@ -12,11 +12,15 @@
     </b-collapse>
 
     <% if(isDark) { %> 
-    <b-navbar-nav class="mx-4">
+    <b-navbar-nav class="mx-2">
       <ThemeVue/>
     </b-navbar-nav>
     <% } %> 
-
+    <% if(isAuth0) { %> 
+    <b-navbar-nav class="mx-2">
+      <LogoutButton/>
+    </b-navbar-nav>
+    <% } %> 
   </b-navbar>
 </template>
 
@@ -24,13 +28,18 @@
 <% if(isDark) { %> 
 import ThemeVue from '../../light-dark-theme.vue';
 <% } %> 
-
+<% if(isAuth0) { %> 
+import LogoutButton from '../atoms/LogoutButton.vue'
+<% } %> 
 export default {
   name: "Navbar",
-  <% if(isDark) { %> 
   components : {
+  <% if(isDark) { %> 
     ThemeVue,
+  <% } %>   
+  <% if(isAuth0) { %> 
+    LogoutButton,
+  <% } %>   
   },
-  <% } %> 
 };
 </script>
