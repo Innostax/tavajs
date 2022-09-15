@@ -114,6 +114,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     }
+    if (isDark && frontEndChoice === 'angular') {
+      fsExtra.copy(
+        `${currentPath}/themeTemplates/angular-themes`,
+        `${frontEnd.path}/src/angular-themes`,
+        (err) => {
+          if (err) console.log("Unable to integrate theme template, Ref:", err);
+        }
+      );
+    }
   }
 
   //<---------------------------- node-js ---------------------------------->

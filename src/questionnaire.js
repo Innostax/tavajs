@@ -76,7 +76,7 @@ module.exports = [
       { name: "None", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "react" || answers.frontEndChoice === "vue";
+      return answers.frontEnd;
     },
   },
   {

@@ -12,10 +12,13 @@ import { reducer, userFeatureKey } from '../utils/store/reducer/user.reducer';<%
   imports: [
     CommonModule,
     FormsModule,
-    <% if(isStore){%>ReactiveFormsModule,
-    StoreModule.forFeature(userFeatureKey, reducer),<%}%>
+    ReactiveFormsModule,
+    <% if(isStore){%>StoreModule.forFeature(userFeatureKey, reducer),<%}%>
   ],
-  exports: [ <% if(isStore){%>AddUserModalComponent<%}%>
+  exports: [
+    FormsModule,
+    ReactiveFormsModule,
+    <% if(isStore){%>AddUserModalComponent<%}%>
   ]
 })
 export class SharedModule { }
