@@ -1,4 +1,4 @@
-
+/* To-Dos: Needs to figure out '[data-theme='dark']' */
 [data-theme='dark'] {
   background-color: var(--dark-background-color);
   color: var(--dark-text-color);
