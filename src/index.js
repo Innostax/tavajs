@@ -106,11 +106,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------- For Themes integration ---------------------------------->
     if (isDark && frontEndChoice === REACT) {
       fs.copyFile(
-        `${currentPath}/themeTemplates/react-themes/dark-theme.js`,
-        `${frontEnd.path}/src/dark-theme.js`,
+        `${currentPath}/themeProviderTemplates/react-themes/theme.js`,
+        `${frontEnd.path}/src/theme.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
+          }
+        }
+      );
+
+      fs.copyFile(
+        `${currentPath}/themeProviderTemplates/theme.constants.js`,
+        `${frontEnd.path}/src/theme.constants.js`,
+        (err) => {
+          if (err) {
+            console.error(`Error while copying theme's static files: ${err}`);
           }
         }
       );
@@ -119,11 +129,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isDark && frontEndChoice === VUE) {
       fs.copyFile(
-        `${currentPath}/themeTemplates/vue-themes/dark-theme.vue`,
-        `${frontEnd.path}/src/dark-theme.vue`,
+        `${currentPath}/themeProviderTemplates/vue-themes/theme.vue`,
+        `${frontEnd.path}/src/theme.vue`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
+          }
+        }
+      );
+      
+      fs.copyFile(
+        `${currentPath}/themeProviderTemplates/theme.constants.js`,
+        `${frontEnd.path}/src/theme.constants.js`,
+        (err) => {
+          if (err) {
+            console.error(`Error while copying theme's static files: ${err}`);
           }
         }
       );
@@ -491,7 +511,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === FRAMEWORKS?.ANGULAR) {
+    if (frontEnd?.choice === ANGULAR) {
       fsExtra.copy(
         `${currentPath}/ngrxTemplates/reducers`,
         `${frontEnd.path}/src/app/reducers`,
