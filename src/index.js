@@ -67,13 +67,13 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (frontEnd) {
     const { choice, path: frontEndPath } = frontEnd;
     const templatePath = path.join(__dirname, "templates", choice);
-    
+
     const projectPath = backEnd
       ? `${projectName}/${frontEndName}`
       : projectName;
 
     fsExtra.ensureDirSync(frontEndPath);
-    
+
     createDirectoryContents(
       templatePath,
       projectPath,
@@ -98,7 +98,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
-    if (isDark && frontEndChoice==='react') {
+    if (isDark && frontEndChoice === "react") {
       fs.copyFile(
         `${currentPath}/themeTemplates/react-themes/dark-theme.js`,
         `${frontEnd.path}/src/dark-theme.js`,
@@ -110,16 +110,31 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     }
 
+    //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
+    if (isDark && frontEndChoice === "vue") {
+      fs.copyFile(
+        `${currentPath}/themeTemplates/vue-themes/dark-theme.vue`,
+        `${frontEnd.path}/src/dark-theme.vue`,
+        (err) => {
+          if (err) {
+            console.log("Error Found:", err);
+          }
+        }
+      );
+    }
+
     //<---------------------------- For TestCases Framework ------------------------------------>
-    if(isTestCasesFramework) {
+    if (isTestCasesFramework) {
       // CYPRESSS
-      if(isCypress) {
+      if (isCypress) {
         fs.copyFile(
           `${currentPath}/uiTests/CypressTests/cypress.config.js`,
           `${frontEnd.path}/cypress.config.js`,
           (err) => {
             if (err) {
-              console.error(`Error occurred while coping the config file for cypress: ${err}`);
+              console.error(
+                `Error occurred while coping the config file for cypress: ${err}`
+              );
             }
           }
         );
@@ -128,15 +143,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           `${frontEnd.path}`,
           (err) => {
             if (err) {
-              console.error(`Error occurred while coping the test scripts for cypress: ${err}`);
+              console.error(
+                `Error occurred while coping the test scripts for cypress: ${err}`
+              );
             }
           }
-        )
+        );
 
         const newDependency = { name: "cypress", version: "^10.7.0" };
         updateProjectDependencies(frontEnd.path, newDependency);
 
-        const newScript = { name: "cypress", command: "npm install cypress --dev && npx cypress install && npx cypress open" };
+        const newScript = {
+          name: "cypress",
+          command:
+            "npm install cypress --dev && npx cypress install && npx cypress open",
+        };
         updateProjectScripts(frontEnd.path, newScript);
       }
       // MochaJS
@@ -144,20 +165,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       // JESMINE
       // KARMA
     }
-
-  //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
-  if (isDark && frontEndChoice==='vue') {
-    fs.copyFile(
-      `${currentPath}/themeTemplates/vue-themes/dark-theme.vue`,
-      `${frontEnd.path}/src/dark-theme.vue`,
-      (err) => {
-        if (err) {
-          console.log("Error Found:", err);
-        }
-      }
-    );
   }
-}
 
   //<---------------------------- node-js ---------------------------------->
   if (backEnd) {
