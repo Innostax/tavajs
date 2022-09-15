@@ -536,10 +536,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     ];
 
     filesMap.map((each) => {
-      let newContent = fs.readFileSync( `${currentPath}/${each.srcFolder}/${each.srcFileName}`, "utf8");
-      newContent = render(newContent, { frontEndChoice });
-      let writePath = `${frontEnd.path}/${each.destFileName}`;
-      fs.writeFileSync(writePath, newContent, "utf8");
+      let envFile = fs.readFileSync( `${currentPath}/${each.srcFolder}/${each.srcFileName}`, "utf8");
+      envFile = render(envFile, { frontEndChoice });
+      const envFilePath = `${frontEnd.path}/${each.destFileName}`;
+      fs.writeFileSync(envFilePath, envFile, "utf8");
     });
     
     if (frontEndChoice === "react") {
