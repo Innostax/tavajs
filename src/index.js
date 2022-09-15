@@ -123,6 +123,17 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     }
 
+    //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
+    if (isDark && frontEndChoice === 'angular') {
+      fsExtra.copy(
+        `${currentPath}/themeTemplates/angular-themes`,
+        `${frontEnd.path}/src/angular-themes`,
+        (err) => {
+          if (err) console.log("Unable to integrate theme template, Ref:", err);
+        }
+      );
+    }
+
     //<---------------------------- For TestCases Framework ------------------------------------>
     if (isTestCasesFramework) {
       // CYPRESSS
