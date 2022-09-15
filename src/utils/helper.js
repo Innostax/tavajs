@@ -69,7 +69,7 @@ function createDirectoryContents(
       {
         
         // recursive call
-        if(isMaterialUI === true && `${file}`=== 'material'){
+        if(isMaterialUI && `${file}`=== 'material'){
         fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
         createDirectoryContents(
           `${templatePath}/${file}`,
@@ -93,10 +93,10 @@ function createDirectoryContents(
           isDark,
           isMaterialUI
         );}
-        else if(isMaterialUI === false && `${file}` === "material"){ 
+        else if(!isMaterialUI && `${file}` === "material"){ 
           return ;
          }
-        else if(isMaterialUI === false && `${file}`=== 'bootstrap')
+        else if(!isMaterialUI && `${file}`=== 'bootstrap')
         {
           fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
           createDirectoryContents(
@@ -122,7 +122,7 @@ function createDirectoryContents(
             isMaterialUI
           );
         }
-        else if(isMaterialUI === true && `${file}`=== 'bootstrap')
+        else if(isMaterialUI && `${file}`=== 'bootstrap')
         {
           return;
         }
