@@ -14,7 +14,10 @@ const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
 const questionnaire = require("./questionnaire");
-const { FRAMEWORKS } = require("./constants")
+const { FRAMEWORKS, AUTHENTICATIONS } = require("./constants")
+
+const { ANGULAR, REACT, VUE } = FRAMEWORKS
+const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS
 
 const currentPath = path.join(__dirname);
 const CURR_DIR = process.cwd();
@@ -40,9 +43,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
   
-  const isAuth0 = authenticationChoice === "Auth0";
-  const isCognito = authenticationChoice === "Cognito";
-  const isOkta = authenticationChoice === "Okta";
+  const isAuth0 = authenticationChoice === AUTH0;
+  const isCognito = authenticationChoice === COGNITO ;
+  const isOkta = authenticationChoice === OKTA;
   const mongoSelected = dbName === "mongoose";
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
   const isWinston = loggerServiceName === "winston";
@@ -101,7 +104,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
-    if (isDark && frontEndChoice === FRAMEWORKS.REACT) {
+    if (isDark && frontEndChoice === REACT) {
       fs.copyFile(
         `${currentPath}/themeTemplates/react-themes/dark-theme.js`,
         `${frontEnd.path}/src/dark-theme.js`,
@@ -114,7 +117,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
-    if (isDark && frontEndChoice === FRAMEWORKS.VUE) {
+    if (isDark && frontEndChoice === VUE) {
       fs.copyFile(
         `${currentPath}/themeTemplates/vue-themes/dark-theme.vue`,
         `${frontEnd.path}/src/dark-theme.vue`,
@@ -127,7 +130,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
-    if (isDark && frontEndChoice === FRAMEWORKS.ANGULAR) {
+    if (isDark && frontEndChoice === ANGULAR) {
       fsExtra.copy(
         `${currentPath}/themeTemplates/angular-themes`,
         `${frontEnd.path}/src/angular-themes`,
@@ -302,7 +305,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
-    if (frontEnd?.choice === FRAMEWORKS.REACT && backEnd?.choice === NODE_JS) {
+    if (frontEnd?.choice === REACT && backEnd?.choice === NODE_JS) {
       let dockerFile = fs.readFileSync(
         `${dockerPath}/db-docker-compose.yml`,
         "utf8"
@@ -324,7 +327,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         `${currentPath}/dockerTemplate/Dockerfile`,
         `${backEnd.path}/Dockerfile`
       );
-    } else if (frontEnd?.choice === FRAMEWORKS.REACT) {
+    } else if (frontEnd?.choice === REACT) {
       fs.copyFileSync(
         `${dockerPath}/Dockerfile`,
         `${frontEnd.path}/Dockerfile`
@@ -337,7 +340,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Store integration ---------------------------------->
   if (isStore) {
     //<---------------------------- Redux ---------------------------------->
-    if (frontEnd?.choice === FRAMEWORKS.REACT) {
+    if (frontEnd?.choice === REACT) {
       const reduxFiles = [
         {
           srcFolder: "reduxTemplates/demoUser",
@@ -425,7 +428,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<--------------------------------- Vuex ---------------------------->
-    if (frontEnd?.choice === FRAMEWORKS.VUE) {
+    if (frontEnd?.choice === VUE) {
       const { choice, path: frontEndPath } = frontEnd;
       const templates = [path.join(__dirname, "vuexTemplates", "store"), path.join(__dirname, "vuexTemplates", "userModal")]
       const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
@@ -488,7 +491,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === FRAMEWORKS.ANGULAR) {
+    if (frontEnd?.choice === FRAMEWORKS?.ANGULAR) {
       fsExtra.copy(
         `${currentPath}/ngrxTemplates/reducers`,
         `${frontEnd.path}/src/app/reducers`,
@@ -523,7 +526,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
-  if (answers["authenticationChoice"] === "Auth0") {
+  if (answers["authenticationChoice"] === AUTH0) {
     const filesMap = [
       {
         srcFolder: "envTemplates",
@@ -532,27 +535,28 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       },
     ];
 
-    const auth0Dependency = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    updateProjectDependencies(frontEnd.path, auth0Dependency);
-
     filesMap.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEnd.path}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
+      let envFile = fs.readFileSync( `${currentPath}/${each.srcFolder}/${each.srcFileName}`, "utf8");
+      envFile = render(envFile, { frontEndChoice });
+      const envFilePath = `${frontEnd.path}/${each.destFileName}`;
+      fs.writeFileSync(envFilePath, envFile, "utf8");
     });
+    
+    if (frontEndChoice === "react") {
+      const auth0Dependency = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
+      updateProjectDependencies(frontEnd.path, auth0Dependency);
 
-    const reactSpaPath = path.join(__dirname, "authTemplates");
-    let reactAuth0SPAFile = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
-    reactAuth0SPAFile = render(reactAuth0SPAFile, { isStore });
-    const auth0SPAFilePath = `${frontEnd.path}/src/react-spa.js`;
-    fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
-  } else if (answers["authenticationChoice"] === "Cognito") {
+      const reactSpaPath = path.join(__dirname, "authTemplates");
+      let reactAuth0SPAFile = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
+      reactAuth0SPAFile = render(reactAuth0SPAFile, { isStore });
+      const auth0SPAFilePath = `${frontEnd.path}/src/react-spa.js`;
+      fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
+    }
+    if (frontEndChoice === VUE) {
+      const auth0Dependency = { name: "@auth0/auth0-vue", version: "^1.0.2" };
+      updateProjectDependencies(frontEnd.path, auth0Dependency);
+    }
+  } else if (answers["authenticationChoice"] === COGNITO) {
     const filesMap = [
       {
         srcFolder: "envTemplates",
@@ -575,7 +579,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     });
-  } else if (answers["authenticationChoice"] === "Okta") {
+  } else if (answers["authenticationChoice"] === OKTA) {
     fsExtra.copy(
       `${currentPath}/authTemplates/oktaTemplate`,
       `${frontEnd.path}/src/oktaFiles`,
