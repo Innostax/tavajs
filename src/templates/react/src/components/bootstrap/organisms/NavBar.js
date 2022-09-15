@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
-
+import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'
 <% if(isDark) { %>import { DarkToggle } from '../../dark-theme'<% } %>
-const NavBar = ({ brand, links<% if(isOkta) { %> , oktaLoginButton <%}%> }) => {
+const NavBar = ({ brand, links }) => {
 
 <% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 	return (
@@ -33,7 +33,7 @@ const NavBar = ({ brand, links<% if(isOkta) { %> , oktaLoginButton <%}%> }) => {
 						<%}%>
 					</Navbar.Collapse>
 					<% if(isDark) { %><DarkToggle/><% } %>
-					<% if(isOkta){%> {oktaLoginButton}<%}%>
+					<AppWithRouterAccess />
 				</Container>
 			</Navbar>
 			<Routes />
