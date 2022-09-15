@@ -94,8 +94,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------- For Themes integration ---------------------------------->
     if (isDark && frontEndChoice==='react') {
       fs.copyFile(
-        `${currentPath}/themeTemplates/react-themes/dark-theme.js`,
-        `${frontEnd.path}/src/dark-theme.js`,
+        `${currentPath}/themeProviderTemplates/react-themes/light-dark-theme.js`,
+        `${frontEnd.path}/src/light-dark-theme.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
@@ -104,19 +104,19 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
 
       fs.copyFile(
-        `${currentPath}/themeTemplates/react-themes/dark-theme.constants.js`,
-        `${frontEnd.path}/src/dark-theme.constants.js`,
+        `${currentPath}/themeProviderTemplates/theme.constants.js`,
+        `${frontEnd.path}/src/theme.constants.js`,
         (err) => {
           if (err) {
-            console.error("Getting error while copying theme constants file:", err);
+            console.error(`Error while copying theme's static files: ${err}`);
           }
         }
       );
     }
     if (isDark && frontEndChoice==='vue') {
       fs.copyFile(
-        `${currentPath}/themeTemplates/vue-themes/dark-theme.vue`,
-        `${frontEnd.path}/src/dark-theme.vue`,
+        `${currentPath}/themeProviderTemplates/vue-themes/light-dark-theme.vue`,
+        `${frontEnd.path}/src/light-dark-theme.vue`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);

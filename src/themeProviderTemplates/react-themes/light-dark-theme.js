@@ -1,10 +1,10 @@
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import React, { useState, useEffect } from 'react'
-import { THEMES } from './dark-theme.constants'
+import { THEMES } from '../theme.constants'
 
 const THEME = 'theme'
 
-export const DarkToggle = () => {
+export const ThemeToggle = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false)
 
   useEffect(() => {
