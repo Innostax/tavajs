@@ -1,23 +1,32 @@
 <template>
   <div class="fs-5" @click="themeToggle">
-    <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'"></i>
+    <i :class="mode === DARK ? 'fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'"></i>
   </div>
 </template>
 
 <script>
+import { THEMES } from '../theme.constants'
+
+const { DARK, LIGHT }  = THEMES
+const htmlClass = document.documentElement.classList;
+
 export default {
   name: "Theme",
   data () {
     return {
-      darkMode: false,
+      mode: localStorage.mode || LIGHT,
+      DARK
     };
+  },
+  mounted () {
+    if (this.mode && this.mode === DARK) htmlClass.add(DARK);
   },
   methods: {
     themeToggle() {
-      const htmlClass = document.documentElement.classList;
-      this.darkMode ? htmlClass.remove("dark") : htmlClass.add("dark");
-      this.darkMode = !this.darkMode;
+      this.mode === DARK ? htmlClass.remove(DARK) : htmlClass.add(DARK);
+      this.mode = this.mode === DARK ? LIGHT : DARK
+      localStorage.mode = this.mode
     },
-  },
+  }
 };
 </script>

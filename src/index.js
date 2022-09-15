@@ -123,6 +123,16 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           }
         }
       );
+      
+      fs.copyFile(
+        `${currentPath}/themeProviderTemplates/theme.constants.js`,
+        `${frontEnd.path}/src/theme.constants.js`,
+        (err) => {
+          if (err) {
+            console.error(`Error while copying theme's static files: ${err}`);
+          }
+        }
+      );
     }
   }
 
