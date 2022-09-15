@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
-import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'
+<% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if(isDark) { %>import { DarkToggle } from '../../dark-theme'<% } %>
 const NavBar = ({ brand, links }) => {
 
@@ -33,7 +33,9 @@ const NavBar = ({ brand, links }) => {
 						<%}%>
 					</Navbar.Collapse>
 					<% if(isDark) { %><DarkToggle/><% } %>
+					<% if(isOkta) {%>
 					<AppWithRouterAccess />
+					<%}%>
 				</Container>
 			</Navbar>
 			<Routes />

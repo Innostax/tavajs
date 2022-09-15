@@ -1,35 +1,33 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { useOktaAuth } from '@okta/okta-react'
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { useOktaAuth } from "@okta/okta-react";
 
 const Home = () => {
-	const { authState, oktaAuth } = useOktaAuth()
-	const history = useHistory()
+  const { authState, oktaAuth } = useOktaAuth();
+  const history = useHistory();
 
-	if (!authState) {
-		return <div>Loading...</div>
-	}
+  if (!authState) {
+    return <div>Loading...</div>;
+  }
 
-	const button = authState.isAuthenticated ? (
-		<button
-			onClick={() => {
-				oktaAuth.signOut()
-			}}
-		>
-			Logout
-		</button>
-	) : (
-		<button
-			onClick={() => {
-				history.push('/login')
-			}}
-		>
-			Login
-		</button>
-	)
+  const button = authState.isAuthenticated ? (
+    <button
+      onClick={() => {
+        oktaAuth.signOut();
+      }}
+    >
+      Logout
+    </button>
+  ) : (
+    <button
+      onClick={() => {
+        history.push("/login");
+      }}
+    >
+      Login
+    </button>
+  );
 
-	return (
-		<div>{button}</div>
-	)
-}
-export default Home
+  return <>{button}</>
+};
+export default Home;

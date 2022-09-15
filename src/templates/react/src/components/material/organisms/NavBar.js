@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 <%}%>
-import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'
+<% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 
 
@@ -67,7 +67,9 @@ const NavBar = ({ brand, links, mode, setMode }) => {
 						</IconButton>
 						<%}%>
 					</div>
+					<% if(isOkta) {%>
 					<AppWithRouterAccess />
+					<%}%>
 				</Toolbar>
 			</AppBar>
 			<Routes />
