@@ -152,39 +152,39 @@ function createDirectoryContents(
 }
 
 //to update package.json------------------------------------------------>
-function updateProjectDependencies(path, dependency) {
-  let newPackageFile = {};
-  for (index in dependency) {
-    let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
-    packagefile = JSON.parse(packagefile);
-    newPackageFile = {
-      ...packagefile,
+function updateProjectDependencies(path, dependencies) {
+  dependencies.forEach((each) => {
+    const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
+    const packageJson = JSON.parse(packageJsonFile);
+    const updatedPackageJson = {
+      ...packageJson,
       dependencies: {
-        ...packagefile.dependencies,
-        [dependency[index].name]: dependency[index].version,
+        ...packageJson.dependencies,
+        [each.name]: each.version,
       },
     };
-    newPackageFile = JSON.stringify(newPackageFile);
-    fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
-  }
+
+    const newPackageJsonFile = JSON.stringify(updatedPackageJson);
+    fs.writeFileSync(`${path}/package.json`, newPackageJsonFile, "utf-8");
+  });
 }
 
 // To update the scripts in Package.json
 function updateProjectScripts(path, updatedscripts) {
-  let newPackageFile = {};
-  for (index in updatedscripts) {
-    let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
-    packagefile = JSON.parse(packagefile);
-    newPackageFile = {
-      ...packagefile,
+  updatedscripts.forEach((each) => {
+    const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
+    const packageJson = JSON.parse(packageJsonFile);
+    const updatedPackageJson = {
+      ...packageJson,
       scripts: {
-        ...packagefile.scripts,
-        [updatedscripts[index].name]: updatedscripts[index].command,
+        ...packageJson.scripts,
+        [each.name]: each.command,
       },
     };
-    newPackageFile = JSON.stringify(newPackageFile);
-    fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
-  }
+
+    const newPackageJsonFile = JSON.stringify(updatedPackageJson);
+    fs.writeFileSync(`${path}/package.json`, newPackageJsonFile, "utf-8");
+  });
 }
 
 module.exports = {

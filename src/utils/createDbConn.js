@@ -1,40 +1,59 @@
 const fs = require("fs");
 const { updateProjectDependencies } = require("./helper");
 const { render } = require("ejs");
-//function to create db service---------------------------------------------->
-function createDbConn(nodePath, dbName, defaultRoute,currentPath) {
-  if (dbName === "postgres" || dbName === "mysql") {
-    let package = { name: "sequelize", version: "^6.6.5" };
-    updateProjectDependencies(nodePath, package);
-    var fileName = "sequelize.js";
-    var modelName = "sequelizeModel.js";
-    if (dbName === "mysql") {
-      package = { name: "mysql2", version: "^2.3.0" };
-      updateProjectDependencies(nodePath, package);
-    } else {
-      package = { name: "pg", version: "^8.7.1" };
-      updateProjectDependencies(nodePath, package);
-    }
-  } else {
-    let package = { name: "mongoose", version: "^6.0.2" };
-    updateProjectDependencies(nodePath, package);
-    var fileName = "mongoose.js";
-    var modelName = "mongooseModel.js";
-  }
+//<----------------------------- Function to create db service -------------------------------------------->
+function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
+  const dependencies = [];
+  let fileName;
+  let modelName;
   const modelPath = nodePath + "/models";
+  const isPostgres = dbName === "postgres";
+  const isMySQL = dbName === "mysql";
+
+  if ( isPostgres || isMySQL) {
+    dependencies.push({ name: "sequelize", version: "^6.6.5" });
+    fileName = "sequelize.js";
+    modelName = "sequelizeModel.js";
+
+    isMySQL
+      ? dependencies.push({ name: "mysql2", version: "^2.3.0" })
+      : dependencies.push({ name: "pg", version: "^8.7.1" });
+  } else {
+    dependencies.push({ name: "mongoose", version: "^6.0.2" });
+    fileName = "mongoose.js";
+    modelName = "mongooseModel.js";
+  }
+
+  // Updating package dependencies
+  updateProjectDependencies(nodePath, dependencies);
+
+  // Create modal directory
   fs.mkdirSync(modelPath);
 
-  let writePath = `${nodePath}/${fileName}`;
-  let contents = fs.readFileSync(
-    currentPath+`/dbTemplates/` + fileName,
+  let databaseFilePath = `${nodePath}/${fileName}`;
+
+  // Reading Database file data
+  let databaseFile = fs.readFileSync(
+    currentPath + `/dbTemplates/` + fileName,
     "utf8"
   );
-  contents = render(contents, { defaultRoute });
-  fs.writeFileSync(writePath, contents, "utf8");
+  databaseFile = render(databaseFile, { defaultRoute });
 
-  writePath = `${modelPath}/${defaultRoute}.js`;
-  contents = fs.readFileSync(currentPath+`/dbTemplates/` + modelName, "utf8");
-  contents = render(contents, { defaultRoute });
-  fs.writeFileSync(writePath, contents, "utf8");
+  // Writing database file data
+  fs.writeFileSync(databaseFilePath, databaseFile, "utf8");
+
+  // Database file path
+  databaseFilePath = `${modelPath}/${defaultRoute}.js`;
+
+  // // Reading Database file data
+  databaseFile = fs.readFileSync(
+    currentPath + `/dbTemplates/` + modelName,
+    "utf8"
+  );
+  databaseFile = render(databaseFile, { defaultRoute });
+
+  // Writing database file data
+  fs.writeFileSync(databaseFilePath, databaseFile, "utf8");
 }
-  module.exports=createDbConn
+
+module.exports = createDbConn;
