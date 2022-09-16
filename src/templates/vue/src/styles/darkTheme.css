@@ -1,3 +1,4 @@
+<% if (isDark) { %>
 html {
     --bs-body-color: #212529;
     --bs-body-bg: #fff;
@@ -92,3 +93,4 @@ html.dark {
 .btn-close {
     filter: var(--btn-close-filter) !important;
 }
+<% } %>

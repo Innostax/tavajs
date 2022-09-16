@@ -1,1 +1,3 @@
+<% if (isDark) { %>
 @import "./darkTheme.css";
+<% } %>
