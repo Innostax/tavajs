@@ -6,12 +6,14 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from '@angular/common/http';
+import {BASE_URL} from  "./base-url"
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  baseUri: string = 'http://localhost:3040/users';
+  baseUri: string = BASE_URL;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
+  BASE_URL: string;
   constructor(private http: HttpClient) {}
 
   createEmployee(data: any): Observable<any> {

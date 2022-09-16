@@ -511,17 +511,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === ANGULAR) {
-      fsExtra.copy(
-        `${currentPath}/ngrxTemplates/reducers`,
-        `${frontEnd.path}/src/app/reducers`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
-          }
-        }
-      );
+    if (frontEnd?.choice === ANGULAR ) {
       fsExtra.copy(
         `${currentPath}/ngrxTemplates/store`,
         `${frontEnd.path}/src/app/utils/store`,
@@ -533,8 +523,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
       fsExtra.copy(
-        `${currentPath}/ngrxTemplates/add-user-modal`,
-        `${frontEnd.path}/src/app/shared/components/add-user-modal`,
+        `${currentPath}/ngrxTemplates/reducers`,
+        `${frontEnd.path}/src/app/reducers`,
         function (err) {
           if (err) {
             console.log("An error is occured");
@@ -542,6 +532,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           }
         }
       );
+      if(isCrud) {
+        fsExtra.copy(
+          `${currentPath}/ngrxTemplates/add-user-modal`,
+          `${frontEnd.path}/src/app/shared/components/add-user-modal`,
+          function (err) {
+            if (err) {
+              console.log("An error is occured");
+              return console.error(err);
+            }
+          }
+        );
+      }
     }
   }
 
