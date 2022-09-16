@@ -619,11 +619,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       },
     ];
     if (frontEndChoice === ANGULAR) {
-      const oktaAngularDependencies = [
+      const oktaDependencies = [
         { name: "@okta/okta-angular", version: "5.1" },
         { name: "@okta/okta-auth-js", version: "6.0" }
       ]
-      oktaAngularDependencies.map((each) => {
+      oktaDependencies.forEach(each => {
         updateProjectDependencies(frontEnd.path, each);
       });
     }  

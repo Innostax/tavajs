@@ -17,7 +17,7 @@ const $body = document.body; <%}%>
 export class HeaderComponent implements OnInit {
   <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
-  constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%> <% if(isOkta && isDark) { %>,<% } %> <% if(isOkta) { %> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth <% } %>)  { }
+  constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%> <% if(isOkta && isThemeProvider) { %>,<% } %> <% if(isOkta) { %> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth <% } %>)  { }
   <% if(isOkta) { %>public name$!: Observable<string>;
   public isAuthenticated$!: Observable<boolean>;<% } %>
 
