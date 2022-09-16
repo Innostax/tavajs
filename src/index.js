@@ -623,13 +623,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         { name: "@okta/okta-angular", version: "5.1" },
         { name: "@okta/okta-auth-js", version: "6.0" }
       ]
-      // const oktaAngularDependency = { name: "@okta/okta-angular", version: "5.1" };
-      // const oktaAuthDependency = { name: "@okta/okta-auth-js", version: "6.0" };
       oktaAngularDependencies.map((each) => {
         updateProjectDependencies(frontEnd.path, each);
       });
-      // updateProjectDependencies(frontEnd.path, oktaAngularDependency);
-      // updateProjectDependencies(frontEnd.path, oktaAuthDependency);
     }  
     filesMap.map((each) => {
       fs.copyFile(
