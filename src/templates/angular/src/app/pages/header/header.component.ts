@@ -40,8 +40,8 @@ export class HeaderComponent implements OnInit {
   <% if(isDark){%>
 
   selectedTheme() {
-    let isThemeSelected: any = sessionStorage.getItem('isDarkModeSelected');
-    let selected = JSON.parse(isThemeSelected);
+    const isThemeSelected: any = sessionStorage.getItem('isDarkModeSelected');
+    const selected = JSON.parse(isThemeSelected);
     if(selected) $body.setAttribute('data-theme', DARK)
     else $body.setAttribute('data-theme', LIGHT);
     this.initForm(selected)
