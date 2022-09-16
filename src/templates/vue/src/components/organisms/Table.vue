@@ -14,7 +14,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Button from "../atoms/Button.vue"
 export default {
-  name: "Table", 
+  name: "Table",
   components: {
     Button
   },
