@@ -124,7 +124,6 @@ const Users = () => {
     <>
       <div>
         <h1>Welcome to Users Screen</h1>
-        <%}%>
         <% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>
           <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
         <%}%>

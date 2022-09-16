@@ -1,6 +1,6 @@
 
-import {React<% if(isAuth0){%> ,useEffect <%}%><% if(isDark && isMaterialUI){%> ,useState<%}%>} from "react";
-<% if(isDark && isMaterialUI){%>import { ThemeProvider, createTheme } from '@mui/material/styles'<%}%>
+import {React<% if(isAuth0){%> ,useEffect <%}%><% if(isThemeProvider && isMaterialUI){%> ,useState<%}%>} from "react";
+<% if(isThemeProvider && isMaterialUI){%>import { ThemeProvider, createTheme } from '@mui/material/styles'<%}%>
 <% if(isAuth0){%>import { useAuth0 } from './react-spa';<%}%>
 
 import NavBar from "./components/organisms/NavBar";
@@ -16,7 +16,7 @@ const linksOfNav = [
 ]
 
 const App = () => {
-  <% if(isDark && isMaterialUI){%>
+  <% if(isThemeProvider && isMaterialUI){%>
     const [mode, setMode] = useState('light')
     const theme = createTheme({
       palette: {
@@ -35,7 +35,7 @@ const App = () => {
   <%}%>
 
   return (
-      <%if(!isDark) {%>
+      <%if(!isThemeProvider) {%>
         <%if(isOkta) {%>
           <Router>
             <NavBar brand='Made in India' links={linksOfNav}/>
@@ -55,7 +55,7 @@ const App = () => {
 
       
 
-      <%if(isDark && isMaterialUI) {%>
+      <%if(isThemeProvider && isMaterialUI) {%>
           <% if(isOkta) {%>
             <Router>
             <ThemeProvider theme={theme}>
@@ -89,7 +89,7 @@ const App = () => {
       <%}%>
 
 
-      <%if(isDark && !isMaterialUI) {%>
+      <%if(isThemeProvider && !isMaterialUI) {%>
         <% if(isOkta) {%>
           <Router>
           <NavBar brand='Made in India' links={linksOfNav}/>

@@ -37,6 +37,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const loggerServiceName = answers["loggerServiceName"];
   const isMaterialUI = answers["cssFrameworkChoice"] == "materialUI";
   const isStore = Boolean(answers["store"]);
+  const isThemeProvider = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
@@ -98,12 +99,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark,
+      isThemeProvider,
       isMaterialUI
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
-    if (isDark && frontEndChoice === REACT) {
+    if (isThemeProvider && frontEndChoice === REACT) {
       fs.copyFile(
         `${currentPath}/themeProviderTemplates/react-themes/theme.js`,
         `${frontEnd.path}/src/theme.js`,
@@ -126,7 +127,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
-    if (isDark && frontEndChoice === VUE) {
+    if (isThemeProvider && frontEndChoice === VUE) {
       fs.copyFile(
         `${currentPath}/themeProviderTemplates/vue-themes/theme.vue`,
         `${frontEnd.path}/src/theme.vue`,
@@ -149,7 +150,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
-    if (isDark && frontEndChoice === ANGULAR) {
+    if (isThemeProvider && frontEndChoice === ANGULAR) {
       fsExtra.copy(
         `${currentPath}/themeTemplates/angular-themes`,
         `${frontEnd.path}/src/angular-themes`,
@@ -231,7 +232,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark,
+      isThemeProvider,
       isMaterialUI
     );
     const fileNames = [
@@ -439,9 +440,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------------MaterialUI Dark Theme----------------------->
 
-    if (isDark) {
+    if (isThemeProvider) {
       let appFile = fs.readFileSync(`${currentPath}/templates/react/src/App.js`, "utf8");
-      appFile = render(appFile, { isMaterialUI, isCrud, isCrudWithNode, isAuth0, isDark, isOkta });
+      appFile = render(appFile, { isMaterialUI, isCrud, isCrudWithNode, isAuth0, isThemeProvider, isOkta });
       const appFilePath = `${frontEnd.path}/src/App.js`;
       fs.writeFileSync(appFilePath, appFile, "utf8");
     }
@@ -481,7 +482,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           frontEndName,
           backEndName,
           choice,
-          isDark,
+          isThemeProvider,
           isMaterialUI,
         );
       })
