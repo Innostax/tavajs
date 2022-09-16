@@ -14,9 +14,9 @@
             <a class="nav-link" [routerLink]="'/users'" routerLinkActive="active">User</a>
           </li>
         </ul>
-        <!-- To-DO: isDark will updated once done in 'index.js:35' -->
-        <% if(isDark){%>
-          <form class="d-flex  align-items-center" role="button" [formGroup]="headerForm">
+        <!-- To-DO: isThemeProvider will updated once done in 'index.js:35' -->
+        <% if(isThemeProvider){%>
+          <form class="d-flex align-items-center" role="button" [formGroup]="headerForm">
             <div class="menu me-2">
               <div class="icon">
                 <label class="icon-switcher" data-js-icon-switcher="data-js-icon-switcher" (change)="handleSelection($event)">

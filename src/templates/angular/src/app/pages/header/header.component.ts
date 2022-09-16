@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { AuthState, OktaAuth } from '@okta/okta-auth-js';
 import { filter, map, Observable } from 'rxjs';<%}%>
-<% if(isDark){%> import { FormBuilder, FormGroup } from '@angular/forms';
+<% if(isThemeProvider){%>import { FormBuilder, FormGroup } from '@angular/forms';
 
 const DARK= 'dark';
 const LIGHT= 'light';
@@ -15,14 +15,14 @@ const $body = document.body; <%}%>
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  <% if(isDark){%> isChecked: boolean = true;
+  <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
-  constructor( <% if(isDark){%> private fb: FormBuilder <%}%> <% if(isOkta && isDark) { %>,<% } %> <% if(isOkta) { %> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth <% } %>)  { }
+  constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%> <% if(isOkta && isDark) { %>,<% } %> <% if(isOkta) { %> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth <% } %>)  { }
   <% if(isOkta) { %>public name$!: Observable<string>;
   public isAuthenticated$!: Observable<boolean>;<% } %>
 
   ngOnInit(): void {
-    <% if(isDark){%>
+    <% if(isThemeProvider){%>
     this.selectedTheme()
     <%}%>
 
@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
     );
     <% } %>
   }
-  <% if(isDark){%>
+  <% if(isThemeProvider){%>
 
   selectedTheme() {
     const isThemeSelected: any = sessionStorage.getItem('isDarkModeSelected');

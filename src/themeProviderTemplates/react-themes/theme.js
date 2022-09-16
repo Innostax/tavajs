@@ -1,6 +1,6 @@
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import React, { useState, useEffect } from 'react'
-import { THEMES } from '../theme.constants'
+import { THEMES } from './theme.constants'
 
 const THEME = 'theme'
 

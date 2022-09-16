@@ -1,5 +1,5 @@
-/* To-DO: isDark will updated once done in 'index.js:35' */
-<% if(isDark){%>
+/* To-DO: isThemeProvider will updated once done in 'index.js:35' */
+<% if(isThemeProvider){%>
 .icon-switcher {
   width: 50px;
   height: 24px;
