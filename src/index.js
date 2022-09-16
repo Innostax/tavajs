@@ -129,8 +129,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isDark && frontEndChoice === VUE) {
       fs.copyFile(
-        `${currentPath}/themeProviderTemplates/vue-themes/theme.vue`,
-        `${frontEnd.path}/src/theme.vue`,
+        `${currentPath}/themeProviderTemplates/vue-themes/dark-theme.vue`,
+        `${frontEnd.path}/src/dark-theme.vue`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
