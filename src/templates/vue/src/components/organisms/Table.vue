@@ -41,8 +41,12 @@ export default {
 </script>
 
 <style>
-  .table{
-    table-layout: fixed ;
+  .table{    
     vertical-align: middle !important;
+  }
+  @media (min-width: 992px) {
+    .table{
+      table-layout: fixed ;
+    }
   }
 </style>
