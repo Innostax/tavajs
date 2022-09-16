@@ -10,6 +10,14 @@ module.exports = [
     },
   },
   {
+    name: "projectDirectoryPath",
+    type: "input",
+    message: "Enter destination folder path?",
+    when: (answers) => {
+      return answers.projectName;
+    },
+  },
+  {
     name: "managerChoice",
     type: "list",
     message: "Select Package Manager",
