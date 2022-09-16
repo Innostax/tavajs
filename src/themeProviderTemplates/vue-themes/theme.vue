@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { THEMES } from '../theme.constants'
+import { THEMES } from './theme.constants.js'
 
 const { DARK, LIGHT }  = THEMES
 const htmlClass = document.documentElement.classList;
