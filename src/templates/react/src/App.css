@@ -45,7 +45,7 @@ html {
 	--secondaryBackgroundColor: floralWhite;
   --primaryButtonColor: floralWhite;
 }
-<% if(isDark) { %>
+<% if(isThemeProvider) { %>
 html.dark {
 	--primaryTextColor: floralWhite;
 	--primaryBackgroundColor: #1d1717;

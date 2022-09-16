@@ -22,7 +22,7 @@ function createDirectoryContents(
   frontEndName,
   nodeName,
   projectChoice,
-  isDark,
+  isThemeProvider,
   isMaterialUI
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
@@ -57,7 +57,7 @@ function createDirectoryContents(
             frontEndName,
             nodeName,
             projectChoice,
-            isDark,
+            isThemeProvider,
             isMaterialUI
           },
           (autoescape = false)
@@ -90,7 +90,7 @@ function createDirectoryContents(
           frontEndName,
           nodeName,
           projectChoice,
-          isDark,
+          isThemeProvider,
           isMaterialUI
         );}
         else if(!isMaterialUI && `${file}` === "material"){ 
@@ -118,7 +118,7 @@ function createDirectoryContents(
             frontEndName,
             nodeName,
             projectChoice,
-            isDark,
+            isThemeProvider,
             isMaterialUI
           );
         }
@@ -148,7 +148,7 @@ function createDirectoryContents(
               frontEndName,
               nodeName,
               projectChoice,
-              isDark,
+              isThemeProvider,
               isMaterialUI
             );
           }
