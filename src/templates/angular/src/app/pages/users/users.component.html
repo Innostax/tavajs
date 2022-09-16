@@ -5,10 +5,10 @@
     <h4>Welcome to Users Screen</h4>
   </div>
 
-  <% if(isStore){%><button class="btn btn-primary" (click)="onClickAddUser()">Add User</button><%}%>
+  <% if(isStore || isCrudWithNode){%><button class="btn btn-primary" (click)="onClickAddUser()">Add User</button><%}%>
 </div>
 
-<% if(isStore){%>
+<% if(isStore || isCrudWithNode){%>
 <table class="table mt-3" style="text-align:center">
   <thead>
     <tr>
@@ -20,7 +20,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users$ | async">
+    <% if(isStore){%><tr *ngFor="let user of users$ | async"><%}%>
+    <% if(isCrudWithNode){%><tr *ngFor="let user of users"><%}%>  
       <td>{{ user.id }}</td>
       <td>{{ user.name }}</td>
       <td>{{ user.username }}</td>

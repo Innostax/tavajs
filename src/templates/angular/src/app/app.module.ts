@@ -9,6 +9,7 @@ import { PagesModule } from './pages/pages.module';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';<%}%>
+<% if(isCrudWithNode){%>import { HttpClientModule } from '@angular/common/http';<%}%>
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { environment } from '../environments/environment';<%}%>
     <% if(isStore){%>StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],<%}%>
     SharedModule,
-    PagesModule
+    PagesModule,
+    <% if(isCrudWithNode){%>HttpClientModule<%}%>
   ],
   providers: [],
   bootstrap: [AppComponent]

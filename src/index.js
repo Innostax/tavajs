@@ -41,7 +41,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isThemeProvider = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
-  const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
+  const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"] || answers["angularNodeCrud"]);
   
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO ;
@@ -543,6 +543,29 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     }
+  }
+
+  //<-------------- For angular node crud ------------------->
+  if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
+    
+    fsExtra.copy(
+      `${currentPath}/angularApiTemplates/services`,
+      `${frontEnd.path}/src/app/shared/services`,
+      function (err) {
+        if (err) {
+          console.error(`Error while copying Services component: ${err}`);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/angularApiTemplates/add-user-modal`,
+      `${frontEnd.path}/src/app/shared/components/add-user-modal`,
+      function (err) {
+        if (err) {
+          console.error(`Error while copying add-user-modal component: ${err}`);
+        }
+      }
+    );
   }
 
   //<---------------------------- For Authentication service ---------------------------------->

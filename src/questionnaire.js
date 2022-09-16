@@ -256,6 +256,20 @@ module.exports = [
     },
   },
   {
+    name: "angularNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with angular-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.backEnd && !answers.store && answers.dbName && answers.frontEndChoice === "angular"
+      );
+    },
+  },
+  {
     name: "loggerServiceName",
     type: "list",
     message: "Which logger service do you want?",
