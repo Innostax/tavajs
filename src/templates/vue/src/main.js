@@ -9,8 +9,24 @@ import "bootstrap"
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css"
 
-createApp(App)
+<% if (isAuth0) { %>
+import { createAuth0 } from '@auth0/auth0-vue';
+const { VUE_APP_AUTH0_DOMAIN, VUE_APP_AUTH0_CLIENT_ID } = process.env
+<% } %>
+
+const app = createApp(App)
 <% if(isStore){ %> .use(store)  <% } %>
 .use(router)
 .use(BootstrapVue3)
-.mount('#app')
+
+<% if (isAuth0) { %>
+app.use(
+    createAuth0({
+      domain: VUE_APP_AUTH0_DOMAIN,
+      client_id: VUE_APP_AUTH0_CLIENT_ID,
+      redirect_uri: window.location.origin
+    })
+);
+<% } %>
+
+app.mount('#app')

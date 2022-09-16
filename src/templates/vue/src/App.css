@@ -24,6 +24,10 @@ html {
     --btn-primary-bg : #0d6efd;
     --btn-danger-bg : #dc3545;
     --btn-close-filter: none;
+    --btn-outline-dark-color: #212529;
+    --btn-outline-dark-border-color: #212529;
+    --btn-outline-dark-hover-color: #fff;
+    --btn-outline-dark-hover-bg: #212529;
     }
     html.dark {
     --bs-body-color : #fff;
@@ -51,6 +55,10 @@ html {
     --btn-primary-bg: transparent;
     --btn-danger-bg : transparent;
     --btn-close-filter: invert(1) grayscale(100%) brightness(200%);
+    --btn-outline-dark-color: #fff;
+    --btn-outline-dark-border-color: #fff;
+    --btn-outline-dark-hover-color: #212529;
+    --btn-outline-dark-hover-bg: #fff;
     }
     .navbar {
     --bs-navbar-color: var(--navbar-color) !important;
@@ -78,12 +86,18 @@ html {
     --bs-table-hover-color: var(--table-hover-color) !important;
     }
     .btn-primary{
-    --bs-btn-bg: var(--btn-primary-bg) !important
+    --bs-btn-bg: var(--btn-primary-bg) !important;
     }
     .btn-danger{
-    --bs-btn-bg: var(--btn-danger-bg) !important
+    --bs-btn-bg: var(--btn-danger-bg) !important;
     }
     .btn-close{
     filter : var(--btn-close-filter) !important;
-    }    
+    }
+    .btn-outline-dark{
+    --bs-btn-color: var(--btn-outline-dark-color) !important;
+    --bs-btn-border-color: var(--btn-outline-dark-color) !important;
+    --bs-btn-hover-color: var(--btn-outline-dark-hover-color) !important;
+    --bs-btn-hover-bg: var(--btn-outline-dark-hover-bg) !important;
+    }
 <% } %>
