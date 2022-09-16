@@ -660,10 +660,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     });
   } else if (answers["authenticationChoice"] === OKTA) {
-    dependencies.push(
-      { name: "@okta/okta-auth-js", version: "^5.8.0" },
-      { name: "@okta/okta-react", version: "^6.3.0" }
-    );
+    dependencies.push({ name: "@okta/okta-auth-js", version: "^5.8.0" });
+    if (frontEndChoice === REACT) {
+      dependencies.push({ name: "@okta/okta-react", version: "^6.3.0" });
+    } else if (frontEndChoice === ANGULAR) {
+      dependencies.push({ name: "@okta/okta-angular", version: "5.1" });
+    }
     scripts.push({
       name: "pretty",
       command:
@@ -687,7 +689,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         destFileName: ".env",
       },
     ];
-
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,

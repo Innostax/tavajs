@@ -9,6 +9,7 @@
           id="show-btn"
           name="Delete"
           color="danger"
+          data-bs-dismiss="modal"
           @submit="deleteButtonHandler(selectedUser.id)"
         />
       </template>
@@ -28,7 +29,6 @@ export default {
   methods: {
     deleteButtonHandler: function (id) {
       this.$store.dispatch("deleteUser", id);
-      this.$bvModal.hide("bv-modal-deleteUser");
     },
   },
   computed: {
