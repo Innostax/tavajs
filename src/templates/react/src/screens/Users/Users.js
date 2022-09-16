@@ -39,7 +39,7 @@ const Users = () => {
     const editFormatter = (id, row) => (
       <% if(!isMaterialUI) {%>
         <>
-          <Button size="sm" variant="outline-primary" onClick={() => {
+          <Button size="sm" variant="outline-primary" style={{ width: 70 }} onClick={() => {
             handleShow()
             dispatch(setSelectedUserModal({id}))
             dispatch(setSelectedUser(row))
@@ -67,6 +67,7 @@ const Users = () => {
           <Button
             variant="outline-danger"
             size="sm"
+            style={{ width: 70 }} 
             onClick={() => {
               deleteId = id
               setConfirmDelete(true)
@@ -123,7 +124,6 @@ const Users = () => {
     <>
       <div>
         <h1>Welcome to Users Screen</h1>
-        <% if(isStore){%><h4>Welcome to React Redux Toolkit Crash Course</h4>
         <%}%>
         <% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>
           <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
