@@ -13,7 +13,6 @@ import {BASE_URL} from  "./base-url"
 export class ApiService {
   baseUri: string = BASE_URL;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  BASE_URL: string;
   constructor(private http: HttpClient) {}
 
   createEmployee(data: any): Observable<any> {
