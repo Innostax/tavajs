@@ -11,7 +11,7 @@
       </b-navbar-nav>
     </b-collapse>
 
-    <% if(isDark) { %> 
+    <% if(isThemeProvider) { %> 
     <b-navbar-nav class="mx-2">
       <ThemeVue/>
     </b-navbar-nav>
@@ -25,8 +25,8 @@
 </template>
 
 <script>
-<% if(isDark) { %> 
-import ThemeVue from '../../dark-theme.vue';
+<% if(isThemeProvider) { %> 
+import ThemeVue from '../../theme.vue';
 <% } %> 
 <% if(isAuth0) { %> 
 import LogoutButton from '../atoms/LogoutButton.vue'
@@ -34,7 +34,7 @@ import LogoutButton from '../atoms/LogoutButton.vue'
 export default {
   name: "Navbar",
   components : {
-  <% if(isDark) { %> 
+  <% if(isThemeProvider) { %> 
     ThemeVue,
   <% } %>   
   <% if(isAuth0) { %> 

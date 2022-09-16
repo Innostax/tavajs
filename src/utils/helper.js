@@ -22,7 +22,7 @@ function createDirectoryContents(
   frontEndName,
   nodeName,
   projectChoice,
-  isDark,
+  isThemeProvider,
   isMaterialUI
 ) {
   const filesToCreate = fs.readdirSync(templatePath);
@@ -57,7 +57,7 @@ function createDirectoryContents(
             frontEndName,
             nodeName,
             projectChoice,
-            isDark,
+            isThemeProvider,
             isMaterialUI,
           },
           (autoescape = false)
@@ -87,7 +87,7 @@ function createDirectoryContents(
             frontEndName,
             nodeName,
             projectChoice,
-            isDark,
+            isThemeProvider,
             isMaterialUI
           );
         } else if (!isMaterialUI && `${file}` === "material") {
@@ -113,7 +113,7 @@ function createDirectoryContents(
             frontEndName,
             nodeName,
             projectChoice,
-            isDark,
+            isThemeProvider,
             isMaterialUI
           );
         } else if (isMaterialUI && `${file}` === "bootstrap") {
@@ -139,7 +139,7 @@ function createDirectoryContents(
             frontEndName,
             nodeName,
             projectChoice,
-            isDark,
+            isThemeProvider,
             isMaterialUI
           );
         }
@@ -167,18 +167,21 @@ function updateProjectDependencies(path, dependency) {
 }
 
 // To update the scripts in Package.json
-function updateProjectScripts(path, script) {
-  let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
-  packagefile = JSON.parse(packagefile);
-  let newPackageFile = {
-    ...packagefile,
-    scripts: {
-      ...packagefile.scripts,
-      [script.name]: script.command,
-    },
-  };
-  newPackageFile = JSON.stringify(newPackageFile);
-  fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
+function updateProjectScripts(path, updatedscripts) {
+  let newPackageFile = {};
+  for (index in updatedscripts) {
+    let packagefile = fs.readFileSync(`${path}/package.json`, "utf-8");
+    packagefile = JSON.parse(packagefile);
+    newPackageFile = {
+      ...packagefile,
+      scripts: {
+        ...packagefile.scripts,
+        [updatedscripts[index].name]: updatedscripts[index].command,
+      },
+    };
+    newPackageFile = JSON.stringify(newPackageFile);
+    fs.writeFileSync(`${path}/package.json`, newPackageFile, "utf-8");
+  }
 }
 
 module.exports = {

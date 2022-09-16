@@ -27,9 +27,10 @@ const currentPath = path.join(__dirname);
 const CURR_DIR = process.cwd();
 const NODE_JS = "node-js";
 const EMPTY_STRING = "";
+const dependencies = [];
+const scripts = [];
 
 inquirer.prompt(questionnaire).then(async (answers) => {
-  console.log("====answers===", answers);
   const projectName = answers["projectName"];
   const frontEndName = answers["frontEndName"];
   const frontEndChoice = answers["frontEndChoice"];
@@ -43,7 +44,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isMaterialUI = answers["materialuiChoice"];
 
   const isStore = Boolean(answers["store"]);
-  const isDark = Boolean(answers["theme"] == "light-dark-mode");
+  const isThemeProvider = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
   const isCrudWithNode = Boolean(
@@ -63,9 +64,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isCypress = answers["testCaseFramework"] === "cypress";
   /* END: Testcases Framework */
 
-  /* START: dependency array */
-  const dependencies = [];
-  /* END: dependency array */
   const isSMTP = emailServiceName === "smtp";
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -95,7 +93,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           { name: "bootstrap", version: "^5.1.0" },
           { name: "react-bootstrap", version: "^1.0.0" },
           { name: "react-datepicker", version: "^4.2.1" },
-          { name: "@musicstory/react-bootstrap-table-next",version: "^1.0.5" }
+          { name: "@musicstory/react-bootstrap-table-next", version: "^1.0.5" }
         );
       }
     }
@@ -127,39 +125,58 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark,
+      isThemeProvider,
       isMaterialUI
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
-    //<---------------------------- Light/Dark Mode + React ---------------------------------->
-    if (isDark && frontEndChoice === REACT) {
+    if (isThemeProvider && frontEndChoice === REACT) {
       fs.copyFile(
-        `${currentPath}/themeTemplates/react-themes/dark-theme.js`,
-        `${frontEnd.path}/src/dark-theme.js`,
+        `${currentPath}/themeProviderTemplates/react-themes/theme.js`,
+        `${frontEnd.path}/src/theme.js`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
+          }
+        }
+      );
+
+      fs.copyFile(
+        `${currentPath}/themeProviderTemplates/theme.constants.js`,
+        `${frontEnd.path}/src/theme.constants.js`,
+        (err) => {
+          if (err) {
+            console.error(`Error while copying theme's static files: ${err}`);
           }
         }
       );
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
-    if (isDark && frontEndChoice === VUE) {
+    if (isThemeProvider && frontEndChoice === VUE) {
       fs.copyFile(
-        `${currentPath}/themeTemplates/vue-themes/dark-theme.vue`,
-        `${frontEnd.path}/src/dark-theme.vue`,
+        `${currentPath}/themeProviderTemplates/vue-themes/theme.vue`,
+        `${frontEnd.path}/src/theme.vue`,
         (err) => {
           if (err) {
             console.log("Error Found:", err);
           }
         }
       );
+
+      fs.copyFile(
+        `${currentPath}/themeProviderTemplates/theme.constants.js`,
+        `${frontEnd.path}/src/theme.constants.js`,
+        (err) => {
+          if (err) {
+            console.error(`Error while copying theme's static files: ${err}`);
+          }
+        }
+      );
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
-    if (isDark && frontEndChoice === ANGULAR) {
+    if (isThemeProvider && frontEndChoice === ANGULAR) {
       fsExtra.copy(
         `${currentPath}/themeTemplates/angular-themes`,
         `${frontEnd.path}/src/angular-themes`,
@@ -198,12 +215,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
         dependencies.push({ name: "cypress", version: "^10.7.0" });
 
-        const cypressScript = {
+        scripts.push({
           name: "cypress",
           command:
             "npm install cypress --dev && npx cypress install && npx cypress open",
-        };
-        updateProjectScripts(frontEnd.path, cypressScript);
+        });
       }
       // MochaJS
       // JEST
@@ -240,7 +256,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEndName,
       backEndName,
       choice,
-      isDark,
+      isThemeProvider,
       isMaterialUI
     );
     const fileNames = [
@@ -465,7 +481,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------------MaterialUI Dark Theme----------------------->
 
-    if (isDark) {
+    if (isThemeProvider) {
       let appFile = fs.readFileSync(
         `${currentPath}/templates/react/src/App.js`,
         "utf8"
@@ -475,7 +491,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         isCrud,
         isCrudWithNode,
         isAuth0,
-        isDark,
+        isThemeProvider,
         isOkta,
       });
       const appFilePath = `${frontEnd.path}/src/App.js`;
@@ -522,7 +538,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           frontEndName,
           backEndName,
           choice,
-          isDark,
+          isThemeProvider,
           isMaterialUI
         );
       });
@@ -551,7 +567,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === FRAMEWORKS?.ANGULAR) {
+    if (frontEnd?.choice === ANGULAR) {
       fsExtra.copy(
         `${currentPath}/ngrxTemplates/reducers`,
         `${frontEnd.path}/src/app/reducers`,
@@ -644,10 +660,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     });
   } else if (answers["authenticationChoice"] === OKTA) {
-    dependencies.push([
+    dependencies.push(
       { name: "@okta/okta-auth-js", version: "^5.8.0" },
-      { name: "@okta/okta-react", version: "^6.3.0" },
-    ]);
+      { name: "@okta/okta-react", version: "^6.3.0" }
+    );
+    scripts.push({
+      name: "pretty",
+      command:
+        'npx prettier --write "src/**/*.js" "src/**/*.jsx" "src/**/*.css"',
+    });
     fsExtra.copy(
       `${currentPath}/authTemplates/oktaTemplate`,
       `${frontEnd.path}/src/oktaFiles`,
@@ -679,8 +700,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     });
   }
-  console.log("=====dependency array====", dependencies);
+
+  // This method used to update the dependencies and scripts in the Package.json file.
   updateProjectDependencies(frontEnd.path, dependencies);
+  updateProjectScripts(frontEnd.path, scripts);
+
   projectInfo(frontEnd, backEnd, answers);
   projectSetUp(frontEnd, backEnd, answers);
   projectExecutionCommands(frontEnd, backEnd, answers);
