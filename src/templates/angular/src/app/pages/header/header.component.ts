@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+<% if(isOkta){%>import { Inject } from '@angular/core';
+import {Router} from '@angular/router';
+import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
+import { AuthState, OktaAuth } from '@okta/okta-auth-js';
+import { filter, map, Observable } from 'rxjs';<%}%>
 <% if(isThemeProvider){%>import { FormBuilder, FormGroup } from '@angular/forms';
 
 const DARK= 'dark';
@@ -12,11 +17,25 @@ const $body = document.body; <%}%>
 export class HeaderComponent implements OnInit {
   <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
-  constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%>) { }
+  constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%> <% if(isOkta && isThemeProvider) { %>,<% } %> <% if(isOkta) { %> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth <% } %>)  { }
+  <% if(isOkta) { %>public name$!: Observable<string>;
+  public isAuthenticated$!: Observable<boolean>;<% } %>
+
   ngOnInit(): void {
     <% if(isThemeProvider){%>
     this.selectedTheme()
     <%}%>
+
+    <% if(isOkta) { %>
+    this.isAuthenticated$ = this._oktaStateService.authState$.pipe(
+      filter((s: AuthState) => !!s),
+      map((s: AuthState) => s.isAuthenticated ?? false)
+    );
+    this.name$ = this._oktaStateService.authState$.pipe(
+      filter((authState: AuthState) => !!authState && !!authState.isAuthenticated),
+      map((authState: AuthState) => authState.idToken?.claims.name ?? '')
+    );
+    <% } %>
   }
   <% if(isThemeProvider){%>
 
@@ -36,6 +55,16 @@ export class HeaderComponent implements OnInit {
   handleSelection(event: any) {
     $body.setAttribute('data-theme', event.target.checked ? DARK : LIGHT);
     sessionStorage.setItem('isDarkModeSelected', JSON.stringify(event.target.checked));
+  }
+  <%}%>
+  <% if(isOkta) { %>
+  public async signIn() : Promise<void> {
+    await this._oktaAuth.signInWithRedirect().then(
+      _ => this._router.navigate(['/profile'])
+    );
+  }
+  public async signOut(): Promise<void> {
+    await this._oktaAuth.signOut();
   }
   <%}%>
 }

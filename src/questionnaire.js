@@ -107,7 +107,7 @@ module.exports = [
       { name: "Okta", value: "Okta" },
       { name: "None", value: false },
     ],
-    when: (answers) => answers.frontEndChoice == "react" || answers.frontEndChoice === "vue",
+    when: (answers) => answers.frontEnd,
   },
   {
     name: "store",
