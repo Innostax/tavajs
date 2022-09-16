@@ -643,6 +643,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         destFileName: ".env",
       },
     ];
+    if (frontEndChoice === ANGULAR) {
+      const oktaDependencies = [
+        { name: "@okta/okta-angular", version: "5.1" },
+        { name: "@okta/okta-auth-js", version: "6.0" }
+      ]
+      oktaDependencies.forEach(each => {
+        updateProjectDependencies(frontEnd.path, each);
+      });
+    }  
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,

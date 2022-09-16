@@ -10,7 +10,15 @@ import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';<%}%>
 <% if(isCrudWithNode){%>import { HttpClientModule } from '@angular/common/http';<%}%>
+<% if (isOkta) { %>import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';<% } %>
 
+<% if (isOkta) { %>
+const oktaAuth = new OktaAuth({
+issuer: '{Issuer URI}',
+clientId: '{Client ID }',
+redirectUri: window.location.origin+'/login/callback'});
+<% } %>
 @NgModule({
   declarations: [
     AppComponent
@@ -24,9 +32,16 @@ import { environment } from '../environments/environment';<%}%>
     !environment.production ? StoreDevtoolsModule.instrument() : [],<%}%>
     SharedModule,
     PagesModule,
-    <% if(isCrudWithNode){%>HttpClientModule<%}%>
+    <% if(isCrudWithNode){%>HttpClientModule,<%}%>
+    <% if (isOkta) { %>OktaAuthModule,<% } %>
+
   ],
-  providers: [],
+  providers: [
+    <% if (isOkta) { %>{
+      provide:  OKTA_CONFIG,
+      useValue: { oktaAuth }
+    }<% } %>
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
