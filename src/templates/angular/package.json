@@ -22,8 +22,6 @@
     "@ngrx/store": "^14.3.0",
     "@ngrx/store-devtools": "^14.3.0",
     "@popperjs/core": "^2.11.6",
-    <% if(isOkta) {%>"@okta/okta-angular": "5.1", <% } %>
-    <% if(isOkta) {%>"@okta/okta-auth-js": "6.0", <% } %>
     "angular-uuid": "^0.0.4",
     "bootstrap": "^5.2.1",
     "jquery": "^3.6.1",
