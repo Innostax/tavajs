@@ -2,7 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const fsExtra = require("fs-extra");
-const CURR_DIR = process.cwd();
+// const CURR_DIR = process.cwd();
 const path = require("path");
 const { render } = require("ejs");
 const currentPath = path.join(__dirname);
@@ -20,6 +20,7 @@ const QUESTIONS = [
   },
 ];
 inquirer.prompt(QUESTIONS).then((answers) => {
+  const CURR_DIR = answers["projectDirectoryPath"] ? answers["projectDirectoryPath"] : process.cwd();
   var newRouteName = answers["routeName"];
 
   const dbName = JSON.parse(fs.readFileSync(`${CURR_DIR}/package.json`));
@@ -91,7 +92,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
           fs.writeFileSync(writePath[i], contents, "utf8");
           i++;
-          renameFile(file, newRouteName);
+          renameFile(file, newRouteName, CURR_DIR);
         }
       });
     }
@@ -143,7 +144,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
           fs.writeFileSync(writePath[i], contents, "utf8");
           i++;
-          renameFile(file, newRouteName);
+          renameFile(file, newRouteName, CURR_DIR);
         }
       });
     }
@@ -164,13 +165,13 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
 //Function to rename files of the route.
 
-function renameFile(file, newRouteName) {
+function renameFile(file, newRouteName, currentDirectory) {
   if (file.startsWith("route")) {
     const fileName = [".controller", "", ".routes"];
     setTimeout(function name() {
       fs.rename(
-        `${CURR_DIR}/Controllers/${file}`,
-        `${CURR_DIR}/Controllers/${newRouteName}.controllers.js`,
+        `${currentDirectory}/Controllers/${file}`,
+        `${currentDirectory}/Controllers/${newRouteName}.controllers.js`,
         (error) => {
           if (error) {
             // Show the error
@@ -180,8 +181,8 @@ function renameFile(file, newRouteName) {
         }
       );
       fs.rename(
-        `${CURR_DIR}/Routes/${file}`,
-        `${CURR_DIR}/Routes/${newRouteName}.routes.js`,
+        `${currentDirectory}/Routes/${file}`,
+        `${currentDirectory}/Routes/${newRouteName}.routes.js`,
         (error) => {
           if (error) {
             // Show the error
@@ -191,8 +192,8 @@ function renameFile(file, newRouteName) {
         }
       );
       fs.rename(
-        `${CURR_DIR}/Models/${file}`,
-        `${CURR_DIR}/Models/${newRouteName}.js`,
+        `${currentDirectory}/Models/${file}`,
+        `${currentDirectory}/Models/${newRouteName}.js`,
         (error) => {
           if (error) {
             // Show the error
