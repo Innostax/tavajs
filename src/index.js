@@ -8,23 +8,28 @@ const createBlobService = require("./utils/createBlobService");
 const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
 const createEmailSevice = require("./utils/createEmailSevice");
-const { createDirectoryContents, updateProjectDependencies, updateProjectScripts } = require("./utils/helper");
+const {
+  createDirectoryContents,
+  updateProjectDependencies,
+  updateProjectScripts,
+} = require("./utils/helper");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
 const questionnaire = require("./questionnaire");
-const { FRAMEWORKS, AUTHENTICATIONS } = require("./constants")
+const { FRAMEWORKS, AUTHENTICATIONS } = require("./constants");
 
-const { ANGULAR, REACT, VUE } = FRAMEWORKS
-const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS
+const { ANGULAR, REACT, VUE } = FRAMEWORKS;
+const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 
 const currentPath = path.join(__dirname);
 const CURR_DIR = process.cwd();
-const NODE_JS = "node-js"
-const EMPTY_STRING = ""
+const NODE_JS = "node-js";
+const EMPTY_STRING = "";
 
 inquirer.prompt(questionnaire).then(async (answers) => {
+  console.log("====answers===", answers);
   const projectName = answers["projectName"];
   const frontEndName = answers["frontEndName"];
   const frontEndChoice = answers["frontEndChoice"];
@@ -41,10 +46,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isDark = Boolean(answers["theme"] == "light-dark-mode");
   const isCrud = Boolean(answers["CRUD"]);
   const isDocker = Boolean(answers["dockerService"]);
-  const isCrudWithNode = Boolean(answers["reactNodeCrud"] || answers["vueNodeCrud"]);
-  
+  const isCrudWithNode = Boolean(
+    answers["reactNodeCrud"] || answers["vueNodeCrud"]
+  );
+
   const isAuth0 = authenticationChoice === AUTH0;
-  const isCognito = authenticationChoice === COGNITO ;
+  const isCognito = authenticationChoice === COGNITO;
   const isOkta = authenticationChoice === OKTA;
   const mongoSelected = dbName === "mongoose";
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
@@ -56,8 +63,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isCypress = answers["testCaseFramework"] === "cypress";
   /* END: Testcases Framework */
 
+  /* START: dependency array */
+  const dependencies = [];
+  /* END: dependency array */
   const isSMTP = emailServiceName === "smtp";
-  
+
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
       console.error(err);
@@ -72,6 +82,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For react, angular, vue ---------------------------------->
   if (frontEnd) {
     const { choice, path: frontEndPath } = frontEnd;
+    //<------------------------- For Start: CSS Framework dependency ---------------------------->
+
+    if (frontEndChoice === REACT) {
+      if (isMaterialUI) {
+        dependencies.push(
+          { name: "@mui/material", version: "^5.10.2" },
+          { name: "@mui/icons-material", version: "^5.10.3" }
+        );
+      } else {
+        dependencies.push(
+          { name: "bootstrap", version: "^5.1.0" },
+          { name: "react-bootstrap", version: "^1.0.0" },
+          { name: "react-datepicker", version: "^4.2.1" },
+          { name: "@musicstory/react-bootstrap-table-next",version: "^1.0.5" }
+        );
+      }
+    }
+    //<------------------------- For End: CSS Framework dependency ---------------------------->
     const templatePath = path.join(__dirname, "templates", choice);
 
     const projectPath = backEnd
@@ -104,6 +132,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
+    //<---------------------------- Light/Dark Mode + React ---------------------------------->
     if (isDark && frontEndChoice === REACT) {
       fs.copyFile(
         `${currentPath}/themeTemplates/react-themes/dark-theme.js`,
@@ -167,8 +196,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           }
         );
 
-        const cypressDependency = { name: "cypress", version: "^10.7.0" };
-        updateProjectDependencies(frontEnd.path, cypressDependency);
+        dependencies.push({ name: "cypress", version: "^10.7.0" });
 
         const cypressScript = {
           name: "cypress",
@@ -295,9 +323,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         backEnd,
         isAuth0,
         isOkta,
-        isSMTP
+        isSMTP,
       });
-      const envFilePath = frontEnd?.choice && backEnd?.choice ? `${backEnd.path}/.env` : `${CURR_DIR}/${projectName}/.env`
+      const envFilePath =
+        frontEnd?.choice && backEnd?.choice
+          ? `${backEnd.path}/.env`
+          : `${CURR_DIR}/${projectName}/.env`;
       fs.writeFileSync(envFilePath, dbEnvFile, "utf8");
     }
   }
@@ -340,7 +371,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Store integration ---------------------------------->
   if (isStore) {
     //<---------------------------- Redux ---------------------------------->
-    if (frontEnd?.choice === REACT) {
+    if (frontEnd?.choice === "react") {
+      dependencies.push(
+        { name: "@reduxjs/toolkit", version: "^1.6.1" },
+        { name: "react-redux", version: "^7.2.4" }
+      );
       const reduxFiles = [
         {
           srcFolder: "reduxTemplates/demoUser",
@@ -389,16 +424,26 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(usersActionsFilePath, usersActionsFile, "utf8");
 
       if (isCrud) {
-        let addUserFile = fs.readFileSync(`${currentPath}/reduxTemplates/userform/Adduser.js`, "utf8");
-        addUserFile = render(addUserFile, { isMaterialUI, isCrud, isCrudWithNode });
+        let addUserFile = fs.readFileSync(
+          `${currentPath}/reduxTemplates/userform/Adduser.js`,
+          "utf8"
+        );
+        addUserFile = render(addUserFile, {
+          isMaterialUI,
+          isCrud,
+          isCrudWithNode,
+        });
         const addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
         fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
-        
+
         // let modalFile = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
         // modalFile = render (modalFile, { isMaterialUI, isCrud, isCrudWithNode });
       }
       if (isCrudWithNode) {
-        let addUserFormFile = fs.readFileSync(`${currentPath}/reduxTemplates/userform/AdduserForm.js`, "utf8");
+        let addUserFormFile = fs.readFileSync(
+          `${currentPath}/reduxTemplates/userform/AdduserForm.js`,
+          "utf8"
+        );
         addUserFormFile = render(addUserFormFile, { isMaterialUI });
         const addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
         fs.writeFileSync(addUserFilePath, addUserFormFile, "utf8");
@@ -421,8 +466,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------------MaterialUI Dark Theme----------------------->
 
     if (isDark) {
-      let appFile = fs.readFileSync(`${currentPath}/templates/react/src/App.js`, "utf8");
-      appFile = render(appFile, { isMaterialUI, isCrud, isCrudWithNode, isAuth0, isDark, isOkta });
+      let appFile = fs.readFileSync(
+        `${currentPath}/templates/react/src/App.js`,
+        "utf8"
+      );
+      appFile = render(appFile, {
+        isMaterialUI,
+        isCrud,
+        isCrudWithNode,
+        isAuth0,
+        isDark,
+        isOkta,
+      });
       const appFilePath = `${frontEnd.path}/src/App.js`;
       fs.writeFileSync(appFilePath, appFile, "utf8");
     }
@@ -430,7 +485,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<--------------------------------- Vuex ---------------------------->
     if (frontEnd?.choice === VUE) {
       const { choice, path: frontEndPath } = frontEnd;
-      const templates = [path.join(__dirname, "vuexTemplates", "store"), path.join(__dirname, "vuexTemplates", "userModal")]
+      const templates = [
+        path.join(__dirname, "vuexTemplates", "store"),
+        path.join(__dirname, "vuexTemplates", "userModal"),
+      ];
       const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
       const backEndUserModalPath = `${projectName}/${frontEndName}/src/userModal`;
       const frontEndStorePath = `${projectName}/src/store`;
@@ -439,7 +497,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.mkdirSync(backEnd ? backEndStorePath : frontEndStorePath);
       fs.mkdirSync(backEnd ? backEndUserModalPath : frontEndUserModalPath);
 
-      const projectPaths = backEnd ? [backEndStorePath, backEndUserModalPath] : [frontEndStorePath, frontEndUserModalPath];
+      const projectPaths = backEnd
+        ? [backEndStorePath, backEndUserModalPath]
+        : [frontEndStorePath, frontEndUserModalPath];
 
       templates.forEach((templatePath, index) => {
         fsExtra.ensureDirSync(frontEndPath);
@@ -463,9 +523,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           backEndName,
           choice,
           isDark,
-          isMaterialUI,
+          isMaterialUI
         );
-      })
+      });
 
       if (isCrudWithNode) {
         fsExtra.copy(
@@ -536,25 +596,29 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     ];
 
     filesMap.map((each) => {
-      let envFile = fs.readFileSync( `${currentPath}/${each.srcFolder}/${each.srcFileName}`, "utf8");
+      let envFile = fs.readFileSync(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        "utf8"
+      );
       envFile = render(envFile, { frontEndChoice });
       const envFilePath = `${frontEnd.path}/${each.destFileName}`;
       fs.writeFileSync(envFilePath, envFile, "utf8");
     });
-    
+
     if (frontEndChoice === "react") {
-      const auth0Dependency = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-      updateProjectDependencies(frontEnd.path, auth0Dependency);
+      dependencies.push({ name: "@auth0/auth0-spa-js", version: "^1.10.0" });
 
       const reactSpaPath = path.join(__dirname, "authTemplates");
-      let reactAuth0SPAFile = fs.readFileSync(`${reactSpaPath}/react-spa.js`, "utf8");
+      let reactAuth0SPAFile = fs.readFileSync(
+        `${reactSpaPath}/react-spa.js`,
+        "utf8"
+      );
       reactAuth0SPAFile = render(reactAuth0SPAFile, { isStore });
       const auth0SPAFilePath = `${frontEnd.path}/src/react-spa.js`;
       fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
     }
     if (frontEndChoice === VUE) {
-      const auth0Dependency = { name: "@auth0/auth0-vue", version: "^1.0.2" };
-      updateProjectDependencies(frontEnd.path, auth0Dependency);
+      dependencies.push({ name: "@auth0/auth0-vue", version: "^1.0.2" });
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
     const filesMap = [
@@ -565,8 +629,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         destFileName: ".env",
       },
     ];
-    const auth0Dependency = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
-    updateProjectDependencies(frontEnd.path, auth0Dependency);
+    // const newDependency = [{ name: "@auth0/auth0-spa-js", version: "^1.10.0" }];
+    // updateProjectDependencies(frontEnd.path, newDependency);
 
     filesMap.map((each) => {
       fs.copyFile(
@@ -580,6 +644,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       );
     });
   } else if (answers["authenticationChoice"] === OKTA) {
+    dependencies.push([
+      { name: "@okta/okta-auth-js", version: "^5.8.0" },
+      { name: "@okta/okta-react", version: "^6.3.0" },
+    ]);
     fsExtra.copy(
       `${currentPath}/authTemplates/oktaTemplate`,
       `${frontEnd.path}/src/oktaFiles`,
@@ -594,10 +662,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       {
         srcFolder: "envTemplates",
         srcFileName: ".oktaEnv",
-        destFolder:  frontEndName,
+        destFolder: frontEndName,
         destFileName: ".env",
       },
     ];
+
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
@@ -609,9 +678,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         }
       );
     });
-
   }
-
+  console.log("=====dependency array====", dependencies);
+  updateProjectDependencies(frontEnd.path, dependencies);
   projectInfo(frontEnd, backEnd, answers);
   projectSetUp(frontEnd, backEnd, answers);
   projectExecutionCommands(frontEnd, backEnd, answers);
