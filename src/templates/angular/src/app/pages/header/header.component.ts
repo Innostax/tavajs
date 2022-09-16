@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-<% if(isDark){%>import { FormBuilder, FormGroup } from '@angular/forms';
+<% if(isThemeProvider){%>import { FormBuilder, FormGroup } from '@angular/forms';
 
 const DARK= 'dark';
 const LIGHT= 'light';
@@ -10,15 +10,15 @@ const $body = document.body; <%}%>
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  <% if(isDark){%> isChecked: boolean = true;
+  <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
-  constructor( <% if(isDark){%> private fb: FormBuilder <%}%>) { }
+  constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%>) { }
   ngOnInit(): void {
-    <% if(isDark){%>
+    <% if(isThemeProvider){%>
     this.selectedTheme()
     <%}%>
   }
-  <% if(isDark){%>
+  <% if(isThemeProvider){%>
 
   selectedTheme() {
     const isThemeSelected: any = sessionStorage.getItem('isDarkModeSelected');

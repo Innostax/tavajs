@@ -4,11 +4,11 @@ import {
 	Toolbar,
 	CssBaseline,
 	Typography
-	<%if(isDark) {%>,IconButton <%}%>
+	<%if(isThemeProvider) {%>,IconButton <%}%>
 	<% if(isAuth0) {%>,Button<%}%>
 } from '@mui/material'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
-<%if(isDark) {%>
+<%if(isThemeProvider) {%>
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 <%}%>
@@ -20,7 +20,7 @@ const NavBar = ({ brand, links, mode, setMode }) => {
 
 	<% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 
-	<% if(isDark) {%>
+	<% if(isThemeProvider) {%>
 	const toggleTheme = () => {
 			setMode(mode === 'light' ? 'dark' : 'light')
 		}
@@ -61,7 +61,7 @@ const NavBar = ({ brand, links, mode, setMode }) => {
 								Logout
 							</Button>
 						<%}%>
-						<% if(isDark) {%>
+						<% if(isThemeProvider) {%>
 						<IconButton sx={{ ml: 1 }} onClick={toggleTheme} color='inherit'>
 							{mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
 						</IconButton>
