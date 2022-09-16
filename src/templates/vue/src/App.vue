@@ -26,4 +26,4 @@ export default {
 };
 </script>
 
-<style src="./App.css"/>
+<style src="./styles/index.css"/>
