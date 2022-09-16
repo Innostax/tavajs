@@ -53,10 +53,10 @@
     </Modal>
   </div>
 </template>
-  
+
 <script>
-import Label from "../components/atoms/Label";
 import Button from "../components/atoms/Button";
+import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal";
 
 const emptyString = "";
@@ -66,7 +66,7 @@ export default {
   components: {
     Label,
     Button,
-    Modal,
+    Modal
   },
   data() {
     return {

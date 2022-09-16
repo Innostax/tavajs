@@ -26,15 +26,15 @@
 </template>
 
 <script>
-  import Label from "../components/atoms/Label";
 import Button from "../components/atoms/Button.vue";
+import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal.vue";
 
 export default {
   name: "EditUser",
   components: {
+    Button,
     Label,
-    Button,    
     Modal
   },
   data() {
