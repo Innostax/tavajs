@@ -1,23 +1,34 @@
 const fs = require("fs");
 const { updateProjectDependencies } = require("./helper");
 const path = require("path");
+const WINSTON = "winston";
+const RAVEN = "raven";
+
 //Function to create logger service ------------------------------------------------------------>
 function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
-  if (loggerName === "winston") {
-    let servicePath = path.join(utilpath, "utils", "logger");
-    fs.mkdirSync(servicePath);
-    let package = { name: "winston", version: "^3.3.3" };
-    updateProjectDependencies(utilpath, package);
-    let contents = fs.readFileSync(
+  const dependencies = [];
+  if (loggerName === WINSTON) {
+    let loggerServicePath = path.join(utilpath, "utils", "logger");
+    fs.mkdirSync(loggerServicePath);
+
+    dependencies.push({ name: WINSTON, version: "^3.3.3" });
+
+    let loggerFile = fs.readFileSync(
       loggerTemplatePath + "/" + loggerName + ".js",
       "utf-8"
     );
-    fs.writeFile(servicePath + "/index" + ".js", contents, function (err) {
-      if (err) throw err;
-    });
+
+    fs.writeFile(
+      loggerServicePath + "/index" + ".js",
+      loggerFile,
+      function (err) {
+        if (err) throw err;
+      }
+    );
   } else {
-    let package = { name: "raven", version: "^2.6.4" };
-    updateProjectDependencies(utilpath, package);
+    dependencies.push({ name: RAVEN, version: "^2.6.4" });
   }
+
+  updateProjectDependencies(utilpath, dependencies);
 }
-  module.exports=createLogger
+module.exports = createLogger;
