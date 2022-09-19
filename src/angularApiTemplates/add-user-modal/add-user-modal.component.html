@@ -1,23 +1,23 @@
 <div class="d-flex justify-content-between">
   <div class="fs-3 fw-bold mb-3">
-    {{ actionBtnText + ' User' }} 
+    {{ userActionLabel + ' User' }} 
   </div>
   <div>
-    <button type="button" class="btn " (click)="closeModlRef()" aria-label="Close">
+    <button type="button" class="btn" (click)="closeModalRef()" aria-label="Close">
       <span aria-hidden="true">X</span>
     </button>
   </div>
 </div>
 
 
-<form [formGroup]="registerForm">
+<form [formGroup]="createUserForm">
   <div class="form-group mb-3">
     <label for="name" class="fw-bolder">Name</label>
     <input
       id="name"
       type="text"
       class="form-control"
-      placeholder="name"
+      placeholder="Name"
       formControlName="name"
     />
   </div>
@@ -27,7 +27,7 @@
       type="text"
       class="form-control"
       id="username"
-      placeholder="username"
+      placeholder="Username"
       formControlName="username"
     />
   </div>
@@ -42,6 +42,6 @@
     />
   </div>
   <div class="d-grid">
-    <button class="btn btn-primary" type="submit" class="btn btn-primary" (click)="onSubmit()">{{ actionBtnText }}</button>
+    <button class="btn btn-primary" type="submit" class="btn btn-primary" (click)="onSubmit()">{{ userActionLabel }}</button>
   </div>
 </form>

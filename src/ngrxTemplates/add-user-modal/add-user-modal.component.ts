@@ -16,12 +16,12 @@ declare let $: any;
 export class AddUserModalComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Output() closeEvent: EventEmitter<any> = new EventEmitter<any>();
-  registerForm!: FormGroup;
+  createUserForm!: FormGroup;
   user!: User;
-  actionBtnText: string = 'Add';
+  userActionLabel: string = 'Add';
 
   get registerFormControl() {
-    return this.registerForm.controls;
+    return this.createUserForm.controls;
   }
   constructor( private fb: FormBuilder,  private store: Store<userState>, ) {  }
 
@@ -32,12 +32,12 @@ export class AddUserModalComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     if(!$.isEmptyObject(this.data)) {
       this.initForm()
-      this.actionBtnText = 'Edit'
-    } else this.actionBtnText = 'Add'
+      this.userActionLabel = 'Edit'
+    } else this.userActionLabel = 'Add'
   }
 
   initForm() {
-    this.registerForm = this.fb.group({
+    this.createUserForm = this.fb.group({
       name: [this.data?.name || '', Validators.required],
       email: [this.data?.email || '', [Validators.required]],
       username: [this.data?.username || '', [Validators.required]],
@@ -48,19 +48,19 @@ export class AddUserModalComponent implements OnInit, OnChanges {
     let userId = $.isEmptyObject(this.data) ? uuid().slice(0,8).toString() : this.data?.id;
     const userData = {
       id: userId,
-      name: this.registerForm.get('name')?.value,
-      username: this.registerForm.get('username')?.value,
-      email: this.registerForm.get('email')?.value
+      name: this.createUserForm.get('name')?.value,
+      username: this.createUserForm.get('username')?.value,
+      email: this.createUserForm.get('email')?.value
     }
 
     if($.isEmptyObject(this.data)) this.store.dispatch(addUser({user: userData}))
     else this.store.dispatch(updateUser({user: userData}))
-    this.registerForm.reset();
-    this.closeModlRef();
+    this.createUserForm.reset();
+    this.closeModalRef();
   }
 
-  closeModlRef() {
+  closeModalRef() {
     this.closeEvent.emit();
-    this.registerForm.reset();
+    this.createUserForm.reset();
   }
 }

@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import {BASE_URL} from  "./base-url"
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { BASE_URL } from  './base-url';
+
 @Injectable({
   providedIn: 'root',
 })
+
 export class ApiService {
   baseUri: string = BASE_URL;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -30,12 +28,14 @@ export class ApiService {
       .patch(url, data, { headers: this.headers })
       .pipe(catchError(this.errorMgmt));
   }
+
   deleteEmployee(id: any): Observable<any> {
     let url = `${this.baseUri}/${id}`;
     return this.http
       .delete(url, { headers: this.headers })
       .pipe(catchError(this.errorMgmt));
   }
+
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -50,4 +50,5 @@ export class ApiService {
       return errorMessage;
     });
   }
+
 }

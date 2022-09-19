@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, Output, Input, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { v4 as uuid } from 'uuid';
-import {ApiService} from 'src/app/shared/services/services'
+import { ApiService } from 'src/app/shared/services/services'
 
 declare let $: any;
 
@@ -13,11 +13,11 @@ declare let $: any;
 export class AddUserModalComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Output() closeEvent: EventEmitter<any> = new EventEmitter<any>();
-  registerForm!: FormGroup;
-  actionBtnText: string = 'Add';
+  createUserForm!: FormGroup;
+  userActionLabel: string = 'Add';
 
   get registerFormControl() {
-    return this.registerForm.controls;
+    return this.createUserForm.controls;
   }
   constructor( private fb: FormBuilder, private apiService: ApiService ) {  }
 
@@ -28,12 +28,12 @@ export class AddUserModalComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     if(!$.isEmptyObject(this.data)) {
       this.initForm()
-      this.actionBtnText = 'Edit'
-    } else this.actionBtnText = 'Add'
+      this.userActionLabel = 'Edit'
+    } else this.userActionLabel = 'Add'
   }
 
   initForm() {
-    this.registerForm = this.fb.group({
+    this.createUserForm = this.fb.group({
       name: [this.data?.name || '', Validators.required],
       email: [this.data?.email || '', [Validators.required]],
       username: [this.data?.username || '', [Validators.required]],
@@ -44,19 +44,19 @@ export class AddUserModalComponent implements OnInit, OnChanges {
     let userId = $.isEmptyObject(this.data) ? uuid().slice(0,8).toString() : this.data?.id;
     const userData = {
       id: parseInt(userId),
-      name: this.registerForm.get('name')?.value,
-      username: this.registerForm.get('username')?.value,
-      email: this.registerForm.get('email')?.value
+      name: this.createUserForm.get('name')?.value,
+      username: this.createUserForm.get('username')?.value,
+      email: this.createUserForm.get('email')?.value
     }
 
     if(!$.isEmptyObject(this.data)) this.apiService.updateEmployee(this.data.id,userData).subscribe((res)=>{})
     else this.apiService.createEmployee(userData).subscribe((res)=>{})
-    this.registerForm.reset();
-    this.closeModlRef();
+    this.createUserForm.reset();
+    this.closeModalRef();
   }
 
-  closeModlRef() {
+  closeModalRef() {
     this.closeEvent.emit();
-    this.registerForm.reset();
+    this.createUserForm.reset();
   }
 }
