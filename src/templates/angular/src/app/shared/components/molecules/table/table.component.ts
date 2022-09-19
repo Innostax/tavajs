@@ -1,4 +1,4 @@
-import { Component, OnInit , Input, SimpleChanges , Output, EventEmitter} from '@angular/core';
+import { Component, Input, SimpleChanges , Output, EventEmitter} from '@angular/core';
 
 declare let $: any;
 
@@ -7,18 +7,14 @@ declare let $: any;
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   @Input() usersData: any;
-  @Input() public handleEditDelete!: (name:any, user:any) => void;
+  @Input() public handleEditDeleteAction!: (name:any, user:any) => void;
   @Input() shouldShowActions: boolean = false;
   @Input() headers: any;
 
   data: any;
-  constructor() { }
-
-  ngOnInit() : void{}
-   public keepOriginalOrder = (a:any, b:any) => a.key;
-
+  public keepOriginalOrder = (a:any, b:any) => a.key;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['usersData']?.currentValue) {
@@ -27,7 +23,7 @@ export class TableComponent implements OnInit {
   }
 
   handleUser(name:any, user:any) {
-    this.handleEditDelete(name,user);
+    this.handleEditDeleteAction(name,user);
   }
- 
+
 }

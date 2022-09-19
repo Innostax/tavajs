@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbDate, NgbModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -6,11 +6,7 @@ import { NgbDate, NgbModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.css']
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent {
   model!: NgbDateStruct;
-  constructor() { }
 
-  ngOnInit(): void {
-  }
-  
 }

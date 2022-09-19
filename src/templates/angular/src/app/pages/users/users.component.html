@@ -9,7 +9,7 @@
 </div>
 
 <% if(isStore){%>
-<app-table [usersData]="users$ | async" [handleEditDelete]="handleEvent" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
+<app-table [usersData]="users$ | async" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
 <div
   tabindex="-1"
   role="dialog"
