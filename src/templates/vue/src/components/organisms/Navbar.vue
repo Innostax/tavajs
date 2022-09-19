@@ -1,26 +1,23 @@
 <template>
   <b-navbar toggleable="lg">
-    <b-navbar-brand class="mx-4" href="#">Made in India</b-navbar-brand>
+    <b-navbar-brand href="#">Made in India</b-navbar-brand>
 
-    <b-navbar-toggle class="mx-4" target="nav-collapse"></b-navbar-toggle>
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav class="ml-auto">
+      <b-navbar-nav class="me-auto">
         <b-nav-item to="/">Home</b-nav-item>
         <b-nav-item to="/users">Users</b-nav-item>
       </b-navbar-nav>
+      <% if(isThemeProvider) { %>
+      <ThemeVue />
+      <% } %> 
+      <% if(isAuth0) { %> 
+      <LogoutButton class="ms-2"/>
+      <% } %> 
     </b-collapse>
 
-    <% if(isThemeProvider) { %> 
-    <b-navbar-nav class="mx-2">
-      <ThemeVue/>
-    </b-navbar-nav>
-    <% } %> 
-    <% if(isAuth0) { %> 
-    <b-navbar-nav class="mx-2">
-      <LogoutButton/>
-    </b-navbar-nav>
-    <% } %> 
+    
   </b-navbar>
 </template>
 
@@ -43,3 +40,14 @@ export default {
   },
 };
 </script>
+
+<% if(isAuth0) { %> 
+<style>
+  @media (max-width: 992px) {
+    #logoutButton{
+      margin-left: 0 !important;
+      margin-top: 0.5rem !important;
+    }
+  }
+</style>
+<% } %> 
