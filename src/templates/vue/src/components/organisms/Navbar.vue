@@ -40,3 +40,14 @@ export default {
   },
 };
 </script>
+
+<% if(isAuth0) { %> 
+<style>
+  @media (max-width: 992px) {
+    #logoutButton{
+      margin-left: 0 !important;
+      margin-top: 0.5rem !important;
+    }
+  }
+</style>
+<% } %> 

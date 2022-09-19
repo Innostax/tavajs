@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal id="bv-modal-editUser" title="Edit User">
+    <Modal id="bv-modal-editUser" title="Edit User" @closeModal="handleClose">
       <template #body>
         <form>
           <div class="mb-3">
@@ -19,7 +19,7 @@
       </template>
       <template #footer>
         <Button type="submit" color="primary" data-bs-dismiss="modal" @onClick="submitButonHandler" name="Edit User"></Button>
-        <Button type="button" color="outline-secondary" data-bs-dismiss="modal" name="Cancel"></Button>
+        <Button type="button" color="outline-secondary" data-bs-dismiss="modal" name="Cancel" @onClick="handleClose"></Button>
       </template>
     </Modal>
   </div>
@@ -37,13 +37,6 @@ export default {
     Label,
     Modal
   },
-  data() {
-    return {
-      name: null,
-      username: null,
-      email: null,
-    };
-  },
   methods: {
     submitButonHandler() {
       const data = {
@@ -53,6 +46,15 @@ export default {
         email: this.user.email,
       };
       this.$store.dispatch("editItem", data);
+    },
+    handleClose(){
+      const {name,username,email} = this.selectedUser
+      this.selectedUser.name = null
+      this.selectedUser.name = name
+      this.selectedUser.username = null
+      this.selectedUser.username = username
+      this.selectedUser.email = null
+      this.selectedUser.email = email      
     },
   },
   computed: {
