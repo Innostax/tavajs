@@ -36,10 +36,11 @@ const {
   VUE_THEME_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
-  NODE_JS_DOCKER_FILE_PATHS,
-  NGRX_FILE_PATHS,
+  NGRX_FILE_PATHS,  
   VUEX_FILE_PATHS,
-  INFRASTRUCTURE_FILE_PATHS
+  INFRASTRUCTURE_FILE_PATHS,
+  NGRX_CRUD_FILE_PATHS,
+  ANGULAR_CRUD_NODE_FILE_PATHS
  } = require("./constants");
 const { SCRIPTS } = require("./scripts")
 const { DEPENDENCIES } = require("./dependencies")
@@ -74,6 +75,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     vueNodeCrud,
     theme,
     projectDirectoryPath,
+    angularNodeCrud
   } = answers;
 
   // Project Directory Path 
@@ -82,7 +84,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isThemeProvider = Boolean(theme == "light-dark-mode");
   const isCrud = Boolean(CRUD);
   const isDocker = Boolean(dockerService);
-  const isCrudWithNode = Boolean(reactNodeCrud || vueNodeCrud);
+  const isCrudWithNode = Boolean(reactNodeCrud || vueNodeCrud || angularNodeCrud);
   const isMaterialUI = materialuiChoice;
 
   const isAuth0 = authenticationChoice === AUTH0;
@@ -190,7 +192,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
         dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
 
-        scripts = [...scripts, SCRIPTS.CYPRESS];
+        scripts = [...scripts, ...SCRIPTS.CYPRESS];
       }
     }
   }
@@ -449,10 +451,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === ANGULAR) {
+    if (frontEnd?.choice === ANGULAR ) {
       const res = getFilePaths(NGRX_FILE_PATHS, currentPath, frontEnd.path);
       directoryPaths = [...directoryPaths, ...res];
+
+      if(isCrud) {
+        const res = getFilePaths(NGRX_CRUD_FILE_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [...directoryPaths, ...res];
+      }
     }
+  }
+
+  //<-------------- For angular node crud ------------------->
+  if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
+    const res = getFilePaths(ANGULAR_CRUD_NODE_FILE_PATHS, currentPath, frontEnd.path);
+    directoryPaths = [...directoryPaths, ...res];
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
@@ -491,7 +504,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     else if(isFrontEndChoiceAngular) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR]
     else if(isFrontEndChoiceVue) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE]
     
-    scripts = [...scripts, SCRIPTS.PRETTY];
+    scripts = [...scripts, ...SCRIPTS.PRETTY];
+
     if(isFrontEndChoiceReact || isFrontEndChoiceAngular){
       directoryPaths = [...directoryPaths, 
       {
@@ -501,6 +515,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     OKTA_FILES_PATHS.forEach((each) => {
+      // filePaths = [...filePaths, {
+      //   source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+      //   destination: `${frontEnd.path}/${each.destFileName}`
+      // }]
       let envFile = readFile(`${currentPath}/${each.srcFolder}/${each.srcFileName}`);
       envFile = render(envFile, { frontEndChoice });
       const envFilePath = `${frontEnd.path}/${each.destFileName}`;

@@ -95,6 +95,10 @@ const VUEX_FILE_PATHS = "vuexFilePaths";
 
 const INFRASTRUCTURE_FILE_PATHS = "infrastructureFilePath";
 
+const NGRX_CRUD_FILE_PATHS = "ngrxCrudFilePaths";
+
+const ANGULAR_CRUD_NODE_FILE_PATHS = "angularCrudNodeFilePaths"
+
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
@@ -114,4 +118,7 @@ module.exports = {
   REACT_DOCKER_FILE_PATHS,
   NODE_JS_DOCKER_FILE_PATHS,
   INFRASTRUCTURE_FILE_PATHS,
+  DATABASES,
+  NGRX_CRUD_FILE_PATHS,
+  ANGULAR_CRUD_NODE_FILE_PATHS
 };

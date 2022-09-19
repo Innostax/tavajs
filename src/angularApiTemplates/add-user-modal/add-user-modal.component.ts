@@ -1,10 +1,7 @@
 import { Component, OnInit, OnChanges, Output, Input, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Store } from "@ngrx/store";
-import { addUser, updateUser } from 'src/app/utils/store/action/user.actions';
-import { userState } from 'src/app/utils/store/reducer/user.reducer';
-import {User} from 'src/app/utils/store/User';
 import { v4 as uuid } from 'uuid';
+import { ApiService } from 'src/app/shared/services/services'
 
 declare let $: any;
 
@@ -17,13 +14,12 @@ export class AddUserModalComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Output() closeEvent: EventEmitter<any> = new EventEmitter<any>();
   createUserForm!: FormGroup;
-  user!: User;
   userActionLabel: string = 'Add';
 
   get registerFormControl() {
     return this.createUserForm.controls;
   }
-  constructor( private fb: FormBuilder,  private store: Store<userState>, ) {  }
+  constructor( private fb: FormBuilder, private apiService: ApiService ) {  }
 
   ngOnInit(): void {
     this.initForm()
@@ -47,14 +43,14 @@ export class AddUserModalComponent implements OnInit, OnChanges {
   onSubmit() {
     let userId = $.isEmptyObject(this.data) ? uuid().slice(0,8).toString() : this.data?.id;
     const userData = {
-      id: userId,
+      id: parseInt(userId),
       name: this.createUserForm.get('name')?.value,
       username: this.createUserForm.get('username')?.value,
       email: this.createUserForm.get('email')?.value
     }
 
-    if($.isEmptyObject(this.data)) this.store.dispatch(addUser({user: userData}))
-    else this.store.dispatch(updateUser({user: userData}))
+    if(!$.isEmptyObject(this.data)) this.apiService.updateEmployee(this.data.id,userData).subscribe((res)=>{})
+    else this.apiService.createEmployee(userData).subscribe((res)=>{})
     this.createUserForm.reset();
     this.closeModalRef();
   }

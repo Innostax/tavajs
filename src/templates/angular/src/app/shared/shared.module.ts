@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-<% if(isStore){%>import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';<%}%>
+<% if(isCrud || isCrudWithNode){%>import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';<%}%>
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 <% if(isStore){%>import { StoreModule } from '@ngrx/store';
 import { reducer, userFeatureKey } from '../utils/store/reducer/user.reducer';<%}%>
+<% if(isCrudWithNode){%>import { ApiService } from './services/services';<%}%>
 
 @NgModule({
   declarations: [
-    <% if(isStore){%> AddUserModalComponent <%}%>
+    <% if(isCrud || isCrudWithNode){%> AddUserModalComponent <%}%>
   ],
   imports: [
     CommonModule,
@@ -18,7 +19,8 @@ import { reducer, userFeatureKey } from '../utils/store/reducer/user.reducer';<%
   exports: [
     FormsModule,
     ReactiveFormsModule,
-    <% if(isStore){%>AddUserModalComponent<%}%>
-  ]
+    <% if(isCrud || isCrudWithNode){%>AddUserModalComponent<%}%>
+  ],
+  <% if(isCrudWithNode){%> providers:[ApiService] <%}%>
 })
 export class SharedModule { }

@@ -14,6 +14,8 @@ const {
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
   INFRASTRUCTURE_FILE_PATHS,
+  NGRX_CRUD_FILE_PATHS,
+  ANGULAR_CRUD_NODE_FILE_PATHS
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -279,6 +281,9 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/app/utils/store`,
           isfile: false,
         },
+      ];
+    case NGRX_CRUD_FILE_PATHS:
+      return [
         {
           source: `${srcDir}/ngrxTemplates/add-user-modal`,
           destination: `${destDir}/src/app/shared/components/add-user-modal`,
@@ -306,6 +311,19 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isfile: false,
         },
       ];
+    case ANGULAR_CRUD_NODE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/angularApiTemplates/services`,
+          destination: `${destDir}/src/app/shared/services`,
+          isFile: false
+        },
+        {
+          source: `${srcDir}/angularApiTemplates/add-user-modal`,
+          destination: `${destDir}/src/app/shared/components/add-user-modal`,
+          isFile: false
+        }
+      ]
     default:
       return [];
   }
