@@ -343,7 +343,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       let addUserFile;
       let addUserFilePath;
 
-      dependencies = [...dependencies, DEPENDENCIES.REACT];
+      dependencies = [...dependencies, ...DEPENDENCIES.REACT];
       
       REDUX_FILES.forEach((each) => {
         filePaths = [...filePaths, {
@@ -463,7 +463,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     });
 
     if (isFrontEndChoiceReact) {
-      dependencies = [...dependencies, DEPENDENCIES.AUTH0_SPA]
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA]
 
       const reactSpaPath = path.join(__dirname, "authTemplates");
       let reactAuth0SPAFile = readFile(`${reactSpaPath}/react-spa.js`);
@@ -472,7 +472,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
     }
     if (frontEndChoice === VUE) {
-      dependencies = [...dependencies, DEPENDENCIES.AUTH0_VUE]
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE]
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
     COGNITO_FILE_PATHS.forEach((each) => {
@@ -484,9 +484,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     copyFiles(filePaths)
   } else if (answers["authenticationChoice"] === OKTA) {
-    dependencies = [...dependencies, DEPENDENCIES.OKTA_AUTH_JS];
-    if(isFrontEndChoiceReact) dependencies = [...dependencies, DEPENDENCIES.OKAT_REACT]
-    else if(isFrontEndChoiceAngular) dependencies = [...dependencies, DEPENDENCIES.OKTA_ANGULAR]
+    dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
+    if(isFrontEndChoiceReact) dependencies = [...dependencies, ...DEPENDENCIES.OKAT_REACT]
+    else if(isFrontEndChoiceAngular) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR]
     
     scripts = [...scripts, SCRIPTS.PRETTY];
 
