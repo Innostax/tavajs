@@ -2,8 +2,7 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const { render } = require("ejs");
 const {
-  BOOTSTRAP,
-  MATERIAL,
+  CSS_FRAMEWORKS,
   REACT_THEME_FILE_PATHS,
   VUE_THEME_FILE_PATHS,
   ANGULAR_THEME_FILE_PATHS,
@@ -81,8 +80,8 @@ const createDirectoryContents = (
         const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
         fs.writeFileSync(writePath, contents, "utf8");
       } else if (stats.isDirectory()) {
-        const isBootstrapFile = file === BOOTSTRAP;
-        const isMaterialUIFile = file === MATERIAL;
+        const isBootstrapFile = file === CSS_FRAMEWORKS.BOOTSTRAP;
+        const isMaterialUIFile = file === CSS_FRAMEWORKS.MATERIAL;
         // recursive call
         const isRequiedFile = isMaterialUI
           ? !isBootstrapFile
@@ -225,9 +224,9 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case ANGULAR_THEME_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/themeTemplates/angular-themes/dark-theme.css`,
-          destination: `${destDir}/src/angular-themes/dark-theme.css`,
-          isfile: true,
+          source: `${srcDir}/themeProviderTemplates/angular-themes`,
+          destination: `${destDir}/src/angular-themes`,
+          isfile: false,
         },
       ];
     case CYPRESS_DIRECTORY_PATHS:
