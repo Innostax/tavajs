@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
+import Button from "../components/atoms/Button";
 
 const Home = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -10,22 +11,22 @@ const Home = () => {
     return <div>Loading...</div>;
   }
 
-  const button = authState.isAuthenticated ? (
-    <button
+	const button = authState.isAuthenticated ? (
+    <Button
       onClick={() => {
         oktaAuth.signOut();
       }}
-    >
-      Logout
-    </button>
+      // variant="white"
+      name="Logout"
+    />
   ) : (
-    <button
+    <Button
       onClick={() => {
         history.push("/login");
       }}
-    >
-      Login
-    </button>
+      variant="white"
+      name="Login"
+    />
   );
 
   return <>{button}</>

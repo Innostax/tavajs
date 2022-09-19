@@ -61,6 +61,10 @@ body {
 .navbar {
 	border: 1px solid #434343 !important;
 }
+.navbar .btn-primary{
+    border: none;
+    margin-left: 2%,
+}
 .navbar-brand {
 	color: var(--headingTextColor) !important;
 	font-weight: bold;
