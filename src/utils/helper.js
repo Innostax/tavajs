@@ -66,65 +66,23 @@ function createDirectoryContents(
         const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
         fs.writeFileSync(writePath, contents, "utf8");
       } else if (stats.isDirectory()) {
+        const isBootstrapFile = file === "bootstrap";
+        const isMaterialUIFile = file === "material";
         // recursive call
-        if (isMaterialUI && `${file}` === "material") {
-          fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
+        const isRequiedFile = isMaterialUI
+          ? !isBootstrapFile
+          : !isMaterialUIFile;
+
+        if (isRequiedFile) {
+          const newUpadtedProjectPath =
+            isBootstrapFile || isMaterialUIFile
+              ? `${newProjectPath}`
+              : `${newProjectPath}/${file}`;
+
+          fsExtra.ensureDirSync(`${CURR_DIR}/${newUpadtedProjectPath}`);
           createDirectoryContents(
             `${templatePath}/${file}`,
-            `${newProjectPath}`,
-            newDefaultRoute,
-            mongoSelected,
-            sequelizeSelected,
-            dbName,
-            isSMTP,
-            isSentry,
-            isWinston,
-            isAuth0,
-            isOkta,
-            isCognito,
-            isStore,
-            isCrudWithNode,
-            isCrud,
-            frontEndName,
-            nodeName,
-            projectChoice,
-            isThemeProvider,
-            isMaterialUI,
-            currentDirectory
-          );
-        } else if (!isMaterialUI && `${file}` === "material") {
-          return;
-        } else if (!isMaterialUI && `${file}` === "bootstrap") {
-          fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}`);
-          createDirectoryContents(
-            `${templatePath}/${file}`,
-            `${newProjectPath}`,
-            newDefaultRoute,
-            mongoSelected,
-            sequelizeSelected,
-            dbName,
-            isSMTP,
-            isSentry,
-            isWinston,
-            isAuth0,
-            isOkta,
-            isCognito,
-            isStore,
-            isCrudWithNode,
-            isCrud,
-            frontEndName,
-            nodeName,
-            projectChoice,
-            isThemeProvider,
-            isMaterialUI
-          );
-        } else if (isMaterialUI && `${file}` === "bootstrap") {
-          return;
-        } else {
-          fsExtra.ensureDirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
-          createDirectoryContents(
-            `${templatePath}/${file}`,
-            `${newProjectPath}/${file}`,
+            `${newUpadtedProjectPath}`,
             newDefaultRoute,
             mongoSelected,
             sequelizeSelected,
