@@ -1,5 +1,5 @@
 <template>
-  <div class="fs-5" @click="ThemeToggler">
+  <div class="fs-4" @click="ThemeToggler">
     <i :class="mode === DARK ? 'fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'"></i>
   </div>
 </template>

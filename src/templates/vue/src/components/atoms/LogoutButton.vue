@@ -13,9 +13,16 @@ export default {
         Button
     },
     methods: {
-      logout() {
+      <% if (isAuth0) { %>
+      logout() {        
         this.$auth0.logout({ returnTo: window.location.origin });
       }
+      <% } %>
+      <% if (isOkta) { %>
+      async logout () {
+        await this.$auth.signOut()
+      },
+      <% } %>
     }
 };
 </script>

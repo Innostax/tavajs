@@ -18,8 +18,9 @@ const DEPENDENCIES = {
   AUTH0_VUE: [{ name: "@auth0/auth0-vue", version: "^1.0.2" }],
   AUTH0_ANGULAR: [{ name: "@auth0/auth0-angular", version: "^1.10.1" }],
   OKTA_AUTH_JS: [{ name: "@okta/okta-auth-js", version: "^5.8.0" }],
-  OKAT_REACT: [{ name: "@okta/okta-react", version: "^6.3.0" }],
+  OKTA_REACT: [{ name: "@okta/okta-react", version: "^6.3.0" }],
   OKTA_ANGULAR: [{ name: "@okta/okta-angular", version: "5.1" }],
+  OKTA_VUE: [{ name: "@okta/okta-vue", version: "5.4.0" }],
 };
 
 module.exports = {
