@@ -565,6 +565,16 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       const envFilePath = `${frontEnd.path}/${each.destFileName}`;
       fs.writeFileSync(envFilePath, envFile, "utf8");
     });
+
+    if (frontEndChoice === ANGULAR) {
+      const auth0Dependencies = [
+        { name: "@auth0/auth0-angular", version: "^1.10.1" },
+        { name: "@auth0/auth0-spa-js", version: "^1.10.0" }
+      ]
+      auth0Dependencies.forEach(each => {
+        updateProjectDependencies(frontEnd.path, each);
+      });
+    }
     
     if (frontEndChoice === "react") {
       const auth0Dependency = { name: "@auth0/auth0-spa-js", version: "^1.10.0" };
@@ -630,7 +640,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       oktaDependencies.forEach(each => {
         updateProjectDependencies(frontEnd.path, each);
       });
-    }  
+    }
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
