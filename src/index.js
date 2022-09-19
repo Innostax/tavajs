@@ -161,19 +161,19 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------- For Themes integration ---------------------------------->
     if (isThemeProvider && isFrontEndChoiceReact) {
       const res = getFilePaths(REACT_THEME_FILE_PATHS, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res]; // copyFiles(filePaths);
+      filePaths = [...filePaths, ...res];
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isThemeProvider && frontEndChoice === VUE) {
       const res = getFilePaths(VUE_THEME_FILE_PATHS, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res]; // copyFiles(filePaths);
+      filePaths = [...filePaths, ...res];
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
     if (isThemeProvider && isFrontEndChoiceAngular) {
       const res = getFilePaths(ANGULAR_THEME_FILE_PATHS, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res]; // copyFiles(filePaths);
+      filePaths = [...filePaths, ...res];
     }
 
     //<---------------------------- For TestCases Framework ------------------------------------>
@@ -188,7 +188,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
         dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
 
-        scripts = [...scripts, SCRIPTS.CYPRESS]; // copyFiles(filePaths); // copyDirectories(directoryPaths);
+        scripts = [...scripts, SCRIPTS.CYPRESS];
       }
     }
   }
@@ -239,7 +239,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       },
     ];
     
-    ROUTE_FILES.map((each) =>
+    ROUTE_FILES.forEach((each) =>
       fs.rename(
         `${backEnd.path}/${each.folder}/${each.oldName}`,
         `${backEnd.path}/${each.folder}/${each.newName}`,
@@ -328,12 +328,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       const dockerFilePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
       res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
-      filePaths = [...filePaths, ...res]; // copyFiles(filePaths); // fs.copyFileSync
+      filePaths = [...filePaths, ...res];
     }
     else if(frontEnd?.choice === REACT || backEnd?.choice === NODE_JS) 
       res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
 
-    filePaths = [...filePaths, ...res]; // copyFiles(filePaths); // fs.copyFileSync
+    filePaths = [...filePaths, ...res];
   }
 
   //<---------------------------- For Store integration ---------------------------------->
@@ -345,12 +345,12 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
       dependencies = [...dependencies, DEPENDENCIES.REACT];
       
-      REDUX_FILES.map((each) => {
+      REDUX_FILES.forEach((each) => {
         filePaths = [...filePaths, {
           source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
           destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`
         }]
-      }); // copyFiles(filePaths);
+      });
 
       let usersActionsFile = readFile(`${currentPath}/reduxTemplates/demoUser/users.actions.js`);
       usersActionsFile = render(usersActionsFile, {
@@ -376,7 +376,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
       fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
       const res = getFilePaths(INFRASTRUCTURE_FILE_PATHS, currentPath, frontEnd.path);
-      directoryPaths = [...directoryPaths, ...res]; // copyDirectories(directoryPaths);
+      directoryPaths = [...directoryPaths, ...res];
     }
 
     //<---------------------------------MaterialUI Dark Theme----------------------->
@@ -443,19 +443,19 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
       if (isCrudWithNode) {
         const res = getFilePaths(VUEX_FILE_PATHS, currentPath, frontEnd.path);
-        directoryPaths = [...directoryPaths, ...res]; // copyDirectories(directoryPaths);
+        directoryPaths = [...directoryPaths, ...res];
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
     if (frontEnd?.choice === ANGULAR) {
       const res = getFilePaths(NGRX_FILE_PATHS, currentPath, frontEnd.path);
-      directoryPaths = [...directoryPaths, ...res]; // copyDirectories(directoryPaths);
+      directoryPaths = [...directoryPaths, ...res];
     }
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
   if (answers["authenticationChoice"] === AUTH0) {
-    AUTH0_FILE_PATHS.map((each) => {
+    AUTH0_FILE_PATHS.forEach((each) => {
       let envFile = readFile(`${currentPath}/${each.srcFolder}/${each.srcFileName}`);
       envFile = render(envFile, { frontEndChoice });
       const envFilePath = `${frontEnd.path}/${each.destFileName}`;
@@ -475,7 +475,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       dependencies = [...dependencies, DEPENDENCIES.AUTH0_VUE]
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
-    COGNITO_FILE_PATHS.map((each) => {
+    COGNITO_FILE_PATHS.forEach((each) => {
       filePaths = [...filePaths, {
         source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`
@@ -494,21 +494,16 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     {
       source: `${currentPath}/authTemplates/oktaTemplate`,
       destination: `${frontEnd.path}/src/oktaFiles`
-    }]
-    
-    // copyDirectories(directoryPaths);
+    }];
 
-    OKTA_FILES_PATHS.map((each) => {
+    OKTA_FILES_PATHS.forEach((each) => {
       filePaths = [...filePaths, {
         source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
         destination: `${frontEnd.path}/${each.destFileName}`
       }]
     });
-
-    // copyFiles(filePaths);
   }
 
-  // TODO: Need to test
   copyDirectories(directoryPaths);
   copyFiles(filePaths);
 

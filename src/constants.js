@@ -4,6 +4,12 @@ const FRAMEWORKS = {
   VUE: "vue",
 };
 
+const DATABASES = {
+  POSTGRES: "postgres",
+  MYSQL: "mysql",
+  MONGOOSE: "mongoose"
+}
+
 const CSS_FRAMEWORKS = {
   BOOTSTRAP: "bootstrap",
   MATERIAL: "material"

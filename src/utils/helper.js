@@ -17,7 +17,7 @@ const {
   INFRASTRUCTURE_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
-function createDirectoryContents(
+const createDirectoryContents = (
   templatePath,
   newProjectPath,
   newDefaultRoute,
@@ -39,7 +39,7 @@ function createDirectoryContents(
   isThemeProvider,
   isMaterialUI,
   currentDirectory
-) {
+) => {
   const CURR_DIR = currentDirectory ? currentDirectory : process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
@@ -122,10 +122,10 @@ function createDirectoryContents(
       }
     }
   });
-}
+};
 
 //to update package.json------------------------------------------------>
-function updateProjectDependencies(path, dependencies) {
+const updateProjectDependencies = (path, dependencies) => {
   dependencies.forEach((each) => {
     const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
     const packageJson = JSON.parse(packageJsonFile);
@@ -140,10 +140,10 @@ function updateProjectDependencies(path, dependencies) {
     const newPackageJsonFile = JSON.stringify(updatedPackageJson);
     fs.writeFileSync(`${path}/package.json`, newPackageJsonFile, "utf-8");
   });
-}
+};
 
 // To update the scripts in Package.json
-function updateProjectScripts(path, updatedscripts) {
+const updateProjectScripts = (path, updatedscripts) => {
   updatedscripts.forEach((each) => {
     const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
     const packageJson = JSON.parse(packageJsonFile);
@@ -158,19 +158,28 @@ function updateProjectScripts(path, updatedscripts) {
     const newPackageJsonFile = JSON.stringify(updatedPackageJson);
     fs.writeFileSync(`${path}/package.json`, newPackageJsonFile, "utf-8");
   });
-}
+};
 
-function copyFiles(paths) {
+const copyFiles = (paths) => {
   paths.forEach((each) => {
-    fs.copyFileSync(each.source, each.destination, (err) => {
-      if (err) {
-        console.log("Error Found:", err);
-      }
-    });
+    if (each.isFile) {
+      fs.copyFile(each.source, each.destination, (err) => {
+        if (err) {
+          console.log("Error Found:", err);
+        }
+      });
+    } else {
+      fsExtra.copy(each.source, each.destination, function (err) {
+        if (err) {
+          console.log("An error is occured");
+          return console.error(err);
+        }
+      });
+    }
   });
-}
+};
 
-function copyDirectories(paths) {
+const copyDirectories = (paths) => {
   paths.forEach((each) => {
     fsExtra.copy(each.source, each.destination, function (err) {
       if (err) {
@@ -179,113 +188,129 @@ function copyDirectories(paths) {
       }
     });
   });
-}
+};
 
-function readFile(path) {
+const readFile = (path) => {
   return fs.readFileSync(path, "utf8");
-}
+};
 
-function getFilePaths(name, srcDir, destDir, backendDir) {
+const getFilePaths = (name, srcDir, destDir, backendDir) => {
   switch (name) {
-    case name === REACT_THEME_FILE_PATHS:
+    case REACT_THEME_FILE_PATHS:
       return [
         {
           source: `${srcDir}/themeProviderTemplates/react-themes/theme.js`,
           destination: `${destDir}/src/theme.js`,
+          isfile: true,
         },
         {
           source: `${srcDir}/themeProviderTemplates/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
+          isfile: true,
         },
       ];
-    case name === VUE_THEME_FILE_PATHS:
+    case VUE_THEME_FILE_PATHS:
       return [
         {
           source: `${srcDir}/themeProviderTemplates/vue-themes/theme.vue`,
           destination: `${destDir}/src/theme.vue`,
+          isfile: true,
         },
         {
           source: `${srcDir}/themeProviderTemplates/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
+          isfile: true,
         },
       ];
-    case name === ANGULAR_THEME_FILE_PATHS:
+    case ANGULAR_THEME_FILE_PATHS:
       return [
         {
           source: `${srcDir}/themeTemplates/angular-themes/dark-theme.css`,
           destination: `${destDir}/src/angular-themes/dark-theme.css`,
+          isfile: true,
         },
       ];
-    case name === CYPRESS_DIRECTORY_PATHS:
+    case CYPRESS_DIRECTORY_PATHS:
       return [
         {
           source: `${srcDir}/uiTests/CypressTests/TestScripts`,
           destination: `${destDir}`,
+          isfile: false,
         },
       ];
-    case name === CYPRESS_FILE_PATHS:
+    case CYPRESS_FILE_PATHS:
       return [
         {
           source: `${srcDir}/uiTests/CypressTests/cypress.config.js`,
           destination: `${destDir}/cypress.config.js`,
+          isfile: true,
         },
       ];
-    case name === DOCKER_FILE_PATHS:
+    case DOCKER_FILE_PATHS:
       return [
         {
           source: `${srcDir}/dockerTemplate/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
+          isfile: false,
         },
         {
           source: `${srcDir}/dockerTemplate/Dockerfile`,
           destination: `${backendDir}/Dockerfile`,
+          isfile: false,
         },
       ];
-    case name === REACT_DOCKER_FILE_PATHS:
-    case name === NODE_JS_DOCKER_FILE_PATHS:
+    case REACT_DOCKER_FILE_PATHS:
+    case NODE_JS_DOCKER_FILE_PATHS:
       return [
         {
           source: `${srcDir}/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
+          isfile: false,
         },
       ];
-    case name === NGRX_FILE_PATHS:
+    case NGRX_FILE_PATHS:
       return [
         {
           source: `${srcDir}/ngrxTemplates/reducers`,
-          destination: `${destDir}/src/app/reducers`
+          destination: `${destDir}/src/app/reducers`,
+          isfile: false,
         },
         {
           source: `${srcDir}/ngrxTemplates/store`,
-          destination: `${destDir}/src/app/utils/store`
+          destination: `${destDir}/src/app/utils/store`,
+          isfile: false,
         },
         {
           source: `${srcDir}/ngrxTemplates/add-user-modal`,
-          destination: `${destDir}/src/app/shared/components/add-user-modal`
-        }
+          destination: `${destDir}/src/app/shared/components/add-user-modal`,
+          isfile: false,
+        },
       ];
-    case name === VUEX_FILE_PATHS:
+    case VUEX_FILE_PATHS:
       return [
         {
           source: `${srcDir}/vuexTemplates/doAsync`,
-          destination: `${destDir}/src/doAsync`
+          destination: `${destDir}/src/doAsync`,
+          isfile: false,
         },
         {
           source: `${srcDir}/vuexTemplates/httpMethod`,
-          destination: `${destDir}/src/httpMethod`
-        }
+          destination: `${destDir}/src/httpMethod`,
+          isfile: false,
+        },
       ];
-    case name === INFRASTRUCTURE_FILE_PATHS:
+    case INFRASTRUCTURE_FILE_PATHS:
       return [
         {
           source: `${srcDir}/reduxTemplates/infrastructure`,
           destination: `${destDir}/src/infrastructure`,
-        }
+          isfile: false,
+        },
       ];
     default:
       return [];
   }
-}
+};
 
 module.exports = {
   createDirectoryContents,
