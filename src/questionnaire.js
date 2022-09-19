@@ -10,6 +10,14 @@ module.exports = [
     },
   },
   {
+    name: "projectDirectoryPath",
+    type: "input",
+    message: "Enter destination folder path?",
+    when: (answers) => {
+      return answers.projectName;
+    },
+  },
+  {
     name: "managerChoice",
     type: "list",
     message: "Select Package Manager",
@@ -107,7 +115,7 @@ module.exports = [
       { name: "Okta", value: "Okta" },
       { name: "None", value: false },
     ],
-    when: (answers) => answers.frontEndChoice == "react" || answers.frontEndChoice === "vue",
+    when: (answers) => answers.frontEnd,
   },
   {
     name: "store",

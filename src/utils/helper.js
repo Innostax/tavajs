@@ -1,6 +1,5 @@
 const fs = require("fs");
 const fsExtra = require("fs-extra");
-const CURR_DIR = process.cwd();
 const { render } = require("ejs");
 //<-----------------------To create Directory Contents------------------------------------>
 function createDirectoryContents(
@@ -23,8 +22,10 @@ function createDirectoryContents(
   nodeName,
   projectChoice,
   isThemeProvider,
-  isMaterialUI
+  isMaterialUI,
+  currentDirectory
 ) {
+  const CURR_DIR = currentDirectory ? currentDirectory : process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
     if (file !== ".git") {
@@ -91,7 +92,8 @@ function createDirectoryContents(
           nodeName,
           projectChoice,
           isThemeProvider,
-          isMaterialUI
+          isMaterialUI,
+          currentDirectory
         );}
         else if(!isMaterialUI && `${file}` === "material"){ 
           return ;
@@ -119,7 +121,8 @@ function createDirectoryContents(
             nodeName,
             projectChoice,
             isThemeProvider,
-            isMaterialUI
+            isMaterialUI,
+            currentDirectory
           );
         }
         else if(isMaterialUI && `${file}`=== 'bootstrap')
@@ -149,7 +152,8 @@ function createDirectoryContents(
               nodeName,
               projectChoice,
               isThemeProvider,
-              isMaterialUI
+              isMaterialUI,
+              currentDirectory
             );
           }
         

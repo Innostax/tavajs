@@ -1,47 +1,54 @@
 <template>
-  <div id="addModal">
-    <Button id="show-btn" className="mt-3" name="Add User" color="primary" @onClick="showAddUserModal"/>
+  <div>
+    <Button type="button" color="primary" name="Add User" data-bs-toggle="modal" data-bs-target="#bv-modal-addUser" @onClick="showAddUserModal"/>
 
-    <Modal id="bv-modal-addUser" title="Add User"> 
+    <Modal id="bv-modal-addUser" title="Add User">
       <template #body>
-        <form ref="form">
-          <b-form-group class="p-1">
-            <Label class="p-1" input-id="name-input" name="Name"></Label>
-            <b-form-input
-              id="name-input"
+        <form>
+          <div class="mb-3">
+            <Label inputId="name-input" class="form-label" name="Name"></Label>
+            <input
               type="text"
+              class="form-control"
+              id="name-input"
               placeholder="Name"
               v-model="name"
               autofocus
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group class="p-1">
+            />
+          </div>
+          <div class="mb-3">
             <Label
-              class="p-1"
-              input-id="username-input"
+              inputId="username-input"
+              class="form-label"
               name="Username"
             ></Label>
-            <b-form-input
-              id="username-input"
+            <input
               type="text"
+              class="form-control"
+              id="username-input"
               placeholder="Username"
               v-model="username"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group class="p-1">
-            <Label class="p-1" input-id="email-input" name="Email"></Label>
-            <b-form-input
+            />
+          </div>
+          <div class="mb-3">
+            <Label
+              inputId="email-input"
+              class="form-label"
+              name="Email"
+            ></Label>
+            <input
+              type="text"
+              class="form-control"
               id="email-input"
-              type="email"
               placeholder="example@email.com"
               v-model="email"
-            ></b-form-input>
-          </b-form-group>
+            />
+          </div>
         </form>
       </template>
       <template #footer>
-        <Button id="show-btn" name="Add User" color="primary" @submit="onSubmit"/>
-        <Button id="close-btn" name="Cancel" color="outline-secondary" @onClick="$bvModal.hide('bv-modal-addUser')"/>
+        <Button type="submit" color="primary" data-bs-dismiss="modal" @submit="onSubmit" name="Add User"></Button>
+        <Button type="button" color="outline-secondary" data-bs-dismiss="modal" name="Close" ></Button>
       </template>
     </Modal>
   </div>
@@ -76,10 +83,8 @@ export default {
         email: this.email,
       };
       this.$store.dispatch("addUser", data);
-      this.$bvModal.hide('bv-modal-addUser')
     },
-    showAddUserModal () {
-      this.$bvModal.show('bv-modal-addUser')
+    showAddUserModal() {
       this.name = emptyString;
       this.username = emptyString;
       this.email = emptyString;

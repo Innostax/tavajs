@@ -20,11 +20,12 @@ const { ANGULAR, REACT, VUE } = FRAMEWORKS
 const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS
 
 const currentPath = path.join(__dirname);
-const CURR_DIR = process.cwd();
 const NODE_JS = "node-js"
 const EMPTY_STRING = ""
 
 inquirer.prompt(questionnaire).then(async (answers) => {
+  // Project Directory Path 
+  const CURR_DIR = answers["projectDirectoryPath"] ? answers["projectDirectoryPath"] : process.cwd();
   const projectName = answers["projectName"];
   const frontEndName = answers["frontEndName"];
   const frontEndChoice = answers["frontEndChoice"];
@@ -100,7 +101,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       backEndName,
       choice,
       isThemeProvider,
-      isMaterialUI
+      isMaterialUI,
+      CURR_DIR
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -233,7 +235,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       backEndName,
       choice,
       isThemeProvider,
-      isMaterialUI
+      isMaterialUI,
+      CURR_DIR
     );
     const fileNames = [
       {
@@ -484,6 +487,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           choice,
           isThemeProvider,
           isMaterialUI,
+          CURR_DIR
         );
       })
 
@@ -618,6 +622,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         destFileName: ".env",
       },
     ];
+    if (frontEndChoice === ANGULAR) {
+      const oktaDependencies = [
+        { name: "@okta/okta-angular", version: "5.1" },
+        { name: "@okta/okta-auth-js", version: "6.0" }
+      ]
+      oktaDependencies.forEach(each => {
+        updateProjectDependencies(frontEnd.path, each);
+      });
+    }  
     filesMap.map((each) => {
       fs.copyFile(
         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
