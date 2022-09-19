@@ -12,12 +12,10 @@
       <% if(isThemeProvider) { %>
       <ThemeVue />
       <% } %> 
-      <% if(isAuth0) { %> 
+      <% if(isAuth0 || isOkta) { %> 
       <LogoutButton class="ms-2"/>
-      <% } %> 
+      <% } %>
     </b-collapse>
-
-    
   </b-navbar>
 </template>
 
@@ -25,7 +23,7 @@
 <% if(isThemeProvider) { %> 
 import ThemeVue from '../../theme.vue';
 <% } %> 
-<% if(isAuth0) { %> 
+<% if(isAuth0 || isOkta) { %> 
 import LogoutButton from '../atoms/LogoutButton.vue'
 <% } %> 
 export default {
@@ -34,14 +32,14 @@ export default {
   <% if(isThemeProvider) { %> 
     ThemeVue,
   <% } %>   
-  <% if(isAuth0) { %> 
+  <% if(isAuth0 || isOkta) { %> 
     LogoutButton,
   <% } %>   
   },
 };
 </script>
 
-<% if(isAuth0) { %> 
+<% if(isAuth0 || isOkta) { %> 
 <style>
   @media (max-width: 992px) {
     #logoutButton{

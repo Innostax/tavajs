@@ -36,10 +36,11 @@ const {
   VUE_THEME_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
-  NGRX_FILE_PATHS,
+  NGRX_FILE_PATHS,  
   VUEX_FILE_PATHS,
   INFRASTRUCTURE_FILE_PATHS,
-  NGRX_CRUD_FILE_PATHS
+  NGRX_CRUD_FILE_PATHS,
+  ANGULAR_CRUD_NODE_FILE_PATHS
  } = require("./constants");
 const { SCRIPTS } = require("./scripts")
 const { DEPENDENCIES } = require("./dependencies")
@@ -114,6 +115,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   const isFrontEndChoiceReact = frontEndChoice === REACT;
   const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
+  const isFrontEndChoiceVue = frontEndChoice === VUE;
 
   //<---------------------------- For react, angular, vue ---------------------------------->
   if (frontEnd) {
@@ -462,25 +464,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   //<-------------- For angular node crud ------------------->
   if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
-    
-    fsExtra.copy(
-      `${currentPath}/angularApiTemplates/services`,
-      `${frontEnd.path}/src/app/shared/services`,
-      function (err) {
-        if (err) {
-          console.error(`Error while copying Services component: ${err}`);
-        }
-      }
-    );
-    fsExtra.copy(
-      `${currentPath}/angularApiTemplates/add-user-modal`,
-      `${frontEnd.path}/src/app/shared/components/add-user-modal`,
-      function (err) {
-        if (err) {
-          console.error(`Error while copying add-user-modal component: ${err}`);
-        }
-      }
-    );
+    const res = getFilePaths(ANGULAR_CRUD_NODE_FILE_PATHS, currentPath, frontEnd.path);
+    directoryPaths = [...directoryPaths, ...res];
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
@@ -515,22 +500,29 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     copyFiles(filePaths)
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
-    if(isFrontEndChoiceReact) dependencies = [...dependencies, ...DEPENDENCIES.OKAT_REACT]
+    if(isFrontEndChoiceReact) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_REACT]
     else if(isFrontEndChoiceAngular) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR]
+    else if(isFrontEndChoiceVue) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE]
     
     scripts = [...scripts, ...SCRIPTS.PRETTY];
 
-    directoryPaths = [...directoryPaths, 
-    {
-      source: `${currentPath}/authTemplates/oktaTemplate`,
-      destination: `${frontEnd.path}/src/oktaFiles`
-    }];
+    if(isFrontEndChoiceReact || isFrontEndChoiceAngular){
+      directoryPaths = [...directoryPaths, 
+      {
+        source: `${currentPath}/authTemplates/oktaTemplate`,
+        destination: `${frontEnd.path}/src/oktaFiles`
+      }];
+    }
 
     OKTA_FILES_PATHS.forEach((each) => {
-      filePaths = [...filePaths, {
-        source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        destination: `${frontEnd.path}/${each.destFileName}`
-      }]
+      // filePaths = [...filePaths, {
+      //   source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+      //   destination: `${frontEnd.path}/${each.destFileName}`
+      // }]
+      let envFile = readFile(`${currentPath}/${each.srcFolder}/${each.srcFileName}`);
+      envFile = render(envFile, { frontEndChoice });
+      const envFilePath = `${frontEnd.path}/${each.destFileName}`;
+      fs.writeFileSync(envFilePath, envFile, "utf8");
     });
   }
 

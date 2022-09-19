@@ -1,10 +1,16 @@
 <template>
   <% if (isAuth0) { %>
-  <div v-if="isAuthenticated" id="app">
+  <div id="app" v-if="isAuthenticated">
   <% } else { %> 
   <div id="app">
   <% } %>
+  <% if (isOkta) { %>
+  <template v-if="authState && authState.isAuthenticated">
+  <Navbar />
+  </template>
+  <% } else { %>
     <Navbar />
+  <% } %>
     <router-view></router-view>
   </div>
 </template>
