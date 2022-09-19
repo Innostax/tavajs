@@ -1,6 +1,8 @@
 const fs = require("fs");
 const fsExtra = require("fs-extra");
 const { render } = require("ejs");
+const BOOTSTRAP = "bootstrap";
+const MATERIAL = "material";
 //<-----------------------To create Directory Contents------------------------------------>
 function createDirectoryContents(
   templatePath,
@@ -66,8 +68,8 @@ function createDirectoryContents(
         const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
         fs.writeFileSync(writePath, contents, "utf8");
       } else if (stats.isDirectory()) {
-        const isBootstrapFile = file === "bootstrap";
-        const isMaterialUIFile = file === "material";
+        const isBootstrapFile = file === BOOTSTRAP;
+        const isMaterialUIFile = file === MATERIAL;
         // recursive call
         const isRequiedFile = isMaterialUI
           ? !isBootstrapFile
