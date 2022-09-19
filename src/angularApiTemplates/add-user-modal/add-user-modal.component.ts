@@ -43,7 +43,7 @@ export class AddUserModalComponent implements OnInit, OnChanges {
   onSubmit() {
     let userId = $.isEmptyObject(this.data) ? uuid().slice(0,8).toString() : this.data?.id;
     const userData = {
-      id: userId,
+      id: parseInt(userId),
       name: this.registerForm.get('name')?.value,
       username: this.registerForm.get('username')?.value,
       email: this.registerForm.get('email')?.value

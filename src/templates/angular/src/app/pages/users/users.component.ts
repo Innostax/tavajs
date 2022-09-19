@@ -49,8 +49,9 @@ export class UsersComponent implements OnInit {
   deleteUser(data: any) {
     <% if(isStore){%>this.store.dispatch(deleteUser({ id: data }));<%}%>
     <% if(isCrudWithNode){%>
-      this.apiService.deleteEmployee(data).subscribe();
-      this.getUsers();
+      this.apiService.deleteEmployee(data).subscribe(() =>
+        this.getUsers()
+      )
     <%}%>
   }
 
