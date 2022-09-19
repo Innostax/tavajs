@@ -3,7 +3,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const fsExtra = require("fs-extra");
-const CURR_DIR = process.cwd();
 const path = require("path");
 const { render } = require("ejs");
 const currentPath = path.join(__dirname);
@@ -22,6 +21,7 @@ const QUESTIONS = [
 ];
 
 inquirer.prompt(QUESTIONS).then((answers) => {
+  const CURR_DIR = answers["projectDirectoryPath"] ? answers["projectDirectoryPath"] : process.cwd();
   const projectName = answers["project-name"];
   fs.mkdirSync(`${CURR_DIR}/src/screens/${projectName}`);
 
