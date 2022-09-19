@@ -16,7 +16,7 @@ const Home = () => {
       onClick={() => {
         oktaAuth.signOut();
       }}
-      // variant="white"
+      variant="white"
       name="Logout"
     />
   ) : (
