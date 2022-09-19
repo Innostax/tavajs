@@ -36,10 +36,10 @@ const {
   VUE_THEME_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
-  NODE_JS_DOCKER_FILE_PATHS,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
-  INFRASTRUCTURE_FILE_PATHS
+  INFRASTRUCTURE_FILE_PATHS,
+  NGRX_CRUD_FILE_PATHS
  } = require("./constants");
 const { SCRIPTS } = require("./scripts")
 const { DEPENDENCIES } = require("./dependencies")
@@ -74,6 +74,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     vueNodeCrud,
     theme,
     projectDirectoryPath,
+    angularNodeCrud
   } = answers;
 
   // Project Directory Path 
@@ -82,7 +83,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isThemeProvider = Boolean(theme == "light-dark-mode");
   const isCrud = Boolean(CRUD);
   const isDocker = Boolean(dockerService);
-  const isCrudWithNode = Boolean(reactNodeCrud || vueNodeCrud);
+  const isCrudWithNode = Boolean(reactNodeCrud || vueNodeCrud || angularNodeCrud);
   const isMaterialUI = materialuiChoice;
 
   const isAuth0 = authenticationChoice === AUTH0;
@@ -189,7 +190,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
         dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
 
-        scripts = [...scripts, SCRIPTS.CYPRESS];
+        scripts = [...scripts, ...SCRIPTS.CYPRESS];
       }
     }
   }
@@ -448,10 +449,38 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === ANGULAR) {
+    if (frontEnd?.choice === ANGULAR ) {
       const res = getFilePaths(NGRX_FILE_PATHS, currentPath, frontEnd.path);
       directoryPaths = [...directoryPaths, ...res];
+
+      if(isCrud) {
+        const res = getFilePaths(NGRX_CRUD_FILE_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [...directoryPaths, ...res];
+      }
     }
+  }
+
+  //<-------------- For angular node crud ------------------->
+  if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
+    
+    fsExtra.copy(
+      `${currentPath}/angularApiTemplates/services`,
+      `${frontEnd.path}/src/app/shared/services`,
+      function (err) {
+        if (err) {
+          console.error(`Error while copying Services component: ${err}`);
+        }
+      }
+    );
+    fsExtra.copy(
+      `${currentPath}/angularApiTemplates/add-user-modal`,
+      `${frontEnd.path}/src/app/shared/components/add-user-modal`,
+      function (err) {
+        if (err) {
+          console.error(`Error while copying add-user-modal component: ${err}`);
+        }
+      }
+    );
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
@@ -489,7 +518,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if(isFrontEndChoiceReact) dependencies = [...dependencies, ...DEPENDENCIES.OKAT_REACT]
     else if(isFrontEndChoiceAngular) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR]
     
-    scripts = [...scripts, SCRIPTS.PRETTY];
+    scripts = [...scripts, ...SCRIPTS.PRETTY];
 
     directoryPaths = [...directoryPaths, 
     {
