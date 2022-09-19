@@ -113,6 +113,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   const isFrontEndChoiceReact = frontEndChoice === REACT;
   const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
+  const isFrontEndChoiceVue = frontEndChoice === VUE;
 
   //<---------------------------- For react, angular, vue ---------------------------------->
   if (frontEnd) {
@@ -486,22 +487,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     copyFiles(filePaths)
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
-    if(isFrontEndChoiceReact) dependencies = [...dependencies, ...DEPENDENCIES.OKAT_REACT]
+    if(isFrontEndChoiceReact) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_REACT]
     else if(isFrontEndChoiceAngular) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR]
+    else if(isFrontEndChoiceVue) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE]
     
     scripts = [...scripts, SCRIPTS.PRETTY];
-
-    directoryPaths = [...directoryPaths, 
-    {
-      source: `${currentPath}/authTemplates/oktaTemplate`,
-      destination: `${frontEnd.path}/src/oktaFiles`
-    }];
+    if(isFrontEndChoiceReact || isFrontEndChoiceAngular){
+      directoryPaths = [...directoryPaths, 
+      {
+        source: `${currentPath}/authTemplates/oktaTemplate`,
+        destination: `${frontEnd.path}/src/oktaFiles`
+      }];
+    }
 
     OKTA_FILES_PATHS.forEach((each) => {
-      filePaths = [...filePaths, {
-        source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        destination: `${frontEnd.path}/${each.destFileName}`
-      }]
+      let envFile = readFile(`${currentPath}/${each.srcFolder}/${each.srcFileName}`);
+      envFile = render(envFile, { frontEndChoice });
+      const envFilePath = `${frontEnd.path}/${each.destFileName}`;
+      fs.writeFileSync(envFilePath, envFile, "utf8");
     });
   }
 

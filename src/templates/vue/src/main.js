@@ -14,6 +14,17 @@ import { createAuth0 } from '@auth0/auth0-vue';
 const { VUE_APP_AUTH0_DOMAIN, VUE_APP_AUTH0_CLIENT_ID } = process.env
 <% } %>
 
+<% if (isOkta) { %>
+import { OktaAuth } from '@okta/okta-auth-js'
+import OktaVue from '@okta/okta-vue'
+const { VUE_APP_OKTA_ISSUER, VUE_APP_OKTA_CLIENT_ID } = process.env
+const oktaAuth = new OktaAuth({
+  clientId: VUE_APP_OKTA_CLIENT_ID,
+  issuer: VUE_APP_OKTA_ISSUER,
+  redirectUri: window.location.origin + '/login/callback',
+})
+<% } %>
+
 const app = createApp(App)
 <% if(isStore){ %> .use(store)  <% } %>
 .use(router)
@@ -28,5 +39,10 @@ app.use(
     })
 );
 <% } %>
+
+<% if (isOkta) { %>
+.use(OktaVue, { oktaAuth })
+<% } %>
+
 
 app.mount('#app')

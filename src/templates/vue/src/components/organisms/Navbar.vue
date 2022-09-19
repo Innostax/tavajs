@@ -9,18 +9,13 @@
         <b-nav-item to="/">Home</b-nav-item>
         <b-nav-item to="/users">Users</b-nav-item>
       </b-navbar-nav>
+      <% if(isThemeProvider) { %>
+      <ThemeVue />
+      <% } %> 
+      <% if(isAuth0 || isOkta) { %> 
+      <LogoutButton class="ms-2"/>
+      <% } %>
     </b-collapse>
-
-    <% if(isThemeProvider) { %> 
-    <b-navbar-nav class="mx-2">
-      <ThemeVue/>
-    </b-navbar-nav>
-    <% } %> 
-    <% if(isAuth0) { %> 
-    <b-navbar-nav class="mx-2">
-      <LogoutButton/>
-    </b-navbar-nav>
-    <% } %> 
   </b-navbar>
 </template>
 
@@ -28,7 +23,7 @@
 <% if(isThemeProvider) { %> 
 import ThemeVue from '../../theme.vue';
 <% } %> 
-<% if(isAuth0) { %> 
+<% if(isAuth0 || isOkta) { %> 
 import LogoutButton from '../atoms/LogoutButton.vue'
 <% } %> 
 export default {
@@ -37,9 +32,20 @@ export default {
   <% if(isThemeProvider) { %> 
     ThemeVue,
   <% } %>   
-  <% if(isAuth0) { %> 
+  <% if(isAuth0 || isOkta) { %> 
     LogoutButton,
   <% } %>   
   },
 };
 </script>
+
+<% if(isAuth0 || isOkta) { %> 
+<style>
+  @media (max-width: 992px) {
+    #logoutButton{
+      margin-left: 0 !important;
+      margin-top: 0.5rem !important;
+    }
+  }
+</style>
+<% } %> 
