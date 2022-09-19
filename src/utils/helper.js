@@ -1,8 +1,18 @@
 const fs = require("fs");
 const fsExtra = require("fs-extra");
 const { render } = require("ejs");
-const BOOTSTRAP = "bootstrap";
-const MATERIAL = "material";
+const {
+  BOOTSTRAP,
+  MATERIAL,
+  REACT_THEME_FILE_PATHS,
+  VUE_THEME_FILE_PATHS,
+  ANGULAR_THEME_FILE_PATHS,
+  CYPRESS_DIRECTORY_PATHS,
+  CYPRESS_FILE_PATHS,
+  DOCKER_FILE_PATHS,
+  REACT_DOCKER_FILE_PATHS,
+  NODE_JS_DOCKER_FILE_PATHS,
+} = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 function createDirectoryContents(
   templatePath,
@@ -147,8 +157,106 @@ function updateProjectScripts(path, updatedscripts) {
   });
 }
 
+function copyFiles(paths) {
+  paths.forEach((each) => {
+    fs.copyFileSync(each.source, each.destination, (err) => {
+      if (err) {
+        console.log("Error Found:", err);
+      }
+    });
+  });
+}
+
+function copyDirectories(paths) {
+  paths.forEach((each) => {
+    fsExtra.copy(each.source, each.destination, function (err) {
+      if (err) {
+        console.log("An error is occured");
+        return console.error(err);
+      }
+    });
+  });
+}
+
+function readFile(path) {
+  return fs.readFileSync(path, "utf8");
+}
+
+function getFilePaths(name, srcDir, destDir, backendDir) {
+  switch (name) {
+    case name === REACT_THEME_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/themeProviderTemplates/react-themes/theme.js`,
+          destination: `${destDir}/src/theme.js`,
+        },
+        {
+          source: `${srcDir}/themeProviderTemplates/theme.constants.js`,
+          destination: `${destDir}/src/theme.constants.js`,
+        },
+      ];
+    case name === VUE_THEME_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/themeProviderTemplates/vue-themes/theme.vue`,
+          destination: `${destDir}/src/theme.vue`,
+        },
+        {
+          source: `${srcDir}/themeProviderTemplates/theme.constants.js`,
+          destination: `${destDir}/src/theme.constants.js`,
+        },
+      ];
+    case name === ANGULAR_THEME_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/themeTemplates/angular-themes`,
+          destination: `${destDir}/src/angular-themes`,
+        },
+      ];
+    case name === CYPRESS_DIRECTORY_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/CypressTests/TestScripts`,
+          destination: `${destDir}`,
+        },
+      ];
+    case name === CYPRESS_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/CypressTests/cypress.config.js`,
+          destination: `${destDir}/cypress.config.js`,
+        },
+      ];
+    case name === DOCKER_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/dockerTemplate/Dockerfile`,
+          destination: `${destDir}/Dockerfile`,
+        },
+        {
+          source: `${srcDir}/dockerTemplate/Dockerfile`,
+          destination: `${backendDir}/Dockerfile`,
+        },
+      ];
+    case name === REACT_DOCKER_FILE_PATHS:
+    case name === NODE_JS_DOCKER_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/Dockerfile`,
+          destination: `${destDir}/Dockerfile`,
+        },
+      ];
+    default:
+      return [];
+  }
+}
+
 module.exports = {
   createDirectoryContents,
   updateProjectDependencies,
   updateProjectScripts,
+  copyDirectories,
+  copyFiles,
+  getFilePaths,
+  readFile,
 };

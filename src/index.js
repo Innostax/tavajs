@@ -12,45 +12,74 @@ const {
   createDirectoryContents,
   updateProjectDependencies,
   updateProjectScripts,
+  copyDirectories,
+  copyFiles,
+  getFilePaths,
+  readFile,
 } = require("./utils/helper");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
 const questionnaire = require("./questionnaire");
-const { FRAMEWORKS, AUTHENTICATIONS } = require("./constants");
+const { 
+  ANGULAR_THEME_FILE_PATHS,
+  AUTH0_FILE_PATHS,
+  AUTHENTICATIONS,
+  COGNITO_FILE_PATHS,
+  CYPRESS_DIRECTORY_PATHS,
+  CYPRESS_FILE_PATHS,
+  FRAMEWORKS,
+  OKTA_FILES_PATHS,
+  REACT_THEME_FILE_PATHS,
+  REDUX_FILES,
+  VUE_THEME_FILE_PATHS,
+  DOCKER_FILE_PATHS,
+  REACT_DOCKER_FILE_PATHS,
+  NODE_JS_DOCKER_FILE_PATHS
+ } = require("./constants");
+const { SCRIPTS } = require("./scripts")
+const { DEPENDENCIES } = require("./dependencies")
 
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
 const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 
 const currentPath = path.join(__dirname);
-const NODE_JS = "node-js";
-const EMPTY_STRING = "";
-const dependencies = [];
-const scripts = [];
+const NODE_JS = "node-js";  
+let dependencies = [];
+let scripts = [];
+let filePaths = [];
+let directoryPaths = [];
 
 inquirer.prompt(questionnaire).then(async (answers) => {
-  // Project Directory Path 
-  const CURR_DIR = answers["projectDirectoryPath"] ? answers["projectDirectoryPath"] : process.cwd();
-  const projectName = answers["projectName"];
-  const frontEndName = answers["frontEndName"];
-  const frontEndChoice = answers["frontEndChoice"];
-  const authenticationChoice = answers["authenticationChoice"];
-  const backEndName = answers["backEndName"];
-  const defaultRoute = answers["defaultRoute"];
-  const dbName = answers["dbName"];
-  const emailServiceName = answers["emailServiceName"];
-  const blobServiceName = answers["blobServiceName"];
-  const loggerServiceName = answers["loggerServiceName"];
-  const isMaterialUI = answers["materialuiChoice"];
+  const {
+    projectName,
+    frontEndName,
+    frontEndChoice,
+    authenticationChoice,
+    backEndName,
+    defaultRoute,
+    dbName,
+    emailServiceName,
+    blobServiceName,
+    loggerServiceName,
+    isMaterialUI,
+    store,
+    CRUD,
+    dockerService,
+    reactNodeCrud,
+    vueNodeCrud,
+    theme,
+    projectDirectoryPath,
+  } = answers;
 
-  const isStore = Boolean(answers["store"]);
-  const isThemeProvider = Boolean(answers["theme"] == "light-dark-mode");
-  const isCrud = Boolean(answers["CRUD"]);
-  const isDocker = Boolean(answers["dockerService"]);
-  const isCrudWithNode = Boolean(
-    answers["reactNodeCrud"] || answers["vueNodeCrud"]
-  );
+  // Project Directory Path 
+  const CURR_DIR = projectDirectoryPath ? projectDirectoryPath : process.cwd();
+  const isStore = Boolean(store);
+  const isThemeProvider = Boolean(theme == "light-dark-mode");
+  const isCrud = Boolean(CRUD);
+  const isDocker = Boolean(dockerService);
+  const isCrudWithNode = Boolean(reactNodeCrud || vueNodeCrud);
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -78,24 +107,19 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     answers
   );
 
+  const isFrontEndChoiceReact = frontEndChoice === REACT;
+  const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
+
   //<---------------------------- For react, angular, vue ---------------------------------->
   if (frontEnd) {
     const { choice, path: frontEndPath } = frontEnd;
     //<------------------------- For Start: CSS Framework dependency ---------------------------->
 
-    if (frontEndChoice === REACT) {
+    if (isFrontEndChoiceReact) {
       if (isMaterialUI) {
-        dependencies.push(
-          { name: "@mui/material", version: "^5.10.2" },
-          { name: "@mui/icons-material", version: "^5.10.3" }
-        );
+        dependencies = [...dependencies, ...DEPENDENCIES.MATERIALUI];
       } else {
-        dependencies.push(
-          { name: "bootstrap", version: "^5.1.0" },
-          { name: "react-bootstrap", version: "^1.0.0" },
-          { name: "react-datepicker", version: "^4.2.1" },
-          { name: "@musicstory/react-bootstrap-table-next", version: "^1.0.5" }
-        );
+        dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP]
       }
     }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
@@ -132,101 +156,55 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
-    if (isThemeProvider && frontEndChoice === REACT) {
-      fs.copyFile(
-        `${currentPath}/themeProviderTemplates/react-themes/theme.js`,
-        `${frontEnd.path}/src/theme.js`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
+    if (isThemeProvider && isFrontEndChoiceReact) {
+      const res = getFilePaths(REACT_THEME_FILE_PATHS, currentPath, frontEnd.path);
+      filePaths = [...filePaths, ...res];
 
-      fs.copyFile(
-        `${currentPath}/themeProviderTemplates/theme.constants.js`,
-        `${frontEnd.path}/src/theme.constants.js`,
-        (err) => {
-          if (err) {
-            console.error(`Error while copying theme's static files: ${err}`);
-          }
-        }
-      );
+      // This method used to copy files from source to destination.
+      // copyFiles(filePaths);
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isThemeProvider && frontEndChoice === VUE) {
-      fs.copyFile(
-        `${currentPath}/themeProviderTemplates/vue-themes/theme.vue`,
-        `${frontEnd.path}/src/theme.vue`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
+      const res = getFilePaths(VUE_THEME_FILE_PATHS, currentPath, frontEnd.path);
+      filePaths = [...filePaths, ...res];
 
-      fs.copyFile(
-        `${currentPath}/themeProviderTemplates/theme.constants.js`,
-        `${frontEnd.path}/src/theme.constants.js`,
-        (err) => {
-          if (err) {
-            console.error(`Error while copying theme's static files: ${err}`);
-          }
-        }
-      );
+      // This method used to copy files from source to destination.
+      // copyFiles(filePaths);
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
-    if (isThemeProvider && frontEndChoice === ANGULAR) {
-      fsExtra.copy(
-        `${currentPath}/themeTemplates/angular-themes`,
-        `${frontEnd.path}/src/angular-themes`,
-        (err) => {
-          if (err) console.log("Unable to integrate theme template, Ref:", err);
-        }
-      );
+    if (isThemeProvider && isFrontEndChoiceAngular) {
+      const res = getFilePaths(ANGULAR_THEME_FILE_PATHS, currentPath, frontEnd.path);
+      filePaths = [...filePaths, ...res];
+
+      // This method used to copy files from source to destination.
+      // copyFiles(filePaths);
     }
 
     //<---------------------------- For TestCases Framework ------------------------------------>
     if (isTestCasesFramework) {
       // CYPRESSS
       if (isCypress) {
-        fs.copyFile(
-          `${currentPath}/uiTests/CypressTests/cypress.config.js`,
-          `${frontEnd.path}/cypress.config.js`,
-          (err) => {
-            if (err) {
-              console.error(
-                `Error occurred while coping the config file for cypress: ${err}`
-              );
-            }
-          }
-        );
-        fsExtra.copy(
-          `${currentPath}/uiTests/CypressTests/TestScripts`,
-          `${frontEnd.path}`,
-          (err) => {
-            if (err) {
-              console.error(
-                `Error occurred while coping the test scripts for cypress: ${err}`
-              );
-            }
-          }
-        );
+        const res = getFilePaths(CYPRESS_FILE_PATHS, currentPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
 
-        dependencies.push({ name: "cypress", version: "^10.7.0" });
+        directoryPaths = [
+          ...directoryPaths, ...CYPRESS_DIRECTORY_PATHS];
+        //   {
+        //     source: `${currentPath}/uiTests/CypressTests/TestScripts`,
+        //     destination: `${frontEnd.path}`,
+        //   },
+        // ];
 
-        scripts.push({
-          name: "cypress",
-          command:
-            "npm install cypress --dev && npx cypress install && npx cypress open",
-        });
+        dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
+
+        scripts = [...scripts, SCRIPTS.CYPRESS];
+
+        // These methods are used to copy files and directories from source to destination respectively.
+        // copyFiles(filePaths);
+        // copyDirectories(directoryPaths);
       }
-      // MochaJS
-      // JEST
-      // JESMINE
-      // KARMA
     }
   }
 
@@ -262,7 +240,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isMaterialUI,
       CURR_DIR
     );
-    const fileNames = [
+
+    const ROUTE_FILES = [
       {
         oldName: "route.js",
         folder: "routes",
@@ -274,7 +253,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         newName: `${defaultRoute}.controllers.js`,
       },
     ];
-    fileNames.map((each) =>
+    
+    ROUTE_FILES.map((each) =>
       fs.rename(
         `${backEnd.path}/${each.folder}/${each.oldName}`,
         `${backEnd.path}/${each.folder}/${each.newName}`,
@@ -332,10 +312,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------- For ENV file ---------------------------------->
     if (!isDocker) {
-      let dbEnvFile = fs.readFileSync(
-        `${currentPath}/envTemplates/.dbEnv`,
-        "utf8"
-      );
+      let dbEnvFile = readFile(`${currentPath}/envTemplates/.dbEnv`);
       dbEnvFile = render(dbEnvFile, {
         dbName,
         frontEnd,
@@ -356,10 +333,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
     if (frontEnd?.choice === REACT && backEnd?.choice === NODE_JS) {
-      let dockerFile = fs.readFileSync(
-        `${dockerPath}/db-docker-compose.yml`,
-        "utf8"
-      );
+      let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
       dockerFile = render(dockerFile, {
         frontEndName,
         backEndName,
@@ -368,74 +342,37 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       const dockerFilePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
+      const res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
+      filePaths = [...filePaths, ...res];
 
-      fs.copyFileSync(
-        `${currentPath}/dockerTemplate/Dockerfile`,
-        `${frontEnd.path}/Dockerfile`
-      );
-      fs.copyFileSync(
-        `${currentPath}/dockerTemplate/Dockerfile`,
-        `${backEnd.path}/Dockerfile`
-      );
+      // copyFiles(filePaths); // fs.copyFileSync
     } else if (frontEnd?.choice === REACT) {
-      fs.copyFileSync(
-        `${dockerPath}/Dockerfile`,
-        `${frontEnd.path}/Dockerfile`
-      );
+      const res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+      filePaths = [...filePaths, ...res];
+      // copyFiles(filePaths);  // fs.copyFileSync
     } else if (backEnd?.choice === NODE_JS) {
-      fs.copyFileSync(`${dockerPath}/Dockerfile`, `${backEnd.path}/Dockerfile`);
+      const res = getFilePaths(NODE_JS_DOCKER_FILE_PATHS, dockerPath, backEnd.path)
+      filePaths = [...filePaths, ...res];
+      // copyFiles(filePaths); // fs.copyFileSync
     }
   }
 
   //<---------------------------- For Store integration ---------------------------------->
   if (isStore) {
     //<---------------------------- Redux ---------------------------------->
-    if (frontEnd?.choice === "react") {
-      dependencies.push(
-        { name: "@reduxjs/toolkit", version: "^1.6.1" },
-        { name: "react-redux", version: "^7.2.4" }
-      );
-      const reduxFiles = [
-        {
-          srcFolder: "reduxTemplates/demoUser",
-          srcFileName: "users.reducer.js",
-          destFolder: "/src/screens/Users",
-          destFileName: "users.reducer.js",
-        },
-        {
-          srcFolder: "reduxTemplates/demoUser",
-          srcFileName: "users.selectors.js",
-          destFolder: "/src/screens/Users",
-          destFileName: "users.selectors.js",
-        },
-        {
-          srcFolder: "reduxTemplates",
-          srcFileName: "createStore.js",
-          destFolder: "/src",
-          destFileName: "createStore.js",
-        },
-        {
-          srcFolder: "reduxTemplates",
-          srcFileName: "rootReducer.js",
-          destFolder: "/src",
-          destFileName: "rootReducer.js",
-        },
-      ];
-      reduxFiles.map((each) => {
-        fs.copyFile(
-          `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
-          (err) => {
-            if (err) {
-              console.log("Error Found:", err);
-            }
-          }
-        );
+    if (frontEnd?.choice === REACT) {
+      dependencies = [...dependencies, DEPENDENCIES.REACT];
+      
+      REDUX_FILES.map((each) => {
+        filePaths = [...filePaths, {
+          source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+          destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`
+        }]
       });
-      let usersActionsFile = fs.readFileSync(
-        `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
-        "utf8"
-      );
+
+      // copyFiles(filePaths);
+
+      let usersActionsFile = readFile(`${currentPath}/reduxTemplates/demoUser/users.actions.js`);
       usersActionsFile = render(usersActionsFile, {
         defaultRoute,
       });
@@ -443,10 +380,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(usersActionsFilePath, usersActionsFile, "utf8");
 
       if (isCrud) {
-        let addUserFile = fs.readFileSync(
-          `${currentPath}/reduxTemplates/userform/Adduser.js`,
-          "utf8"
-        );
+        let addUserFile = readFile(`${currentPath}/reduxTemplates/userform/Adduser.js`);
         addUserFile = render(addUserFile, {
           isMaterialUI,
           isCrud,
@@ -454,41 +388,30 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         });
         const addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
         fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
-
-        // let modalFile = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
-        // modalFile = render (modalFile, { isMaterialUI, isCrud, isCrudWithNode });
       }
       if (isCrudWithNode) {
-        let addUserFormFile = fs.readFileSync(
-          `${currentPath}/reduxTemplates/userform/AdduserForm.js`,
-          "utf8"
-        );
+        let addUserFormFile = readFile(`${currentPath}/reduxTemplates/userform/AdduserForm.js`);
+        
         addUserFormFile = render(addUserFormFile, { isMaterialUI });
         const addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
         fs.writeFileSync(addUserFilePath, addUserFormFile, "utf8");
-
-        // let modalFile = fs.readFileSync(`${currentPath}/reduxTemplates/widgets/modal/Modal.js`, "utf8");
-        // modalFile = render (modalFile, { isMaterialUI, isCrud, isCrudWithNode });
       }
-      fsExtra.copy(
-        `${currentPath}/reduxTemplates/infrastructure`,
-        `${frontEnd.path}/src/infrastructure`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
-          }
-        }
-      );
+
+      directoryPaths = [
+        ...directoryPaths,
+        {
+          source: `${currentPath}/reduxTemplates/infrastructure`,
+          destination: `${frontEnd.path}/src/infrastructure`,
+        },
+      ];
+
+      // copyDirectories(directoryPaths);
     }
 
     //<---------------------------------MaterialUI Dark Theme----------------------->
 
     if (isThemeProvider) {
-      let appFile = fs.readFileSync(
-        `${currentPath}/templates/react/src/App.js`,
-        "utf8"
-      );
+      let appFile = readFile(`${currentPath}/templates/react/src/App.js`);
       appFile = render(appFile, {
         isMaterialUI,
         isCrud,
@@ -548,165 +471,100 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
 
       if (isCrudWithNode) {
-        fsExtra.copy(
-          `${currentPath}/vuexTemplates/doAsync`,
-          `${frontEnd.path}/src/doAsync`,
-          function (err) {
-            if (err) {
-              console.log("An error is occured");
-              return console.error(err);
-            }
-          }
-        );
-        fsExtra.copy(
-          `${currentPath}/vuexTemplates/httpMethod`,
-          `${frontEnd.path}/src/httpMethod`,
-          function (err) {
-            if (err) {
-              console.log("An error is occured");
-              return console.error(err);
-            }
-          }
-        );
+        directoryPaths = [...directoryPaths, 
+        {
+          source: `${currentPath}/vuexTemplates/doAsync`,
+          destination: `${frontEnd.path}/src/doAsync`
+        },
+        {
+          source: `${currentPath}/vuexTemplates/httpMethod`,
+          destination: `${frontEnd.path}/src/httpMethod`
+        }]
+        
+
+        // copyDirectories(directoryPaths);
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
     if (frontEnd?.choice === ANGULAR) {
-      fsExtra.copy(
-        `${currentPath}/ngrxTemplates/reducers`,
-        `${frontEnd.path}/src/app/reducers`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
-          }
-        }
-      );
-      fsExtra.copy(
-        `${currentPath}/ngrxTemplates/store`,
-        `${frontEnd.path}/src/app/utils/store`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
-          }
-        }
-      );
-      fsExtra.copy(
-        `${currentPath}/ngrxTemplates/add-user-modal`,
-        `${frontEnd.path}/src/app/shared/components/add-user-modal`,
-        function (err) {
-          if (err) {
-            console.log("An error is occured");
-            return console.error(err);
-          }
-        }
-      );
+      directoryPaths = [...directoryPaths,
+      {
+        source: `${currentPath}/ngrxTemplates/reducers`,
+        destination: `${frontEnd.path}/src/app/reducers`
+      },
+      {
+        source: `${currentPath}/ngrxTemplates/store`,
+        destination: `${frontEnd.path}/src/app/utils/store`
+      },
+      {
+        source: `${currentPath}/ngrxTemplates/add-user-modal`,
+        destination: `${frontEnd.path}/src/app/shared/components/add-user-modal`
+      }]
+      
+      // copyDirectories(directoryPaths);
     }
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
   if (answers["authenticationChoice"] === AUTH0) {
-    const filesMap = [
-      {
-        srcFolder: "envTemplates",
-        srcFileName: ".authEnv",
-        destFileName: ".env",
-      },
-    ];
-
-    filesMap.map((each) => {
-      let envFile = fs.readFileSync(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        "utf8"
-      );
+    AUTH0_FILE_PATHS.map((each) => {
+      let envFile = readFile(`${currentPath}/${each.srcFolder}/${each.srcFileName}`);
       envFile = render(envFile, { frontEndChoice });
       const envFilePath = `${frontEnd.path}/${each.destFileName}`;
       fs.writeFileSync(envFilePath, envFile, "utf8");
     });
 
-    if (frontEndChoice === "react") {
-      dependencies.push({ name: "@auth0/auth0-spa-js", version: "^1.10.0" });
+    if (isFrontEndChoiceReact) {
+      dependencies = [...dependencies, DEPENDENCIES.AUTH0_SPA]
 
       const reactSpaPath = path.join(__dirname, "authTemplates");
-      let reactAuth0SPAFile = fs.readFileSync(
-        `${reactSpaPath}/react-spa.js`,
-        "utf8"
-      );
+      let reactAuth0SPAFile = readFile(`${reactSpaPath}/react-spa.js`);
       reactAuth0SPAFile = render(reactAuth0SPAFile, { isStore });
       const auth0SPAFilePath = `${frontEnd.path}/src/react-spa.js`;
       fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
     }
     if (frontEndChoice === VUE) {
-      dependencies.push({ name: "@auth0/auth0-vue", version: "^1.0.2" });
+      dependencies = [...dependencies, DEPENDENCIES.AUTH0_VUE]
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
-    const filesMap = [
-      {
-        srcFolder: "envTemplates",
-        srcFileName: ".cognitoEnv",
-        destFolder: EMPTY_STRING,
-        destFileName: ".env",
-      },
-    ];
-    // const newDependency = [{ name: "@auth0/auth0-spa-js", version: "^1.10.0" }];
-    // updateProjectDependencies(frontEnd.path, newDependency);
+    COGNITO_FILE_PATHS.map((each) => {
+      filePaths = [...filePaths, {
+        source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`
+      }]
+    });
 
-    filesMap.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
-    });
+    copyFiles(filePaths)
   } else if (answers["authenticationChoice"] === OKTA) {
-    dependencies.push({ name: "@okta/okta-auth-js", version: "^5.8.0" });
-    if (frontEndChoice === REACT) {
-      dependencies.push({ name: "@okta/okta-react", version: "^6.3.0" });
-    } else if (frontEndChoice === ANGULAR) {
-      dependencies.push({ name: "@okta/okta-angular", version: "5.1" });
-    }
-    scripts.push({
-      name: "pretty",
-      command:
-        'npx prettier --write "src/**/*.js" "src/**/*.jsx" "src/**/*.css"',
+    dependencies = [...dependencies, DEPENDENCIES.OKTA_AUTH_JS];
+    if(isFrontEndChoiceReact) dependencies = [...dependencies, DEPENDENCIES.OKAT_REACT]
+    else if(isFrontEndChoiceAngular) dependencies = [...dependencies, DEPENDENCIES.OKTA_ANGULAR]
+    
+    scripts = [...scripts, SCRIPTS.PRETTY];
+
+    directoryPaths = [...directoryPaths, 
+    {
+      source: `${currentPath}/authTemplates/oktaTemplate`,
+      destination: `${frontEnd.path}/src/oktaFiles`
+    }]
+    
+    // copyDirectories(directoryPaths);
+
+    OKTA_FILES_PATHS.map((each) => {
+      filePaths = [...filePaths, {
+        source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        destination: `${frontEnd.path}/${each.destFileName}`
+      }]
     });
-    fsExtra.copy(
-      `${currentPath}/authTemplates/oktaTemplate`,
-      `${frontEnd.path}/src/oktaFiles`,
-      function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      }
-    );
-    const filesMap = [
-      {
-        srcFolder: "envTemplates",
-        srcFileName: ".oktaEnv",
-        destFolder: frontEndName,
-        destFileName: ".env",
-      },
-    ];
-    filesMap.map((each) => {
-      fs.copyFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        `${frontEnd.path}/${each.destFileName}`,
-        (err) => {
-          if (err) {
-            console.log("Error Found:", err);
-          }
-        }
-      );
-    });
+
+    // copyFiles(filePaths);
   }
 
-  // This method used to update the dependencies and scripts in the Package.json file.
+  // TODO: Need to test
+  copyDirectories(directoryPaths);
+  copyFiles(filePaths);
+
+  // These methods are used to update the dependencies and scripts respectively.
   updateProjectDependencies(frontEnd.path, dependencies);
   updateProjectScripts(frontEnd.path, scripts);
 
