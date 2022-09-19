@@ -47,14 +47,14 @@ export default {
       };
       this.$store.dispatch("editItem", data);
     },
-    handleClose(){
-      const {name,username,email} = this.selectedUser
+    handleClose () {
+      const { name, username, email } = this.selectedUser
       this.selectedUser.name = null
       this.selectedUser.name = name
       this.selectedUser.username = null
       this.selectedUser.username = username
       this.selectedUser.email = null
-      this.selectedUser.email = email      
+      this.selectedUser.email = email   
     },
   },
   computed: {
