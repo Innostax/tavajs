@@ -12,6 +12,9 @@ const {
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NODE_JS_DOCKER_FILE_PATHS,
+  NGRX_FILE_PATHS,
+  VUEX_FILE_PATHS,
+  INFRASTRUCTURE_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 function createDirectoryContents(
@@ -209,8 +212,8 @@ function getFilePaths(name, srcDir, destDir, backendDir) {
     case name === ANGULAR_THEME_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/themeTemplates/angular-themes`,
-          destination: `${destDir}/src/angular-themes`,
+          source: `${srcDir}/themeTemplates/angular-themes/dark-theme.css`,
+          destination: `${destDir}/src/angular-themes/dark-theme.css`,
         },
       ];
     case name === CYPRESS_DIRECTORY_PATHS:
@@ -245,6 +248,39 @@ function getFilePaths(name, srcDir, destDir, backendDir) {
           source: `${srcDir}/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
         },
+      ];
+    case name === NGRX_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/ngrxTemplates/reducers`,
+          destination: `${destDir}/src/app/reducers`
+        },
+        {
+          source: `${srcDir}/ngrxTemplates/store`,
+          destination: `${destDir}/src/app/utils/store`
+        },
+        {
+          source: `${srcDir}/ngrxTemplates/add-user-modal`,
+          destination: `${destDir}/src/app/shared/components/add-user-modal`
+        }
+      ];
+    case name === VUEX_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/vuexTemplates/doAsync`,
+          destination: `${destDir}/src/doAsync`
+        },
+        {
+          source: `${srcDir}/vuexTemplates/httpMethod`,
+          destination: `${destDir}/src/httpMethod`
+        }
+      ];
+    case name === INFRASTRUCTURE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/reduxTemplates/infrastructure`,
+          destination: `${destDir}/src/infrastructure`,
+        }
       ];
     default:
       return [];

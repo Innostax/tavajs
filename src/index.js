@@ -36,7 +36,10 @@ const {
   VUE_THEME_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
-  NODE_JS_DOCKER_FILE_PATHS
+  NODE_JS_DOCKER_FILE_PATHS,
+  NGRX_FILE_PATHS,
+  VUEX_FILE_PATHS,
+  INFRASTRUCTURE_FILE_PATHS
  } = require("./constants");
 const { SCRIPTS } = require("./scripts")
 const { DEPENDENCIES } = require("./dependencies")
@@ -158,28 +161,19 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------- For Themes integration ---------------------------------->
     if (isThemeProvider && isFrontEndChoiceReact) {
       const res = getFilePaths(REACT_THEME_FILE_PATHS, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res];
-
-      // This method used to copy files from source to destination.
-      // copyFiles(filePaths);
+      filePaths = [...filePaths, ...res]; // copyFiles(filePaths);
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isThemeProvider && frontEndChoice === VUE) {
       const res = getFilePaths(VUE_THEME_FILE_PATHS, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res];
-
-      // This method used to copy files from source to destination.
-      // copyFiles(filePaths);
+      filePaths = [...filePaths, ...res]; // copyFiles(filePaths);
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
     if (isThemeProvider && isFrontEndChoiceAngular) {
       const res = getFilePaths(ANGULAR_THEME_FILE_PATHS, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res];
-
-      // This method used to copy files from source to destination.
-      // copyFiles(filePaths);
+      filePaths = [...filePaths, ...res]; // copyFiles(filePaths);
     }
 
     //<---------------------------- For TestCases Framework ------------------------------------>
@@ -191,19 +185,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
         directoryPaths = [
           ...directoryPaths, ...CYPRESS_DIRECTORY_PATHS];
-        //   {
-        //     source: `${currentPath}/uiTests/CypressTests/TestScripts`,
-        //     destination: `${frontEnd.path}`,
-        //   },
-        // ];
 
         dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
 
-        scripts = [...scripts, SCRIPTS.CYPRESS];
-
-        // These methods are used to copy files and directories from source to destination respectively.
-        // copyFiles(filePaths);
-        // copyDirectories(directoryPaths);
+        scripts = [...scripts, SCRIPTS.CYPRESS]; // copyFiles(filePaths); // copyDirectories(directoryPaths);
       }
     }
   }
@@ -274,7 +259,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         "emailTemplates",
         emailServiceName
       );
-
       createEmailSevice(
         emailServiceName,
         emailTemplatePath,
@@ -296,7 +280,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------- For Logger service ---------------------------------->
     if (loggerServiceName) {
       const loggerTemplatePath = path.join(__dirname, "logger");
-
       createLogger(
         backEnd.path,
         loggerServiceName,
@@ -332,6 +315,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
+    let res =  [];
+
     if (frontEnd?.choice === REACT && backEnd?.choice === NODE_JS) {
       let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
       dockerFile = render(dockerFile, {
@@ -342,25 +327,22 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       const dockerFilePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
-      const res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
-      filePaths = [...filePaths, ...res];
-
-      // copyFiles(filePaths); // fs.copyFileSync
-    } else if (frontEnd?.choice === REACT) {
-      const res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
-      filePaths = [...filePaths, ...res];
-      // copyFiles(filePaths);  // fs.copyFileSync
-    } else if (backEnd?.choice === NODE_JS) {
-      const res = getFilePaths(NODE_JS_DOCKER_FILE_PATHS, dockerPath, backEnd.path)
-      filePaths = [...filePaths, ...res];
-      // copyFiles(filePaths); // fs.copyFileSync
+      res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
+      filePaths = [...filePaths, ...res]; // copyFiles(filePaths); // fs.copyFileSync
     }
+    else if(frontEnd?.choice === REACT || backEnd?.choice === NODE_JS) 
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+
+    filePaths = [...filePaths, ...res]; // copyFiles(filePaths); // fs.copyFileSync
   }
 
   //<---------------------------- For Store integration ---------------------------------->
   if (isStore) {
     //<---------------------------- Redux ---------------------------------->
     if (frontEnd?.choice === REACT) {
+      let addUserFile;
+      let addUserFilePath;
+
       dependencies = [...dependencies, DEPENDENCIES.REACT];
       
       REDUX_FILES.map((each) => {
@@ -368,9 +350,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
           destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`
         }]
-      });
-
-      // copyFiles(filePaths);
+      }); // copyFiles(filePaths);
 
       let usersActionsFile = readFile(`${currentPath}/reduxTemplates/demoUser/users.actions.js`);
       usersActionsFile = render(usersActionsFile, {
@@ -380,32 +360,23 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(usersActionsFilePath, usersActionsFile, "utf8");
 
       if (isCrud) {
-        let addUserFile = readFile(`${currentPath}/reduxTemplates/userform/Adduser.js`);
+        addUserFile = readFile(`${currentPath}/reduxTemplates/userform/Adduser.js`);
         addUserFile = render(addUserFile, {
           isMaterialUI,
           isCrud,
           isCrudWithNode,
         });
-        const addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
-        fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
       }
       if (isCrudWithNode) {
-        let addUserFormFile = readFile(`${currentPath}/reduxTemplates/userform/AdduserForm.js`);
+        addUserFile = readFile(`${currentPath}/reduxTemplates/userform/AdduserForm.js`);
+        addUserFile = render(addUserFile, { isMaterialUI });
         
-        addUserFormFile = render(addUserFormFile, { isMaterialUI });
-        const addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
-        fs.writeFileSync(addUserFilePath, addUserFormFile, "utf8");
       }
 
-      directoryPaths = [
-        ...directoryPaths,
-        {
-          source: `${currentPath}/reduxTemplates/infrastructure`,
-          destination: `${frontEnd.path}/src/infrastructure`,
-        },
-      ];
-
-      // copyDirectories(directoryPaths);
+      addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
+      fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
+      const res = getFilePaths(INFRASTRUCTURE_FILE_PATHS, currentPath, frontEnd.path);
+      directoryPaths = [...directoryPaths, ...res]; // copyDirectories(directoryPaths);
     }
 
     //<---------------------------------MaterialUI Dark Theme----------------------->
@@ -436,8 +407,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       const frontEndStorePath = `${projectName}/src/store`;
       const frontEndUserModalPath = `${projectName}/src/userModal`;
 
-      fs.mkdirSync(backEnd ? backEndStorePath : frontEndStorePath);
-      fs.mkdirSync(backEnd ? backEndUserModalPath : frontEndUserModalPath);
+      fs.mkdirSync(backEnd ? `${CURR_DIR}/${backEndStorePath}` : `${CURR_DIR}/${frontEndStorePath}`);
+      fs.mkdirSync(backEnd ? `${CURR_DIR}/${backEndUserModalPath}` : `${CURR_DIR}/${frontEndUserModalPath}`);
 
       const projectPaths = backEnd
         ? [backEndStorePath, backEndUserModalPath]
@@ -471,37 +442,14 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
 
       if (isCrudWithNode) {
-        directoryPaths = [...directoryPaths, 
-        {
-          source: `${currentPath}/vuexTemplates/doAsync`,
-          destination: `${frontEnd.path}/src/doAsync`
-        },
-        {
-          source: `${currentPath}/vuexTemplates/httpMethod`,
-          destination: `${frontEnd.path}/src/httpMethod`
-        }]
-        
-
-        // copyDirectories(directoryPaths);
+        const res = getFilePaths(VUEX_FILE_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [...directoryPaths, ...res]; // copyDirectories(directoryPaths);
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
     if (frontEnd?.choice === ANGULAR) {
-      directoryPaths = [...directoryPaths,
-      {
-        source: `${currentPath}/ngrxTemplates/reducers`,
-        destination: `${frontEnd.path}/src/app/reducers`
-      },
-      {
-        source: `${currentPath}/ngrxTemplates/store`,
-        destination: `${frontEnd.path}/src/app/utils/store`
-      },
-      {
-        source: `${currentPath}/ngrxTemplates/add-user-modal`,
-        destination: `${frontEnd.path}/src/app/shared/components/add-user-modal`
-      }]
-      
-      // copyDirectories(directoryPaths);
+      const res = getFilePaths(NGRX_FILE_PATHS, currentPath, frontEnd.path);
+      directoryPaths = [...directoryPaths, ...res]; // copyDirectories(directoryPaths);
     }
   }
 
