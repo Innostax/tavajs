@@ -477,6 +477,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(envFilePath, envFile, "utf8");
     });
 
+    if (isFrontEndChoiceAngular) {
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA]
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_ANGULAR]
+    }
+
     if (isFrontEndChoiceReact) {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA]
 
