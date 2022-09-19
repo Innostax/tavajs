@@ -291,7 +291,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------- For Logger service ---------------------------------->
     if (loggerServiceName) {
-      const loggerTemplatePath = path.join(__dirname, "logger");
+      const loggerTemplatePath = path.join(__dirname, "logger/template");
 
       createLogger(
         backEnd.path,
