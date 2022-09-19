@@ -4,7 +4,7 @@
 
 <script>
 export default {
-name: "Button",
-props: ["id","size", "name", "color", "onClick", "submit"],
+  name: "Button",
+  props: ["id","size", "name", "color", "onClick", "submit"],
 };
 </script>
