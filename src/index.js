@@ -66,7 +66,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     emailServiceName,
     blobServiceName,
     loggerServiceName,
-    isMaterialUI,
+    materialuiChoice,
     store,
     CRUD,
     dockerService,
@@ -83,6 +83,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isCrud = Boolean(CRUD);
   const isDocker = Boolean(dockerService);
   const isCrudWithNode = Boolean(reactNodeCrud || vueNodeCrud);
+  const isMaterialUI = materialuiChoice;
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
