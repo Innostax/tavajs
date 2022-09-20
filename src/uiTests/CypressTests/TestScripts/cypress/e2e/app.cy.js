@@ -3,11 +3,11 @@
 
 describe('App Component', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/')
+        cy.visit(Cypress.env('base_url'))
     })
 
     it('Verify Welcome text on Users screen', () => {
-            cy.visit('http://localhost:3000/users')
+            cy.visit(`${Cypress.env('base_url')}/users`)
 
         cy.get('h1').should('contain', 'Welcome to Users Screen')
     })
