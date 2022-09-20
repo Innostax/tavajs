@@ -11,18 +11,24 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 <%if(isThemeProvider) {%>
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
+import { THEMES } from '../../theme.constants'
 <%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 
-
+<%if(isThemeProvider) {%>const THEME = 'theme'<%}%>
 const NavBar = ({ brand, links, mode, setMode }) => {
 
 	<% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 
 	<% if(isThemeProvider) {%>
 	const toggleTheme = () => {
-			setMode(mode === 'light' ? 'dark' : 'light')
+		if (mode === 'light') document.documentElement.classList.add(THEMES.DARK)
+		else document.documentElement.classList.remove(THEMES.DARK)
+
+		const selectedTheme = mode === 'light' ? THEMES.DARK : THEMES.LIGHT
+		localStorage.setItem(THEME, selectedTheme)
+		setMode(selectedTheme)
 		}
 		<%}%>
 	return (

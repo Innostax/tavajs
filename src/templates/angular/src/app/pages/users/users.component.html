@@ -5,37 +5,18 @@
     <h4>Welcome to Users Screen</h4>
   </div>
 
-  <% if(isCrud || isCrudWithNode){%><button class="btn btn-primary" (click)="onClickAddUser()">Add User</button><%}%>
+  <% if(isCrud || isCrudWithNode){%><app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="onClickAddUser()"></app-button><%}%>
 </div>
 
-<% if(isCrud || isCrudWithNode){%>
-<table class="table mt-3" style="text-align:center">
-  <thead>
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Username</th>
-      <th scope="col">Email</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if(isCrud){%><tr *ngFor="let user of users$ | async"><%}%>
-    <% if(isCrudWithNode){%><tr *ngFor="let user of users"><%}%>  
-      <td>{{ user.name }}</td>
-      <td>{{ user.username }}</td>
-      <td>{{ user.email }}</td>
-      <td>
-        <span style="margin-right: 15px;">
-          <button  class="btn btn-primary" (click)="editUser(user)"> Edit</button>
-        </span>
-        <span>
-          <button class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<% if(isCrudWithNode){%>
+<app-table [usersData]="users" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
+<%}%>
 
+<% if(isCrud){%>
+<app-table [usersData]="users$ | async" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
+<%}%>
+
+<% if(isCrud || isCrudWithNode){%>
 <div
   tabindex="-1"
   role="dialog"
