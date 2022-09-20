@@ -7,20 +7,21 @@ import { userState } from 'src/app/utils/store/reducer/user.reducer';
 import { selectusers } from 'src/app/utils/store/selector/user.selectors';
 import { User } from 'src/app/utils/store/User';<%}%>
 <% if(isCrudWithNode){%>import {ApiService} from 'src/app/shared/services/services'<%}%>
-
+<% if(isCrud || isCrudWithNode){%>
 declare let $: any;
 const EDIT = 'edit'
-
+<%}%>
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  <% if(isCrud || isCrudWithNode){%>
   headers = ['name', 'username', 'email', 'actions'];
   shouldShowActions: boolean = true;
   data: any = {};
-
+  <%}%>
   <% if(isCrudWithNode){%> users: any;<%}%>
   <% if(isStore){%>
   users$: Observable<User[]>;
@@ -50,6 +51,7 @@ export class UsersComponent implements OnInit {
   }
   <%}%>
   
+  <% if(isCrud || isCrudWithNode){%>
   onClickAddUser() {
     $('#addUser_modal').modal('show');
     this.data = {};
@@ -79,4 +81,5 @@ export class UsersComponent implements OnInit {
     this.data = {};
     <% if(isCrudWithNode){%>this.getUsers();<%}%>
   }
+  <%}%>
 }
