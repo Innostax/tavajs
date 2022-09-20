@@ -16,7 +16,7 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
       fileName = "sequelize.js";
       modelName = "sequelizeModel.js";
       dependencies = [...dependencies, { name: "sequelize", version: "^6.6.5" }]
-      if (MYSQL) dependencies.push({ name: "mysql2", version: "^2.3.0" });
+      if (MYSQL == dbName) dependencies.push({ name: "mysql2", version: "^2.3.0" });
       else dependencies = [...dependencies, { name: "pg", version: "^8.7.1" }];
       break;
     default:

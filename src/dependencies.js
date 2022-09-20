@@ -6,6 +6,11 @@ const DEPENDENCIES = {
     { name: "@musicstory/react-bootstrap-table-next", version: "^1.0.5" },
   ],
   CYPRESS: [{ name: "cypress", version: "^10.7.0" }],
+  JEST: [
+    { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
+    { name: "@vue/test-utils", version: "^2.0.2" },
+    { name: "@vue/vue3-jest", version: "^27.0.0" },
+  ],
   MATERIALUI: [
     { name: "@mui/material", version: "^5.10.2" },
     { name: "@mui/icons-material", version: "^5.10.3" },

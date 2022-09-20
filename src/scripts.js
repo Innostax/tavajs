@@ -4,6 +4,10 @@ const SCRIPTS = {
     command:
       "npm install cypress --dev && npx cypress install && npx cypress open",
   }],
+  JEST: [{
+    name: "test",
+    command: "jest",
+  }],
   PRETTY: [{
     name: "pretty",
     command:
