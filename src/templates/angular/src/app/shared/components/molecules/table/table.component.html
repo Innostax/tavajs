@@ -1,0 +1,25 @@
+
+<table class="table mt-3 text-center">
+  <thead>
+    <tr> 
+      <th class="text-uppercase" *ngFor="let head of headers">
+        {{ this.head }}
+      </th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of data">
+      <td *ngFor="let key of user | keyvalue:keepOriginalOrder <% if(isCrudWithNode || isCrud){%>| slice:1:4<%}%>">
+        {{ key.value }}
+      </td>
+      <td *ngIf="shouldShowActions">
+        <span>
+          <app-button [name]="'Edit'" [class]="'btn btn-primary me-2'" (onClick)="handleUser('edit', user)"></app-button>
+        </span>
+        <span>
+          <app-button [name]="'Delete'" [class]="'btn btn-danger'" (onClick)="handleUser('delete', user)"></app-button>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
