@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 
 <% if(isMaterialUI) {%>
-  
-  
   import {Grid} from '@mui/material';
   import Label from "../../components/atoms/Label";
   import Button from "../../components/atoms/Button";
   import Input from "../../components/atoms/Input";
-  
 <%}%>
 
 <% if(!isMaterialUI) {%>import { Form, Button } from "react-bootstrap";<%}%>

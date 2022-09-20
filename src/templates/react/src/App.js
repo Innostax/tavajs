@@ -20,7 +20,7 @@ const linksOfNav = [
 <% if (isThemeProvider && isMaterialUI) {%>const THEME = 'theme'<%}%>
 const App = () => {
   <% if(isThemeProvider && isMaterialUI){%>
-    	const [mode, setMode] = useState('light')
+  const [mode, setMode] = useState('light')
 	useEffect(() => {
 		const isDarkThemeSelected = localStorage.getItem(THEME) === THEMES.DARK
 		if (isDarkThemeSelected) setMode(THEMES.DARK)
@@ -28,11 +28,11 @@ const App = () => {
 		if (isDarkThemeSelected) document.documentElement.classList.add(THEMES.DARK)
 		else document.documentElement.classList.remove(THEMES.DARK)
 	}, [])
-    const theme = createTheme({
-      palette: {
-        mode: mode,
-      },
-    })
+  const theme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  })
   <%}%>
   
   <% if(isAuth0){%> 
