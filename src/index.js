@@ -187,11 +187,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (isTestCasesFramework) {
       // CYPRESSS
       if (isCypress) {
-        const res = getFilePaths(CYPRESS_FILE_PATHS, currentPath, frontEnd.path);
-        filePaths = [...filePaths, ...res];
+        const fp = getFilePaths(CYPRESS_FILE_PATHS, currentPath, frontEnd.path);
+        filePaths = [...filePaths, ...fp];
 
-        directoryPaths = [
-          ...directoryPaths, ...CYPRESS_DIRECTORY_PATHS];
+        const dp = getFilePaths(CYPRESS_DIRECTORY_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [ ...directoryPaths, ...dp];
 
         dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
 
