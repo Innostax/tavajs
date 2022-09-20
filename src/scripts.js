@@ -6,7 +6,7 @@ const SCRIPTS = {
   }],
   JEST: [{
     name: "test",
-    command: "jest",
+    command: "jest --silent",
   }],
   PRETTY: [{
     name: "pretty",
