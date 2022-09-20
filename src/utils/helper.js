@@ -8,6 +8,8 @@ const {
   ANGULAR_THEME_FILE_PATHS,
   CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
+  JEST_DIRECTORY_PATHS,
+  JEST_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NODE_JS_DOCKER_FILE_PATHS,
@@ -244,6 +246,27 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/uiTests/CypressTests/cypress.config.js`,
           destination: `${destDir}/cypress.config.js`,
+          isfile: true,
+        },
+        {
+          source: `${srcDir}/uiTests/CypressTests/cypress.constants.js`,
+          destination: `${destDir}/cypress.constants.js`,
+          isfile: true,
+        },
+      ];
+    case JEST_DIRECTORY_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/JestTests/TestScripts`,
+          destination: `${destDir}/__tests__`,
+          isfile: false,
+        },
+      ];
+    case JEST_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/JestTests/jest.config.js`,
+          destination: `${destDir}/jest.config.js`,
           isfile: true,
         },
       ];

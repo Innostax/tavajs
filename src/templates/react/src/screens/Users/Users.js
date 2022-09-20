@@ -32,7 +32,7 @@ const Users = () => {
         dispatch(deleteUser({id}))
       <%}%>
       <% if(isCrudWithNode) {%>
-        dispatch(deleteUsers({ id}));
+        dispatch(deleteUsers({ id})).then(() => dispatch(getUsers()));
       <%}%>
     };
 
