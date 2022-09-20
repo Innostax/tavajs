@@ -11,9 +11,17 @@ function projectExecutionCommands(frontEnd, backEnd, answers) {
       )} To get Started: \n`
     )
   );
-  console.log(
-    chalk.cyanBright.italic.bold(`     cd ${answers["projectName"]} \n`)
-  );
+
+  if(answers.projectDirectoryPath) {
+    console.log(
+      chalk.cyanBright.italic.bold(`     cd ${answers.projectDirectoryPath}\${answers["projectName"]} \n`)
+    );
+  }
+  else {
+    console.log(
+      chalk.cyanBright.italic.bold(`     cd ${answers["projectName"]} \n`)
+    );
+  }
 
   if (frontEnd && backEnd) {
     const managerChoice = answers["managerChoice"];

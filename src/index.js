@@ -187,11 +187,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (isTestCasesFramework) {
       // CYPRESSS
       if (isCypress) {
-        const fp = getFilePaths(CYPRESS_FILE_PATHS, currentPath, frontEnd.path);
-        filePaths = [...filePaths, ...fp];
+        const res = getFilePaths(CYPRESS_FILE_PATHS, currentPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
 
-        const dp = getFilePaths(CYPRESS_DIRECTORY_PATHS, currentPath, frontEnd.path);
-        directoryPaths = [ ...directoryPaths, ...dp];
+        const cypressDirectoryPaths = getFilePaths(CYPRESS_DIRECTORY_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [ ...directoryPaths, ...cypressDirectoryPaths];
 
         dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
 
@@ -199,11 +199,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
 
       if (isJest && isFrontEndChoiceVue) {
-        const fp = getFilePaths(JEST_FILE_PATHS, currentPath, frontEnd.path);
-        filePaths = [...filePaths, ...fp];
+        const res = getFilePaths(JEST_FILE_PATHS, currentPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
         
-        const dp = getFilePaths(JEST_DIRECTORY_PATHS, currentPath, frontEnd.path);
-        directoryPaths = [...directoryPaths, ...dp];
+        const jestDirectoryPaths = getFilePaths(JEST_DIRECTORY_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [...directoryPaths, ...jestDirectoryPaths];
 
         dependencies = [...dependencies, ...DEPENDENCIES.JEST]
 
