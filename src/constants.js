@@ -83,6 +83,10 @@ const CYPRESS_DIRECTORY_PATHS = "cypressDirectoryPaths";
 
 const CYPRESS_FILE_PATHS = "cypressFilePaths";
 
+const JEST_DIRECTORY_PATHS = "jestDirectoryPaths";
+
+const JEST_FILE_PATHS = "jestFilePaths";
+
 const DOCKER_FILE_PATHS = "dockerFilePaths";
 
 const REACT_DOCKER_FILE_PATHS = "reactDockerFilePaths";
@@ -107,6 +111,8 @@ module.exports = {
   CSS_FRAMEWORKS,
   CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
+  JEST_DIRECTORY_PATHS,
+  JEST_FILE_PATHS,
   FRAMEWORKS,
   NGRX_FILE_PATHS,
   OKTA_FILES_PATHS,

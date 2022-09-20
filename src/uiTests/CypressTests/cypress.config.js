@@ -1,3 +1,4 @@
+const { BASE_URL } = require("./cypress.constants.js")
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
@@ -6,4 +7,7 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
+  env: {
+    base_url: BASE_URL,
+  }
 });
