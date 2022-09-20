@@ -13,7 +13,6 @@
               id="name-input"
               placeholder="Name"
               v-model="name"
-              autofocus
             />
           </div>
           <div class="mb-3">

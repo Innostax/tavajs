@@ -38,6 +38,16 @@
             </ng-template>
           </div>
         <%}%>
+        <% if(isAuth0){%>
+          <div class="auth-btn-group">
+            <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+              <button class="btn btn-outline-secondary" (click)="auth.logout({ returnTo: logoutURL })">Log out</button>
+            </ng-container>
+            <ng-template #loggedOut>
+              <button class="btn btn-outline-secondary" (click)="auth.loginWithRedirect()">Log in</button>
+            </ng-template>
+          </div>
+        <%}%>
       </div>
     </div>
   </nav>
