@@ -48,14 +48,14 @@ module.exports = [
       return answers.frontEnd;
     },
   },
-   /* CSS Framework question added here */
+  /* CSS Framework question added here */
   {
-    name: "cssFrameworkChoice",
+    name: "materialuiChoice",
     type: "list",
     message: "Which CSS Framework do you want?",
     choices: [
-      {name: "MaterialUI", value: "materialUI"},
-      {name: "Bootstrap", value: "bootstrap" }
+      { name: "MaterialUI", value: true },
+      { name: "Bootstrap", value: false },
     ],
     when: (answers) => {
       return answers.frontEndChoice == "react";
@@ -231,7 +231,11 @@ module.exports = [
     ],
     when: (answers) => {
       return (
-        answers.backEnd && answers.frontEnd && answers.store && answers.dbName && answers.frontEndChoice === "react"
+        answers.backEnd &&
+        answers.frontEnd &&
+        answers.store &&
+        answers.dbName &&
+        answers.frontEndChoice === "react"
       );
     },
   },
@@ -259,7 +263,11 @@ module.exports = [
     ],
     when: (answers) => {
       return (
-        answers.backEnd && answers.frontEnd && answers.store && answers.dbName && answers.frontEndChoice === "vue"
+        answers.backEnd &&
+        answers.frontEnd &&
+        answers.store &&
+        answers.dbName &&
+        answers.frontEndChoice === "vue"
       );
     },
   },
@@ -273,7 +281,9 @@ module.exports = [
     ],
     when: (answers) => {
       return (
-        answers.store && answers.frontEndChoice === "angular" && !answers.backEnd
+        answers.store &&
+        answers.frontEndChoice === "angular" &&
+        !answers.backEnd
       );
     },
   },
@@ -287,7 +297,9 @@ module.exports = [
     ],
     when: (answers) => {
       return (
-        answers.backEnd && answers.dbName && answers.frontEndChoice === "angular"
+        answers.backEnd &&
+        answers.dbName &&
+        answers.frontEndChoice === "angular"
       );
     },
   },
