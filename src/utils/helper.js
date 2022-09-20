@@ -237,7 +237,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
       return [
         {
           source: `${srcDir}/uiTests/CypressTests/TestScripts`,
-          destination: `${destDir}/__tests__`,
+          destination: `${destDir}`,
           isfile: false,
         },
       ];
@@ -258,7 +258,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
       return [
         {
           source: `${srcDir}/uiTests/JestTests/TestScripts`,
-          destination: `${destDir}`,
+          destination: `${destDir}/__tests__`,
           isfile: false,
         },
       ];
