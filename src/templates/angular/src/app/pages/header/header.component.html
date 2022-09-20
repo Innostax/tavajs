@@ -29,13 +29,26 @@
           </form>
         <%}%>
         <% if(isOkta){%>
-          <div class="auth-btn-group">
-            <ng-container *ngIf="(isAuthenticated$ | async) === false; else signout">
-              <button class="btn btn-outline-secondary"  (click)="signIn()"> Sign in </button>
-            </ng-container>
-            <ng-template #signout>
-              <button class="btn btn-outline-secondary"  (click)="signOut()">Sign out</button>
-            </ng-template>
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="profile-icon" *ngIf="name$ | async as name">{{getInitials(name)}}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item" href="#" *ngIf="name$ | async as name">{{ name }}</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <ng-container *ngIf="(isAuthenticated$ | async) === false; else signout">
+                    <span class="" (click)="signIn()"> Sign in</span>
+                  </ng-container>
+                  <ng-template #signout>
+                    <span class="" (click)="signOut()">Sign out</span>
+                  </ng-template>
+                </a>
+              </li>
+            </ul>
           </div>
         <%}%>
         <% if(isAuth0){%>

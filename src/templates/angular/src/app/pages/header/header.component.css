@@ -79,3 +79,10 @@
   left: 8px;
 }
 <%}%>
+<% if(isOkta) { %>
+.profile-icon {
+  padding: 15% 15%;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+<% } %>
