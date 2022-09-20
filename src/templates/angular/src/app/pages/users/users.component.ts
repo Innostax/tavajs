@@ -21,6 +21,7 @@ export class UsersComponent implements OnInit {
   headers = ['name', 'username', 'email', 'actions'];
   shouldShowActions: boolean = true;
   data: any = {};
+  deleteUserInfo: boolean = false;
   <%}%>
   <% if(isCrudWithNode){%> users: any;<%}%>
   <% if(isStore){%>
@@ -55,11 +56,12 @@ export class UsersComponent implements OnInit {
   onClickAddUser() {
     $('#addUser_modal').modal('show');
     this.data = {};
+    this.deleteUserInfo = false;
   }
 
   public handleUserActions = (name: any, user: any) => {
     if(name == EDIT) this.editUser(user)
-    else this.deleteUser(user.id)
+    else this.deleteUser(user)
   }
 
   editUser(data: any) {
@@ -68,12 +70,19 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(data: any) {
-    <% if(isStore){%>this.store.dispatch(deleteUser({ id: data }));<%}%>
+    $('#addUser_modal').modal('show');
+    this.data = data;
+    this.deleteUserInfo = true;
+  }
+
+  performDeleteAction(data: any) {
+    <% if(isStore){%>this.store.dispatch(deleteUser({ id: data?.id }));<%}%>
     <% if(isCrudWithNode){%>
-      this.apiService.deleteEmployee(data).subscribe(() =>
+      this.apiService.deleteEmployee(data?.id).subscribe(() =>
         this.getUsers()
       )
     <%}%>
+    this.closeModal();
   }
 
   closeModal() {
@@ -84,9 +93,10 @@ export class UsersComponent implements OnInit {
     this.refreshView()
     <%}%>
   }
-
+  <% if(isCrudWithNode){%>
   refreshView() {
     window.location.reload();
   }
+  <%}%>
   <%}%>
 }

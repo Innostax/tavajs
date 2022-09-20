@@ -15,7 +15,9 @@ declare let $: any;
 })
 export class AddUserModalComponent implements OnInit, OnChanges {
   @Input() data: any;
+  @Input() shouldDeleteUser: boolean = false;
   @Output() closeEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() performDeleteAction: EventEmitter<any> = new EventEmitter<any>();
   createUserForm!: FormGroup;
   user!: User;
   userActionLabel: string = 'Add';
@@ -57,6 +59,11 @@ export class AddUserModalComponent implements OnInit, OnChanges {
     else this.store.dispatch(updateUser({user: userData}))
     this.createUserForm.reset();
     this.closeModalRef();
+  }
+
+  deleteUserRef(data: any) {
+    this.performDeleteAction.emit(data)
+    this.createUserForm.reset();
   }
 
   closeModalRef() {
