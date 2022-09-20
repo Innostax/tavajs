@@ -7,19 +7,25 @@ import { userState } from 'src/app/utils/store/reducer/user.reducer';
 import { selectusers } from 'src/app/utils/store/selector/user.selectors';
 import { User } from 'src/app/utils/store/User';<%}%>
 <% if(isCrudWithNode){%>import {ApiService} from 'src/app/shared/services/services'<%}%>
-
+<% if(isCrud || isCrudWithNode){%>
 declare let $: any;
-
+const EDIT = 'edit'
+<%}%>
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  <% if(isCrud || isCrudWithNode){%>
+  headers = ['name', 'username', 'email', 'actions'];
+  shouldShowActions: boolean = true;
   data: any = {};
+  <%}%>
   <% if(isCrudWithNode){%> users: any;<%}%>
   <% if(isStore){%>
-  users$: Observable<User[]>;<%}%>
+  users$: Observable<User[]>;
+  <%}%>
   constructor(<% if(isStore){%> private store: Store<userState>, private modalService: NgbModal, <%}%> <% if(isCrudWithNode){%> private apiService: ApiService <%}%>) {
     <% if(isStore){%> this.users$ = this.store.pipe(select(selectusers)); <%}%>
   }
@@ -31,19 +37,34 @@ export class UsersComponent implements OnInit {
   <% if(isCrudWithNode){%>
   getUsers() {
     this.apiService.getEmployees().subscribe((res: any) => 
-      this.users = res
+      this.users = res.map((each: any)=> {
+        const refactoredUserData: object = {
+          id: each.id,
+          name: each.name,
+          username: each.username,
+          email: each.email,
+        }
+        return refactoredUserData
+        }
+      )
     )
   }
   <%}%>
   
+  <% if(isCrud || isCrudWithNode){%>
   onClickAddUser() {
     $('#addUser_modal').modal('show');
     this.data = {};
   }
 
+  public handleUserActions = (name: any, user: any) => {
+    if(name == EDIT) this.editUser(user)
+    else this.deleteUser(user.id)
+  }
+
   editUser(data: any) {
     $('#addUser_modal').modal('show');
-     this.data= data;
+    this.data = data;
   }
 
   deleteUser(data: any) {
@@ -58,6 +79,14 @@ export class UsersComponent implements OnInit {
   closeModal() {
     $('#addUser_modal').modal('hide');
     this.data = {};
-    <% if(isCrudWithNode){%>this.getUsers();<%}%>
+    <% if(isCrudWithNode){%>
+    // To-Do: Need to update api call for get users
+    this.refreshView()
+    <%}%>
   }
+
+  refreshView() {
+    window.location.reload();
+  }
+  <%}%>
 }
