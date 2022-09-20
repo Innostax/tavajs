@@ -4,8 +4,6 @@ app.use(express.json());
 const port = 3040;
 const { createLogger, format, transports } = require("winston");
 
-const levels = ["info", "error"]; // Logger levels
-
 const logger = createLogger({
   transports: [
     new transports.File({
