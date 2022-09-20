@@ -13,7 +13,6 @@ const NavBar = ({ brand, links }) => {
 			<Navbar expand='lg'>
 				<Container>
 					<Navbar.Brand href='#home'>{brand}</Navbar.Brand>
-					<Navbar.Toggle className='collapse-btn' aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='me-auto'>
 							{links.map((each) => (
@@ -34,6 +33,7 @@ const NavBar = ({ brand, links }) => {
 					</Navbar.Collapse>
 					<% if(isThemeProvider) { %><ThemeToggler/><% } %>
 					<% if(isOkta) { %><AppWithRouterAccess /> <% } %>
+					<Navbar.Toggle className='collapse-btn' aria-controls='basic-navbar-nav' />
 				</Container>
 			</Navbar>
 			<Routes />

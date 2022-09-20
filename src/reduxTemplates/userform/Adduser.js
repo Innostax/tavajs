@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
-<% if(isMaterialUI) {%>import {Grid} from '@mui/material';<%}%>
-<% if(isMaterialUI) {%>import Label from "../../components/atoms/Label";<%}%>
-<% if(isMaterialUI) {%>import Button from "../../components/atoms/Button";<%}%>
-<% if(isMaterialUI) {%>import Input from "../../components/atoms/Input";<%}%>
-<% if(!isMaterialUI) {%>import { Form, Button } from "react-bootstrap";<%}%>
-
+<%if(isMaterialUI){%>
+  import {Grid} from '@mui/material';
+  import Label from "../../components/atoms/Label";
+  import Button from "../../components/atoms/Button";
+  import Input from "../../components/atoms/Input";
+<%}%>
+<%if(!isMaterialUI){%>import {Form, Button} from "react-bootstrap";<%}%>
 import Modal from "../../components/organisms/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSelectedUser } from "./users.selectors";
@@ -13,13 +14,16 @@ import { actions } from "../Users/users.reducer";
 import { isEmpty } from "../../helper/isEmpty.js";
 
 const { setSelectedUserModal, setSelectedUser, editUser, addNewUser } = actions;
+
 const AddUser = ({ show, handleClose, reset }) => {
   const initialUserData = {
     name: "",
     username: "",
     email: "",
   };
+
   const dispatch = useDispatch();
+
   const resetModal = () => {
     dispatch(setSelectedUserModal(null));
     dispatch(setSelectedUser(null));
@@ -41,14 +45,24 @@ const AddUser = ({ show, handleClose, reset }) => {
     if (isEmpty(user)) 
     {
       dispatch(addNewUser(formData));
-      handleClose();
     }
     else 
     {
       dispatch(editUser(formData));
-      handleClose();
     }
+    handleClose();
   };
+
+  <% if(!isMaterialUI) {%>
+    const footer = () => {
+      <>
+        <Button variant='outline-primary' type='submit' onClick={handleSubmit} active>
+          {isEmpty(user) ? 'Add' : 'Edit'}
+        </Button>
+        <Button onClick={handleClose} variant="outline-primary">Cancel</Button>
+      </>
+    }
+  <%}%>
 
   return (
     <Modal
@@ -57,14 +71,7 @@ const AddUser = ({ show, handleClose, reset }) => {
     title={isEmpty(user) ? 'Add User' : 'Edit User'}
     reset={reset}			
     <% if(!isMaterialUI) {%>
-      footer={
-      <>
-        <Button variant='outline-primary' type='submit' onClick={handleSubmit} active>
-          {isEmpty(user) ? 'Add' : 'Edit'}
-        </Button>
-        <Button onClick={handleClose} variant="outline-primary">Cancel</Button>
-      </>
-      }
+    footer= {footer}
     <%}%>
   >
   <% if(!isMaterialUI) {%>
