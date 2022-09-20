@@ -37,13 +37,6 @@ export default {
     Label,
     Modal
   },
-  data() {
-    return {
-      name: null,
-      username: null,
-      email: null,
-    };
-  },
   methods: {
     submitButonHandler() {
       const data = {

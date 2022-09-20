@@ -1,4 +1,10 @@
+<% if(frontEndChoice === "react"){ %>
 REACT_APP_API_URL=Backend API URL
 REACT_APP_OKTA_ISSUER=https://{yourOktaDomain}/oauth2/default
 REACT_APP_OKTA_CLIENT_ID={clientId}
+<% } %>
 
+<% if(frontEndChoice === "vue"){ %>
+VUE_APP_OKTA_CLIENT_ID=your auth0 client Id
+VUE_APP_OKTA_ISSUER=your Auth0 Domain
+<% } %>

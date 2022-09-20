@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table :fields="fields" :items="items" striped hover>
+    <b-table :fields="fields" :items="items" responsive striped hover>
       <template v-for="item in items" #cell(edit)="data">
         <Button color="primary" :key="item.id" data-bs-toggle="modal" data-bs-target="#bv-modal-editUser" @onClick="editButtonHandler(data.item.id)" name="Edit"/>
       </template>
@@ -26,9 +26,6 @@ export default {
     },
     editButtonHandler: function (id) {
       this.selectedItem(id);
-    },
-    rowClass() {
-      return 'align-middle'
     }
   },
   computed: {
@@ -41,8 +38,12 @@ export default {
 </script>
 
 <style>
-  .table{
-    table-layout: fixed ;
+  .table{    
     vertical-align: middle !important;
+  }
+  @media (min-width: 992px) {
+    .table{
+      table-layout: fixed ;
+    }
   }
 </style>
