@@ -4,23 +4,23 @@ app.use(express.json());
 const port = 3040;
 const { createLogger, format, transports } = require("winston");
 
-const levels = ["info", "error"] // Logger levels
+const levels = ["info", "error"]; // Logger levels
 
 const logger = createLogger({
   transports: levels.map((each) => {
-	new transports.File({
-		filename: `${each}.log`,
-		level: each,
-		format: format.combine(format.splat(), format.simple()),
-	})
-  })
+    new transports.File({
+      filename: `${each}.log`,
+      level: each,
+      format: format.combine(format.splat(), format.simple()),
+    });
+  }),
 });
 
 /*-------EndPoint for testing-------*/
-app.get('/test', (req, res) => {
-	res.send('Hii Winston is running now...')
-	logger.info(`Winston is running now...`)
-})
+app.get("/test", (req, res) => {
+  res.send("Hii Winston is running now...");
+  logger.info(`Winston is running now...`);
+});
 
 // Capture 500 erors
 app.use((err, req, res, next) => {
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 });
 
 app.listen(port, () => {
-	logger.info(`logger server running on port: ${port}`)
-})
+  logger.info(`logger server running on port: ${port}`);
+});
 
 module.exports = logger;
