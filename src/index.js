@@ -283,7 +283,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------- For Logger service ---------------------------------->
     if (loggerServiceName) {
-      const loggerTemplatePath = path.join(__dirname, "logger");
+      const loggerTemplatePath = path.join(__dirname, "logger/template");
+
       createLogger(
         backEnd.path,
         loggerServiceName,
@@ -537,8 +538,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   copyFiles(filePaths);
 
   // These methods are used to update the dependencies and scripts respectively.
-  updateProjectDependencies(frontEnd.path, dependencies);
-  updateProjectScripts(frontEnd.path, scripts);
+  if(frontEnd) {
+    updateProjectDependencies(frontEnd.path, dependencies);
+    updateProjectScripts(frontEnd.path, scripts);
+  }
 
   projectInfo(frontEnd, backEnd, answers);
   projectSetUp(frontEnd, backEnd, answers);
