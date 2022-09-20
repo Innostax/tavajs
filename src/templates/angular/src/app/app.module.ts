@@ -9,9 +9,10 @@ import { PagesModule } from './pages/pages.module';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';<%}%>
+<% if(isCrudWithNode){%>import { HttpClientModule } from '@angular/common/http';<%}%>
 <% if (isOkta) { %>import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';<% } %>
-
+<% if(isAuth0){ %>import { AuthModule } from '@auth0/auth0-angular'; <% } %>
 <% if (isOkta) { %>
 const oktaAuth = new OktaAuth({
 issuer: '{Issuer URI}',
@@ -30,8 +31,14 @@ redirectUri: window.location.origin+'/login/callback'});
     <% if(isStore){%>StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],<%}%>
     SharedModule,
+    PagesModule,
+    <% if(isCrudWithNode){%>HttpClientModule,<%}%>
     <% if (isOkta) { %>OktaAuthModule,<% } %>
-    PagesModule
+    PagesModule,
+    <% if(isAuth0) { %>AuthModule.forRoot({
+      domain: 'YOUR_DOMAIN',
+      clientId: 'YOUR_CLIENT_ID'
+    }),<% } %>
   ],
   providers: [
     <% if (isOkta) { %>{
