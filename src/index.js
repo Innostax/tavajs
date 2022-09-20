@@ -377,15 +377,17 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         
       }
 
-      addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
-      fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
+      if(isCrud || isCrudWithNode) {
+        addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
+        fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
+      }
       const res = getFilePaths(INFRASTRUCTURE_FILE_PATHS, currentPath, frontEnd.path);
       directoryPaths = [...directoryPaths, ...res];
     }
 
     //<---------------------------------MaterialUI Dark Theme----------------------->
 
-    if (isThemeProvider) {
+    if (isThemeProvider && isFrontEndChoiceReact) {
       let appFile = readFile(`${currentPath}/templates/react/src/App.js`);
       appFile = render(appFile, {
         isMaterialUI,
