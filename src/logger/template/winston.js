@@ -4,19 +4,16 @@ app.use(express.json());
 const port = 3040;
 const { createLogger, format, transports } = require("winston");
 
+const levels = ["info", "error"] // Logger levels
+
 const logger = createLogger({
-  transports: [
-    new transports.File({
-      filename: "info.log",
-      level: "info",
-      format: format.combine(format.splat(), format.simple()),
-    }),
-    new transports.File({
-      filename: "error.log",
-      level: "error",
-      format: format.combine(format.splat(), format.simple()),
-    }),
-  ],
+  transports: levels.map((each) => {
+	new transports.File({
+		filename: `${each}.log`,
+		level: each,
+		format: format.combine(format.splat(), format.simple()),
+	})
+  })
 });
 
 /*-------EndPoint for testing-------*/
@@ -25,23 +22,7 @@ app.get('/test', (req, res) => {
 	logger.info(`Winston is running now...`)
 })
 
-app.get("/<%= defaultRoute %>", (req, res) => {
-  res.send();
-});
-app.post("/<%= defaultRoute %>", (req, res) => {
-  users.push();
-  res.send();
-});
-app.get("/<%= defaultRoute %>/:id", (req, res) => {
-  res.send();
-});
-app.put("/<%= defaultRoute %>/:id", (req, res) => {
-  res.send();
-});
-app.delete("/<%= defaultRoute %>/:id", (req, res) => {
-  res.send();
-});
-
+// Capture 500 erors
 app.use((err, req, res, next) => {
   res.status(500).send("Could not reach the url");
   logger.error(
@@ -60,8 +41,7 @@ app.use((req, res, next) => {
 });
 
 app.listen(port, () => {
-	console.log('app listening')
-	logger.info(`logger server running on port:${port}`)
+	logger.info(`logger server running on port: ${port}`)
 })
 
 module.exports = logger;
