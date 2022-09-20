@@ -79,7 +79,14 @@ export class UsersComponent implements OnInit {
   closeModal() {
     $('#addUser_modal').modal('hide');
     this.data = {};
-    <% if(isCrudWithNode){%>this.getUsers();<%}%>
+    <% if(isCrudWithNode){%>
+    // To-Do: Need to update api call for get users
+    this.refreshView()
+    <%}%>
+  }
+
+  refreshView() {
+    window.location.reload();
   }
   <%}%>
 }
