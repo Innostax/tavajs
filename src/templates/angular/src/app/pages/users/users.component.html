@@ -5,11 +5,18 @@
     <h4>Welcome to Users Screen</h4>
   </div>
 
-  <% if(isStore){%><app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="onClickAddUser()"></app-button><%}%>
+  <% if(isCrud || isCrudWithNode){%><app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="onClickAddUser()"></app-button><%}%>
 </div>
 
-<% if(isStore){%>
+<% if(isCrudWithNode){%>
+<app-table [usersData]="users" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
+<%}%>
+
+<% if(isCrud){%>
 <app-table [usersData]="users$ | async" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
+<%}%>
+
+<% if(isCrud || isCrudWithNode){%>
 <div
   tabindex="-1"
   role="dialog"

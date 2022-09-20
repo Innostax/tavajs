@@ -1,18 +1,18 @@
 <div class="users-modal">
   <div class="d-flex justify-content-between">
     <div class="users-modal-title fs-3 fw-bold mb-3">
-      {{ actionBtnText + ' User' }} 
+      {{ userActionLabel + ' User' }} 
     </div>
     <div>
-      <app-button [class]="'btn-close'" (onClick)="closeModlRef()"></app-button>
+      <app-button [class]="'btn-close'" (onClick)="closeModalRef()"></app-button>
     </div>
   </div>
 
-  <form [formGroup]="registerForm">
+  <form [formGroup]="createUserForm">
     <div class="form-group mb-3">
       <app-label [for]="'name'" [class]="'fw-bolder'" [name]="'Name'"></app-label>
       <app-input 
-        [registerForm]="registerForm" 
+        [registerForm]="createUserForm" 
         [name]="'name'" 
         [type]="'text'" 
         [id]="'name'" 
@@ -23,7 +23,7 @@
     <div class="form-group mb-3">
       <app-label [for]="'username'" [class]="'fw-bolder'" [name]="'Username'"></app-label>
       <app-input 
-        [registerForm]="registerForm" 
+        [registerForm]="createUserForm" 
         [name]="'username'" 
         [type]="'text'" 
         [id]="'username'" 
@@ -34,7 +34,7 @@
     <div class="form-group mb-3">
       <app-label [for]="'emailAddress'" [class]="'fw-bolder'" [name]="'Email address'"></app-label>
       <app-input 
-        [registerForm]="registerForm" 
+        [registerForm]="createUserForm" 
         [name]="'email'" 
         [type]="'text'" 
         [id]="'email'" 
@@ -43,7 +43,7 @@
     </div>
     
     <div class="d-grid">
-      <app-button [name]="actionBtnText" [class]="'btn btn-primary w-100'" type="'submit'" (onClick)="onSubmit()"></app-button>
+      <app-button [name]="userActionLabel" [class]="'btn btn-primary w-100'" type="'submit'" (onClick)="onSubmit()"></app-button>
     </div>
   </form>
 </div>

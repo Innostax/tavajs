@@ -264,6 +264,34 @@ module.exports = [
     },
   },
   {
+    name: "CRUD",
+    type: "list",
+    message: "Do you want angular ngrx with CRUD?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.store && answers.frontEndChoice === "angular" && !answers.backEnd
+      );
+    },
+  },
+  {
+    name: "angularNodeCrud",
+    type: "list",
+    message: "Do you want crud integration with angular-Node boiler plate?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return (
+        answers.backEnd && answers.dbName && answers.frontEndChoice === "angular"
+      );
+    },
+  },
+  {
     name: "loggerServiceName",
     type: "list",
     message: "Which logger service do you want?",

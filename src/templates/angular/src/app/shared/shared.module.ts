@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-<% if(isStore){%>import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';<%}%>
+<% if(isCrud || isCrudWithNode){%>import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';<%}%>
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 <% if(isStore){%>import { StoreModule } from '@ngrx/store';
 import { reducer, userFeatureKey } from '../utils/store/reducer/user.reducer';<%}%>
@@ -10,10 +10,11 @@ import { DatepickerComponent } from './components/atoms/datepicker/datepicker.co
 import { LabelComponent } from './components/atoms/label/label.component';
 import { TableComponent } from './components/molecules/table/table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+<% if(isCrudWithNode){%>import { ApiService } from './services/services';<%}%>
 
 @NgModule({
   declarations: [
-    <% if(isStore){%> AddUserModalComponent, <%}%>
+    <% if(isCrud || isCrudWithNode){%> AddUserModalComponent, <%}%>
     ButtonComponent,
     InputComponent,
     DatepickerComponent,
@@ -30,12 +31,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   exports: [
     FormsModule,
     ReactiveFormsModule,
-    <% if(isStore){%>AddUserModalComponent,<%}%>
+    <% if(isCrud || isCrudWithNode){%>AddUserModalComponent,<%}%>
     ButtonComponent, 
     TableComponent, 
     InputComponent, 
     DatepickerComponent,
     LabelComponent
-  ]
+  ],
+  <% if(isCrudWithNode){%> providers:[ApiService] <%}%>
 })
 export class SharedModule { }
