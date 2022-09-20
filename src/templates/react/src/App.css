@@ -63,7 +63,9 @@ body {
 }
 .navbar .btn-primary{
     border: none;
-    margin-left: 2%,
+    margin-left: 2%;
+    --bs-btn-hover-color: none;
+    --bs-btn-hover-bg: none;
 }
 .navbar-brand {
 	color: var(--headingTextColor) !important;
