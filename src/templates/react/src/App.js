@@ -1,6 +1,9 @@
 
-import {React<% if(isAuth0){%> ,useEffect <%}%><% if(isThemeProvider && isMaterialUI){%> ,useState<%}%>} from "react";
-<% if(isThemeProvider && isMaterialUI){%>import { ThemeProvider, createTheme } from '@mui/material/styles'<%}%>
+import {React<% if(isAuth0){%> ,useEffect <%}%><% if(isThemeProvider && isMaterialUI && !isAuth0){%>,useEffect<%}%><% if(isThemeProvider && isMaterialUI){%> ,useState,<%}%>} from "react";
+<% if (isThemeProvider && isMaterialUI) {%>
+  import { ThemeProvider, createTheme } from '@mui/material/styles'
+  import { THEMES } from './theme.constants'
+  <%}%>
 <% if(isAuth0){%>import { useAuth0 } from './react-spa';<%}%>
 
 import NavBar from "./components/organisms/NavBar";
@@ -14,15 +17,22 @@ const linksOfNav = [
   { href: '/home', label: 'Home' },
   { href: '/users', label: 'Users' },
 ]
-
+<% if (isThemeProvider && isMaterialUI) {%>const THEME = 'theme'<%}%>
 const App = () => {
   <% if(isThemeProvider && isMaterialUI){%>
-    const [mode, setMode] = useState('light')
-    const theme = createTheme({
-      palette: {
-        mode: mode,
-      },
-    })
+  const [mode, setMode] = useState('light')
+	useEffect(() => {
+		const isDarkThemeSelected = localStorage.getItem(THEME) === THEMES.DARK
+		if (isDarkThemeSelected) setMode(THEMES.DARK)
+
+		if (isDarkThemeSelected) document.documentElement.classList.add(THEMES.DARK)
+		else document.documentElement.classList.remove(THEMES.DARK)
+	}, [])
+  const theme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  })
   <%}%>
   
   <% if(isAuth0){%> 

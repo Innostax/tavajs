@@ -36,3 +36,10 @@
   border: 1px solid var(--dark-text-color);
 }
 
+[data-theme='dark'] .navbar-toggler {
+  border: var(--bs-border-width) solid var(--dark-text-color);
+}
+
+[data-theme='dark'] .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}

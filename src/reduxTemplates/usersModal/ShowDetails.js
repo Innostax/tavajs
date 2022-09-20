@@ -22,7 +22,7 @@ const ShowDetails = () => {
 
   return (
     <Modal title="Show User" reset={resetModal} size="lg">
-      <% if(isMaterialUI === false) {%> 
+      <% if(!isMaterialUI) {%> 
        <Row>
         <Col className="p-2">
           <b>{user.name}</b>
