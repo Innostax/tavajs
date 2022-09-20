@@ -2,7 +2,7 @@ const fs = require("fs");
 const { updateProjectDependencies } = require("./helper");
 const { render } = require("ejs");
 const { DATABASES } = require("../constants");
-const { POSTGRES, MYSQL } = DATABASES;
+const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 //<----------------------------- Function to create db service -------------------------------------------->
 function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
   let dependencies = [];
@@ -16,13 +16,15 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
       fileName = "sequelize.js";
       modelName = "sequelizeModel.js";
       dependencies = [...dependencies, { name: "sequelize", version: "^6.6.5" }]
-      if (MYSQL) dependencies.push({ name: "mysql2", version: "^2.3.0" });
+      if (MYSQL===dbName) dependencies.push({ name: "mysql2", version: "^2.3.0" });
       else dependencies = [...dependencies, { name: "pg", version: "^8.7.1" }];
       break;
-    default:
+    case MONGOOSE:
       fileName = "mongoose.js";
       modelName = "mongooseModel.js";
       dependencies = [...dependencies, { name: "mongoose", version: "^6.0.2" }];
+      break;
+    default:
       break;
   }
 
