@@ -7,13 +7,18 @@ const { createLogger, format, transports } = require("winston");
 const levels = ["info", "error"]; // Logger levels
 
 const logger = createLogger({
-  transports: levels.map((each) => {
+  transports: [
     new transports.File({
-      filename: `${each}.log`,
-      level: each,
+      filename: "info.log",
+      level: "info",
       format: format.combine(format.splat(), format.simple()),
-    });
-  }),
+    }),
+    new transports.File({
+      filename: "error.log",
+      level: "error",
+      format: format.combine(format.splat(), format.simple()),
+    }),
+  ],
 });
 
 /*-------EndPoint for testing-------*/

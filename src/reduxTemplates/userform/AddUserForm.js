@@ -10,7 +10,7 @@ import React, { useState } from "react";
 <% if(!isMaterialUI) {%>import { Form, Button } from "react-bootstrap";<%}%>
 import Modal from "../../components/organisms/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { addUsers, updateUsers } from "./users.actions";
+import { addUsers, updateUsers, getUsers } from "./users.actions";
 import { selectSelectedUser } from "./users.selectors";
 
 import { actions } from "../Users/users.reducer";
@@ -51,7 +51,7 @@ const AddUser = ({ show, handleClose, reset }) => {
     }
     else 
     {
-      dispatch(updateUsers({id , ...formData}));
+      dispatch(updateUsers({id , ...formData})).then(() => dispatch(getUsers())); 
     }
     handleClose();
   };

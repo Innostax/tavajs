@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 <% if(isCrud || isCrudWithNode) {%>import { useDispatch } from 'react-redux'<%}%>
 <% if(isCrud) {%>import { actions } from '../../screens/Users/users.reducer'<%}%>
-<% if(isCrudWithNode) {%>import { deleteUsers } from '../../screens/Users/users.actions'<%}%>
+<% if(isCrudWithNode) {%>import { deleteUsers, getUsers } from '../../screens/Users/users.actions'<%}%>
 
 
 const DeleteConfirmationModal = ({ id }) => {
@@ -25,7 +25,7 @@ const DeleteConfirmationModal = ({ id }) => {
 			handleClose()
 		<%}%>
 		<%if(isCrudWithNode) {%>
-			dispatch(deleteUsers({ id }))
+			dispatch(deleteUsers({ id })).then(() => dispatch(getUsers()));
 			handleClose()
 			<%}%>
 		}
