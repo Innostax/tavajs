@@ -536,8 +536,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   copyFiles(filePaths);
 
   // These methods are used to update the dependencies and scripts respectively.
-  updateProjectDependencies(frontEnd.path, dependencies);
-  updateProjectScripts(frontEnd.path, scripts);
+  if(frontEnd) {
+    updateProjectDependencies(frontEnd.path, dependencies);
+    updateProjectScripts(frontEnd.path, scripts);
+  }
 
   projectInfo(frontEnd, backEnd, answers);
   projectSetUp(frontEnd, backEnd, answers);

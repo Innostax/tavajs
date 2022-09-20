@@ -19,6 +19,12 @@ const logger = createLogger({
   ],
 });
 
+/*-------EndPoint for testing-------*/
+app.get('/test', (req, res) => {
+	res.send('Hii Winston is running now...')
+	logger.info(`Winston is running now...`)
+})
+
 app.get("/<%= defaultRoute %>", (req, res) => {
   res.send();
 });
@@ -52,9 +58,10 @@ app.use((req, res, next) => {
     `400 || ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
   );
 });
+
 app.listen(port, () => {
-  console.log("app listening");
-  logger.info(`server started running on port:${port}`);
-});
+	console.log('app listening')
+	logger.info(`logger server running on port:${port}`)
+})
 
 module.exports = logger;
