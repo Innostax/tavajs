@@ -47,7 +47,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       const USERNAME = process.env.SMTP_USERNAME
       const mailObj = {
         from: USERNAME,
-        recipients: [],  //Enter the Recipient's mail Id
+        recipients: [`${req.body.email}`],  //Enter the Recipient's mail Id
         subject: 'Sending email by nodejs',
         message: 'Hello World;',
         html: '<h1></h1>'
@@ -63,7 +63,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         const newData = new <%= defaultRoute %>({
             name: req.body.name,
             username: req.body.username,
-            email:req.body.email
+            email: req.body.email
           });
           newData.save(function(err,data){
             if (!err){ 

@@ -3,9 +3,7 @@
     {{ userActionLabel + ' User' }} 
   </div>
   <div>
-    <button type="button" class="btn" (click)="closeModalRef()" aria-label="Close">
-      <span aria-hidden="true">X</span>
-    </button>
+    <app-button [class]="'btn-close'" (onClick)="closeModalRef()"></app-button>
   </div>
 </div>
 

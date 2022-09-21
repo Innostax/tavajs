@@ -1,7 +1,7 @@
 const DEPENDENCIES = {
   BOOTSTRAP: [
-    { name: "bootstrap", version: "^5.1.0" },
-    { name: "react-bootstrap", version: "^1.0.0" },
+    { name: "bootstrap", version: "^4.6.0" },
+    { name: "react-bootstrap", version: "^1.6.6" },
     { name: "react-datepicker", version: "^4.2.1" },
     { name: "@musicstory/react-bootstrap-table-next", version: "^1.0.5" },
   ],
