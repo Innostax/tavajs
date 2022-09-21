@@ -54,9 +54,9 @@ export class AddUserModalComponent implements OnInit, OnChanges {
     if(!$.isEmptyObject(this.data)) this.apiService.updateEmployee(this.data.id,userData).subscribe((res)=>{})
     else this.apiService.createEmployee(userData).subscribe((res)=>{})
     this.createUserForm.reset();
-    this.closeModalRef();
     // To-Do: Need to update api call for get users
     this.refreshView();
+    this.closeModalRef();
   }
 
   deleteUserRef(data: any) {

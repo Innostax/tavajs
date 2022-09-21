@@ -67,6 +67,7 @@ export class UsersComponent implements OnInit {
   editUser(data: any) {
     $('#addUser_modal').modal('show');
     this.data = data;
+    this.deleteUserInfo = false;
   }
 
   deleteUser(data: any) {
