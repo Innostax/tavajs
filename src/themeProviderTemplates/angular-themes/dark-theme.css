@@ -43,3 +43,7 @@
 [data-theme='dark'] .navbar-toggler-icon {
   filter: brightness(0) invert(1);
 }
+
+[data-theme='dark'] .btn-close {
+  filter: brightness(0) invert(1);
+}
