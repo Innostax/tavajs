@@ -162,7 +162,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
-      CURR_DIR
+      CURR_DIR,
+      isJest,
+      isCypress
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
