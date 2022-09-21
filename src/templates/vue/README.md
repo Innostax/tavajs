@@ -64,7 +64,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <a  href="https://www.postgresql.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>  </a>
 <%}%>
 <%if(isJest){%>
-<a  href=""  target="_blank">  <img  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg"  alt="auth"  width="100"  height="100"/>  </a>
+<a  href="https://jestjs.io/"  target="_blank">  <img  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg"  alt="jest"  width="100"  height="100"/>  </a>
 <%}%>
 <%if(isOkta){%>
 <a  href=https://www.okta.com/ target="_blank">  
@@ -213,7 +213,7 @@ MySQL is the world's most popular open source database. With its proven performa
 
 Before running the app, you must update environment variable for MYSQL in `.env` file.
 
-Inside `.env` file Update `username` , `password` and `mydb` for `DATABASE_URL` environment variable as your username, password & database name.
+Inside `.env` file update `username` , `password` and `mydb` for `DATABASE_URL` environment variable as your username, password and database name.
 
 ```
 DATABASE_URL=mysql://username:password@localhost:3306/mydb
@@ -273,7 +273,7 @@ SMTP_PASSWORD = your SMTP password
 SMTP_HOST = your SMTP host
 ```
 
-Add recipients email id in `recipients` object inside `mailObj` data property in `users.controllers.js` file.
+Add recipient's email id in `recipients` object inside `mailObj` data property in `users.controllers.js` file.
 
 <%}%>
 
@@ -318,8 +318,8 @@ Template overview: <a  href="https://vuejs.org/guide/essentials/template-syntax.
 
 Copyright (C)2021 Innostax
 Licensed under the MIT License.
+
 ## Contact 
 
 <a  href="https://innostax.com/"> Innostax Software Labs</a>
-
 <p  align="right">(<a  href="#top">back to top</a>)</p>
