@@ -55,6 +55,8 @@ export class AddUserModalComponent implements OnInit, OnChanges {
     else this.apiService.createEmployee(userData).subscribe((res)=>{})
     this.createUserForm.reset();
     this.closeModalRef();
+    // To-Do: Need to update api call for get users
+    this.refreshView();
   }
 
   deleteUserRef(data: any) {
@@ -65,5 +67,9 @@ export class AddUserModalComponent implements OnInit, OnChanges {
   closeModalRef() {
     this.closeEvent.emit();
     this.createUserForm.reset();
+  }
+
+  refreshView() {
+    window.location.reload();
   }
 }

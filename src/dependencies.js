@@ -1,11 +1,16 @@
 const DEPENDENCIES = {
   BOOTSTRAP: [
-    { name: "bootstrap", version: "^5.1.0" },
-    { name: "react-bootstrap", version: "^1.0.0" },
+    { name: "bootstrap", version: "^4.6.0" },
+    { name: "react-bootstrap", version: "^1.6.6" },
     { name: "react-datepicker", version: "^4.2.1" },
     { name: "@musicstory/react-bootstrap-table-next", version: "^1.0.5" },
   ],
   CYPRESS: [{ name: "cypress", version: "^10.7.0" }],
+  JEST: [
+    { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
+    { name: "@vue/test-utils", version: "^2.0.2" },
+    { name: "@vue/vue3-jest", version: "^27.0.0" },
+  ],
   MATERIALUI: [
     { name: "@mui/material", version: "^5.10.2" },
     { name: "@mui/icons-material", version: "^5.10.3" },

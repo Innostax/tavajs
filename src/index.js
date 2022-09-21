@@ -29,6 +29,8 @@ const {
   COGNITO_FILE_PATHS,
   CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
+  JEST_DIRECTORY_PATHS,
+  JEST_FILE_PATHS,
   FRAMEWORKS,
   OKTA_FILES_PATHS,
   REACT_THEME_FILE_PATHS,
@@ -98,6 +100,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   /* START: Testcases Framework */
   const isTestCasesFramework = Boolean(answers["testCaseFramework"]);
   const isCypress = answers["testCaseFramework"] === "cypress";
+  const isJest = answers["testCaseFramework"] === "jest";
   /* END: Testcases Framework */
 
   const isSMTP = emailServiceName === "smtp";
@@ -169,7 +172,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
-    if (isThemeProvider && frontEndChoice === VUE) {
+    if (isThemeProvider && isFrontEndChoiceVue) {
       const res = getFilePaths(VUE_THEME_FILE_PATHS, currentPath, frontEnd.path);
       filePaths = [...filePaths, ...res];
     }
@@ -187,12 +190,24 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         const res = getFilePaths(CYPRESS_FILE_PATHS, currentPath, frontEnd.path);
         filePaths = [...filePaths, ...res];
 
-        directoryPaths = [
-          ...directoryPaths, ...CYPRESS_DIRECTORY_PATHS];
+        const cypressDirectoryPaths = getFilePaths(CYPRESS_DIRECTORY_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [ ...directoryPaths, ...cypressDirectoryPaths];
 
         dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
 
         scripts = [...scripts, ...SCRIPTS.CYPRESS];
+      }
+
+      if (isJest && isFrontEndChoiceVue) {
+        const res = getFilePaths(JEST_FILE_PATHS, currentPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+        
+        const jestDirectoryPaths = getFilePaths(JEST_DIRECTORY_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [...directoryPaths, ...jestDirectoryPaths];
+
+        dependencies = [...dependencies, ...DEPENDENCIES.JEST]
+
+        scripts = [...scripts, ...SCRIPTS.JEST];
       }
     }
   }
@@ -469,6 +484,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
     const res = getFilePaths(ANGULAR_CRUD_NODE_FILE_PATHS, currentPath, frontEnd.path);
     directoryPaths = [...directoryPaths, ...res];
+    
+    let baseUrl = fs.readFileSync(`${currentPath}/angularApiTemplates/base-url.ts`, "utf8")
+    baseUrl = render(baseUrl, { defaultRoute })
+    const baseUrlPath = `${frontEnd.path}/src/app/shared/base-url.ts`
+    fs.writeFileSync(baseUrlPath, baseUrl, "utf8")
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
@@ -494,7 +514,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       const auth0SPAFilePath = `${frontEnd.path}/src/react-spa.js`;
       fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
     }
-    if (frontEndChoice === VUE) {
+    if (isFrontEndChoiceVue) {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE]
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
