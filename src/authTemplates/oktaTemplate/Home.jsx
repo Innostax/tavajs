@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
 import Button from "../components/atoms/Button";
-import Dropdown from 'react-bootstrap/Dropdown'
+<% if (!isMaterialUI) { %>import Dropdown from 'react-bootstrap/Dropdown'; <% } %>
 
 const Home = () => {
-  const { authState, oktaAuth } = useOktaAuth();
-  const history = useHistory();
+	const { authState, oktaAuth } = useOktaAuth();
+	const [userInfo, setUserInfo] = useState(null);
+	const history = useHistory();
 
-  if (!authState) {
-    return <div>Loading...</div>;
-  }
+	if (!authState) {
+		return <div>Loading...</div>;
+	}
 
-  useEffect(() => {
+	useEffect(() => {
 		if (!authState || !authState.isAuthenticated) {
 			// When user isn't authenticated, forget any user info
 			setUserInfo(null)
@@ -25,7 +26,8 @@ const Home = () => {
 	}, [authState, oktaAuth])
 
 	const button = authState.isAuthenticated ? (
-    <Dropdown>
+	<% if(!isMaterialUI) { %>
+	<Dropdown>
 			<Dropdown.Toggle variant='.me-2' id='dropdown-basic'>
 				{userInfo?.name}
 			</Dropdown.Toggle>
@@ -40,9 +42,19 @@ const Home = () => {
 					/>
 				</Dropdown.Item>
 			</Dropdown.Menu>
-		</Dropdown>
+	</Dropdown>
+	<% } %>
+	<% if(isMaterialUI) { %>
+	<Select value={age} onChange={handleChange} displayEmpty>
+		<MenuItem value="">
+			<em>{userInfo?.name}</em>
+		</MenuItem>
+		<MenuItem value={10}><Button onClick={() => { oktaAuth.signOut() }} variant='white' name='Logout' /></MenuItem>
+	</Select>
+	<% } %>
   ) : (
-    <Dropdown>
+	<% if(!isMaterialUI) { %>
+	<Dropdown>
 			<Dropdown.Toggle variant='.me-2' id='dropdown-basic'>
 				{userInfo?.name}
 			</Dropdown.Toggle>
@@ -57,7 +69,16 @@ const Home = () => {
 					/>
 				</Dropdown.Item>
 			</Dropdown.Menu>
-		</Dropdown>
+	</Dropdown>
+	<% } %>
+	<% if(isMaterialUI) { %>
+	<Select value={age} onChange={handleChange} displayEmpty>
+	<MenuItem value="">
+		<em>{userInfo?.name}</em>
+	</MenuItem>
+	<MenuItem value={10}><Button onClick={() => { oktaAuth.signOut() }} variant='white' name='Logout' /></MenuItem>
+	</Select>
+	<% } %>
   );
 
   return <>{button}</>

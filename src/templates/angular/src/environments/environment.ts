@@ -7,8 +7,8 @@ export const environment = {
   ANGULAR_APP_API_URL: 'Backend API URL',
   ANGULAR_APP_OKTA_ISSUER: 'https://{yourOktaDomain}/oauth2/default'
   ANGULAR_APP_OKTA_CLIENT_ID: '{clientId}',<% } %><% if(isAuth0) { %>
-  YOUR_DOMAIN: 'YOUR DOMAIN',
-  CLIENT_ID: 'YOUR CLIENT ID',<% } %>
+  AUTH0_YOUR_DOMAIN: 'YOUR DOMAIN',
+  AUTH0_CLIENT_ID: 'YOUR CLIENT ID',<% } %>
 };
 
 /*
