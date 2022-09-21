@@ -1,9 +1,9 @@
 <% if (isSentry) { %>
-  const Sentry = require('../utils/logger/index')
+  const Sentry = require('../utils/logger')
   <% } %>
 
   <% if (isWinston) { %>
-    const logger = require('../utils/logger/index')
+    const logger = require('../utils/logger')
     <% } %>
      
 <% if (mongoSelected) { %>
@@ -218,13 +218,13 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
   <% if (isSentry || isWinston) { %>
       const testlogger=(req, res, next ) => {
         <% if (isSentry) { %>
-          Sentry.captureMessage("Sentry Working");
-          res.send('Logger test Called')
+          Sentry.captureMessage("Sentry is running...");
+          res.send('Sentry is running...')
           <% } %>
         
         <% if (isWinston) { %>
-          logger.info("Winston Working");
-          res.send('Logger test Called')
+          logger.info("Winston is running...");
+          res.send('Winston is running...')
           <% } %>
       }
   <% } %>
