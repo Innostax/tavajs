@@ -51,14 +51,14 @@
 <div class="users-modal" *ngIf="shouldDeleteUser">
   <div class="d-flex justify-content-between">
     <div class="users-modal-title fs-3 fw-bold mb-3">
-      Delete User ? 
+      Delete User? 
     </div>
     <div>
       <app-button [class]="'btn-close'" (onClick)="closeModalRef()"></app-button>
     </div>
   </div>
   <div>
-    Are you sure you want to delete {{ data?.name}} ?
+    Are you sure you want to delete <strong>{{data?.name}}</strong>?
   </div>
   <div class="d-flex justify-content-end mt-3">
     <app-button [name]="'Confirm'" [class]="'btn btn-danger'" (onClick)="deleteUserRef(data)"></app-button>
