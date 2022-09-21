@@ -9,7 +9,7 @@ router.patch('/:id',<%= defaultRoute %>.patch),
 router.delete('/',<%= defaultRoute %>.remove),
 router.delete('/:id',<%= defaultRoute %>.removeById)
 <% if (isSentry || isWinston) { %>
-//   /users/logger/test
-router.get('/logger/test', <%= defaultRoute %>.testlogger);<% } %>
+//   /users/logger/health
+router.get('/logger/health', <%= defaultRoute %>.testlogger);<% } %>
 
 module.exports = router
