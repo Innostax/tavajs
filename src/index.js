@@ -484,6 +484,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
     const res = getFilePaths(ANGULAR_CRUD_NODE_FILE_PATHS, currentPath, frontEnd.path);
     directoryPaths = [...directoryPaths, ...res];
+    
+    let baseUrl = fs.readFileSync(`${currentPath}/angularApiTemplates/base-url.ts`, "utf8")
+    baseUrl = render(baseUrl, { defaultRoute })
+    const baseUrlPath = `${frontEnd.path}/src/app/shared/base-url.ts`
+    fs.writeFileSync(baseUrlPath, baseUrl, "utf8")
   }
 
   //<---------------------------- For Authentication service ---------------------------------->

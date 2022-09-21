@@ -12,12 +12,13 @@ function projectExecutionCommands(frontEnd, backEnd, answers) {
     )
   );
 
-  if(answers.projectDirectoryPath) {
+  if (answers.projectDirectoryPath) {
     console.log(
-      chalk.cyanBright.italic.bold(`     cd ${answers.projectDirectoryPath}\\${answers["projectName"]} \n`)
+      chalk.cyanBright.italic.bold(
+        `     cd ${answers.projectDirectoryPath}\\${answers["projectName"]} \n`
+      )
     );
-  }
-  else {
+  } else {
     console.log(
       chalk.cyanBright.italic.bold(`     cd ${answers["projectName"]} \n`)
     );

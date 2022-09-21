@@ -43,8 +43,12 @@
 [data-theme='dark'] .navbar-toggler-icon {
   filter: brightness(0) invert(1);
 }
-
+/* Signout button styling */
 [data-theme='dark'] .profile-icon {
   border: 1px solid var(--dark-text-color) !important;
   color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .btn-close {
+  filter: brightness(0) invert(1);
 }
