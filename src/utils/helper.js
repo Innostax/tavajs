@@ -41,7 +41,9 @@ const createDirectoryContents = (
   projectChoice,
   isThemeProvider,
   isMaterialUI,
-  currentDirectory
+  currentDirectory,
+  isJest,
+  isCypress
 ) => {
   const CURR_DIR = currentDirectory ? currentDirectory : process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
@@ -78,6 +80,9 @@ const createDirectoryContents = (
             projectChoice,
             isThemeProvider,
             isMaterialUI,
+            currentDirectory,
+            isJest,
+            isCypress
           },
           (autoescape = false)
         );
@@ -119,7 +124,9 @@ const createDirectoryContents = (
             projectChoice,
             isThemeProvider,
             isMaterialUI,
-            currentDirectory
+            currentDirectory,
+            isJest,
+            isCypress
           );
         }
       }
