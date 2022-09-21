@@ -5,12 +5,6 @@ const DEPENDENCIES = {
     { name: "react-datepicker", version: "^4.2.1" },
     { name: "@musicstory/react-bootstrap-table-next", version: "^1.0.5" },
   ],
-  CYPRESS: [{ name: "cypress", version: "^10.7.0" }],
-  JEST: [
-    { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
-    { name: "@vue/test-utils", version: "^2.0.2" },
-    { name: "@vue/vue3-jest", version: "^27.0.0" },
-  ],
   MATERIALUI: [
     { name: "@mui/material", version: "^5.10.2" },
     { name: "@mui/icons-material", version: "^5.10.3" },
@@ -28,6 +22,21 @@ const DEPENDENCIES = {
   OKTA_VUE: [{ name: "@okta/okta-vue", version: "5.4.0" }],
 };
 
+const DEV_DEPENDENCIES = {
+  CYPRESS: [{ name: "cypress", version: "^10.7.0" }],
+  JEST: [
+    { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
+    { name: "@vue/test-utils", version: "^2.0.2" },
+    { name: "@vue/vue3-jest", version: "^27.0.0" },
+  ],
+  MOCHA: [
+    { name: "@vue/cli-plugin-unit-mocha", version: "~5.0.0" },
+    { name: "@vue/test-utils", version: "^2.0.0-0" },
+    { name: "chai", version: "^4.2.0" },
+  ],
+}
+
 module.exports = {
   DEPENDENCIES,
+  DEV_DEPENDENCIES,
 };

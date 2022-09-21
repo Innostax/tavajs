@@ -10,6 +10,8 @@ const {
   CYPRESS_FILE_PATHS,
   JEST_DIRECTORY_PATHS,
   JEST_FILE_PATHS,
+  MOCHA_DIRECTORY_PATHS,
+  MOCHA_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NODE_JS_DOCKER_FILE_PATHS,
@@ -128,21 +130,23 @@ const createDirectoryContents = (
 };
 
 //to update package.json------------------------------------------------>
-const updateProjectDependencies = (path, dependencies) => {
+const updateProjectDependencies = (path, dependencies, devDependencies) => {
+  const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
+  const packageJson = JSON.parse(packageJsonFile);
   dependencies.forEach((each) => {
-    const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
-    const packageJson = JSON.parse(packageJsonFile);
-    const updatedPackageJson = {
-      ...packageJson,
-      dependencies: {
+      packageJson.dependencies = {
         ...packageJson.dependencies,
         [each.name]: each.version,
-      },
-    };
-
-    const newPackageJsonFile = JSON.stringify(updatedPackageJson);
-    fs.writeFileSync(`${path}/package.json`, newPackageJsonFile, "utf-8");
-  });
+      }
+    });
+  devDependencies.forEach((each) => {
+      packageJson.devDependencies = {
+        ...packageJson.devDependencies,
+        [each.name]: each.version,
+      }
+    });
+  const newPackageJsonFile = JSON.stringify(packageJson);
+  fs.writeFileSync(`${path}/package.json`, newPackageJsonFile, "utf-8");
 };
 
 // To update the scripts in Package.json
@@ -267,6 +271,22 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/uiTests/JestTests/jest.config.js`,
           destination: `${destDir}/jest.config.js`,
+          isfile: true,
+        },
+      ];
+    case MOCHA_DIRECTORY_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/MochaTests/TestScripts`,
+          destination: `${destDir}/tests/unit`,
+          isfile: false,
+        },
+      ];
+    case MOCHA_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/MochaTests/.eslintrc.js`,
+          destination: `${destDir}/.eslintrc.js`,
           isfile: true,
         },
       ];
