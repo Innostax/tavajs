@@ -47,7 +47,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 
 ### Built with:
 
-<%if(nodeName){%><a  href="https://nodejs.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg"  alt="nodejs"  width="100"  height="100"/>  </a><%}%> <%if(projectChoice === "vue"){%><a  https://vuejs.org/ target="_blank">  
+<%if(nodeName){%><a  href="https://nodejs.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg"  alt="nodejs"  width="100"  height="100"/>  </a><%}%> <%if(projectChoice === "vue"){%><a  href=https://vuejs.org/ target="_blank">  
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original-wordmark.svg" width="100" alt="vue" />
  </a> <a  href="https://getbootstrap.com"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap"  width="100"  height="100"/>  </a></p>
 
@@ -65,6 +65,16 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <%}%>
 <%if(isJest){%>
 <a  href=""  target="_blank">  <img  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg"  alt="auth"  width="100"  height="100"/>  </a>
+<%}%>
+<%if(isOkta){%>
+<a  href=https://www.okta.com/ target="_blank">  
+  <img src="https://www.vectorlogo.zone/logos/okta/okta-ar21.svg" width="100" alt="okta" />
+</a>
+<%}%>
+<%if(isAuth0){%>
+<a  href=https://auth0.com/ target="_blank">  
+  <img src="https://www.vectorlogo.zone/logos/auth0/auth0-ar21.svg" width="100" alt="auth" />
+</a>
 <%}%>
 <%}%>
 
