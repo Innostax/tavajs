@@ -7,7 +7,7 @@ import { HomeComponent } from './pages/home/home.component';
 const routes: Routes = [
   { path: '', component: HomeComponent <% if(isOkta){ %>, canActivate: [OktaAuthGuard]<% } %> <% if(isAuth0){ %>, canActivate: [AuthGuard] <% } %> },
   { path: 'home', component: HomeComponent <% if(isOkta){ %>,  canActivate: [OktaAuthGuard]<% } %> <% if(isAuth0){ %>, canActivate: [AuthGuard] <% } %> },
-  <% if(isOkta){ %>,{ path: 'login/callback', component: OktaCallbackComponent }<% } %>
+  <% if(isOkta){ %>{ path: 'login/callback', component: OktaCallbackComponent }<% } %>
 ];
 
 @NgModule({
