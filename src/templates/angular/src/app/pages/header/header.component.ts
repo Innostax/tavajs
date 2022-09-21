@@ -59,6 +59,12 @@ export class HeaderComponent implements OnInit {
   }
   <%}%>
   <% if(isOkta) { %>
+    getInitials = (name: any) => {
+      return name?.trim().split(' ').reduce((acc: string, curr: string, index: number) => {
+        if(index === 0 || index === 1) acc = `${acc}${curr.charAt(0).toUpperCase()}`;
+        return acc;
+      }, '');
+    }
   public async signIn() : Promise<void> {
     await this._oktaAuth.signInWithRedirect().then(
       _ => this._router.navigate(['/profile'])

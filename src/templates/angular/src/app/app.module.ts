@@ -7,17 +7,18 @@ import { SharedModule } from './shared/shared.module';
 import { PagesModule } from './pages/pages.module';
 <% if(isStore){%>import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';<%}%>
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';<%}%>
 <% if(isCrudWithNode){%>import { HttpClientModule } from '@angular/common/http';<%}%>
 <% if (isOkta) { %>import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';<% } %>
 <% if(isAuth0){ %>import { AuthModule } from '@auth0/auth0-angular'; <% } %>
+<% if(isAuth0 || isOkta || isStore){ %>
+import { environment } from '../environments/environment';<% } %>
 <% if (isOkta) { %>
 const oktaAuth = new OktaAuth({
-issuer: '{Issuer URI}',
-clientId: '{Client ID }',
-redirectUri: window.location.origin+'/login/callback'});
+  issuer: environment.ANGULAR_APP_OKTA_ISSUER,
+  clientId: environment.ANGULAR_APP_OKTA_CLIENT_ID,
+  redirectUri: environment.ANGULAR_APP_API_URL});
 <% } %>
 @NgModule({
   declarations: [
@@ -36,8 +37,8 @@ redirectUri: window.location.origin+'/login/callback'});
     <% if (isOkta) { %>OktaAuthModule,<% } %>
     PagesModule,
     <% if(isAuth0) { %>AuthModule.forRoot({
-      domain: 'YOUR_DOMAIN',
-      clientId: 'YOUR_CLIENT_ID'
+      domain: environment.YOUR_DOMAIN,
+      clientId: environment.CLIENT_ID
     }),<% } %>
   ],
   providers: [
