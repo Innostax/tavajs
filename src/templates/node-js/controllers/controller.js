@@ -1,3 +1,11 @@
+<% if (isSentry) { %>
+  const Sentry = require('../utils/logger/index')
+  <% } %>
+
+  <% if (isWinston) { %>
+    const logger = require('../utils/logger/index')
+    <% } %>
+     
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% } %>
@@ -23,7 +31,8 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
-          res.json(<%= defaultRoute %>);
+          if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
+          else res.send("no user found");
         });
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
@@ -206,6 +215,19 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
      <% } %>
     
   }
+  <% if (isSentry || isWinston) { %>
+      const testlogger=(req, res, next ) => {
+        <% if (isSentry) { %>
+          Sentry.captureMessage("Sentry Working");
+          res.send('Logger test Called')
+          <% } %>
+        
+        <% if (isWinston) { %>
+          logger.info("Winston Working");
+          res.send('Logger test Called')
+          <% } %>
+      }
+  <% } %>
   
   module.exports = {
       find,
@@ -213,5 +235,6 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       patch,
       remove,
       findById,
-      removeById
+      removeById,
+      <% if (isSentry || isWinston) {%>testlogger<%} %>
     };
