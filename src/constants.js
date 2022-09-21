@@ -87,6 +87,10 @@ const JEST_DIRECTORY_PATHS = "jestDirectoryPaths";
 
 const JEST_FILE_PATHS = "jestFilePaths";
 
+const MOCHA_DIRECTORY_PATHS = "mochaDirectoryPaths";
+
+const MOCHA_FILE_PATHS = "mochaFilePaths";
+
 const DOCKER_FILE_PATHS = "dockerFilePaths";
 
 const REACT_DOCKER_FILE_PATHS = "reactDockerFilePaths";
@@ -113,6 +117,8 @@ module.exports = {
   CYPRESS_FILE_PATHS,
   JEST_DIRECTORY_PATHS,
   JEST_FILE_PATHS,
+  MOCHA_DIRECTORY_PATHS,
+  MOCHA_FILE_PATHS,
   FRAMEWORKS,
   NGRX_FILE_PATHS,
   OKTA_FILES_PATHS,

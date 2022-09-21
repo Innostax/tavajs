@@ -31,6 +31,8 @@ const {
   CYPRESS_FILE_PATHS,
   JEST_DIRECTORY_PATHS,
   JEST_FILE_PATHS,
+  MOCHA_DIRECTORY_PATHS,
+  MOCHA_FILE_PATHS,
   FRAMEWORKS,
   OKTA_FILES_PATHS,
   REACT_THEME_FILE_PATHS,
@@ -45,7 +47,7 @@ const {
   ANGULAR_CRUD_NODE_FILE_PATHS
  } = require("./constants");
 const { SCRIPTS } = require("./scripts")
-const { DEPENDENCIES } = require("./dependencies")
+const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies")
 
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
 const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
@@ -53,6 +55,7 @@ const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 const currentPath = path.join(__dirname);
 const NODE_JS = "node-js";  
 let dependencies = [];
+let devDependencies = [];
 let scripts = [];
 let filePaths = [];
 let directoryPaths = [];
@@ -101,6 +104,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isTestCasesFramework = Boolean(answers["testCaseFramework"]);
   const isCypress = answers["testCaseFramework"] === "cypress";
   const isJest = answers["testCaseFramework"] === "jest";
+  const isMocha = answers["testCaseFramework"] === "mochaJS";
   /* END: Testcases Framework */
 
   const isSMTP = emailServiceName === "smtp";
@@ -195,7 +199,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         const cypressDirectoryPaths = getFilePaths(CYPRESS_DIRECTORY_PATHS, currentPath, frontEnd.path);
         directoryPaths = [ ...directoryPaths, ...cypressDirectoryPaths];
 
-        dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
+        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.CYPRESS]
 
         scripts = [...scripts, ...SCRIPTS.CYPRESS];
       }
@@ -207,9 +211,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         const jestDirectoryPaths = getFilePaths(JEST_DIRECTORY_PATHS, currentPath, frontEnd.path);
         directoryPaths = [...directoryPaths, ...jestDirectoryPaths];
 
-        dependencies = [...dependencies, ...DEPENDENCIES.JEST]
+        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST]
 
         scripts = [...scripts, ...SCRIPTS.JEST];
+      }
+
+      if (isMocha && isFrontEndChoiceVue) {
+        const res = getFilePaths(MOCHA_FILE_PATHS, currentPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+        
+        const mochaDirectoryPaths = getFilePaths(MOCHA_DIRECTORY_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [...directoryPaths, ...mochaDirectoryPaths];
+
+        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.MOCHA]
+
+        scripts = [...scripts, ...SCRIPTS.MOCHA];
       }
     }
   }
@@ -561,7 +577,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   // These methods are used to update the dependencies and scripts respectively.
   if(frontEnd) {
-    updateProjectDependencies(frontEnd.path, dependencies);
+    updateProjectDependencies(frontEnd.path, dependencies, devDependencies);
     updateProjectScripts(frontEnd.path, scripts);
   }
 

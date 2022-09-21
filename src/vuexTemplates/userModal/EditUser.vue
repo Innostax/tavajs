@@ -29,6 +29,7 @@
 import Button from "../components/atoms/Button.vue";
 import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "EditUser",
@@ -49,9 +50,7 @@ export default {
     },
   },
   computed: {
-    selectedUser () {
-      return this.$store.getters["selectedUser"]
-    },
+    ...mapGetters(['selectedUser']),
     user () {
       return { ...this.selectedUser }
     }
