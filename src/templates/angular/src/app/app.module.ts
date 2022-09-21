@@ -12,7 +12,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';<%}%>
 <% if (isOkta) { %>import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';<% } %>
 <% if(isAuth0){ %>import { AuthModule } from '@auth0/auth0-angular'; <% } %>
-<% if(isAuth0 || OktaAuth || isStore){ %>
+<% if(isAuth0 || isOkta || isStore){ %>
 import { environment } from '../environments/environment';<% } %>
 <% if (isOkta) { %>
 const oktaAuth = new OktaAuth({
