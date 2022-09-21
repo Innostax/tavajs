@@ -1,12 +1,15 @@
 const SCRIPTS = {
   CYPRESS: [{
     name: "cypress",
-    command:
-      "npm install cypress --dev && npx cypress install && npx cypress open",
+    command: "npx cypress open",
   }],
   JEST: [{
     name: "test",
     command: "jest --silent",
+  }],
+  MOCHA: [{
+    name: "test",
+    command: "vue-cli-service test:unit",
   }],
   PRETTY: [{
     name: "pretty",
