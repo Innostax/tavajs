@@ -6,13 +6,15 @@ import { ApiService } from 'src/app/shared/services/services'
 declare let $: any;
 
 @Component({
-  selector: 'app-add-user-modal',
-  templateUrl: './add-user-modal.component.html',
-  styleUrls: ['./add-user-modal.component.css']
+  selector: 'app-user-actions-modal',
+  templateUrl: './user-actions-modal.component.html',
+  styleUrls: ['./user-actions-modal.component.css']
 })
-export class AddUserModalComponent implements OnInit, OnChanges {
+export class UserActionsModalComponent implements OnInit, OnChanges {
   @Input() data: any;
+  @Input() shouldDeleteUser: boolean = false;
   @Output() closeEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() performDeleteAction: EventEmitter<any> = new EventEmitter<any>();
   createUserForm!: FormGroup;
   userActionLabel: string = 'Add';
 
@@ -52,11 +54,22 @@ export class AddUserModalComponent implements OnInit, OnChanges {
     if(!$.isEmptyObject(this.data)) this.apiService.updateEmployee(this.data.id,userData).subscribe((res)=>{})
     else this.apiService.createEmployee(userData).subscribe((res)=>{})
     this.createUserForm.reset();
+    // To-Do: Need to update api call for get users
+    this.refreshView();
     this.closeModalRef();
+  }
+
+  deleteUserRef(data: any) {
+    this.performDeleteAction.emit(data)
+    this.createUserForm.reset();
   }
 
   closeModalRef() {
     this.closeEvent.emit();
     this.createUserForm.reset();
+  }
+
+  refreshView() {
+    window.location.reload();
   }
 }

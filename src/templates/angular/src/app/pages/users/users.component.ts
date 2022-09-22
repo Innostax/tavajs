@@ -22,6 +22,7 @@ export class UsersComponent implements OnInit {
   headers = ['name', 'username', 'email', 'actions'];
   shouldShowActions: boolean = true;
   data: any = {};
+  deleteUserInfo: boolean = false;
   <%}%>
   <% if(isCrudWithNode){%> users: any;<%}%>
   <% if(isStore){%>
@@ -55,6 +56,7 @@ export class UsersComponent implements OnInit {
   onClickAddUser() {
     $('#addUser_modal').modal('show');
     this.data = {};
+    this.deleteUserInfo = false;
   }
 
   public handleUserActions = (name: string, user: any) => {
@@ -65,28 +67,28 @@ export class UsersComponent implements OnInit {
   editUser(data: any) {
     $('#addUser_modal').modal('show');
     this.data = data;
+    this.deleteUserInfo = false;
   }
 
   deleteUser(data: any) {
-    <% if(isStore){%>this.store.dispatch(deleteUser({ id: data }));<%}%>
+    $('#addUser_modal').modal('show');
+    this.data = data;
+    this.deleteUserInfo = true;
+  }
+
+  performDeleteAction(data: any) {
+    <% if(isStore){%>this.store.dispatch(deleteUser({ id: data?.id }));<%}%>
     <% if(isCrudWithNode){%>
-      this.apiService.deleteEmployee(data).subscribe(() =>
+      this.apiService.deleteEmployee(data?.id).subscribe(() =>
         this.getUsers()
       )
     <%}%>
+    this.closeModal();
   }
 
   closeModal() {
     $('#addUser_modal').modal('hide');
     this.data = {};
-    <% if(isCrudWithNode){%>
-    // To-Do: Need to update api call for get users
-    this.refreshView()
-    <%}%>
-  }
-
-  refreshView() {
-    window.location.reload();
   }
   <%}%>
 }

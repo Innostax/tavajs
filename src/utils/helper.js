@@ -335,8 +335,8 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case NGRX_CRUD_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/ngrxTemplates/add-user-modal`,
-          destination: `${destDir}/src/app/shared/components/add-user-modal`,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
           isfile: false,
         },
       ];
@@ -369,8 +369,8 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false
         },
         {
-          source: `${srcDir}/angularApiTemplates/add-user-modal`,
-          destination: `${destDir}/src/app/shared/components/add-user-modal`,
+          source: `${srcDir}/angularApiTemplates/user-actions-modal`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
           isFile: false
         }
       ]
