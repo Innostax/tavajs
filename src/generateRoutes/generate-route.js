@@ -2,7 +2,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const fsExtra = require("fs-extra");
-// const CURR_DIR = process.cwd();
 const path = require("path");
 const { render } = require("ejs");
 const currentPath = path.join(__dirname);
@@ -20,7 +19,7 @@ const QUESTIONS = [
   },
 ];
 inquirer.prompt(QUESTIONS).then((answers) => {
-  const CURR_DIR = answers["projectDirectoryPath"] ? answers["projectDirectoryPath"] : process.cwd();
+  const CURR_DIR = answers["projectDirectoryPath"] || process.cwd();
   var newRouteName = answers["routeName"];
 
   const dbName = JSON.parse(fs.readFileSync(`${CURR_DIR}/package.json`));

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-<% if(isCrud || isCrudWithNode){%>import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';<%}%>
+<% if(isCrud || isCrudWithNode){%>import { UserActionsModalComponent } from './components/user-actions-modal/user-actions-modal.component';<%}%>
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 <% if(isStore){%>import { StoreModule } from '@ngrx/store';
 import { reducer, userFeatureKey } from '../utils/store/reducer/user.reducer';<%}%>
@@ -14,7 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
-    <% if(isCrud || isCrudWithNode){%> AddUserModalComponent, <%}%>
+    <% if(isCrud || isCrudWithNode){%> UserActionsModalComponent, <%}%>
     ButtonComponent,
     InputComponent,
     DatepickerComponent,
@@ -31,7 +31,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   exports: [
     FormsModule,
     ReactiveFormsModule,
-    <% if(isCrud || isCrudWithNode){%>AddUserModalComponent,<%}%>
+    <% if(isCrud || isCrudWithNode){%>UserActionsModalComponent,<%}%>
     ButtonComponent, 
     TableComponent, 
     InputComponent, 

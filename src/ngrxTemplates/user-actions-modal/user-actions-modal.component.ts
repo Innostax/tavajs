@@ -9,13 +9,15 @@ import { v4 as uuid } from 'uuid';
 declare let $: any;
 
 @Component({
-  selector: 'app-add-user-modal',
-  templateUrl: './add-user-modal.component.html',
-  styleUrls: ['./add-user-modal.component.css']
+  selector: 'app-user-actions-modal',
+  templateUrl: './user-actions-modal.component.html',
+  styleUrls: ['./user-actions-modal.component.css']
 })
-export class AddUserModalComponent implements OnInit, OnChanges {
+export class UserActionsModalComponent implements OnInit, OnChanges {
   @Input() data: any;
+  @Input() shouldDeleteUser: boolean = false;
   @Output() closeEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() performDeleteAction: EventEmitter<any> = new EventEmitter<any>();
   createUserForm!: FormGroup;
   user!: User;
   userActionLabel: string = 'Add';
@@ -57,6 +59,11 @@ export class AddUserModalComponent implements OnInit, OnChanges {
     else this.store.dispatch(updateUser({user: userData}))
     this.createUserForm.reset();
     this.closeModalRef();
+  }
+
+  deleteUserRef(data: any) {
+    this.performDeleteAction.emit(data)
+    this.createUserForm.reset();
   }
 
   closeModalRef() {

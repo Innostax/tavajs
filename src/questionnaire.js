@@ -1,3 +1,4 @@
+const fs = require('fs');
 module.exports = [
   {
     name: "projectName",
@@ -13,9 +14,14 @@ module.exports = [
     name: "projectDirectoryPath",
     type: "input",
     message: "Enter destination folder path?",
+    validate: function(input) {
+      if(fs.existsSync(input)) return true;
+      else
+        return "Directory not found.";
+  },
     when: (answers) => {
       return answers.projectName;
-    },
+    },  
   },
   {
     name: "managerChoice",
@@ -83,8 +89,8 @@ module.exports = [
       { name: "MochaJS", value: "mochaJS" },
       { name: "Jest", value: "jest" },
       { name: "Jasmine", value: "jasmine" },
-      { name: "Karma", value: "karma" },
-      { name: "Puppeteer (Node Library)", value: "puppeteer" },
+      // { name: "Karma", value: "karma" }, // Test Framework Runner
+      { name: "Puppeteer (Node Library)", value: "puppeteer" }, 
       { name: "NightwatchJS", value: "nightwatchJS" },
       { name: "Cypress", value: "cypress" },
       { name: "None", value: false },
@@ -352,7 +358,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "react" || answers.backEnd;
+      return answers.frontEndChoice || answers.backEnd;
     },
   },
 ];

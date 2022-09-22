@@ -18,9 +18,7 @@ const Home = () => {
 			setUserInfo(null)
 		} else {
 			setUserInfo(authState.idToken.claims)
-			oktaAuth.getUser().then((info) => {
-				setUserInfo(info)
-			})
+			oktaAuth.getUser().then((info) => setUserInfo(info))
 		}
 	}, [authState, oktaAuth])
 

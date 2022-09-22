@@ -3,12 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,<% if(isOkta){ %>
+  production: false,
+  <% if(isOkta){ %>
   ANGULAR_APP_API_URL: 'Backend API URL',
   ANGULAR_APP_OKTA_ISSUER: 'https://{yourOktaDomain}/oauth2/default'
-  ANGULAR_APP_OKTA_CLIENT_ID: '{clientId}',<% } %><% if(isAuth0) { %>
+  ANGULAR_APP_OKTA_CLIENT_ID: '{clientId}',
+  <% } %>
+  <% if(isAuth0) { %>
   AUTH0_YOUR_DOMAIN: 'YOUR DOMAIN',
-  AUTH0_CLIENT_ID: 'YOUR CLIENT ID',<% } %>
+  AUTH0_CLIENT_ID: 'YOUR CLIENT ID',
+  <% } %>
 };
 
 /*

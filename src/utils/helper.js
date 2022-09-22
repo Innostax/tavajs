@@ -12,6 +12,8 @@ const {
   JEST_FILE_PATHS,
   MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
+  NIGHTWATCH_DIRECTORY_PATHS,
+  NIGHTWATCH_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NODE_JS_DOCKER_FILE_PATHS,
@@ -47,7 +49,7 @@ const createDirectoryContents = (
   isJest,
   isCypress
 ) => {
-  const CURR_DIR = currentDirectory ? currentDirectory : process.cwd();
+  const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
     if (file !== ".git") {
@@ -144,13 +146,13 @@ const updateProjectDependencies = (
 ) => {
   const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
   const packageJson = JSON.parse(packageJsonFile);
-  dependencies.forEach((each) => {
+  dependencies?.forEach((each) => {
     packageJson.dependencies = {
       ...packageJson.dependencies,
       [each.name]: each.version,
     };
   });
-  devDependencies.forEach((each) => {
+  devDependencies?.forEach((each) => {
     packageJson.devDependencies = {
       ...packageJson.devDependencies,
       [each.name]: each.version,
@@ -301,6 +303,22 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isfile: true,
         },
       ];
+    case NIGHTWATCH_DIRECTORY_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/NightwatchTests/TestScripts`,
+          destination: `${destDir}/tests/`,
+          isfile: false,
+        },
+      ];
+    case NIGHTWATCH_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/NightwatchTests/nightwatch.config.js`,
+          destination: `${destDir}/nightwatch.config.js`,
+          isfile: true,
+        },
+      ];
     case DOCKER_FILE_PATHS:
       return [
         {
@@ -339,8 +357,8 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case NGRX_CRUD_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/ngrxTemplates/add-user-modal`,
-          destination: `${destDir}/src/app/shared/components/add-user-modal`,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
           isfile: false,
         },
       ];
@@ -373,8 +391,8 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false,
         },
         {
-          source: `${srcDir}/angularApiTemplates/add-user-modal`,
-          destination: `${destDir}/src/app/shared/components/add-user-modal`,
+          source: `${srcDir}/angularApiTemplates/user-actions-modal`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
           isFile: false,
         },
       ];

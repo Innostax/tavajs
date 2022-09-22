@@ -9,7 +9,8 @@ import { User } from 'src/app/utils/store/User';<%}%>
 <% if(isCrudWithNode){%>import {ApiService} from 'src/app/shared/services/services'<%}%>
 <% if(isCrud || isCrudWithNode){%>
 declare let $: any;
-const EDIT = 'edit'
+const EDIT = 'edit';
+const DELETE = 'delete';
 <%}%>
 @Component({
   selector: 'app-users',
@@ -21,6 +22,7 @@ export class UsersComponent implements OnInit {
   headers = ['name', 'username', 'email', 'actions'];
   shouldShowActions: boolean = true;
   data: any = {};
+  deleteUserInfo: boolean = false;
   <%}%>
   <% if(isCrudWithNode){%> users: any;<%}%>
   <% if(isStore){%>
@@ -35,58 +37,58 @@ export class UsersComponent implements OnInit {
   }
 
   <% if(isCrudWithNode){%>
-  getUsers() {
-    this.apiService.getEmployees().subscribe((res: any) => 
-      this.users = res.map((each: any)=> {
-        const refactoredUserData: object = {
-          id: each.id,
-          name: each.name,
-          username: each.username,
-          email: each.email,
-        }
-        return refactoredUserData
-        }
-      )
-    )
-  }
+    getUsers() {
+      this.apiService.getEmployees().subscribe(
+        (res: any) =>
+          {
+            this.users = res.map((each: any)=> ({
+              id: each.id,
+              name: each.name,
+              username: each.username,
+              email: each.email
+            }))
+          }
+      );
+    }
   <%}%>
-  
+
   <% if(isCrud || isCrudWithNode){%>
   onClickAddUser() {
     $('#addUser_modal').modal('show');
     this.data = {};
+    this.deleteUserInfo = false;
   }
 
-  public handleUserActions = (name: any, user: any) => {
+  public handleUserActions = (name: string, user: any) => {
     if(name == EDIT) this.editUser(user)
-    else this.deleteUser(user.id)
+    if(name == DELETE) this.deleteUser(user.id)
   }
 
   editUser(data: any) {
     $('#addUser_modal').modal('show');
     this.data = data;
+    this.deleteUserInfo = false;
   }
 
   deleteUser(data: any) {
-    <% if(isStore){%>this.store.dispatch(deleteUser({ id: data }));<%}%>
+    $('#addUser_modal').modal('show');
+    this.data = data;
+    this.deleteUserInfo = true;
+  }
+
+  performDeleteAction(data: any) {
+    <% if(isStore){%>this.store.dispatch(deleteUser({ id: data?.id }));<%}%>
     <% if(isCrudWithNode){%>
-      this.apiService.deleteEmployee(data).subscribe(() =>
+      this.apiService.deleteEmployee(data?.id).subscribe(() =>
         this.getUsers()
       )
     <%}%>
+    this.closeModal();
   }
 
   closeModal() {
     $('#addUser_modal').modal('hide');
     this.data = {};
-    <% if(isCrudWithNode){%>
-    // To-Do: Need to update api call for get users
-    this.refreshView()
-    <%}%>
-  }
-
-  refreshView() {
-    window.location.reload();
   }
   <%}%>
 }
