@@ -47,7 +47,7 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 	<% if(isStore) {%><li><a href="#ngrx"> Ngrx Service</a></li><%}%>
 	<% if(isThemeProvider) {%><li><a href="#theme"> Theme Service</a></li><%}%>
 	<% if (isSMTP) {%><li><a href="#smtp">SMTP email service</a></li><%}%>
-	<% if(backEndName) {%>
+	<% if(nodeName) {%>
 	<% if (dbName === 'postgres') {%><li><a href="#postgres">POSTGRES db service</a></li><%}%>
 	<% if (dbName === 'mysql') {%><li><a href="#mysql">MYSQL db service</a></li><%}%>
 	<% if (dbName === 'mongoose') {%><li><a href="#mongoose">MONGOOSE db service</a></li><%}%>
@@ -96,7 +96,7 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 </p>
 
 ## How to run created project:
-<% if(backEndName) {%>
+<% if(nodeName) {%>
 
 Use `npm start` inside <%= frontEndName %> directory to execute the template.
 The command is defined in `package.json`, an example of which is below.
@@ -106,7 +106,7 @@ The command is defined in `package.json`, an example of which is below.
 	"start": "ng serve"
 }
 ```
-Use `npm start` inside <%= backEndName %> directory to execute the backend.
+Use `npm start` inside <%= nodeName %> directory to execute the backend.
 
 The command is defined in `package.json`, an example of which is below.
 
@@ -129,8 +129,8 @@ The command is defined in `package.json`, an example of which is below.
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- Auth0  ----------------------------------------------------->
 <% if(isAuth0) {%>
+<!----------------------------- Auth0  ----------------------------------------->
 <div id="auth0"></div>
 
 ## Auth0 Authentication Service
@@ -140,8 +140,8 @@ Auth0 is an easy to implement, adaptable authentication and authorization platfo
 ### Configure environment variables for Auth0
 Before running the app, you must update environment variables values in `enviroment.ts` file.
 
-<% if(backEndName) {%>
-Inside `enviroment.ts` file in <%= backEndName %> directory update environment variables:
+<% if(nodeName) {%>
+Inside `enviroment.ts` file in <%= nodeName %> directory update environment variables:
 
 ```
 AUTH_ISSUER=Enter your issuer
@@ -166,8 +166,8 @@ YOUR_DOMAIN = your Auth0 Domain
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- Okta  ----------------------------------------------------->
 <% if(isOkta) {%>
+<!----------------------------------- Okta -------------------------------------------->
 <div id="okta"></div>
 
 ## Okta Authentication Service
@@ -187,8 +187,8 @@ ANGULAR_APP_API_URLs: API_URLs
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- Ngrx  ----------------------------------------------------->
 <% if(isStore) {%>
+<!--------------------------------- Ngrx ------------------------------------------------>
 <div id="ngrx"></div>
 
 ## Ngrx
@@ -209,8 +209,8 @@ Important Links: [Docs][Ngrx-docs], [Store][Ngrx-store], [Effect][Ngrx-effect]
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- Theme Provider  ----------------------------------------------------->
 <% if(isThemeProvider) {%>
+<!-------------------------- Theme Provider -------------------------------------------->
 <div id="theme"></div>
 
 ## Light and dark mode
@@ -243,8 +243,8 @@ A VueJs-based switch to change style of page from Light to Dark or vice versa.
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- Email service  ----------------------------------------------------->
 <% if(isSMTP) {%>
+<!---------------------------------- Email service ------------------------------------------->
 <div id='smtp'></div>
 
 ## Email Services:
@@ -268,8 +268,8 @@ Add recipient's email id in `recipients` object inside `mailObj` data property i
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- Postgres  ----------------------------------------------------->
 <div id='postgres'></div>
+<!-------------------------------- Postgres ------------------------------------------->
 <% if(dbName === 'postgres') {%>
 
 ## Postgres Database Service
@@ -287,8 +287,8 @@ Update `username` and `password` for `DATABASE_URL` environment variable.
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- MongoDB ----------------------------------------------------->
 <div id='mongoose'></div>
+<!--------------------------------- MongoDB -------------------------------------------->
 <% if(dbName === 'mongoose') {%>
 
 ## Mongoose Database Service
@@ -305,8 +305,8 @@ DATABASE_URL=mongodb://localhost:27017/admin
 <p align="right">(<a href="#features">back to features</a>)</p>
 <%}%>
 
-<!----------------------------------------------------- My Sql  ----------------------------------------------------->
 <div id='mysql'></div>
+<!------------------------------------- My Sql  ----------------------------------------->
 <% if(dbName === 'mysql') {%>
 
 ## MYSQL Database Service
