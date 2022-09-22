@@ -358,7 +358,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "react" || answers.backEnd;
+      return answers.frontEndChoice || answers.backEnd;
     },
   },
 ];
