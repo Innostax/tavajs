@@ -5,14 +5,16 @@
 <% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
 <% if(isCrudWithNode||isCrud) {%>import AddUser from './AddUser';<%}%>
-<% if(isCrudWithNode||isCrud) {%>import DeleteConfirmationModal from '../../components/organisms/DeleteConfirmationModal';<%}%>
+<% if((isCrudWithNode||isCrud) && isMaterialUI) {%>import DeleteConfirmationModal from '../../components/organisms/DeleteConfirmationModal';<%}%>
+<% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>import DeleteConfirmationModal from './DeleteConfirmationModal';<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%> import Table from '../../components/organisms/Table';<%}%>
 <% if(isCrud ||isCrudWithNode) {%>import { actions } from './users.reducer';
 
 const {setSelectedUserModal,setSelectedUser} = actions<%}%>
 
 <% if(isCrud) {%>const {deleteUser} = actions<%}%>
-<% if(isCrudWithNode||isCrud) {%> let deleteId <%}%>
+<% if (isCrudWithNode || isCrud) {%> let deleteId
+  let username<%}%>
 
 const Users = () => {
   <% if(isStore && (isCrudWithNode||isCrud)){%> const dispatch = useDispatch();
@@ -61,7 +63,7 @@ const Users = () => {
       <%}%>
     )
 
-    const deleteFormatter= (id)=>(
+    const deleteFormatter= (id,row)=>(
       <% if(!isMaterialUI) {%>
         <>
           <Button
@@ -69,6 +71,7 @@ const Users = () => {
             size="sm"
             style={{ width: 70 }} 
             onClick={() => {
+              username = row.username
               deleteId = id
               setConfirmDelete(true)
             }}
@@ -140,6 +143,7 @@ const Users = () => {
             open={confirmDelete}
             setOpen={setConfirmDelete}
             userId={() => handleDelete(deleteId)}
+            username={username}
           />
         )}
       <%}%>

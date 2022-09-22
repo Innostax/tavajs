@@ -396,6 +396,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       const usersActionsFilePath = `${frontEnd.path}/src/screens/Users/users.actions.js`;
       fs.writeFileSync(usersActionsFilePath, usersActionsFile, "utf8");
+      
+      if (!isMaterialUI) {
+        let deleteConfirmationModalFile = readFile(
+          `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`
+        );
+        deleteConfirmationModalFile = render(deleteConfirmationModalFile, {
+          isMaterialUI,
+        });
+        const deleteConfirmationModalFilePath = `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`;
+        fs.writeFileSync(
+          deleteConfirmationModalFilePath,
+          deleteConfirmationModalFile,
+          "utf8"
+        );
+      } 
 
       if (isCrud) {
         addUserFile = readFile(`${currentPath}/reduxTemplates/userform/Adduser.js`);
