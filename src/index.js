@@ -503,7 +503,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     const res = getFilePaths(ANGULAR_CRUD_NODE_FILE_PATHS, currentPath, frontEnd.path);
     directoryPaths = [...directoryPaths, ...res];
     
-    let baseUrl = fs.readFileSync(`${currentPath}/angularApiTemplates/base-url.ts`, "utf8")
+    let baseUrl = readFile(`${currentPath}/angularApiTemplates/base-url.ts`);
     baseUrl = render(baseUrl, { defaultRoute })
     const baseUrlPath = `${frontEnd.path}/src/app/shared/base-url.ts`
     fs.writeFileSync(baseUrlPath, baseUrl, "utf8")
