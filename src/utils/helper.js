@@ -137,7 +137,7 @@ const createDirectoryContents = (
 };
 
 //to update package.json------------------------------------------------>
-const updateProjectDependencies = (path, dependencies= [], devDependencies = []) => {
+const updateProjectDependencies = (path, dependencies, devDependencies) => {
   const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
   const packageJson = JSON.parse(packageJsonFile);
   dependencies.forEach((each) => {
