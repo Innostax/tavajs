@@ -31,8 +31,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
-          if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
-          else res.send("no user found");
+          res.json(<%= defaultRoute %>);
         });
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
@@ -129,8 +128,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
             id:req.params.id
         }
     }).then((<%= defaultRoute %>) => {
-      if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
-      else res.send("no user found");
+      res.json(<%= defaultRoute %>);
     });
     <%}%>
         <%}%>
@@ -206,8 +204,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => {
-        if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
-        else res.send("no user found");
+        res.json(<%= defaultRoute %>);
       });
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  

@@ -12,6 +12,8 @@ const {
   JEST_FILE_PATHS,
   MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
+  NIGHTWATCH_DIRECTORY_PATHS,
+  NIGHTWATCH_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NODE_JS_DOCKER_FILE_PATHS,
@@ -140,13 +142,13 @@ const createDirectoryContents = (
 const updateProjectDependencies = (path, dependencies, devDependencies) => {
   const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
   const packageJson = JSON.parse(packageJsonFile);
-  dependencies.forEach((each) => {
+  dependencies?.forEach((each) => {
       packageJson.dependencies = {
         ...packageJson.dependencies,
         [each.name]: each.version,
       }
     });
-  devDependencies.forEach((each) => {
+  devDependencies?.forEach((each) => {
       packageJson.devDependencies = {
         ...packageJson.devDependencies,
         [each.name]: each.version,
@@ -294,6 +296,22 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/uiTests/MochaTests/.eslintrc.js`,
           destination: `${destDir}/.eslintrc.js`,
+          isfile: true,
+        },
+      ];
+    case NIGHTWATCH_DIRECTORY_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/NightwatchTests/TestScripts`,
+          destination: `${destDir}/tests/`,
+          isfile: false,
+        },
+      ];
+    case NIGHTWATCH_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/uiTests/NightwatchTests/nightwatch.config.js`,
+          destination: `${destDir}/nightwatch.config.js`,
           isfile: true,
         },
       ];

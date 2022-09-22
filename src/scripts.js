@@ -11,6 +11,10 @@ const SCRIPTS = {
     name: "test",
     command: "vue-cli-service test:unit",
   }],
+  NIGHTWATCH: [{
+    name: "test",
+    command: "vue-cli-service test:e2e",
+  }],
   PRETTY: [{
     name: "pretty",
     command:
