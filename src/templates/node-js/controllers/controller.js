@@ -2,9 +2,9 @@
   const Sentry = require('../utils/logger')
   <% } %>
 
-  <% if (isWinston) { %>
-    const logger = require('../utils/logger')
-    <% } %>
+<% if (isWinston) { %>
+  const logger = require('../utils/logger')
+  <% } %>
      
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
