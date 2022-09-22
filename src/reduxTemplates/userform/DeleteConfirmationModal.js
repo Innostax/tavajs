@@ -3,7 +3,7 @@ import ViceModal from "../../components/organisms/Modal";
 
 const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
   const footer = (
-    <>
+    <div className="w-100">
       <Button
         variant="danger"
         type="submit"
@@ -11,17 +11,17 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
           userId();
           setOpen(false);
         }}
+        className="ml-85"
         active
-        style={{ marginLeft: "80%" }}
       >
         Confirm
       </Button>
-    </>
+    </div>
   );
   return (
     <ViceModal
       show={open}
-      title={"Delete User?"}
+      title="Delete User?"
       handleClose={setOpen}
       footer={footer}
     >

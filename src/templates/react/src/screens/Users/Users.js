@@ -41,7 +41,7 @@ const Users = () => {
     const editFormatter = (id, row) => (
       <% if(!isMaterialUI) {%>
         <>
-          <Button size="sm" variant="outline-primary" style={{ width: 70 }} onClick={() => {
+          <Button size="sm" variant="outline-primary" className='w-80' onClick={() => {
             handleShow()
             dispatch(setSelectedUserModal({id}))
             dispatch(setSelectedUser(row))
@@ -69,7 +69,7 @@ const Users = () => {
           <Button
             variant="outline-danger"
             size="sm"
-            style={{ width: 70 }} 
+            className='w-80'
             onClick={() => {
               username = row.username
               deleteId = id
