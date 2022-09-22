@@ -1,18 +1,17 @@
 const SCRIPTS = {
-  CYPRESS: [{
-    name: "cypress",
-    command:
-      "npm install cypress --dev && npx cypress install && npx cypress open",
-  }],
-  JEST: [{
-    name: "test",
-    command: "jest --silent",
-  }],
-  PRETTY: [{
-    name: "pretty",
-    command:
-      'npx prettier --write "src/**/*.js" "src/**/*.jsx" "src/**/*.css"',
-  }],
+  CYPRESS: [
+    {
+      name: "cypress",
+      command:
+        "npm install cypress --dev && npx cypress install && npx cypress open",
+    },
+  ],
+  JEST: [
+    {
+      name: "test",
+      command: "jest --silent",
+    },
+  ],
 };
 
 module.exports = {

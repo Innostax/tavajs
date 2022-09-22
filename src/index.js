@@ -22,7 +22,7 @@ const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
 const questionnaire = require("./questionnaire");
-const { 
+const {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
   AUTHENTICATIONS,
@@ -38,20 +38,20 @@ const {
   VUE_THEME_FILE_PATHS,
   DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
-  NGRX_FILE_PATHS,  
+  NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
-  ANGULAR_CRUD_NODE_FILE_PATHS
- } = require("./constants");
-const { SCRIPTS } = require("./scripts")
-const { DEPENDENCIES } = require("./dependencies")
+  ANGULAR_CRUD_NODE_FILE_PATHS,
+} = require("./constants");
+const { SCRIPTS } = require("./scripts");
+const { DEPENDENCIES } = require("./dependencies");
 
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
 const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 
 const currentPath = path.join(__dirname);
-const NODE_JS = "node-js";  
+const NODE_JS = "node-js";
 let dependencies = [];
 let scripts = [];
 let filePaths = [];
@@ -77,16 +77,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     vueNodeCrud,
     theme,
     projectDirectoryPath,
-    angularNodeCrud
+    angularNodeCrud,
   } = answers;
 
-  // Project Directory Path 
+  // Project Directory Path
   const CURR_DIR = projectDirectoryPath ? projectDirectoryPath : process.cwd();
   const isStore = Boolean(store);
   const isThemeProvider = Boolean(theme == "light-dark-mode");
   const isCrud = Boolean(CRUD);
   const isDocker = Boolean(dockerService);
-  const isCrudWithNode = Boolean(reactNodeCrud || vueNodeCrud || angularNodeCrud);
+  const isCrudWithNode = Boolean(
+    reactNodeCrud || vueNodeCrud || angularNodeCrud
+  );
   const isMaterialUI = materialuiChoice;
 
   const isAuth0 = authenticationChoice === AUTH0;
@@ -129,7 +131,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       if (isMaterialUI) {
         dependencies = [...dependencies, ...DEPENDENCIES.MATERIALUI];
       } else {
-        dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP]
+        dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
       }
     }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
@@ -169,19 +171,31 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------- For Themes integration ---------------------------------->
     if (isThemeProvider && isFrontEndChoiceReact) {
-      const res = getFilePaths(REACT_THEME_FILE_PATHS, currentPath, frontEnd.path);
+      const res = getFilePaths(
+        REACT_THEME_FILE_PATHS,
+        currentPath,
+        frontEnd.path
+      );
       filePaths = [...filePaths, ...res];
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isThemeProvider && isFrontEndChoiceVue) {
-      const res = getFilePaths(VUE_THEME_FILE_PATHS, currentPath, frontEnd.path);
+      const res = getFilePaths(
+        VUE_THEME_FILE_PATHS,
+        currentPath,
+        frontEnd.path
+      );
       filePaths = [...filePaths, ...res];
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
     if (isThemeProvider && isFrontEndChoiceAngular) {
-      const res = getFilePaths(ANGULAR_THEME_FILE_PATHS, currentPath, frontEnd.path);
+      const res = getFilePaths(
+        ANGULAR_THEME_FILE_PATHS,
+        currentPath,
+        frontEnd.path
+      );
       filePaths = [...filePaths, ...res];
     }
 
@@ -189,13 +203,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (isTestCasesFramework) {
       // CYPRESSS
       if (isCypress) {
-        const res = getFilePaths(CYPRESS_FILE_PATHS, currentPath, frontEnd.path);
+        const res = getFilePaths(
+          CYPRESS_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
         filePaths = [...filePaths, ...res];
 
-        const cypressDirectoryPaths = getFilePaths(CYPRESS_DIRECTORY_PATHS, currentPath, frontEnd.path);
-        directoryPaths = [ ...directoryPaths, ...cypressDirectoryPaths];
+        const cypressDirectoryPaths = getFilePaths(
+          CYPRESS_DIRECTORY_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        directoryPaths = [...directoryPaths, ...cypressDirectoryPaths];
 
-        dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS]
+        dependencies = [...dependencies, ...DEPENDENCIES.CYPRESS];
 
         scripts = [...scripts, ...SCRIPTS.CYPRESS];
       }
@@ -203,11 +225,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       if (isJest && isFrontEndChoiceVue) {
         const res = getFilePaths(JEST_FILE_PATHS, currentPath, frontEnd.path);
         filePaths = [...filePaths, ...res];
-        
-        const jestDirectoryPaths = getFilePaths(JEST_DIRECTORY_PATHS, currentPath, frontEnd.path);
+
+        const jestDirectoryPaths = getFilePaths(
+          JEST_DIRECTORY_PATHS,
+          currentPath,
+          frontEnd.path
+        );
         directoryPaths = [...directoryPaths, ...jestDirectoryPaths];
 
-        dependencies = [...dependencies, ...DEPENDENCIES.JEST]
+        dependencies = [...dependencies, ...DEPENDENCIES.JEST];
 
         scripts = [...scripts, ...SCRIPTS.JEST];
       }
@@ -259,7 +285,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         newName: `${defaultRoute}.controllers.js`,
       },
     ];
-    
+
     ROUTE_FILES.forEach((each) =>
       fs.rename(
         `${backEnd.path}/${each.folder}/${each.oldName}`,
@@ -337,7 +363,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
-    let res =  [];
+    let res = [];
 
     if (frontEnd?.choice === REACT && backEnd?.choice === NODE_JS) {
       let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
@@ -349,10 +375,14 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       const dockerFilePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
-      res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
+      res = getFilePaths(
+        DOCKER_FILE_PATHS,
+        currentPath,
+        frontEnd.path,
+        backEnd.path
+      );
       filePaths = [...filePaths, ...res];
-    }
-    else if(frontEnd?.choice === REACT || backEnd?.choice === NODE_JS) 
+    } else if (frontEnd?.choice === REACT || backEnd?.choice === NODE_JS)
       res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
 
     filePaths = [...filePaths, ...res];
@@ -366,15 +396,20 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       let addUserFilePath;
 
       dependencies = [...dependencies, ...DEPENDENCIES.REACT];
-      
+
       REDUX_FILES.forEach((each) => {
-        filePaths = [...filePaths, {
-          source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`
-        }]
+        filePaths = [
+          ...filePaths,
+          {
+            source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+            destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+          },
+        ];
       });
 
-      let usersActionsFile = readFile(`${currentPath}/reduxTemplates/demoUser/users.actions.js`);
+      let usersActionsFile = readFile(
+        `${currentPath}/reduxTemplates/demoUser/users.actions.js`
+      );
       usersActionsFile = render(usersActionsFile, {
         defaultRoute,
       });
@@ -382,7 +417,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(usersActionsFilePath, usersActionsFile, "utf8");
 
       if (isCrud) {
-        addUserFile = readFile(`${currentPath}/reduxTemplates/userform/Adduser.js`);
+        addUserFile = readFile(
+          `${currentPath}/reduxTemplates/userform/Adduser.js`
+        );
         addUserFile = render(addUserFile, {
           isMaterialUI,
           isCrud,
@@ -390,16 +427,21 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         });
       }
       if (isCrudWithNode) {
-        addUserFile = readFile(`${currentPath}/reduxTemplates/userform/AdduserForm.js`);
+        addUserFile = readFile(
+          `${currentPath}/reduxTemplates/userform/AdduserForm.js`
+        );
         addUserFile = render(addUserFile, { isMaterialUI });
-        
       }
 
-      if(isCrud || isCrudWithNode) {
+      if (isCrud || isCrudWithNode) {
         addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
         fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
       }
-      const res = getFilePaths(INFRASTRUCTURE_FILE_PATHS, currentPath, frontEnd.path);
+      const res = getFilePaths(
+        INFRASTRUCTURE_FILE_PATHS,
+        currentPath,
+        frontEnd.path
+      );
       directoryPaths = [...directoryPaths, ...res];
     }
 
@@ -431,8 +473,16 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       const frontEndStorePath = `${projectName}/src/store`;
       const frontEndUserModalPath = `${projectName}/src/userModal`;
 
-      fs.mkdirSync(backEnd ? `${CURR_DIR}/${backEndStorePath}` : `${CURR_DIR}/${frontEndStorePath}`);
-      fs.mkdirSync(backEnd ? `${CURR_DIR}/${backEndUserModalPath}` : `${CURR_DIR}/${frontEndUserModalPath}`);
+      fs.mkdirSync(
+        backEnd
+          ? `${CURR_DIR}/${backEndStorePath}`
+          : `${CURR_DIR}/${frontEndStorePath}`
+      );
+      fs.mkdirSync(
+        backEnd
+          ? `${CURR_DIR}/${backEndUserModalPath}`
+          : `${CURR_DIR}/${frontEndUserModalPath}`
+      );
 
       const projectPaths = backEnd
         ? [backEndStorePath, backEndUserModalPath]
@@ -471,12 +521,16 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === ANGULAR ) {
+    if (frontEnd?.choice === ANGULAR) {
       const res = getFilePaths(NGRX_FILE_PATHS, currentPath, frontEnd.path);
       directoryPaths = [...directoryPaths, ...res];
 
-      if(isCrud) {
-        const res = getFilePaths(NGRX_CRUD_FILE_PATHS, currentPath, frontEnd.path);
+      if (isCrud) {
+        const res = getFilePaths(
+          NGRX_CRUD_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
         directoryPaths = [...directoryPaths, ...res];
       }
     }
@@ -484,31 +538,40 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   //<-------------- For angular node crud ------------------->
   if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
-    const res = getFilePaths(ANGULAR_CRUD_NODE_FILE_PATHS, currentPath, frontEnd.path);
+    const res = getFilePaths(
+      ANGULAR_CRUD_NODE_FILE_PATHS,
+      currentPath,
+      frontEnd.path
+    );
     directoryPaths = [...directoryPaths, ...res];
-    
-    let baseUrl = fs.readFileSync(`${currentPath}/angularApiTemplates/base-url.ts`, "utf8")
-    baseUrl = render(baseUrl, { defaultRoute })
-    const baseUrlPath = `${frontEnd.path}/src/app/shared/base-url.ts`
-    fs.writeFileSync(baseUrlPath, baseUrl, "utf8")
+
+    let baseUrl = fs.readFileSync(
+      `${currentPath}/angularApiTemplates/base-url.ts`,
+      "utf8"
+    );
+    baseUrl = render(baseUrl, { defaultRoute });
+    const baseUrlPath = `${frontEnd.path}/src/app/shared/base-url.ts`;
+    fs.writeFileSync(baseUrlPath, baseUrl, "utf8");
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
   if (answers["authenticationChoice"] === AUTH0) {
     AUTH0_FILE_PATHS.forEach((each) => {
-      let envFile = readFile(`${currentPath}/${each.srcFolder}/${each.srcFileName}`);
+      let envFile = readFile(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`
+      );
       envFile = render(envFile, { frontEndChoice });
       const envFilePath = `${frontEnd.path}/${each.destFileName}`;
       fs.writeFileSync(envFilePath, envFile, "utf8");
     });
 
     if (isFrontEndChoiceAngular) {
-      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA]
-      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_ANGULAR]
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_ANGULAR];
     }
 
     if (isFrontEndChoiceReact) {
-      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA]
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
 
       const reactSpaPath = path.join(__dirname, "authTemplates");
       let reactAuth0SPAFile = readFile(`${reactSpaPath}/react-spa.js`);
@@ -517,31 +580,37 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
     }
     if (isFrontEndChoiceVue) {
-      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE]
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
     COGNITO_FILE_PATHS.forEach((each) => {
-      filePaths = [...filePaths, {
-        source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`
-      }]
+      filePaths = [
+        ...filePaths,
+        {
+          source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+          destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+        },
+      ];
     });
 
-    copyFiles(filePaths)
+    copyFiles(filePaths);
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
-    if(isFrontEndChoiceReact) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_REACT]
-    else if(isFrontEndChoiceAngular) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR]
-    else if(isFrontEndChoiceVue) dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE]
-    
-    scripts = [...scripts, ...SCRIPTS.PRETTY];
+    if (isFrontEndChoiceReact)
+      dependencies = [...dependencies, ...DEPENDENCIES.OKTA_REACT];
+    else if (isFrontEndChoiceAngular)
+      dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR];
+    else if (isFrontEndChoiceVue)
+      dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE];
 
-    if(isFrontEndChoiceReact || isFrontEndChoiceAngular){
-      directoryPaths = [...directoryPaths, 
-      {
-        source: `${currentPath}/authTemplates/oktaTemplate`,
-        destination: `${frontEnd.path}/src/oktaFiles`
-      }];
+    if (isFrontEndChoiceReact || isFrontEndChoiceAngular) {
+      directoryPaths = [
+        ...directoryPaths,
+        {
+          source: `${currentPath}/authTemplates/oktaTemplate`,
+          destination: `${frontEnd.path}/src/oktaFiles`,
+        },
+      ];
     }
 
     OKTA_FILES_PATHS.forEach((each) => {
@@ -549,7 +618,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       //   source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
       //   destination: `${frontEnd.path}/${each.destFileName}`
       // }]
-      let envFile = readFile(`${currentPath}/${each.srcFolder}/${each.srcFileName}`);
+      let envFile = readFile(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`
+      );
       envFile = render(envFile, { frontEndChoice });
       const envFilePath = `${frontEnd.path}/${each.destFileName}`;
       fs.writeFileSync(envFilePath, envFile, "utf8");
@@ -560,7 +631,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   copyFiles(filePaths);
 
   // These methods are used to update the dependencies and scripts respectively.
-  if(frontEnd) {
+  if (frontEnd) {
     updateProjectDependencies(frontEnd.path, dependencies);
     updateProjectScripts(frontEnd.path, scripts);
   }
