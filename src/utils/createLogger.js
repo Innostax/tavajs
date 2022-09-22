@@ -2,7 +2,7 @@ const fs = require("fs");
 const { updateProjectDependencies } = require("./helper");
 const path = require("path");
 const WINSTON = "winston";
-const RAVEN = "raven";
+const SENTRY = "@sentry/node";
 
 //Function to create logger service ------------------------------------------------------------>
 function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
@@ -26,7 +26,23 @@ function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
       }
     );
   } else {
-    dependencies.push({ name: RAVEN, version: "^2.6.4" });
+    let loggerServicePath = path.join(utilpath, "utils", "logger");
+    fs.mkdirSync(loggerServicePath);
+
+    dependencies.push({ name: SENTRY, version: "^7.13.0" });
+
+    let loggerFile = fs.readFileSync(
+      loggerTemplatePath + "/" + loggerName + ".js",
+      "utf-8"
+    );
+
+    fs.writeFile(
+      loggerServicePath + "/index" + ".js",
+      loggerFile,
+      function (err) {
+        if (err) throw err;
+      }
+    );
   }
 
   updateProjectDependencies(utilpath, dependencies);
