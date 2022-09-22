@@ -29,13 +29,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content dialog_content">
       <div class="modal-body mdl_body">
-        <app-add-user-modal
+        <app-user-actions-modal
           [data]="data" 
           (closeEvent)="closeModal()" 
           [shouldDeleteUser]="deleteUserInfo"
           (performDeleteAction)="performDeleteAction($event)"
         >
-        </app-add-user-modal>
+        </app-user-actions-modal>
       </div>
     </div>
   </div>
