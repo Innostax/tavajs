@@ -21,7 +21,7 @@ const {
   VUEX_FILE_PATHS,
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
-  ANGULAR_CRUD_NODE_FILE_PATHS
+  ANGULAR_CRUD_NODE_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -86,7 +86,7 @@ const createDirectoryContents = (
             isMaterialUI,
             currentDirectory,
             isJest,
-            isCypress
+            isCypress,
           },
           (autoescape = false)
         );
@@ -139,21 +139,25 @@ const createDirectoryContents = (
 };
 
 //to update package.json------------------------------------------------>
-const updateProjectDependencies = (path, dependencies, devDependencies) => {
+const updateProjectDependencies = (
+  path,
+  dependencies = [],
+  devDependencies = []
+) => {
   const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
   const packageJson = JSON.parse(packageJsonFile);
   dependencies?.forEach((each) => {
-      packageJson.dependencies = {
-        ...packageJson.dependencies,
-        [each.name]: each.version,
-      }
-    });
+    packageJson.dependencies = {
+      ...packageJson.dependencies,
+      [each.name]: each.version,
+    };
+  });
   devDependencies?.forEach((each) => {
-      packageJson.devDependencies = {
-        ...packageJson.devDependencies,
-        [each.name]: each.version,
-      }
-    });
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      [each.name]: each.version,
+    };
+  });
   const newPackageJsonFile = JSON.stringify(packageJson);
   fs.writeFileSync(`${path}/package.json`, newPackageJsonFile, "utf-8");
 };
@@ -384,14 +388,14 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/angularApiTemplates/services`,
           destination: `${destDir}/src/app/shared/services`,
-          isFile: false
+          isFile: false,
         },
         {
           source: `${srcDir}/angularApiTemplates/user-actions-modal`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal`,
-          isFile: false
-        }
-      ]
+          isFile: false,
+        },
+      ];
     default:
       return [];
   }
