@@ -4,12 +4,16 @@ import {Router} from '@angular/router';
 import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { AuthState, OktaAuth } from '@okta/okta-auth-js';
 import { filter, map, Observable } from 'rxjs';<%}%>
-<% if(isThemeProvider){%>import { FormBuilder, FormGroup } from '@angular/forms';
-<% if(isAuth0){ %>import { AuthService } from '@auth0/auth0-angular'; <% } %>
+<% if(isThemeProvider){%>import { FormBuilder, FormGroup } from '@angular/forms';<%}%>
+<% if(isAuth0){ %>import { AuthService } from '@auth0/auth0-angular';<% } %>
 
-const DARK= 'dark';
-const LIGHT= 'light';
-const $body = document.body; <%}%>
+<% if(isThemeProvider){%>
+const DARK = 'dark';
+const LIGHT = 'light';
+const $body = document.body;
+<% } %>
+<% if(isAuth0){ %>const appURL = 'http://localhost:4200/';<% } %>
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -21,7 +25,7 @@ export class HeaderComponent implements OnInit {
   constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%> <% if(isOkta && isThemeProvider){ %>,<% } %> <% if(isOkta){ %>private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth <%}%> <% if(isAuth0){ %>,public auth: AuthService<% } %>)  { }
   <% if(isOkta) { %>public name$!: Observable<string>;
   public isAuthenticated$!: Observable<boolean>;<% } %>
-  <% if(isAuth0){ %> logoutURL = 'http://localhost:4200/'; <% } %>
+  <% if(isAuth0){ %> logoutURL = appURL; <% } %>
   ngOnInit(): void {
     <% if(isThemeProvider){%>
     this.selectedTheme()

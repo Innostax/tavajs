@@ -9,7 +9,8 @@ import { User } from 'src/app/utils/store/User';<%}%>
 <% if(isCrudWithNode){%>import {ApiService} from 'src/app/shared/services/services'<%}%>
 <% if(isCrud || isCrudWithNode){%>
 declare let $: any;
-const EDIT = 'edit'
+const EDIT = 'edit';
+const DELETE = 'delete';
 <%}%>
 @Component({
   selector: 'app-users',
@@ -36,22 +37,21 @@ export class UsersComponent implements OnInit {
   }
 
   <% if(isCrudWithNode){%>
-  getUsers() {
-    this.apiService.getEmployees().subscribe((res: any) => 
-      this.users = res.map((each: any)=> {
-        const refactoredUserData: object = {
-          id: each.id,
-          name: each.name,
-          username: each.username,
-          email: each.email,
-        }
-        return refactoredUserData
-        }
-      )
-    )
-  }
+    getUsers() {
+      this.apiService.getEmployees().subscribe(
+        (res: any) =>
+          {
+            this.users = res.map((each: any)=> ({
+              id: each.id,
+              name: each.name,
+              username: each.username,
+              email: each.email
+            }))
+          }
+      );
+    }
   <%}%>
-  
+
   <% if(isCrud || isCrudWithNode){%>
   onClickAddUser() {
     $('#addUser_modal').modal('show');
@@ -59,9 +59,9 @@ export class UsersComponent implements OnInit {
     this.deleteUserInfo = false;
   }
 
-  public handleUserActions = (name: any, user: any) => {
+  public handleUserActions = (name: string, user: any) => {
     if(name == EDIT) this.editUser(user)
-    else this.deleteUser(user)
+    if(name == DELETE) this.deleteUser(user.id)
   }
 
   editUser(data: any) {
