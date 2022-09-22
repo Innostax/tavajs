@@ -47,7 +47,7 @@ const createDirectoryContents = (
   isJest,
   isCypress
 ) => {
-  const CURR_DIR = currentDirectory ? currentDirectory : process.cwd();
+  const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
     if (file !== ".git") {

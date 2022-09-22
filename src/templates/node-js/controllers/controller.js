@@ -2,9 +2,9 @@
   const Sentry = require('../utils/logger')
   <% } %>
 
-  <% if (isWinston) { %>
-    const logger = require('../utils/logger')
-    <% } %>
+<% if (isWinston) { %>
+  const logger = require('../utils/logger')
+  <% } %>
      
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
@@ -31,8 +31,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       <% } %>
       <% if(sequelizeSelected){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
-          if (<%= defaultRoute %>.length > 0) res.json(<%= defaultRoute %>);
-          else res.send("no user found");
+          res.json(<%= defaultRoute %>);
         });
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
