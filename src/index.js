@@ -33,6 +33,8 @@ const {
   JEST_FILE_PATHS,
   MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
+  NIGHTWATCH_DIRECTORY_PATHS,
+  NIGHTWATCH_FILE_PATHS,
   FRAMEWORKS,
   OKTA_FILES_PATHS,
   REACT_THEME_FILE_PATHS,
@@ -105,6 +107,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   const isCypress = answers["testCaseFramework"] === "cypress";
   const isJest = answers["testCaseFramework"] === "jest";
   const isMocha = answers["testCaseFramework"] === "mochaJS";
+  const isNightWatch = answers["testCaseFramework"] === "nightwatchJS";
   /* END: Testcases Framework */
 
   const isSMTP = emailServiceName === "smtp";
@@ -226,6 +229,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.MOCHA]
 
         scripts = [...scripts, ...SCRIPTS.MOCHA];
+      }
+
+      if (isNightWatch && isFrontEndChoiceVue) {  
+        const res = getFilePaths(NIGHTWATCH_FILE_PATHS, currentPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+        
+        const nightwatchDirectoryPaths = getFilePaths(NIGHTWATCH_DIRECTORY_PATHS, currentPath, frontEnd.path);
+        directoryPaths = [...directoryPaths, ...nightwatchDirectoryPaths];
+
+        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.NIGHTWATCH]
+
+        scripts = [...scripts, ...SCRIPTS.NIGHTWATCH];
       }
     }
   }

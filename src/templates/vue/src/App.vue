@@ -25,7 +25,7 @@ export default {
   <% if (isAuth0) { %>
   data () {
     return {
-      isAuthenticated: this.$auth0.isAuthenticated
+      isAuthenticated: this.$auth0?.isAuthenticated
     }
   }
   <% } %>

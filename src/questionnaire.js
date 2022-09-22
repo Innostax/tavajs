@@ -89,8 +89,8 @@ module.exports = [
       { name: "MochaJS", value: "mochaJS" },
       { name: "Jest", value: "jest" },
       { name: "Jasmine", value: "jasmine" },
-      { name: "Karma", value: "karma" },
-      { name: "Puppeteer (Node Library)", value: "puppeteer" },
+      // { name: "Karma", value: "karma" }, // Test Framework Runner
+      { name: "Puppeteer (Node Library)", value: "puppeteer" }, 
       { name: "NightwatchJS", value: "nightwatchJS" },
       { name: "Cypress", value: "cypress" },
       { name: "None", value: false },

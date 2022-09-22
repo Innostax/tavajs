@@ -91,6 +91,10 @@ const MOCHA_DIRECTORY_PATHS = "mochaDirectoryPaths";
 
 const MOCHA_FILE_PATHS = "mochaFilePaths";
 
+const NIGHTWATCH_DIRECTORY_PATHS = "nightwatchDirectoryPaths";
+
+const NIGHTWATCH_FILE_PATHS = "nightwatchFilePaths";
+
 const DOCKER_FILE_PATHS = "dockerFilePaths";
 
 const REACT_DOCKER_FILE_PATHS = "reactDockerFilePaths";
@@ -119,6 +123,8 @@ module.exports = {
   JEST_FILE_PATHS,
   MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
+  NIGHTWATCH_DIRECTORY_PATHS,
+  NIGHTWATCH_FILE_PATHS,
   FRAMEWORKS,
   NGRX_FILE_PATHS,
   OKTA_FILES_PATHS,
