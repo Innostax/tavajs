@@ -370,7 +370,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     const dockerPath = path.join(__dirname, "dockerTemplate");
     let res =  [];
 
-    if (frontEnd?.choice === REACT && backEnd?.choice === NODE_JS) {
+    if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
       let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
       dockerFile = render(dockerFile, {
         frontEndName,
@@ -383,7 +383,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
       filePaths = [...filePaths, ...res];
     }
-    else if(frontEnd?.choice === REACT || backEnd?.choice === NODE_JS) 
+    else if(frontEnd?.choice || backEnd?.choice === NODE_JS) 
       res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
 
     filePaths = [...filePaths, ...res];
@@ -518,7 +518,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     const res = getFilePaths(ANGULAR_CRUD_NODE_FILE_PATHS, currentPath, frontEnd.path);
     directoryPaths = [...directoryPaths, ...res];
     
-    let baseUrl = fs.readFileSync(`${currentPath}/angularApiTemplates/base-url.ts`, "utf8")
+    let baseUrl = readFile(`${currentPath}/angularApiTemplates/base-url.ts`);
     baseUrl = render(baseUrl, { defaultRoute })
     const baseUrlPath = `${frontEnd.path}/src/app/shared/base-url.ts`
     fs.writeFileSync(baseUrlPath, baseUrl, "utf8")

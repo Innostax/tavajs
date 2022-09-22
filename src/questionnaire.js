@@ -1,3 +1,4 @@
+const fs = require('fs');
 module.exports = [
   {
     name: "projectName",
@@ -13,9 +14,14 @@ module.exports = [
     name: "projectDirectoryPath",
     type: "input",
     message: "Enter destination folder path?",
+    validate: function(input) {
+      if(fs.existsSync(input)) return true;
+      else
+        return "Directory not found.";
+  },
     when: (answers) => {
       return answers.projectName;
-    },
+    },  
   },
   {
     name: "managerChoice",
@@ -352,7 +358,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "react" || answers.backEnd;
+      return answers.frontEndChoice || answers.backEnd;
     },
   },
 ];

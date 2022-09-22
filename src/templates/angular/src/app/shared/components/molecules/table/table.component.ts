@@ -1,4 +1,5 @@
-import { Component, Input, SimpleChanges , Output, EventEmitter} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { KeyValue } from '@angular/common';
 
 declare let $: any;
 
@@ -9,12 +10,12 @@ declare let $: any;
 })
 export class TableComponent {
   @Input() usersData: any;
-  @Input() public handleEditDeleteAction!: (name:any, user:any) => void;
+  @Input() public handleEditDeleteAction!: (name: string, user: object) => void;
   @Input() shouldShowActions: boolean = false;
   @Input() headers: any;
 
   data: any;
-  public keepOriginalOrder = (a:any, b:any) => a.key;
+  public keepOriginalOrder = (a: KeyValue<number, string>) => a.key;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['usersData']?.currentValue) {
@@ -22,8 +23,8 @@ export class TableComponent {
     }
   }
 
-  handleUser(name:any, user:any) {
-    this.handleEditDeleteAction(name,user);
+  handleUser(name: string, user: object) {
+    this.handleEditDeleteAction(name, user);
   }
 
 }

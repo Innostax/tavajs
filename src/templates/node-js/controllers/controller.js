@@ -2,9 +2,9 @@
   const Sentry = require('../utils/logger')
   <% } %>
 
-  <% if (isWinston) { %>
-    const logger = require('../utils/logger')
-    <% } %>
+<% if (isWinston) { %>
+  const logger = require('../utils/logger')
+  <% } %>
      
 <% if (mongoSelected) { %>
 const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
@@ -30,9 +30,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           })
       <% } %>
       <% if(sequelizeSelected){%>
-        <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => {
-          res.json(<%= defaultRoute %>);
-        });
+        <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => res.json(<%= defaultRoute %>));
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find called');
@@ -127,9 +125,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         where:{
             id:req.params.id
         }
-    }).then((<%= defaultRoute %>) => {
-      res.json(<%= defaultRoute %>);
-    });
+    }).then((<%= defaultRoute %>) => res.json(<%= defaultRoute %>));
     <%}%>
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)) { %>  
@@ -203,9 +199,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           where:{
               id:req.params.id
           }
-      }).then((<%= defaultRoute %>) => {
-        res.json(<%= defaultRoute %>);
-      });
+      }).then((<%= defaultRoute %>) => res.json(<%= defaultRoute %>));
         <%}%>
       <% if(!(sequelizeSelected || mongoSelected)){ %>  
         res.send('find by id Called')
