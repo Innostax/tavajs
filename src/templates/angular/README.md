@@ -1,8 +1,13 @@
-<div align="center">
-<a href="[Innostax]([Innostax])"><img src="[Innostax-logo]([Innostax-logo])" alt="Logo" width="100%"></a>
+<div  align="center">
+<a  href="https://innostax.com/">  <img  src="https://i2.wp.com/innostax.com/wp-content/uploads/2021/06/Innostax_-logo_edited.png?resize=400%2C82&ssl=1"  alt="Logo"  width="100%">
+</a>
 </div>
 
+<br>
+<br>
+
 <div align="center">
+
 ![Tavajs License]([https://img.shields.io/npm/l/dev-tava](https://img.shields.io/npm/l/dev-tava))
 ![Tavajs Version]([https://img.shields.io/npm/v/dev-tava](https://img.shields.io/npm/v/dev-tava))
 ![Tavajs Release]([https://img.shields.io/badge/release-2022-orange](https://img.shields.io/badge/release-2021-orange))
@@ -10,6 +15,7 @@
 ![Tavajs Stars]([https://img.shields.io/badge/stars-4.5k-blue](https://img.shields.io/badge/stars-4.5k-blue))
 ![Tavajs Language]([https://img.shields.io/badge/javascript-70%25-green](https://img.shields.io/badge/javascript-70%25-green))
 ![Tavajs CI]([https://img.shields.io/badge/CI-passing-green](https://img.shields.io/badge/CI-passing-green))
+
 </div>
 <div id="top"></div>
 
@@ -50,9 +56,35 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 
 ### Built with:
 
- <%if(nodeName){%><a href="[https://nodejs.org](https://nodejs.org/)" target="_blank"> <img src="[Nodejs-icon]([Nodejs-icon])" alt="nodejs" width="100" height="100"/> </a><%}%> <a href="[https://angular.io/](https://angular.io/)" target="_blank"> <img src="[Angular-icon]([Angular-icon])" alt="Angular" width="100" height="100"/> </a> </a> <a href="[https://getbootstrap.com](https://getbootstrap.com/)" target="_blank"> <img src="[Bootstrap-icon]([Bootstrap-icon])" alt="bootstrap" width="100" height="100"/> </a></p>
-
+<%if(nodeName){%><a  href="https://nodejs.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg"  alt="nodejs"  width="100"  height="100"/>  </a><%}%> <%if(projectChoice === "angular"){%><a  href=[Angular-url] target="_blank">  
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" width="100" alt="Angularjs" />
+ </a> <a  href="https://getbootstrap.com"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap"  width="100"  height="100"/>  </a></p>
 ### Services:
+
+<p  align="left">
+<%if(dbName === 'mongoose'){%>
+<a  href="https://www.mongodb.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg"  alt="mongodb"  width="100"  height="100"/>  </a>  
+<%}%>
+<%if(dbName === 'mysql'){%>
+<a  href="https://www.mysql.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"  alt="mysql"  width="100"  height="100"/>  </a> 
+<%}%> 
+<%if(dbName === 'postgres'){%>
+<a  href="https://www.postgresql.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>  </a>
+<%}%>
+<a  href="https://karma-runner.github.io/latest/index.html"  target="_blank">  <img  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/karma/karma-original.svg"  alt="Karma"  width="100"  height="100"/>  </a>
+<%if(isOkta){%>
+<a  href=https://www.okta.com/ target="_blank">  
+  <img src="https://www.vectorlogo.zone/logos/okta/okta-ar21.svg" width="100" alt="okta" />
+</a>
+<%}%>
+<%if(isAuth0){%>
+<a  href=https://auth0.com/ target="_blank">  
+  <img src="https://www.vectorlogo.zone/logos/auth0/auth0-ar21.svg" width="100" alt="auth" />
+</a>
+<%}%>
+<%}%>
+
+
 
 <p align="left">
 <a href="[Docker-link]([Docker-link])" target="_blank"><img src="[Docker-icon]([Docker-link])" alt="docker" width="100" height="100"/></a>
