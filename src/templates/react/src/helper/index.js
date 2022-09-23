@@ -1,3 +1,3 @@
-export const isEmpty = (obj) =>
-	[Object, Array].includes((obj || {}).constructor) &&
-	!Object.entries(obj || {}).length
+
+import { isEmpty } from './isEmpty'
+export default isEmpty
