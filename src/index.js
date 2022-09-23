@@ -47,6 +47,7 @@ const {
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
+  ANGULAR_DOCKER_FILE_PATHS,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -406,9 +407,17 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
-    let res = [];
-
+    let res =  [];
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
+      if (frontEnd?.choice === REACT ) {
+        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+      else if(frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+
       let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
       dockerFile = render(dockerFile, {
         frontEnd,
@@ -421,15 +430,37 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       const dockerFilePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
-      res = getFilePaths(
-        DOCKER_FILE_PATHS,
-        currentPath,
-        frontEnd.path,
-        backEnd.path
-      );
+      res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
       filePaths = [...filePaths, ...res];
-    } else if (frontEnd?.choice || backEnd?.choice === NODE_JS)
-      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+
+      res = getFilePaths(DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+        filePaths = [...filePaths, ...res];
+    }
+    else if(frontEnd?.choice) {
+
+      if(frontEnd?.choice === REACT) {
+        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+      if(frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path,dockerPath);
+        filePaths = [...filePaths, ...res];
+      }
+
+      let dockerFile = readFile(`${dockerPath}/docker-compose.yml`);
+      dockerFile = render(dockerFile, {
+        backEnd,
+        projectName,
+        frontEndChoice,
+        frontEndName,
+        backEndName,
+      });
+      const dockerFilePath = `${CURR_DIR}/docker-compose.yml`;
+      fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
+    }
+    else if(backEnd?.choice === NODE_JS) {
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+      filePaths = [...filePaths, ...res];
 
       let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
       dockerFile = render(dockerFile, {
