@@ -11,7 +11,7 @@ import Modal from "../../components/organisms/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSelectedUser } from "./users.selectors";
 import { actions } from "../Users/users.reducer";
-import { isEmpty } from "../../helper/isEmpty.js";
+import  isEmpty  from "../../helper";
 
 const { setSelectedUserModal, setSelectedUser, editUser, addNewUser } = actions;
 

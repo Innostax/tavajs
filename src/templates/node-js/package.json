@@ -9,8 +9,8 @@
     "dev-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"nodemon index.js\"",
     "start": "npm run pretty && npm run eslint && npm run start-watch",
     "start-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"node index.js\"",
-    "pretty": "npx prettier --write \"**/*.js\"",
-    "prettier-watch": "onchange \"**/*.js\" -- npx prettier --write {{changed}}",
+    "pretty": "npx prettier --write \"**/*\"",
+    "prettier-watch": "onchange \"**/*\" -- npx prettier --write {{changed}}",
     "eslint": "npx eslint",
     "eslint-watch": "onchange \"**/*.js\" -- npx eslint"
   },

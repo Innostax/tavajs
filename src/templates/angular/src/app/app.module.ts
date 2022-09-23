@@ -20,6 +20,7 @@ const oktaAuth = new OktaAuth({
   clientId: environment.ANGULAR_APP_OKTA_CLIENT_ID,
   redirectUri: environment.ANGULAR_APP_API_URL});
 <% } %>
+
 @NgModule({
   declarations: [
     AppComponent

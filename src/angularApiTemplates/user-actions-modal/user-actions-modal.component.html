@@ -1,12 +1,13 @@
-<div class="users-modal">
+<div class="users-modal" *ngIf="!shouldDeleteUser">
   <div class="d-flex justify-content-between">
-    <div class="users-modal-title fs-3 fw-bold mb-3">
+    <div class="fs-3 fw-bold mb-3">
       {{ userActionLabel + ' User' }} 
     </div>
     <div>
       <app-button [class]="'btn-close'" (onClick)="closeModalRef()"></app-button>
     </div>
   </div>
+
 
   <form [formGroup]="createUserForm">
     <div class="form-group mb-3">
@@ -41,9 +42,27 @@
         [class]="'form-control'">
       </app-input>
     </div>
-    
+
     <div class="d-grid">
       <app-button [name]="userActionLabel" [class]="'btn btn-primary w-100'" type="'submit'" (onClick)="onSubmit()"></app-button>
     </div>
   </form>
+</div>
+
+
+<div class="users-modal" *ngIf="shouldDeleteUser">
+  <div class="d-flex justify-content-between">
+    <div class="users-modal-title fs-3 fw-bold mb-3">
+      Delete User? 
+    </div>
+    <div>
+      <app-button [class]="'btn-close'" (onClick)="closeModalRef()"></app-button>
+    </div>
+  </div>
+  <div>
+    Are you sure you want to delete <strong>{{data?.name}}</strong>?
+  </div>
+  <div class="d-flex justify-content-end mt-3">
+    <app-button [name]="'Confirm'" [class]="'btn btn-danger'" (onClick)="deleteUserRef(data)"></app-button>
+  </div>
 </div>

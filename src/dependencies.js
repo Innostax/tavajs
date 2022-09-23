@@ -34,6 +34,10 @@ const DEV_DEPENDENCIES = {
     { name: "@vue/test-utils", version: "^2.0.0-0" },
     { name: "chai", version: "^4.2.0" },
   ],
+  NIGHTWATCH: [
+    { name: "@vue/cli-plugin-e2e-nightwatch", version: "^4.5.19" },
+    { name: "chromedriver", version: "^105.0.1" },
+  ],
 }
 
 module.exports = {
