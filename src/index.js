@@ -408,6 +408,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
     let res =  [];
+
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
       if (frontEnd?.choice === REACT ) {
         res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
@@ -430,8 +431,6 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       });
       const dockerFilePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
       fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
-      res = getFilePaths(DOCKER_FILE_PATHS, currentPath, frontEnd.path, backEnd.path);
-      filePaths = [...filePaths, ...res];
 
       res = getFilePaths(DOCKER_FILE_PATHS, dockerPath, backEnd.path);
         filePaths = [...filePaths, ...res];

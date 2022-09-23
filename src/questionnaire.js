@@ -14,11 +14,6 @@ module.exports = [
     name: "projectDirectoryPath",
     type: "input",
     message: "Enter destination folder path?",
-    validate: function(input) {
-      if(fs.existsSync(input)) return true;
-      else
-        return "Directory not found.";
-  },
     when: (answers) => {
       return answers.projectName;
     },  
