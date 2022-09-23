@@ -45,6 +45,7 @@ const App = () => {
   <%}%>
 
   return (
+    <div id="app">
       <%if(!isThemeProvider) {%>
         <%if(isOkta) {%>
           <Router>
@@ -119,6 +120,7 @@ const App = () => {
                   
         <%}%>
     <%}%>
+  </div>
   )
 };
 

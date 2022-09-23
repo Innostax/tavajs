@@ -87,7 +87,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   } = answers;
 
   // Project Directory Path
-  const CURR_DIR = projectDirectoryPath ? projectDirectoryPath : process.cwd();
+  const CURR_DIR = projectDirectoryPath;
   const isStore = Boolean(store);
   const isThemeProvider = Boolean(theme == "light-dark-mode");
   const isCrud = Boolean(CRUD);
@@ -262,7 +262,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         scripts = [...scripts, ...SCRIPTS.MOCHA];
       }
 
-      if (isNightWatch && isFrontEndChoiceVue) {
+      if (isNightWatch) {
         const res = getFilePaths(
           NIGHTWATCH_FILE_PATHS,
           currentPath,
