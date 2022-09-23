@@ -1,6 +1,6 @@
 version: "3"
-
 services:
+<%if(backEnd){%>
   <%= backEndName %>:
     env_file: "./<%= backEndName %>/.env"
     build:
@@ -12,7 +12,18 @@ services:
   <%= frontEndName %>:
     build:
       context: ./<%= frontEndName %>
+      <%if(frontEndChoice == 'angular'){%>target: builder<%}%>
       dockerfile: ./Dockerfile
     image: "<%= frontEndName %>-frontend"
     ports:
-      - "3000:3000"
+      <% if(frontEndChoice == 'react') { %> - "3000:3000" <% } %><% if(frontEndChoice == 'vue') { %> - "8080:8080" <% } %><% if(frontEndChoice == 'angular') { %> - "4200:4200" <% } %>
+<%} else {%>
+  <%= projectName %>:
+      build:
+        context: ./<%= projectName %>
+        <%if(frontEndChoice == 'angular'){%>target: builder<%}%>
+        dockerfile: ./Dockerfile
+      image: "<%= projectName %>-frontend"
+      ports:
+        <% if(frontEndChoice == 'react') { %> - "3000:3000" <% } %><% if(frontEndChoice == 'vue') { %> - "8080:8080" <% } %><% if(frontEndChoice == 'angular') { %> - "4200:4200" <% } %>
+<%}%>
