@@ -411,6 +411,9 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
       let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
       dockerFile = render(dockerFile, {
+        frontEnd,
+        projectName,
+        frontEndChoice,
         frontEndName,
         backEndName,
         mongoSelected,
@@ -428,7 +431,20 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     } else if (frontEnd?.choice || backEnd?.choice === NODE_JS)
       res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
 
-    filePaths = [...filePaths, ...res];
+      let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
+      dockerFile = render(dockerFile, {
+        frontEnd,
+        backEnd,
+        projectName,
+        frontEndChoice,
+        frontEndName,
+        backEndName,
+        mongoSelected,
+        sequelizeSelected,
+      });
+      const dockerFilePath = `${CURR_DIR}/docker-compose.yml`;
+      fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
+    }
   }
 
   //<---------------------------- For Store integration ---------------------------------->
