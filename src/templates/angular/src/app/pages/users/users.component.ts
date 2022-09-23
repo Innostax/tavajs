@@ -61,7 +61,7 @@ export class UsersComponent implements OnInit {
 
   public handleUserActions = (name: string, user: any) => {
     if(name == EDIT) this.editUser(user)
-    if(name == DELETE) this.deleteUser(user.id)
+    if(name == DELETE) this.deleteUser(user)
   }
 
   editUser(data: any) {

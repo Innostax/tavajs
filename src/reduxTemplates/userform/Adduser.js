@@ -42,24 +42,27 @@ const AddUser = ({ show, handleClose, reset }) => {
   );
 
   const handleSubmit = () => {
-    if (isEmpty(user)) 
-    {
-      dispatch(addNewUser(formData));
-    }
-    else 
-    {
-      dispatch(editUser(formData));
-    }
-    handleClose();
+    if (
+			!isEmpty(formData.name) &&
+			!isEmpty(formData.email) &&
+			!isEmpty(formData.username)
+		) {
+			if (isEmpty(user)) {
+				dispatch(addNewUser(formData))
+			} else {
+				dispatch(editUser(formData))
+			}
+			handleClose()
+		}
   };
 
   <% if(!isMaterialUI) {%>
     const footer =
       <>
-        <Button variant='outline-primary' type='submit' onClick={handleSubmit} active>
-          {isEmpty(user) ? 'Add' : 'Edit'}
+        <Button variant='outline-primary' type='submit' onClick={handleSubmit} active className='w-80' >
+          {isEmpty(user) ? 'Add' : 'Update'}
         </Button>
-        <Button onClick={handleClose} variant="outline-primary">Cancel</Button>
+        <Button onClick={handleClose} variant="outline-danger" className='w-80'>Cancel</Button>
       </>
   <%}%>
 

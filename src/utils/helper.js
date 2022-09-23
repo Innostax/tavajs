@@ -315,8 +315,8 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case NIGHTWATCH_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/uiTests/NightwatchTests/nightwatch.config.js`,
-          destination: `${destDir}/nightwatch.config.js`,
+          source: `${srcDir}/uiTests/NightwatchTests/nightwatch.conf.js`,
+          destination: `${destDir}/nightwatch.conf.js`,
           isfile: true,
         },
       ];
