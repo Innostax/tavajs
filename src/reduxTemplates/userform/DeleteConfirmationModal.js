@@ -11,7 +11,7 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
           userId();
           setOpen(false);
         }}
-        className="ml-85"
+        className="ml-82"
         active
       >
         Confirm
