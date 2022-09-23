@@ -20,7 +20,7 @@ const SCRIPTS = {
   NIGHTWATCH: [
     {
       name: "test",
-      command: "vue-cli-service test:e2e",
+      command: "npx nightwatch",
     },
   ],
 };

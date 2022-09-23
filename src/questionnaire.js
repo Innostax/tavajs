@@ -14,6 +14,7 @@ module.exports = [
     name: "projectDirectoryPath",
     type: "input",
     message: "Enter destination folder path?",
+    default: process.cwd(),
     validate: function(input) {
       if(fs.existsSync(input)) return true;
       else
