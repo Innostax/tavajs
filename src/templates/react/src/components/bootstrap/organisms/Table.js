@@ -8,7 +8,8 @@ const Table = ({ keyField, data, columns }) => (
 				keyField={keyField}
 				data={data}
 				columns={columns}
-				noDataIndication='No Data to display'
+			    noDataIndication='No Data to display'
+			    wrapperClasses='table-responsive'
 			/>
 
 	</>
