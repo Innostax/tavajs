@@ -40,7 +40,7 @@ const {
   REACT_THEME_FILE_PATHS,
   REDUX_FILES,
   VUE_THEME_FILE_PATHS,
-  DOCKER_FILE_PATHS,
+  // DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
@@ -64,7 +64,9 @@ let scripts = [];
 let filePaths = [];
 let directoryPaths = [];
 
-inquirer.prompt(questionnaire).then(async (answers) => {
+const prompt = inquirer.createPromptModule();
+
+prompt(questionnaire).then(async (answers) => {
   const {
     projectName,
     frontEndName,

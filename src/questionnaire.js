@@ -13,7 +13,13 @@ module.exports = [
   {
     name: "projectDirectoryPath",
     type: "input",
-    message: "Enter destination folder path?",
+    message: "Which source folder path would you like?",
+    default: process.cwd(),
+    validate: function(input) {
+      if(fs.existsSync(input)) return true;
+      else
+        return "Invalid source path.";
+    },
     when: (answers) => {
       return answers.projectName;
     },  
