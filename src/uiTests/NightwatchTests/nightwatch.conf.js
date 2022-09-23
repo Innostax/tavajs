@@ -1,4 +1,4 @@
-const BASE_URL = "your BASE_URL"
+const BASE_URL = "Application's frontend base url"
 
 module.exports = {
     src_folders: ['tests'],
