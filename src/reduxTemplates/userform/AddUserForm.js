@@ -45,8 +45,8 @@ const AddUser = ({ show, handleClose, reset }) => {
   const handleSubmit = () => {
     const { _id: id } = user;
     if (
-      !isEmpty(formData.name) ||
-      !isEmpty(formData.email) ||
+      !isEmpty(formData.name) &&
+      !isEmpty(formData.email) &&
       !isEmpty(formData.username)
     ) {
       if (isEmpty(user)) {
