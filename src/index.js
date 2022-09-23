@@ -441,7 +441,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
         filePaths = [...filePaths, ...res];
       }
-      if(frontEnd?.choice === ANGULAR) {
+      else if(frontEnd?.choice === ANGULAR) {
         res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path,dockerPath);
         filePaths = [...filePaths, ...res];
       }

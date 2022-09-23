@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   <% if(isOkta){ %>
   ANGULAR_APP_API_URL: 'Backend API URL',
-  ANGULAR_APP_OKTA_ISSUER: 'https://{yourOktaDomain}/oauth2/default'
+  ANGULAR_APP_OKTA_ISSUER: 'https://{yourOktaDomain}/oauth2/default',
   ANGULAR_APP_OKTA_CLIENT_ID: '{clientId}',
   <% } %>
   <% if(isAuth0) { %>

@@ -38,8 +38,8 @@ const oktaAuth = new OktaAuth({
     <% if (isOkta) { %>OktaAuthModule,<% } %>
     PagesModule,
     <% if(isAuth0) { %>AuthModule.forRoot({
-      domain: environment.YOUR_DOMAIN,
-      clientId: environment.CLIENT_ID
+      domain: environment.AUTH0_YOUR_DOMAIN,
+      clientId: environment.AUTH0_CLIENT_ID
     }),<% } %>
   ],
   providers: [
