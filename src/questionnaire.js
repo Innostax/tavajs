@@ -67,6 +67,18 @@ module.exports = [
       return answers.frontEndChoice == "react";
     },
   },
+  {
+    name: "tailwindCssChoice",
+    type: "list",
+    message: "Which CSS Framework do you want?",
+    choices: [
+      { name: "tailwind CSS", value: true },
+      { name: "Bootstrap", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice == "angular";
+    },
+  },
   /*CSS Framework question ended here */
   {
     name: "frontEndName",

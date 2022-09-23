@@ -83,6 +83,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     theme,
     projectDirectoryPath,
     angularNodeCrud,
+    tailwindCssChoice
   } = answers;
 
   // Project Directory Path
@@ -95,6 +96,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     reactNodeCrud || vueNodeCrud || angularNodeCrud
   );
   const isMaterialUI = materialuiChoice;
+  const isTailwindCSS = tailwindCssChoice
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -141,6 +143,19 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
       }
     }
+
+    if (isFrontEndChoiceAngular) {
+      console.log("tailwindcss++++", isTailwindCSS)
+      if(isTailwindCSS) {
+        dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDCSS];
+        let baseUrl = readFile(`${currentPath}/tailwindCssTemplates/tailwind.config.js`);
+        baseUrl = render(baseUrl);
+        const baseUrlPath = `${frontEnd.path}/tailwind.config.js`;
+        fs.writeFileSync(baseUrlPath, baseUrl, "utf8");
+      } else {
+        dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
+      }
+    }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
     const templatePath = path.join(__dirname, "templates", choice);
 
@@ -173,7 +188,8 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       isMaterialUI,
       CURR_DIR,
       isJest,
-      isCypress
+      isCypress,
+      isTailwindCSS
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -313,7 +329,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
-      CURR_DIR
+      CURR_DIR,
+      isJest,
+      isCypress,
+      isTailwindCSS
     );
 
     const ROUTE_FILES = [
@@ -554,7 +573,10 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           choice,
           isThemeProvider,
           isMaterialUI,
-          CURR_DIR
+          CURR_DIR,
+          isJest,
+          isCypress,
+          isTailwindCSS
         );
       });
 
@@ -569,12 +591,17 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       directoryPaths = [...directoryPaths, ...res];
 
       if (isCrud) {
+        fs.mkdirSync(`${frontEnd.path}/src/app/shared/components/user-actions-modal`);
         const res = getFilePaths(
           NGRX_CRUD_FILE_PATHS,
           currentPath,
           frontEnd.path
         );
         directoryPaths = [...directoryPaths, ...res];
+        let userFile = readFile(`${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`);
+        userFile = render(userFile, {isTailwindCSS});
+        const userFilePath = `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`;
+        fs.writeFileSync(userFilePath, userFile, "utf8");
       }
     }
   }

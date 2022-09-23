@@ -1,3 +1,4 @@
+<% if(!isTailwindCSS){%>
 <div class="container-fluid bg-light">
   <nav class="navbar navbar-expand-lg">
     <div class="container">
@@ -65,3 +66,33 @@
     </div>
   </nav>
 </div>
+<%}%>
+
+<% if(isTailwindCSS){%>
+<div>
+  <nav class="bg-transparent relative flex flex-wrap items-center justify-between px-2 py-2">
+    <div class="container px-2 mx-auto flex flex-wrap items-center justify-between">
+      <div class="w-full relative flex justify-between lg:w-auto  px-2 lg:static lg:block lg:justify-start">
+        <a class="text-lg font-semibold leading-relaxed inline-block  py-2 whitespace-nowrap"  [routerLink]="'/'" routerLinkActive="active">
+          Made in India
+        </a>
+        <button class="text-grey cursor-pointer text-xl leading-none px-3 py-1 border border-solid-grey-500 border rounded block lg:hidden focus:outline-none" type="button" (click)="toggleNavbar()"> 
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+      <div [ngClass]="{'hidden': !showMenu, 'flex': showMenu}" class=" lg:flex lg:flex-grow content-center ">
+        <div class=" lg:flex lg:flex-grow  ">
+          <ul class="flex flex-col lg:flex-row list-none ml-2 ">
+            <li class="nav-item">
+              <a class="px-2 py-2 flex items-center  hover:opacity-75 "  [routerLink]="'/'" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="px-2 py-2 flex items-center leading-snug  hover:opacity-75" [routerLink]="'/users'" routerLinkActive="active">Users</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<%}%>

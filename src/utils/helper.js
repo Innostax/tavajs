@@ -47,7 +47,8 @@ const createDirectoryContents = (
   isMaterialUI,
   currentDirectory,
   isJest,
-  isCypress
+  isCypress,
+  isTailwindCSS
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
@@ -87,6 +88,7 @@ const createDirectoryContents = (
             currentDirectory,
             isJest,
             isCypress,
+            isTailwindCSS
           },
           (autoescape = false)
         );
@@ -130,7 +132,8 @@ const createDirectoryContents = (
             isMaterialUI,
             currentDirectory,
             isJest,
-            isCypress
+            isCypress,
+            isTailwindCSS
           );
         }
       }
@@ -357,10 +360,20 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case NGRX_CRUD_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/ngrxTemplates/user-actions-modal`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
-          isfile: false,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
+          isfile: true,
         },
+        {
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
+          isfile: true, 
+        },
+        {
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
+          isfile: true,
+        }
       ];
     case VUEX_FILE_PATHS:
       return [
