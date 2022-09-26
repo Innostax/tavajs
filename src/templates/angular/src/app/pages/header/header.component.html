@@ -61,6 +61,26 @@
             </ng-template>
           </div>
         <%}%>
+        <%if(isCognito){%>
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="profile-icon" >{{getInitials(authenticator.user.username )}}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <a class="dropdown-item" href="#" >{{ authenticator.user.username }}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">
+                <ng-container *ngIf="!!authenticator.user">
+                  <button (click)="authenticator.signOut()">Sign Out</button>
+                </ng-container>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <%}%>
       </div>
     </div>
   </nav>

@@ -1,5 +1,6 @@
 
 /* To-DO: isThemeProvider will updated once done in 'index.js:35' */
+<%if(isCognito){%>@import '~@aws-amplify/ui-angular/theme.css';<%}%>
 <% if(isThemeProvider){%>
 @import "./angular-themes/dark-theme.css";
 :root {

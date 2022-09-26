@@ -13,6 +13,12 @@ export const environment = {
   AUTH0_YOUR_DOMAIN: 'YOUR DOMAIN',
   AUTH0_CLIENT_ID: 'YOUR CLIENT ID',
   <% } %>
+  <% if(isCognito) { %>
+    cognito: {
+    userPoolId: 'User Pool ID - AWS',
+    userPoolWebClientId: 'User Pool Web Client ID - AWS',
+  },
+  <% } %>
 };
 
 /*

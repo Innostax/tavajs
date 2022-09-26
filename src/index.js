@@ -653,8 +653,10 @@ prompt(questionnaire).then(async (answers) => {
         },
       ];
     });
-
     copyFiles(filePaths);
+    if(isFrontEndChoiceAngular){
+      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
+    }
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)
