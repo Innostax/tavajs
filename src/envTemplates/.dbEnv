@@ -4,7 +4,6 @@
    PORT=3000
 <% } %>
 
-
 <% if (dbName==="postgres") { %>
 DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres
 <% } %>
@@ -12,7 +11,6 @@ DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres
 <% if (dbName==="mysql") { %>
 DATABASE_URL=mysql://username:password@localhost:3306/mydb
 <% } %>
-
 
 <% if (dbName==="mongoose") { %>
 DATABASE_URL=mongodb://localhost:27017/admin

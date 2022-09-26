@@ -15,7 +15,7 @@ function createBlobService(nodePath, blobServiceName, blobTemplatePath, backEndP
       // console.log("Blob service created successfully.");
     }
   );
-  if(blobServiceName == "azure"){
+  if (blobServiceName == "azure") {
     dependencies = [...dependencies, { name: "@azure/storage-blob", version: "^12.11.0" }]
   }
   updateProjectDependencies(nodePath, dependencies);
