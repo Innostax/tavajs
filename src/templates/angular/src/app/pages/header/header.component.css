@@ -1,5 +1,9 @@
 /* To-DO: isThemeProvider will updated once done in 'index.js:35' */
 <% if(isThemeProvider){%>
+.bg-light {
+  background-color: rgba(248, 249, 250, 1);
+}
+
 .icon-switcher {
   width: 50px;
   height: 24px;
@@ -25,8 +29,14 @@
 }
 .icon-switcher > .control ~ .bg {
   border-radius: 12px;
+  <% if(!isTailwindCSS) { %>
   width: 100%;
   height: 100%;
+  <%}%>
+  <% if(isTailwindCSS) { %>
+  width: 50px;
+  height: 25px;
+  <%}%>
   border: 1px solid #999;
   background-color: #fff;
   position: relative;
@@ -81,8 +91,18 @@
 <%}%>
 <% if(isOkta) { %>
 .profile-icon {
-  padding: 15% 15%;
+  width: 35px;
+  height: 35px;
+  display: flex;
   border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   border: 1px solid black;
 }
-<% } %>
+<% if(isTailwindCSS) { %>
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+<%}%>
+<%}%>

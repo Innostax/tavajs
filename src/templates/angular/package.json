@@ -23,7 +23,6 @@
     "@ngrx/store-devtools": "^14.3.0",
     "@popperjs/core": "^2.11.6",
     "angular-uuid": "^0.0.4",
-    "bootstrap": "^5.2.1",
     "prettier": "^2.7.1",
     "jquery": "^3.6.1",
     "rxjs": "~7.5.0",
