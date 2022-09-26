@@ -46,7 +46,7 @@
         </form>
       </template>
       <template #footer>
-        <Button type="submit" color="primary" data-bs-dismiss="modal" @submit="onSubmit" name="Add User"></Button>
+        <Button type="submit" :color="isAddButtonDisabled ? 'secondary' : 'primary'" :isDisabled="isAddButtonDisabled" data-bs-dismiss="modal" @submit="onSubmit" name="Add User"></Button>
         <Button type="button" color="outline-secondary" data-bs-dismiss="modal" name="Close" ></Button>
       </template>
     </Modal>
@@ -89,5 +89,10 @@ export default {
       this.email = emptyString;
     },
   },
+  computed: {
+    isAddButtonDisabled() {
+      return !this.email || !this.username || !this.name
+    }
+  }
 };
 </script>
