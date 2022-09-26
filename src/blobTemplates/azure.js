@@ -10,7 +10,7 @@ async function createContainer(containerName) {
   try {
     const containerClient = await blobServiceClient.getContainerClient(containerName);
     const createContainerResponse = await containerClient.create();
-    console.log(`Container ${containerName} was created successfully.`);
+    console.log(`${containerName} container created successfully.`);
     return containerClient.url;
   } catch (err) {
     console.log(err);
@@ -29,7 +29,7 @@ async function listContainers() {
 async function deleteContainer(containerName) {
   try {
     deleteContainerResponse = await blobServiceClient.deleteContainer(containerName);
-    console.log(`Deleted container ${containerName} successfully`);
+    console.log(`${containerName} container deleted successfully.`);
     return deleteContainerResponse;
   } catch (err) {
     console.log(err);
@@ -43,7 +43,7 @@ async function uploadBlob(containerName, filePath) {
     const containerClient = await blobServiceClient.getContainerClient(containerName);
     const blockBlobClient = await containerClient.getBlockBlobClient(fileName);
     const uploadBlobResponse = await blockBlobClient.uploadFile(filePath);
-    console.log(`Uploaded blob ${fileName} successfully`);
+    console.log(`${fileName} blob uploaded successfully.`);
     return uploadBlobResponse;
   } catch (err) {
     console.log(err);
@@ -66,7 +66,7 @@ async function downloadBlob(containerName, blobName, filePath) {
     const containerClient = await blobServiceClient.getContainerClient(containerName);
     const blobClient = await containerClient.getBlobClient(blobName);
     const downloadBlobResponse = await blobClient.downloadToFile(filePath);
-    console.log(`Downloaded blob ${blobName} successfully`);
+    console.log(`${blobName} blob downloaded successfully.`);
     return downloadBlobResponse;
   } catch (err) {
     console.log(err);
@@ -78,7 +78,7 @@ async function deleteBlob(containerName, blobName) {
     containerClient = await blobServiceClient.getContainerClient(containerName);
     const blobClient = await containerClient.getBlobClient(blobName);
     const deleteBlobResponse = await blobClient.delete();
-    console.log(`Deleted Blob ${blobName} successfully -`);
+    console.log(`${blobName} blob deleted successfully.`);
     return deleteBlobResponse;
   } catch (err) {
     console.log(err);
