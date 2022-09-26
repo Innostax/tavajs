@@ -29,17 +29,17 @@
 <table class="w-full table mt-3 text-center">
   <thead>
     <tr> 
-      <th class="uppercase" *ngFor="let head of headers">
+      <th class="p-2 uppercase border-b-2 border-gray-300" *ngFor="let head of headers">
         {{ this.head }}
       </th> 
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of data">
-      <td *ngFor="let key of user | keyvalue:keepOriginalOrder | slice:1:4">
+    <tr class="border-b-2 border-gray-300" *ngFor="let user of data">
+      <td class="p-2" *ngFor="let key of user | keyvalue:keepOriginalOrder | slice:1:4">
         {{ key.value }}
       </td>
-      <td *ngIf="shouldShowActions">
+      <td class="p-2" *ngIf="shouldShowActions">
         <span>
           <app-button [name]="'Edit'" [class]="'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'" (onClick)="handleUser('edit', user)"></app-button>
         </span>

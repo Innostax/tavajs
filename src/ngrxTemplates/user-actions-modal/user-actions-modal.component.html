@@ -70,7 +70,7 @@
 <% if(isTailwindCSS){%>
 <div class="users-modal" *ngIf="!shouldDeleteUser">
   <div class="flex mb-3 justify-between items-start rounded-t">
-    <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+    <h2 class="text-3xl font-bold text-gray-900 label-white">
       {{ userActionLabel + ' User' }}
     </h2>
     <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
@@ -81,7 +81,7 @@
   <div>
     <form [formGroup]="createUserForm">
       <div>
-        <app-label [for]="'name'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300'" [name]="'Name'"></app-label>
+        <app-label [for]="'name'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300 label-white'" [name]="'Name'"></app-label>
         <app-input 
           [registerForm]="createUserForm" 
           [name]="'name'" 
@@ -92,7 +92,7 @@
       </div>
       <br>
       <div>
-        <app-label [for]="'username'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300'" [name]="'Username'"></app-label>
+        <app-label [for]="'username'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300 label-white'" [name]="'Username'"></app-label>
         <app-input 
           [registerForm]="createUserForm" 
           [name]="'username'" 
@@ -103,7 +103,7 @@
       </div>
       <br>
       <div>
-        <app-label [for]="'emailAddress'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300'" [name]="'Email address'"></app-label>
+        <app-label [for]="'emailAddress'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300 label-white'" [name]="'Email address'"></app-label>
         <app-input 
           [registerForm]="createUserForm" 
           [name]="'email'" 
@@ -123,7 +123,7 @@
 <div class="users-modal" *ngIf="shouldDeleteUser">
   <div class="py-2">
     <div class="flex justify-between items-start rounded-t">
-      <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+      <h3 class="text-3xl font-bold text-gray-900 dark:text-white label-white">
         Delete User?
       </h3>
       <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
