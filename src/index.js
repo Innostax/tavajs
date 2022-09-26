@@ -40,13 +40,14 @@ const {
   REACT_THEME_FILE_PATHS,
   REDUX_FILES,
   VUE_THEME_FILE_PATHS,
-  DOCKER_FILE_PATHS,
+  // DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
+  ANGULAR_DOCKER_FILE_PATHS,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -63,7 +64,9 @@ let scripts = [];
 let filePaths = [];
 let directoryPaths = [];
 
-inquirer.prompt(questionnaire).then(async (answers) => {
+const prompt = inquirer.createPromptModule();
+
+prompt(questionnaire).then(async (answers) => {
   const {
     projectName,
     frontEndName,
@@ -402,25 +405,54 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
-    let res = [];
+    let res =  [];
 
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
+      if (frontEnd?.choice === REACT ) {
+        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+      else if(frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+
       handleRenderEJS(
         `${dockerPath}/db-docker-compose.yml`,
-        { frontEndName, backEndName, mongoSelected, sequelizeSelected },
+        { frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
         `${CURR_DIR}/${projectName}/docker-compose.yml`
       );
-      res = getFilePaths(
-        DOCKER_FILE_PATHS,
-        currentPath,
-        frontEnd.path,
-        backEnd.path
-      );
-      filePaths = [...filePaths, ...res];
-    } else if (frontEnd?.choice || backEnd?.choice === NODE_JS) {
-      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+      
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+        filePaths = [...filePaths, ...res];
     }
-    filePaths = [...filePaths, ...res];
+    else if(frontEnd?.choice) {
+
+      if(frontEnd?.choice === REACT) {
+        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+      else if(frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path,dockerPath);
+        filePaths = [...filePaths, ...res];
+      }
+
+      handleRenderEJS(
+        `${dockerPath}/docker-compose.yml`,
+        { backEnd,frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        `${CURR_DIR}/docker-compose.yml`
+      );
+    }
+    else if(backEnd?.choice === NODE_JS) {
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+      filePaths = [...filePaths, ...res];
+
+      handleRenderEJS(
+        `${dockerPath}/db-docker-compose.yml`,
+        { frontEnd,backEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        `${CURR_DIR}/docker-compose.yml`
+      );
+    }
   }
 
   //<---------------------------- For Store integration ---------------------------------->

@@ -10,11 +10,11 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./var/lib/postgresql/data
+      - /var/lib/postgresql/data
 
   <%= backEndName %>:
     build:
-      context: ./<%= backEndName %>
+      context: ./<%if(frontEnd){%><%= backEndName %><%}else{%><%= projectName %><%}%>
     environment:
       DB_SCHEMA: postgres
       DB_USER: postgres
@@ -26,13 +26,19 @@ services:
       - postgres
     ports:
       - "3040:3040"
+  <%if(frontEnd){%>
   <%= frontEndName %>:
     build:
       context: ./<%= frontEndName %>
+      <%if(frontEndChoice == 'angular'){%>target: builder<%}%>
       dockerfile: ./Dockerfile
     image: "<%= frontEndName %>-frontend"
     ports:
-      - "3000:3000"
+      <% if(frontEndChoice == 'react') { %> - "3000:3000" <% } %><% if(frontEndChoice == 'vue') { %> - "8080:8080" <% } %><% if(frontEndChoice == 'angular') { %> - "4200:4200" <% } %>
+    <%if(frontEndChoice == 'angular') {%>volumes:
+      - ./<%= frontEndName %>:/<%= projectName %>
+      - /<%= projectName %>/node_modules<%}%>
+  <%}%>
 
 
 <%}%>
@@ -46,7 +52,7 @@ services:
       DATABASE_URL: mongodb://mongo:27017/admin
       PORT: 3040
     build:
-      context: ./<%= backEndName %>
+      context: ./<%if(frontEnd){%><%= backEndName %><%}else{%><%= projectName %><%}%>
       dockerfile: ./Dockerfile
     image: "<%= backEndName %>-backend"
     ports:
@@ -59,12 +65,18 @@ services:
 
     ports:
       - "27017:27017"
+  <%if(frontEnd){%>
   <%= frontEndName %>:
     build:
       context: ./<%= frontEndName %>
+      <%if(frontEndChoice == 'angular'){%>target: builder<%}%>
       dockerfile: ./Dockerfile
     image: "<%= frontEndName %>-frontend"
     ports:
-      - "3000:3000"
+      <% if(frontEndChoice == 'react') { %> - "3000:3000" <% } %><% if(frontEndChoice == 'vue') { %> - "8080:8080" <% } %><% if(frontEndChoice == 'angular') { %> - "4200:4200" <% } %>
+    <%if(frontEndChoice == 'angular') {%>volumes:
+      - ./<%= frontEndName %>:/<%= projectName %>
+      - /<%= projectName %>/node_modules<%}%>
+  <%}%>
 <%}%>
 
