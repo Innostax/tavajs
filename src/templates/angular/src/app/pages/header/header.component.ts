@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   <% if(isTailwindCSS){%>showMenu: boolean = false; <%}%>
   <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
-  constructor( <% if(isThemeProvider){%> private fb: FormBuilder <%}%> <% if(isOkta && isThemeProvider){ %>,<% } %> <% if(isOkta){ %>private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth <%}%> <% if(isAuth0){ %>,public auth: AuthService<% } %>)  { }
+  constructor(<%if(isThemeProvider){%> private fb: FormBuilder, <%}%><%if(isOkta){%> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth, <%}%><%if(isAuth0){%> public auth: AuthService, <%}%> )  { }
   <% if(isOkta) { %>public name$!: Observable<string>;
   public isAuthenticated$!: Observable<boolean>;<% } %>
   <% if(isAuth0){ %> logoutURL = appURL; <% } %>

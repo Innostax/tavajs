@@ -22,7 +22,8 @@ const {
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
-  TAILWIND_CSS_FILE_PATHS
+  TAILWIND_CSS_FILE_PATHS,
+  ANGULAR_DOCKER_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -318,25 +319,32 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case NIGHTWATCH_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/uiTests/NightwatchTests/nightwatch.config.js`,
-          destination: `${destDir}/nightwatch.config.js`,
+          source: `${srcDir}/uiTests/NightwatchTests/nightwatch.conf.js`,
+          destination: `${destDir}/nightwatch.conf.js`,
           isfile: true,
         },
       ];
     case DOCKER_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/dockerTemplate/Dockerfile`,
+          source: `${srcDir}/react-docker/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
-          isfile: false,
-        },
-        {
-          source: `${srcDir}/dockerTemplate/Dockerfile`,
-          destination: `${backendDir}/Dockerfile`,
           isfile: false,
         },
       ];
     case REACT_DOCKER_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/react-docker/.dockerignore`,
+          destination: `${destDir}/.dockerignore`,
+          isfile: false
+        },
+        {
+          source: `${srcDir}/react-docker/Dockerfile`,
+          destination: `${destDir}/Dockerfile`,
+          isfile: false
+        },
+      ]
     case NODE_JS_DOCKER_FILE_PATHS:
       return [
         {
@@ -345,6 +353,19 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isfile: false,
         },
       ];
+    case ANGULAR_DOCKER_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/angular-docker/.dockerignore`,
+          destination: `${destDir}/.dockerignore`,
+          isfile: false
+        },
+        {
+          source: `${srcDir}/angular-docker/Dockerfile`,
+          destination: `${destDir}/Dockerfile`,
+          isfile: false
+        },
+      ]
     case NGRX_FILE_PATHS:
       return [
         {

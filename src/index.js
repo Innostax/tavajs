@@ -3,7 +3,6 @@ const inquirer = require("inquirer");
 const fsExtra = require("fs-extra");
 const path = require("path");
 const fs = require("fs");
-const { render } = require("ejs");
 const createBlobService = require("./utils/createBlobService");
 const createDbConn = require("./utils/createDbConn");
 const createLogger = require("./utils/createLogger");
@@ -15,12 +14,13 @@ const {
   copyDirectories,
   copyFiles,
   getFilePaths,
-  readFile,
 } = require("./utils/helper");
 const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
 const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
+const { handleRenderEJS } = require("./utils/handleRenderEJS");
+
 const questionnaire = require("./questionnaire");
 const {
   ANGULAR_THEME_FILE_PATHS,
@@ -40,14 +40,15 @@ const {
   REACT_THEME_FILE_PATHS,
   REDUX_FILES,
   VUE_THEME_FILE_PATHS,
-  DOCKER_FILE_PATHS,
+  // DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
-  TAILWIND_CSS_FILE_PATHS
+  TAILWIND_CSS_FILE_PATHS,
+  ANGULAR_DOCKER_FILE_PATHS,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -57,13 +58,16 @@ const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 
 const currentPath = path.join(__dirname);
 const NODE_JS = "node-js";
+
 let dependencies = [];
 let devDependencies = [];
 let scripts = [];
 let filePaths = [];
 let directoryPaths = [];
 
-inquirer.prompt(questionnaire).then(async (answers) => {
+const prompt = inquirer.createPromptModule();
+
+prompt(questionnaire).then(async (answers) => {
   const {
     projectName,
     frontEndName,
@@ -88,7 +92,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
   } = answers;
 
   // Project Directory Path
-  const CURR_DIR = projectDirectoryPath ? projectDirectoryPath : process.cwd();
+  const CURR_DIR = projectDirectoryPath;
   const isStore = Boolean(store);
   const isThemeProvider = Boolean(theme == "light-dark-mode");
   const isCrud = Boolean(CRUD);
@@ -280,7 +284,7 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         scripts = [...scripts, ...SCRIPTS.MOCHA];
       }
 
-      if (isNightWatch && isFrontEndChoiceVue) {
+      if (isNightWatch) {
         const res = getFilePaths(
           NIGHTWATCH_FILE_PATHS,
           currentPath,
@@ -408,58 +412,75 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
     //<---------------------------- For ENV file ---------------------------------->
     if (!isDocker) {
-      let dbEnvFile = readFile(`${currentPath}/envTemplates/.dbEnv`);
-      dbEnvFile = render(dbEnvFile, {
-        dbName,
-        frontEnd,
-        backEnd,
-        isAuth0,
-        isOkta,
-        isSMTP,
-      });
       const envFilePath =
         frontEnd?.choice && backEnd?.choice
           ? `${backEnd.path}/.env`
           : `${CURR_DIR}/${projectName}/.env`;
-      fs.writeFileSync(envFilePath, dbEnvFile, "utf8");
+      handleRenderEJS(
+        `${currentPath}/envTemplates/.dbEnv`,
+        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP },
+        envFilePath
+      );
     }
   }
 
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
-    let res = [];
+    let res =  [];
 
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
-      let dockerFile = readFile(`${dockerPath}/db-docker-compose.yml`);
-      dockerFile = render(dockerFile, {
-        frontEndName,
-        backEndName,
-        mongoSelected,
-        sequelizeSelected,
-      });
-      const dockerFilePath = `${CURR_DIR}/${projectName}/docker-compose.yml`;
-      fs.writeFileSync(dockerFilePath, dockerFile, "utf8");
-      res = getFilePaths(
-        DOCKER_FILE_PATHS,
-        currentPath,
-        frontEnd.path,
-        backEnd.path
-      );
-      filePaths = [...filePaths, ...res];
-    } else if (frontEnd?.choice || backEnd?.choice === NODE_JS)
-      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+      if (frontEnd?.choice === REACT ) {
+        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+      else if(frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
 
-    filePaths = [...filePaths, ...res];
+      handleRenderEJS(
+        `${dockerPath}/db-docker-compose.yml`,
+        { frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        `${CURR_DIR}/${projectName}/docker-compose.yml`
+      );
+      
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+        filePaths = [...filePaths, ...res];
+    }
+    else if(frontEnd?.choice) {
+
+      if(frontEnd?.choice === REACT) {
+        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+        filePaths = [...filePaths, ...res];
+      }
+      else if(frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path,dockerPath);
+        filePaths = [...filePaths, ...res];
+      }
+
+      handleRenderEJS(
+        `${dockerPath}/docker-compose.yml`,
+        { backEnd,frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        `${CURR_DIR}/docker-compose.yml`
+      );
+    }
+    else if(backEnd?.choice === NODE_JS) {
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+      filePaths = [...filePaths, ...res];
+
+      handleRenderEJS(
+        `${dockerPath}/db-docker-compose.yml`,
+        { frontEnd,backEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        `${CURR_DIR}/docker-compose.yml`
+      );
+    }
   }
 
   //<---------------------------- For Store integration ---------------------------------->
   if (isStore) {
     //<---------------------------- Redux ---------------------------------->
     if (frontEnd?.choice === REACT) {
-      let addUserFile;
-      let addUserFilePath;
-
       dependencies = [...dependencies, ...DEPENDENCIES.REACT];
 
       REDUX_FILES.forEach((each) => {
@@ -472,36 +493,35 @@ inquirer.prompt(questionnaire).then(async (answers) => {
         ];
       });
 
-      let usersActionsFile = readFile(
-        `${currentPath}/reduxTemplates/demoUser/users.actions.js`
+      handleRenderEJS(
+        `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
+        { defaultRoute },
+        `${frontEnd.path}/src/screens/Users/users.actions.js`
       );
-      usersActionsFile = render(usersActionsFile, {
-        defaultRoute,
-      });
-      const usersActionsFilePath = `${frontEnd.path}/src/screens/Users/users.actions.js`;
-      fs.writeFileSync(usersActionsFilePath, usersActionsFile, "utf8");
+
+      if (!isMaterialUI) {
+        handleRenderEJS(
+          `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
+          { isMaterialUI },
+          `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
+        );
+      }
 
       if (isCrud) {
-        addUserFile = readFile(
-          `${currentPath}/reduxTemplates/userform/Adduser.js`
+        handleRenderEJS(
+          `${currentPath}/reduxTemplates/userform/Adduser.js`,
+          { isMaterialUI, isCrud, isCrudWithNode },
+          `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
-        addUserFile = render(addUserFile, {
-          isMaterialUI,
-          isCrud,
-          isCrudWithNode,
-        });
       }
       if (isCrudWithNode) {
-        addUserFile = readFile(
-          `${currentPath}/reduxTemplates/userform/AdduserForm.js`
+        handleRenderEJS(
+          `${currentPath}/reduxTemplates/userform/AdduserForm.js`,
+          { isMaterialUI },
+          `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
-        addUserFile = render(addUserFile, { isMaterialUI });
       }
 
-      if (isCrud || isCrudWithNode) {
-        addUserFilePath = `${frontEnd.path}/src/screens/Users/AddUser.js`;
-        fs.writeFileSync(addUserFilePath, addUserFile, "utf8");
-      }
       const res = getFilePaths(
         INFRASTRUCTURE_FILE_PATHS,
         currentPath,
@@ -513,17 +533,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     //<---------------------------------MaterialUI Dark Theme----------------------->
 
     if (isThemeProvider && isFrontEndChoiceReact) {
-      let appFile = readFile(`${currentPath}/templates/react/src/App.js`);
-      appFile = render(appFile, {
-        isMaterialUI,
-        isCrud,
-        isCrudWithNode,
-        isAuth0,
-        isThemeProvider,
-        isOkta,
-      });
-      const appFilePath = `${frontEnd.path}/src/App.js`;
-      fs.writeFileSync(appFilePath, appFile, "utf8");
+      handleRenderEJS(
+        `${currentPath}/templates/react/src/App.js`,
+        {
+          isMaterialUI,
+          isCrud,
+          isCrudWithNode,
+          isAuth0,
+          isThemeProvider,
+          isOkta,
+        },
+        `${frontEnd.path}/src/App.js`
+      );
     }
 
     //<--------------------------------- Vuex ---------------------------->
@@ -601,10 +622,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
           frontEnd.path
         );
         directoryPaths = [...directoryPaths, ...res];
-        let userFile = readFile(`${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`);
-        userFile = render(userFile, {isTailwindCSS});
-        const userFilePath = `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`;
-        fs.writeFileSync(userFilePath, userFile, "utf8");
+        handleRenderEJS(
+          `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
+          {isTailwindCSS},
+          `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+        );
       }
     }
   }
@@ -618,27 +640,26 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       frontEnd.path
     );
     directoryPaths = [...directoryPaths, ...res];
-
-    let userFile = readFile(`${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`);
-    userFile = render(userFile, {isTailwindCSS});
-    const userFilePath = `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`;
-    fs.writeFileSync(userFilePath, userFile, "utf8");
-
-    let baseUrl = readFile(`${currentPath}/angularApiTemplates/base-url.ts`);
-    baseUrl = render(baseUrl, { defaultRoute });
-    const baseUrlPath = `${frontEnd.path}/src/app/shared/base-url.ts`;
-    fs.writeFileSync(baseUrlPath, baseUrl, "utf8");
+    handleRenderEJS(
+      `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
+      {isTailwindCSS},
+      `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+    );
+    handleRenderEJS(
+      `${currentPath}/angularApiTemplates/base-url.ts`,
+      { defaultRoute },
+      `${frontEnd.path}/src/app/shared/base-url.ts`
+    );
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
   if (answers["authenticationChoice"] === AUTH0) {
     AUTH0_FILE_PATHS.forEach((each) => {
-      let envFile = readFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`
+      handleRenderEJS(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        { frontEndChoice },
+        `${frontEnd.path}/${each.destFileName}`
       );
-      envFile = render(envFile, { frontEndChoice });
-      const envFilePath = `${frontEnd.path}/${each.destFileName}`;
-      fs.writeFileSync(envFilePath, envFile, "utf8");
     });
 
     if (isFrontEndChoiceAngular) {
@@ -650,10 +671,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
 
       const reactSpaPath = path.join(__dirname, "authTemplates");
-      let reactAuth0SPAFile = readFile(`${reactSpaPath}/react-spa.js`);
-      reactAuth0SPAFile = render(reactAuth0SPAFile, { isStore });
-      const auth0SPAFilePath = `${frontEnd.path}/src/react-spa.js`;
-      fs.writeFileSync(auth0SPAFilePath, reactAuth0SPAFile, "utf8");
+      handleRenderEJS(
+        `${reactSpaPath}/react-spa.js`,
+        { isStore },
+        `${frontEnd.path}/src/react-spa.js`
+      );
     }
     if (isFrontEndChoiceVue) {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
@@ -690,16 +712,11 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     OKTA_FILES_PATHS.forEach((each) => {
-      // filePaths = [...filePaths, {
-      //   source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-      //   destination: `${frontEnd.path}/${each.destFileName}`
-      // }]
-      let envFile = readFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`
+      handleRenderEJS(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        { frontEndChoice },
+        `${frontEnd.path}/${each.destFileName}`
       );
-      envFile = render(envFile, { frontEndChoice });
-      const envFilePath = `${frontEnd.path}/${each.destFileName}`;
-      fs.writeFileSync(envFilePath, envFile, "utf8");
     });
   }
 
