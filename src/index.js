@@ -105,6 +105,9 @@ prompt(questionnaire).then(async (answers) => {
   const isOkta = authenticationChoice === OKTA;
   const mongoSelected = dbName === "mongoose";
   const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
+  const mysqlSelected = dbName === "mysql";
+  const postgresSelected = dbName === "postgres";
+
   const isWinston = loggerServiceName === "winston";
   const isSentry = loggerServiceName === "sentry";
 
@@ -419,7 +422,7 @@ prompt(questionnaire).then(async (answers) => {
 
       handleRenderEJS(
         `${dockerPath}/db-docker-compose.yml`,
-        { frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        { frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,mysqlSelected,postgresSelected },
         `${CURR_DIR}/${projectName}/docker-compose.yml`
       );
       
@@ -439,7 +442,7 @@ prompt(questionnaire).then(async (answers) => {
 
       handleRenderEJS(
         `${dockerPath}/docker-compose.yml`,
-        { backEnd,frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        { backEnd,frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mysqlSelected,postgresSelected },
         `${CURR_DIR}/docker-compose.yml`
       );
     }
@@ -449,7 +452,7 @@ prompt(questionnaire).then(async (answers) => {
 
       handleRenderEJS(
         `${dockerPath}/db-docker-compose.yml`,
-        { frontEnd,backEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        { frontEnd,backEnd,projectName,frontEndChoice,frontEndName,backEndName,mysqlSelected,postgresSelected },
         `${CURR_DIR}/docker-compose.yml`
       );
     }
