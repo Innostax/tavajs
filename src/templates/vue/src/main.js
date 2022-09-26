@@ -25,6 +25,16 @@ const oktaAuth = new OktaAuth({
 })
 <% } %>
 
+<% if (isCognito) { %>
+import { Amplify } from 'aws-amplify';
+const { VUE_APP_AWS_USER_POOLS_ID, VUE_APP_AWS_USER_POOLS_WEB_CLIENT_Id }  = process.env
+Amplify.configure({
+    "aws_user_pools_id": VUE_APP_AWS_USER_POOLS_ID,
+    "aws_user_pools_web_client_id": VUE_APP_AWS_USER_POOLS_WEB_CLIENT_Id,
+});
+<% } %>
+
+
 const app = createApp(App)
 <% if(isStore){ %> .use(store)  <% } %>
 .use(router)
