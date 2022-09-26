@@ -109,7 +109,9 @@ const INFRASTRUCTURE_FILE_PATHS = "infrastructureFilePath";
 
 const NGRX_CRUD_FILE_PATHS = "ngrxCrudFilePaths";
 
-const ANGULAR_CRUD_NODE_FILE_PATHS = "angularCrudNodeFilePaths"
+const ANGULAR_CRUD_NODE_FILE_PATHS = "angularCrudNodeFilePaths";
+
+const TAILWIND_CSS_FILE_PATHS = "tailwindCssfilePaths";
 
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
@@ -138,5 +140,6 @@ module.exports = {
   INFRASTRUCTURE_FILE_PATHS,
   DATABASES,
   NGRX_CRUD_FILE_PATHS,
-  ANGULAR_CRUD_NODE_FILE_PATHS
+  ANGULAR_CRUD_NODE_FILE_PATHS,
+  TAILWIND_CSS_FILE_PATHS
 };

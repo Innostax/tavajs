@@ -69,17 +69,19 @@
 
 <% if(isTailwindCSS){%>
 <div class="users-modal" *ngIf="!shouldDeleteUser">
-  <div  class=" py-2 px-2 lg:px-2">
-      <app-button [name]="'X'" [class]="'absolute bg-transparent text-2xl font-semibold leading-none right-3 top-0 mt-4 ml-0 outline-none focus:outline-none'" (onClick)="closeModalRef()">
-      </app-button>
+  <div class="flex mb-3 justify-between items-start rounded-t">
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+      {{ userActionLabel + ' User' }}
+    </h2>
+    <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+      <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      <span class="sr-only">Close modal</span>
+    </button>
   </div>
   <div>
-    <div class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-      {{ userActionLabel + ' User' }} 
-    </div>
     <form [formGroup]="createUserForm">
       <div>
-        <app-label [for]="'name'" [class]="'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'" [name]="'Name'"></app-label>
+        <app-label [for]="'name'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300'" [name]="'Name'"></app-label>
         <app-input 
           [registerForm]="createUserForm" 
           [name]="'name'" 
@@ -90,7 +92,7 @@
       </div>
       <br>
       <div>
-        <app-label [for]="'username'" [class]="'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'" [name]="'Username'"></app-label>
+        <app-label [for]="'username'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300'" [name]="'Username'"></app-label>
         <app-input 
           [registerForm]="createUserForm" 
           [name]="'username'" 
@@ -101,7 +103,7 @@
       </div>
       <br>
       <div>
-        <app-label [for]="'emailAddress'" [class]="'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'" [name]="'Email address'"></app-label>
+        <app-label [for]="'emailAddress'" [class]="'block text-sm font-bold text-gray-900 dark:text-gray-300'" [name]="'Email address'"></app-label>
         <app-input 
           [registerForm]="createUserForm" 
           [name]="'email'" 
@@ -112,26 +114,29 @@
       </div>
       <br>
       <div>
-        <app-button [name]="userActionLabel" [class]="'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'" type="'submit'" (onClick)="onSubmit()"></app-button>
+        <app-button [name]="userActionLabel" [class]="'text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'" type="'submit'" (onClick)="onSubmit()"></app-button>
       </div>
     </form>
   </div>
 </div>
 
 <div class="users-modal" *ngIf="shouldDeleteUser">
-  <div class="flex justify-between items-start rounded-t">
-    <div class="users-modal-title fs-3 fw-bold mb-3">
-      Delete User? 
-    </div>
-    <div>
-      <app-button [class]="'btn-close'" (onClick)="closeModalRef()"></app-button>
+  <div class="py-2">
+    <div class="flex justify-between items-start rounded-t">
+      <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+        Delete User?
+      </h3>
+      <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        <span class="sr-only">Close modal</span>
+      </button>
     </div>
   </div>
   <div>
     Are you sure you want to delete <strong>{{data?.name}}</strong>?
   </div>
   <div class="grid justify-items-end mt-3">
-    <app-button [name]="'Confirm'" [class]="'btn btn-danger'" (onClick)="deleteUserRef(data)"></app-button>
+    <app-button [name]="'Confirm'" [class]="'rounded-lg border-lg bg-red-500 text-white p-2'" (onClick)="deleteUserRef(data)"></app-button>
   </div>
 </div>
 <%}%>

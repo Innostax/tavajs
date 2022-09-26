@@ -22,6 +22,7 @@ const {
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
+  TAILWIND_CSS_FILE_PATHS
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -404,11 +405,29 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false,
         },
         {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
-          isFile: false,
+          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.css`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
+          isfile: true,
         },
+        {
+          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
+          isfile: true, 
+        },
+        {
+          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
+          isfile: true,
+        }
       ];
+    case TAILWIND_CSS_FILE_PATHS: 
+      return [
+        {
+          source: `${srcDir}/tailwindCssTemplates/tailwind.config.js`,
+          destination: `${destDir}/tailwind.config.js`,
+          isFile: true,
+        },
+      ]   
     default:
       return [];
   }

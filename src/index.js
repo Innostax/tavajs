@@ -47,6 +47,7 @@ const {
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
+  TAILWIND_CSS_FILE_PATHS
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -145,13 +146,15 @@ inquirer.prompt(questionnaire).then(async (answers) => {
     }
 
     if (isFrontEndChoiceAngular) {
-      console.log("tailwindcss++++", isTailwindCSS)
       if(isTailwindCSS) {
         dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDCSS];
-        let baseUrl = readFile(`${currentPath}/tailwindCssTemplates/tailwind.config.js`);
-        baseUrl = render(baseUrl);
-        const baseUrlPath = `${frontEnd.path}/tailwind.config.js`;
-        fs.writeFileSync(baseUrlPath, baseUrl, "utf8");
+
+        const res = getFilePaths(
+          TAILWIND_CSS_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
       } else {
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
       }
@@ -608,12 +611,18 @@ inquirer.prompt(questionnaire).then(async (answers) => {
 
   //<-------------- For angular node crud ------------------->
   if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
+    fs.mkdirSync(`${frontEnd.path}/src/app/shared/components/user-actions-modal`);
     const res = getFilePaths(
       ANGULAR_CRUD_NODE_FILE_PATHS,
       currentPath,
       frontEnd.path
     );
     directoryPaths = [...directoryPaths, ...res];
+
+    let userFile = readFile(`${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`);
+    userFile = render(userFile, {isTailwindCSS});
+    const userFilePath = `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`;
+    fs.writeFileSync(userFilePath, userFile, "utf8");
 
     let baseUrl = readFile(`${currentPath}/angularApiTemplates/base-url.ts`);
     baseUrl = render(baseUrl, { defaultRoute });

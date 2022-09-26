@@ -1,4 +1,4 @@
-
+<% if(!isTailwindCSS){%>
 <table class="table mt-3 text-center">
   <thead>
     <tr> 
@@ -23,3 +23,32 @@
     </tr>
   </tbody>
 </table>
+<%}%>
+
+<% if(isTailwindCSS){%>
+<table class="w-full table mt-3 text-center">
+  <thead>
+    <tr> 
+      <th class="text-uppercase" *ngFor="let head of headers">
+        {{ this.head }}
+      </th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of data">
+      <td *ngFor="let key of user | keyvalue:keepOriginalOrder | slice:1:4">
+        {{ key.value }}
+      </td>
+      <td *ngIf="shouldShowActions">
+        <span>
+          <app-button [name]="'Edit'" [class]="'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'" (onClick)="handleUser('edit', user)"></app-button>
+        </span>
+        <span>
+          <app-button [name]="'Delete'" [class]="'bg-red-500 text-white ml-2 py-2 px-4 rounded'" (onClick)="handleUser('delete', user)"></app-button>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<%}%>
+
