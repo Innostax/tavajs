@@ -177,7 +177,8 @@ prompt(questionnaire).then(async (answers) => {
       isMaterialUI,
       CURR_DIR,
       isJest,
-      isCypress
+      isCypress,
+      blobServiceName
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -317,7 +318,10 @@ prompt(questionnaire).then(async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
-      CURR_DIR
+      CURR_DIR,
+      isJest,
+      isCypress,
+      blobServiceName,
     );
 
     const ROUTE_FILES = [
@@ -368,7 +372,7 @@ prompt(questionnaire).then(async (answers) => {
         "blobTemplates",
         blobServiceName
       );
-      createBlobService(blobServiceName, blobTemplatePath, backEnd.path);
+      createBlobService(backEnd.path, blobServiceName, blobTemplatePath, backEnd.path);
     }
 
     //<---------------------------- For Logger service ---------------------------------->
@@ -396,7 +400,7 @@ prompt(questionnaire).then(async (answers) => {
           : `${CURR_DIR}/${projectName}/.env`;
       handleRenderEJS(
         `${currentPath}/envTemplates/.dbEnv`,
-        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP },
+        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, blobServiceName },
         envFilePath
       );
     }

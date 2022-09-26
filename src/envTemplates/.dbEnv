@@ -1,6 +1,6 @@
-<% if(frontEnd && backEnd){ %>
+<% if (frontEnd && backEnd) { %>
    PORT=3040
- <% } else{ %>  
+ <% } else { %>  
    PORT=3000
 <% } %>
 
@@ -25,8 +25,12 @@ AUTH_ISSUER=Enter your issuer
 AUTH_CLIENTID=Enter your client id
 <% } %>
 
-<%if (isSMTP) {%>
+<%  if (isSMTP) { %>
 SMTP_USERNAME = Enter sender Email
 SMTP_PASSWORD = Enter your password
 SMTP_HOST = Enter Host  
-<%}%>
+<% } %>
+
+<%  if (blobServiceName == "azure") { %>
+AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
+<% } %>

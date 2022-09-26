@@ -48,7 +48,8 @@ const createDirectoryContents = (
   isMaterialUI,
   currentDirectory,
   isJest,
-  isCypress
+  isCypress,
+  blobServiceName
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
@@ -88,6 +89,7 @@ const createDirectoryContents = (
             currentDirectory,
             isJest,
             isCypress,
+            blobServiceName,
           },
           (autoescape = false)
         );
@@ -131,7 +133,8 @@ const createDirectoryContents = (
             isMaterialUI,
             currentDirectory,
             isJest,
-            isCypress
+            isCypress,
+            blobServiceName
           );
         }
       }
