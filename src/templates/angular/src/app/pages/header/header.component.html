@@ -1,3 +1,4 @@
+<% if(!isTailwindCSS){%>
 <div class="container-fluid bg-light">
   <nav class="navbar navbar-expand-lg">
     <div class="container">
@@ -16,9 +17,9 @@
         </ul>
         <!-- To-DO: isThemeProvider will updated once done in 'index.js:35' -->
         <% if(isThemeProvider){%>
-          <form class="d-flex align-items-center" role="button" [formGroup]="headerForm">
-            <div class="menu me-2">
-              <div class="icon">
+          <form role="button" [formGroup]="headerForm">
+            <div class="me-2">
+              <div class="d-flex align-items-center">
                 <label class="icon-switcher" data-js-icon-switcher="data-js-icon-switcher" (change)="handleSelection($event)">
                   <input id="themeSelector" class="control" type="checkbox" formControlName="selectedTheme"/>
                   <div class="peg"></div>
@@ -30,13 +31,15 @@
         <%}%>
         <% if(isOkta){%>
           <div class="dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button"
               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="profile-icon" *ngIf="name$ | async as name">{{getInitials(name)}}</span>
+              <span class="profile-icon">
+                <span class="position-absolute" *ngIf="name$ | async as name">{{getInitials(name)}}</span>
+              </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
               <li>
-                <a class="dropdown-item" href="#" *ngIf="name$ | async as name">{{ name }}</a>
+                <a class="dropdown-item" *ngIf="name$ | async as name">{{ name }}</a>
               </li>
               <li>
                 <a class="dropdown-item" href="#">
@@ -65,3 +68,97 @@
     </div>
   </nav>
 </div>
+<%}%>
+
+<% if(isTailwindCSS){%>
+<div>
+  <nav class="bg-light relative flex flex-wrap items-center justify-between px-2 py-2">
+    <div class="container px-2 mx-auto flex flex-wrap items-center justify-between">
+      <div class="w-full relative flex justify-between lg:w-auto  px-2 lg:static lg:block lg:justify-start">
+        <a class="text-lg font-semibold leading-relaxed inline-block  py-2 whitespace-nowrap"  [routerLink]="'/'" routerLinkActive="active">
+          Made in India
+        </a>
+        <button class="text-grey cursor-pointer text-xl leading-none px-3 py-1 border border-solid-grey-500 border rounded block lg:hidden focus:outline-none" type="button" (click)="toggleNavbar()">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+      <div [ngClass]="{'hidden': !showMenu, 'flex': showMenu}" class=" lg:flex lg:flex-grow content-center ">
+        <div class=" lg:flex lg:flex-grow  ">
+          <ul class="flex items-center flex-col lg:flex-row list-none ml-2 ">
+            <li class="nav-item">
+              <a class="px-2 py-2 flex items-center  hover:opacity-75 "  [routerLink]="'/'" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="px-2 py-2 flex items-center leading-snug  hover:opacity-75" [routerLink]="'/users'" routerLinkActive="active">Users</a>
+            </li>
+          </ul>
+        </div>
+        <% if(isThemeProvider){%>
+        <div class="flex items-center">
+          <form role="button" [formGroup]="headerForm">
+            <div>
+              <label
+                class="icon-switcher"
+                data-js-icon-switcher="data-js-icon-switcher"
+                (change)="handleSelection($event)">
+                <input
+                  id="themeSelector"
+                  class="control"
+                  type="checkbox"
+                  formControlName="selectedTheme" />
+                <div class="peg"></div>
+                <div class="bg"></div>
+              </label>
+            </div>
+          </form>
+        </div>
+        <%}%>
+        <% if(isOkta){%>
+        <div>
+          <div class="dropdown inline-block relative">
+            <button class="text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+              <span class="mr-1">
+                <span class="profile-icon">
+                  <span class="absolute" *ngIf="name$ | async as name">
+                    {{ getInitials(name) }}
+                  </span>
+                </span>
+              </span>
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
+            </button>
+            <ul class="dropdown-menu absolute hidden text-gray-700 pt-1" role="button">
+              <li>
+                <a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"  *ngIf="name$ | async as name">
+                  {{ name }}
+                </a>
+              </li>
+              <li>
+                <a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" >
+                  <ng-container
+                    *ngIf="(isAuthenticated$ | async) === false; else signout">
+                    <span (click)="signIn()"> Sign in</span>
+                  </ng-container>
+                  <ng-template #signout>
+                    <span (click)="signOut()">Sign out</span>
+                  </ng-template>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <%}%>
+        <% if(isAuth0){%>
+          <div class="pl-2 auth-btn-group">
+            <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+              <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" (click)="auth.logout({ returnTo: logoutURL })">Log out</button>
+            </ng-container>
+            <ng-template #loggedOut>
+              <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" (click)="auth.loginWithRedirect()">Log in</button>
+            </ng-template>
+          </div>
+        <%}%>
+      </div>
+    </div>
+  </nav>
+</div>
+<%}%>
