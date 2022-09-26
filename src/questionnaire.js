@@ -5,9 +5,8 @@ module.exports = [
     type: "input",
     message: "Project name:",
     validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
+      if (/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/.test(input)) return true;
+      else return "Project name should be in kebab-case.";
     },
   },
   {
@@ -74,9 +73,8 @@ module.exports = [
     type: "input",
     message: "Front End project name:",
     validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
+      if (/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/.test(input)) return true;
+      else return "Project name should be in kebab-case.";
     },
     when: (answers) => {
       return answers.frontEnd;
@@ -183,9 +181,8 @@ module.exports = [
     type: "input",
     message: "BackEnd Project name:",
     validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
+      if (/^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/.test(input)) return true;
+      else return "Project name should be in kebab-case.";
     },
     when: (answers) => {
       return answers.backEnd;
