@@ -6,7 +6,7 @@ import { AuthState, OktaAuth } from '@okta/okta-auth-js';
 import { filter, map, Observable } from 'rxjs';<%}%>
 <% if(isThemeProvider){%>import { FormBuilder, FormGroup } from '@angular/forms';<%}%>
 <% if(isAuth0){ %>import { AuthService } from '@auth0/auth0-angular';<% } %>
-
+<%if(isCognito){%>import { AuthenticatorService } from '@aws-amplify/ui-angular';<%}%>
 <% if(isThemeProvider){%>
 const DARK = 'dark';
 const LIGHT = 'light';
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   <% if(isTailwindCSS){%>showMenu: boolean = false; <%}%>
   <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
-  constructor(<%if(isThemeProvider){%> private fb: FormBuilder, <%}%><%if(isOkta){%> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth, <%}%><%if(isAuth0){%> public auth: AuthService, <%}%> )  { }
+  constructor(<%if(isThemeProvider){%> private fb: FormBuilder, <%}%><%if(isOkta){%> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth, <%}%><%if(isAuth0){%> public auth: AuthService, <%}%><%if(isCognito){%>public authenticator: AuthenticatorService,<%}%> )  { }
   <% if(isOkta) { %>public name$!: Observable<string>;
   public isAuthenticated$!: Observable<boolean>;<% } %>
   <% if(isAuth0){ %> logoutURL = appURL; <% } %>
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
     sessionStorage.setItem('isDarkModeSelected', JSON.stringify(event.target.checked));
   }
   <%}%>
-  <% if(isOkta) { %>
+  <% if(isOkta ) { %>
     getInitials = (name: any) => {
       return name?.trim().split(' ').reduce((acc: string, curr: string, index: number) => {
         if(index === 0 || index === 1) acc = `${acc}${curr.charAt(0).toUpperCase()}`;
@@ -86,4 +86,11 @@ export class HeaderComponent implements OnInit {
   }
   <%}%>
 
+  <%if(isCognito){%>
+  getInitials = (name: any) => {
+  return name?.trim().split(' ').reduce((acc: string, curr: string, index: number) => {
+    if(index === 0 || index === 1) acc = `${acc}${curr.charAt(0).toUpperCase()}`;
+    return acc;
+  }, '');
+  }<%}%>
 }

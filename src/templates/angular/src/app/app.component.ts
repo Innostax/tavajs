@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+<%if(isCognito){%>import { AuthenticatorService } from '@aws-amplify/ui-angular';<%}%>
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-test';
+  <%if(isCognito){%>constructor(public authenticator: AuthenticatorService) {}<%}%>
+
 }
