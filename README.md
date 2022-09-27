@@ -118,7 +118,7 @@ G.&nbsp; Enter frontend project name.
 
       ? Front End project name: front-end
       
-H.&nbsp; Test framework:  it is a set of guidelines or rules used for creating and designing test cases. Choose a test framework according to your need.
+H.&nbsp; Testcase framework:  It is a set of guidelines or rules used for creating and designing test cases. Choose a test framework according to your need.
 
      ? Select the Test Case Framework (Use arrow keys)
      > MochaJS
