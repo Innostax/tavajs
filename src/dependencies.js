@@ -8,6 +8,7 @@ const DEPENDENCIES = {
   MATERIALUI: [
     { name: "@mui/material", version: "^5.10.2" },
     { name: "@mui/icons-material", version: "^5.10.3" },
+    { name: "material-react-table", version: "^1.1.1"},
   ],
   TAILWINDCSS: [
     { name: "tailwindcss", version: "^3.1.8" }
