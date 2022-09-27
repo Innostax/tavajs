@@ -8,7 +8,6 @@ import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if (isCognito) {%>
 	import Button from '../atoms/Button'
 	import { withAuthenticator } from '@aws-amplify/ui-react'
-	import '@aws-amplify/ui-react/styles.css'
 <%}%>
 const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
 

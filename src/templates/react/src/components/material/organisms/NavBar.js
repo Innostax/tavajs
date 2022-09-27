@@ -18,7 +18,6 @@ import { THEMES } from '../../theme.constants'
 	<% if (isCognito) {%>
     import Button from '../atoms/Button'
 	import { withAuthenticator } from '@aws-amplify/ui-react'
-	import '@aws-amplify/ui-react/styles.css'
 <%}%>
 
 <%if(isThemeProvider) {%>const THEME = 'theme'<%}%>

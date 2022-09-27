@@ -684,18 +684,17 @@ prompt(questionnaire).then(async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
-     if (isFrontEndChoiceReact)
+    if (isFrontEndChoiceReact) {
       dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_REACT];
     
-    COGNITO_FILE_PATHS.forEach((each) => {
-      filePaths = [
-        ...filePaths,
-        {
-          source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          destination: `${frontEnd.path}/${each.destFileName}`,
-        },
-      ];
-    });
+      COGNITO_FILE_PATHS.forEach((each) => {
+       handleRenderEJS(
+         `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+         { frontEndChoice },
+         `${frontEnd.path}/${each.destFileName}`
+       );
+      });
+    }
 
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
