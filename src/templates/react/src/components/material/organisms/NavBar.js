@@ -16,8 +16,8 @@ import { THEMES } from '../../theme.constants'
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if (isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 <% if (isCognito) {%>
-    import Button from '../atoms/Button'
-	import { withAuthenticator } from '@aws-amplify/ui-react'
+import Button from '../atoms/Button'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 <%}%>
 
 <%if(isThemeProvider) {%>const THEME = 'theme'<%}%>
@@ -81,7 +81,6 @@ const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }
 					<AppWithRouterAccess />
 					<%}%>
 					<% if(isCognito){%><Button onClick={signOut} name='SignOut' variant='white' /><%}%>
-
 				</Toolbar>
 			</AppBar>
 			<Routes />

@@ -671,7 +671,6 @@ const handleAnswersEvaluator = async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_ANGULAR];
     }
-
     if (isFrontEndChoiceReact) {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
 

@@ -6,8 +6,8 @@ import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if (isThemeProvider) { %>import { ThemeToggler } from '../../theme'<% } %>
 <% if (isCognito) {%>
-	import Button from '../atoms/Button'
-	import { withAuthenticator } from '@aws-amplify/ui-react'
+import Button from '../atoms/Button'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 <%}%>
 const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
 
