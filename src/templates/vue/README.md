@@ -44,6 +44,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (isJest) {%><li><a href="#jest">Jest test framework </li></a><%}%>
 <% if (isCypress) {%><li><a href="#cypress">Cypress test framework </li></a><%}%>
 <% if (blobServiceName === 'azure') {%><li><a  href="#azure">Azure blob service </li></a><%}%>
+<% if (blobServiceName === 'aws-s3') {%><li><a  href="#aws-s3">AWS-S3 blob service </li></a><%}%>
 
 </ul>
 
@@ -85,6 +86,11 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <%if(blobServiceName === 'azure'){%>
 <a  href=https://azure.microsoft.com/en-us/  target="_blank">
  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original-wordmark.svg" width="100"  alt="azure"/>
+ </a>
+<%}%>
+<%if(blobServiceName === 'aws-s3'){%>
+<a  href=https://aws.amazon.com/s3/ target="_blank">
+ <img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" width="100"  alt="aws-s3"/>
  </a>
 <%}%>
 <%}%>
@@ -347,6 +353,41 @@ AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 <li> downloadBlob - To download file from container.</li>
 <li> deleteBlob - To delete file from container.</li>
 <li> sampleBlobServiceExecutor - To test all functionalities of azure blob service.</li>
+</ul>
+
+<%}%>
+
+<div  id='aws-s3'/>
+
+<% if(blobServiceName === 'aws-s3') {%>
+
+### Blob Service
+
+### AWS-S3 blob service
+
+Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security.
+### Running AWS-S3 blob service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+AWS_SECRET_ACCESS_KEY = Enter your Aws Secret Access Key
+AWS_REGION = Enter your Aws Region
+
+```
+
+### AWS-S3 blob service functions
+
+<ul>
+<li> createBucket - To create a bucket.</li>
+<li> listBuckets - To list all buckets.</li>
+<li> deleteBucket - To delete a bucket.</li>
+<li> uploadObject - To upload an object in bucket.</li>
+<li> listObjects - To list all objects in bucket.</li>
+<li> downloadObject - To download an object from bucket.</li>
+<li> deleteObject - To delete object from bucket.</li>
+<li> sampleAwsS3Executor - To test all functionalities of aws-s3 blob service.</li>
 </ul>
 
 <%}%>
