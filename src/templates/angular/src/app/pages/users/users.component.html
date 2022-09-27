@@ -1,12 +1,23 @@
 <app-header></app-header>
 
+<% if(!isTailwindCSS){%>
 <div class="text-center mt-4">
   <div>
-    <h4>Welcome to Users Screen</h4>
+    <h1>Welcome to Users Screen</h1>
   </div>
 
   <% if(isCrud || isCrudWithNode){%><app-button [name]="'Add User'" [class]="'btn btn-primary'" (onClick)="onClickAddUser()"></app-button><%}%>
 </div>
+<%}%>
+
+<% if(isTailwindCSS){%>
+<div>
+  <div class=" w-full text-center mt-4">
+      <div class = "font-bold text-2xl "><h1>Welcome to Users Screen</h1></div><br>
+      <% if(isCrud || isCrudWithNode){%><app-button [name]="'Add User'" [class]="'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'" (onClick)="onClickAddUser()"></app-button><%}%>
+  </div>
+</div>
+<%}%>
 
 <% if(isCrudWithNode){%>
 <app-table [usersData]="users" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
@@ -16,7 +27,7 @@
 <app-table [usersData]="users$ | async" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
 <%}%>
 
-<% if(isCrud || isCrudWithNode){%>
+<% if((!isTailwindCSS) && (isCrud || isCrudWithNode)){%>
 <div
   tabindex="-1"
   role="dialog"
@@ -40,4 +51,24 @@
     </div>
   </div>
 </div>
+<%}%>
+
+
+<% if((isTailwindCSS) && (isCrud || isCrudWithNode)){%>
+<div *ngIf="showModal" class="overflow-x-hidden overflow-y-auto fixed inset-0 top-0 z-50 outline-none focus:outline-none flex">
+  <div class="relative w-auto my-6 mx-auto max-w-3xl">
+    <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white modal-content outline-none focus:outline-none">
+      <div class="relative p-6 flex-auto">
+        <app-user-actions-modal 
+          [data]="data" 
+          (closeEvent)="closeModal()"
+          [shouldDeleteUser]="deleteUserInfo"
+          (performDeleteAction)="performDeleteAction($event)"
+        >
+        </app-user-actions-modal>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
 <%}%>

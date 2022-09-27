@@ -1,13 +1,14 @@
 const fs = require('fs');
+const { validateKebabCase } = require("./utils/validators")
 module.exports = [
   {
     name: "projectName",
     type: "input",
     message: "Project name:",
     validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
+      const isValid = validateKebabCase(input);
+      if (isValid) return true;
+      else return "Project name should be in kebab-case. e.g. project-name";
     },
   },
   {
@@ -68,15 +69,27 @@ module.exports = [
       return answers.frontEndChoice == "react";
     },
   },
+  {
+    name: "tailwindCssChoice",
+    type: "list",
+    message: "Which CSS Framework do you want?",
+    choices: [
+      { name: "tailwind CSS", value: true },
+      { name: "Bootstrap", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice == "angular";
+    },
+  },
   /*CSS Framework question ended here */
   {
     name: "frontEndName",
     type: "input",
     message: "Front End project name:",
     validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
+      const isValid = validateKebabCase(input);
+      if (isValid) return true;
+      else return "Frontend Project name should be in kebab-case. e.g. font-end-name";
     },
     when: (answers) => {
       return answers.frontEnd;
@@ -183,9 +196,9 @@ module.exports = [
     type: "input",
     message: "BackEnd Project name:",
     validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Project name may only include letters, numbers, underscores and hashes.";
+      const isValid = validateKebabCase(input);
+      if (isValid) return true;
+      else return "Backend Project name should be in kebab-case. e.g. back-end-name";
     },
     when: (answers) => {
       return answers.backEnd;

@@ -47,6 +47,7 @@ const {
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
+  TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
@@ -87,6 +88,7 @@ prompt(questionnaire).then(async (answers) => {
     theme,
     projectDirectoryPath,
     angularNodeCrud,
+    tailwindCssChoice
   } = answers;
 
   // Project Directory Path
@@ -99,6 +101,7 @@ prompt(questionnaire).then(async (answers) => {
     reactNodeCrud || vueNodeCrud || angularNodeCrud
   );
   const isMaterialUI = materialuiChoice;
+  const isTailwindCSS = tailwindCssChoice
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -146,6 +149,21 @@ prompt(questionnaire).then(async (answers) => {
         dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
       }
     }
+
+    if (isFrontEndChoiceAngular) {
+      if(isTailwindCSS) {
+        dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDCSS];
+
+        const res = getFilePaths(
+          TAILWIND_CSS_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
+      } else {
+        dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
+      }
+    }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
     const templatePath = path.join(__dirname, "templates", choice);
 
@@ -179,7 +197,9 @@ prompt(questionnaire).then(async (answers) => {
       isMaterialUI,
       CURR_DIR,
       isJest,
-      isCypress
+      isCypress,
+      isTailwindCSS,
+      blobServiceName
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -320,7 +340,11 @@ prompt(questionnaire).then(async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
-      CURR_DIR
+      CURR_DIR,
+      isJest,
+      isCypress,
+      isTailwindCSS,
+      blobServiceName,
     );
 
     const ROUTE_FILES = [
@@ -371,7 +395,7 @@ prompt(questionnaire).then(async (answers) => {
         "blobTemplates",
         blobServiceName
       );
-      createBlobService(blobServiceName, blobTemplatePath, backEnd.path);
+      createBlobService(backEnd.path, blobServiceName, blobTemplatePath, backEnd.path);
     }
 
     //<---------------------------- For Logger service ---------------------------------->
@@ -399,7 +423,7 @@ prompt(questionnaire).then(async (answers) => {
           : `${CURR_DIR}/${projectName}/.env`;
       handleRenderEJS(
         `${currentPath}/envTemplates/.dbEnv`,
-        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, isSendgrid },
+        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, isSendgrid, blobServiceName },
         envFilePath
       );
     }
@@ -579,7 +603,11 @@ prompt(questionnaire).then(async (answers) => {
           choice,
           isThemeProvider,
           isMaterialUI,
-          CURR_DIR
+          CURR_DIR,
+          isJest,
+          isCypress,
+          isTailwindCSS,
+          blobServiceName
         );
       });
 
@@ -594,24 +622,36 @@ prompt(questionnaire).then(async (answers) => {
       directoryPaths = [...directoryPaths, ...res];
 
       if (isCrud) {
+        fs.mkdirSync(`${frontEnd.path}/src/app/shared/components/user-actions-modal`);
         const res = getFilePaths(
           NGRX_CRUD_FILE_PATHS,
           currentPath,
           frontEnd.path
         );
         directoryPaths = [...directoryPaths, ...res];
+        handleRenderEJS(
+          `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
+          {isTailwindCSS},
+          `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+        );
       }
     }
   }
 
   //<-------------- For angular node crud ------------------->
   if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
+    fs.mkdirSync(`${frontEnd.path}/src/app/shared/components/user-actions-modal`);
     const res = getFilePaths(
       ANGULAR_CRUD_NODE_FILE_PATHS,
       currentPath,
       frontEnd.path
     );
     directoryPaths = [...directoryPaths, ...res];
+    handleRenderEJS(
+      `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
+      {isTailwindCSS},
+      `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+    );
     handleRenderEJS(
       `${currentPath}/angularApiTemplates/base-url.ts`,
       { defaultRoute },
