@@ -9,6 +9,12 @@ const DEPENDENCIES = {
     { name: "@mui/material", version: "^5.10.2" },
     { name: "@mui/icons-material", version: "^5.10.3" },
   ],
+  TAILWINDCSS: [
+    { name: "tailwindcss", version: "^3.1.8" }
+  ],
+  ANGULARBOOTSTRAP: [
+    { name: "bootstrap", version: "^5.2.1" }
+  ],
   REACT: [
     { name: "@reduxjs/toolkit", version: "^1.6.1" },
     { name: "react-redux", version: "^7.2.4" },

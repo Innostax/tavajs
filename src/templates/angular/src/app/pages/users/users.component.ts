@@ -18,6 +18,7 @@ const DELETE = 'delete';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  <% if(isTailwindCSS){%> showModal = false;<%}%>
   <% if(isCrud || isCrudWithNode){%>
   headers = ['name', 'username', 'email', 'actions'];
   shouldShowActions: boolean = true;
@@ -54,7 +55,8 @@ export class UsersComponent implements OnInit {
 
   <% if(isCrud || isCrudWithNode){%>
   onClickAddUser() {
-    $('#addUser_modal').modal('show');
+    <% if(!isTailwindCSS){%>$('#addUser_modal').modal('show');<%}%>
+    <% if(isTailwindCSS){%>this.showModal = true;<%}%>
     this.data = {};
     this.deleteUserInfo = false;
   }
@@ -65,13 +67,15 @@ export class UsersComponent implements OnInit {
   }
 
   editUser(data: any) {
-    $('#addUser_modal').modal('show');
+    <% if(!isTailwindCSS){%>$('#addUser_modal').modal('show');<%}%>
+    <% if(isTailwindCSS){%>this.showModal = true;<%}%>
     this.data = data;
     this.deleteUserInfo = false;
   }
 
   deleteUser(data: any) {
-    $('#addUser_modal').modal('show');
+    <% if(!isTailwindCSS){%>$('#addUser_modal').modal('show');<%}%>
+    <% if(isTailwindCSS){%>this.showModal = true;<%}%>
     this.data = data;
     this.deleteUserInfo = true;
   }
@@ -87,7 +91,8 @@ export class UsersComponent implements OnInit {
   }
 
   closeModal() {
-    $('#addUser_modal').modal('hide');
+    <% if(!isTailwindCSS){%>$('#addUser_modal').modal('hide');<%}%>
+    <% if(isTailwindCSS){%>this.showModal = false;<%}%>
     this.data = {};
   }
   <%}%>
