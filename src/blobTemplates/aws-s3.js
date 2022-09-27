@@ -111,12 +111,12 @@ async function sampleAwsS3Executor() {
 	await createBucket(bucketName)
 
 	const buckets = await listBuckets()
-	console.log('Bucket List',buckets.map((bucket) => bucket.Name))
+	console.log('Bucket List', buckets.map((bucket) => bucket.Name))
 
 	await uploadObject(bucketName, uploadFilePath)
 
 	const objects = await listObjects(bucketName)
-	console.log('Objects List',objects.map((object) => object.Key))
+	console.log('Objects List', objects.map((object) => object.Key))
 
 	await downloadObject(bucketName, objectName, downloadFilePath)
 	await deleteObject(bucketName, objectName)
