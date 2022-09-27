@@ -47,6 +47,8 @@ const {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
+  SMTP,
+  SENDGRID
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -115,8 +117,8 @@ const handleAnswersEvaluator = async (answers) => {
   const isNightWatch = answers["testCaseFramework"] === "nightwatchJS";
   /* END: Testcases Framework */
 
-  const isSMTP = emailServiceName === "smtp";
-  const isSendgrid = emailServiceName === "sendgrid";
+  const isSMTP = emailServiceName === SMTP;
+  const isSendgrid = emailServiceName === SENDGRID;
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {

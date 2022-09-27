@@ -29,7 +29,6 @@ SMTP_PASSWORD = Enter your password
 SMTP_HOST = Enter Host  
 <%}%>
 
-
 <%if (isSendgrid) {%>
 SENDGRID_API_KEY= Enter Sendgrid Api
 <%}%>
