@@ -15,7 +15,7 @@ import { THEMES } from '../../theme.constants'
 <%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if (isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
-	<% if (isCognito) {%>
+<% if (isCognito) {%>
     import Button from '../atoms/Button'
 	import { withAuthenticator } from '@aws-amplify/ui-react'
 <%}%>
@@ -89,4 +89,4 @@ const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }
 	)
 }
 <% if(isCognito){%>export default withAuthenticator(NavBar)
- <%} else { %>export default NavBar <%}%>
+<%} else { %>export default NavBar <%}%>

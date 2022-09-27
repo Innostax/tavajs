@@ -13,10 +13,10 @@ import NavBar from "./components/organisms/NavBar";
 
 import "./App.css";
 <% if (isCognito) {%>
-  import '@aws-amplify/ui-react/styles.css'
-  import { Amplify } from 'aws-amplify'
-  import { withAuthenticator } from '@aws-amplify/ui-react'
-  const { REACT_APP_USER_POOL_ID, REACT_APP_USER_POOL_WEB_CLIENT_ID } =
+import '@aws-amplify/ui-react/styles.css'
+import { Amplify } from 'aws-amplify'
+import { withAuthenticator } from '@aws-amplify/ui-react'
+const { REACT_APP_USER_POOL_ID, REACT_APP_USER_POOL_WEB_CLIENT_ID } =
 	process.env
 
 Amplify.configure({
@@ -25,7 +25,7 @@ Amplify.configure({
 		userPoolWebClientId: REACT_APP_USER_POOL_WEB_CLIENT_ID,
 	},
 })
-  <%}%>
+<%}%>
 
 
 const linksOfNav = [
@@ -139,4 +139,4 @@ const App = () => {
   )
 };
 <% if(isCognito){%>export default withAuthenticator(App)
- <%} else { %>export default App;  <%}%>
+<%} else { %>export default App;  <%}%>

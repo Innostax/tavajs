@@ -47,6 +47,8 @@ const {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
+  SMTP,
+  SENDGRID
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -115,7 +117,8 @@ const handleAnswersEvaluator = async (answers) => {
   const isNightWatch = answers["testCaseFramework"] === "nightwatchJS";
   /* END: Testcases Framework */
 
-  const isSMTP = emailServiceName === "smtp";
+  const isSMTP = emailServiceName === SMTP;
+  const isSendgrid = emailServiceName === SENDGRID;
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -176,6 +179,7 @@ const handleAnswersEvaluator = async (answers) => {
       sequelizeSelected,
       dbName,
       isSMTP,
+      isSendgrid,
       isSentry,
       isWinston,
       isAuth0,
@@ -320,6 +324,7 @@ const handleAnswersEvaluator = async (answers) => {
       sequelizeSelected,
       dbName,
       isSMTP,
+      isSendgrid,
       isSentry,
       isWinston,
       isAuth0,
@@ -416,7 +421,7 @@ const handleAnswersEvaluator = async (answers) => {
           : `${CURR_DIR}/${projectName}/.env`;
       handleRenderEJS(
         `${currentPath}/envTemplates/.dbEnv`,
-        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, blobServiceName },
+        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, isSendgrid, blobServiceName },
         envFilePath
       );
     }
@@ -582,6 +587,7 @@ const handleAnswersEvaluator = async (answers) => {
           sequelizeSelected,
           dbName,
           isSMTP,
+          isSendgrid,
           isSentry,
           isWinston,
           isAuth0,
@@ -680,11 +686,30 @@ const handleAnswersEvaluator = async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
+      if (isFrontEndChoiceVue) {
+        COGNITO_FILE_PATHS.forEach((each) => {
+          handleRenderEJS(
+            `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+            { frontEndChoice },
+            `${frontEnd.path}/${each.destFileName}`
+          );
+        });
+        dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];
+      }
     if(isFrontEndChoiceAngular){
       dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
+      COGNITO_FILE_PATHS.forEach((each) => {
+        filePaths = [
+          ...filePaths,
+          {
+            source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+            destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+          },
+        ];
+      });
+      copyFiles(filePaths);
     }
-    
-    if (isFrontEndChoiceReact) {
+        if (isFrontEndChoiceReact) {
       dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_REACT];
     
       COGNITO_FILE_PATHS.forEach((each) => {
@@ -694,8 +719,7 @@ const handleAnswersEvaluator = async (answers) => {
          `${frontEnd.path}/${each.destFileName}`
        );
       });
-    }
-    
+    }    
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)

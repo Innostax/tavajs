@@ -30,6 +30,9 @@ const DEPENDENCIES = {
     { name: "@aws-amplify/ui-react", version: "^3.5.4" },
     { name: "aws-amplify", version: "^4.3.36" },
   ], 
+  COGNITO_VUE: [
+    { name: "aws-amplify", version: "^4.3.36" },
+    { name: "@aws-amplify/ui-vue", version: "^2.4.22" }],    
   COGNITO_ANGULAR: [
     { name: "aws-amplify", version: "^4.3.36" },
     { name: "@aws-amplify/ui-angular", version: "^2.4.22" },

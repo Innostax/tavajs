@@ -47,4 +47,4 @@ const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
 }
 
 <% if(isCognito){%>export default withAuthenticator(NavBar)
- <%} else { %>export default NavBar <%}%>
+<%} else { %>export default NavBar <%}%>
