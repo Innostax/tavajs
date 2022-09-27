@@ -117,6 +117,7 @@ prompt(questionnaire).then(async (answers) => {
   /* END: Testcases Framework */
 
   const isSMTP = emailServiceName === "smtp";
+  const isSendgrid = emailServiceName === "sendgrid"
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -162,6 +163,7 @@ prompt(questionnaire).then(async (answers) => {
       sequelizeSelected,
       dbName,
       isSMTP,
+      isSendgrid,
       isSentry,
       isWinston,
       isAuth0,
@@ -304,6 +306,7 @@ prompt(questionnaire).then(async (answers) => {
       sequelizeSelected,
       dbName,
       isSMTP,
+      isSendgrid,
       isSentry,
       isWinston,
       isAuth0,
@@ -396,7 +399,7 @@ prompt(questionnaire).then(async (answers) => {
           : `${CURR_DIR}/${projectName}/.env`;
       handleRenderEJS(
         `${currentPath}/envTemplates/.dbEnv`,
-        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP },
+        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, isSendgrid },
         envFilePath
       );
     }
@@ -562,6 +565,7 @@ prompt(questionnaire).then(async (answers) => {
           sequelizeSelected,
           dbName,
           isSMTP,
+          isSendgrid,
           isSentry,
           isWinston,
           isAuth0,
