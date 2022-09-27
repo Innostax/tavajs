@@ -684,14 +684,12 @@ prompt(questionnaire).then(async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
-
     COGNITO_FILE_PATHS.forEach((each) => {
-      let envFile = readFile(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`
+      handleRenderEJS(
+        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        { frontEndChoice },
+        `${frontEnd.path}/${each.destFileName}`
       );
-      envFile = render(envFile, { frontEndChoice });
-      const envFilePath = `${frontEnd.path}/${each.destFileName}`;
-      fs.writeFileSync(envFilePath, envFile, "utf8");
     });
 
     if (isFrontEndChoiceVue) dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];

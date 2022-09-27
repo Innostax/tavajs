@@ -6,5 +6,5 @@ REACT_APP_USER_POOL_WEB_CLIENT_ID=4t3RdWfp5ydwadefjthscrdrcd
 
 <% if(frontEndChoice === "vue"){ %>
 VUE_APP_AWS_USER_POOLS_ID="your aws user pool id"
-VUE_APP_AWS_USER_POOLS_WEB_CLIENT_Id="your aws user pools web client id"
+VUE_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
 <% } %>
