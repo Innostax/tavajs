@@ -20,6 +20,7 @@ const $body = document.body;
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  <% if(isTailwindCSS){%>showMenu: boolean = false; <%}%>
   <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
   constructor(<%if(isThemeProvider){%> private fb: FormBuilder, <%}%><%if(isOkta){%> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth, <%}%><%if(isAuth0){%> public auth: AuthService, <%}%><%if(isCognito){%>public authenticator: AuthenticatorService,<%}%> )  { }
@@ -78,6 +79,13 @@ export class HeaderComponent implements OnInit {
     await this._oktaAuth.signOut();
   }
   <%}%>
+
+  <% if(isTailwindCSS){%>
+  toggleNavbar(){
+    this.showMenu = !this.showMenu;
+  }
+  <%}%>
+
   <%if(isCognito){%>
   getInitials = (name: any) => {
   return name?.trim().split(' ').reduce((acc: string, curr: string, index: number) => {

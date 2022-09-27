@@ -11,3 +11,10 @@
   --dark-text-color: #F7F8F8;
   --dark-link-color: #828FFF;
 }<%}%>
+
+<% if(isTailwindCSS){%>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+<%}%>
+

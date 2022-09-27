@@ -42,6 +42,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (isSMTP) {%><li><a href="#smtp">SMTP email service </li></a><%}%>
 <% if (isJest) {%><li><a href="#jest">Jest test framework </li></a><%}%>
 <% if (isCypress) {%><li><a href="#cypress">Cypress test framework </li></a><%}%>
+<% if (blobServiceName === 'azure') {%><li><a  href="#azure">Azure blob service </li></a><%}%>
 
 </ul>
 
@@ -75,6 +76,11 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <a  href=https://auth0.com/ target="_blank">  
   <img src="https://www.vectorlogo.zone/logos/auth0/auth0-ar21.svg" width="100" alt="auth" />
 </a>
+<%}%>
+<%if(blobServiceName === 'azure'){%>
+<a  href=https://azure.microsoft.com/en-us/  target="_blank">
+ <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original-wordmark.svg" width="100"  alt="azure"/>
+ </a>
 <%}%>
 <%}%>
 
@@ -274,6 +280,39 @@ SMTP_HOST = your SMTP host
 ```
 
 Add recipient's email id in `recipients` object inside `mailObj` data property in `users.controllers.js` file.
+
+<%}%>
+
+<div  id='azure'/>
+
+<% if(blobServiceName === 'azure') {%>
+
+### Blob Service
+
+### Azure blob service
+
+Azure Blob storage is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data.
+
+### Running Azure blob service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
+```
+
+### Azure blob service functions
+
+<ul>
+<li> createContainer - To create a container.</li>
+<li> listContainers - To list all containers.</li>
+<li> deleteContainer - To delete a container.</li>
+<li> uploadBlob - To upload any type of file.</li>
+<li> listBLobs - To list all files in container.</li>
+<li> downloadBlob - To download file from container.</li>
+<li> deleteBlob - To delete file from container.</li>
+<li> sampleBlobServiceExecutor - To test all functionalities of azure blob service.</li>
+</ul>
 
 <%}%>
 
