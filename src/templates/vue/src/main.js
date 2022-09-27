@@ -34,7 +34,6 @@ Amplify.configure({
 });
 <% } %>
 
-
 const app = createApp(App)
 <% if(isStore){ %> .use(store)  <% } %>
 .use(router)

@@ -654,10 +654,7 @@ prompt(questionnaire).then(async (answers) => {
       fs.writeFileSync(envFilePath, envFile, "utf8");
     });
 
-    if (isFrontEndChoiceVue)
-      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];
-
-
+    if (isFrontEndChoiceVue) dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)
