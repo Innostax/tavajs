@@ -25,7 +25,12 @@ const config = {
 const { sampleBlobServiceExecutor } = require('./utils/blob/azure')
 sampleBlobServiceExecutor()
 <% } %>
-  
+
+<%if (isAmazonSes) {%>
+const { sendMail } = require('./utils/email/amazon_ses')
+sendMail()
+<% } %>  
+
 const port = process.env.PORT
 
 const app = express();

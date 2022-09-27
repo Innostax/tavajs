@@ -30,7 +30,13 @@ SMTP_HOST = Enter Host
 <%}%>
 
 <%if (isSendgrid) {%>
-SENDGRID_API_KEY= Enter Sendgrid Api
+SENDGRID_API_KEY = Enter Sendgrid Api
+<%}%>
+
+<%if (isAmazonSes) {%>
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+AWS_SECRET_ACCESS_KEY = Enter Your Aws Secret Access Key
+AWS_REGION = Enter Your Aws Region
 <%}%>
 
 <%  if (blobServiceName == "azure") { %>

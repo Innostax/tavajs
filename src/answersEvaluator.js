@@ -48,7 +48,8 @@ const {
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   SMTP,
-  SENDGRID
+  SENDGRID,
+  AMAZON_SES,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -119,6 +120,7 @@ const handleAnswersEvaluator = async (answers) => {
 
   const isSMTP = emailServiceName === SMTP;
   const isSendgrid = emailServiceName === SENDGRID;
+  const isAmazonSes = emailServiceName === AMAZON_SES;
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -180,6 +182,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -325,6 +328,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -421,7 +425,7 @@ const handleAnswersEvaluator = async (answers) => {
           : `${CURR_DIR}/${projectName}/.env`;
       handleRenderEJS(
         `${currentPath}/envTemplates/.dbEnv`,
-        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, isSendgrid, blobServiceName },
+        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, isSendgrid, isAmazonSes, blobServiceName },
         envFilePath
       );
     }
@@ -588,6 +592,7 @@ const handleAnswersEvaluator = async (answers) => {
           dbName,
           isSMTP,
           isSendgrid,
+          isAmazonSes,
           isSentry,
           isWinston,
           isAuth0,
