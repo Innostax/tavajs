@@ -17,6 +17,8 @@ const Table = ({ data, columns }) => {
 			enableFullScreenToggle={false}
 			enableDensityToggle={false}
 			enableTopToolbar={false}
+			enableBottomToolbar={false}
+			enableTableFooter={false}
 		/>
 	)
 }

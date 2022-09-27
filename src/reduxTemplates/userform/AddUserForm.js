@@ -178,7 +178,7 @@ const AddUser = ({ show, handleClose, reset }) => {
           alignItems='flex-start'
         >
           <Button
-            name={isEmpty(user) ? 'ADD' : 'EDIT'}
+            name={isEmpty(user) ? 'ADD' : 'UPDATE'}
             variant='contained'
             onClick={handleSubmit}
             size='medium'
@@ -188,6 +188,7 @@ const AddUser = ({ show, handleClose, reset }) => {
             variant='text'
             onClick={handleClose}
             size='medium'
+            color='error'
           />
         </Grid>
       </Grid>

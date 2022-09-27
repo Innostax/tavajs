@@ -1,5 +1,6 @@
-import { Button } from "react-bootstrap";
 import ViceModal from "../../components/organisms/Modal";
+<% if(!isMaterialUI) {%>
+import { Button } from "react-bootstrap"
 
 const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
   const footer = (
@@ -29,5 +30,37 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
     </ViceModal>
   );
 };
+<%}%>
 
-export default DeleteConfirmationModal;
+<% if(isMaterialUI) {%>
+import Button from '@mui/material/Button'
+import Box from '@material-ui/core/Box'
+
+const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
+	return (
+		<ViceModal show={open} title='Delete User?' handleClose={setOpen}>
+			{`Are you sure you want to delete ${username} ?`}
+			<br></br>
+			<Box
+				display='flex'
+				justifyContent='flex-end'
+				alignItems='flex-end'
+			>
+				<Button
+					variant='contained'
+					type='submit'
+					color='error'
+					onClick={() => {
+						userId()
+						setOpen(false)
+					}}
+				>
+					Confirm
+				</Button>
+			</Box>
+		</ViceModal>
+	)
+}
+<%}%>
+export default DeleteConfirmationModal
+

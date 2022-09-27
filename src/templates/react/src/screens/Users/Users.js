@@ -5,8 +5,7 @@
 <% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
 <% if(isCrudWithNode||isCrud) {%>import AddUser from './AddUser';<%}%>
-<% if((isCrudWithNode||isCrud) && isMaterialUI) {%>import DeleteConfirmationModal from '../../components/organisms/DeleteConfirmationModal';<%}%>
-<% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>import DeleteConfirmationModal from './DeleteConfirmationModal';<%}%>
+<% if(isCrudWithNode||isCrud) {%>import DeleteConfirmationModal from './DeleteConfirmationModal';<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%> import Table from '../../components/organisms/Table';<%}%>
 <% if(isCrud ||isCrudWithNode) {%>import { actions } from './users.reducer';
 
@@ -90,7 +89,11 @@ const Users = () => {
             variant='outlined'
             color="error"
             size="small"
-            onClick={() => handleDelete(data.id)}
+            onClick={() => {
+              username = data.username
+              deleteId = data.id
+              setConfirmDelete(true)
+            }}
           >
             Delete
           </Button>
@@ -175,7 +178,11 @@ const Users = () => {
         {confirmDelete && (
           <DeleteConfirmationModal
             open={confirmDelete}
+            <% if(isMaterialUI) {%>
+              setOpen={() => setConfirmDelete(false)}
+              <%}else{%>
             setOpen={setConfirmDelete}
+            <%}%>
             userId={() => handleDelete(deleteId)}
             username={username}
           />

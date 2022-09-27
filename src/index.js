@@ -501,13 +501,11 @@ prompt(questionnaire).then(async (answers) => {
         `${frontEnd.path}/src/screens/Users/users.actions.js`
       );
 
-      if (!isMaterialUI) {
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
           { isMaterialUI },
           `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
         );
-      }
 
       if (isCrud) {
         handleRenderEJS(
