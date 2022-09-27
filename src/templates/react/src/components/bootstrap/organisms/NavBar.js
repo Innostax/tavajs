@@ -6,7 +6,8 @@ import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if (isThemeProvider) { %>import { ThemeToggler } from '../../theme'<% } %>
 <% if (isCognito) {%>
-	import { Button, withAuthenticator } from '@aws-amplify/ui-react'
+	import Button from '../atoms/Button'
+	import { withAuthenticator } from '@aws-amplify/ui-react'
 	import '@aws-amplify/ui-react/styles.css'
 <%}%>
 const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
@@ -37,7 +38,7 @@ const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
 					</Navbar.Collapse>
 					<% if(isThemeProvider) { %><ThemeToggler/><% } %>
 					<% if(isOkta) { %><AppWithRouterAccess /> <% } %>
-					<% if(isCognito){%><Button onClick={signOut}>Sign Out</Button><%}%>
+					<% if(isCognito){%><Button onClick={signOut} name='SignOut' /><%}%>
 					<Navbar.Toggle className='collapse-btn' aria-controls='basic-navbar-nav' />
 				</Container>
 			</Navbar>

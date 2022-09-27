@@ -692,12 +692,11 @@ prompt(questionnaire).then(async (answers) => {
         ...filePaths,
         {
           source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+          destination: `${frontEnd.path}/${each.destFileName}`,
         },
       ];
     });
 
-    copyFiles(filePaths);
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)
