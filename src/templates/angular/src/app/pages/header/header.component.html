@@ -192,12 +192,12 @@
             </button>
             <ul class="dropdown-menu absolute hidden text-gray-700 pt-1" role="button">
               <li>
-                <a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap capitalize">
+                <a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-2 block whitespace-no-wrap capitalize">
                   {{ authenticator.user.username }}
                 </a>
               </li>
               <li>
-                <a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" >
+                <a class="bg-gray-200 hover:bg-gray-400 py-2 px-2 block whitespace-no-wrap" >
                   <ng-container *ngIf="!!authenticator.user">
                     <span (click)="authenticator.signOut()">Sign Out</span>
                   </ng-container>
