@@ -11,8 +11,6 @@ const conn = require('./mongoose')
 <% } %>
 <% if (isAuth0) { %>
 let jwt = require('express-jwt')
-
-
 const config = {
 	authRequired: false,
 	auth0Logout: true,
@@ -21,8 +19,11 @@ const config = {
 	issuerBaseURL: 'https://dev-gbyd4ldp.us.auth0.com',
 	secret: process.env.AUTH_SECRET,
 }
+<% } %>
 
-
+<%if (blobServiceName == "azure") {%>
+const { sampleBlobServiceExecutor } = require('./utils/blob/azure')
+sampleBlobServiceExecutor()
 <% } %>
   
 const port = process.env.PORT
