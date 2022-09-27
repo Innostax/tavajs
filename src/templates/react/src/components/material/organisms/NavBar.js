@@ -14,10 +14,14 @@ import Brightness7Icon from '@mui/icons-material/Brightness7'
 import { THEMES } from '../../theme.constants'
 <%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
-<% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
+<% if (isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
+<% if (isCognito) {%>
+import Button from '../atoms/Button'
+import { withAuthenticator } from '@aws-amplify/ui-react'
+<%}%>
 
 <%if(isThemeProvider) {%>const THEME = 'theme'<%}%>
-const NavBar = ({ brand, links, mode, setMode }) => {
+const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }) => {
 
 	<% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 
@@ -76,10 +80,12 @@ const NavBar = ({ brand, links, mode, setMode }) => {
 					<% if(isOkta) {%>
 					<AppWithRouterAccess />
 					<%}%>
+					<% if(isCognito){%><Button onClick={signOut} name='SignOut' variant='white' /><%}%>
 				</Toolbar>
 			</AppBar>
 			<Routes />
 		</Router>
 	)
 }
-export default NavBar
+<% if(isCognito){%>export default withAuthenticator(NavBar)
+<%} else { %>export default NavBar <%}%>

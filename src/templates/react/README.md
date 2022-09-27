@@ -43,6 +43,8 @@ One of the first things to remember about React project development is that it i
 
 <% if(isOkta) { %><li>  <a  href="#okta">Okta Authentication Service</a></li><%}%>
 
+<% if(isCognito) { %><li>  <a  href="#cognito">Cognito Authentication Service</a></li><%}%>
+
 <% if(isStore) {%><li><a  href="#redux"> Redux Service </a></li><%}%>
 
 <% if(isThemeProvider) {%><li>  <a  href="#themeService">Theme Service</a></li><%}%>
@@ -124,6 +126,12 @@ One of the first things to remember about React project development is that it i
 <%if(isAuth0){%>
 
 <a  href=https://auth0.com/  target="_blank"><img  src="https://www.vectorlogo.zone/logos/auth0/auth0-ar21.svg"  width="100"  alt="auth"  /></a>
+
+<%}%>
+
+<%if(isCognito){%>
+
+<a  href="https://aws.amazon.com/cognito/"  target="_blank"><img  src="https://miro.medium.com/max/400/1*ZjS_BtHvohZJc6lqHOsdJw.png"  alt="cognito"  height="100"  width="100"/></a>
 
 <%}%>
 
@@ -259,6 +267,48 @@ REACT_APP_OKTA_ISSUER=your Auth0 Domain
 ```
 
 You can create your Okta account at <a  href="https://developer.okta.com/signup/">Okta/sign-up</a> [Create-Okta-account]
+
+<%}%>
+
+<% if(isCognito) {%>
+
+<div  id='cognito'/>
+
+### Cognito Authentication Service
+
+Cognito is an easy to implement, adaptable authentication and authorization platform.
+
+### Configure environment variables for Cognito
+
+Before running the app, you must update environment variables values in `.env` file.
+
+<% if(nodeName) {%>
+
+Inside `.env` file in <%= frontEndName %> directory update environment variables:
+
+```
+
+REACT_APP_AWS_USER_POOLS_ID="your aws user pool id"
+
+REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
+
+```
+
+<%}else{%>
+
+Inside `.env` file update environment variables:
+
+```
+
+REACT_APP_AWS_USER_POOLS_ID="your aws user pool id"
+
+REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
+
+```
+
+<%}%>
+
+You can create your aws account at <a  href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email">AWS/sign-up</a>
 
 <%}%>
 
