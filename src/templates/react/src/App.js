@@ -10,7 +10,22 @@ import NavBar from "./components/organisms/NavBar";
 <% if(isOkta){ %>import { BrowserRouter as Router } from 'react-router-dom';
  
 <%}%>
+
 import "./App.css";
+<% if (isCognito) {%>
+  import '@aws-amplify/ui-react/styles.css'
+  import { Amplify } from 'aws-amplify'
+  import { withAuthenticator } from '@aws-amplify/ui-react'
+  const { REACT_APP_USER_POOL_ID, REACT_APP_USER_POOL_WEB_CLIENT_ID } =
+	process.env
+
+Amplify.configure({
+	Auth: {
+		userPoolId: REACT_APP_USER_POOL_ID,
+		userPoolWebClientId: REACT_APP_USER_POOL_WEB_CLIENT_ID,
+	},
+})
+  <%}%>
 
 
 const linksOfNav = [
@@ -123,5 +138,5 @@ const App = () => {
   </div>
   )
 };
-
-export default App;
+<% if(isCognito){%>export default withAuthenticator(App)
+ <%} else { %>export default App;  <%}%>

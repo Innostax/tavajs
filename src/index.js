@@ -684,6 +684,9 @@ prompt(questionnaire).then(async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
+     if (isFrontEndChoiceReact)
+      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_REACT];
+    
     COGNITO_FILE_PATHS.forEach((each) => {
       filePaths = [
         ...filePaths,

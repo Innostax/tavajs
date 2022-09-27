@@ -4,8 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
-<% if(isThemeProvider) { %>import { ThemeToggler } from '../../theme'<% } %>
-const NavBar = ({ brand, links }) => {
+<% if (isThemeProvider) { %>import { ThemeToggler } from '../../theme'<% } %>
+<% if (isCognito) {%>
+	import { Button, withAuthenticator } from '@aws-amplify/ui-react'
+	import '@aws-amplify/ui-react/styles.css'
+<%}%>
+const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
 
 <% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 	return (
@@ -33,6 +37,7 @@ const NavBar = ({ brand, links }) => {
 					</Navbar.Collapse>
 					<% if(isThemeProvider) { %><ThemeToggler/><% } %>
 					<% if(isOkta) { %><AppWithRouterAccess /> <% } %>
+					<% if(isCognito){%><Button onClick={signOut}>Sign Out</Button><%}%>
 					<Navbar.Toggle className='collapse-btn' aria-controls='basic-navbar-nav' />
 				</Container>
 			</Navbar>
@@ -41,4 +46,5 @@ const NavBar = ({ brand, links }) => {
 	)
 }
 
-export default NavBar
+<% if(isCognito){%>export default withAuthenticator(NavBar)
+ <%} else { %>export default NavBar <%}%>
