@@ -199,6 +199,8 @@ const handleAnswersEvaluator = async (answers) => {
       CURR_DIR,
       isJest,
       isCypress,
+      isMocha,
+      isNightWatch,
       isTailwindCSS,
       blobServiceName
     );
@@ -345,6 +347,8 @@ const handleAnswersEvaluator = async (answers) => {
       CURR_DIR,
       isJest,
       isCypress,
+      isMocha,
+      isNightWatch,
       isTailwindCSS,
       blobServiceName,
     );
@@ -609,6 +613,8 @@ const handleAnswersEvaluator = async (answers) => {
           CURR_DIR,
           isJest,
           isCypress,
+          isMocha,
+          isNightWatch,
           isTailwindCSS,
           blobServiceName
         );
