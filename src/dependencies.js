@@ -28,7 +28,10 @@ const DEPENDENCIES = {
   OKTA_VUE: [{ name: "@okta/okta-vue", version: "5.4.0" }],
   COGNITO_VUE: [
     { name: "aws-amplify", version: "^4.3.36" },
-    { name: "@aws-amplify/ui-vue", version: "^2.4.22" },    
+    { name: "@aws-amplify/ui-vue", version: "^2.4.22" }],    
+  COGNITO_ANGULAR: [
+    { name: "aws-amplify", version: "^4.3.36" },
+    { name: "@aws-amplify/ui-angular", version: "^2.4.22" },
   ],
 };
 

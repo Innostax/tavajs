@@ -688,9 +688,21 @@ const handleAnswersEvaluator = async (answers) => {
             `${frontEnd.path}/${each.destFileName}`
           );
         });
-    
         dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];
       }
+    if(isFrontEndChoiceAngular){
+      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
+      COGNITO_FILE_PATHS.forEach((each) => {
+        filePaths = [
+          ...filePaths,
+          {
+            source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+            destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
+          },
+        ];
+      });
+      copyFiles(filePaths);
+    }
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)

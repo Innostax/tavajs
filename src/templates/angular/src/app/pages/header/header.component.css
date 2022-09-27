@@ -89,7 +89,7 @@
   left: 8px;
 }
 <%}%>
-<% if(isOkta) { %>
+<% if(isOkta || isCognito) { %>
 .profile-icon {
   width: 35px;
   height: 35px;
