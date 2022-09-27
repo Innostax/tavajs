@@ -44,7 +44,14 @@
     </div>
     
     <div class="d-grid">
-      <app-button [name]="userActionLabel" [class]="'btn btn-primary w-100'" type="'submit'" (onClick)="onSubmit()"></app-button>
+      <app-button 
+        [name]="userActionLabel" 
+        [class]="'btn btn-primary w-100'" 
+        type="'submit'" 
+        (onClick)="onSubmit()"
+        [disabledBtn]="createUserForm.value.name == '' || createUserForm.value.username == '' || createUserForm.value.email == ''"
+      >
+      </app-button>
     </div>
   </form>
 </div>
@@ -114,7 +121,14 @@
       </div>
       <br>
       <div>
-        <app-button [name]="userActionLabel" [class]="'text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'" type="'submit'" (onClick)="onSubmit()"></app-button>
+        <app-button 
+          [name]="userActionLabel" 
+          [class]="'text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'" 
+          type="'submit'" 
+          (onClick)="onSubmit()"
+          [disabledBtn]="createUserForm.value.name == '' || createUserForm.value.username == '' || createUserForm.value.email == ''"
+        >
+        </app-button>
       </div>
     </form>
   </div>
