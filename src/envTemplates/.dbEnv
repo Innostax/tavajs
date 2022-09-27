@@ -36,3 +36,9 @@ SENDGRID_API_KEY= Enter Sendgrid Api
 <%  if (blobServiceName == "azure") { %>
 AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 <% } %>
+
+<%  if (blobServiceName == "aws-s3") { %>
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+AWS_SECRET_ACCESS_KEY = Enter your Aws Secret Access Key
+AWS_REGION = Enter your Aws Region
+<% } %>

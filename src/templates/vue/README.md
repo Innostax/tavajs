@@ -41,9 +41,14 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (dbName === 'mongoose') {%><li><a href="#mongoose">MONGOOSE db service </li></a><%}%>
 <%}%>
 <% if (isSMTP) {%><li><a href="#smtp">SMTP email service </li></a><%}%>
+<% if (isSentry) {%><li><a  href="#sentry">Sentry logger service </li></a><%}%>
+<% if (isWinston) {%><li><a  href="#winston">Winston logger service </li></a><%}%>
 <% if (isJest) {%><li><a href="#jest">Jest test framework </li></a><%}%>
 <% if (isCypress) {%><li><a href="#cypress">Cypress test framework </li></a><%}%>
+<% if (isMocha) {%><li><a href="#mocha">Mocha test framework </li></a><%}%>
+<% if (isNightWatch) {%><li><a href="#nightwatch">Nightwatch test framework </li></a><%}%>
 <% if (blobServiceName === 'azure') {%><li><a  href="#azure">Azure blob service </li></a><%}%>
+<% if (blobServiceName === 'aws-s3') {%><li><a  href="#aws-s3">AWS-S3 blob service </li></a><%}%>
 
 </ul>
 
@@ -65,6 +70,21 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <%if(dbName === 'postgres'){%>
 <a  href="https://www.postgresql.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>  </a>
 <%}%>
+<% if (isSentry) {%>
+<a  href="https://sentry.io/welcome/"  target="_blank">  <img  src="https://blog.theodo.com/static/63d60039b4d984c7014f2b72544cf46c/ee604/sentry-logo.png"  alt="sentry"  width="100"  height="100"/>  </a>
+<%}%>
+<% if (isWinston) {%>
+<a  href="https://www.npmjs.com/package/winston"  target="_blank">  <img  src="https://avatars.githubusercontent.com/u/9682013?s=200&v=4"  alt="winston"  width="100"  height="100"/>  </a>
+<%}%>
+<% if (isCypress) {%>
+<a  href="https://www.cypress.io/" target="_blank"><img src="https://nx.dev/documentation/shared/cypress-logo.png" alt="cypress" width="100" height="80" /></a>
+<%}%>
+<% if (isMocha) {%>
+<a  href="https://mochajs.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mocha/mocha-plain.svg" alt="mochajs"  width="100"  height="100" /></a>
+<%}%>
+<% if (isNightWatch) {%>
+<a  href="https://nightwatchjs.org/" target="_blank"><img src="https://seeklogo.com/images/N/nightwatchjs-logo-66C5775A1E-seeklogo.com.png" alt="nightwatch"  width="100"  height="100" /></a>
+<%}%>
 <%if(isJest){%>
 <a  href="https://jestjs.io/"  target="_blank">  <img  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg"  alt="jest"  width="100"  height="100"/>  </a>
 <%}%>
@@ -82,9 +102,17 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <a href="https://aws.amazon.com/cognito/" target="_blank">
 <img src="https://miro.medium.com/max/400/1*ZjS_BtHvohZJc6lqHOsdJw.png" alt="cognito" height="100" width="100"/></a>
 <%}%>
+<%if(isSMTP){%>
+<a  href="https://www.smtp.com/" target="_blank"><img src="https://www.postmastery.com/wp-content/uploads/2018/05/smtp.jpg" alt="smtp" width="150" height="80" /></a>
+<%}%>
 <%if(blobServiceName === 'azure'){%>
 <a  href=https://azure.microsoft.com/en-us/  target="_blank">
- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original-wordmark.svg" width="100"  alt="azure"/>
+ <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" width="100"  alt="azure"/>
+ </a>
+<%}%>
+<%if(blobServiceName === 'aws-s3'){%>
+<a  href=https://aws.amazon.com/s3/ target="_blank">
+ <img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" width="100"  alt="aws-s3"/>
  </a>
 <%}%>
 <%}%>
@@ -216,8 +244,7 @@ PostgreSQL is a powerful, open source object-relational database system that use
 
 ### Configure environment variables for Postgres
 
-Before running the app, you must update environment variable for postgres in `.env` file.
-Inside `.env` file update environment variable:
+Before running the app, inside `.env` file in <%= nodeName %> directory update environment variable for postgres:
 
 ```
 DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres
@@ -235,12 +262,13 @@ MongoDB is one of the most widely used No-SQL databases in the developer world t
 
 ### Configure environment variables for Mongoose
 
-Before running the app, you must update environment variable for mongoose in `.env` file.
-Inside `.env` file update your `DATABASE_URL` environment variable:
+Before running the app, inside `.env` file in <%= nodeName %> directory update environment variable for mongoose:
 
 ```
 DATABASE_URL=mongodb://localhost:27017/admin 
 ```
+
+Update the `DATABASE_URL` environment variable.
 <%}%>
 
 <div id='mysql'/>
@@ -252,14 +280,52 @@ MySQL is the world's most popular open source database. With its proven performa
 
 ### Configure environment variables for MYSQL
 
-Before running the app, you must update environment variable for MYSQL in `.env` file.
+Before running the app, inside `.env` file in <%= nodeName %> directory update environment variable for MYSQL:
 
-Inside `.env` file update `username` , `password` and `mydb` for `DATABASE_URL` environment variable as your username, password and database name.
 
 ```
 DATABASE_URL=mysql://username:password@localhost:3306/mydb
 ```
 
+Update `username` , `password` and `mydb` for `DATABASE_URL` environment variable as your username, password and database name.
+<%}%>
+
+<div  id='sentry'/>
+<% if(isSentry) {%>
+
+### Logger Service:
+
+### Sentry Logger service
+
+Sentry works with your application logging infrastructure, often integrating directly. It does not replace the need for those logs, and it's also not a destination for things that aren't actionable errors or crashes.
+
+### Running Sentry service
+
+Inside `sentry.js` file in <%= nodeName %> directory update environment variables:
+
+```
+
+dsn: "Enter your Domain Source Name",
+
+```
+
+<%}%>
+
+<div  id='winston'/>
+<% if(isWinston) {%>
+
+### Logger Service:
+
+
+### Winston Logger service
+
+`winston` is designed to be a simple and universal logging library with support for multiple transports. A transport is essentially a storage device for your logs. Each `winston` logger can have multiple transports configured at different levels.
+
+```
+
+For winston there are no credentials required as the log is created in a log file which gets generated when you run the app.
+
+```
 <%}%>
 
 <div id='jest'/>
@@ -288,9 +354,42 @@ npm run test
 Cypress is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.
 
 ### Running Cypress
+Before running the test, update `BASE_URL` constant as your app base url in `cypress.constants.js` file.
 
 ```
 npx cypress open
+```
+<%}%>
+
+  
+<div id='mocha'/>
+<% if(isMocha) {%>
+
+### Testing:
+
+### Mocha test framework
+Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, making asynchronous testing simple and fun.
+### Running Mocha
+
+```
+npx test
+```
+<%}%>
+
+  
+<div id='nightwatch'/>
+<% if(isNightWatch) {%>
+
+### Testing:
+
+### Nightwatch test framework
+Nightwatch is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.
+
+### Running Nightwatch
+Before running the test, update `BASE_URL` constant as your app base url in `nightwatch.config.js` file.
+
+```
+npx test
 ```
 <%}%>
 
@@ -347,6 +446,41 @@ AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 <li> downloadBlob - To download file from container.</li>
 <li> deleteBlob - To delete file from container.</li>
 <li> sampleBlobServiceExecutor - To test all functionalities of azure blob service.</li>
+</ul>
+
+<%}%>
+
+<div  id='aws-s3'/>
+
+<% if(blobServiceName === 'aws-s3') {%>
+
+### Blob Service
+
+### AWS-S3 blob service
+
+Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security.
+### Running AWS-S3 blob service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+AWS_SECRET_ACCESS_KEY = Enter your Aws Secret Access Key
+AWS_REGION = Enter your Aws Region
+
+```
+
+### AWS-S3 blob service functions
+
+<ul>
+<li> createBucket - To create a bucket.</li>
+<li> listBuckets - To list all buckets.</li>
+<li> deleteBucket - To delete a bucket.</li>
+<li> uploadObject - To upload an object in bucket.</li>
+<li> listObjects - To list all objects in bucket.</li>
+<li> downloadObject - To download an object from bucket.</li>
+<li> deleteObject - To delete object from bucket.</li>
+<li> sampleAwsS3Executor - To test all functionalities of aws-s3 blob service.</li>
 </ul>
 
 <%}%>

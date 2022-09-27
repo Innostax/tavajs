@@ -51,6 +51,8 @@ const createDirectoryContents = (
   currentDirectory,
   isJest,
   isCypress,
+  isMocha,
+  isNightWatch,
   isTailwindCSS,
   blobServiceName
 ) => {
@@ -93,6 +95,8 @@ const createDirectoryContents = (
             currentDirectory,
             isJest,
             isCypress,
+            isMocha,
+            isNightWatch,
             isTailwindCSS,
             blobServiceName,
           },
@@ -140,6 +144,8 @@ const createDirectoryContents = (
             currentDirectory,
             isJest,
             isCypress,
+            isMocha,
+            isNightWatch,
             isTailwindCSS,
             blobServiceName
           );
