@@ -77,7 +77,7 @@
             <li>
               <a class="dropdown-item" href="#">
                 <ng-container *ngIf="!!authenticator.user">
-                  <button (click)="authenticator.signOut()">Sign Out</button>
+                  <span (click)="authenticator.signOut()">Sign Out</span>
                 </ng-container>
               </a>
             </li>

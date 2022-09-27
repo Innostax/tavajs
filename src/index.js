@@ -684,6 +684,9 @@ prompt(questionnaire).then(async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
+    if(isFrontEndChoiceAngular){
+      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
+    }
     COGNITO_FILE_PATHS.forEach((each) => {
       filePaths = [
         ...filePaths,
@@ -694,9 +697,6 @@ prompt(questionnaire).then(async (answers) => {
       ];
     });
     copyFiles(filePaths);
-    if(isFrontEndChoiceAngular){
-      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
-    }
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)
