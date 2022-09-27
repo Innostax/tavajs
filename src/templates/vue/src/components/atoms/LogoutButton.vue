@@ -6,6 +6,10 @@
 
 <script>
 import Button from './Button.vue'
+<% if (isCognito) { %>      
+import { useAuthenticator } from '@aws-amplify/ui-vue';
+const auth = useAuthenticator();
+<% } %>
 
 export default {
     name: "LogoutButton",
@@ -22,6 +26,11 @@ export default {
       async logout () {
         await this.$auth.signOut()
       },
+      <% } %>
+      <% if (isCognito) { %>      
+      logout () {
+        auth.signOut()
+      }
       <% } %>
     }
 };
