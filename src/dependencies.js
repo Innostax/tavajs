@@ -29,6 +29,10 @@ const DEPENDENCIES = {
   COGNITO_REACT: [
     { name: "@aws-amplify/ui-react", version: "^3.5.4" },
     { name: "aws-amplify", version: "^4.3.36" },
+  ], 
+  COGNITO_ANGULAR: [
+    { name: "aws-amplify", version: "^4.3.36" },
+    { name: "@aws-amplify/ui-angular", version: "^2.4.22" },
   ],
 };
 

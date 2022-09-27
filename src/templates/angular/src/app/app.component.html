@@ -1,3 +1,9 @@
 <div id="app">
-  <router-outlet></router-outlet>
+  <%if(isCognito){%>
+  <ng-container *ngIf="authenticator.authStatus !== 'authenticated'; else signin">
+    <amplify-authenticator></amplify-authenticator>
+  </ng-container>
+  <ng-template #signin><%}%>
+    <router-outlet></router-outlet>
+  <%if(isCognito){%></ng-template><%}%>
 </div>
