@@ -27,6 +27,11 @@
   background-color: var(--dark-background-color);
 }
 
+/* Modal text for tailwind css */
+[data-theme='dark'] .label-white {
+  color:  var(--dark-text-color)
+}
+
 /* Modal close icon styling */
 [data-theme='dark'] .btn-close {
   filter: brightness(0) invert(1);
@@ -43,6 +48,11 @@
 }
 
 [data-theme='dark'] .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* Tailwind - Navbar */
+[data-theme='dark'] .down-arrow {
   filter: brightness(0) invert(1);
 }
 

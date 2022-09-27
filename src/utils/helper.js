@@ -22,6 +22,7 @@ const {
   INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
+  TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
@@ -33,6 +34,7 @@ const createDirectoryContents = (
   sequelizeSelected,
   dbName,
   isSMTP,
+  isSendgrid,
   isSentry,
   isWinston,
   isAuth0,
@@ -48,7 +50,9 @@ const createDirectoryContents = (
   isMaterialUI,
   currentDirectory,
   isJest,
-  isCypress
+  isCypress,
+  isTailwindCSS,
+  blobServiceName
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
@@ -72,6 +76,7 @@ const createDirectoryContents = (
             sequelizeSelected,
             dbName,
             isSMTP,
+            isSendgrid,
             isSentry,
             isWinston,
             isAuth0,
@@ -88,6 +93,8 @@ const createDirectoryContents = (
             currentDirectory,
             isJest,
             isCypress,
+            isTailwindCSS,
+            blobServiceName,
           },
           (autoescape = false)
         );
@@ -116,6 +123,7 @@ const createDirectoryContents = (
             sequelizeSelected,
             dbName,
             isSMTP,
+            isSendgrid,
             isSentry,
             isWinston,
             isAuth0,
@@ -131,7 +139,9 @@ const createDirectoryContents = (
             isMaterialUI,
             currentDirectory,
             isJest,
-            isCypress
+            isCypress,
+            isTailwindCSS,
+            blobServiceName
           );
         }
       }
@@ -378,10 +388,20 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case NGRX_CRUD_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/ngrxTemplates/user-actions-modal`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
-          isfile: false,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
+          isfile: true,
         },
+        {
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
+          isfile: true, 
+        },
+        {
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
+          isfile: true,
+        }
       ];
     case VUEX_FILE_PATHS:
       return [
@@ -412,11 +432,29 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false,
         },
         {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal`,
-          isFile: false,
+          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.css`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
+          isfile: true,
         },
+        {
+          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
+          isfile: true, 
+        },
+        {
+          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
+          isfile: true,
+        }
       ];
+    case TAILWIND_CSS_FILE_PATHS: 
+      return [
+        {
+          source: `${srcDir}/tailwindCssTemplates/tailwind.config.js`,
+          destination: `${destDir}/tailwind.config.js`,
+          isFile: true,
+        },
+      ]   
     default:
       return [];
   }

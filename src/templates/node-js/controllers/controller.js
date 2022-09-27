@@ -14,6 +14,10 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       require('dotenv').config()
       const smtp = require('../utils/email/smtp')
       <%}%> 
+    <% if(isSendgrid) {%>
+      require('dotenv').config()
+      const { sendMail } = require('../utils/email/sendgrid')
+      <%}%>
 
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
@@ -53,6 +57,10 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       await smtp.sendEmail(mailObj).then((res) => {
         console.log('email response', res)
       })
+    <%}%>
+
+    <% if(isSendgrid) {%>
+      sendMail();
     <%}%>
 
 

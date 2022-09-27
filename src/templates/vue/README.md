@@ -32,6 +32,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 
 <% if(isAuth0) { %><li><a href="#auth0"> Auth0 Authentication Service</a></li><%}%>
 <% if(isOkta) { %><li> <a href="#okta">Okta Authentication Service</a></li><%}%>
+<% if(isCognito) { %><li> <a href="#cognito">Cognito Authentication Service</a></li><%}%>
 <% if(isStore) {%><li><a href="#vuex"> Vuex Service </a></li><%}%>
 <% if(isThemeProvider) {%><li> <a href="#themeService">Theme Service</a></li><%}%>
 <% if(nodeName) {%>
@@ -42,6 +43,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (isSMTP) {%><li><a href="#smtp">SMTP email service </li></a><%}%>
 <% if (isJest) {%><li><a href="#jest">Jest test framework </li></a><%}%>
 <% if (isCypress) {%><li><a href="#cypress">Cypress test framework </li></a><%}%>
+<% if (blobServiceName === 'azure') {%><li><a  href="#azure">Azure blob service </li></a><%}%>
 
 </ul>
 
@@ -75,6 +77,15 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <a  href=https://auth0.com/ target="_blank">  
   <img src="https://www.vectorlogo.zone/logos/auth0/auth0-ar21.svg" width="100" alt="auth" />
 </a>
+<%}%>
+<%if(isCognito){%>
+<a href="https://aws.amazon.com/cognito/" target="_blank">
+<img src="https://miro.medium.com/max/400/1*ZjS_BtHvohZJc6lqHOsdJw.png" alt="cognito" height="100" width="100"/></a>
+<%}%>
+<%if(blobServiceName === 'azure'){%>
+<a  href=https://azure.microsoft.com/en-us/  target="_blank">
+ <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original-wordmark.svg" width="100"  alt="azure"/>
+ </a>
 <%}%>
 <%}%>
 
@@ -142,6 +153,36 @@ VUE_APP_AUTH0_DOMAIN=your Auth0 Domain
 <%}%>
 
 You can create your Auth0 account at <a  href="https://auth0.com/signup">Auth0/sign-up</a> [Create-Auth0-account]
+<%}%>
+
+<div id='cognito'/>
+<% if(isCognito) {%>
+### Cognito Authentication Service
+
+Cognito is an easy to implement, adaptable authentication and authorization platform.
+
+### Configure environment variables for Cognito
+
+Before running the app, you must update environment variables values in `.env` file.
+
+<% if(nodeName) {%>
+Inside `.env` file in <%= frontEndName %> directory update environment variables:  
+
+```
+VUE_APP_AWS_USER_POOLS_ID="your aws user pool id"
+VUE_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
+```
+<%}else{%>
+Inside `.env` file update environment variables:
+
+```
+VUE_APP_AWS_USER_POOLS_ID="your aws user pool id"
+VUE_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
+```
+
+<%}%>
+
+You can create your aws account at <a  href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email">AWS/sign-up</a>
 <%}%>
 
 <div id='okta'/>
@@ -274,6 +315,39 @@ SMTP_HOST = your SMTP host
 ```
 
 Add recipient's email id in `recipients` object inside `mailObj` data property in `users.controllers.js` file.
+
+<%}%>
+
+<div  id='azure'/>
+
+<% if(blobServiceName === 'azure') {%>
+
+### Blob Service
+
+### Azure blob service
+
+Azure Blob storage is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data.
+
+### Running Azure blob service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
+```
+
+### Azure blob service functions
+
+<ul>
+<li> createContainer - To create a container.</li>
+<li> listContainers - To list all containers.</li>
+<li> deleteContainer - To delete a container.</li>
+<li> uploadBlob - To upload any type of file.</li>
+<li> listBLobs - To list all files in container.</li>
+<li> downloadBlob - To download file from container.</li>
+<li> deleteBlob - To delete file from container.</li>
+<li> sampleBlobServiceExecutor - To test all functionalities of azure blob service.</li>
+</ul>
 
 <%}%>
 
