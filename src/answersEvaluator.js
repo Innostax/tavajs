@@ -680,6 +680,9 @@ const handleAnswersEvaluator = async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
+    if(isFrontEndChoiceAngular){
+      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
+    }
     COGNITO_FILE_PATHS.forEach((each) => {
       filePaths = [
         ...filePaths,
