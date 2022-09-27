@@ -17,10 +17,10 @@ async function createBucket(bucketName) {
 	try {
 		const bucketParams = { Bucket: bucketName }
 		const data = await s3Client.send(new CreateBucketCommand(bucketParams))
-		console.log(`Successfully Created Bucket ${bucketName}.`)
+		console.log(`Successfully created bucket ${bucketName}.`)
 		return data
 	} catch (err) {
-		console.log(`Error Creating Bucket ${bucketName}.`, err)
+		console.log(`Error creating bucket ${bucketName}.`, err)
 	}
 }
 
@@ -29,7 +29,7 @@ async function listBuckets() {
 		const data = await s3Client.send(new ListBucketsCommand({}))
 		return data.Buckets
 	} catch (err) {
-		console.log('Error Listing Buckets.', err)
+		console.log('Error listing buckets.', err)
 	}
 }
 
@@ -37,10 +37,10 @@ async function deleteBucket(bucketName) {
 	try {
 		const bucketParams = { Bucket: bucketName }
 		const data = await s3Client.send(new DeleteBucketCommand(bucketParams))
-		console.log(`Successfully Deleted Bucket ${bucketName}.`)
+		console.log(`Successfully deleted bucket ${bucketName}.`)
 		return data
 	} catch (err) {
-		console.log(`Error Deleting Bucket ${bucketName}.`, err)
+		console.log(`Error deleting bucket ${bucketName}.`, err)
 	}
 }
 
@@ -55,10 +55,10 @@ async function uploadObject(bucketName, filePath) {
 			Body: fileStream,
 		}
 		const data = await s3Client.send(new PutObjectCommand(bucketParams))
-		console.log(`Successfully Uploaded Object ${objectName}.`)
+		console.log(`Successfully uploaded object ${objectName}.`)
 		return data
 	} catch (err) {
-		console.log(`Error Uploading Object ${objectName}.`, err)
+		console.log(`Error uploading object ${objectName}.`, err)
 	}
 }
 
@@ -72,9 +72,9 @@ async function downloadObject(bucketName, objectName, filePath) {
 		const data = await s3Client.send(new GetObjectCommand(bucketParams))
 		const writeStream = fs.createWriteStream(filePath)
 		data.Body.pipe(writeStream)
-		console.log(`Successfully Downloaded ${objectName} Object.`)
+		console.log(`Successfully downloaded object ${objectName}.`)
 	} catch (err) {
-		console.log('Error downloading Object', err)
+		console.log(`Error downloading object ${objectName}.`, err)
 	}
 }
 
@@ -84,7 +84,7 @@ async function listObjects(bucketName) {
 		const data = await s3Client.send(new ListObjectsCommand(bucketParams))
 		return data.Contents
 	} catch (err) {
-		console.log('Error listing Objects.', err)
+		console.log('Error listing objects.', err)
 	}
 }
 
@@ -95,10 +95,10 @@ async function deleteObject(bucketName, objectName) {
 			Key: objectName,
 		}
 		const data = await s3Client.send(new DeleteObjectCommand(bucketParams))
-		console.log(`Successfully Deleted Object ${objectName}.`)
+		console.log(`Successfully deleted object ${objectName}.`)
 		return data
 	} catch (err) {
-		console.log(`Error Deleting Object ${objectName}.`, err)
+		console.log(`Error deleting object ${objectName}.`, err)
 	}
 }
 
