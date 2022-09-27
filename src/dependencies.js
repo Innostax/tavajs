@@ -26,6 +26,10 @@ const DEPENDENCIES = {
   OKTA_REACT: [{ name: "@okta/okta-react", version: "^6.3.0" }],
   OKTA_ANGULAR: [{ name: "@okta/okta-angular", version: "5.1" }],
   OKTA_VUE: [{ name: "@okta/okta-vue", version: "5.4.0" }],
+  COGNITO_ANGULAR: [
+    { name: "aws-amplify", version: "^4.3.36" },
+    { name: "@aws-amplify/ui-angular", version: "^2.4.22" },
+  ],
 };
 
 const DEV_DEPENDENCIES = {
