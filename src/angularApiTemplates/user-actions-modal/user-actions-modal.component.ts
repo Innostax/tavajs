@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 import { ApiService } from 'src/app/shared/services/services'
 
-declare let $: any;
-
 @Component({
   selector: 'app-user-actions-modal',
   templateUrl: './user-actions-modal.component.html',
@@ -28,7 +26,7 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if(!$.isEmptyObject(this.data)) {
+    if(this.data?.name != '') {
       this.initForm()
       this.userActionLabel = 'Edit'
     } else this.userActionLabel = 'Add'
@@ -42,8 +40,12 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
     });
   }
 
+  shouldDisableButton() {
+    return ((this.createUserForm?.value.name == '' || this.createUserForm?.value.username == '' || this.createUserForm?.value.email == '') ? true : false)
+  }
+
   onSubmit() {
-    let userId = $.isEmptyObject(this.data) ? uuid().slice(0,8).toString() : this.data?.id;
+    let userId = (this.data?.name == '') ? uuid().slice(0,8).toString() : this.data?.id;
     const userData = {
       id: parseInt(userId),
       name: this.createUserForm.get('name')?.value,
@@ -51,7 +53,7 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
       email: this.createUserForm.get('email')?.value
     }
 
-    if(!$.isEmptyObject(this.data)) this.apiService.updateEmployee(this.data.id,userData).subscribe((res)=>{})
+    if(this.data?.name != '') this.apiService.updateEmployee(this.data.id,userData).subscribe((res)=>{})
     else this.apiService.createEmployee(userData).subscribe((res)=>{})
     this.createUserForm.reset();
     // To-Do: Need to update api call for get users
