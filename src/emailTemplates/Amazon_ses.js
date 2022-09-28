@@ -2,42 +2,37 @@ const AWS = require('aws-sdk')
 
 AWS.config.update({ region: process.env.AWS_REGION })
 
-const params = {
-    
-	Destination: {
-		CcAddresses: ['CC Reciever Email'],
-		ToAddresses: ['Reciever Email'],
-	},
-	Message: {
-		Body: {
-			Html: {
-				Charset: 'UTF-8',
-				Data: 'Message',
+function sendMail({to,from,subject,html,text}){
+	const params = {    
+		Destination: {
+			ToAddresses: to,
+		},
+		Message: {
+			Body: {
+				Html: {
+					Charset: 'UTF-8',
+					Data: html,
+				},
+				Text: {
+					Charset: 'UTF-8',
+					Data: text,
+				},
 			},
-			Text: {
+			Subject: {
 				Charset: 'UTF-8',
-				Data: 'Message',
+				Data: subject,
 			},
 		},
-		Subject: {
-			Charset: 'UTF-8',
-			Data: 'Subject',
-		},
-	},
-	Source: 'Sender Email',
-	ReplyToAddresses: ['Sender Email'],
-}
+		Source: from,
+	}
 
-const sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise()
-
-async function sendMail(){
-    try{
-        const data = await sendPromise
+	const sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise()
+	sendPromise.then(function (data) {
         console.log(data.MessageId)
-    }
-    catch(err){
+    })
+    .catch(function (err) {
         console.error(err, err.stack)
-    }
+    })
 }
 
 module.exports = {

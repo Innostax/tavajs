@@ -28,7 +28,14 @@ sampleBlobServiceExecutor()
 
 <%if (isAmazonSes) {%>
 const { sendMail } = require('./utils/email/amazon_ses')
-sendMail()
+const mailParams = {
+	to: ["Reciever Email"],
+	from: "Sender Email",
+	subject: "Subject",
+	html: "htmlMessage",
+	text: "textMessage",
+}
+sendMail(mailParams)
 <% } %>  
 
 const port = process.env.PORT
