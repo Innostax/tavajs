@@ -119,6 +119,8 @@ const SMTP = "smtp";
 
 const SENDGRID = "sendgrid";
 
+const AMAZON_SES = "amazon_ses";
+
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
@@ -150,5 +152,6 @@ module.exports = {
   TAILWIND_CSS_FILE_PATHS,
   TAILWIND_VUE_FILE_PATHS,
   SMTP,
-  SENDGRID
+  SENDGRID,
+  AMAZON_SES,
 };

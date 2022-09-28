@@ -14,9 +14,9 @@ const {
   copyFiles,
   getFilePaths,
 } = require("./utils/helper");
-const projectSetUp = require("./utils/projectSetUp");
+// const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
-const projectExecutionCommands = require("./utils/projectExecutionCommands");
+// const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
 const { handleRenderEJS } = require("./utils/handleRenderEJS");
 
@@ -50,7 +50,8 @@ const {
   TAILWIND_VUE_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   SMTP,
-  SENDGRID
+  SENDGRID,
+  AMAZON_SES,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -90,8 +91,6 @@ const handleAnswersEvaluator = async (answers) => {
     projectDirectoryPath,
     angularNodeCrud,
     tailwindCssChoice,
-
-    
   } = answers;
 
   // Project Directory Path
@@ -126,6 +125,7 @@ const handleAnswersEvaluator = async (answers) => {
 
   const isSMTP = emailServiceName === SMTP;
   const isSendgrid = emailServiceName === SENDGRID;
+  const isAmazonSes = emailServiceName === AMAZON_SES;
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -156,7 +156,7 @@ const handleAnswersEvaluator = async (answers) => {
     }
 
     if (isFrontEndChoiceAngular) {
-      if(isTailwindCSS) {
+      if (isTailwindCSS) {
         dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDCSS];
 
         const res = getFilePaths(
@@ -200,6 +200,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -349,6 +350,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -370,7 +372,7 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       isTailwindCSS,
-      blobServiceName,
+      blobServiceName
     );
 
     const ROUTE_FILES = [
@@ -421,7 +423,12 @@ const handleAnswersEvaluator = async (answers) => {
         "blobTemplates",
         blobServiceName
       );
-      createBlobService(backEnd.path, blobServiceName, blobTemplatePath, backEnd.path);
+      createBlobService(
+        backEnd.path,
+        blobServiceName,
+        blobTemplatePath,
+        backEnd.path
+      );
     }
 
     //<---------------------------- For Logger service ---------------------------------->
@@ -449,7 +456,17 @@ const handleAnswersEvaluator = async (answers) => {
           : `${CURR_DIR}/${projectName}/.env`;
       handleRenderEJS(
         `${currentPath}/envTemplates/.dbEnv`,
-        { dbName, frontEnd, backEnd, isAuth0, isOkta, isSMTP, isSendgrid, blobServiceName },
+        {
+          dbName,
+          frontEnd,
+          backEnd,
+          isAuth0,
+          isOkta,
+          isSMTP,
+          isSendgrid,
+          isAmazonSes,
+          blobServiceName,
+        },
         envFilePath
       );
     }
@@ -458,51 +475,81 @@ const handleAnswersEvaluator = async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(__dirname, "dockerTemplate");
-    let res =  [];
+    let res = [];
 
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
-      if (frontEnd?.choice === REACT ) {
+      if (frontEnd?.choice === REACT) {
         res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
         filePaths = [...filePaths, ...res];
-      }
-      else if(frontEnd?.choice === ANGULAR) {
-        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+      } else if (frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(
+          ANGULAR_DOCKER_FILE_PATHS,
+          dockerPath,
+          frontEnd.path
+        );
         filePaths = [...filePaths, ...res];
       }
 
       handleRenderEJS(
         `${dockerPath}/db-docker-compose.yml`,
-        { frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        {
+          frontEnd,
+          projectName,
+          frontEndChoice,
+          frontEndName,
+          backEndName,
+          mongoSelected,
+          sequelizeSelected,
+        },
         `${CURR_DIR}/${projectName}/docker-compose.yml`
       );
-      
-      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
-        filePaths = [...filePaths, ...res];
-    }
-    else if(frontEnd?.choice) {
 
-      if(frontEnd?.choice === REACT) {
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+      filePaths = [...filePaths, ...res];
+    } else if (frontEnd?.choice) {
+      if (frontEnd?.choice === REACT) {
         res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
         filePaths = [...filePaths, ...res];
-      }
-      else if(frontEnd?.choice === ANGULAR) {
-        res = getFilePaths(ANGULAR_DOCKER_FILE_PATHS, dockerPath, frontEnd.path,dockerPath);
+      } else if (frontEnd?.choice === ANGULAR) {
+        res = getFilePaths(
+          ANGULAR_DOCKER_FILE_PATHS,
+          dockerPath,
+          frontEnd.path,
+          dockerPath
+        );
         filePaths = [...filePaths, ...res];
       }
 
       handleRenderEJS(
         `${dockerPath}/docker-compose.yml`,
-        { backEnd,frontEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        {
+          backEnd,
+          frontEnd,
+          projectName,
+          frontEndChoice,
+          frontEndName,
+          backEndName,
+          mongoSelected,
+          sequelizeSelected,
+        },
         `${CURR_DIR}/docker-compose.yml`
       );
-    }
-    else if(backEnd?.choice === NODE_JS) {
+    } else if (backEnd?.choice === NODE_JS) {
       res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
       filePaths = [...filePaths, ...res];
 
       handleRenderEJS(
         `${dockerPath}/db-docker-compose.yml`,
-        { frontEnd,backEnd,projectName,frontEndChoice,frontEndName,backEndName,mongoSelected,sequelizeSelected },
+        {
+          frontEnd,
+          backEnd,
+          projectName,
+          frontEndChoice,
+          frontEndName,
+          backEndName,
+          mongoSelected,
+          sequelizeSelected,
+        },
         `${CURR_DIR}/docker-compose.yml`
       );
     }
@@ -530,13 +577,11 @@ const handleAnswersEvaluator = async (answers) => {
         `${frontEnd.path}/src/screens/Users/users.actions.js`
       );
 
-      if (!isMaterialUI) {
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
           { isMaterialUI },
           `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
-        );
-      }
+        );      
 
       if (isCrud) {
         handleRenderEJS(
@@ -573,6 +618,7 @@ const handleAnswersEvaluator = async (answers) => {
           isAuth0,
           isThemeProvider,
           isOkta,
+          isCognito,
         },
         `${frontEnd.path}/src/App.js`
       );
@@ -616,6 +662,7 @@ const handleAnswersEvaluator = async (answers) => {
           dbName,
           isSMTP,
           isSendgrid,
+          isAmazonSes,
           isSentry,
           isWinston,
           isAuth0,
@@ -652,7 +699,9 @@ const handleAnswersEvaluator = async (answers) => {
       directoryPaths = [...directoryPaths, ...res];
 
       if (isCrud) {
-        fs.mkdirSync(`${frontEnd.path}/src/app/shared/components/user-actions-modal`);
+        fs.mkdirSync(
+          `${frontEnd.path}/src/app/shared/components/user-actions-modal`
+        );
         const res = getFilePaths(
           NGRX_CRUD_FILE_PATHS,
           currentPath,
@@ -661,7 +710,7 @@ const handleAnswersEvaluator = async (answers) => {
         directoryPaths = [...directoryPaths, ...res];
         handleRenderEJS(
           `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-          {isTailwindCSS},
+          { isTailwindCSS },
           `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
         );
       }
@@ -670,7 +719,9 @@ const handleAnswersEvaluator = async (answers) => {
 
   //<-------------- For angular node crud ------------------->
   if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
-    fs.mkdirSync(`${frontEnd.path}/src/app/shared/components/user-actions-modal`);
+    fs.mkdirSync(
+      `${frontEnd.path}/src/app/shared/components/user-actions-modal`
+    );
     const res = getFilePaths(
       ANGULAR_CRUD_NODE_FILE_PATHS,
       currentPath,
@@ -679,7 +730,7 @@ const handleAnswersEvaluator = async (answers) => {
     directoryPaths = [...directoryPaths, ...res];
     handleRenderEJS(
       `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-      {isTailwindCSS},
+      { isTailwindCSS },
       `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
     );
     handleRenderEJS(
@@ -718,17 +769,17 @@ const handleAnswersEvaluator = async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
   } else if (answers["authenticationChoice"] === COGNITO) {
-      if (isFrontEndChoiceVue) {
-        COGNITO_FILE_PATHS.forEach((each) => {
-          handleRenderEJS(
-            `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-            { frontEndChoice },
-            `${frontEnd.path}/${each.destFileName}`
-          );
-        });
-        dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];
-      }
-    if(isFrontEndChoiceAngular){
+    if (isFrontEndChoiceVue) {
+      COGNITO_FILE_PATHS.forEach((each) => {
+        handleRenderEJS(
+          `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+          { frontEndChoice },
+          `${frontEnd.path}/${each.destFileName}`
+        );
+      });
+      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];
+    }
+    if (isFrontEndChoiceAngular) {
       dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
       COGNITO_FILE_PATHS.forEach((each) => {
         filePaths = [
@@ -751,7 +802,7 @@ const handleAnswersEvaluator = async (answers) => {
           `${frontEnd.path}/${each.destFileName}`
         );
       });
-    }    
+    }
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)
@@ -790,8 +841,8 @@ const handleAnswersEvaluator = async (answers) => {
   }
 
   projectInfo(frontEnd, backEnd, answers);
-  projectSetUp(frontEnd, backEnd, answers);
-  projectExecutionCommands(frontEnd, backEnd, answers);
-}
+  // projectSetUp(frontEnd, backEnd, answers);
+  // projectExecutionCommands(frontEnd, backEnd, answers);
+};
 
-module.exports = { handleAnswersEvaluator }
+module.exports = { handleAnswersEvaluator };
