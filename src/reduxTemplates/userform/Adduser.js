@@ -75,14 +75,14 @@ const AddUser = ({ show, handleClose, reset }) => {
       <>
         <Button
           name={isEmpty(user) ? 'Add' : 'Edit'}
-          variant='rounded-lg'
+          variant='rounded-lg text-white'
           color='bg-blue-600'
           size=''
           onClick={handleSubmit}
         />
         <Button
           name='Cancel'
-          variant='rounded-lg'
+          variant='rounded-lg text-white'
           color='bg-red-600'
           align='ml-auto'
           onClick={handleClose}

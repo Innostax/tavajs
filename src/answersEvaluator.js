@@ -571,20 +571,16 @@ const handleAnswersEvaluator = async (answers) => {
           },
         ];
       });
-
       handleRenderEJS(
         `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
         { defaultRoute },
         `${frontEnd.path}/src/screens/Users/users.actions.js`
       );
-
-      if (isBootstrap || isTailWind) {
-        handleRenderEJS(
-          `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
-          { isBootstrap, isTailWind, isMaterialUI },
-          `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
-        );      
-      }
+      handleRenderEJS(
+        `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
+        { isBootstrap, isTailWind, isMaterialUI },
+        `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
+      );      
       if (isCrud) {
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/Adduser.js`,

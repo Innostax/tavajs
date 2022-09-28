@@ -38,8 +38,8 @@ const Users = () => {
       <%}%>
     };
 
+    <% if(isBootstrap) {%>
     const editFormatter = (id, row) => (
-      <% if(isBootstrap) {%>
         <>
           <Button size="sm" variant="outline-primary" className='w-80' onClick={() => {
             handleShow()
@@ -49,6 +49,7 @@ const Users = () => {
             Edit
           </Button>
         </>
+    )
       <%}%>
       <% if(isMaterialUI) {%>
         const editFormatter = (data) => (
@@ -61,12 +62,14 @@ const Users = () => {
             Edit
           </Button>
         </>
+        )
       <%}%>
       <% if(isTailWind) {%>
+      const editFormatter = (id, row) => (
       <>
 			<Button
 				name='Edit'
-				variant='rounded-lg'
+				variant='rounded-lg text-white'
 				color='bg-blue-600'
 				size=''
 				onClick={() => {
@@ -76,11 +79,11 @@ const Users = () => {
 				}}
 			/>
       </>
-    <%}%>
     )
+    <%}%>
 
+    <% if(isBootstrap) {%>
     const deleteFormatter= (id,row)=>(
-      <% if(isBootstrap) {%>
         <>
           <Button
             variant="outline-danger"
@@ -95,6 +98,7 @@ const Users = () => {
             Delete
           </Button>
         </>
+    )
       <%}%>
       <% if(isMaterialUI) {%>
         const deleteFormatter= (data)=>(
@@ -112,12 +116,14 @@ const Users = () => {
             Delete
           </Button>
         </>
+        )
       <%}%>
       <% if(isTailWind) {%>
+        const deleteFormatter= (id,row)=>(
         <>
         <Button
           name='Delete'
-          variant='rounded-lg'
+          variant='rounded-lg text-white'
           color='bg-red-600'
           align='content-center'
           onClick={() => {
@@ -127,8 +133,8 @@ const Users = () => {
           }}
         />
 		</>
-      <%}%>
     )
+      <%}%>
   <%}%>
   <% if((isCrudWithNode||isCrud) && (isBootstrap || isTailWind)) {%>
     const cols=[
@@ -191,12 +197,11 @@ const Users = () => {
   return (
     <>
       <div>
-        <h1>Welcome to Users Screen</h1>
+        <h1 <%if(isTailWind) {%>className='text-3xl font-medium mb-5'<%}%> >Welcome to Users Screen</h1>
         
         <% if((isCrudWithNode||isCrud) && isBootstrap) {%>
           <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
         <%}%>
-        
         <% if((isCrudWithNode||isCrud) && isMaterialUI) {%>
           <Button variant='contained' onClick={() => handleShow()}>Add User</Button>
           <Box sx={{ height: '1.5rem' }} />
