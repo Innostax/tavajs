@@ -60,7 +60,6 @@ const COGNITO_FILE_PATHS = [
   {
     srcFolder: "envTemplates",
     srcFileName: ".cognitoEnv",
-    destFolder: "/src",
     destFileName: ".env",
   },
 ];

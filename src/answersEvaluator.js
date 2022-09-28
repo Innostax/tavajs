@@ -196,6 +196,8 @@ const handleAnswersEvaluator = async (answers) => {
       CURR_DIR,
       isJest,
       isCypress,
+      isMocha,
+      isNightWatch,
       isTailwindCSS,
       blobServiceName
     );
@@ -341,6 +343,8 @@ const handleAnswersEvaluator = async (answers) => {
       CURR_DIR,
       isJest,
       isCypress,
+      isMocha,
+      isNightWatch,
       isTailwindCSS,
       blobServiceName,
     );
@@ -604,6 +608,8 @@ const handleAnswersEvaluator = async (answers) => {
           CURR_DIR,
           isJest,
           isCypress,
+          isMocha,
+          isNightWatch,
           isTailwindCSS,
           blobServiceName
         );
@@ -709,6 +715,17 @@ const handleAnswersEvaluator = async (answers) => {
       });
       copyFiles(filePaths);
     }
+    if (isFrontEndChoiceReact) {
+      dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_REACT];
+
+      COGNITO_FILE_PATHS.forEach((each) => {
+        handleRenderEJS(
+          `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+          { frontEndChoice },
+          `${frontEnd.path}/${each.destFileName}`
+        );
+      });
+    }    
   } else if (answers["authenticationChoice"] === OKTA) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)

@@ -18,6 +18,9 @@ function createBlobService(nodePath, blobServiceName, blobTemplatePath, backEndP
   if (blobServiceName == "azure") {
     dependencies = [...dependencies, { name: "@azure/storage-blob", version: "^12.11.0" }]
   }
+  if (blobServiceName == "aws-s3") {
+    dependencies = [...dependencies, { name: "@aws-sdk/client-s3", version: "^3.179.0" }]
+  }
   updateProjectDependencies(nodePath, dependencies);
 }
 module.exports = createBlobService;
