@@ -1,22 +1,24 @@
 const chalk = require("chalk");
-const package = require("../../package.json");
+const shell = require("shelljs");
+const projectDetails = require("../../package.json");
+const projectSetUp = require("./projectSetUp");
 
 function projectInfo(frontEnd, backEnd, answers) {
   //<---------------------------- For frontEnd ---------------------------------->
 
   if (frontEnd) {
     const { name, choice } = frontEnd;
-    console.log(
+    shell.echo(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating ${choice} project: ${name} using ${package.name} ${
-          package.version
+        )} Creating ${choice} project: ${name} using ${projectDetails.name} ${
+          projectDetails.version
         }`
       )
     );
     if (answers["authenticationChoice"])
-      console.log(
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(
             0x231b
@@ -25,20 +27,36 @@ function projectInfo(frontEnd, backEnd, answers) {
           }`
         )
       );
+    if (answers["testCaseFramework"])
+      shell.echo(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(
+            0x231b
+          )} Integrating Test Case framework: ${answers["testCaseFramework"]}`
+        )
+      );
+    if (answers["theme"])
+      shell.echo(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating theme: ${
+            answers["theme"]
+          }`
+        )
+      );
     if (choice === "react" && answers["store"])
-      console.log(
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
         )
       );
     if (choice === "angular" && answers["store"])
-      console.log(
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
         )
       );
     if (choice === "vue" && answers["store"])
-      console.log(
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
         )
@@ -49,34 +67,34 @@ function projectInfo(frontEnd, backEnd, answers) {
 
   if (backEnd) {
     const { name, choice } = backEnd;
-    console.log(
+    shell.echo(
       chalk.green.bold(
         `${String.fromCodePoint(
           0x1f4c2
-        )} Creating ${choice} project: ${name} using ${package.name} ${
-          package.version
+        )} Creating ${choice} project: ${name} using ${projectDetails.name} ${
+          projectDetails.version
         }`
       )
     );
 
     if (answers["dbName"])
-      console.log(
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
             answers["dbName"]
           }`
         )
       );
-    if (answers["loggerName"])
-      console.log(
+    if (answers["loggerServiceName"])
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-            answers["loggerName"]
+            answers["loggerServiceName"]
           }`
         )
       );
     if (answers["emailServiceName"])
-      console.log(
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
             answers["emailServiceName"]
@@ -84,7 +102,7 @@ function projectInfo(frontEnd, backEnd, answers) {
         )
       );
     if (answers["blobServiceName"])
-      console.log(
+      shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
             answers["blobServiceName"]
@@ -92,9 +110,11 @@ function projectInfo(frontEnd, backEnd, answers) {
         )
       );
   }
-  console.log(
+  shell.echo(
     chalk.green.bold(`${String.fromCodePoint(169)} Powered by Innostax`)
   );
+
+  projectSetUp(frontEnd, backEnd, answers);
 }
 
 module.exports = projectInfo;

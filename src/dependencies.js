@@ -8,6 +8,8 @@ const DEPENDENCIES = {
   MATERIALUI: [
     { name: "@mui/material", version: "^5.10.2" },
     { name: "@mui/icons-material", version: "^5.10.3" },
+    { name: "material-react-table", version: "^1.1.1"},
+    { name: "@material-ui/core", version:"^4.12.4"},
   ],
   TAILWINDCSS: [
     { name: "tailwindcss", version: "^3.1.8" }
@@ -40,7 +42,7 @@ const DEPENDENCIES = {
 };
 
 const DEV_DEPENDENCIES = {
-  CYPRESS: [{ name: "cypress", version: "^10.7.0" }],
+  CYPRESS: [{ name: "cypress", version: "^10.9.0" }],
   JEST: [
     { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
     { name: "@vue/test-utils", version: "^2.0.2" },

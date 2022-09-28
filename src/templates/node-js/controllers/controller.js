@@ -18,6 +18,9 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       require('dotenv').config()
       const { sendMail } = require('../utils/email/sendgrid')
       <%}%>
+    <%if (isAmazonSes) {%>
+      const { sendMail } = require('../utils/email/amazon_ses')
+      <%}%>  
 
  <% if(sequelizeSelected) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
@@ -63,6 +66,16 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       sendMail();
     <%}%>
 
+    <%if (isAmazonSes) {%>
+      const mailParams = {
+        to: ["Recipients Email"],
+        from: "Sender Email",
+        subject: "Subject",
+        html: "htmlMessage",
+        text: "textMessage",
+      }
+      sendMail(mailParams)
+      <% } %>  
 
     <% if(mongoSelected){ %>
         const newData = new <%= defaultRoute %>({
