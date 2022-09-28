@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
   onClickAddUser() {
     <% if(isBootstrap){%>$('#addUser_modal').modal('show');<%}%>
     <% if(isTailWind){%>this.showModal = true;<%}%>
-    this.data = {};
+    this.data = {name: '', username:'', email: ''};
     this.deleteUserInfo = false;
   }
 

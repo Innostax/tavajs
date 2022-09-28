@@ -1,0 +1,8 @@
+.opacity05 {
+  opacity: 0.5;
+}
+
+.disable-cursor {
+  cursor: not-allowed;
+  pointer-events: all;
+}
