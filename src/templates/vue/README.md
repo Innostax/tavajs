@@ -390,10 +390,10 @@ npm test
 Nightwatch is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.
 
 ### Running Nightwatch
-Before running the test, update `BASE_URL` constant as your app base url in `nightwatch.config.js` file.
+Before running the test, update `BASE_URL` constant as your app base url in `nightwatch.config.js` file and you need to run the project.
 
 ```
-npx test
+npm test
 ```
 <%}%>
 
