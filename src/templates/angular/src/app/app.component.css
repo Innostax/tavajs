@@ -12,6 +12,7 @@ li+li{
   left: 0;
   display: block;
   width: 100%;
+  text-transform: capitalize;
 }
 
 .online-message {
@@ -24,6 +25,7 @@ li+li{
   left: 0;
   display: block;
   width: 100%;
+  text-transform: capitalize;
 }
 
 .offline-body {
