@@ -1,5 +1,6 @@
 <div id="app">
-  <div *ngIf="networkstatus === 'Online'" class="online-message">
+  <%if(isNetworkInformer){%>
+  <div *ngIf="networkstatus === ONLINE" class="online-message">
     <div class="offline-body">
       <div class="offline-icon me-2">
         <img
@@ -11,7 +12,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="networkstatus === 'Offline'" class="offline-message">
+  <div *ngIf="networkstatus === OFFLINE" class="offline-message">
     <div class="offline-body">
       <div class="offline-icon me-2">
         <span></span>
@@ -21,7 +22,7 @@
         <p class="mb-0" translate>{{ statusMessage }}</p>
       </div>
     </div>
-  </div>
+  </div><%}%>
   <%if(isCognito){%>
   <ng-container *ngIf="authenticator.authStatus !== 'authenticated'; else signin">
     <amplify-authenticator></amplify-authenticator>

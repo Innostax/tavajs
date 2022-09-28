@@ -88,6 +88,7 @@ const handleAnswersEvaluator = async (answers) => {
     projectDirectoryPath,
     angularNodeCrud,
     tailwindCssChoice,
+    networkInformer,
   } = answers;
 
   // Project Directory Path
@@ -101,6 +102,7 @@ const handleAnswersEvaluator = async (answers) => {
   );
   const isMaterialUI = materialuiChoice;
   const isTailwindCSS = tailwindCssChoice;
+  const isNetworkInformer =networkInformer;
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -202,7 +204,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       isTailwindCSS,
-      blobServiceName
+      blobServiceName,
+      isNetworkInformer
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -350,7 +353,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       isTailwindCSS,
-      blobServiceName
+      blobServiceName,
+      isNetworkInformer
     );
 
     const ROUTE_FILES = [
@@ -660,7 +664,8 @@ const handleAnswersEvaluator = async (answers) => {
           isMocha,
           isNightWatch,
           isTailwindCSS,
-          blobServiceName
+          blobServiceName,
+          isNetworkInformer
         );
       });
 

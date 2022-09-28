@@ -126,6 +126,18 @@ module.exports = [
     },
   },
   {
+    name: "networkInformer",
+    type: "list",
+    message: "Do you want show Network Connection Informer?",
+    choices: [
+      { name: "Yes", value: true },
+      { name: "No", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "angular";
+    },
+  },
+  {
     name: "authenticationChoice",
     type: "list",
     message: "What Authentication Service you want to use?",

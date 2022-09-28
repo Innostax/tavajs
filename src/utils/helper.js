@@ -55,7 +55,8 @@ const createDirectoryContents = (
   isMocha,
   isNightWatch,
   isTailwindCSS,
-  blobServiceName
+  blobServiceName,
+  isNetworkInformer
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
@@ -101,6 +102,7 @@ const createDirectoryContents = (
             isNightWatch,
             isTailwindCSS,
             blobServiceName,
+            isNetworkInformer,
           },
           (autoescape = false)
         );
@@ -150,7 +152,8 @@ const createDirectoryContents = (
             isMocha,
             isNightWatch,
             isTailwindCSS,
-            blobServiceName
+            blobServiceName,
+            isNetworkInformer
           );
         }
       }

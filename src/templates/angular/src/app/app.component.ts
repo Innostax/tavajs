@@ -1,30 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { fromEvent, Observable, Subscription, timer } from 'rxjs';
+import { Component<%if(isNetworkInformer){%>, OnDestroy, OnInit<%}%> } from '@angular/core';
+<%if(isNetworkInformer){%>import { fromEvent, Observable, Subscription, timer } from 'rxjs';<%}%>
 <%if(isCognito){%>import { AuthenticatorService } from '@aws-amplify/ui-angular';<%}%>
- 
-const ONLINE = 'online';
-const OFFLINE = 'offline';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent <%if(isNetworkInformer){%>implements OnInit, OnDestroy<%}%> {
   title = 'angular';
   <%if(isCognito){%>constructor(public authenticator: AuthenticatorService) {}<%}%>
-  onlineEvent!: Observable<Event>;
+  <%if(isNetworkInformer){%>onlineEvent!: Observable<Event>;
   offlineEvent!: Observable<Event>;
   subscriptions: Subscription[] = [];
   statusMessage!: string;
   networkstatus!: string;
+  ONLINE: string = 'online';
+  OFFLINE: string = 'offline';
 
   ngOnInit(): void {
-    this.onlineEvent = fromEvent(window, ONLINE);
-    this.offlineEvent = fromEvent(window, OFFLINE);
+    this.onlineEvent = fromEvent(window, this.ONLINE);
+    this.offlineEvent = fromEvent(window, this.OFFLINE);
 
     this.subscriptions.push(
       this.onlineEvent.subscribe(e => {
-        this.networkstatus = 'Online';
+        this.networkstatus = this.ONLINE;
         this.statusMessage = 'Back to online';
         const shouldShowTill = timer(5000);
         shouldShowTill.subscribe(() => {
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.offlineEvent.subscribe(e => {
-        this.networkstatus = 'Offline';
+        this.networkstatus = this.OFFLINE;
         this.statusMessage = 'Connection lost! You are not connected to internet';
       })
     );
@@ -44,5 +45,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
+  }<%}%>
 }

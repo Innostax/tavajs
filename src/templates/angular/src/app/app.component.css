@@ -1,7 +1,7 @@
 li+li{
     margin-left: 10px;
   }
-
+<%if(isNetworkInformer){%>
 .offline-message {
   background: #fee8ec !important;
   color: #f51b46 !important;
@@ -62,4 +62,4 @@ li+li{
     -o-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
+}<%}%>
