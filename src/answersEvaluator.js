@@ -506,13 +506,11 @@ const handleAnswersEvaluator = async (answers) => {
         `${frontEnd.path}/src/screens/Users/users.actions.js`
       );
 
-
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
           { isMaterialUI },
           `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
-        );
-        
+        );      
 
       if (isCrud) {
         handleRenderEJS(

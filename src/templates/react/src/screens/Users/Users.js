@@ -37,7 +37,6 @@ const Users = () => {
       <%}%>
     };
 
-  
       <% if(!isMaterialUI) {%>
         const editFormatter = (id, row) => (
         <>
@@ -63,7 +62,6 @@ const Users = () => {
         </>
       <%}%>
     )
-
     
       <% if(!isMaterialUI) {%>
         const deleteFormatter= (id,row)=>(
@@ -129,6 +127,7 @@ const Users = () => {
       },
     ]
   <%}%>
+   
   <% if((isCrudWithNode||isCrud) && isMaterialUI) {%>
     const cols = [
       {
@@ -157,7 +156,7 @@ const Users = () => {
         },
       },
     ]
-    <%}%>
+  <%}%>
   return (
     <>
       <div>
@@ -171,7 +170,6 @@ const Users = () => {
         <%}%>
         <% if(isStore &&  !isMaterialUI && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
         <% if(isStore && isMaterialUI &&(isCrudWithNode||isCrud)){%> <Table data={users} columns={cols}/><%}%> 
-
       </div>
       <%if((isCrudWithNode||isCrud)){%>
         {show && <AddUser show={setShow} handleShow={handleShow} />}
@@ -179,8 +177,8 @@ const Users = () => {
           <DeleteConfirmationModal
             open={confirmDelete}
             <% if(isMaterialUI) {%>
-              setOpen={() => setConfirmDelete(false)}
-              <%}else{%>
+            setOpen={() => setConfirmDelete(false)}
+            <%}else{%>
             setOpen={setConfirmDelete}
             <%}%>
             userId={() => handleDelete(deleteId)}
