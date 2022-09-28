@@ -26,7 +26,7 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
       handleClose={setOpen}
       footer={footer}
     >
-      {`Are you sure you want to delete ${username} ?`}
+      Are you sure you want to delete <b>{username}</b> ?
     </ViceModal>
   );
 };
@@ -39,7 +39,7 @@ import Box from '@material-ui/core/Box'
 const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
 	return (
 		<ViceModal show={open} title='Delete User?' handleClose={setOpen}>
-			{`Are you sure you want to delete ${username} ?`}
+			Are you sure you want to delete <b>{username}</b> ?
 			<br></br>
 			<Box
 				display='flex'
