@@ -14,9 +14,9 @@ const {
   copyFiles,
   getFilePaths,
 } = require("./utils/helper");
-const projectSetUp = require("./utils/projectSetUp");
+// const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("./utils/projectInfo");
-const projectExecutionCommands = require("./utils/projectExecutionCommands");
+// const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
 const { handleRenderEJS } = require("./utils/handleRenderEJS");
 
@@ -747,8 +747,8 @@ const handleAnswersEvaluator = async (answers) => {
   }
 
   projectInfo(frontEnd, backEnd, answers);
-  projectSetUp(frontEnd, backEnd, answers);
-  projectExecutionCommands(frontEnd, backEnd, answers);
+  // projectSetUp(frontEnd, backEnd, answers);
+  // projectExecutionCommands(frontEnd, backEnd, answers);
 }
 
 module.exports = { handleAnswersEvaluator }
