@@ -34,6 +34,7 @@ const createDirectoryContents = (
   sequelizeSelected,
   dbName,
   isSMTP,
+  isSendgrid,
   isSentry,
   isWinston,
   isAuth0,
@@ -50,6 +51,8 @@ const createDirectoryContents = (
   currentDirectory,
   isJest,
   isCypress,
+  isMocha,
+  isNightWatch,
   isTailwindCSS,
   blobServiceName
 ) => {
@@ -75,6 +78,7 @@ const createDirectoryContents = (
             sequelizeSelected,
             dbName,
             isSMTP,
+            isSendgrid,
             isSentry,
             isWinston,
             isAuth0,
@@ -91,6 +95,8 @@ const createDirectoryContents = (
             currentDirectory,
             isJest,
             isCypress,
+            isMocha,
+            isNightWatch,
             isTailwindCSS,
             blobServiceName,
           },
@@ -121,6 +127,7 @@ const createDirectoryContents = (
             sequelizeSelected,
             dbName,
             isSMTP,
+            isSendgrid,
             isSentry,
             isWinston,
             isAuth0,
@@ -137,6 +144,8 @@ const createDirectoryContents = (
             currentDirectory,
             isJest,
             isCypress,
+            isMocha,
+            isNightWatch,
             isTailwindCSS,
             blobServiceName
           );

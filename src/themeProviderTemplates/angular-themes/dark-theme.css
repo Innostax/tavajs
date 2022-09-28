@@ -51,6 +51,11 @@
   filter: brightness(0) invert(1);
 }
 
+/* Tailwind - Navbar */
+[data-theme='dark'] .down-arrow {
+  filter: brightness(0) invert(1);
+}
+
 /* Signout button styling */
 [data-theme='dark'] .profile-icon {
   border: 1px solid var(--dark-text-color) !important;
