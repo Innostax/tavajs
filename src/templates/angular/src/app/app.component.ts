@@ -7,13 +7,11 @@ import { fromEvent, Observable, Subscription, timer } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-test';
+  title = 'angular';
   <%if(isCognito){%>constructor(public authenticator: AuthenticatorService) {}<%}%>
   onlineEvent!: Observable<Event>;
   offlineEvent!: Observable<Event>;
-
   subscriptions: Subscription[] = [];
-
   statusMessage!: string;
   networkstatus!: string;
 
@@ -28,7 +26,7 @@ export class AppComponent {
         this.statusMessage = 'Back to online';
         this.networkstatus = 'Online';
         const source = timer(5000);
-        source.subscribe(val => {
+        source.subscribe(() => {
           this.statusMessage = '';
           this.networkstatus = '';
         });
@@ -43,7 +41,7 @@ export class AppComponent {
       })
     );
   }
-
+()
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
