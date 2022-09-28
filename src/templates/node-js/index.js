@@ -26,17 +26,6 @@ const { sampleBlobServiceExecutor } = require('./utils/blob/azure')
 sampleBlobServiceExecutor()
 <% } %>
 
-<%if (isAmazonSes) {%>
-const { sendMail } = require('./utils/email/amazon_ses')
-const mailParams = {
-	to: ["Recipients Email"],
-	from: "Sender Email",
-	subject: "Subject",
-	html: "htmlMessage",
-	text: "textMessage",
-}
-sendMail(mailParams)
-<% } %>  
 
 <%if (blobServiceName == "aws-s3") {%>
 const { sampleAwsS3Executor } = require('./utils/blob/aws-s3.js')
