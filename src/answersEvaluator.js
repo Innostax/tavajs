@@ -51,6 +51,7 @@ const {
   ANGULAR_DOCKER_FILE_PATHS,
   SMTP,
   SENDGRID,
+  AMAZON_SES,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -122,6 +123,7 @@ const handleAnswersEvaluator = async (answers) => {
 
   const isSMTP = emailServiceName === SMTP;
   const isSendgrid = emailServiceName === SENDGRID;
+  const isAmazonSes = emailServiceName === AMAZON_SES;
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -193,6 +195,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -349,6 +352,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -461,6 +465,7 @@ const handleAnswersEvaluator = async (answers) => {
           isOkta,
           isSMTP,
           isSendgrid,
+          isAmazonSes,
           blobServiceName,
         },
         envFilePath
@@ -576,11 +581,10 @@ const handleAnswersEvaluator = async (answers) => {
       if (isBootstrap || isTailWind) {
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
-          { isBootstrap, isTailWind },
+          { isBootstrap, isTailWind, isMaterialUI },
           `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
-        );
+        );      
       }
-
       if (isCrud) {
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/Adduser.js`,
@@ -618,6 +622,7 @@ const handleAnswersEvaluator = async (answers) => {
           isAuth0,
           isThemeProvider,
           isOkta,
+          isCognito,
         },
         `${frontEnd.path}/src/App.js`
       );
@@ -661,6 +666,7 @@ const handleAnswersEvaluator = async (answers) => {
           dbName,
           isSMTP,
           isSendgrid,
+          isAmazonSes,
           isSentry,
           isWinston,
           isAuth0,

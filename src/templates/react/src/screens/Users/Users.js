@@ -6,8 +6,7 @@
 <% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
 <% if(isCrudWithNode||isCrud) {%>import AddUser from './AddUser';<%}%>
-<% if((isCrudWithNode||isCrud) && isMaterialUI) {%>import DeleteConfirmationModal from '../../components/organisms/DeleteConfirmationModal';<%}%>
-<% if((isCrudWithNode||isCrud) && (isBootstrap || isTailWind)) {%>import DeleteConfirmationModal from './DeleteConfirmationModal';<%}%>
+<% if(isCrudWithNode||isCrud) {%>import DeleteConfirmationModal from './DeleteConfirmationModal';<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%> import Table from '../../components/organisms/Table';<%}%>
 <% if(isCrud ||isCrudWithNode) {%>import { actions } from './users.reducer';
 
@@ -52,11 +51,12 @@ const Users = () => {
         </>
       <%}%>
       <% if(isMaterialUI) {%>
+        const editFormatter = (data) => (
         <>
           <Button  variant='outlined' size='small' onClick={() => {
             handleShow()
-            dispatch(setSelectedUserModal({id}))
-            dispatch(setSelectedUser(row))
+            dispatch(setSelectedUserModal(data.id))
+            dispatch(setSelectedUser(data))
             }}>
             Edit
           </Button>
@@ -97,12 +97,17 @@ const Users = () => {
         </>
       <%}%>
       <% if(isMaterialUI) {%>
+        const deleteFormatter= (data)=>(
         <>
           <Button
             variant='outlined'
             color="error"
             size="small"
-            onClick={() => handleDelete(id)}
+            onClick={() => {
+              username = data.username
+              deleteId = data.id
+              setConfirmDelete(true)
+            }}
           >
             Delete
           </Button>
@@ -125,7 +130,7 @@ const Users = () => {
       <%}%>
     )
   <%}%>
-  <% if(isCrudWithNode||isCrud) {%>
+  <% if((isCrudWithNode||isCrud) && (isBootstrap || isTailWind)) {%>
     const cols=[
       {
         dataField: 'name',
@@ -153,7 +158,36 @@ const Users = () => {
       },
     ]
   <%}%>
-  
+   
+  <% if((isCrudWithNode||isCrud) && isMaterialUI) {%>
+    const cols = [
+      {
+        accessorKey: 'name',
+        header: 'Name',
+      },
+      {
+        accessorKey: 'username',
+        header: 'User Name',
+      },
+      {
+        accessorKey: 'email',
+        header: 'Email',
+      },
+      {
+        accessorKey: 'id',
+        accessorFn: (data) => {
+          return deleteFormatter(data)
+           
+        },
+      },
+      {
+        accessorKey: 'editid',
+        accessorFn: (data) => {
+          return editFormatter(data)
+        },
+      },
+    ]
+  <%}%>
   return (
     <>
       <div>
@@ -168,7 +202,7 @@ const Users = () => {
           <Box sx={{ height: '1.5rem' }} />
         <%}%>
 
-        <% if((isCrudWithNode||isCrud) && isTailWind) {%>
+        <% if((isCrudWithNode||isCrud) && isTailWind && isStore) {%>
           <div className='dark:bg-[#1d1717]'>
           <button
             className='text-white bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 '
@@ -179,14 +213,20 @@ const Users = () => {
         </div>
         <%}%>
 
-        <% if(isStore && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id'columns={cols}/><%}%> 
+
+        <% if(isStore &&  (isBootstrap || isTailWind) && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
+        <% if(isStore && isMaterialUI &&(isCrudWithNode||isCrud)){%> <Table data={users} columns={cols}/><%}%> 
       </div>
       <%if((isCrudWithNode||isCrud)){%>
         {show && <AddUser show={setShow} handleShow={handleShow} />}
         {confirmDelete && (
           <DeleteConfirmationModal
             open={confirmDelete}
+            <% if(isMaterialUI) {%>
+            setOpen={() => setConfirmDelete(false)}
+            <%}else{%>
             setOpen={setConfirmDelete}
+            <%}%>
             userId={() => handleDelete(deleteId)}
             username={username}
           />
