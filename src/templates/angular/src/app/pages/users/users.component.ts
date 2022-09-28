@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
   onClickAddUser() {
     <% if(!isTailwindCSS){%>$('#addUser_modal').modal('show');<%}%>
     <% if(isTailwindCSS){%>this.showModal = true;<%}%>
-    this.data = {};
+    this.data = {name: '', username:'', email: ''};
     this.deleteUserInfo = false;
   }
 
