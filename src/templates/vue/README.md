@@ -41,6 +41,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (dbName === 'mongoose') {%><li><a href="#mongoose">MONGOOSE db service </li></a><%}%>
 <%}%>
 <% if (isSMTP) {%><li><a href="#smtp">SMTP email service </li></a><%}%>
+<% if (isAmazonSes) {%><li><a href="#amazon-ses">Amazon SES email service </li></a><%}%>
 <% if (isSentry) {%><li><a  href="#sentry">Sentry logger service </li></a><%}%>
 <% if (isWinston) {%><li><a  href="#winston">Winston logger service </li></a><%}%>
 <% if (isJest) {%><li><a href="#jest">Jest test framework </li></a><%}%>
@@ -104,6 +105,9 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <%}%>
 <%if(isSMTP){%>
 <a  href="https://www.smtp.com/" target="_blank"><img src="https://www.postmastery.com/wp-content/uploads/2018/05/smtp.jpg" alt="smtp" width="150" height="80" /></a>
+<%}%>
+<%if(isAmazonSes){%>
+ <a  href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" />
 <%}%>
 <%if(blobServiceName === 'azure'){%>
 <a  href=https://azure.microsoft.com/en-us/  target="_blank">
@@ -180,7 +184,7 @@ VUE_APP_AUTH0_DOMAIN=your Auth0 Domain
 
 <%}%>
 
-You can create your Auth0 account at <a  href="https://auth0.com/signup">Auth0/sign-up</a> [Create-Auth0-account]
+You can create your Auth0 account at <a  href="https://auth0.com/signup">Auth0/sign-up</a>
 <%}%>
 
 <div id='cognito'/>
@@ -231,7 +235,7 @@ VUE_APP_OKTA_CLIENT_ID=your auth0 client Id
 VUE_APP_OKTA_ISSUER=your Auth0 Domain
 ```
 
-You can create your Okta account at <a  href="https://developer.okta.com/signup/">Okta/sign-up</a> [Create-Okta-account]
+You can create your Okta account at <a  href="https://developer.okta.com/signup/">Okta/sign-up</a>
 
 <%}%>
 
@@ -354,7 +358,7 @@ npm run test
 Cypress is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.
 
 ### Running Cypress
-Before running the test, update `BASE_URL` constant as your app base url in `cypress.constants.js` file.
+Before running the test, update `BASE_URL` constant as your app base url in `cypress.constants.js` file and you need to run the project.
 
 ```
 npx cypress open
@@ -372,7 +376,7 @@ Mocha is a feature-rich JavaScript test framework running on Node.js and in the 
 ### Running Mocha
 
 ```
-npx test
+npm test
 ```
 <%}%>
 
@@ -416,6 +420,39 @@ SMTP_HOST = your SMTP host
 Add recipient's email id in `recipients` object inside `mailObj` data property in `users.controllers.js` file.
 
 <%}%>
+
+<div id='amazon-ses'/>
+<% if(isAmazonSes) {%>
+
+### Email Service:
+
+### Amazon SES email service
+
+Amazon Simple Email Service (Amazon SES) is a bulk and transactional email-sending service. It is the most cost effective email marketing platform.
+
+### Running Amazon SES email service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+AWS_SECRET_ACCESS_KEY = Enter Your Aws Secret Access Key
+AWS_REGION = Enter Your Aws Region
+```
+Pass the following information inside `mailParams` data property in `index.js` file.
+
+```
+{	
+to: ["Recipients Email"],	
+from: "Sender Email",	
+subject: "Subject",	
+html: "htmlMessage",	
+text: "textMessage",
+}
+```
+
+<%}%>
+
 
 <div  id='azure'/>
 
@@ -514,11 +551,11 @@ color: var(--headingTextColor);
 
 ## Some Important Links
 
-Official Documentation: <a  href="https://vuejs.org/guide/introduction.html"> Vue.js</a> [Vue-url]
+Official Documentation: <a  href="https://vuejs.org/guide/introduction.html"> Vue.js</a>
 
-Built-In directives: <a  href="https://vuejs.org/api/built-in-directives.html#built-in-directives"> vuejs.org/guide/directives</a> [Vue-directives]
+Built-In directives: <a  href="https://vuejs.org/api/built-in-directives.html#built-in-directives"> vuejs.org/guide/directives</a>
 
-Template overview: <a  href="https://vuejs.org/guide/essentials/template-syntax.html"> vuejs.org/guide/template</a> [Vue-template]
+Template overview: <a  href="https://vuejs.org/guide/essentials/template-syntax.html"> vuejs.org/guide/template</a>
 
 ---
 

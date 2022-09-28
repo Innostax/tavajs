@@ -29,7 +29,7 @@ sampleBlobServiceExecutor()
 <%if (isAmazonSes) {%>
 const { sendMail } = require('./utils/email/amazon_ses')
 const mailParams = {
-	to: ["Reciever Email"],
+	to: ["Recipients Email"],
 	from: "Sender Email",
 	subject: "Subject",
 	html: "htmlMessage",

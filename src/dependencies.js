@@ -36,7 +36,7 @@ const DEPENDENCIES = {
 };
 
 const DEV_DEPENDENCIES = {
-  CYPRESS: [{ name: "cypress", version: "^10.7.0" }],
+  CYPRESS: [{ name: "cypress", version: "^10.9.0" }],
   JEST: [
     { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
     { name: "@vue/test-utils", version: "^2.0.2" },
