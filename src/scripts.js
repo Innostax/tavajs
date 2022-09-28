@@ -2,7 +2,7 @@ const SCRIPTS = {
   CYPRESS: [
     {
       name: "cypress",
-      command: "npx cypress open",
+      command: "npx cypress run",
     },
   ],
   JEST: [

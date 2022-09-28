@@ -38,6 +38,11 @@ const mailParams = {
 sendMail(mailParams)
 <% } %>  
 
+<%if (blobServiceName == "aws-s3") {%>
+const { sampleAwsS3Executor } = require('./utils/blob/aws-s3.js')
+sampleAwsS3Executor()
+<% } %>
+  
 const port = process.env.PORT
 
 const app = express();
