@@ -114,7 +114,7 @@ function projectInfo(frontEnd, backEnd, answers) {
     chalk.green.bold(`${String.fromCodePoint(169)} Powered by Innostax`)
   );
 
-  projectSetUp(frontEnd, backEnd, answers)
+  projectSetUp(frontEnd, backEnd, answers);
 }
 
 module.exports = projectInfo;
