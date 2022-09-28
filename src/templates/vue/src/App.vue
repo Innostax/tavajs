@@ -61,5 +61,6 @@ export default {
 
 };
 </script>
-
-<style src="./styles/index.css"/>
+<% if (isBootstrap) { %>
+<style src="./components/styles/index.css"/>
+<% } %>

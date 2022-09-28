@@ -13,10 +13,10 @@
 
 <script>
 <%if(isStore) { %>
-import AddUser from "../userModal/AddUser";
-import ShowUsers from "../userModal/ShowUsers";
-import EditUser from "../userModal/EditUser";
-import DeleteUser from "../userModal/DeleteUser";
+  import AddUser from "../../userModal/AddUser.vue";
+import ShowUsers from "../../userModal/ShowUsers.vue";
+import EditUser from "../../userModal/EditUser.vue";
+import DeleteUser from "../../userModal/DeleteUser";
 
 export default {
   name: "Users",

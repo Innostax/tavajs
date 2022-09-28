@@ -23,6 +23,7 @@ const {
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
+  TAILWIND_VUE_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
@@ -48,6 +49,8 @@ const createDirectoryContents = (
   projectChoice,
   isThemeProvider,
   isMaterialUI,
+  isBootstrap,
+  isTailWind,
   currentDirectory,
   isJest,
   isCypress,
@@ -92,6 +95,8 @@ const createDirectoryContents = (
             projectChoice,
             isThemeProvider,
             isMaterialUI,
+            isBootstrap,
+            isTailWind,
             currentDirectory,
             isJest,
             isCypress,
@@ -107,14 +112,20 @@ const createDirectoryContents = (
       } else if (stats.isDirectory()) {
         const isBootstrapFile = file === CSS_FRAMEWORKS.BOOTSTRAP;
         const isMaterialUIFile = file === CSS_FRAMEWORKS.MATERIAL;
+        const isTailWindFile = file === CSS_FRAMEWORKS.TAILWIND;
         // recursive call
-        const isRequiedFile = isMaterialUI
-          ? !isBootstrapFile
-          : !isMaterialUIFile;
+        let isRequiredFile;
+        if (isBootstrap) {
+          isRequiredFile = !(isTailWindFile || isMaterialUIFile);
+        } else if (isMaterialUI) {
+          isRequiredFile = !(isBootstrapFile || isTailWindFile);
+        } else if (isTailWind) {
+          isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
+        }
 
-        if (isRequiedFile) {
+        if (isRequiredFile) {
           const newUpadtedProjectPath =
-            isBootstrapFile || isMaterialUIFile
+            isBootstrapFile || isTailWindFile || isMaterialUIFile
               ? `${newProjectPath}`
               : `${newProjectPath}/${file}`;
 
@@ -141,6 +152,8 @@ const createDirectoryContents = (
             projectChoice,
             isThemeProvider,
             isMaterialUI,
+            isBootstrap,
+            isTailWind,
             currentDirectory,
             isJest,
             isCypress,
@@ -456,11 +469,25 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case TAILWIND_CSS_FILE_PATHS: 
       return [
         {
-          source: `${srcDir}/tailwindCssTemplates/tailwind.config.js`,
+          source: `${srcDir}/tailwindCssTemplates/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
           isFile: true,
         },
-      ]   
+      ] ;
+      case TAILWIND_VUE_FILE_PATHS:
+        return[
+          {
+            source: `${srcDir}/tailwindCssTemplates/vue/tailwind.config.js`,
+            destination: `${destDir}/tailwind.config.js`,
+            isFile: true,
+          },
+          {
+            source: `${srcDir}/tailwindCssTemplates/vue/postcss.config.js`,
+            destination: `${destDir}/postcss.config.js`,
+            isFile: true,
+          },
+
+        ]  
     default:
       return [];
   }

@@ -58,15 +58,16 @@ module.exports = [
   },
   /* CSS Framework question added here */
   {
-    name: "materialuiChoice",
+    name: "cssFrameworkChoice",
     type: "list",
     message: "Which CSS Framework do you want?",
     choices: [
-      { name: "MaterialUI", value: true },
-      { name: "Bootstrap", value: false },
+      { name: "MaterialUI", value: "material" },
+      { name: "Bootstrap", value:"bootstrap"},
+      { name: "Tailwind", value:"tailwind"},
     ],
     when: (answers) => {
-      return answers.frontEndChoice == "react";
+      return answers.frontEndChoice == "react"  || answers.frontEndChoice=="vue";
     },
   },
   {

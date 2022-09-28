@@ -1,13 +1,21 @@
 import { createApp } from "vue";
 import router from "./router/index";
-import BootstrapVue3 from "bootstrap-vue-3";
 import App from "./App.vue";
 <% if(isStore){ %>
 import store from "./store/index";
 <% } %>
+
+<% if (isBootstrap) { %>
 import "bootstrap"
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/css/bootstrap.min.css";
+import BootstrapVue3 from "bootstrap-vue-3";
+<% } %>
+
+<% if (isTailWind) { %>
+  import './components/styles/index.css';
+  <% } %>
+
 
 <% if (isAuth0) { %>
 import { createAuth0 } from '@auth0/auth0-vue';
@@ -37,8 +45,9 @@ Amplify.configure({
 const app = createApp(App)
 <% if(isStore){ %> .use(store)  <% } %>
 .use(router)
+<% if (isBootstrap) { %>
 .use(BootstrapVue3)
-
+<% } %>
 <% if (isAuth0) { %>
 app.use(
     createAuth0({

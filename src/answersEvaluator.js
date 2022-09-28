@@ -25,6 +25,7 @@ const {
   AUTH0_FILE_PATHS,
   AUTHENTICATIONS,
   COGNITO_FILE_PATHS,
+  CSS_FRAMEWORKS,
   CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
   JEST_DIRECTORY_PATHS,
@@ -46,15 +47,17 @@ const {
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
+  TAILWIND_VUE_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   SMTP,
   SENDGRID
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
-
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
 const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
+const { MATERIAL,BOOTSTRAP,TAILWIND} = CSS_FRAMEWORKS;
+
 
 const currentPath = path.join(__dirname);
 const NODE_JS = "node-js";
@@ -77,7 +80,7 @@ const handleAnswersEvaluator = async (answers) => {
     emailServiceName,
     blobServiceName,
     loggerServiceName,
-    materialuiChoice,
+    cssFrameworkChoice,
     store,
     CRUD,
     dockerService,
@@ -86,7 +89,9 @@ const handleAnswersEvaluator = async (answers) => {
     theme,
     projectDirectoryPath,
     angularNodeCrud,
-    tailwindCssChoice
+    tailwindCssChoice,
+
+    
   } = answers;
 
   // Project Directory Path
@@ -98,8 +103,10 @@ const handleAnswersEvaluator = async (answers) => {
   const isCrudWithNode = Boolean(
     reactNodeCrud || vueNodeCrud || angularNodeCrud
   );
-  const isMaterialUI = materialuiChoice;
-  const isTailwindCSS = tailwindCssChoice
+  const isTailwindCSS = tailwindCssChoice;
+  const isMaterialUI = cssFrameworkChoice === MATERIAL ;
+  const isBootstrap = cssFrameworkChoice === BOOTSTRAP ;
+  const isTailWind = cssFrameworkChoice === TAILWIND ;
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -162,6 +169,19 @@ const handleAnswersEvaluator = async (answers) => {
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
       }
     }
+    if(isFrontEndChoiceVue){
+      if(isTailWind){
+        dependencies=[...dependencies, ...DEPENDENCIES.TAILWINDVUE];
+        const res = getFilePaths(
+          TAILWIND_VUE_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
+      } else{
+        dependencies=[dependencies,...DEPENDENCIES.BOOTSTRAPVUE];
+      }
+    }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
     const templatePath = path.join(__dirname, "templates", choice);
 
@@ -193,6 +213,8 @@ const handleAnswersEvaluator = async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
+      isBootstrap,
+      isTailWind,
       CURR_DIR,
       isJest,
       isCypress,
@@ -340,6 +362,8 @@ const handleAnswersEvaluator = async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
+      isBootstrap,
+      isTailWind,
       CURR_DIR,
       isJest,
       isCypress,
@@ -605,6 +629,8 @@ const handleAnswersEvaluator = async (answers) => {
           choice,
           isThemeProvider,
           isMaterialUI,
+          isBootstrap,
+          isTailWind,
           CURR_DIR,
           isJest,
           isCypress,
