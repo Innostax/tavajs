@@ -12,7 +12,7 @@ const spinner = new Spinner({
       this.stream.write(msg);
   }
 })
-spinner.setSpinnerString("◜◠◝◞◡◟");
+spinner.setSpinnerString("|/-\\");
 
 const spawn = require('child_process').spawn;
 
@@ -33,7 +33,7 @@ const projectSetUp = async (frontEnd, backEnd, answers) => {
 const packageInstaller = async (managerChoice, projectChoice, path, isFrontEnd, isBackEnd, answers, frontEnd, backEnd) => {
   shell.cd(`${path}`);
   if (managerChoice === "npm") {
-    shell.echo(chalk.green.magenta(`--------------- NPM loading on ${projectChoice} , Wait for finish ---------------\r`));
+    shell.echo(chalk.green.magenta(`--------------- NPM loading on ${projectChoice}, Wait for finish ---------------\r`));
     await npmInstall("npm install --silent --legacy-peer-deps", isFrontEnd, isBackEnd, answers, frontEnd, backEnd);
     // shell.exec("npm install --silent --legacy-peer-deps"); // -s / --silent ,  --no-optional , npm --logevel=error install
   }
