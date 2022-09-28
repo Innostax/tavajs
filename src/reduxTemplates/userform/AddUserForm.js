@@ -6,8 +6,11 @@ import React, { useState } from "react";
   import Button from "../../components/atoms/Button";
   import Input from "../../components/atoms/Input";
 <%}%>
-
-<% if(!isMaterialUI) {%>import { Form, Button } from "react-bootstrap";<%}%>
+<% if(isBootstrap) {%>import { Form, Button } from "react-bootstrap";<%}%>
+<%if(isTailWind){%>
+  import Button from '../../components/atoms/Button'
+  import Input from '../../components/atoms/Input'  
+<%}%>
 import Modal from "../../components/organisms/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { addUsers, updateUsers, getUsers } from "./users.actions";
@@ -64,7 +67,7 @@ const AddUser = ({ show, handleClose, reset }) => {
     handleClose={handleClose}
     title={isEmpty(user) ? 'Add User' : 'Edit User'}
     reset={reset}			
-    <% if(!isMaterialUI) {%>
+    <% if(isBootstrap) {%>
       footer={
       <>
         <Button variant='outline-primary' type='submit' onClick={handleSubmit} className='w-80' active>
@@ -74,8 +77,28 @@ const AddUser = ({ show, handleClose, reset }) => {
       </>
       }
     <%}%>
+  <% if(isTailWind) {%>
+    footer={
+      <>
+        <Button
+          name={isEmpty(user) ? 'Add' : 'Edit'}
+          variant='rounded-lg'
+          color='bg-blue-600'
+          size=''
+          onClick={handleSubmit}
+        />
+        <Button
+          name='Cancel'
+          variant='rounded-lg'
+          color='bg-red-600'
+          align='ml-auto'
+          onClick={handleClose}
+        />
+      </>
+    }
+  <%}%>
   >
-  <% if(!isMaterialUI) {%>
+  <% if(isBootstrap) {%>
     <Form>
       <Form.Group className='mb-1' controlId='nameInput'>
         <Form.Label>Name</Form.Label>
@@ -192,6 +215,38 @@ const AddUser = ({ show, handleClose, reset }) => {
         </Grid>
       </Grid>
         <%}%>
+      <% if(isTailWind) {%>
+        <Input
+				title='Name'
+				type='text'
+				placeholder='Enter Name'
+				onChange={(e) =>
+					setFormData((data) => ({ ...data, name: e.target.value }))
+				}
+				value={formData.name}
+				name=''
+			/>
+			<Input
+				title='Username'
+				type='text'
+				placeholder='Enter Username'
+				onChange={(e) =>
+					setFormData((data) => ({ ...data, username: e.target.value }))
+				}
+				value={formData.username}
+				name=''
+			/>
+			<Input
+				title='Email'
+				type='email'
+				placeholder='Enter Email'
+				onChange={(e) =>
+					setFormData((data) => ({ ...data, email: e.target.value }))
+				}
+				value={formData.email}
+				name=''
+			/>
+      <%}%>
     </Modal>
   );
 };

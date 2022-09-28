@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<% if(!isTailwindCSS){%>
+<% if(isBootstrap){%>
 <div class="text-center mt-4">
   <div>
     <h1>Welcome to Users Screen</h1>
@@ -10,7 +10,7 @@
 </div>
 <%}%>
 
-<% if(isTailwindCSS){%>
+<% if(isTailWind){%>
 <div>
   <div class=" w-full text-center mt-4">
       <div class = "font-bold text-2xl "><h1>Welcome to Users Screen</h1></div><br>
@@ -27,7 +27,7 @@
 <app-table [usersData]="users$ | async" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
 <%}%>
 
-<% if((!isTailwindCSS) && (isCrud || isCrudWithNode)){%>
+<% if((isBootstrap) && (isCrud || isCrudWithNode)){%>
 <div
   tabindex="-1"
   role="dialog"
@@ -54,7 +54,7 @@
 <%}%>
 
 
-<% if((isTailwindCSS) && (isCrud || isCrudWithNode)){%>
+<% if((isTailWind) && (isCrud || isCrudWithNode)){%>
 <div *ngIf="showModal" class="overflow-x-hidden overflow-y-auto fixed inset-0 top-0 z-50 outline-none focus:outline-none flex">
   <div class="relative w-auto my-6 mx-auto max-w-3xl">
     <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white modal-content outline-none focus:outline-none">

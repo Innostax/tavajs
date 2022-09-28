@@ -1,8 +1,14 @@
+<%if(isBootstrap){%>
 import { Button } from "react-bootstrap";
+<%}%>
+<%if(isTailWind){%>
+  import Button from '../../components/atoms/Button'
+<%}%>
 import ViceModal from "../../components/organisms/Modal";
 
 const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
   const footer = (
+    <%if(isBootstrap){%>
     <div className="w-100">
       <Button
         variant="danger"
@@ -17,6 +23,19 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
         Confirm
       </Button>
     </div>
+    <%}%>
+    <%if(isTailWind){%>
+      <Button
+			name='Confirm Delete'
+			align='content-end'
+			variant='rounded-lg'
+			color='bg-red-500'
+			onClick={() => {
+				userId()
+				setOpen(false)
+			}}
+		/>
+    <%}%>
   );
   return (
     <ViceModal

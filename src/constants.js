@@ -12,7 +12,8 @@ const DATABASES = {
 
 const CSS_FRAMEWORKS = {
   BOOTSTRAP: "bootstrap",
-  MATERIAL: "material"
+  MATERIAL: "material",
+  TAILWIND: "tailwind",
 }
 
 const AUTHENTICATIONS = {
@@ -116,6 +117,7 @@ const SMTP = "smtp";
 
 const SENDGRID = "sendgrid";
 
+const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
@@ -146,5 +148,6 @@ module.exports = {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   SMTP,
-  SENDGRID
+  SENDGRID,
+  TAILWIND_REACT_FILE_PATHS
 };

@@ -12,11 +12,17 @@ const DEPENDENCIES = {
   TAILWINDCSS: [
     { name: "tailwindcss", version: "^3.1.8" }
   ],
+  TAILWINDREACT:[
+    { name: "tailwindcss", version: "^3.1.8" },
+    { name: "autoprefixer", version: "^10.4.12" },
+    { name: "postcss", version: "^8.4.16" },
+    { name: "react-scripts", version: "^5.0.1" },
+  ],
   ANGULARBOOTSTRAP: [
     { name: "bootstrap", version: "^5.2.1" }
   ],
   REACT: [
-    { name: "@reduxjs/toolkit", version: "^1.6.1" },
+    { name: "@reduxjs/toolkit", version: "^1.8.5" },
     { name: "react-redux", version: "^7.2.4" },
   ],
   AUTH0_SPA: [{ name: "@auth0/auth0-spa-js", version: "^1.10.0" }],

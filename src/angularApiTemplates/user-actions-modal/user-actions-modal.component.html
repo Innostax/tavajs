@@ -1,4 +1,4 @@
-<% if(!isTailwindCSS){%>
+<% if(isBootstrap){%>
   <div class="users-modal" *ngIf="!shouldDeleteUser">
     <div class="d-flex justify-content-between">
       <div class="users-modal-title fs-3 fw-bold mb-3">
@@ -67,7 +67,7 @@
   </div>
   <%}%>
   
-  <% if(isTailwindCSS){%>
+  <% if(isTailWind){%>
   <div class="users-modal vw-30" *ngIf="!shouldDeleteUser">
     <div class="flex mb-3 justify-between items-start rounded-t">
       <h2 class="text-3xl font-bold text-gray-900 label-white">
