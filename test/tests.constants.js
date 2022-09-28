@@ -1,0 +1,25 @@
+const answers = {
+  projectName: "my-project-new-with-test-cases-new",
+  projectDirectoryPath: process.cwd(),
+  managerChoice: "npm",
+  frontEnd: true,
+  frontEndChoice: "react",
+  materialuiChoice: true,
+  frontEndName: "front-end",
+  testCaseFramework: false,
+  theme: "light-dark-mode",
+  authenticationChoice: "Autho",
+  store: true,
+  backEnd: true,
+  backEndChoice: "node-js",
+  backEndName: "back-end",
+  defaultRoute: "users",
+  dbName: "mongoose",
+  reactNodeCrud: true,
+  loggerServiceName: "winston",
+  emailServiceName: "sendgrid",
+  blobServiceName: "azure",
+  dockerService: false,
+};
+
+module.exports = { answers };

@@ -1,9 +1,10 @@
 const chalk = require("chalk");
 const shell = require("shelljs");
 const projectDetails = require("../../package.json");
-const projectSetUp = require("./projectSetUp");
+// const projectSetUp = require("./projectSetUp");
 
-function projectInfo(frontEnd, backEnd, answers) {
+const projectInfo = async (frontEnd, backEnd, answers) => {
+  console.log("ans", answers)
   //<---------------------------- For frontEnd ---------------------------------->
 
   if (frontEnd) {
@@ -35,6 +36,15 @@ function projectInfo(frontEnd, backEnd, answers) {
           )} Integrating Test Case framework: ${answers["testCaseFramework"]}`
         )
       );
+    // if(answers["materialuiChoice"]){
+      shell.echo(
+        chalk.green.bold(
+          `   ${String.fromCodePoint(0x231b)} Integrating CSS Framework: ${
+            answers["materialuiChoice"]
+          }`
+        )
+      );
+    // }
     if (answers["theme"])
       shell.echo(
         chalk.green.bold(
@@ -114,7 +124,7 @@ function projectInfo(frontEnd, backEnd, answers) {
     chalk.green.bold(`${String.fromCodePoint(169)} Powered by Innostax`)
   );
 
-  projectSetUp(frontEnd, backEnd, answers);
+  // projectSetUp(frontEnd, backEnd, answers);
 }
 
 module.exports = projectInfo;

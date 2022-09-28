@@ -24,7 +24,6 @@ function getProjectDetails(currentDirectory, answers) {
       },
     };
   }
-
   return details;
 }
 module.exports = { getProjectDetails };

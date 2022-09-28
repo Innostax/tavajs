@@ -14,10 +14,6 @@ const {
   copyFiles,
   getFilePaths,
 } = require("./utils/helper");
-// const projectSetUp = require("./utils/projectSetUp");
-const projectInfo = require("./utils/projectInfo");
-// const projectExecutionCommands = require("./utils/projectExecutionCommands");
-const { getProjectDetails } = require("./utils/getProjectDetails");
 const { handleRenderEJS } = require("./utils/handleRenderEJS");
 
 const {
@@ -38,7 +34,6 @@ const {
   REACT_THEME_FILE_PATHS,
   REDUX_FILES,
   VUE_THEME_FILE_PATHS,
-  // DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
@@ -66,7 +61,7 @@ let scripts = [];
 let filePaths = [];
 let directoryPaths = [];
 
-const handleAnswersEvaluator = async (answers) => {
+const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
   const {
     projectName,
     frontEndName,
@@ -122,16 +117,16 @@ const handleAnswersEvaluator = async (answers) => {
   const isSendgrid = emailServiceName === SENDGRID;
   const isAmazonSes = emailServiceName === AMAZON_SES;
 
-  fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
-    if (err) {
-      console.error(err);
-    }
-  });
+  // fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
+  //   if (err) {
+  //     console.error(err);
+  //   }
+  // });
 
-  const { frontEnd, backEnd } = getProjectDetails(
-    `${CURR_DIR}/${projectName}`,
-    answers
-  );
+  // const { frontEnd, backEnd } = getProjectDetails(
+  //   `${CURR_DIR}/${projectName}`,
+  //   answers
+  // );
 
   const isFrontEndChoiceReact = frontEndChoice === REACT;
   const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
@@ -815,10 +810,6 @@ const handleAnswersEvaluator = async (answers) => {
     updateProjectDependencies(frontEnd.path, dependencies, devDependencies);
     updateProjectScripts(frontEnd.path, scripts);
   }
-
-  projectInfo(frontEnd, backEnd, answers);
-  // projectSetUp(frontEnd, backEnd, answers);
-  // projectExecutionCommands(frontEnd, backEnd, answers);
 };
 
 module.exports = { handleAnswersEvaluator };
