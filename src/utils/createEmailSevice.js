@@ -37,8 +37,7 @@ function createEmailSevice(
     );
     dependencies.push({ name: "nodemailer", version: "^6.6.3" });
   } else {
-    fs.copyFileSync(__dirname + "/envTemplates/.sesEnv", emailServiceFilePath + "/.env");
-    dependencies.push({ name: "aws-sdk", version: "^2.971.0" });
+    dependencies.push({ name: "aws-sdk", version: "^2.1224.0" });
   }
 
   // Updating dependencies in package json file

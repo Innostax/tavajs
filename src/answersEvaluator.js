@@ -49,6 +49,7 @@ const {
   ANGULAR_DOCKER_FILE_PATHS,
   SMTP,
   SENDGRID,
+  AMAZON_SES,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -119,6 +120,7 @@ const handleAnswersEvaluator = async (answers) => {
 
   const isSMTP = emailServiceName === SMTP;
   const isSendgrid = emailServiceName === SENDGRID;
+  const isAmazonSes = emailServiceName === AMAZON_SES;
 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -180,6 +182,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -327,6 +330,7 @@ const handleAnswersEvaluator = async (answers) => {
       dbName,
       isSMTP,
       isSendgrid,
+      isAmazonSes,
       isSentry,
       isWinston,
       isAuth0,
@@ -438,6 +442,7 @@ const handleAnswersEvaluator = async (answers) => {
           isOkta,
           isSMTP,
           isSendgrid,
+          isAmazonSes,
           blobServiceName,
         },
         envFilePath
@@ -635,6 +640,7 @@ const handleAnswersEvaluator = async (answers) => {
           dbName,
           isSMTP,
           isSendgrid,
+          isAmazonSes,
           isSentry,
           isWinston,
           isAuth0,
