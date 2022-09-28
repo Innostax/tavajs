@@ -1,42 +1,40 @@
-var aws     = require('aws-sdk');
-require("dotenv/config");
+const AWS = require('aws-sdk')
 
-aws.config=process.env;
+AWS.config.update({ region: process.env.AWS_REGION })
 
-const sendMail=(to,from,text,html,subject)=>{
-    aws.config=process.env;
-    var ses = new aws.SES();
+function sendMail({ to, from, subject, html, text }) {
+	const params = {
+		Destination: {
+			ToAddresses: to,
+		},
+		Message: {
+			Body: {
+				Html: {
+					Charset: 'UTF-8',
+					Data: html,
+				},
+				Text: {
+					Charset: 'UTF-8',
+					Data: text,
+				},
+			},
+			Subject: {
+				Charset: 'UTF-8',
+				Data: subject,
+			},
+		},
+		Source: from,
+	}
 
-      var ses_mail = "From: 'AWS Tutorial Series' <" + from + ">\n";
-      ses_mail = ses_mail + "To: " + to + "\n";
-      ses_mail = ses_mail + "Subject: "+subject+"\n";
-      ses_mail = ses_mail + "Content-Type:"+html+"\n\n";
-      ses_mail = ses_mail + "Content-Type: "+text+"text/plain;\n";
-     
-      
-      var params = {
-          RawMessage: { Data: new Buffer(ses_mail) },
-          Destinations: [to],
-          Source: from 
-      };
-      
-      ses.sendRawEmail(params, function(err, data) {
-          if(err) {
-              console.log(err);
-          } 
-          else {
-              console.log(data);
-              res.send(data);
-          }           
-      });
-  
-};
-      
+	const sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise()
+	sendPromise.then(function (data) {
+		console.log(data.MessageId)
+	})
+		.catch(function (err) {
+			console.error(err, err.stack)
+		})
+}
 
-
-
-
-
-
-
-
+module.exports = {
+	sendMail,
+}
