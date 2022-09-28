@@ -5,8 +5,7 @@
 <% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%>import { selectAllUsers } from "./users.selectors";<%}%>
 <% if(isCrudWithNode||isCrud) {%>import AddUser from './AddUser';<%}%>
-<% if((isCrudWithNode||isCrud) && isMaterialUI) {%>import DeleteConfirmationModal from '../../components/organisms/DeleteConfirmationModal';<%}%>
-<% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>import DeleteConfirmationModal from './DeleteConfirmationModal';<%}%>
+<% if(isCrudWithNode||isCrud) {%>import DeleteConfirmationModal from './DeleteConfirmationModal';<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%> import Table from '../../components/organisms/Table';<%}%>
 <% if(isCrud ||isCrudWithNode) {%>import { actions } from './users.reducer';
 
@@ -38,8 +37,8 @@ const Users = () => {
       <%}%>
     };
 
-    const editFormatter = (id, row) => (
       <% if(!isMaterialUI) {%>
+        const editFormatter = (id, row) => (
         <>
           <Button size="sm" variant="outline-primary" className='w-80' onClick={() => {
             handleShow()
@@ -51,20 +50,21 @@ const Users = () => {
         </>
       <%}%>
       <% if(isMaterialUI) {%>
+        const editFormatter = (data) => (
         <>
           <Button  variant='outlined' size='small' onClick={() => {
             handleShow()
-            dispatch(setSelectedUserModal({id}))
-            dispatch(setSelectedUser(row))
+            dispatch(setSelectedUserModal(data.id))
+            dispatch(setSelectedUser(data))
             }}>
             Edit
           </Button>
         </>
       <%}%>
     )
-
-    const deleteFormatter= (id,row)=>(
+    
       <% if(!isMaterialUI) {%>
+        const deleteFormatter= (id,row)=>(
         <>
           <Button
             variant="outline-danger"
@@ -81,12 +81,17 @@ const Users = () => {
         </>
       <%}%>
       <% if(isMaterialUI) {%>
+        const deleteFormatter= (data)=>(
         <>
           <Button
             variant='outlined'
             color="error"
             size="small"
-            onClick={() => handleDelete(id)}
+            onClick={() => {
+              username = data.username
+              deleteId = data.id
+              setConfirmDelete(true)
+            }}
           >
             Delete
           </Button>
@@ -94,7 +99,7 @@ const Users = () => {
       <%}%>
     )
   <%}%>
-  <% if(isCrudWithNode||isCrud) {%>
+  <% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>
     const cols=[
       {
         dataField: 'name',
@@ -122,7 +127,36 @@ const Users = () => {
       },
     ]
   <%}%>
-  
+   
+  <% if((isCrudWithNode||isCrud) && isMaterialUI) {%>
+    const cols = [
+      {
+        accessorKey: 'name',
+        header: 'Name',
+      },
+      {
+        accessorKey: 'username',
+        header: 'User Name',
+      },
+      {
+        accessorKey: 'email',
+        header: 'Email',
+      },
+      {
+        accessorKey: 'id',
+        accessorFn: (data) => {
+          return deleteFormatter(data)
+           
+        },
+      },
+      {
+        accessorKey: 'editid',
+        accessorFn: (data) => {
+          return editFormatter(data)
+        },
+      },
+    ]
+  <%}%>
   return (
     <>
       <div>
@@ -134,14 +168,19 @@ const Users = () => {
           <Button variant='contained' onClick={() => handleShow()}>Add User</Button>
           <Box sx={{ height: '1.5rem' }} />
         <%}%>
-        <% if(isStore && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id'columns={cols}/><%}%> 
+        <% if(isStore &&  !isMaterialUI && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
+        <% if(isStore && isMaterialUI &&(isCrudWithNode||isCrud)){%> <Table data={users} columns={cols}/><%}%> 
       </div>
       <%if((isCrudWithNode||isCrud)){%>
         {show && <AddUser show={setShow} handleShow={handleShow} />}
         {confirmDelete && (
           <DeleteConfirmationModal
             open={confirmDelete}
+            <% if(isMaterialUI) {%>
+            setOpen={() => setConfirmDelete(false)}
+            <%}else{%>
             setOpen={setConfirmDelete}
+            <%}%>
             userId={() => handleDelete(deleteId)}
             username={username}
           />
