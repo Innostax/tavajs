@@ -1,30 +1,35 @@
 <template>
   <div class="network-status">
     <div v-if="!online" class="msg offline-msg">
-        <div class="icon">
-          <span></span>
+      <div class="icon">
+        <span></span>
+      </div>
+      <div class="content">
+        <div>
+          <strong>Offline : </strong>Connection lost! You are not connected to
+          internet
         </div>
-        <div class="content">          
-          <div><strong>Offline : </strong>Connection lost! You are not connected to internet</div>
-        </div>
+      </div>
     </div>
     <div v-if="isBackOnline" class="msg online-msg">
-        <div class="icon">
-          <img src="https://img.icons8.com/office/40/000000/high-connection.png"/>
-        </div>
-        <div class="content">
-          <div><strong>Online : </strong>Back to online</div>
-        </div>
+      <div class="icon">
+        <img
+          src="https://img.icons8.com/office/40/000000/high-connection.png"
+        />
+      </div>
+      <div class="content">
+        <div><strong>Online : </strong>Back to online</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-const ONLINE = "online"
-const OFFLINE = "offline"
+const ONLINE = "online";
+const OFFLINE = "offline";
 
 export default {
-  name : "NetworkStatus",
+  name: "NetworkStatus",
   data() {
     return {
       online: navigator.onLine,
@@ -58,7 +63,7 @@ export default {
 </script>
 
 <style>
-.msg{
+.msg {
   display: flex;
   align-items: center;
   text-align: left;
@@ -66,25 +71,25 @@ export default {
   padding-bottom: 0.4rem;
   font-size: 0.75rem;
 }
-.offline-msg{
+.offline-msg {
   background: var(--offline-background);
   color: var(--offline-color);
   border-bottom: var(--offline-border);
 }
-.online-msg{
+.online-msg {
   background: var(--online-background);
   color: var(--online-color);
   border-bottom: var(--online-border);
 }
-.content{
+.content {
   margin-left: 1rem;
   margin-top: 0.1rem;
 }
-.icon{
+.icon {
   margin-left: 1rem;
   vertical-align: middle;
 }
-.icon img{
+.icon img {
   width: 18px;
   height: 18px;
 }
