@@ -8,7 +8,7 @@ const projectExecutionCommands = require("./projectExecutionCommands");
 const { millisToMinutesAndSeconds } = require("./converters")
 
 const spinner = new Spinner({
-  text: "installing packages... %s  ",
+  text: "Installing packages... %s  ",
   stream: process.stderr,
   onTick: function (msg) {
     this.clearLine(this.stream);
