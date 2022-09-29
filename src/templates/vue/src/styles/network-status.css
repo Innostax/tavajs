@@ -1,0 +1,12 @@
+.network-status{
+    --offline-color : #f51b46;
+    --offline-background : #fee8ec;
+    --offline-border : 1px solid #f51b46;
+
+    --online-background: #d1e7dd;
+    --online-color: #0f5132;
+    --online-border-bottom: 1px solid #17c50e;
+
+    --spinner-border: 2px solid #fb9db0;
+    --spinner-border-top: 2px solid #f51b46;
+}
