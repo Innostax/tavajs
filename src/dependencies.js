@@ -11,14 +11,14 @@ const DEPENDENCIES = {
     { name: "material-react-table", version: "^1.1.1"},
     { name: "@material-ui/core", version:"^4.12.4"},
   ],
-  TAILWINDVUE:[
-     {name:"autoprefixer", version: "^9.8.8"},
-     {name:"postcss", version:"^7.0.39"},
-     {name:"tailwindcss",version: "npm:@tailwindcss/postcss7-compat@^2.2.17",}
+  TAILWINDVUE: [
+    { name: "autoprefixer", version: "^9.8.8" },
+    { name: "postcss", version: "^7.0.39" },
+    { name: "tailwindcss", version: "npm:@tailwindcss/postcss7-compat@^2.2.17", }
   ],
-  BOOTSTRAPVUE:[
-{name:"bootstrap", version: "^5.1.3"},
-   {name: "bootstrap-vue-3", version: "^0.3.3"},
+  BOOTSTRAPVUE: [
+    { name: "bootstrap", version: "^5.1.3" },
+    { name: "bootstrap-vue-3", version: "^0.3.3" },
   ],
   TAILWINDCSS: [
     { name: "tailwindcss", version: "^3.1.8" }

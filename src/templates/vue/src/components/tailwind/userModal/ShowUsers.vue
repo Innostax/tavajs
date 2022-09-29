@@ -8,15 +8,14 @@
 </template>
 
 <script>
-import Table from '../organisms/Table.vue'
-// import { mapGetters } from "vuex";
+import Table from "../organisms/Table.vue";
 
-export default ({
+export default {
   name: "ShowUsers",
   components: {
-    Table
+    Table,
   },
-  data () {
+  data() {
     return {
       tableColumns: [
         {name: "Name",  key: "name", columnHeaderStyleClasses: "pl-8", rowStyleClasses: "text-primary-70"},
@@ -24,27 +23,23 @@ export default ({
         {name: "email", key: "email", rowStyleClasses: "pr-12"},
         {name: "Edit",  key: "edit", rowStyleClasses:"pr-14", dataFormatter: 'button', buttonName: 'Edit', buttonClasses: 'bg-blue-400' },
         {name: "Delete", color:"#3366ff", key: "delete",  rowStyleClasses: "pr-14" , dataFormatter: 'button', buttonName: 'Delete', style:"btnStyles", buttonClasses: 'bg-red-400'},
-
       ],
-    }
+    };
   },
   computed: {
-    allUsers:function(){
-      return this.$store.getters["allUsers"]
-    }
+    allUsers: function () {
+      return this.$store.getters["allUsers"];
+    },
   },
   methods: {
-   editButtonHandler(data){
-    console.log("i am here", data)
-    this.$emit("edit-user",data)
-    
-   },
-   deleteButtonHandler(data){
-    this.$emit("delete-user",data)
-   }
-    
-     }
-})
+    editButtonHandler(data) {
+      this.$emit("edit-user", data);
+    },
+    deleteButtonHandler(data) {
+      this.$emit("delete-user", data);
+    },
+  },
+};
 </script>
 
 

@@ -6,7 +6,7 @@ import store from "./store/index";
 <% } %>
 
 <% if (isBootstrap) { %>
-import "bootstrap"
+import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BootstrapVue3 from "bootstrap-vue-3";
