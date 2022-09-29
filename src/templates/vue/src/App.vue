@@ -64,3 +64,10 @@ export default {
 <% if (isBootstrap) { %>
 <style src="./components/styles/index.css"/>
 <% } %>
+<% if (isTailWind) { %>
+  <style>
+  html.dark{
+    background-color: #212529;
+  }
+</style>
+<% } %>

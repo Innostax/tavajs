@@ -1,43 +1,88 @@
 <template>
-<nav class="bg-white dark:bg-black border-gray-200 px-2">
-  <div class="container flex flex-wrap items-center lg:justify-start mt-3 w-full">
-    <div><a href="#" class="flex">
-        <span class="self-center text-xl dark:text-white ml-2  whitespace-nowrap">Made In India</span>
-    </a></div>
-    <div class="flex ml-auto sm:ml-3"><button  type="button" class="md:hidden  text-gray-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-lg inline-flex items-center justify-center" v-on:click="toggleNavbar()">
-      <span class="sr-only">Open  menu</span>
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-      <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-    </button>
-  </div>
-    <div class="md:block w-full md:w-auto" v-bind:class="{'hidden': !showMenu }" >
-      <ul class="flex-col md:flex-row flex md:space-x-1 mt-1 ">
-        <li>
-          <a href="/" class="text-gray-500 hover:text-black block pl-3 text-base pr-4 py-2" >Home</a>
-        </li>
-        <li>
-          <a href="/users" class="text-gray-500 hover:text-black block pl-3 text-base pr-4 py-2 space-x-8" >Users</a>
-        </li>
-      </ul>
+  <nav class="flex items-center justify-between flex-wrap bg-teal p-6 mb-2">
+    <div class="flex items-center flex-no-shrink text-black mr-6">
+      <div>
+        <a href="#" class="flex">
+          <span
+            class="self-center text-xl dark:text-white ml-2 whitespace-nowrap"
+            >Made In India</span
+          >
+        </a>
+      </div>
     </div>
-  </div>
-</nav>
+    <div class="block md:hidden">
+      <button
+        @click="toggleNavbar()"
+        class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-gray-600 hover:border-gray-600 text-gray-600"
+      >
+        <svg
+          class="fill-current h-3 w-3"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+    <div
+      :class="showMenu ? 'block' : 'hidden'"
+      class="w-full flex-grow md:flex md:items-center md:w-auto"
+    >
+      <div class="md:flex-grow md:flex md:justify-start">
+        <a
+          href="/"
+          class="no-underline block mt-4 md:inline-block md:mt-0 text-gray-500 dark:hover:text-white hover:text-black mr-4"
+        >
+          Home
+        </a>
+        <a
+          href="/users"
+          class="no-underline block mt-4 md:inline-block md:mt-0 text-gray-500 dark:hover:text-white hover:text-black mr-4"
+        >
+          Users
+        </a>
+      </div>
+      <% if(isThemeProvider) { %> 
+        <div class="md:mt-0 mt-4">
+          <ThemeVue />
+        </div>
+      <% } %> 
+      <% if(isAuth0 || isOkta || isCognito) { %> 
+        <div class="md:mt-0 mt-4">
+          <LogoutButton />
+        </div>
+      <% } %> 
+    </div>
+  </nav>
 </template>
 <script>
+<% if(isThemeProvider) { %> 
+import ThemeVue from '../../theme.vue';
+<% } %> 
+<% if(isAuth0 || isOkta || isCognito) { %> 
+import LogoutButton from '../atoms/LogoutButton.vue'
+<% } %>
 
-export default{
- name:"Navbar",
- data() {
+export default {
+  name: "Navbar",
+  components : {
+    <% if(isThemeProvider) { %> 
+      ThemeVue,
+    <% } %>   
+    <% if(isAuth0 || isOkta || isCognito) { %> 
+      LogoutButton,
+    <% } %>   
+    },
+  data() {
     return {
       showMenu: false,
-      isDark:false,
-
-    }
+    };
   },
   methods: {
-    toggleNavbar: function(){
+    toggleNavbar: function () {
       this.showMenu = !this.showMenu;
-    }
-  }
-}
+    },
+  },
+};
 </script>

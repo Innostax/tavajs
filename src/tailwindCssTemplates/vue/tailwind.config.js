@@ -5,7 +5,15 @@ module.exports = {
   darkMode:'class',
 
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        vueBlack: {
+          DEFAULT: '#212529',
+          lighter: '#323539',
+          lightest: '#2c3034',
+        },
+      },
+    },
   },
   plugins: [],
 }

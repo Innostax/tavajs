@@ -1,5 +1,5 @@
 <template>
-    <label :for="inputId">{{ name }}</label>
+  <label class="dark:text-white" :for="inputId">{{ name }}</label>
 </template>
 
 <script>
