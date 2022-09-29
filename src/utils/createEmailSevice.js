@@ -25,16 +25,8 @@ function createEmailSevice(
   const isSMTP = emailServiceName === "smtp";
 
   if (isSendGrid) {
-    fs.copyFileSync(
-      __dirname + "/envTemplates/.sendgridEnv",
-      emailServiceFilePath + "/.env"
-    );
     dependencies.push({ name: "@sendgrid/mail", version: "^7.4.6" });
   } else if (isSMTP) {
-    fs.copyFileSync(
-      __dirname + "/envTemplates/.smtpEnv",
-      emailServiceFilePath + "/.env"
-    );
     dependencies.push({ name: "nodemailer", version: "^6.6.3" });
   } else {
     dependencies.push({ name: "aws-sdk", version: "^2.1224.0" });
