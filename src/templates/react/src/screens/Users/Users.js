@@ -198,7 +198,6 @@ const Users = () => {
     <>
       <div>
         <h1 <%if(isTailWind) {%>className='text-3xl font-medium mb-5'<%}%> >Welcome to Users Screen</h1>
-        
         <% if((isCrudWithNode||isCrud) && isBootstrap) {%>
           <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
         <%}%>
@@ -206,19 +205,15 @@ const Users = () => {
           <Button variant='contained' onClick={() => handleShow()}>Add User</Button>
           <Box sx={{ height: '1.5rem' }} />
         <%}%>
-
         <% if((isCrudWithNode||isCrud) && isTailWind && isStore) {%>
           <div className='dark:bg-[#1d1717]'>
           <button
             className='text-white bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 '
-            onClick={() => handleShow()}
-          >
+            onClick={() => handleShow()}>
             Add User
           </button>
         </div>
         <%}%>
-
-
         <% if(isStore &&  (isBootstrap || isTailWind) && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
         <% if(isStore && isMaterialUI &&(isCrudWithNode||isCrud)){%> <Table data={users} columns={cols}/><%}%> 
       </div>
