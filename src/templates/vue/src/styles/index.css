@@ -1,3 +1,6 @@
 <% if (isThemeProvider) { %>
 @import "./dark-theme.css";
 <% } %>
+<% if (isNetworkInformer) { %>
+@import "./network-theme.css";
+<% } %>

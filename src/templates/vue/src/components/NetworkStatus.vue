@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="network-status">
     <div v-if="!online" class="msg offline-msg">
         <div class="icon">
           <span></span>
@@ -67,14 +67,14 @@ export default {
   font-size: 0.75rem;
 }
 .offline-msg{
-  background: #fee8ec !important;
-  color: #f51b46 !important;
-  border-bottom: 1px solid #f51b46 !important;
+  background: var(--offline-background);
+  color: var(--offline-color);
+  border-bottom: var(--offline-border);
 }
 .online-msg{
-  background: #d1e7dd !important;
-  color: #0f5132 !important;
-  border-bottom: 1px solid #17c50e !important;
+  background: var(--online-background);
+  color: var(--online-color);
+  border-bottom: var(--online-border);
 }
 .content{
   margin-left: 1rem;
@@ -94,8 +94,8 @@ export default {
   width: 18px;
   height: 18px;
   border-radius: 100%;
-  border: 2px solid #fb9db0;
-  border-top: 2px solid #f51b46;
+  border: var(--spinner-border);
+  border-top: var(--spinner-border-top);
   animation: spin 1s linear infinite;
 }
 
