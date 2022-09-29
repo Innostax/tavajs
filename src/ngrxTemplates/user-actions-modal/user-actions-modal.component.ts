@@ -6,7 +6,6 @@ import { userState } from 'src/app/utils/store/reducer/user.reducer';
 import {User} from 'src/app/utils/store/User';
 import { v4 as uuid } from 'uuid';
 
-declare let $: any;
 
 @Component({
   selector: 'app-user-actions-modal',
@@ -32,7 +31,7 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if(!$.isEmptyObject(this.data)) {
+    if(this.data?.name != '') {
       this.initForm()
       this.userActionLabel = 'Edit'
     } else this.userActionLabel = 'Add'
@@ -46,8 +45,12 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
     });
   }
 
+  shouldDisableButton() {
+    return ((this.createUserForm?.value.name == '' || this.createUserForm?.value.username == '' || this.createUserForm?.value.email == '') ? true : false)
+  }
+
   onSubmit() {
-    let userId = $.isEmptyObject(this.data) ? uuid().slice(0,8).toString() : this.data?.id;
+    let userId = (this.data?.name == '') ? uuid().slice(0,8).toString() : this.data?.id;
     const userData = {
       id: userId,
       name: this.createUserForm.get('name')?.value,
@@ -55,7 +58,7 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
       email: this.createUserForm.get('email')?.value
     }
 
-    if($.isEmptyObject(this.data)) this.store.dispatch(addUser({user: userData}))
+    if(this.data?.name == '') this.store.dispatch(addUser({user: userData}))
     else this.store.dispatch(updateUser({user: userData}))
     this.createUserForm.reset();
     this.closeModalRef();
