@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { validateKebabCase } = require("./utils/validators")
+const { validateKebabCase } = require("../utils/validators")
 module.exports = [
   {
     name: "projectName",

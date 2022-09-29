@@ -24,25 +24,25 @@ const AUTHENTICATIONS = {
 
 const REDUX_FILES = [
   {
-    srcFolder: "reduxTemplates/demoUser",
+    srcFolder: "StateManagement/reduxTemplates/demoUser",
     srcFileName: "users.reducer.js",
     destFolder: "/src/screens/Users",
     destFileName: "users.reducer.js",
   },
   {
-    srcFolder: "reduxTemplates/demoUser",
+    srcFolder: "StateManagement/reduxTemplates/demoUser",
     srcFileName: "users.selectors.js",
     destFolder: "/src/screens/Users",
     destFileName: "users.selectors.js",
   },
   {
-    srcFolder: "reduxTemplates",
+    srcFolder: "StateManagement/reduxTemplates",
     srcFileName: "createStore.js",
     destFolder: "/src",
     destFileName: "createStore.js",
   },
   {
-    srcFolder: "reduxTemplates",
+    srcFolder: "StateManagement/reduxTemplates",
     srcFileName: "rootReducer.js",
     destFolder: "/src",
     destFileName: "rootReducer.js",
@@ -51,15 +51,15 @@ const REDUX_FILES = [
 
 const AUTH0_FILE_PATHS = [
   {
-    srcFolder: "envTemplates",
-    srcFileName: ".authEnv",
+    srcFolder: "Environments/FrontendEnvironment",
+    srcFileName: ".authEnv", 
     destFileName: ".env",
   },
 ];
 
 const COGNITO_FILE_PATHS = [
   {
-    srcFolder: "envTemplates",
+    srcFolder: "Environments/FrontendEnvironment",
     srcFileName: ".cognitoEnv",
     destFileName: ".env",
   },
@@ -67,7 +67,7 @@ const COGNITO_FILE_PATHS = [
 
 const OKTA_FILES_PATHS = [
   {
-    srcFolder: "envTemplates",
+    srcFolder: "Environments/FrontendEnvironment",
     srcFileName: ".oktaEnv",
     destFileName: ".env",
   },
