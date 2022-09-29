@@ -1,11 +1,17 @@
 <template>
   <% if (isAuth0) { %>
   <div id="app" v-if="isAuthenticated">
+    <% if (isNetworkInformer) { %>
+    <NetworkStatus />
+    <% } %>
     <Navbar />
     <router-view></router-view>
   </div>
   <% } else if (isOkta) { %>
   <div id="app">
+    <% if (isNetworkInformer) { %>
+    <NetworkStatus />
+    <% } %>
     <div v-if="authState && authState.isAuthenticated">
       <Navbar />
     </div>
@@ -13,6 +19,9 @@
   </div>
   <% } else if (isCognito) { %>
   <div id="app">
+    <% if (isNetworkInformer) { %>
+    <NetworkStatus />
+    <% } %>
     <div v-if="auth.authStatus === 'authenticated'">
       <Navbar />
       <router-view></router-view>
@@ -22,6 +31,9 @@
   </div>
   <% } else { %>
   <div id="app">
+    <% if (isNetworkInformer) { %>
+    <NetworkStatus />
+    <% } %>
     <Navbar />
     <router-view></router-view>
   </div>
@@ -35,6 +47,9 @@ import { Authenticator, useAuthenticator } from '@aws-amplify/ui-vue';
 import '@aws-amplify/ui-vue/styles.css';
 const auth = useAuthenticator();
 <% } %>
+<% if (isNetworkInformer) { %>
+import NetworkStatus from "./components/NetworkStatus.vue";
+<% } %>
 
 export default {
   name: "App",
@@ -43,6 +58,9 @@ export default {
   <% if (isCognito) { %>
     Authenticator,
   <% } %>
+  <% if (isNetworkInformer) { %>
+    NetworkStatus,
+<% } %>
   },
   <% if (isAuth0) { %>
   data () {
