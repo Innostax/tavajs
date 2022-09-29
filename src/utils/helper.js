@@ -487,7 +487,6 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/postcss.config.js`,
           isFile: true,
         },
-
       ] 
     default:
       return [];

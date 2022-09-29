@@ -14,7 +14,7 @@ import BootstrapVue3 from "bootstrap-vue-3";
 
 <% if (isTailWind) { %>
   import './styles/index.css';
-  <% } %>
+<% } %>
 
 
 <% if (isAuth0) { %>
