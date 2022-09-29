@@ -22,18 +22,18 @@ const AUTHENTICATIONS = {
   COGNITO: "Cognito",
 };
 
-const LOGGERSERVICES = {
+const LOGGER_SERVICES = {
   WINSTON: "winston",
   SENTRY: "sentry",
 }
 
-const EMAILSERVICES = {
+const EMAIL_SERVICES = {
   SMTP: "smtp",
   SENDGRID: "sendgrid",
   AMAZON_SES: "amazon_ses",
 }
 
-const TESTCASES = {
+const TESTCASE_FRAMEWORKS = {
   CYPRESS: "cypress",
   JEST: "jest",
   MOCHAJS: "mochaJS",
@@ -163,7 +163,7 @@ module.exports = {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   TAILWIND_REACT_FILE_PATHS,
-  LOGGERSERVICES,
-  EMAILSERVICES,
-  TESTCASES
+  LOGGER_SERVICES,
+  EMAIL_SERVICES,
+  TESTCASE_FRAMEWORKS
 };
