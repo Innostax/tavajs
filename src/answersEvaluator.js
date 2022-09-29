@@ -292,16 +292,28 @@ const handleAnswersEvaluator = async (answers) => {
         const res = getFilePaths(JEST_FILE_PATHS, currentPath, frontEnd.path);
         filePaths = [...filePaths, ...res];
 
-        const jestDirectoryPaths = getFilePaths(
-          JEST_DIRECTORY_PATHS,
-          currentPath,
-          frontEnd.path
+        fs.mkdirSync(`${frontEnd.path}/__tests__`);
+        handleRenderEJS(
+          `${currentPath}/uiTests/JestTests/TestScripts/app.spec.js`,
+          { frontEndChoice },
+          `${frontEnd.path}/__tests__/app.spec.js`
         );
-        directoryPaths = [...directoryPaths, ...jestDirectoryPaths];
+        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST_VUE];
 
-        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST];
+        scripts = [...scripts, ...SCRIPTS.JEST_VUE];
+      }
+      
+      if (isJest && isFrontEndChoiceReact) {
+        fs.mkdirSync(`${frontEnd.path}/src/__tests__`);
 
-        scripts = [...scripts, ...SCRIPTS.JEST];
+        handleRenderEJS(
+          `${currentPath}/uiTests/JestTests/TestScripts/app.spec.js`,
+          { frontEndChoice },
+          `${frontEnd.path}/src/__tests__/app.spec.js`
+        );
+        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST_REACT];
+
+        scripts = [...scripts, ...SCRIPTS.JEST_REACT];
       }
 
       if (isMocha && isFrontEndChoiceVue) {
