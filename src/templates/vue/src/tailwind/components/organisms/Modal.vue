@@ -26,7 +26,7 @@
           <div
             id="modal"
             v-show="show"
-            class="bg-white fixed shadow-lg overflow-hidden rounded-2xl flex flex-col justify-between w-2/6 dark:bg-vueBlack"
+            class="bg-white fixed shadow-lg overflow-hidden rounded-2xl flex flex-col justify-between w-full max-w-lg dark:bg-vueBlack"
           >
             <!-- Modal Header -->
             <header id="modal-header" class="flex border-white">
@@ -48,15 +48,14 @@
 </template>
 
 <script>
-const props = {
-  show: {
-    type: Boolean,
-    default: false,
-  },
-};
 export default {
   name: "Modal",
   methods: {},
-  props,
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  }
 };
 </script>

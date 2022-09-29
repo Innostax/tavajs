@@ -1,14 +1,12 @@
 <template>
   <nav class="flex items-center justify-between flex-wrap bg-teal p-6 mb-2">
     <div class="flex items-center flex-no-shrink text-black mr-6">
-      <div>
         <a href="#" class="flex">
           <span
             class="self-center text-xl dark:text-white ml-2 whitespace-nowrap"
             >Made In India</span
           >
         </a>
-      </div>
     </div>
     <div class="block md:hidden">
       <button
@@ -44,14 +42,10 @@
         </a>
       </div>
       <% if(isThemeProvider) { %> 
-        <div class="md:mt-0 mt-4">
-          <ThemeVue />
-        </div>
+        <ThemeVue class="md:mt-0 mt-4" />
       <% } %> 
       <% if(isAuth0 || isOkta || isCognito) { %> 
-        <div class="md:mt-0 mt-4">
-          <LogoutButton />
-        </div>
+        <LogoutButton class="md:mt-0 mt-4" />
       <% } %> 
     </div>
   </nav>

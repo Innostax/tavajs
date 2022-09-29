@@ -29,7 +29,8 @@
               type="text"
               placeholder="Name"
               v-model="name"
-              class="px-3 py-5 mt-1 placeholder-slate-300 focus-auto text-slate-600 relative rounded h-10 border border-slate-300 outline-none focus:outline-none focus:ring w-full"
+              class="px-3 py-5 mt-1 placeholder-slate-300 focus-auto text-slate-600 relative rounded 
+              h-10 border border-slate-300 outline-none focus:outline-none focus:ring w-full"
             />
           </div>
           <div></div>
@@ -44,7 +45,8 @@
               type="text"
               placeholder="Username"
               v-model="username"
-              class="px-3 py-5 mt-1 placeholder-slate-300 text-slate-600 relative h-10 rounded border border-slate-300 outline-none focus:outline-none focus:ring w-full"
+              class="px-3 py-5 mt-1 placeholder-slate-300 text-slate-600 relative h-10 rounded border 
+              border-slate-300 outline-none focus:outline-none focus:ring w-full"
             />
           </div>
           <div class="p-1 text-left">
@@ -53,7 +55,8 @@
               id="email-input"
               type="email"
               variant="danger"
-              class="px-3 py-5 mt-1 placeholder-slate-300 text-slate-600 relative h-10 rounded border border-slate-300 outline-none focus:outline-none focus:ring w-full"
+              class="px-3 py-5 mt-1 placeholder-slate-300 text-slate-600 relative h-10 rounded border 
+              border-slate-300 outline-none focus:outline-none focus:ring w-full"
               placeholder="example@email.com"
               v-model="email"
             />
@@ -71,7 +74,8 @@
           :class="isAddButtonDisabled ? 'bg-blue-400' : 'bg-blue-600'"
         ></Button>
         <Button
-          class="text-gray border border-gray-500 px-3 py-2 ml-auto m-3 shadow-sm hover:bg-gray-500 hover:text-white active:bg-gray-600 font-bold rounded outline-none focus:outline-none dark:text-white"
+          class="text-gray border border-gray-500 px-3 py-2 ml-auto m-3 shadow-sm hover:bg-gray-500 
+          hover:text-white active:bg-gray-600 font-bold rounded outline-none focus:outline-none dark:text-white"
           name="Cancel"
           type="button"
           @onClick="show = false"

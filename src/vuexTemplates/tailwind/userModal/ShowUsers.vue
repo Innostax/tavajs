@@ -18,30 +18,11 @@ export default {
   data() {
     return {
       tableColumns: [
-        {
-          name: "Name",
-          key: "name",
-          columnHeaderStyleClasses: "pl-8",
-          rowStyleClasses: "text-primary-70",
-        },
+        { name: "Name", key: "name", columnHeaderStyleClasses: "pl-8", rowStyleClasses: "text-primary-70" },
         { name: "User name", key: "username", rowStyleClasses: "pr-12" },
         { name: "email", key: "email", rowStyleClasses: "pr-12" },
-        {
-          name: "Edit",
-          key: "edit",
-          rowStyleClasses: "pr-14",
-          dataFormatter: "button",
-          buttonName: "Edit",
-          buttonClasses: "bg-blue-400 hover:bg-blue-600",
-        },
-        {
-          name: "Delete",
-          key: "delete",
-          rowStyleClasses: "pr-14",
-          dataFormatter: "button",
-          buttonName: "Delete",
-          buttonClasses: "bg-red-400 hover:bg-red-600",
-        },
+        { name: "Edit", key: "edit", rowStyleClasses: "pr-14", dataFormatter: "button", buttonName: "Edit", buttonClasses: "bg-blue-400 hover:bg-blue-600" },
+        { name: "Delete", key: "delete", rowStyleClasses: "pr-14", dataFormatter: "button", buttonName: "Delete", buttonClasses: "bg-red-400 hover:bg-red-600" },
       ],
     };
   },

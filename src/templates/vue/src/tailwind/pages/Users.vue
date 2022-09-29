@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import AddUser from "../../userModal/AddUser";
-import ShowUsers from "../../userModal/ShowUsers";
-import EditUser from "../../userModal/EditUser";
-import DeleteUser from "../../userModal/DeleteUser";
+import AddUser from "../userModal/AddUser";
+import ShowUsers from "../userModal/ShowUsers";
+import EditUser from "../userModal/EditUser";
+import DeleteUser from "../userModal/DeleteUser";
 
 import { mapGetters, mapActions } from "vuex";
 

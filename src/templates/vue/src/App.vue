@@ -62,12 +62,12 @@ export default {
 };
 </script>
 <% if (isBootstrap) { %>
-<style src="./components/styles/index.css"/>
+<style src="./styles/index.css"/>
 <% } %>
 <% if (isTailWind) { %>
   <style>
-  html.dark{
-    background-color: #212529;
+    html.dark{
+    @apply bg-vueBlack
   }
 </style>
 <% } %>
