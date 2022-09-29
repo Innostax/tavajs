@@ -293,7 +293,6 @@ const handleAnswersEvaluator = async (answers) => {
           { frontEndChoice },
           `${frontEnd.path}/__tests__/app.spec.js`
         );
-
         devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST_VUE];
 
         scripts = [...scripts, ...SCRIPTS.JEST_VUE];
@@ -307,7 +306,6 @@ const handleAnswersEvaluator = async (answers) => {
           { frontEndChoice },
           `${frontEnd.path}/src/__tests__/app.spec.js`
         );
-
         devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST_REACT];
 
         scripts = [...scripts, ...SCRIPTS.JEST_REACT];
