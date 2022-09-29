@@ -1,5 +1,6 @@
 <% if(isStore && (isCrudWithNode||isCrud)){%>import React, {useState,useEffect} from "react";<%}%>
-<% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>import { Button } from "react-bootstrap";<%}%>
+<% if((isCrudWithNode||isCrud) && isBootstrap) {%>import { Button } from "react-bootstrap";<%}%>
+<% if((isCrudWithNode||isCrud) && isTailWind) {%>import Button from '../../components/atoms/Button';<%}%>
 <% if((isCrudWithNode||isCrud) && isMaterialUI) {%>import { Button,Box } from "@mui/material";<%}%>
 <% if(isStore && (isCrudWithNode||isCrud)){%>import { useSelector, useDispatch } from "react-redux";<%}%>
 <% if(isCrudWithNode||isCrud){%>import { getUsers  <% if(isCrudWithNode) {%> ,deleteUsers<%}%>} from "./users.actions";<%}%>
@@ -37,8 +38,8 @@ const Users = () => {
       <%}%>
     };
 
-      <% if(!isMaterialUI) {%>
-        const editFormatter = (id, row) => (
+    <% if(isBootstrap) {%>
+    const editFormatter = (id, row) => (
         <>
           <Button size="sm" variant="outline-primary" className='w-80' onClick={() => {
             handleShow()
@@ -48,6 +49,7 @@ const Users = () => {
             Edit
           </Button>
         </>
+    )
       <%}%>
       <% if(isMaterialUI) {%>
         const editFormatter = (data) => (
@@ -60,11 +62,28 @@ const Users = () => {
             Edit
           </Button>
         </>
+        )
       <%}%>
+      <% if(isTailWind) {%>
+      const editFormatter = (id, row) => (
+      <>
+			<Button
+				name='Edit'
+				variant='rounded-lg text-white'
+				color='bg-blue-600'
+				size=''
+				onClick={() => {
+					handleShow()
+					dispatch(setSelectedUserModal({ id }))
+					dispatch(setSelectedUser(row))
+				}}
+			/>
+      </>
     )
-    
-      <% if(!isMaterialUI) {%>
-        const deleteFormatter= (id,row)=>(
+    <%}%>
+
+    <% if(isBootstrap) {%>
+    const deleteFormatter= (id,row)=>(
         <>
           <Button
             variant="outline-danger"
@@ -79,6 +98,7 @@ const Users = () => {
             Delete
           </Button>
         </>
+    )
       <%}%>
       <% if(isMaterialUI) {%>
         const deleteFormatter= (data)=>(
@@ -96,10 +116,27 @@ const Users = () => {
             Delete
           </Button>
         </>
+        )
       <%}%>
+      <% if(isTailWind) {%>
+        const deleteFormatter= (id,row)=>(
+        <>
+        <Button
+          name='Delete'
+          variant='rounded-lg text-white'
+          color='bg-red-600'
+          align='content-center'
+          onClick={() => {
+            username = row.username
+            deleteId = id
+            setConfirmDelete(true)
+          }}
+        />
+		</>
     )
+      <%}%>
   <%}%>
-  <% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>
+  <% if((isCrudWithNode||isCrud) && (isBootstrap || isTailWind)) {%>
     const cols=[
       {
         dataField: 'name',
@@ -160,15 +197,24 @@ const Users = () => {
   return (
     <>
       <div>
-        <h1>Welcome to Users Screen</h1>
-        <% if((isCrudWithNode||isCrud) && !isMaterialUI) {%>
+        <h1 <%if(isTailWind) {%>className='text-3xl font-medium mb-5'<%}%> >Welcome to Users Screen</h1>
+        <% if((isCrudWithNode||isCrud) && isBootstrap) {%>
           <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
         <%}%>
         <% if((isCrudWithNode||isCrud) && isMaterialUI) {%>
           <Button variant='contained' onClick={() => handleShow()}>Add User</Button>
           <Box sx={{ height: '1.5rem' }} />
         <%}%>
-        <% if(isStore &&  !isMaterialUI && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
+        <% if((isCrudWithNode||isCrud) && isTailWind && isStore) {%>
+          <div className='dark:bg-[#1d1717]'>
+          <button
+            className='text-white bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 '
+            onClick={() => handleShow()}>
+            Add User
+          </button>
+        </div>
+        <%}%>
+        <% if(isStore &&  (isBootstrap || isTailWind) && (isCrudWithNode||isCrud)){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
         <% if(isStore && isMaterialUI &&(isCrudWithNode||isCrud)){%> <Table data={users} columns={cols}/><%}%> 
       </div>
       <%if((isCrudWithNode||isCrud)){%>

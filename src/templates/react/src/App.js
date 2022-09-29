@@ -114,7 +114,7 @@ const App = () => {
       <%}%>
 
 
-      <%if(isThemeProvider && !isMaterialUI) {%>
+      <%if(isThemeProvider && (isBootstrap || isTailWind)) {%>
         <% if(isOkta) {%>
           <Router>
           <NavBar brand='Made in India' links={linksOfNav}/>

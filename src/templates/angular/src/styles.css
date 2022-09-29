@@ -12,7 +12,7 @@
   --dark-link-color: #828FFF;
 }<%}%>
 
-<% if(isTailwindCSS){%>
+<% if(isTailWind){%>
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

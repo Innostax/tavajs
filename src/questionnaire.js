@@ -63,23 +63,11 @@ module.exports = [
     message: "Which CSS Framework do you want?",
     choices: [
       { name: "MaterialUI", value: "material" },
-      { name: "Bootstrap", value:"bootstrap"},
-      { name: "Tailwind", value:"tailwind"},
+      { name: "Bootstrap", value: "bootstrap" },
+      { name: "TailWind", value: "tailwind" },
     ],
     when: (answers) => {
-      return answers.frontEndChoice == "react"  || answers.frontEndChoice=="vue";
-    },
-  },
-  {
-    name: "tailwindCssChoice",
-    type: "list",
-    message: "Which CSS Framework do you want?",
-    choices: [
-      { name: "tailwind CSS", value: true },
-      { name: "Bootstrap", value: false },
-    ],
-    when: (answers) => {
-      return answers.frontEndChoice == "angular";
+      return answers.frontEndChoice;
     },
   },
   /*CSS Framework question ended here */
@@ -124,6 +112,18 @@ module.exports = [
     ],
     when: (answers) => {
       return answers.frontEnd;
+    },
+  },
+  {
+    name: "networkInformer",
+    type: "list",
+    message: "Do you want show Network Connection Informer?",
+    choices: [
+      { name: "Yes", value: true },
+      { name: "No", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice === "angular";
     },
   },
   {

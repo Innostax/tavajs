@@ -23,11 +23,17 @@ const DEPENDENCIES = {
   TAILWINDCSS: [
     { name: "tailwindcss", version: "^3.1.8" }
   ],
+  TAILWINDREACT:[
+    { name: "tailwindcss", version: "^3.1.8" },
+    { name: "autoprefixer", version: "^10.4.12" },
+    { name: "postcss", version: "^8.4.16" },
+    { name: "react-scripts", version: "^5.0.1" },
+  ],
   ANGULARBOOTSTRAP: [
     { name: "bootstrap", version: "^5.2.1" }
   ],
   REACT: [
-    { name: "@reduxjs/toolkit", version: "^1.6.1" },
+    { name: "@reduxjs/toolkit", version: "^1.8.5" },
     { name: "react-redux", version: "^7.2.4" },
   ],
   AUTH0_SPA: [{ name: "@auth0/auth0-spa-js", version: "^1.10.0" }],
@@ -52,10 +58,15 @@ const DEPENDENCIES = {
 
 const DEV_DEPENDENCIES = {
   CYPRESS: [{ name: "cypress", version: "^10.9.0" }],
-  JEST: [
+  JEST_VUE: [
     { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
     { name: "@vue/test-utils", version: "^2.0.2" },
     { name: "@vue/vue3-jest", version: "^27.0.0" },
+  ],
+  JEST_REACT: [
+    { name: "@testing-library/jest-dom", version: "^5.11.4" },
+    { name: "@testing-library/react", version: "^11.1.0" },
+    { name: "@testing-library/user-event", version: "^12.1.10" },
   ],
   MOCHA: [
     { name: "@vue/cli-plugin-unit-mocha", version: "~5.0.0" },

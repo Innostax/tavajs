@@ -25,6 +25,7 @@ const {
   TAILWIND_CSS_FILE_PATHS,
   TAILWIND_VUE_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
+  TAILWIND_REACT_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -57,8 +58,8 @@ const createDirectoryContents = (
   isCypress,
   isMocha,
   isNightWatch,
-  isTailwindCSS,
-  blobServiceName
+  blobServiceName,
+  isNetworkInformer
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
@@ -104,8 +105,8 @@ const createDirectoryContents = (
             isCypress,
             isMocha,
             isNightWatch,
-            isTailwindCSS,
             blobServiceName,
+            isNetworkInformer,
           },
           (autoescape = false)
         );
@@ -124,10 +125,9 @@ const createDirectoryContents = (
         } else if (isTailWind) {
           isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
         }
-
         if (isRequiredFile) {
           const newUpadtedProjectPath =
-            isBootstrapFile || isTailWindFile || isMaterialUIFile
+            isBootstrapFile || isMaterialUIFile || isTailWindFile
               ? `${newProjectPath}`
               : `${newProjectPath}/${file}`;
 
@@ -162,8 +162,8 @@ const createDirectoryContents = (
             isCypress,
             isMocha,
             isNightWatch,
-            isTailwindCSS,
-            blobServiceName
+            blobServiceName,
+            isNetworkInformer
           );
         }
       }
@@ -251,11 +251,6 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
   switch (name) {
     case REACT_THEME_FILE_PATHS:
       return [
-        {
-          source: `${srcDir}/themeProviderTemplates/react-themes/theme.js`,
-          destination: `${destDir}/src/theme.js`,
-          isfile: true,
-        },
         {
           source: `${srcDir}/themeProviderTemplates/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
@@ -372,7 +367,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/Dockerfile`,
           isfile: false
         },
-      ]
+      ];
     case NODE_JS_DOCKER_FILE_PATHS:
       return [
         {
@@ -393,7 +388,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/Dockerfile`,
           isfile: false
         },
-      ]
+      ];
     case NGRX_FILE_PATHS:
       return [
         {
@@ -419,11 +414,6 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
-        {
-          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
-          isfile: true,
-        }
       ];
     case VUEX_FILE_PATHS:
       return [
@@ -454,43 +444,51 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false,
         },
         {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.css`,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
           isfile: true,
         },
         {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
-        {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.ts`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
-          isfile: true,
-        }
       ];
-    case TAILWIND_CSS_FILE_PATHS: 
+    case TAILWIND_CSS_FILE_PATHS:
       return [
         {
           source: `${srcDir}/tailwindCssTemplates/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
           isFile: true,
         },
-      ] ;
-      case TAILWIND_VUE_FILE_PATHS:
-        return[
-          {
-            source: `${srcDir}/tailwindCssTemplates/vue/tailwind.config.js`,
-            destination: `${destDir}/tailwind.config.js`,
-            isFile: true,
-          },
-          {
-            source: `${srcDir}/tailwindCssTemplates/vue/postcss.config.js`,
-            destination: `${destDir}/postcss.config.js`,
-            isFile: true,
-          },
+      ];
+    case TAILWIND_REACT_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/tailwindCssTemplates/react/tailwind.config.js`,
+          destination: `${destDir}/tailwind.config.js`,
+          isFile: true,
+        },
+        {
+          source: `${srcDir}/tailwindCssTemplates/react/postcss.config.js`,
+          destination: `${destDir}/postcss.config.js`,
+          isFile: true,
+        },
+      ];
+    case TAILWIND_VUE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/tailwindCssTemplates/vue/tailwind.config.js`,
+          destination: `${destDir}/tailwind.config.js`,
+          isFile: true,
+        },
+        {
+          source: `${srcDir}/tailwindCssTemplates/vue/postcss.config.js`,
+          destination: `${destDir}/postcss.config.js`,
+          isFile: true,
+        },
 
-        ]  
+      ] 
     default:
       return [];
   }
