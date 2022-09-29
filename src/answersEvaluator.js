@@ -25,6 +25,7 @@ const {
   AUTH0_FILE_PATHS,
   AUTHENTICATIONS,
   COGNITO_FILE_PATHS,
+  CSS_FRAMEWORKS,
   CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
   JEST_DIRECTORY_PATHS,
@@ -46,6 +47,7 @@ const {
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
+  TAILWIND_REACT_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   DATABASES,
   LOGGERSERVICES,
@@ -61,6 +63,7 @@ const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 const { WINSTON, SENTRY } = LOGGERSERVICES;
 const { SMTP, SENDGRID, AMAZON_SES } = EMAILSERVICES;
 const { CYPRESS,  JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASES
+const {MATERIAL , BOOTSTRAP, TAILWIND} = CSS_FRAMEWORKS;
 
 const currentPath = path.join(__dirname);
 const NODE_JS = "node-js";
@@ -83,7 +86,7 @@ const handleAnswersEvaluator = async (answers) => {
     emailServiceName,
     blobServiceName,
     loggerServiceName,
-    materialuiChoice,
+    cssFrameworkChoice,
     store,
     CRUD,
     dockerService,
@@ -92,7 +95,7 @@ const handleAnswersEvaluator = async (answers) => {
     theme,
     projectDirectoryPath,
     angularNodeCrud,
-    tailwindCssChoice,
+    networkInformer
   } = answers;
 
   // Project Directory Path
@@ -104,8 +107,10 @@ const handleAnswersEvaluator = async (answers) => {
   const isCrudWithNode = Boolean(
     reactNodeCrud || vueNodeCrud || angularNodeCrud
   );
-  const isMaterialUI = materialuiChoice;
-  const isTailwindCSS = tailwindCssChoice;
+  const isMaterialUI = cssFrameworkChoice === MATERIAL ;
+  const isBootstrap = cssFrameworkChoice === BOOTSTRAP ;
+  const isTailWind = cssFrameworkChoice === TAILWIND ;
+  const isNetworkInformer =networkInformer;
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -150,13 +155,23 @@ const handleAnswersEvaluator = async (answers) => {
     if (isFrontEndChoiceReact) {
       if (isMaterialUI) {
         dependencies = [...dependencies, ...DEPENDENCIES.MATERIALUI];
-      } else {
+      } 
+      if(isBootstrap) {
         dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
+      }
+      if(isTailWind){
+        dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDREACT];
+        const res = getFilePaths(
+          TAILWIND_REACT_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
       }
     }
 
     if (isFrontEndChoiceAngular) {
-      if (isTailwindCSS) {
+      if (isTailWind) {
         dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDCSS];
 
         const res = getFilePaths(
@@ -165,7 +180,7 @@ const handleAnswersEvaluator = async (answers) => {
           frontEnd.path
         );
         filePaths = [...filePaths, ...res];
-      } else {
+      } else if(isBootstrap){
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
       }
     }
@@ -201,16 +216,18 @@ const handleAnswersEvaluator = async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
+      isBootstrap,
+      isTailWind,
       CURR_DIR,
       isJest,
       isCypress,
       isMocha,
       isNightWatch,
-      isTailwindCSS,
-      blobServiceName
+      blobServiceName,
+      isNetworkInformer
     );
 
-    //<---------------------------- For Themes integration ---------------------------------->
+    //<------------------------------- Light/Dark Mode + React ---------------------------------->
     if (isThemeProvider && isFrontEndChoiceReact) {
       const res = getFilePaths(
         REACT_THEME_FILE_PATHS,
@@ -218,6 +235,14 @@ const handleAnswersEvaluator = async (answers) => {
         frontEnd.path
       );
       filePaths = [...filePaths, ...res];
+      if(isBootstrap || isTailWind)
+      {
+        handleRenderEJS(
+          `${currentPath}/themeProviderTemplates/react-themes/theme.js`,
+          { isBootstrap, isTailWind },
+          `${frontEnd.path}/src/theme.js`
+        );
+      }
     }
 
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
@@ -349,13 +374,15 @@ const handleAnswersEvaluator = async (answers) => {
       choice,
       isThemeProvider,
       isMaterialUI,
+      isBootstrap,
+      isTailWind,
       CURR_DIR,
       isJest,
       isCypress,
       isMocha,
       isNightWatch,
-      isTailwindCSS,
-      blobServiceName
+      blobServiceName,
+      isNetworkInformer
     );
 
     const ROUTE_FILES = [
@@ -553,30 +580,27 @@ const handleAnswersEvaluator = async (answers) => {
           },
         ];
       });
-
       handleRenderEJS(
         `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
         { defaultRoute },
         `${frontEnd.path}/src/screens/Users/users.actions.js`
       );
-
-        handleRenderEJS(
-          `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
-          { isMaterialUI },
-          `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
-        );      
-
+      handleRenderEJS(
+        `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
+        { isBootstrap, isTailWind, isMaterialUI },
+        `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
+      );      
       if (isCrud) {
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/Adduser.js`,
-          { isMaterialUI, isCrud, isCrudWithNode },
+          { isMaterialUI, isBootstrap, isTailWind, isCrud, isCrudWithNode },
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
       }
       if (isCrudWithNode) {
         handleRenderEJS(
           `${currentPath}/reduxTemplates/userform/AdduserForm.js`,
-          { isMaterialUI },
+          { isMaterialUI, isBootstrap, isTailWind },
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
       }
@@ -596,6 +620,8 @@ const handleAnswersEvaluator = async (answers) => {
         `${currentPath}/templates/react/src/App.js`,
         {
           isMaterialUI,
+          isBootstrap,
+          isTailWind,
           isCrud,
           isCrudWithNode,
           isAuth0,
@@ -659,13 +685,15 @@ const handleAnswersEvaluator = async (answers) => {
           choice,
           isThemeProvider,
           isMaterialUI,
+          isBootstrap,
+          isTailWind,
           CURR_DIR,
           isJest,
           isCypress,
           isMocha,
           isNightWatch,
-          isTailwindCSS,
-          blobServiceName
+          blobServiceName,
+          isNetworkInformer
         );
       });
 
@@ -691,7 +719,7 @@ const handleAnswersEvaluator = async (answers) => {
         directoryPaths = [...directoryPaths, ...res];
         handleRenderEJS(
           `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-          { isTailwindCSS },
+          { isTailWind, isBootstrap },
           `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
         );
         handleRenderEJS(
@@ -716,7 +744,7 @@ const handleAnswersEvaluator = async (answers) => {
     directoryPaths = [...directoryPaths, ...res];
     handleRenderEJS(
       `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-      { isTailwindCSS },
+      { isTailWind, isBootstrap },
       `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
     );
     handleRenderEJS(

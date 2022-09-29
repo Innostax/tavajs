@@ -5,7 +5,7 @@ import { actions } from "../users/users.reducer";
 import { selectSelectedUser } from "../../screens/users/users.selectors";
 
 <% if(isMaterialUI) {%> import {Grid} from '@mui/material' <%}%>
-<% if(!isMaterialUI) {%> import { Row,Col } from "react-bootstrap" <%}%>
+<% if(isBootstrap) {%> import { Row,Col } from "react-bootstrap" <%}%>
 
 const { setSelectedUserModal } = actions;
 
@@ -22,7 +22,7 @@ const ShowDetails = () => {
 
   return (
     <Modal title="Show User" reset={resetModal} size="lg">
-      <% if(!isMaterialUI) {%> 
+      <% if(isBootstrap) {%> 
        <Row>
         <Col className="p-2">
           <b>{user.name}</b>

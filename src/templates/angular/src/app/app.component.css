@@ -1,3 +1,67 @@
 li+li{
     margin-left: 10px;
   }
+<%if(isNetworkInformer){%>
+.offline-message {
+  background: #fee8ec !important;
+  color: #f51b46 !important;
+  border-bottom: 1px solid #f51b46 !important;
+  padding: 0.875em 0.625em !important;
+  z-index: 1041 !important;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  text-transform: capitalize;
+}
+
+.online-message {
+  background: #d1e7dd !important;
+  color: #0f5132 !important;
+  border-bottom: 1px solid #17c50e !important;
+  padding: 0.875em 0.625em !important;
+  z-index: 1041 !important;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  text-transform: capitalize;
+}
+
+.offline-body {
+  position: relative;
+  display: flex;
+}
+
+.offline-icon span {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  border: 2px solid transparent;
+  border-top: 2px solid #f51b46;
+  border-bottom: 2px solid #f51b46;
+  -webkit-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+  -ms-animation: spin 1s linear infinite;
+  -o-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}<%}%>

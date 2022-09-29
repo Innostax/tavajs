@@ -12,7 +12,8 @@ const DATABASES = {
 
 const CSS_FRAMEWORKS = {
   BOOTSTRAP: "bootstrap",
-  MATERIAL: "material"
+  MATERIAL: "material",
+  TAILWIND: "tailwind",
 }
 
 const AUTHENTICATIONS = {
@@ -130,6 +131,8 @@ const ANGULAR_CRUD_NODE_FILE_PATHS = "angularCrudNodeFilePaths";
 
 const TAILWIND_CSS_FILE_PATHS = "tailwindCssfilePaths";
 
+const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
+
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
@@ -159,6 +162,7 @@ module.exports = {
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
+  TAILWIND_REACT_FILE_PATHS,
   LOGGERSERVICES,
   EMAILSERVICES,
   TESTCASES
