@@ -89,7 +89,8 @@ const handleAnswersEvaluator = async (answers) => {
     vueNodeCrud,
     theme,
     projectDirectoryPath,
-    angularNodeCrud
+    angularNodeCrud,
+    networkInformer
   } = answers;
 
   // Project Directory Path
@@ -104,6 +105,7 @@ const handleAnswersEvaluator = async (answers) => {
   const isMaterialUI = cssFrameworkChoice === MATERIAL ;
   const isBootstrap = cssFrameworkChoice === BOOTSTRAP ;
   const isTailWind = cssFrameworkChoice === TAILWIND ;
+  const isNetworkInformer =networkInformer;
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -216,7 +218,8 @@ const handleAnswersEvaluator = async (answers) => {
       isCypress,
       isMocha,
       isNightWatch,
-      blobServiceName
+      blobServiceName,
+      isNetworkInformer
     );
 
     //<------------------------------- Light/Dark Mode + React ---------------------------------->
@@ -387,7 +390,8 @@ const handleAnswersEvaluator = async (answers) => {
       isCypress,
       isMocha,
       isNightWatch,
-      blobServiceName
+      blobServiceName,
+      isNetworkInformer
     );
 
     const ROUTE_FILES = [
@@ -697,7 +701,8 @@ const handleAnswersEvaluator = async (answers) => {
           isCypress,
           isMocha,
           isNightWatch,
-          blobServiceName
+          blobServiceName,
+          isNetworkInformer
         );
       });
 
