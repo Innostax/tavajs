@@ -4,7 +4,7 @@ import React from 'react'
 	import  Modal from '@mui/material';
 	import {Dialog,DialogActions,DialogContent,DialogTitle} from '@mui/material'	
 <%}%>
-<% if(!isMaterialUI) {%>import  Modal from 'react-bootstrap/Modal';<%}%>
+<% if(isBootstrap) {%>import  Modal from 'react-bootstrap/Modal';<%}%>
 import { useSelector, useDispatch } from 'react-redux'
 import { selectShowModal } from './modal.selectors'
 import { actions } from './modal.slice'
@@ -26,7 +26,7 @@ export default function ViceModal({
 	}
 	return (
 		<>
-		<% if(!isMaterialUI) {%>
+		<% if(isBootstrap) {%>
 		<Modal
 			show={show}
 			onHide={handleClose}

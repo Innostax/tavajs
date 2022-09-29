@@ -12,7 +12,8 @@ const DATABASES = {
 
 const CSS_FRAMEWORKS = {
   BOOTSTRAP: "bootstrap",
-  MATERIAL: "material"
+  MATERIAL: "material",
+  TAILWIND: "tailwind",
 }
 
 const AUTHENTICATIONS = {
@@ -116,6 +117,7 @@ const SMTP = "smtp";
 
 const SENDGRID = "sendgrid";
 
+const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
 const AMAZON_SES = "amazon_ses";
 
 module.exports = {
@@ -149,5 +151,6 @@ module.exports = {
   TAILWIND_CSS_FILE_PATHS,
   SMTP,
   SENDGRID,
+  TAILWIND_REACT_FILE_PATHS,
   AMAZON_SES,
 };
