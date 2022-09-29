@@ -2,28 +2,26 @@
   <div>
     <div>
       <Button
-        class="text-white rounded bg-blue-400 px-3 py-2 shadow-sm hover:bg-blue-600"
+        class="text-white rounded px-3 py-2 shadow-sm bg-blue-600"
         @onClick="show = true"
         name="Add User"
       ></Button>
     </div>
     <Modal title="Add User" :show="show">
-      <template v-slot:header class="border-b-2">
-        <div
-          class="flex border-b-2 w-full h-15 border-gray p-4 dark:text-white"
-        >
-          <div class="pt-2 text-xl pl-2">Add User</div>
+      <template v-slot:header>
+        <div class="flex w-full h-15 p-4 dark:text-white text-xl">
+          <div>Add User</div>
           <Button
-            class="ml-auto text-gray rounded px-3 py-2 text-xl"
+            class="ml-auto text-gray px-3"
             name="X"
-            @onClick="show = false"
+            @onClick="close()"
           ></Button>
         </div>
       </template>
       <template v-slot:body>
         <form>
-          <div class="p-1 text-left">
-            <Label class="p-1" input-id="name-input" name="Name"></Label>
+          <div class="text-left mb-4">
+            <Label class="my-4" input-id="name-input" name="Name"></Label>
             <input
               id="name-input"
               type="text"
@@ -34,12 +32,8 @@
             />
           </div>
           <div></div>
-          <div class="p-1 text-left">
-            <Label
-              class="p-1"
-              input-id="username-input"
-              name="Username"
-            ></Label>
+          <div class="text-left mb-4">
+            <Label input-id="username-input" name="Username"></Label>
             <input
               id="username-input"
               type="text"
@@ -49,8 +43,8 @@
               border-slate-300 outline-none focus:outline-none focus:ring w-full"
             />
           </div>
-          <div class="p-1 text-left">
-            <Label class="p-1" input-id="email-input" name="Email"></Label>
+          <div class="text-left">
+            <Label input-id="email-input" name="Email"></Label>
             <input
               id="email-input"
               type="email"
@@ -69,16 +63,16 @@
           data-bs-dismiss="modal"
           :isDisabled="isAddButtonDisabled"
           @onClick="onSubmit"
-          name="Submit"
-          class="text-white rounded px-3 py-2 m-3 ml-auto shadow-sm"
+          name="Add User"
+          class="text-white rounded px-3 py-2 ml-auto shadow-sm mr-3"
           :class="isAddButtonDisabled ? 'bg-blue-400' : 'bg-blue-600'"
         ></Button>
         <Button
-          class="text-gray border border-gray-500 px-3 py-2 ml-auto m-3 shadow-sm hover:bg-gray-500 
+          class="text-gray border border-gray-500 px-3 py-2 ml-auto shadow-sm hover:bg-gray-500 
           hover:text-white active:bg-gray-600 font-bold rounded outline-none focus:outline-none dark:text-white"
           name="Cancel"
           type="button"
-          @onClick="show = false"
+          @onClick="close()"
         >
         </Button>
       </template>
@@ -124,6 +118,10 @@ export default {
       this.username = emptyString;
       this.email = emptyString;
     },
+    close() {
+      this.show = false
+      this.showAddUserModal()
+    }
   },
   computed: {
     isAddButtonDisabled() {

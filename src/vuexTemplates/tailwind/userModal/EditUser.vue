@@ -1,10 +1,10 @@
 <template>
   <Modal id="editUser" title="Edit User" :show="show">
-    <template v-slot:header class="border-b-2">
-      <div class="flex border-b-2 w-full h-15 border-gray p-4 dark:text-white">
-        <div class="pt-2 text-xl pl-2">Edit User</div>
+    <template v-slot:header>
+      <div class="flex w-full h-15 p-4 dark:text-white text-xl">
+        <div>Edit User</div>
         <button
-          class="ml-auto text-gray rounded px-3 py-2 text-xl"
+          class="ml-auto text-gray px-3"
           @click="close"
         >
           X
@@ -13,8 +13,8 @@
     </template>
     <template v-slot:body>
       <form>
-        <div class="p-1 text-left">
-          <Label class="p-1 pt-0" input-id="name-input" name="Name"></Label>
+        <div class="mb-4 text-left">
+          <Label class="my-4" input-id="name-input" name="Name"></Label>
           <input
             id="name-input"
             type="text"
@@ -24,8 +24,8 @@
             v-model="name"
           />
         </div>
-        <div class="p-1 text-left">
-          <Label class="p-1" input-id="username-input" name="Username"></Label>
+        <div class="mb-4 text-left">
+          <Label input-id="username-input" name="Username"></Label>
           <input
             id="username-input"
             type="text"
@@ -35,8 +35,8 @@
             v-model="username"
           />
         </div>
-        <div class="p-1 text-left">
-          <Label class="p-1" input-id="email-input" name="Email"></Label>
+        <div class="text-left">
+          <Label input-id="email-input" name="Email"></Label>
           <input
             id="email-input"
             type="email"
@@ -52,11 +52,11 @@
       <Button
         type="submit"
         data-bs-dismiss="modal"
-        @onClick="submitButonHandler"
+        @onClick="submitButtonHandler"
         :isDisabled="isEditButtonDisabled"
-        class="text-white rounded px-3 py-2 m-3 ml-auto shadow-sm"
+        class="text-white rounded px-3 py-2 m-3 ml-auto shadow-sm mr-3"
         :class="isEditButtonDisabled ? 'bg-blue-400' : 'bg-blue-600'"
-        name="Submit"
+        name="Edit User"
       />
       <Button
         class="text-gray border border-gray-500 px-3 py-2 ml-auto m-3 shadow-sm hover:bg-gray-500 
@@ -97,7 +97,7 @@ export default {
     },
   },
   methods: {
-    submitButonHandler() {
+    submitButtonHandler() {
       const data = {
         id: this.selectedUser.id,
         name: this.name,
@@ -109,6 +109,10 @@ export default {
     },
     close() {
       this.$emit("close-edit-modal");
+      this.name = this.selectedUser.name
+      this.username = this.selectedUser.username
+      this.email = this.selectedUser.email
+
     },
   },
   computed: {

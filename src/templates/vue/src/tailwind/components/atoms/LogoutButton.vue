@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Button id="logoutButton" name="Log Out" class="text-sm border border-black rounded p-1 ml-2 dark:text-white dark:border-white" @onClick="logout"></Button>
+    <Button
+      id="logoutButton"
+      name="Log Out"
+      class="text-sm border border-vueBlack hover:bg-vueBlack hover:text-white rounded p-1 ml-2 
+      dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+      @onClick="logout"
+    ></Button>
   </div>
 </template>
 

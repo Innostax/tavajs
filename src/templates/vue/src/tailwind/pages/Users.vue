@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="mt-10 text-4xl dark:text-white">Welcome to Users Screen</h3>
+    <h3 class="text-4xl dark:text-white">Welcome to Users Screen</h3>
     <AddUser class="mt-4" />
     <br />
     <ShowUsers

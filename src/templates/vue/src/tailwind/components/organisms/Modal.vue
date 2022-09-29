@@ -26,20 +26,20 @@
           <div
             id="modal"
             v-show="show"
-            class="bg-white fixed shadow-lg overflow-hidden rounded-2xl flex flex-col justify-between w-full max-w-lg dark:bg-vueBlack"
+            class="bg-white fixed shadow-lg overflow-hidden rounded-lg flex flex-col justify-between w-11/12 max-w-lg dark:bg-vueBlack"
           >
             <!-- Modal Header -->
-            <header id="modal-header" class="flex border-white">
+            <header id="modal-header" class="flex border-b border-gray-200 dark:border-vueBlack">
               <slot name="header"></slot>
             </header>
 
             <!-- Modal Body  -->
-            <section id="modal-body" class="px-4 py-6">
+            <section id="modal-body" class="px-4 py-6 border-b border-gray-200 dark:border-vueBlack">
               <slot name="body"></slot>
             </section>
 
             <!-- Modal Footer  -->
-            <footer id="modal-footer" class="ml-auto border-white">
+            <footer id="modal-footer" class="ml-auto px-6 py-4">
               <slot name="footer"></slot>
             </footer></div
         ></transition>

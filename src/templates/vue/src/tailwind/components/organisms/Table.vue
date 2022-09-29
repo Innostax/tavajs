@@ -2,11 +2,11 @@
   <div class="overflow-x-auto">
     <table class="w-full text-center table-auto table-border-1">
       <thead class="border-b-2 border-gray-700">
-        <tr class="text-sg-small capitalize">
+        <tr class="capitalize">
           <th v-for="(column, index) in tableColumns" :key="index">
-            <div class="flex justify-around">
+            <div class="flex justify-center">
               <div class="mt-1 flex flex-row cursor-pointer dark:text-white">
-                <span :class="column.columnHeaderStyleClasses">
+                <span>
                   {{ column.name }}
                 </span>
               </div>
@@ -18,11 +18,14 @@
         <tr
           v-for="(eachRow, rowIndex) in tableData"
           :key="rowIndex"
-          class="text-sg-body dark:text-white h-10 hover:bg-gray-200 dark:hover:bg-vueBlack-lighter cursor-pointer"
+          class="dark:text-white h-10 hover:bg-gray-200 dark:hover:bg-vueBlack-lighter cursor-pointer"
         >
           <td v-for="(column, columnIndex) in tableColumns" :key="columnIndex">
-            <div class="flex justify-around ml-10">
+            <div class="flex justify-center">
               <div class="mt-1 mb-1 flex flex-row cursor-pointer">
+                <span>
+                  {{ eachRow[column.key] }}
+                </span>
                 <span v-if="column.dataFormatter === 'button'">
                   <button
                     :name="column.buttonName"
@@ -32,9 +35,6 @@
                   >
                     {{ column.buttonName }}
                   </button>
-                </span>
-                <span :class="column.rowStyleClasses">
-                  {{ eachRow[column.key] }}
                 </span>
               </div>
             </div>

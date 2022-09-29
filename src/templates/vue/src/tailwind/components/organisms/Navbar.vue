@@ -42,10 +42,10 @@
         </a>
       </div>
       <% if(isThemeProvider) { %> 
-        <ThemeVue class="md:mt-0 mt-4" />
+        <ThemeVue class="md:mt-0 mt-4 mr-4 md:mr-0" />
       <% } %> 
       <% if(isAuth0 || isOkta || isCognito) { %> 
-        <LogoutButton class="md:mt-0 mt-4" />
+        <LogoutButton class="md:mt-0 mt-4 md:ml-2 mr-4 md:mr-0" />
       <% } %> 
     </div>
   </nav>
