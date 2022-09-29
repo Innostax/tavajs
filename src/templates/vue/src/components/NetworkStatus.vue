@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div v-if="!onLine" class="msg offline-msg">
+      <div v-if="!online" class="msg offline-msg">
           <div class="icon">
             <span></span>
           </div>
@@ -8,7 +8,7 @@
             <div><strong>Offline : </strong>Connection lost! You are not connected to internet</div>
           </div>
       </div>
-      <div v-if="showBackOnline" class="msg online-msg">
+      <div v-if="isBackOnline" class="msg online-msg">
           <div class="icon">
             <img src="https://img.icons8.com/office/40/000000/high-connection.png"/>
           </div>
@@ -20,37 +20,39 @@
   </template>
   
   <script>
+  const ONLINE = "online"
+  const OFFLINE = "offline"
+
   export default {
     name : "NetworkStatus",
     data() {
       return {
-        onLine: navigator.onLine,
-        showBackOnline: false,
+        online: navigator.onLine,
+        isBackOnline: false,
       };
     },
     methods: {
-      updateOnlineStatus(e) {
-        const { type } = e;
-        this.onLine = type === "online";
+      updateOnlineStatus(event) {
+        this.online = event.type === ONLINE;
       },
     },
     watch: {
-      onLine(v) {
-        if (v) {
-          this.showBackOnline = true;
+      online(value) {
+        if (value) {
+          this.isBackOnline = true;
           setTimeout(() => {
-            this.showBackOnline = false;
+            this.isBackOnline = false;
           }, 1000);
         }
       },
     },
     mounted() {
-      window.addEventListener("online", this.updateOnlineStatus);
-      window.addEventListener("offline", this.updateOnlineStatus);
+      window.addEventListener(ONLINE, this.updateOnlineStatus);
+      window.addEventListener(OFFLINE, this.updateOnlineStatus);
     },
     beforeDestroy() {
-      window.removeEventListener("online", this.updateOnlineStatus);
-      window.removeEventListener("offline", this.updateOnlineStatus);
+      window.removeEventListener(ONLINE, this.updateOnlineStatus);
+      window.removeEventListener(OFFLINE, this.updateOnlineStatus);
     },
   };
   </script>
