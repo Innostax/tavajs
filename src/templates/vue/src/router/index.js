@@ -1,12 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-<% if (isTailWind) { %>
-  import Home from "../components/pages/Home.vue";
-  import Users from "../components/pages/Users.vue";
-  <% } %>
-<% if (isBootstrap) { %>
-  import Home from "../components/pages/Home.vue";
-  import Users from "../components/pages/Users.vue";
-<% } %>
+import Home from "../components/pages/Home.vue";
+import Users from "../components/pages/Users.vue";
 <% if (isAuth0) { %>
 import { authGuard } from '@auth0/auth0-vue';
 <% } %>

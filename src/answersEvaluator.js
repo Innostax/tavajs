@@ -55,10 +55,10 @@ const {
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
+
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
 const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 const { MATERIAL,BOOTSTRAP,TAILWIND} = CSS_FRAMEWORKS;
-
 
 const currentPath = path.join(__dirname);
 const NODE_JS = "node-js";
@@ -170,7 +170,7 @@ const handleAnswersEvaluator = async (answers) => {
       }
     }
     if(isFrontEndChoiceVue){
-      if(isTailWind){
+      if (isTailWind) {
         dependencies=[...dependencies, ...DEPENDENCIES.TAILWINDVUE];
         const res = getFilePaths(
           TAILWIND_VUE_FILE_PATHS,
@@ -178,8 +178,8 @@ const handleAnswersEvaluator = async (answers) => {
           frontEnd.path
         );
         filePaths = [...filePaths, ...res];
-      } else{
-        dependencies=[dependencies,...DEPENDENCIES.BOOTSTRAPVUE];
+      } else {
+        dependencies=[...dependencies,...DEPENDENCIES.BOOTSTRAPVUE];
       }
     }
     //<------------------------- For End: CSS Framework dependency ---------------------------->

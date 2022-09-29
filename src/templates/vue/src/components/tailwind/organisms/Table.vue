@@ -63,13 +63,12 @@ export default {
   },
   methods: {
     ButtonHandler(buttonName, data) {
-      if (buttonName === "Edit") {
-        this.$emit("edit-button-clicked", data);
-      } else this.$emit("delete-button-clicked", data);
+      buttonName === "Edit" ? this.$emit("edit-button-clicked", data) : this.$emit("delete-button-clicked", data);
     },
   },
 };
 </script>
+
 <style>
 table {
   vertical-align: middle !important;
