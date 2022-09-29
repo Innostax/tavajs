@@ -81,7 +81,7 @@ const AddUser = ({ show, handleClose, reset }) => {
     footer={
       <>
         <Button
-          name={isEmpty(user) ? 'Add' : 'Edit'}
+          name={isEmpty(user) ? 'Add' : 'Update'}
           variant='rounded-lg'
           color='bg-blue-600'
           size=''

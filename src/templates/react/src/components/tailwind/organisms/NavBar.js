@@ -3,7 +3,11 @@ import { BrowserRouter as Router } from 'react-router-dom'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if(isThemeProvider) { %>import { ThemeToggler } from '../../theme'<% } %>
-const NavBar = ({ brand, links }) => {
+<% if (isCognito) {%>
+import Button from '../atoms/Button'
+import { withAuthenticator } from '@aws-amplify/ui-react'
+<%}%>
+const NavBar = ({ brand, links <% if(isCognito){%>,signOut<%}%>}) => {
 	<% if(isAuth0) {%>const { logout } = useAuth0()<%}%>
 	return (
 		<Router>
@@ -63,6 +67,7 @@ const NavBar = ({ brand, links }) => {
 						</div>
 					</div>
 					<% if(isOkta) { %><AppWithRouterAccess /> <% } %>
+					<% if(isCognito){%><Button onClick={signOut} name='SignOut' variant='' /><%}%>
 					<% if(isThemeProvider) { %><ThemeToggler/><% } %>
 				</div>
 			</nav>
@@ -70,4 +75,5 @@ const NavBar = ({ brand, links }) => {
 		</Router>
 	)
 }
-export default NavBar
+<% if(isCognito){%>export default withAuthenticator(NavBar)
+	<%} else { %>export default NavBar <%}%>

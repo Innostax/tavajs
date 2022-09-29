@@ -4,9 +4,9 @@ import ViceModal from "../../components/organisms/Modal";
   const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
     const footer = (
       <Button
-        name='Confirm Delete'
+        name='Confirm'
         align='content-end'
-        variant='rounded-lg'
+        variant='rounded-lg text-white'
         color='bg-red-500'
         onClick={() => {
           userId()
