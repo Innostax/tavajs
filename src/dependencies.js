@@ -49,10 +49,15 @@ const DEPENDENCIES = {
 
 const DEV_DEPENDENCIES = {
   CYPRESS: [{ name: "cypress", version: "^10.9.0" }],
-  JEST: [
+  JEST_VUE: [
     { name: "@vue/cli-plugin-unit-jest", version: "^5.0.8" },
     { name: "@vue/test-utils", version: "^2.0.2" },
     { name: "@vue/vue3-jest", version: "^27.0.0" },
+  ],
+  JEST_REACT: [
+    { name: "@testing-library/jest-dom", version: "^5.11.4" },
+    { name: "@testing-library/react", version: "^11.1.0" },
+    { name: "@testing-library/user-event", version: "^12.1.10" },
   ],
   MOCHA: [
     { name: "@vue/cli-plugin-unit-mocha", version: "~5.0.0" },
