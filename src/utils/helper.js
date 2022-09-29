@@ -24,6 +24,7 @@ const {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
+  TAILWIND_REACT_FILE_PATHS,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -49,12 +50,13 @@ const createDirectoryContents = (
   projectChoice,
   isThemeProvider,
   isMaterialUI,
+  isBootstrap,
+  isTailWind,
   currentDirectory,
   isJest,
   isCypress,
   isMocha,
   isNightWatch,
-  isTailwindCSS,
   blobServiceName
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
@@ -94,12 +96,13 @@ const createDirectoryContents = (
             projectChoice,
             isThemeProvider,
             isMaterialUI,
+            isBootstrap,
+            isTailWind,
             currentDirectory,
             isJest,
             isCypress,
             isMocha,
             isNightWatch,
-            isTailwindCSS,
             blobServiceName,
           },
           (autoescape = false)
@@ -109,14 +112,19 @@ const createDirectoryContents = (
       } else if (stats.isDirectory()) {
         const isBootstrapFile = file === CSS_FRAMEWORKS.BOOTSTRAP;
         const isMaterialUIFile = file === CSS_FRAMEWORKS.MATERIAL;
+        const isTailWindFile = file === CSS_FRAMEWORKS.TAILWIND;
         // recursive call
-        const isRequiedFile = isMaterialUI
-          ? !isBootstrapFile
-          : !isMaterialUIFile;
-
-        if (isRequiedFile) {
+        let isRequiredFile;
+        if (isBootstrap) {
+          isRequiredFile = !(isTailWindFile || isMaterialUIFile);
+        } else if (isMaterialUI) {
+          isRequiredFile = !(isBootstrapFile || isTailWindFile);
+        } else if (isTailWind) {
+          isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
+        }
+        if (isRequiredFile) {
           const newUpadtedProjectPath =
-            isBootstrapFile || isMaterialUIFile
+            isBootstrapFile || isMaterialUIFile || isTailWindFile
               ? `${newProjectPath}`
               : `${newProjectPath}/${file}`;
 
@@ -144,12 +152,13 @@ const createDirectoryContents = (
             projectChoice,
             isThemeProvider,
             isMaterialUI,
+            isBootstrap,
+            isTailWind,
             currentDirectory,
             isJest,
             isCypress,
             isMocha,
             isNightWatch,
-            isTailwindCSS,
             blobServiceName
           );
         }
@@ -238,11 +247,6 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
   switch (name) {
     case REACT_THEME_FILE_PATHS:
       return [
-        {
-          source: `${srcDir}/themeProviderTemplates/react-themes/theme.js`,
-          destination: `${destDir}/src/theme.js`,
-          isfile: true,
-        },
         {
           source: `${srcDir}/themeProviderTemplates/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
@@ -359,7 +363,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/Dockerfile`,
           isfile: false
         },
-      ]
+      ];
     case NODE_JS_DOCKER_FILE_PATHS:
       return [
         {
@@ -380,7 +384,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/Dockerfile`,
           isfile: false
         },
-      ]
+      ];
     case NGRX_FILE_PATHS:
       return [
         {
@@ -410,7 +414,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
           isfile: true,
-        }
+        },
       ];
     case VUEX_FILE_PATHS:
       return [
@@ -454,16 +458,29 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
           isfile: true,
-        }
+        },
       ];
-    case TAILWIND_CSS_FILE_PATHS: 
+    case TAILWIND_CSS_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/tailwindCssTemplates/tailwind.config.js`,
+          source: `${srcDir}/tailwindCssTemplates/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
           isFile: true,
         },
-      ]   
+      ];
+    case TAILWIND_REACT_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/tailwindCssTemplates/react/tailwind.config.js`,
+          destination: `${destDir}/tailwind.config.js`,
+          isFile: true,
+        },
+        {
+          source: `${srcDir}/tailwindCssTemplates/react/postcss.config.js`,
+          destination: `${destDir}/postcss.config.js`,
+          isFile: true,
+        },
+      ];
     default:
       return [];
   }

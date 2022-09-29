@@ -6,7 +6,11 @@ import React, { useState } from "react";
   import Button from "../../components/atoms/Button";
   import Input from "../../components/atoms/Input";
 <%}%>
-<%if(!isMaterialUI){%>import {Form, Button} from "react-bootstrap";<%}%>
+<%if(isBootstrap){%>import {Form, Button} from "react-bootstrap";<%}%>
+<%if(isTailWind){%>
+import Button from '../../components/atoms/Button'
+import Input from '../../components/atoms/Input'  
+<%}%>
 import Modal from "../../components/organisms/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSelectedUser } from "./users.selectors";
@@ -56,7 +60,7 @@ const AddUser = ({ show, handleClose, reset }) => {
 		}
   };
 
-  <% if(!isMaterialUI) {%>
+  <% if(isBootstrap) {%>
     const footer =
       <>
         <Button variant='outline-primary' type='submit' onClick={handleSubmit} active className='w-80' >
@@ -66,17 +70,37 @@ const AddUser = ({ show, handleClose, reset }) => {
       </>
   <%}%>
 
+  <% if(isTailWind) {%>
+    const footer = 
+      <>
+        <Button
+          name={isEmpty(user) ? 'Add' : 'Update'}
+          variant='rounded-lg text-white'
+          color='bg-blue-600'
+          size=''
+          onClick={handleSubmit}
+        />
+        <Button
+          name='Cancel'
+          variant='rounded-lg text-white'
+          color='bg-red-600'
+          align='ml-auto'
+          onClick={handleClose}
+        />
+      </>
+  <%}%>
+  
   return (
     <Modal
     show={true}
     handleClose={handleClose}
     title={isEmpty(user) ? 'Add User' : 'Edit User'}
     reset={reset}			
-    <% if(!isMaterialUI) {%>
+    <% if(isBootstrap || isTailWind) {%>
     footer= {footer}
     <%}%>
   >
-  <% if(!isMaterialUI) {%>
+  <% if(isBootstrap) {%>
     <Form>
       <Form.Group className='mb-1' controlId='nameInput'>
         <Form.Label>Name</Form.Label>
@@ -194,6 +218,38 @@ const AddUser = ({ show, handleClose, reset }) => {
         </Grid>
       </Grid>
         <%}%>
+    <% if(isTailWind) {%>
+        <Input
+        title='Name'
+        type='text'
+        placeholder='Name'
+        onChange={(e) =>
+          setFormData((data) => ({ ...data, name: e.target.value }))
+        }
+        value={formData.name}
+        name=''
+      />
+      <Input
+        title='Username'
+        type='text'
+        placeholder='Username'
+        onChange={(e) =>
+          setFormData((data) => ({ ...data, username: e.target.value }))
+        }
+        value={formData.username}
+        name=''
+      />
+      <Input
+        title='Email'
+        type='email'
+        placeholder='Email'
+        onChange={(e) =>
+          setFormData((data) => ({ ...data, email: e.target.value }))
+        }
+        value={formData.email}
+        name=''
+      />
+    <%}%>
     </Modal>
   );
 };
