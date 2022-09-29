@@ -60,7 +60,7 @@ export default {
   <% } %>
   <% if (isNetworkInformer) { %>
     NetworkStatus,
-<% } %>
+  <% } %>
   },
   <% if (isAuth0) { %>
   data () {
