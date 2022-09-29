@@ -18,7 +18,7 @@
         />
       </div>
       <div class="content">
-        <div><strong>Online : </strong>Back to online</div>
+        <div><strong>Online : </strong>Back online</div>
       </div>
     </div>
   </div>
