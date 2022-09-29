@@ -1,7 +1,33 @@
 import ViceModal from "../../components/organisms/Modal";
-<% if(!isMaterialUI) {%>
+<%if(isTailWind){%>
+  import Button from '../../components/atoms/Button'
+  const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
+    const footer = (
+      <Button
+        name='Confirm'
+        align='content-end'
+        variant='rounded-lg text-white'
+        color='bg-red-500'
+        onClick={() => {
+          userId()
+          setOpen(false)
+        }}
+      />
+    )
+    return (
+      <ViceModal
+        open={open}
+        title='Delete User?'
+        handleClose={setOpen}
+        footer={footer}
+      >
+        {`Are you sure you want to delete ${username} ?`}
+      </ViceModal>
+    )
+  }
+<%}%>
+<% if(isBootstrap) {%>
 import { Button } from "react-bootstrap"
-
 const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
   const footer = (
     <div className="w-100">
@@ -31,11 +57,9 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
   );
 };
 <%}%>
-
 <% if(isMaterialUI) {%>
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
-
 const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
 	return (
 		<ViceModal show={open} title='Delete User?' handleClose={setOpen}>

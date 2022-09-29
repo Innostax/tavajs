@@ -87,7 +87,7 @@ One of the first things to remember about React project development is that it i
 
 <p  align="left">
 
-<%if(!isMaterialUI){%>
+<%if(isBootstrap){%>
 
 </a>  <a  href="https://react-bootstrap.github.io/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap"  width="100"  height="100"/>  </a></p>
 
