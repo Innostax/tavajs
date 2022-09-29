@@ -36,15 +36,15 @@ const projectInfo = async (frontEnd, backEnd, answers) => {
           )} Integrating Test Case framework: ${answers["testCaseFramework"]}`
         )
       );
-    // if(answers["materialuiChoice"]){
+    if(answers["cssFrameworkChoice"]){
       shell.echo(
         chalk.green.bold(
           `   ${String.fromCodePoint(0x231b)} Integrating CSS Framework: ${
-            answers["materialuiChoice"]
+            answers["cssFrameworkChoice"]
           }`
         )
       );
-    // }
+    }
     if (answers["theme"])
       shell.echo(
         chalk.green.bold(

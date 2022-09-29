@@ -4,7 +4,7 @@
   "scripts": {
     "build": "shx rm -rf dist/templates && shx cp -r templates dist",
     "start": "node src/index.js",
-    "test": "mocha"
+    "test": "mocha tests/test-cases/TC0001.js"
   },
   "license": "MIT",
   "dependencies": {
