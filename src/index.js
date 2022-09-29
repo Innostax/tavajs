@@ -1,3 +1,4 @@
+#! node
 const { handleInquirerExecutor } = require("./inquirerExecutor");
 const { handleAnswersEvaluator } = require("./answersEvaluator");
 const questionnaire = require("./questionnaire");
