@@ -24,6 +24,7 @@ const {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
+  CICD_FILE_PATHS
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -55,7 +56,8 @@ const createDirectoryContents = (
   isMocha,
   isNightWatch,
   isTailwindCSS,
-  blobServiceName
+  blobServiceName,
+  isCICDPipelineIntegrate
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
   const filesToCreate = fs.readdirSync(templatePath);
@@ -101,6 +103,7 @@ const createDirectoryContents = (
             isNightWatch,
             isTailwindCSS,
             blobServiceName,
+            isCICDPipelineIntegrate
           },
           (autoescape = false)
         );
@@ -150,7 +153,8 @@ const createDirectoryContents = (
             isMocha,
             isNightWatch,
             isTailwindCSS,
-            blobServiceName
+            blobServiceName,
+            isCICDPipelineIntegrate
           );
         }
       }
@@ -461,6 +465,14 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/tailwindCssTemplates/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
+          isFile: true,
+        },
+      ]   
+    case CICD_FILE_PATHS: 
+      return [
+        {
+          source: `${srcDir}/cicdPipeLine/.github/workflows/build.yml`,
+          destination: `${destDir}/.github/workflows/build.yml`,
           isFile: true,
         },
       ]   

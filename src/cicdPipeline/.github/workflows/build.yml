@@ -1,0 +1,22 @@
+name: Build site
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+
+  build:
+    name: Build proj
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run npm install
+        working-directory: ./
+        run: npm install
+
+      - name: Run cli packages
+        working-directory: ./
+        run: npm install -g @angular/cli

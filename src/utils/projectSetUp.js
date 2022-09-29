@@ -19,6 +19,7 @@ spinner.setSpinnerString("|/-\\");
 
 const projectSetUp = async (frontEnd, backEnd, answers) => {
   const managerChoice = answers["managerChoice"];
+  const cicdPipelineIntegrate = answers["cicdPipelineIntegrate"];
   if (frontEnd) {
     const { choice, path } = frontEnd;
     await packageInstaller(
@@ -29,7 +30,8 @@ const projectSetUp = async (frontEnd, backEnd, answers) => {
       false,
       answers,
       frontEnd,
-      backEnd
+      backEnd,
+      cicdPipelineIntegrate
     );
   }
   if (backEnd) {
@@ -42,7 +44,8 @@ const projectSetUp = async (frontEnd, backEnd, answers) => {
       true,
       answers,
       frontEnd,
-      backEnd
+      backEnd,
+      cicdPipelineIntegrate
     );
   }
 };
@@ -55,7 +58,8 @@ const packageInstaller = async (
   isBackEnd,
   answers,
   frontEnd,
-  backEnd
+  backEnd,
+  cicdPipelineIntegrate
 ) => {
   shell.cd(`${path}`);
   if (managerChoice === "npm") {
@@ -70,7 +74,8 @@ const packageInstaller = async (
       isBackEnd,
       answers,
       frontEnd,
-      backEnd
+      backEnd,
+      cicdPipelineIntegrate
     );
     // shell.exec("npm install --silent --legacy-peer-deps"); // -s / --silent ,  --no-optional , npm --logevel=error install
   }
@@ -96,7 +101,8 @@ const npmInstall = async (
   isBackEnd,
   answers,
   frontEnd,
-  backEnd
+  backEnd,
+  cicdPipelineIntegrate
 ) => {
   const shouldExecute = answers.backEnd ? isBackEnd : isFrontEnd;
   return new Promise((resolve, reject) => {
@@ -115,6 +121,7 @@ const npmInstall = async (
           )} minutes.`
         )
       );
+      if (cicdPipelineIntegrate) shell.exec("git init");
       if (shouldExecute) {
         projectExecutionCommands(frontEnd, backEnd, answers);
       }

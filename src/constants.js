@@ -112,6 +112,8 @@ const ANGULAR_CRUD_NODE_FILE_PATHS = "angularCrudNodeFilePaths";
 
 const TAILWIND_CSS_FILE_PATHS = "tailwindCssfilePaths";
 
+const CICD_FILE_PATHS = "cicdPaths"
+
 const SMTP = "smtp";
 
 const SENDGRID = "sendgrid";
@@ -150,4 +152,5 @@ module.exports = {
   SMTP,
   SENDGRID,
   AMAZON_SES,
+  CICD_FILE_PATHS
 };

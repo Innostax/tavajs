@@ -50,6 +50,7 @@ const {
   SMTP,
   SENDGRID,
   AMAZON_SES,
+  CICD_FILE_PATHS
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -88,6 +89,7 @@ const handleAnswersEvaluator = async (answers) => {
     projectDirectoryPath,
     angularNodeCrud,
     tailwindCssChoice,
+    cicdPipelineIntegrate
   } = answers;
 
   // Project Directory Path
@@ -101,6 +103,7 @@ const handleAnswersEvaluator = async (answers) => {
   );
   const isMaterialUI = materialuiChoice;
   const isTailwindCSS = tailwindCssChoice;
+  const isCICDPipelineIntegrate = cicdPipelineIntegrate
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -202,7 +205,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       isTailwindCSS,
-      blobServiceName
+      blobServiceName,
+      isCICDPipelineIntegrate
     );
 
     //<---------------------------- For Themes integration ---------------------------------->
@@ -312,6 +316,16 @@ const handleAnswersEvaluator = async (answers) => {
     }
   }
 
+  //<------------------ CI CD Pipeline ----------------------------------->
+  if(frontEnd?.choice === ANGULAR) {
+    res = getFilePaths(
+      CICD_FILE_PATHS,
+      currentPath,
+      frontEnd.path
+    );
+    filePaths = [...filePaths, ...res];
+  }
+
   //<---------------------------- node-js ---------------------------------->
   if (backEnd) {
     const { choice, path: backEndPath } = backEnd;
@@ -350,7 +364,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       isTailwindCSS,
-      blobServiceName
+      blobServiceName,
+      isCICDPipelineIntegrate
     );
 
     const ROUTE_FILES = [
@@ -660,7 +675,8 @@ const handleAnswersEvaluator = async (answers) => {
           isMocha,
           isNightWatch,
           isTailwindCSS,
-          blobServiceName
+          blobServiceName,
+          isCICDPipelineIntegrate
         );
       });
 
