@@ -50,7 +50,9 @@ const {
   SMTP,
   SENDGRID,
   AMAZON_SES,
-  CICD_FILE_PATHS
+  CICD_FILE_PATHS_ANGULAR,
+  CICD_FILE_PATHS_VUE,
+  CICD_FILE_PATHS_REACT,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -317,14 +319,32 @@ const handleAnswersEvaluator = async (answers) => {
   }
 
   //<------------------ CI CD Pipeline ----------------------------------->
-  if(frontEnd?.choice === ANGULAR) {
+
+  fs.mkdirSync(`${frontEnd.path}/.github`);
+  fs.mkdirSync(`${frontEnd.path}/.github/workflows`);
+
+  if(isFrontEndChoiceAngular) {
     res = getFilePaths(
-      CICD_FILE_PATHS,
+      CICD_FILE_PATHS_ANGULAR,
       currentPath,
       frontEnd.path
     );
-    filePaths = [...filePaths, ...res];
   }
+  if(isFrontEndChoiceVue) {
+    res = getFilePaths(
+      CICD_FILE_PATHS_VUE,
+      currentPath,
+      frontEnd.path
+    );
+  }
+  if(isFrontEndChoiceReact) {
+    res = getFilePaths(
+      CICD_FILE_PATHS_REACT,
+      currentPath,
+      frontEnd.path
+    );
+  }
+  filePaths = [...filePaths, ...res];
 
   //<---------------------------- node-js ---------------------------------->
   if (backEnd) {

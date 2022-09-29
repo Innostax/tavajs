@@ -24,7 +24,9 @@ const {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
-  CICD_FILE_PATHS
+  CICD_FILE_PATHS_ANGULAR,
+  CICD_FILE_PATHS_VUE,
+  CICD_FILE_PATHS_REACT,
 } = require("../constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -468,14 +470,30 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: true,
         },
       ]   
-    case CICD_FILE_PATHS: 
+    case CICD_FILE_PATHS_ANGULAR: 
       return [
         {
-          source: `${srcDir}/cicdPipeLine/.github/workflows/build.yml`,
+          source: `${srcDir}/cicdPipeLine/angular-build.yml`,
+          destination: `${destDir}/.github/workflows/build.yml`,
+          isFile: true,
+        },
+      ]  
+    case CICD_FILE_PATHS_VUE: 
+      return [
+        {
+          source: `${srcDir}/cicdPipeLine/vue-build.yml`,
           destination: `${destDir}/.github/workflows/build.yml`,
           isFile: true,
         },
       ]   
+    case CICD_FILE_PATHS_REACT: 
+      return [
+        {
+          source: `${srcDir}/cicdPipeLine/react-build.yml`,
+          destination: `${destDir}/.github/workflows/build.yml`,
+          isFile: true,
+        },
+      ]    
     default:
       return [];
   }

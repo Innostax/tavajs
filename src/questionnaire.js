@@ -384,7 +384,7 @@ module.exports = [
       { name: "no", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice == 'angular' || answers.backEnd;
+      return answers.frontEndChoice;
     },
   },
 ];
