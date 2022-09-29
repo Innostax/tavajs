@@ -22,6 +22,24 @@ const AUTHENTICATIONS = {
   COGNITO: "Cognito",
 };
 
+const LOGGER_SERVICES = {
+  WINSTON: "winston",
+  SENTRY: "sentry",
+}
+
+const EMAIL_SERVICES = {
+  SMTP: "smtp",
+  SENDGRID: "sendgrid",
+  AMAZON_SES: "amazon_ses",
+}
+
+const TESTCASE_FRAMEWORKS = {
+  CYPRESS: "cypress",
+  JEST: "jest",
+  MOCHAJS: "mochaJS",
+  NIGHTWATCHJS: "nightwatchJS",
+}
+
 const REDUX_FILES = [
   {
     srcFolder: "reduxTemplates/demoUser",
@@ -113,12 +131,7 @@ const ANGULAR_CRUD_NODE_FILE_PATHS = "angularCrudNodeFilePaths";
 
 const TAILWIND_CSS_FILE_PATHS = "tailwindCssfilePaths";
 
-const SMTP = "smtp";
-
-const SENDGRID = "sendgrid";
-
 const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
-const AMAZON_SES = "amazon_ses";
 
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
@@ -149,8 +162,8 @@ module.exports = {
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
-  SMTP,
-  SENDGRID,
   TAILWIND_REACT_FILE_PATHS,
-  AMAZON_SES,
+  LOGGER_SERVICES,
+  EMAIL_SERVICES,
+  TESTCASE_FRAMEWORKS
 };

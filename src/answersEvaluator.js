@@ -49,15 +49,20 @@ const {
   TAILWIND_CSS_FILE_PATHS,
   TAILWIND_REACT_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
-  SMTP,
-  SENDGRID,
-  AMAZON_SES,
+  DATABASES,
+  LOGGER_SERVICES,
+  EMAIL_SERVICES,
+  TESTCASE_FRAMEWORKS
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
 
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
 const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
+const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
+const { WINSTON, SENTRY } = LOGGER_SERVICES;
+const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
+const { CYPRESS,  JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS
 const {MATERIAL , BOOTSTRAP, TAILWIND} = CSS_FRAMEWORKS;
 
 const currentPath = path.join(__dirname);
@@ -110,17 +115,17 @@ const handleAnswersEvaluator = async (answers) => {
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
   const isOkta = authenticationChoice === OKTA;
-  const mongoSelected = dbName === "mongoose";
-  const sequelizeSelected = dbName === "postgres" || dbName === "mysql";
-  const isWinston = loggerServiceName === "winston";
-  const isSentry = loggerServiceName === "sentry";
+  const mongoSelected = dbName === MONGOOSE;
+  const sequelizeSelected = dbName === POSTGRES || dbName === MYSQL;
+  const isWinston = loggerServiceName === WINSTON;
+  const isSentry = loggerServiceName === SENTRY;
 
   /* START: Testcases Framework */
-  const isTestCasesFramework = Boolean(answers["testCaseFramework"]);
-  const isCypress = answers["testCaseFramework"] === "cypress";
-  const isJest = answers["testCaseFramework"] === "jest";
-  const isMocha = answers["testCaseFramework"] === "mochaJS";
-  const isNightWatch = answers["testCaseFramework"] === "nightwatchJS";
+  const isTestCasesFramework = Boolean(answers?.testCaseFramework);
+  const isCypress = answers?.testCaseFramework === CYPRESS;
+  const isJest = answers?.testCaseFramework === JEST;
+  const isMocha = answers?.testCaseFramework === MOCHAJS;
+  const isNightWatch = answers?.testCaseFramework === NIGHTWATCHJS;
   /* END: Testcases Framework */
 
   const isSMTP = emailServiceName === SMTP;
@@ -729,6 +734,11 @@ const handleAnswersEvaluator = async (answers) => {
           { isTailWind, isBootstrap },
           `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
         );
+        handleRenderEJS(
+          `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
+          { isCrud, isCrudWithNode },
+          `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
+        );
       }
     }
   }
@@ -748,6 +758,11 @@ const handleAnswersEvaluator = async (answers) => {
       `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
       { isTailWind, isBootstrap },
       `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+    );
+    handleRenderEJS(
+      `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
+      { isCrud, isCrudWithNode },
+      `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
     );
     handleRenderEJS(
       `${currentPath}/angularApiTemplates/base-url.ts`,
