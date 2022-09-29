@@ -67,7 +67,7 @@ module.exports = [
       { name: "TailWind", value: "tailwind" },
     ],
     when: (answers) => {
-      return answers.frontEndChoice == "react" || answers.frontEndChoice == "angular";
+      return answers.frontEndChoice;
     },
   },
   /*CSS Framework question ended here */
@@ -123,7 +123,7 @@ module.exports = [
       { name: "No", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "angular";
+      return answers.frontEndChoice;
     },
   },
   {
