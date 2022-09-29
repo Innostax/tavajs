@@ -2,10 +2,10 @@
 const fsExtra = require("fs-extra");
 const path = require("path");
 const fs = require("fs");
-const createBlobService = require("../utils/createBlobService");
-const createDbConn = require("../utils/createDbConn");
-const createLogger = require("../utils/createLogger");
-const createEmailSevice = require("../utils/createEmailSevice");
+const createBlobService = require("./utils/createBlobService");
+const createDbConn = require("./utils/createDbConn");
+const createLogger = require("./utils/createLogger");
+const createEmailSevice = require("./utils/createEmailSevice");
 const {
   createDirectoryContents,
   updateProjectDependencies,
@@ -13,12 +13,12 @@ const {
   copyDirectories,
   copyFiles,
   getFilePaths,
-} = require("../utils/helper");
+} = require("./utils/helper");
 // const projectSetUp = require("./utils/projectSetUp");
-const projectInfo = require("../utils/projectInfo");
+const projectInfo = require("./utils/projectInfo");
 // const projectExecutionCommands = require("./utils/projectExecutionCommands");
-const { getProjectDetails } = require("../utils/getProjectDetails");
-const { handleRenderEJS } = require("../utils/handleRenderEJS");
+const { getProjectDetails } = require("./utils/getProjectDetails");
+const { handleRenderEJS } = require("./utils/handleRenderEJS");
 
 const {
   ANGULAR_THEME_FILE_PATHS,
@@ -52,8 +52,8 @@ const {
   SMTP,
   SENDGRID,
   AMAZON_SES,
-} = require("../constants");
-const { SCRIPTS } = require("../scripts");
+} = require("./constants");
+const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
 
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
@@ -61,7 +61,7 @@ const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 const {MATERIAL , BOOTSTRAP, TAILWIND} = CSS_FRAMEWORKS;
 
 const currentPath = path.join(__dirname);
-const NODE_JS = "/Frameworks/BackendFrameworks/node-js"; 
+const NODE_JS = "node-js";
 
 let dependencies = [];
 let devDependencies = [];
@@ -233,7 +233,7 @@ const handleAnswersEvaluator = async (answers) => {
       if(isBootstrap || isTailWind)
       {
         handleRenderEJS(
-          `${currentPath}/Providers/ThemeProviders/react-themes/theme.js`,
+          `${currentPath}/themeProviderTemplates/react-themes/theme.js`,
           { isBootstrap, isTailWind },
           `${frontEnd.path}/src/theme.js`
         );
@@ -425,7 +425,7 @@ const handleAnswersEvaluator = async (answers) => {
     if (blobServiceName) {
       const blobTemplatePath = path.join(
         __dirname,
-        "Services/BlobServices",
+        "blobTemplates",
         blobServiceName
       );
       createBlobService(
@@ -460,8 +460,9 @@ const handleAnswersEvaluator = async (answers) => {
           ? `${backEnd.path}/.env`
           : `${CURR_DIR}/${projectName}/.env`;
       handleRenderEJS(
-        `${currentPath}/Environments/BackendEnvironment/.dbEnv`,
-        {  dbName,
+        `${currentPath}/envTemplates/.dbEnv`,
+        {
+          dbName,
           frontEnd,
           backEnd,
           isAuth0,
@@ -478,7 +479,7 @@ const handleAnswersEvaluator = async (answers) => {
 
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
-    const dockerPath = path.join(__dirname, "Services/DockerServices");
+    const dockerPath = path.join(__dirname, "dockerTemplate");
     let res = [];
 
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
@@ -575,25 +576,25 @@ const handleAnswersEvaluator = async (answers) => {
         ];
       });
       handleRenderEJS(
-        `${currentPath}/StateManagement/reduxTemplates/demoUser/users.actions.js`,
+        `${currentPath}/reduxTemplates/demoUser/users.actions.js`,
         { defaultRoute },
         `${frontEnd.path}/src/screens/Users/users.actions.js`
       );
       handleRenderEJS(
-        `${currentPath}/StateManagement/reduxTemplates/userform/DeleteConfirmationModal.js`,
+        `${currentPath}/reduxTemplates/userform/DeleteConfirmationModal.js`,
         { isBootstrap, isTailWind, isMaterialUI },
         `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
       );      
       if (isCrud) {
         handleRenderEJS(
-          `${currentPath}/StateManagement/reduxTemplates/userform/Adduser.js`,
+          `${currentPath}/reduxTemplates/userform/Adduser.js`,
           { isMaterialUI, isBootstrap, isTailWind, isCrud, isCrudWithNode },
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
       }
       if (isCrudWithNode) {
         handleRenderEJS(
-          `${currentPath}/StateManagement/reduxTemplates/userform/AdduserForm.js`,
+          `${currentPath}/reduxTemplates/userform/AdduserForm.js`,
           { isMaterialUI, isBootstrap, isTailWind },
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
@@ -611,7 +612,7 @@ const handleAnswersEvaluator = async (answers) => {
 
     if (isThemeProvider && isFrontEndChoiceReact) {
       handleRenderEJS(
-        `${currentPath}/Frameworks/WebFrameworks/react/src/App.js`,
+        `${currentPath}/templates/react/src/App.js`,
         {
           isMaterialUI,
           isBootstrap,
@@ -631,8 +632,8 @@ const handleAnswersEvaluator = async (answers) => {
     if (frontEnd?.choice === VUE) {
       const { choice, path: frontEndPath } = frontEnd;
       const templates = [
-        path.join(__dirname, "StateManagement/vuexTemplates", "store"),
-        path.join(__dirname, "StateManagement/vuexTemplates", "userModal"),
+        path.join(__dirname, "vuexTemplates", "store"),
+        path.join(__dirname, "vuexTemplates", "userModal"),
       ];
       const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
       const backEndUserModalPath = `${projectName}/${frontEndName}/src/userModal`;
@@ -712,7 +713,7 @@ const handleAnswersEvaluator = async (answers) => {
         );
         directoryPaths = [...directoryPaths, ...res];
         handleRenderEJS(
-          `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
+          `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
           { isTailWind, isBootstrap },
           `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
         );
@@ -732,12 +733,12 @@ const handleAnswersEvaluator = async (answers) => {
     );
     directoryPaths = [...directoryPaths, ...res];
     handleRenderEJS(
-      `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
+      `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
       { isTailWind, isBootstrap },
       `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
     );
     handleRenderEJS(
-      `${currentPath}/Services/HttpServices/AngularService/base-url.ts`,
+      `${currentPath}/angularApiTemplates/base-url.ts`,
       { defaultRoute },
       `${frontEnd.path}/src/app/shared/base-url.ts`
     );
@@ -761,7 +762,7 @@ const handleAnswersEvaluator = async (answers) => {
     if (isFrontEndChoiceReact) {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
 
-      const reactSpaPath = path.join(__dirname, "Services/AuthenticationServices");
+      const reactSpaPath = path.join(__dirname, "authTemplates");
       handleRenderEJS(
         `${reactSpaPath}/react-spa.js`,
         { isStore },
@@ -819,7 +820,7 @@ const handleAnswersEvaluator = async (answers) => {
       directoryPaths = [
         ...directoryPaths,
         {
-          source: `${currentPath}/Services/AuthenticationServices/oktaTemplate`,
+          source: `${currentPath}/authTemplates/oktaTemplate`,
           destination: `${frontEnd.path}/src/oktaFiles`,
         },
       ];
