@@ -1,12 +1,11 @@
-
 <template>
   <div class="overflow-x-auto">
     <table class="w-full text-center table-auto table-border-1">
-      <thead class="border-b-2 border-gray-300">
+      <thead class="border-b-2 border-gray-700">
         <tr class="text-sg-small capitalize">
           <th v-for="(column, index) in tableColumns" :key="index">
             <div class="flex justify-around">
-              <div class="mt-1 flex flex-row cursor-pointer">
+              <div class="mt-1 flex flex-row cursor-pointer dark:text-white">
                 <span :class="column.columnHeaderStyleClasses">
                   {{ column.name }}
                 </span>
@@ -19,7 +18,7 @@
         <tr
           v-for="(eachRow, rowIndex) in tableData"
           :key="rowIndex"
-          class="text-sg-body border-b border-gray-30 h-10 hover:bg-blue-10 cursor-pointer"
+          class="text-sg-body dark:text-white h-10 hover:bg-gray-200 dark:hover:bg-vueBlack-lighter cursor-pointer"
         >
           <td v-for="(column, columnIndex) in tableColumns" :key="columnIndex">
             <div class="flex justify-around ml-10">
@@ -27,16 +26,16 @@
                 <span v-if="column.dataFormatter === 'button'">
                   <button
                     :name="column.buttonName"
-                    type="button"
                     :class="column.buttonClasses"
-                    :color="column.buttonColor"
                     class="text-white rounded px-3 py-2 shadow-sm"
                     @click="ButtonHandler(column.buttonName, eachRow)"
                   >
                     {{ column.buttonName }}
                   </button>
                 </span>
-                <span :class="column.rowStyleClasses">{{ eachRow[column.key] }}</span>
+                <span :class="column.rowStyleClasses">
+                  {{ eachRow[column.key] }}
+                </span>
               </div>
             </div>
           </td>
@@ -81,6 +80,6 @@ table {
 }
 tbody tr:nth-of-type(odd) {
   /* 'teal lighten-5' basides on material design color */
-  background-color: #ebeff3;
+  @apply bg-gray-100 dark:bg-vueBlack-lightest;
 }
 </style>

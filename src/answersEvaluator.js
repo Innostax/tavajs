@@ -242,7 +242,13 @@ const handleAnswersEvaluator = async (answers) => {
         currentPath,
         frontEnd.path
       );
-      filePaths = [...filePaths, ...res];
+      res.forEach((each) => {
+        handleRenderEJS(
+          each.source,
+          { isBootstrap, isTailWind },
+          each.destination
+        );
+      });
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
@@ -629,7 +635,9 @@ const handleAnswersEvaluator = async (answers) => {
       const { choice, path: frontEndPath } = frontEnd;
       const templates = [
         path.join(__dirname, "vuexTemplates", "store"),
-        path.join(__dirname, "vuexTemplates", "userModal"),
+        isBootstrap ? 
+          path.join(__dirname, "vuexTemplates/bootstrap", "userModal") : 
+          path.join(__dirname, "vuexTemplates/tailwind", "userModal"),
       ];
       const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
       const backEndUserModalPath = `${projectName}/${frontEndName}/src/userModal`;

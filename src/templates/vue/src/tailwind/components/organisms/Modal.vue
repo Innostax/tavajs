@@ -26,7 +26,7 @@
           <div
             id="modal"
             v-show="show"
-            class="bg-white fixed shadow-lg overflow-hidden rounded-2xl flex flex-col justify-between w-2/6"
+            class="bg-white fixed shadow-lg overflow-hidden rounded-2xl flex flex-col justify-between w-full max-w-lg dark:bg-vueBlack"
           >
             <!-- Modal Header -->
             <header id="modal-header" class="flex border-white">
@@ -39,14 +39,14 @@
             </section>
 
             <!-- Modal Footer  -->
-            <footer id="modal-footer" class="ml-auto border-t-2 border-white">
+            <footer id="modal-footer" class="ml-auto border-white">
               <slot name="footer"></slot>
             </footer></div
         ></transition>
       </div></div
   ></transition>
-</template> 
-   
+</template>
+
 <script>
 export default {
   name: "Modal",
@@ -58,5 +58,4 @@ export default {
     },
   }
 };
-</script> 
- 
+</script>

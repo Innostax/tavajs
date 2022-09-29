@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../components/pages/Home.vue";
-import Users from "../components/pages/Users.vue";
+import Home from "../pages/Home.vue";
+import Users from "../pages/Users.vue";
 <% if (isAuth0) { %>
 import { authGuard } from '@auth0/auth0-vue';
 <% } %>

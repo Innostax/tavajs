@@ -13,7 +13,7 @@ import BootstrapVue3 from "bootstrap-vue-3";
 <% } %>
 
 <% if (isTailWind) { %>
-  import './components/styles/index.css';
+  import './styles/index.css';
   <% } %>
 
 

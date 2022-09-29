@@ -1,7 +1,16 @@
 <template>
-  <div class="fs-4" @click="ThemeToggler">
-    <i :class="mode === DARK ? 'fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'"></i>
+  <% if(isBootstrap) {%>
+    <div class="fs-4" @click="ThemeToggler">
+      <i :class="mode === DARK ? 'fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'"></i>
+    </div>
+  <%}%>
+  <% if(isTailWind) {%>
+    <div class="text-xl" @click="ThemeToggler">
+    <button
+      :class="mode === DARK ? ' text-white fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'"
+    ></button>
   </div>
+  <%}%>
 </template>
 
 <script>

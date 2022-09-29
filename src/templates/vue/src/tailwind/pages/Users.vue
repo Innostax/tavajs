@@ -1,28 +1,29 @@
 <template>
   <div>
-    <h3 class="mt-10 text-4xl">Welcome to Vue Vuex Crash Course</h3>
+    <h3 class="mt-10 text-4xl dark:text-white">Welcome to Users Screen</h3>
     <AddUser class="mt-4" />
     <br />
     <ShowUsers
-      v-on:edit-user="editButtonHandler"
-      v-on:delete-user="deleteButtonHandler"
+      @edit-user="editButtonHandler"
+      @delete-user="deleteButtonHandler"
     />
     <EditUser
-      v-on:close-edit-modal="shouldShowEditUserModal = false"
+      @close-edit-modal="shouldShowEditUserModal = false"
       :show="shouldShowEditUserModal"
     />
     <DeleteUser
-      v-on:close-delete-modal="shouldShowDeleteUserModal = false"
+      @close-delete-modal="shouldShowDeleteUserModal = false"
       :show="shouldShowDeleteUserModal"
     />
   </div>
 </template>
 
 <script>
-import AddUser from "../userModal/AddUser.vue";
-import ShowUsers from "../userModal/ShowUsers.vue";
-import EditUser from "../userModal/EditUser.vue";
-import DeleteUser from "../userModal/DeleteUser.vue";
+import AddUser from "../userModal/AddUser";
+import ShowUsers from "../userModal/ShowUsers";
+import EditUser from "../userModal/EditUser";
+import DeleteUser from "../userModal/DeleteUser";
+
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -31,12 +32,12 @@ export default {
     ShowUsers,
     AddUser,
     EditUser,
-    DeleteUser
+    DeleteUser,
   },
   data() {
     return {
       shouldShowEditUserModal: false,
-      shouldShowDeleteUserModal: false
+      shouldShowDeleteUserModal: false,
     };
   },
   methods: {
@@ -51,7 +52,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["selectedUser"])
+    ...mapGetters(["selectedUser"]),
   },
 };
 </script>
