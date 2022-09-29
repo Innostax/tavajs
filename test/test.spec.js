@@ -40,9 +40,7 @@ const expectedData = [
 const { projectName, projectDirectoryPath } = answers;
 const CURR_DIR = projectDirectoryPath; 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
-    if (err) {
-      console.error(err);
-    }
+   
   });
     
   const { frontEnd, backEnd } = getProjectDetails(

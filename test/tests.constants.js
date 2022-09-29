@@ -1,6 +1,6 @@
 const answers = {
   projectName: "my-project-new-with-test-cases-new",
-  projectDirectoryPath: process.cwd(),
+  projectDirectoryPath: "C:\\Test-tavajs\\",
   managerChoice: "npm",
   frontEnd: true,
   frontEndChoice: "react",
