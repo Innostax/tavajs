@@ -123,7 +123,7 @@ module.exports = [
       { name: "No", value: false },
     ],
     when: (answers) => {
-      return answers.frontEndChoice === "angular";
+      return answers.frontEndChoice;
     },
   },
   {
