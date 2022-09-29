@@ -406,11 +406,6 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
-        {
-          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
-          isfile: true,
-        }
       ];
     case VUEX_FILE_PATHS:
       return [
@@ -441,20 +436,15 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false,
         },
         {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.css`,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
           isfile: true,
         },
         {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
+          source: `${srcDir}/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
-        {
-          source: `${srcDir}/angularApiTemplates/user-actions-modal/user-actions-modal.component.ts`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
-          isfile: true,
-        }
       ];
     case TAILWIND_CSS_FILE_PATHS: 
       return [

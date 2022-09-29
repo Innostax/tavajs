@@ -689,6 +689,11 @@ const handleAnswersEvaluator = async (answers) => {
           { isTailwindCSS },
           `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
         );
+        handleRenderEJS(
+          `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
+          { isCrud, isCrudWithNode },
+          `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
+        );
       }
     }
   }
@@ -708,6 +713,11 @@ const handleAnswersEvaluator = async (answers) => {
       `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
       { isTailwindCSS },
       `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+    );
+    handleRenderEJS(
+      `${currentPath}/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
+      { isCrud, isCrudWithNode },
+      `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
     );
     handleRenderEJS(
       `${currentPath}/angularApiTemplates/base-url.ts`,
