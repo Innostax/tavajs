@@ -2,5 +2,5 @@
 @import "./dark-theme.css";
 <% } %>
 <% if (isNetworkInformer) { %>
-@import "./network-theme.css";
+@import "./network-status.css";
 <% } %>
