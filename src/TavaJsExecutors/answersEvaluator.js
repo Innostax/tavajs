@@ -14,10 +14,7 @@ const {
   copyFiles,
   getFilePaths,
 } = require("../utils/helper");
-// const projectSetUp = require("./utils/projectSetUp");
-const projectInfo = require("../utils/projectInfo");
-// const projectExecutionCommands = require("./utils/projectExecutionCommands");
-const { getProjectDetails } = require("../utils/getProjectDetails");
+// const { getProjectDetails } = require("../utils/getProjectDetails");
 const { handleRenderEJS } = require("../utils/handleRenderEJS");
 
 const {
@@ -28,7 +25,7 @@ const {
   CSS_FRAMEWORKS,
   CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
-  JEST_DIRECTORY_PATHS,
+  // JEST_DIRECTORY_PATHS,
   JEST_FILE_PATHS,
   MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
@@ -74,7 +71,7 @@ let scripts = [];
 let filePaths = [];
 let directoryPaths = [];
 
-const handleAnswersEvaluator = async (answers) => {
+const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
   const {
     projectName,
     frontEndName,
@@ -132,16 +129,16 @@ const handleAnswersEvaluator = async (answers) => {
   const isSendgrid = emailServiceName === SENDGRID;
   const isAmazonSes = emailServiceName === AMAZON_SES;
 
-  fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
-    if (err) {
-      console.error(err);
-    }
-  });
+  // fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
+  //   if (err) {
+  //     console.error(err);
+  //   }
+  // });
 
-  const { frontEnd, backEnd } = getProjectDetails(
-    `${CURR_DIR}/${projectName}`,
-    answers
-  );
+  // const { frontEnd, backEnd } = getProjectDetails(
+  //   `${CURR_DIR}/${projectName}`,
+  //   answers
+  // );
 
   const isFrontEndChoiceReact = frontEndChoice === REACT;
   const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
@@ -870,10 +867,6 @@ const handleAnswersEvaluator = async (answers) => {
     updateProjectDependencies(frontEnd.path, dependencies, devDependencies);
     updateProjectScripts(frontEnd.path, scripts);
   }
-
-  projectInfo(frontEnd, backEnd, answers);
-  // projectSetUp(frontEnd, backEnd, answers);
-  // projectExecutionCommands(frontEnd, backEnd, answers);
 };
 
 module.exports = { handleAnswersEvaluator };

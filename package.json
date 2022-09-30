@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node src/index.js",
-    "build": "shx rm -rf dist/templates && shx cp -r templates dist"
+    "build": "shx rm -rf dist/templates && shx cp -r templates dist",
+    "test": "mocha tests/test-cases/TC0001.js",
+    "test2": "mocha tests/test-cases/TC0002.js",
+    "test3": "mocha tests/test-cases/TC0003.js",
+    "test4": "mocha tests/test-cases/TC0004.js",
+    "test5": "mocha tests/test-cases/TC0005.js"
   },
   "license": "MIT",
   "dependencies": {
+    "chai": "^4.3.6",
     "chalk": "^4.1.2",
     "child_process": "^1.0.2",
     "cli-spinner": "^0.2.10",
@@ -14,7 +20,10 @@
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
     "inquirer": "^8.1.2",
+    "mocha": "^10.0.0",
+    "mocha-sinon": "^2.1.2",
     "shx": "^0.3.3",
+    "sinon": "^14.0.0",
     "stopwatch-node": "^1.1.0"
   },
   "bin": {
