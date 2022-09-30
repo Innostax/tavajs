@@ -53,7 +53,7 @@ const {
   LOGGER_SERVICES,
   EMAIL_SERVICES,
   TESTCASE_FRAMEWORKS,
-  REACT_NETWORKSTATUS_FILES_PATHS
+  REACT_NETWORKSTATUS_FILES_PATH
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -172,7 +172,7 @@ const handleAnswersEvaluator = async (answers) => {
       if(isNetworkInformer)
       {      
         const res = getFilePaths(
-         REACT_NETWORKSTATUS_FILES_PATHS,
+         REACT_NETWORKSTATUS_FILES_PATH,
           currentPath,
           frontEnd.path
         );

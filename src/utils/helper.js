@@ -25,7 +25,7 @@ const {
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   TAILWIND_REACT_FILE_PATHS,
-  REACT_NETWORKSTATUS_FILES_PATHS,
+  REACT_NETWORKSTATUS_FILES_PATH,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -476,7 +476,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: true,
         },
       ];
-    case REACT_NETWORKSTATUS_FILES_PATHS:
+    case REACT_NETWORKSTATUS_FILES_PATH:
       return [
         {
           source: `${srcDir}/Services/NetworkInformerServices/react/NetworkStatus.js`,

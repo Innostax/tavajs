@@ -133,7 +133,7 @@ const TAILWIND_CSS_FILE_PATHS = "tailwindCssfilePaths";
 
 const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
 
-const REACT_NETWORKSTATUS_FILES_PATHS = "reactNetworkStatusFilePath";
+const REACT_NETWORKSTATUS_FILES_PATH = "reactNetworkStatusFilePath";
 
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
@@ -168,5 +168,5 @@ module.exports = {
   LOGGER_SERVICES,
   EMAIL_SERVICES,
   TESTCASE_FRAMEWORKS,
-  REACT_NETWORKSTATUS_FILES_PATHS
+  REACT_NETWORKSTATUS_FILES_PATH
 };
