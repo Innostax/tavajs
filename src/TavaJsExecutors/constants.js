@@ -88,8 +88,8 @@ const OKTA_FILES_PATHS = [
     srcFolder: "Environments/FrontendEnvironment",
     srcFileName: ".oktaEnv",
     destFileName: ".env",
-  },
-];
+  }];
+ 
 
 const REACT_THEME_FILE_PATHS = "reactThemeFilePaths";
 
@@ -133,6 +133,8 @@ const TAILWIND_CSS_FILE_PATHS = "tailwindCssfilePaths";
 
 const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
 
+const REACT_NETWORKSTATUS_FILES_PATHS = "reactNetworkStatusFilePath";
+
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
@@ -165,5 +167,6 @@ module.exports = {
   TAILWIND_REACT_FILE_PATHS,
   LOGGER_SERVICES,
   EMAIL_SERVICES,
-  TESTCASE_FRAMEWORKS
+  TESTCASE_FRAMEWORKS,
+  REACT_NETWORKSTATUS_FILES_PATHS
 };
