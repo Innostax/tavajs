@@ -417,12 +417,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case VUEX_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/vuexTemplates/doAsync`,
+          source: `${srcDir}/StateManagement/vuexTemplates/doAsync`,
           destination: `${destDir}/src/doAsync`,
           isfile: false,
         },
         {
-          source: `${srcDir}/vuexTemplates/httpMethod`,
+          source: `${srcDir}/StateManagement/vuexTemplates/httpMethod`,
           destination: `${destDir}/src/httpMethod`,
           isfile: false,
         },

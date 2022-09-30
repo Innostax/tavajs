@@ -53,9 +53,9 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    let userId = (this.data?.name == '') ? uuid().slice(0,8).toString() : this.data?.id;
+    <% if(isCrud){%>let userId = (this.data?.name == '') ? uuid().slice(0,8).toString() : this.data?.id;<%}%>
     const userData = {
-      id: userId,
+      <% if(isCrud){%>id: userId,<%}%>
       name: this.createUserForm.get('name')?.value,
       username: this.createUserForm.get('username')?.value,
       email: this.createUserForm.get('email')?.value
@@ -76,6 +76,9 @@ export class UserActionsModalComponent implements OnInit, OnChanges {
   deleteUserRef(data: any) {
     this.performDeleteAction.emit(data)
     this.createUserForm.reset();
+    <% if(isCrudWithNode){%>
+      this.refreshView();
+    <%}%>
   }
 
   closeModalRef() {
