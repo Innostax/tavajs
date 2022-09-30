@@ -413,6 +413,11 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
+        {
+          source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
+          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
+          isfile: true,
+        },
       ];
     case VUEX_FILE_PATHS:
       return [
@@ -438,17 +443,17 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case ANGULAR_CRUD_NODE_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/Services/HttpServices/AngularServices/services`,
+          source: `${srcDir}/Services/HttpServices/AngularService/services`,
           destination: `${destDir}/src/app/shared/services`,
           isFile: false,
         },
         {
-          source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
+          source: `${srcDir}/Services/HttpServices/AngularService/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
           isfile: true,
         },
         {
-          source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
+          source: `${srcDir}/Services/HttpServices/AngularService/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
@@ -456,7 +461,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case TAILWIND_CSS_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/angular/tailwind.config.js`,
+          source: `${srcDir}/Frameworks/FrontendFrameworks/TailwindFrameworks/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
           isFile: true,
         },
@@ -464,12 +469,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case TAILWIND_REACT_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/tailwind.config.js`,
+          source: `${srcDir}/Frameworks/FrontendFrameworks/TailwindFrameworks/react/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
           isFile: true,
         },
         {
-          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/postcss.config.js`,
+          source: `${srcDir}/Frameworks/FrontendFrameworks/TailwindFrameworks/react/postcss.config.js`,
           destination: `${destDir}/postcss.config.js`,
           isFile: true,
         },
