@@ -116,16 +116,15 @@ const createDirectoryContents = (
         const isMaterialUIFile = file === CSS_FRAMEWORKS.MATERIAL;
         const isTailWindFile = file === CSS_FRAMEWORKS.TAILWIND;
         // recursive call
-        let isRequiredFile;
+        let isRequiredFile = true;
         if (isBootstrap) {
           isRequiredFile = !(isTailWindFile || isMaterialUIFile);
         } else if (isMaterialUI) {
           isRequiredFile = !(isBootstrapFile || isTailWindFile);
         } else if (isTailWind) {
           isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
-        } else {
-          isRequiredFile = true;
         }
+
         if (isRequiredFile) {
           const newUpadtedProjectPath =
             isBootstrapFile || isMaterialUIFile || isTailWindFile
