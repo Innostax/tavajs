@@ -360,12 +360,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/react-docker/.dockerignore`,
           destination: `${destDir}/.dockerignore`,
-          isFile: false
+          isFile: false,
         },
         {
           source: `${srcDir}/react-docker/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
-          isFile: false
+          isFile: false,
         },
       ];
     case NODE_JS_DOCKER_FILE_PATHS:
@@ -381,12 +381,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/angular-docker/.dockerignore`,
           destination: `${destDir}/.dockerignore`,
-          isFile: false
+          isFile: false,
         },
         {
           source: `${srcDir}/angular-docker/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
-          isFile: false
+          isFile: false,
         },
       ];
     case NGRX_FILE_PATHS:
@@ -412,7 +412,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
-          isFile: true, 
+          isFile: true,
         },
       ];
     case VUEX_FILE_PATHS:
@@ -451,7 +451,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
-          isFile: true, 
+          isFile: true,
         },
       ];
     case TAILWIND_CSS_FILE_PATHS:
@@ -459,7 +459,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/Frameworks/FrontendFrameworks/TailwindFrameworks/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
-          isFile : true,
+          isFile: true,
         },
       ];
     case TAILWIND_REACT_FILE_PATHS:
