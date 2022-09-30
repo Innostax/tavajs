@@ -199,7 +199,7 @@ const handleAnswersEvaluator = async (answers) => {
       }
     }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
-    const templatePath = path.join(__dirname, "../Frameworks/WebFrameworks", choice);
+    const templatePath = path.join(currentPath, "Frameworks/WebFrameworks", choice);
 
     const projectPath = backEnd
       ? `${projectName}/${frontEndName}`
@@ -377,7 +377,7 @@ const handleAnswersEvaluator = async (answers) => {
   //<---------------------------- node-js ---------------------------------->
   if (backEnd) {
     const { choice, path: backEndPath } = backEnd;
-    const templatePath = path.join(__dirname, "../Frameworks/BackendFrameworks", choice);
+    const templatePath = path.join(currentPath, "Frameworks/BackendFrameworks", choice);
     const projectPath = frontEnd
       ? `${projectName}/${backEndName}`
       : projectName;
