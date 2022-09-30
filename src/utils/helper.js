@@ -415,11 +415,6 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
-        {
-          source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-          destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
-          isfile: true,
-        },
       ];
     case VUEX_FILE_PATHS:
       return [
@@ -445,17 +440,17 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case ANGULAR_CRUD_NODE_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/Services/HttpServices/AngularService/services`,
+          source: `${srcDir}/Services/HttpServices/AngularServices/services`,
           destination: `${destDir}/src/app/shared/services`,
-          isFile: false,
+          isfile: false,
         },
         {
-          source: `${srcDir}/Services/HttpServices/AngularService/user-actions-modal/user-actions-modal.component.css`,
+          source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
           isfile: true,
         },
         {
-          source: `${srcDir}/Services/HttpServices/AngularService/user-actions-modal/user-actions-modal.component.spec.ts`,
+          source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
           isfile: true, 
         },
