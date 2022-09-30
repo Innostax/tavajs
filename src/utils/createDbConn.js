@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { updateProjectDependencies } = require("./helper");
 const { render } = require("ejs");
-const { DATABASES } = require("../constants");
+const { DATABASES } = require("../TavaJsExecutors/constants");
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 //<----------------------------- Function to create db service -------------------------------------------->
 function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
@@ -40,7 +40,7 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
   let databaseFilePath = `${nodePath}/${fileName}`;
   // Reading Database file data
   let databaseFile = fs.readFileSync(
-    currentPath + `/dbTemplates/` + fileName,
+    currentPath + `/Services/DatabaseServices/` + fileName,
     "utf8"
   );
   databaseFile = render(databaseFile, { defaultRoute });
@@ -51,7 +51,7 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
   databaseFilePath = `${modelPath}/${defaultRoute}.js`;
   // // Reading Database file data
   databaseFile = fs.readFileSync(
-    currentPath + `/dbTemplates/` + modelName,
+    currentPath + `/Services/DatabaseServices/` + modelName,
     "utf8"
   );
   databaseFile = render(databaseFile, { defaultRoute });
