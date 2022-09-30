@@ -6,11 +6,11 @@ const projectInfo = require("../../src/utils/projectInfo");
 const { getProjectDetails } = require("../../src/utils/getProjectDetails");
 const { handleAnswersEvaluator } = require("../../src/answersEvaluator");
 
-const { ANSWERS_TC0001, PROJECT_INFO_EXPECTED_DATA } = require("../mockData")
+const { ANSWERS, PROJECT_INFO_EXPECTED_DATA } = require("../mockData")
 const { echos } = require("../helpers");
 
 // Before to run the test cases:
-const { projectName, projectDirectoryPath } = ANSWERS_TC0001;
+const { projectName, projectDirectoryPath } = ANSWERS.TC0001;
 
 const CURR_DIR = projectDirectoryPath; 
   fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
@@ -19,14 +19,14 @@ const CURR_DIR = projectDirectoryPath;
     
   const { frontEnd, backEnd } = getProjectDetails(
     `${CURR_DIR}/${projectName}`,
-    ANSWERS_TC0001
+    ANSWERS.TC0001
   );
   console.log("before describe")
-describe("Verify working of ANSWERS_TC0001 evaluator method.", async () => {
+describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   // beforeEach(async () => {
-    await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS_TC0001);
+    await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("describe")
-    await projectInfo(frontEnd, backEnd, ANSWERS_TC0001);
+    await projectInfo(frontEnd, backEnd, ANSWERS.TC0001);
   // });
 
   it("Should verify 'Creating react project'", async () => {
@@ -59,4 +59,6 @@ describe("Verify working of ANSWERS_TC0001 evaluator method.", async () => {
   it("Should verify 'Integrating Blob service'", async () => {
     expect(echos[9][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[9][0]);
   });
+
 });
+

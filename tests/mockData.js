@@ -21,9 +21,18 @@ const PROJECT_INFO_EXPECTED_DATA = [
   [
     "\x1B[32m\x1B[35m--------------- NPM loading on react, Wait for finish ---------------\r\x1B[39m\x1B[39m",
   ],
+  [
+    "\x1B[32m\x1B[1m📂 Creating node-js project: backend using dev-tava 1.0.0\x1B[22m\x1B[39m",
+  ],
+  [
+    "\x1B[32m\x1B[1m   ⌛ Integrating Database service: mysql\x1B[22m\x1B[39m",
+  ],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating CSS Framework: bootstrap\x1B[22m\x1B[39m"],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating CSS Framework: tailwind\x1B[22m\x1B[39m"],
 ];
 
-const ANSWERS_TC0001 = {
+const ANSWERS =  {
+  TC0001:{                                     //npm,react,materialui,light-dar-mode,Auth0,node-js,mongoose,winston,sendgrid,azur
     projectName: "my-project-we-abcdeffgfgfg",
     projectDirectoryPath: "C:/Test-tavajs",
     managerChoice: "npm",
@@ -45,6 +54,68 @@ const ANSWERS_TC0001 = {
     emailServiceName: "sendgrid",
     blobServiceName: "azure",
     dockerService: false,
-  };
-
-module.exports = { PROJECT_INFO_EXPECTED_DATA, ANSWERS_TC0001 };
+  },
+  TC0002:{                                   //npm,react,materialui,light-dark-mode,crud
+      projectName: 'react-frontend',
+      projectDirectoryPath: 'C:/Test-tavajs',
+      managerChoice: 'npm',
+      frontEnd: true,
+      frontEndChoice: 'react',
+      cssFrameworkChoice: 'material',
+      frontEndName: 'front-end',
+      testCaseFramework: false,
+      theme: 'light-dark-mode',
+      authenticationChoice: false,
+      store: true,
+      backEnd: false,
+      CRUD: true,
+      dockerService: false
+  },
+  TC0003:{                                 //npm,Nodejs+mysql
+    projectName: 'my-project-backend',
+    projectDirectoryPath: 'C:/Test-tavajs',
+    managerChoice: 'npm',
+    frontEnd: false,
+    backEnd: true,
+    backEndChoice: 'node-js',
+    backEndName: 'backend',
+    defaultRoute: 'users',
+    dbName: 'mysql',
+    loggerServiceName: false,
+    emailServiceName: false,
+    blobServiceName: false,
+    dockerService: false
+  },
+  TC0004:{                               //npm,react,bootstrap,light-dark-mode,crud,store
+    projectName: 'react-bootstrap',
+    projectDirectoryPath:'C:/Test-tavajs',
+    managerChoice: 'npm',
+    frontEnd: true,
+    frontEndChoice: 'react',
+    cssFrameworkChoice: 'bootstrap',
+    frontEndName: 'front-end',
+    testCaseFramework: false,
+    theme: 'light-dark-mode',
+    authenticationChoice: false,
+    store: true,
+    backEnd: false,
+    CRUD: true,
+    dockerService: false
+  },
+  TC0005: {                                  //npm,react,tailwind
+    projectName: 'react-tailwind',
+    projectDirectoryPath: 'C:\\TAVAJS-Projects',
+    managerChoice: 'npm',
+    frontEnd: true,
+    frontEndChoice: 'react',
+    cssFrameworkChoice: 'tailwind',
+    frontEndName: 'front-end',
+    testCaseFramework: false,
+    theme: false,
+    authenticationChoice: false,
+    store: false,
+    backEnd: false,
+    dockerService: false
+  }
+};
+module.exports = { PROJECT_INFO_EXPECTED_DATA, ANSWERS };
