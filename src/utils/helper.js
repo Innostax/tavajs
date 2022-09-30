@@ -475,15 +475,14 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: true,
         },
       ];
-      case REACT_NETWORKSTATUS_FILES_PATHS:
-        return[
+    case REACT_NETWORKSTATUS_FILES_PATHS:
+      return [
         {
           source: `${srcDir}/Services/NetworkInformerServices/react/NetworkStatus.js`,
           destination: `${destDir}/src/components/NetworkStatus.js`,
           isFile:true,
-        }
-      ];
-    
+        },
+      ];    
     default:
       return [];
   }

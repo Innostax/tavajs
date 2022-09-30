@@ -234,7 +234,7 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       blobServiceName,
-      isNetworkInformer,
+      isNetworkInformer
     );
 
     //<------------------------------- Light/Dark Mode + React ---------------------------------->
