@@ -90,7 +90,7 @@ const OKTA_FILES_PATHS = [
     destFileName: ".env",
   },
 ];
- 
+
 const REACT_THEME_FILE_PATHS = "reactThemeFilePaths";
 
 const VUE_THEME_FILE_PATHS = "vueThemeFilePaths";
