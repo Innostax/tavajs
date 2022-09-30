@@ -5,6 +5,6 @@
 <script>
 export default {
   name: "Label",
-  props: ["name","inputId"],
+  props: ["name", "inputId"],
 };
 </script>

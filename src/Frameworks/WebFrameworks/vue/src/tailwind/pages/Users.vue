@@ -23,8 +23,7 @@ import AddUser from "../userModal/AddUser";
 import ShowUsers from "../userModal/ShowUsers";
 import EditUser from "../userModal/EditUser";
 import DeleteUser from "../userModal/DeleteUser";
-
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Users",
@@ -45,7 +44,6 @@ export default {
       this.$store.dispatch("selectedItem", data?.id);
       this.shouldShowEditUserModal = true;
     },
-    ...mapActions(["deleteUser"]),
     deleteButtonHandler(data) {
       this.$store.dispatch("selectedItem", data?.id);
       this.shouldShowDeleteUserModal = true;

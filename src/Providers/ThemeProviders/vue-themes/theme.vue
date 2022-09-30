@@ -7,8 +7,7 @@
   <% if(isTailWind) {%>
     <div class="text-xl" @click="ThemeToggler">
     <button
-      :class="mode === DARK ? ' text-white fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'"
-    ></button>
+      :class="mode === DARK ? ' text-white fa-solid fa-sun' : 'fa-sharp fa-solid fa-moon'" />
   </div>
   <%}%>
 </template>

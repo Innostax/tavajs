@@ -48,7 +48,6 @@
 <script>
 export default {
   name: "Table",
-  components: {},
   props: {
     tableColumns: {
       type: Array,

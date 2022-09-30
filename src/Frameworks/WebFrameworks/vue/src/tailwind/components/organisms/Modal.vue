@@ -30,17 +30,17 @@
           >
             <!-- Modal Header -->
             <header id="modal-header" class="flex border-b border-gray-200 dark:border-vueBlack">
-              <slot name="header"></slot>
+              <slot name="header" />
             </header>
 
             <!-- Modal Body  -->
             <section id="modal-body" class="px-4 py-6 border-b border-gray-200 dark:border-vueBlack">
-              <slot name="body"></slot>
+              <slot name="body" />
             </section>
 
             <!-- Modal Footer  -->
             <footer id="modal-footer" class="ml-auto px-6 py-4">
-              <slot name="footer"></slot>
+              <slot name="footer" />
             </footer></div
         ></transition>
       </div></div
@@ -50,7 +50,6 @@
 <script>
 export default {
   name: "Modal",
-  methods: {},
   props: {
     show: {
       type: Boolean,

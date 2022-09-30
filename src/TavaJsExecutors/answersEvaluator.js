@@ -53,7 +53,8 @@ const {
   DATABASES,
   LOGGER_SERVICES,
   EMAIL_SERVICES,
-  TESTCASE_FRAMEWORKS
+  TESTCASE_FRAMEWORKS,
+  NETWORK_INFORMER_VUE_FILE_PATHS,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -279,6 +280,16 @@ const handleAnswersEvaluator = async (answers) => {
     if (isThemeProvider && isFrontEndChoiceAngular) {
       const res = getFilePaths(
         ANGULAR_THEME_FILE_PATHS,
+        currentPath,
+        frontEnd.path
+      );
+      filePaths = [...filePaths, ...res];
+    }
+
+    //<----------------------------------- Network Informer + Vue ------------------------------------------------>
+    if (isNetworkInformer && isFrontEndChoiceVue) {
+      const res = getFilePaths(
+        NETWORK_INFORMER_VUE_FILE_PATHS,
         currentPath,
         frontEnd.path
       );

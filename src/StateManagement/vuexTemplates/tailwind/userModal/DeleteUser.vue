@@ -1,6 +1,6 @@
 <template>
   <Modal id="deletemodal" :show="show" class="dark:text-white">
-    <template v-slot:header class="">
+    <template v-slot:header>
       <div class="flex w-full p-4 text-xl">
         <div>Delete User</div>
         <Button

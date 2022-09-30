@@ -26,6 +26,7 @@ const {
   TAILWIND_VUE_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   TAILWIND_REACT_FILE_PATHS,
+  NETWORK_INFORMER_VUE_FILE_PATHS,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -487,7 +488,15 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/postcss.config.js`,
           isFile: true,
         },
-      ] 
+      ]; 
+    case NETWORK_INFORMER_VUE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
+          destination: `${destDir}/src/networkStatus`,
+          isFile: false,
+        },
+      ]; 
     default:
       return [];
   }
