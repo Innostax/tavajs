@@ -123,6 +123,8 @@ const createDirectoryContents = (
           isRequiredFile = !(isBootstrapFile || isTailWindFile);
         } else if (isTailWind) {
           isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
+        } else {
+          isRequiredFile = true;
         }
         if (isRequiredFile) {
           const newUpadtedProjectPath =
