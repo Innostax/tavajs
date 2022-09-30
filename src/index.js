@@ -1,7 +1,7 @@
 #! node
-const { handleInquirerExecutor } = require("./inquirerExecutor");
-const { handleAnswersEvaluator } = require("./answersEvaluator");
-const questionnaire = require("./questionnaire");
+const { handleInquirerExecutor } = require("./TavaJsExecutors/inquirerExecutor");
+const { handleAnswersEvaluator } = require("./TavaJsExecutors/answersEvaluator");
+const questionnaire = require("./TavaJsExecutors/questionnaire");
 
 // IIFE(Imediately Invoked Function Expression) 
 (async () => {
