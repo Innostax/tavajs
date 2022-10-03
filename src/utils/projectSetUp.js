@@ -7,7 +7,7 @@ const spawn = require("child_process").spawn;
 const projectExecutionCommands = require("./projectExecutionCommands");
 const { millisToMinutesAndSeconds } = require("./converters")
 let taskId = 1;
-let projectCreationTime = 0;
+let totalTimeConsumptionInMinutes = 0;
 
 const projectSetUp = async (frontEnd, backEnd, answers) => {
   const managerChoice = answers["managerChoice"];
@@ -99,16 +99,16 @@ const npmInstall = async (
       spinner.success();
       sw.stop();
       const task = sw.getTask(`Task-${taskId}`);
-      projectCreationTime += task?.timeMills;
+      totalTimeConsumptionInMinutes += task?.timeMills;
       shell.echo(chalk.green.bold(`-> NPM modules installed!👍\r`));
-      isProjectCreated = !(frontEnd && backEnd && taskId === 1)
+      const isProjectCreated = !(frontEnd && backEnd && taskId === 1)
       if ( isProjectCreated ) {
         const FIVE_MINUTES = 1000 * 60 * 5;
-        const messageColor = projectCreationTime < FIVE_MINUTES ? "green" : "red";
+        const messageColor = totalTimeConsumptionInMinutes < FIVE_MINUTES ? "green" : "red";
         shell.echo(
           chalk[messageColor].bold(
             `Installing took ${millisToMinutesAndSeconds(
-              projectCreationTime
+              totalTimeConsumptionInMinutes
             )} minutes.`
           )
         );
