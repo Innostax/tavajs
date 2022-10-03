@@ -4,7 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import { IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-export default function ViceModal({ children, show, handleClose, title }) {
+export default function TavaJSModal({ children, show, handleClose, title }) {
 	return (
 		<div>
 			<Dialog open={show} onClose={handleClose} fullWidth>
