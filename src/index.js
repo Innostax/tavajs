@@ -26,7 +26,7 @@ const fs = require("fs");
 
       await handleAnswersEvaluator(frontEnd, backEnd, ans);
       await projectInfo(frontEnd, backEnd, ans);
-      await projectSetUp(frontEnd, backEnd, answers);
+      await projectSetUp(frontEnd, backEnd, ans);
     }
   );
 })();

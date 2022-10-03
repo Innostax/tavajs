@@ -30,9 +30,25 @@ const PROJECT_INFO_EXPECTED_DATA = [
 ];
 
 const ANSWERS = {
+  TC0000: {
+    projectName: "test-nocha-test-5",
+    projectDirectoryPath: "C:\\Practice",
+    managerChoice: "npm",
+    frontEnd: true,
+    frontEndChoice: "angular",
+    cssFrameworkChoice: "bootstrap",
+    frontEndName: "test-mocha-test-frontend",
+    testCaseFramework: false,
+    theme: false,
+    networkInformer: false,
+    authenticationChoice: false,
+    store: false,
+    backEnd: false,
+    dockerService: false,
+  },
   TC0001: {
     //npm,react,materialui,light-dar-mode,Auth0,node-js,mongoose,winston,sendgrid,azur
-    projectName: "test-abcabcd",
+    projectName: "test-abcabcdef",
     projectDirectoryPath: "C:/Practice",
     managerChoice: "npm",
     frontEnd: true,
