@@ -49,7 +49,8 @@ const {
   DATABASES,
   LOGGER_SERVICES,
   EMAIL_SERVICES,
-  TESTCASE_FRAMEWORKS
+  TESTCASE_FRAMEWORKS,
+  REACT_NETWORKSTATUS_FILES_PATH
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -107,7 +108,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
   const isMaterialUI = cssFrameworkChoice === MATERIAL ;
   const isBootstrap = cssFrameworkChoice === BOOTSTRAP ;
   const isTailWind = cssFrameworkChoice === TAILWIND ;
-  const isNetworkInformer =networkInformer;
+  const isNetworkInformer = networkInformer;
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -160,6 +161,15 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDREACT];
         const res = getFilePaths(
           TAILWIND_REACT_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
+      }      
+      if(isNetworkInformer)
+      {      
+        const res = getFilePaths(
+         REACT_NETWORKSTATUS_FILES_PATH,
           currentPath,
           frontEnd.path
         );
@@ -637,6 +647,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
           isThemeProvider,
           isOkta,
           isCognito,
+          isNetworkInformer,
         },
         `${frontEnd.path}/src/App.js`
       );
