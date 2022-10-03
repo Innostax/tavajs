@@ -15,7 +15,7 @@
       <form>
         <div class="mb-4 text-left">
           <Label class="my-4" input-id="name-input" name="Name"></Label>
-          <input
+          <InputVue
             id="name-input"
             type="text"
             placeholder="Name"
@@ -26,7 +26,7 @@
         </div>
         <div class="mb-4 text-left">
           <Label input-id="username-input" name="Username"></Label>
-          <input
+          <InputVue
             id="username-input"
             type="text"
             placeholder="Username"
@@ -37,7 +37,7 @@
         </div>
         <div class="text-left">
           <Label input-id="email-input" name="Email"></Label>
-          <input
+          <InputVue
             id="email-input"
             type="email"
             class="px-3 py-5 mt-1 placeholder-slate-300 text-slate-600 relative h-10 rounded 
@@ -73,7 +73,7 @@
 import { mapGetters } from "vuex";
 import Label from "../components/atoms/Label";
 import Button from "../components/atoms/Button";
-
+import InputVue from "../components/atoms/Input.vue";
 import Modal from "../components/organisms/Modal.vue";
 
 export default {
@@ -82,6 +82,7 @@ export default {
     Label,
     Button,
     Modal,
+    InputVue,
   },
   data() {
     return {

@@ -22,7 +22,7 @@
         <form>
           <div class="text-left mb-4">
             <Label class="my-4" input-id="name-input" name="Name"></Label>
-            <input
+            <InputVue
               id="name-input"
               type="text"
               placeholder="Name"
@@ -34,7 +34,7 @@
           <div></div>
           <div class="text-left mb-4">
             <Label input-id="username-input" name="Username"></Label>
-            <input
+            <InputVue
               id="username-input"
               type="text"
               placeholder="Username"
@@ -45,7 +45,7 @@
           </div>
           <div class="text-left">
             <Label input-id="email-input" name="Email"></Label>
-            <input
+            <InputVue
               id="email-input"
               type="email"
               variant="danger"
@@ -84,6 +84,7 @@
 import Button from "../components/atoms/Button";
 import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal";
+import InputVue from "../components/atoms/Input.vue";
 
 const emptyString = "";
 
@@ -93,6 +94,7 @@ export default {
     Label,
     Button,
     Modal,
+    InputVue,
   },
   data() {
     return {
