@@ -1,0 +1,35 @@
+# This workflow will do a clean installation of dependencies, cache/restore them, build the source code and run tests across different versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+
+    name: Build 
+    # 'self-hosted' also be used but required to setup runner 
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v3
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.14.x'
+
+    # Installing project dependencies  
+    - name: Run npm install
+      run: npm install
+
+    # Installing Angular CLI to support ng commands 
+    - name: Run cli packages
+      run: npm install -g @angular/cli
+
+    # Production build of angular application '/dist' 
+    - name: Run Build
+      run: ng build
