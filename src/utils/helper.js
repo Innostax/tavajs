@@ -6,25 +6,22 @@ const {
   REACT_THEME_FILE_PATHS,
   VUE_THEME_FILE_PATHS,
   ANGULAR_THEME_FILE_PATHS,
-  CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
-  JEST_DIRECTORY_PATHS,
   JEST_FILE_PATHS,
-  MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
-  NIGHTWATCH_DIRECTORY_PATHS,
   NIGHTWATCH_FILE_PATHS,
-  DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
-  NODE_JS_DOCKER_FILE_PATHS,
+  REDUX_FILES_PATH,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
-  INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   TAILWIND_REACT_FILE_PATHS,
+  NETWORK_INFORMER_VUE_FILE_PATHS,
+  REACT_NETWORKSTATUS_FILES_PATH,
+  OKTA_DIRECTORY_PATH,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -60,7 +57,7 @@ const createDirectoryContents = (
   blobServiceName,
   isNetworkInformer
 ) => {
-  const CURR_DIR = currentDirectory || process.cwd();
+  const CURR_DIR = currentDirectory;
   const filesToCreate = fs.readdirSync(templatePath);
   filesToCreate.forEach((file) => {
     if (file !== ".git") {
@@ -214,25 +211,6 @@ const updateProjectScripts = (path, updatedscripts) => {
 
 const copyFiles = (paths) => {
   paths.forEach((each) => {
-    if (each.isFile) {
-      fs.copyFile(each.source, each.destination, (err) => {
-        if (err) {
-          console.log("Error Found:", err);
-        }
-      });
-    } else {
-      fsExtra.copy(each.source, each.destination, function (err) {
-        if (err) {
-          console.log("An error is occured");
-          return console.error(err);
-        }
-      });
-    }
-  });
-};
-
-const copyDirectories = (paths) => {
-  paths.forEach((each) => {
     fsExtra.copy(each.source, each.destination, function (err) {
       if (err) {
         console.log("An error is occured");
@@ -242,31 +220,28 @@ const copyDirectories = (paths) => {
   });
 };
 
-const readFile = (path) => {
-  return fs.readFileSync(path, "utf8");
+const handleRenderEJS = (readFilePath, props, writeFilePath) => {
+  let content = fs.readFileSync(readFilePath, "utf8");
+  content = render(content, { ...props });
+  fs.writeFileSync(writeFilePath, content, "utf8");
 };
 
-const getFilePaths = (name, srcDir, destDir, backendDir) => {
+const getFilePaths = (name, srcDir, destDir) => {
   switch (name) {
     case REACT_THEME_FILE_PATHS:
       return [
         {
           source: `${srcDir}/Providers/ThemeProviders/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
-          isfile: true,
+          // isFile: true,
         },
       ];
     case VUE_THEME_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/Providers/ThemeProviders/vue-themes/theme.vue`,
-          destination: `${destDir}/src/theme.vue`,
-          isfile: true,
-        },
-        {
           source: `${srcDir}/Providers/ThemeProviders/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
-          isfile: true,
+          // isFile: true,
         },
       ];
     case ANGULAR_THEME_FILE_PATHS:
@@ -274,36 +249,25 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/Providers/ThemeProviders/angular-themes`,
           destination: `${destDir}/src/angular-themes`,
-          isfile: false,
-        },
-      ];
-    case CYPRESS_DIRECTORY_PATHS:
-      return [
-        {
-          source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/TestScripts`,
-          destination: `${destDir}`,
-          isfile: false,
+          // isFile: false,
         },
       ];
     case CYPRESS_FILE_PATHS:
       return [
         {
+          source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/TestScripts`,
+          destination: `${destDir}`,
+          // isFile: false,
+        },
+        {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/cypress.config.js`,
           destination: `${destDir}/cypress.config.js`,
-          isfile: true,
+          // isFile: true,
         },
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/cypress.constants.js`,
           destination: `${destDir}/cypress.constants.js`,
-          isfile: true,
-        },
-      ];
-    case JEST_DIRECTORY_PATHS:
-      return [
-        {
-          source: `${srcDir}/Frameworks/TestCasesFrameworks/JestTests/TestScripts`,
-          destination: `${destDir}/__tests__`,
-          isfile: false,
+          // isFile: true,
         },
       ];
     case JEST_FILE_PATHS:
@@ -311,47 +275,33 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/JestTests/jest.config.js`,
           destination: `${destDir}/jest.config.js`,
-          isfile: true,
-        },
-      ];
-    case MOCHA_DIRECTORY_PATHS:
-      return [
-        {
-          source: `${srcDir}/Frameworks/TestCasesFrameworks/MochaTests/TestScripts`,
-          destination: `${destDir}/tests/unit`,
-          isfile: false,
+          // isFile: true,
         },
       ];
     case MOCHA_FILE_PATHS:
       return [
         {
+          source: `${srcDir}/Frameworks/TestCasesFrameworks/MochaTests/TestScripts`,
+          destination: `${destDir}/tests/unit`,
+          // isFile: false,
+        },
+        {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/MochaTests/.eslintrc.js`,
           destination: `${destDir}/.eslintrc.js`,
-          isfile: true,
-        },
-      ];
-    case NIGHTWATCH_DIRECTORY_PATHS:
-      return [
-        {
-          source: `${srcDir}/Frameworks/TestCasesFrameworks/NightwatchTests/TestScripts`,
-          destination: `${destDir}/tests/`,
-          isfile: false,
+          // isFile: true,
         },
       ];
     case NIGHTWATCH_FILE_PATHS:
       return [
         {
+          source: `${srcDir}/Frameworks/TestCasesFrameworks/NightwatchTests/TestScripts`,
+          destination: `${destDir}/tests/`,
+          // isFile: false,
+        },
+        {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/NightwatchTests/nightwatch.conf.js`,
           destination: `${destDir}/nightwatch.conf.js`,
-          isfile: true,
-        },
-      ];
-    case DOCKER_FILE_PATHS:
-      return [
-        {
-          source: `${srcDir}/react-docker/Dockerfile`,
-          destination: `${destDir}/Dockerfile`,
-          isfile: false,
+          // isFile: true,
         },
       ];
     case REACT_DOCKER_FILE_PATHS:
@@ -359,20 +309,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/react-docker/.dockerignore`,
           destination: `${destDir}/.dockerignore`,
-          isfile: false
+          // isFile: true
         },
         {
           source: `${srcDir}/react-docker/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
-          isfile: false
-        },
-      ];
-    case NODE_JS_DOCKER_FILE_PATHS:
-      return [
-        {
-          source: `${srcDir}/Dockerfile`,
-          destination: `${destDir}/Dockerfile`,
-          isfile: false,
+          // isFile: true
         },
       ];
     case ANGULAR_DOCKER_FILE_PATHS:
@@ -380,12 +322,40 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/angular-docker/.dockerignore`,
           destination: `${destDir}/.dockerignore`,
-          isfile: false
+          // isFile: true
         },
         {
           source: `${srcDir}/angular-docker/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
-          isfile: false
+          // isFile: true
+        },
+      ];
+    case REDUX_FILES_PATH:
+      return [
+        {
+          source: `${srcDir}/StateManagement/reduxTemplates/demoUser/users.reducer.js`,
+          destination: `${destDir}/src/screens/Users/users.reducer.js`,
+          // isFile: true,
+        },
+        {
+          source: `${srcDir}/StateManagement/reduxTemplates/demoUser/users.selectors.js`,
+          destination: `${destDir}/src/screens/Users/users.selectors.js`,
+          // isFile: true,
+        },
+        {
+          source: `${srcDir}/StateManagement/reduxTemplates/createStore.js`,
+          destination: `${destDir}/src/createStore.js`,
+          // isFile: true,
+        },
+        {
+          source: `${srcDir}/StateManagement/reduxTemplates/rootReducer.js`,
+          destination: `${destDir}/src/rootReducer.js`,
+          // isFile: true,
+        },
+        {
+          source: `${srcDir}/StateManagement/reduxTemplates/infrastructure`,
+          destination: `${destDir}/src/infrastructure`,
+          // isFile: false,
         },
       ];
     case NGRX_FILE_PATHS:
@@ -393,12 +363,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/reducers`,
           destination: `${destDir}/src/app/reducers`,
-          isfile: false,
+          // isFile: false,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/store`,
           destination: `${destDir}/src/app/utils/store`,
-          isfile: false,
+          // isFile: false,
         },
       ];
     case NGRX_CRUD_FILE_PATHS:
@@ -406,12 +376,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
-          isfile: true,
+          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
-          isfile: true, 
+          // isFile: true, 
         },
       ];
     case VUEX_FILE_PATHS:
@@ -419,20 +389,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/vuexTemplates/doAsync`,
           destination: `${destDir}/src/doAsync`,
-          isfile: false,
+          // isFile: false,
         },
         {
           source: `${srcDir}/vuexTemplates/httpMethod`,
           destination: `${destDir}/src/httpMethod`,
-          isfile: false,
-        },
-      ];
-    case INFRASTRUCTURE_FILE_PATHS:
-      return [
-        {
-          source: `${srcDir}/StateManagement/reduxTemplates/infrastructure`,
-          destination: `${destDir}/src/infrastructure`,
-          isfile: false,
+          // isFile: false,
         },
       ];
     case ANGULAR_CRUD_NODE_FILE_PATHS:
@@ -440,17 +402,17 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/Services/HttpServices/AngularServices/services`,
           destination: `${destDir}/src/app/shared/services`,
-          isFile: false,
+          // isFile: false,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
-          isfile: true,
+          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
-          isfile: true, 
+          // isFile: true, 
         },
       ];
     case TAILWIND_CSS_FILE_PATHS:
@@ -458,7 +420,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
-          isFile: true,
+          // isFile: true,
         },
       ];
     case TAILWIND_REACT_FILE_PATHS:
@@ -466,14 +428,51 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
-          isFile: true,
+          // isFile: true,
         },
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/postcss.config.js`,
           destination: `${destDir}/postcss.config.js`,
-          isFile: true,
+          // isFile: true,
         },
       ];
+    case OKTA_DIRECTORY_PATH:
+      return [
+        {
+          source: `${srcDir}/Services/AuthenticationServices/authTemplates/oktaTemplate/`,
+          destination: `${destDir}/src/oktaFiles`,
+          // isFile: false,
+        },
+      ];
+    case TAILWIND_VUE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/tailwind.config.js`,
+          destination: `${destDir}/tailwind.config.js`,
+          // isFile: true,
+        },
+        {
+          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/postcss.config.js`,
+          destination: `${destDir}/postcss.config.js`,
+          // isFile: true,
+        },
+      ]; 
+    case NETWORK_INFORMER_VUE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
+          destination: `${destDir}/src/networkStatus`,
+          // isFile: false,
+        },
+      ]; 
+    case REACT_NETWORKSTATUS_FILES_PATH:
+      return [
+        {
+          source: `${srcDir}/Services/NetworkInformerServices/react/NetworkStatus.js`,
+          destination: `${destDir}/src/components/NetworkStatus.js`,
+          // isFile:true,
+        },
+      ];    
     default:
       return [];
   }
@@ -483,8 +482,7 @@ module.exports = {
   createDirectoryContents,
   updateProjectDependencies,
   updateProjectScripts,
-  copyDirectories,
   copyFiles,
   getFilePaths,
-  readFile,
+  handleRenderEJS
 };

@@ -10,40 +10,30 @@ const {
   createDirectoryContents,
   updateProjectDependencies,
   updateProjectScripts,
-  copyDirectories,
   copyFiles,
   getFilePaths,
+  handleRenderEJS
 } = require("../utils/helper");
 // const projectSetUp = require("./utils/projectSetUp");
 const projectInfo = require("../utils/projectInfo");
 // const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("../utils/getProjectDetails");
-const { handleRenderEJS } = require("../utils/handleRenderEJS");
 
 const {
   ANGULAR_THEME_FILE_PATHS,
-  AUTH0_FILE_PATHS,
   AUTHENTICATIONS,
-  COGNITO_FILE_PATHS,
   CSS_FRAMEWORKS,
-  CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
-  JEST_DIRECTORY_PATHS,
   JEST_FILE_PATHS,
-  MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
-  NIGHTWATCH_DIRECTORY_PATHS,
   NIGHTWATCH_FILE_PATHS,
   FRAMEWORKS,
-  OKTA_FILES_PATHS,
   REACT_THEME_FILE_PATHS,
-  REDUX_FILES,
+  REDUX_FILES_PATH,
   VUE_THEME_FILE_PATHS,
-  // DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
-  INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
@@ -52,7 +42,10 @@ const {
   DATABASES,
   LOGGER_SERVICES,
   EMAIL_SERVICES,
-  TESTCASE_FRAMEWORKS
+  TESTCASE_FRAMEWORKS,
+  NETWORK_INFORMER_VUE_FILE_PATHS,
+  REACT_NETWORKSTATUS_FILES_PATH,
+  OKTA_DIRECTORY_PATH,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -71,8 +64,7 @@ const NODE_JS = "node-js";
 let dependencies = [];
 let devDependencies = [];
 let scripts = [];
-let filePaths = [];
-let directoryPaths = [];
+let paths = [];
 
 const handleAnswersEvaluator = async (answers) => {
   const {
@@ -99,7 +91,7 @@ const handleAnswersEvaluator = async (answers) => {
   } = answers;
 
   // Project Directory Path
-  const CURR_DIR = projectDirectoryPath;
+  const CURR_DIR = projectDirectoryPath; //debug shoud be called projectDirectoryPath as currentpath exist and curr_dir name don't suit it
   const isStore = Boolean(store);
   const isThemeProvider = Boolean(theme == "light-dark-mode");
   const isCrud = Boolean(CRUD);
@@ -132,7 +124,7 @@ const handleAnswersEvaluator = async (answers) => {
   const isSendgrid = emailServiceName === SENDGRID;
   const isAmazonSes = emailServiceName === AMAZON_SES;
 
-  fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
+  fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err) => {
     if (err) {
       console.error(err);
     }
@@ -166,7 +158,16 @@ const handleAnswersEvaluator = async (answers) => {
           currentPath,
           frontEnd.path
         );
-        filePaths = [...filePaths, ...res];
+        paths = [...paths, ...res];
+      }      
+      if(isNetworkInformer)
+      {      
+        const res = getFilePaths(
+         REACT_NETWORKSTATUS_FILES_PATH,
+          currentPath,
+          frontEnd.path
+        );
+        paths = [...paths, ...res];
       }
     }
 
@@ -179,7 +180,7 @@ const handleAnswersEvaluator = async (answers) => {
           currentPath,
           frontEnd.path
         );
-        filePaths = [...filePaths, ...res];
+        paths = [...paths, ...res];
       } else if(isBootstrap){
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
       }
@@ -234,7 +235,7 @@ const handleAnswersEvaluator = async (answers) => {
         currentPath,
         frontEnd.path
       );
-      filePaths = [...filePaths, ...res];
+      paths = [...paths, ...res];
       if(isBootstrap || isTailWind)
       {
         handleRenderEJS(
@@ -252,7 +253,12 @@ const handleAnswersEvaluator = async (answers) => {
         currentPath,
         frontEnd.path
       );
-      filePaths = [...filePaths, ...res];
+      paths = [...paths, ...res];
+      handleRenderEJS(
+        `${currentPath}/Providers/ThemeProviders/vue-themes/theme.vue`,
+        { isBootstrap, isTailWind },
+        `${frontEnd.path}/src/theme.vue`
+      );
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
@@ -262,7 +268,7 @@ const handleAnswersEvaluator = async (answers) => {
         currentPath,
         frontEnd.path
       );
-      filePaths = [...filePaths, ...res];
+      paths = [...paths, ...res];
     }
 
     //<---------------------------- For TestCases Framework ------------------------------------>
@@ -274,14 +280,7 @@ const handleAnswersEvaluator = async (answers) => {
           currentPath,
           frontEnd.path
         );
-        filePaths = [...filePaths, ...res];
-
-        const cypressDirectoryPaths = getFilePaths(
-          CYPRESS_DIRECTORY_PATHS,
-          currentPath,
-          frontEnd.path
-        );
-        directoryPaths = [...directoryPaths, ...cypressDirectoryPaths];
+        paths = [...paths, ...res];
 
         devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.CYPRESS];
 
@@ -289,8 +288,12 @@ const handleAnswersEvaluator = async (answers) => {
       }
 
       if (isJest && isFrontEndChoiceVue) {
-        const res = getFilePaths(JEST_FILE_PATHS, currentPath, frontEnd.path);
-        filePaths = [...filePaths, ...res];
+        const res = getFilePaths(
+          JEST_FILE_PATHS, 
+          currentPath, 
+          frontEnd.path
+        );
+        paths = [...paths, ...res];
 
         fs.mkdirSync(`${frontEnd.path}/__tests__`);
         handleRenderEJS(
@@ -318,14 +321,7 @@ const handleAnswersEvaluator = async (answers) => {
 
       if (isMocha && isFrontEndChoiceVue) {
         const res = getFilePaths(MOCHA_FILE_PATHS, currentPath, frontEnd.path);
-        filePaths = [...filePaths, ...res];
-
-        const mochaDirectoryPaths = getFilePaths(
-          MOCHA_DIRECTORY_PATHS,
-          currentPath,
-          frontEnd.path
-        );
-        directoryPaths = [...directoryPaths, ...mochaDirectoryPaths];
+        paths = [...paths, ...res];
 
         devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.MOCHA];
 
@@ -338,14 +334,7 @@ const handleAnswersEvaluator = async (answers) => {
           currentPath,
           frontEnd.path
         );
-        filePaths = [...filePaths, ...res];
-
-        const nightwatchDirectoryPaths = getFilePaths(
-          NIGHTWATCH_DIRECTORY_PATHS,
-          currentPath,
-          frontEnd.path
-        );
-        directoryPaths = [...directoryPaths, ...nightwatchDirectoryPaths];
+        paths = [...paths, ...res];
 
         devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.NIGHTWATCH];
 
@@ -471,7 +460,7 @@ const handleAnswersEvaluator = async (answers) => {
     }
 
     //<---------------------------- For ENV file ---------------------------------->
-    if (!isDocker) {
+    if (!isDocker) { 
       const envFilePath =
         frontEnd?.choice && backEnd?.choice
           ? `${backEnd.path}/.env`
@@ -499,99 +488,51 @@ const handleAnswersEvaluator = async (answers) => {
     const dockerPath = path.join(currentPath, "Services/DockerServices");
     let res = [];
 
-    if (frontEnd?.choice && backEnd?.choice === NODE_JS) {
-      if (frontEnd?.choice === REACT) {
-        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
-        filePaths = [...filePaths, ...res];
-      } else if (frontEnd?.choice === ANGULAR) {
-        res = getFilePaths(
-          ANGULAR_DOCKER_FILE_PATHS,
-          dockerPath,
-          frontEnd.path
-        );
-        filePaths = [...filePaths, ...res];
-      }
-
-      handleRenderEJS(
-        `${dockerPath}/db-docker-compose.yml`,
-        {
-          frontEnd,
-          projectName,
-          frontEndChoice,
-          frontEndName,
-          backEndName,
-          mongoSelected,
-          sequelizeSelected,
-        },
-        `${CURR_DIR}/${projectName}/docker-compose.yml`
+    if (isFrontEndChoiceReact) {
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
+      paths = [...paths, ...res];
+    } else if (isFrontEndChoiceAngular) {
+      res = getFilePaths(
+        ANGULAR_DOCKER_FILE_PATHS,
+        dockerPath,
+        frontEnd.path,
       );
-
-      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
-      filePaths = [...filePaths, ...res];
-    } else if (frontEnd?.choice) {
-      if (frontEnd?.choice === REACT) {
-        res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, frontEnd.path);
-        filePaths = [...filePaths, ...res];
-      } else if (frontEnd?.choice === ANGULAR) {
-        res = getFilePaths(
-          ANGULAR_DOCKER_FILE_PATHS,
-          dockerPath,
-          frontEnd.path,
-          dockerPath
-        );
-        filePaths = [...filePaths, ...res];
-      }
-
-      handleRenderEJS(
-        `${dockerPath}/docker-compose.yml`,
-        {
-          backEnd,
-          frontEnd,
-          projectName,
-          frontEndChoice,
-          frontEndName,
-          backEndName,
-          mongoSelected,
-          sequelizeSelected,
-        },
-        `${CURR_DIR}/docker-compose.yml`
-      );
-    } else if (backEnd?.choice === NODE_JS) {
-      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
-      filePaths = [...filePaths, ...res];
-
-      handleRenderEJS(
-        `${dockerPath}/db-docker-compose.yml`,
-        {
-          frontEnd,
-          backEnd,
-          projectName,
-          frontEndChoice,
-          frontEndName,
-          backEndName,
-          mongoSelected,
-          sequelizeSelected,
-        },
-        `${CURR_DIR}/docker-compose.yml`
-      );
+      paths = [...paths, ...res];
     }
+
+    if (backEnd?.choice === NODE_JS) {
+      res = getFilePaths(REACT_DOCKER_FILE_PATHS, dockerPath, backEnd.path);
+      paths = [...paths, ...res];
+    }
+
+    const dockerSrcPath = backEnd ? 'db-docker-compose.yml' : 'docker-compose.yml'
+    const dockerDestPath = frontEnd && backEnd ? `${backEndName}/docker-compose.yml` : 'docker-compose.yml'
+
+    handleRenderEJS(
+      `${dockerPath}/${dockerSrcPath}`,
+      {
+        frontEnd,
+        backEnd,
+        projectName,
+        frontEndChoice,
+        frontEndName,
+        backEndName,
+        mongoSelected,
+        sequelizeSelected,
+      },
+      `${CURR_DIR}/${projectName}/${dockerDestPath}`
+    );
   }
 
   //<---------------------------- For Store integration ---------------------------------->
   if (isStore) {
     //<---------------------------- Redux ---------------------------------->
-    if (frontEnd?.choice === REACT) {
+    if (isFrontEndChoiceReact) {
       dependencies = [...dependencies, ...DEPENDENCIES.REACT];
 
-      REDUX_FILES.forEach((each) => {
-        filePaths = [
-          ...filePaths,
-          {
-            source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-            destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
-          },
-        ];
-      });
+      const res = getFilePaths(REDUX_FILES_PATH, currentPath, frontEnd.path);
+      paths = [...paths, ...res];
+
       handleRenderEJS(
         `${currentPath}/StateManagement/reduxTemplates/demoUser/users.actions.js`,
         { defaultRoute },
@@ -616,13 +557,6 @@ const handleAnswersEvaluator = async (answers) => {
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
       }
-
-      const res = getFilePaths(
-        INFRASTRUCTURE_FILE_PATHS,
-        currentPath,
-        frontEnd.path
-      );
-      directoryPaths = [...directoryPaths, ...res];
     }
 
     //<---------------------------------MaterialUI Dark Theme----------------------->
@@ -646,7 +580,7 @@ const handleAnswersEvaluator = async (answers) => {
     }
 
     //<--------------------------------- Vuex ---------------------------->
-    if (frontEnd?.choice === VUE) {
+    if (isFrontEndChoiceVue) {
       const { choice, path: frontEndPath } = frontEnd;
       const templates = [
         path.join(currentPath, "StateManagement/vuexTemplates", "store"),
@@ -711,13 +645,13 @@ const handleAnswersEvaluator = async (answers) => {
 
       if (isCrudWithNode) {
         const res = getFilePaths(VUEX_FILE_PATHS, currentPath, frontEnd.path);
-        directoryPaths = [...directoryPaths, ...res];
+        paths = [...paths, ...res];
       }
     }
     //<--------------------------------- Ngrx ---------------------------->
-    if (frontEnd?.choice === ANGULAR) {
+    if (isFrontEndChoiceAngular) {
       const res = getFilePaths(NGRX_FILE_PATHS, currentPath, frontEnd.path);
-      directoryPaths = [...directoryPaths, ...res];
+      paths = [...paths, ...res];
 
       if (isCrud) {
         fs.mkdirSync(
@@ -728,7 +662,7 @@ const handleAnswersEvaluator = async (answers) => {
           currentPath,
           frontEnd.path
         );
-        directoryPaths = [...directoryPaths, ...res];
+        paths = [...paths, ...res];
         handleRenderEJS(
           `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
           { isTailWind, isBootstrap },
@@ -744,7 +678,7 @@ const handleAnswersEvaluator = async (answers) => {
   }
 
   //<-------------- For angular node crud ------------------->
-  if (frontEnd?.choice === ANGULAR && isCrudWithNode) {
+  if (isFrontEndChoiceAngular && isCrudWithNode) {
     fs.mkdirSync(
       `${frontEnd.path}/src/app/shared/components/user-actions-modal`
     );
@@ -753,7 +687,7 @@ const handleAnswersEvaluator = async (answers) => {
       currentPath,
       frontEnd.path
     );
-    directoryPaths = [...directoryPaths, ...res];
+    paths = [...paths, ...res];
     handleRenderEJS(
       `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
       { isTailWind, isBootstrap },
@@ -772,18 +706,15 @@ const handleAnswersEvaluator = async (answers) => {
   }
 
   //<---------------------------- For Authentication service ---------------------------------->
-  if (answers["authenticationChoice"] === AUTH0) {
-    AUTH0_FILE_PATHS.forEach((each) => {
+  if (isAuth0) {
       handleRenderEJS(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
+        `${currentPath}/Environments/FrontendEnvironment/.authEnv`,
         { frontEndChoice },
-        `${frontEnd.path}/${each.destFileName}`
+        `${frontEnd.path}/.env`
       );
-    });
 
     if (isFrontEndChoiceAngular) {
-      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
-      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_ANGULAR];
+      dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA , ...DEPENDENCIES.AUTH0_ANGULAR];
     }
 
     if (isFrontEndChoiceReact) {
@@ -799,42 +730,22 @@ const handleAnswersEvaluator = async (answers) => {
     if (isFrontEndChoiceVue) {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_VUE];
     }
-  } else if (answers["authenticationChoice"] === COGNITO) {
-    if (isFrontEndChoiceVue) {
-      COGNITO_FILE_PATHS.forEach((each) => {
-        handleRenderEJS(
-          `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          { frontEndChoice },
-          `${frontEnd.path}/${each.destFileName}`
-        );
-      });
+  } else if (isCognito) {
+
+    if (isFrontEndChoiceVue)
       dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_VUE];
-    }
-    if (isFrontEndChoiceAngular) {
+    else if (isFrontEndChoiceAngular)
       dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_ANGULAR];
-      COGNITO_FILE_PATHS.forEach((each) => {
-        filePaths = [
-          ...filePaths,
-          {
-            source: `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-            destination: `${frontEnd.path}/${each.destFolder}/${each.destFileName}`,
-          },
-        ];
-      });
-      copyFiles(filePaths);
-    }
-    if (isFrontEndChoiceReact) {
+    else if (isFrontEndChoiceReact)
       dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_REACT];
 
-      COGNITO_FILE_PATHS.forEach((each) => {
-        handleRenderEJS(
-          `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-          { frontEndChoice },
-          `${frontEnd.path}/${each.destFileName}`
-        );
-      });
-    }
-  } else if (answers["authenticationChoice"] === OKTA) {
+    handleRenderEJS(
+      `${currentPath}/Environments/FrontendEnvironment/.cognitoEnv`,
+      { frontEndChoice },
+      `${frontEnd.path}/.env`
+    );
+
+  } else if (isOkta) {
     dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
     if (isFrontEndChoiceReact)
       dependencies = [...dependencies, ...DEPENDENCIES.OKTA_REACT];
@@ -844,26 +755,22 @@ const handleAnswersEvaluator = async (answers) => {
       dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE];
 
     if (isFrontEndChoiceReact || isFrontEndChoiceAngular) {
-      directoryPaths = [
-        ...directoryPaths,
-        {
-          source: `${currentPath}/Services/AuthenticationServices/authTemplates/oktaTemplate/`,
-          destination: `${frontEnd.path}/src/oktaFiles`,
-        },
-      ];
+      const res = getFilePaths(
+        OKTA_DIRECTORY_PATH, 
+        currentPath, 
+        frontEnd.path
+      );
+      paths = [...paths, ...res];
     }
 
-    OKTA_FILES_PATHS.forEach((each) => {
-      handleRenderEJS(
-        `${currentPath}/${each.srcFolder}/${each.srcFileName}`,
-        { frontEndChoice },
-        `${frontEnd.path}/${each.destFileName}`
-      );
-    });
+    handleRenderEJS(
+      `${currentPath}/Environments/FrontendEnvironment/.oktaEnv`,
+      { frontEndChoice },
+      `${frontEnd.path}/.env`
+    );
   }
 
-  copyDirectories(directoryPaths);
-  copyFiles(filePaths);
+  copyFiles(paths);
 
   // These methods are used to update the dependencies and scripts respectively.
   if (frontEnd) {
