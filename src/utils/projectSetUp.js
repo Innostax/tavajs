@@ -6,6 +6,8 @@ const sw = new StopWatch("sw");
 const spawn = require("child_process").spawn;
 const projectExecutionCommands = require("./projectExecutionCommands");
 const { millisToMinutesAndSeconds } = require("./converters")
+let taskId = 1;
+let totalTimeConsumptionInMinutes = 0;
 
 const projectSetUp = async (frontEnd, backEnd, answers) => {
   const managerChoice = answers["managerChoice"];
@@ -90,21 +92,28 @@ const npmInstall = async (
 ) => {
   const shouldExecute = answers.backEnd ? isBackEnd : isFrontEnd;
   return new Promise((resolve, reject) => {
-    sw.start(`Task-1`);
+    sw.start(`Task-${taskId}`);
     const process = spawn(command, { shell: true });
     const spinner = createSpinner(`Installing packages`).start();
     process.on("exit", () => {
       spinner.success();
       sw.stop();
-      const task2 = sw.getTask(`Task-1`);
+      const task = sw.getTask(`Task-${taskId}`);
+      totalTimeConsumptionInMinutes += task?.timeMills;
       shell.echo(chalk.green.bold(`-> NPM modules installed!👍\r`));
-      shell.echo(
-        chalk.red.bold(
-          `Installing took ${millisToMinutesAndSeconds(
-            task2?.timeMills
-          )} minutes.`
-        )
-      );
+      const isProjectCreated = !(frontEnd && backEnd && taskId === 1)
+      if ( isProjectCreated ) {
+        const FIVE_MINUTES = 1000 * 60 * 5;
+        const messageColor = totalTimeConsumptionInMinutes < FIVE_MINUTES ? "green" : "red";
+        shell.echo(
+          chalk[messageColor].bold(
+            `Installing took ${millisToMinutesAndSeconds(
+              totalTimeConsumptionInMinutes
+            )} minutes.`
+          )
+        );
+      }
+      taskId++;
       if (shouldExecute) {
         projectExecutionCommands(frontEnd, backEnd, answers);
       }
