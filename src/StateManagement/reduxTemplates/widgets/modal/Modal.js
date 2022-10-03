@@ -10,7 +10,7 @@ import { selectShowModal } from './modal.selectors'
 import { actions } from './modal.slice'
 const { hideModal } = actions
 
-export default function ViceModal({
+export default function TavaJSModal({
 	children,
 	footer,
 	title,

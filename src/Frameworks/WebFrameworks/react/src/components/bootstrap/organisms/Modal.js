@@ -1,7 +1,7 @@
 
 
 import { Modal } from 'react-bootstrap'
-export default function ViceModal({
+export default function TavaJSModal({
 	children,
 	show,
 	handleClose,
