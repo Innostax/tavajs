@@ -7,7 +7,7 @@
         <form>
           <div class="mb-3">
             <Label inputId="name-input" class="form-label" name="Name"></Label>
-            <input
+            <InputVue
               type="text"
               class="form-control"
               id="name-input"
@@ -21,7 +21,7 @@
               class="form-label"
               name="Username"
             ></Label>
-            <input
+            <InputVue
               type="text"
               class="form-control"
               id="username-input"
@@ -35,7 +35,7 @@
               class="form-label"
               name="Email"
             ></Label>
-            <input
+            <InputVue
               type="text"
               class="form-control"
               id="email-input"
@@ -57,6 +57,7 @@
 import Button from "../components/atoms/Button";
 import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal";
+import InputVue from "../components/atoms/Input.vue";
 
 const emptyString = "";
 
@@ -65,7 +66,8 @@ export default {
   components: {
     Label,
     Button,
-    Modal
+    Modal,
+    InputVue
   },
   data() {
     return {
