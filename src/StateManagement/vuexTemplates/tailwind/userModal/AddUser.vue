@@ -5,7 +5,7 @@
         class="text-white rounded px-3 py-2 shadow-sm bg-blue-600"
         @onClick="show = true"
         name="Add User"
-      ></Button>
+      />
     </div>
     <Modal title="Add User" :show="show">
       <template v-slot:header>
@@ -15,13 +15,13 @@
             class="ml-auto text-gray px-3"
             name="X"
             @onClick="close()"
-          ></Button>
+          />
         </div>
       </template>
       <template v-slot:body>
         <form>
           <div class="text-left mb-4">
-            <Label class="my-4" input-id="name-input" name="Name"></Label>
+            <Label class="my-4" input-id="name-input" name="Name" />
             <InputVue
               id="name-input"
               type="text"
@@ -31,9 +31,8 @@
               h-10 border border-slate-300 outline-none focus:outline-none focus:ring w-full"
             />
           </div>
-          <div></div>
           <div class="text-left mb-4">
-            <Label input-id="username-input" name="Username"></Label>
+            <Label input-id="username-input" name="Username" />
             <InputVue
               id="username-input"
               type="text"
@@ -44,7 +43,7 @@
             />
           </div>
           <div class="text-left">
-            <Label input-id="email-input" name="Email"></Label>
+            <Label input-id="email-input" name="Email" />
             <InputVue
               id="email-input"
               type="email"
@@ -66,15 +65,14 @@
           name="Add User"
           class="text-white rounded px-3 py-2 ml-auto shadow-sm mr-3"
           :class="isAddButtonDisabled ? 'bg-blue-400' : 'bg-blue-600'"
-        ></Button>
+        />
         <Button
           class="text-gray border border-gray-500 px-3 py-2 ml-auto shadow-sm hover:bg-gray-500 
           hover:text-white active:bg-gray-600 font-bold rounded outline-none focus:outline-none dark:text-white"
           name="Cancel"
           type="button"
           @onClick="close()"
-        >
-        </Button>
+        />
       </template>
     </Modal>
   </div>

@@ -3,18 +3,17 @@
     <template v-slot:header>
       <div class="flex w-full h-15 p-4 dark:text-white text-xl">
         <div>Edit User</div>
-        <button
-          class="ml-auto text-gray px-3"
-          @click="close"
-        >
-          X
-        </button>
+        <Button
+            class="ml-auto text-gray px-3"
+            name="X"
+            @onClick="close()"
+          />
       </div>
     </template>
     <template v-slot:body>
       <form>
         <div class="mb-4 text-left">
-          <Label class="my-4" input-id="name-input" name="Name"></Label>
+          <Label class="my-4" input-id="name-input" name="Name" />
           <InputVue
             id="name-input"
             type="text"
@@ -25,7 +24,7 @@
           />
         </div>
         <div class="mb-4 text-left">
-          <Label input-id="username-input" name="Username"></Label>
+          <Label input-id="username-input" name="Username" />
           <InputVue
             id="username-input"
             type="text"
@@ -36,7 +35,7 @@
           />
         </div>
         <div class="text-left">
-          <Label input-id="email-input" name="Email"></Label>
+          <Label input-id="email-input" name="Email" />
           <InputVue
             id="email-input"
             type="email"
