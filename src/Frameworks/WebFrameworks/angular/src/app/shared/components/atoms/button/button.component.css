@@ -6,3 +6,10 @@
   cursor: not-allowed;
   pointer-events: all;
 }
+
+.add-button button {
+  width: 100%;
+}
+.add-button {
+  width: 100%;
+}

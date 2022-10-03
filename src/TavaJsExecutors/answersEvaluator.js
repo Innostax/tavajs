@@ -55,7 +55,8 @@ const {
   EMAIL_SERVICES,
   TESTCASE_FRAMEWORKS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
-  REACT_NETWORKSTATUS_FILES_PATH
+  REACT_NETWORKSTATUS_FILES_PATH,
+  ANGULAR_MATERIAL_FILE_PATHS
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -194,6 +195,15 @@ const handleAnswersEvaluator = async (answers) => {
         filePaths = [...filePaths, ...res];
       } else if(isBootstrap){
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
+      } else if(isMaterialUI){
+        dependencies = [...dependencies, ...DEPENDENCIES.ANGULARMATERIALUI];
+
+        const res = getFilePaths(
+          ANGULAR_MATERIAL_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
       }
     }
     if(isFrontEndChoiceVue){
@@ -538,6 +548,7 @@ const handleAnswersEvaluator = async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(currentPath, "Services/DockerServices");
+    conbsole.log("dockerPath+++", dockerPath, isDocker)
     let res = [];
 
     if (frontEnd?.choice && backEnd?.choice === NODE_JS) {

@@ -61,3 +61,14 @@
   border: 1px solid var(--dark-text-color) !important;
   color: var(--dark-text-color);
 }
+
+[data-theme='dark'] .mat-toolbar-row,
+.mat-toolbar-single-row {
+  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  box-shadow: 1px 1px 5px var(--dark-text-color);
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .a-link {
+  color: var(--dark-text-color) !important;
+}

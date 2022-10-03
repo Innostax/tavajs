@@ -51,3 +51,38 @@
   </tbody>
 </table>
 <%}%>
+
+<% if(isCrudWithNode){%>
+<table mat-table class="full-width-table">
+  <thead>
+    <tr>
+      <th mat-header-cell *ngFor="let head of headers">
+        {{ this.head }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="trow" *ngFor="let user of data">
+      <td
+        mat-cell
+        *ngFor="let key of user | keyvalue: keepOriginalOrder | slice: 1:4">
+        {{ key.value }}
+      </td>
+      <td mat-cell class="actioncell" *ngIf="shouldShowActions">
+        <span>
+          <app-button
+            [name]="'Edit'"
+            [color]="'primary'"
+            (onClick)="handleUser('edit', user)"></app-button>
+        </span>
+        <span>
+          <app-button
+            [name]="'Delete'"
+            [color]="'warn'"
+            (onClick)="handleUser('delete', user)"></app-button>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<%}%>

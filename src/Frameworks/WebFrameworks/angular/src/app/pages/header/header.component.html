@@ -212,3 +212,49 @@
   </nav>
 </div>
 <%}%>
+
+<% if(isMaterialUI){%>
+<div class=".down-arrow bg-light" style="width: 100%">
+  <mat-toolbar style="width: 100%">
+    <span class="brand">
+      <a class="a-link" [routerLink]="'/'" routerLinkActive="active">
+        Made in India
+      </a>
+    </span>
+
+    <!-- <span class="example-spacer"> </span> -->
+
+    <span style="margin-left: 10px; font-size: medium; font-weight: 300">
+      <a class="a-link" [routerLink]="'/'" routerLinkActive="active">Home</a>
+    </span>
+    <span style="margin-left: 10px; font-size: medium; font-weight: 300">
+      <a class="a-link" [routerLink]="'/users'" routerLinkActive="active"
+        >Users</a
+      >
+    </span>
+    <span class="example-spacer"> </span>
+    <% if(isThemeProvider){%>
+    <span style="margin-left: 10px">
+      <div class="flex items-center">
+        <form role="button" [formGroup]="headerForm">
+          <div>
+            <label
+              class="icon-switcher"
+              data-js-icon-switcher="data-js-icon-switcher"
+              (change)="handleSelection($event)">
+              <input
+                id="themeSelector"
+                class="control"
+                type="checkbox"
+                formControlName="selectedTheme" />
+              <div class="peg"></div>
+              <div class="bg"></div>
+            </label>
+          </div>
+        </form>
+      </div>
+    </span>
+    <%}%> 
+  </mat-toolbar>
+</div>
+<%}%>  

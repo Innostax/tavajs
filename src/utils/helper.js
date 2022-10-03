@@ -28,6 +28,7 @@ const {
   TAILWIND_REACT_FILE_PATHS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
+  ANGULAR_MATERIAL_FILE_PATHS,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -379,19 +380,19 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false,
         },
       ];
-    case ANGULAR_DOCKER_FILE_PATHS:
-      return [
-        {
-          source: `${srcDir}/angular-docker/.dockerignore`,
-          destination: `${destDir}/.dockerignore`,
-          isFile: false,
-        },
-        {
-          source: `${srcDir}/angular-docker/Dockerfile`,
-          destination: `${destDir}/Dockerfile`,
-          isFile: false,
-        },
-      ];
+    // case ANGULAR_DOCKER_FILE_PATHS:
+    //   return [
+    //     {
+    //       source: `${srcDir}/angular-docker/.dockerignore`,
+    //       destination: `${destDir}/.dockerignore`,
+    //       isFile: false,
+    //     },
+    //     {
+    //       source: `${srcDir}/angular-docker/Dockerfile`,
+    //       destination: `${destDir}/Dockerfile`,
+    //       isFile: false,
+    //     },
+    //   ];
     case NGRX_FILE_PATHS:
       return [
         {
@@ -506,7 +507,15 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/components/NetworkStatus.js`,
           isFile:true,
         },
-      ];    
+      ];
+    case ANGULAR_MATERIAL_FILE_PATHS: 
+      return [
+        {
+          source: `${srcDir}/Frameworks/CSSFrameworks/MaterialUIFramework/angular/custom-materialui.module.ts`,
+          destination: `${destDir}/src/app/shared/custom-materialui.module.ts`,
+          isFile:true,
+        }
+      ]     
     default:
       return [];
   }

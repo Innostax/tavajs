@@ -72,3 +72,45 @@
 </div>
 <div *ngIf="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
 <%}%>
+
+<% if(isMaterialUI){%>
+  <div id="userroot">
+    <div class="user-head">
+      <div>
+        <div><h1>Welcome to Users Screen</h1></div>
+        <br />
+        <% if(isCrud || isCrudWithNode){%><app-button
+          [name]="'Add User'"
+          [color]="'primary'"
+          (onClick)="onClickAddUser()">
+        </app-button>
+        <%}%> 
+      </div>
+    </div>
+  
+    <% if(isCrud || isCrudWithNode){%><app-table
+      [usersData]="users$ | async"
+      [handleEditDeleteAction]="handleUserActions"
+      [headers]="headers"
+      [shouldShowActions]="shouldShowActions">
+    </app-table>
+    <%}%> 
+  
+    <% if(isCrud || isCrudWithNode){%><div *ngIf="showModal">
+      <div>
+        <div>
+          <div style="padding: 10px">
+            <app-user-actions-modal
+              [data]="data"
+              (closeEvent)="closeModal()"
+              [shouldDeleteUser]="deleteUserInfo"
+              (performDeleteAction)="performDeleteAction($event)">
+            </app-user-actions-modal>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showModal"></div><%}%> 
+  </div>
+<%}%>  
+
