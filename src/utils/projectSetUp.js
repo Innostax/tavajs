@@ -1,21 +1,11 @@
 const shell = require("shelljs");
 const chalk = require("chalk");
-const Spinner = require("cli-spinner").Spinner;
+const { createSpinner } = require('nanospinner');
 const StopWatch = require("stopwatch-node").StopWatch;
 const sw = new StopWatch("sw");
 const spawn = require("child_process").spawn;
 const projectExecutionCommands = require("./projectExecutionCommands");
 const { millisToMinutesAndSeconds } = require("./converters")
-
-const spinner = new Spinner({
-  text: "Installing packages... %s  ",
-  stream: process.stderr,
-  onTick: function (msg) {
-    this.clearLine(this.stream);
-    this.stream.write(msg);
-  },
-});
-spinner.setSpinnerString("|/-\\");
 
 const projectSetUp = async (frontEnd, backEnd, answers) => {
   const managerChoice = answers["managerChoice"];
@@ -102,9 +92,9 @@ const npmInstall = async (
   return new Promise((resolve, reject) => {
     sw.start(`Task-1`);
     const process = spawn(command, { shell: true });
-    spinner.start();
+    const spinner = createSpinner(`Installing packages`).start();
     process.on("exit", () => {
-      spinner.stop(true);
+      spinner.success();
       sw.stop();
       const task2 = sw.getTask(`Task-1`);
       shell.echo(chalk.green.bold(`-> NPM modules installed!👍\r`));
