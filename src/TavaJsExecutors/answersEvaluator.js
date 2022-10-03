@@ -55,7 +55,10 @@ const {
   EMAIL_SERVICES,
   TESTCASE_FRAMEWORKS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
-  REACT_NETWORKSTATUS_FILES_PATH
+  REACT_NETWORKSTATUS_FILES_PATH,
+  CICD_FILE_PATHS_ANGULAR,
+  CICD_FILE_PATHS_VUE,
+  CICD_FILE_PATHS_REACT,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -98,7 +101,8 @@ const handleAnswersEvaluator = async (answers) => {
     theme,
     projectDirectoryPath,
     angularNodeCrud,
-    networkInformer
+    networkInformer,
+    cicdPipelineIntegrate
   } = answers;
 
   // Project Directory Path
@@ -114,6 +118,7 @@ const handleAnswersEvaluator = async (answers) => {
   const isBootstrap = cssFrameworkChoice === BOOTSTRAP ;
   const isTailWind = cssFrameworkChoice === TAILWIND ;
   const isNetworkInformer = networkInformer;
+  const isCICDPipelineIntegrate = cicdPipelineIntegrate
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -249,7 +254,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       blobServiceName,
-      isNetworkInformer
+      isNetworkInformer,
+      isCICDPipelineIntegrate
     );
 
     //<------------------------------- Light/Dark Mode + React ---------------------------------->
@@ -395,6 +401,37 @@ const handleAnswersEvaluator = async (answers) => {
     }
   }
 
+  //<------------------ CI CD Pipeline ----------------------------------->
+  if(isCICDPipelineIntegrate){
+
+    fs.mkdirSync(`${frontEnd.path}/.github`);
+    fs.mkdirSync(`${frontEnd.path}/.github/workflows`);
+  
+    if(isFrontEndChoiceAngular) {
+      res = getFilePaths(
+        CICD_FILE_PATHS_ANGULAR,
+        currentPath,
+        frontEnd.path
+      );
+    }
+    if(isFrontEndChoiceVue) {
+      res = getFilePaths(
+        CICD_FILE_PATHS_VUE,
+        currentPath,
+        frontEnd.path
+      );
+    }
+    if(isFrontEndChoiceReact) {
+      res = getFilePaths(
+        CICD_FILE_PATHS_REACT,
+        currentPath,
+        frontEnd.path
+      );
+    }
+    filePaths = [...filePaths, ...res];
+  }
+
+
   //<---------------------------- node-js ---------------------------------->
   if (backEnd) {
     const { choice, path: backEndPath } = backEnd;
@@ -435,7 +472,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       blobServiceName,
-      isNetworkInformer
+      isNetworkInformer,
+      isCICDPipelineIntegrate
     );
 
     const ROUTE_FILES = [
@@ -749,7 +787,8 @@ const handleAnswersEvaluator = async (answers) => {
           isMocha,
           isNightWatch,
           blobServiceName,
-          isNetworkInformer
+          isNetworkInformer,
+          isCICDPipelineIntegrate
         );
       });
 

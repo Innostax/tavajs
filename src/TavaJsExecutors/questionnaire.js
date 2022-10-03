@@ -376,4 +376,16 @@ module.exports = [
       return answers.frontEndChoice || answers.backEnd;
     },
   },
+  {
+    name: "cicdPipelineIntegrate",
+    type: "list",
+    message: "Would you like to integrate CI/CD pipeline?",
+    choices: [
+      { name: "yes", value: true },
+      { name: "no", value: false },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice;
+    },
+  },
 ];
