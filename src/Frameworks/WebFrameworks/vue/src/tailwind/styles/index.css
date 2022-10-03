@@ -1,0 +1,7 @@
+<% if (isNetworkInformer) { %>
+    @import "../networkStatus/network-status.css";
+<% } %>
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -48,7 +48,7 @@ import '@aws-amplify/ui-vue/styles.css';
 const auth = useAuthenticator();
 <% } %>
 <% if (isNetworkInformer) { %>
-import NetworkStatus from "./components/NetworkStatus.vue";
+import NetworkStatus from "./networkStatus/NetworkStatus.vue";
 <% } %>
 
 export default {
@@ -79,5 +79,13 @@ export default {
 
 };
 </script>
-
+<% if (isBootstrap) { %>
 <style src="./styles/index.css"/>
+<% } %>
+<% if (isTailWind) { %>
+  <style>
+    html.dark{
+    @apply bg-vueBlack
+  }
+</style>
+<% } %>
