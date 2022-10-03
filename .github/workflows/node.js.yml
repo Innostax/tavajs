@@ -23,5 +23,5 @@ jobs:
       with:
         node-version: "16.14.x"
  
-    - run: npm ci
+    - run: npm install
     - run: npm test
