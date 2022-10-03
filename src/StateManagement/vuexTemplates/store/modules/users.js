@@ -1,6 +1,7 @@
 <% if (isCrudWithNode) { %>
 import { doAsync } from "@/doAsync";
 <% } %>
+
 const state = {
   users: [],
   selectedUser: {},
