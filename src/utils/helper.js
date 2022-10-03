@@ -23,8 +23,10 @@ const {
   NGRX_CRUD_FILE_PATHS,
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
+  TAILWIND_VUE_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   TAILWIND_REACT_FILE_PATHS,
+  NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
@@ -476,6 +478,27 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: true,
         },
       ];
+    case TAILWIND_VUE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/tailwind.config.js`,
+          destination: `${destDir}/tailwind.config.js`,
+          isFile: true,
+        },
+        {
+          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/postcss.config.js`,
+          destination: `${destDir}/postcss.config.js`,
+          isFile: true,
+        },
+      ]; 
+    case NETWORK_INFORMER_VUE_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
+          destination: `${destDir}/src/networkStatus`,
+          isFile: false,
+        },
+      ]; 
     case REACT_NETWORKSTATUS_FILES_PATH:
       return [
         {
