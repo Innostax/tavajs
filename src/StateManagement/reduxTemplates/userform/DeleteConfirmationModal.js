@@ -1,4 +1,4 @@
-import ViceModal from "../../components/organisms/Modal";
+import TavaJSModal from "../../components/organisms/Modal";
 <%if(isTailWind){%>
   import Button from '../../components/atoms/Button'
   const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
@@ -15,14 +15,14 @@ import ViceModal from "../../components/organisms/Modal";
       />
     )
     return (
-      <ViceModal
+      <TavaJSModal
         open={open}
         title='Delete User?'
         handleClose={setOpen}
         footer={footer}
       >
         {`Are you sure you want to delete ${username} ?`}
-      </ViceModal>
+      </TavaJSModal>
     )
   }
 <%}%>
@@ -46,14 +46,14 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
     </div>
   );
   return (
-    <ViceModal
+    <TavaJSModal
       show={open}
       title="Delete User?"
       handleClose={setOpen}
       footer={footer}
     >
       Are you sure you want to delete <b>{username}</b> ?
-    </ViceModal>
+    </TavaJSModal>
   );
 };
 <%}%>
@@ -62,7 +62,7 @@ import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
 	return (
-		<ViceModal show={open} title='Delete User?' handleClose={setOpen}>
+		<TavaJSModal show={open} title='Delete User?' handleClose={setOpen}>
 			Are you sure you want to delete <b>{username}</b> ?
 			<br></br>
 			<Box
@@ -82,7 +82,7 @@ const DeleteConfirmationModal = ({ open, setOpen, userId, username }) => {
 					Confirm
 				</Button>
 			</Box>
-		</ViceModal>
+		</TavaJSModal>
 	)
 }
 <%}%>

@@ -1,4 +1,4 @@
-export default function ViceModal({
+export default function TavaJSModal({
 	children,
 	open,
 	handleClose,

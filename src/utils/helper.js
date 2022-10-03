@@ -460,7 +460,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case TAILWIND_CSS_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/Frameworks/FrontendFrameworks/TailwindFrameworks/angular/tailwind.config.js`,
+          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
           isFile: true,
         },
@@ -468,12 +468,12 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case TAILWIND_REACT_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/Frameworks/FrontendFrameworks/TailwindFrameworks/react/tailwind.config.js`,
+          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
           isFile: true,
         },
         {
-          source: `${srcDir}/Frameworks/FrontendFrameworks/TailwindFrameworks/react/postcss.config.js`,
+          source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/postcss.config.js`,
           destination: `${destDir}/postcss.config.js`,
           isFile: true,
         },
