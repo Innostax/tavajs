@@ -5,15 +5,15 @@
         <form>
           <div class="mb-3">
             <Label for="name-input" class="form-label" name="Name">Name</Label>
-            <input type="text" class="form-control" id="name-input" placeholder="Name" v-model="name" />
+            <InputVue type="text" class="form-control" id="name-input" placeholder="Name" v-model="name" />
           </div>
         <div class="mb-3">
           <Label for="username-input" class="form-label" name="Username"></Label>
-          <input type="text" class="form-control" id="username-input" placeholder="Username" v-model="username" />
+          <InputVue type="text" class="form-control" id="username-input" placeholder="Username" v-model="username" />
         </div>
         <div class="mb-3">
           <Label for="email-input" class="form-label" name="Email"></Label>
-          <input type="text" class="form-control" id="email-input" placeholder="example@email.com" v-model="email" />
+          <InputVue type="text" class="form-control" id="email-input" placeholder="example@email.com" v-model="email" />
         </div> 
       </form>
       </template>
@@ -29,6 +29,7 @@
 import Button from "../components/atoms/Button.vue";
 import Label from "../components/atoms/Label";
 import Modal from "../components/organisms/Modal.vue";
+import InputVue from "../components/atoms/Input.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -36,7 +37,8 @@ export default {
   components: {
     Button,
     Label,
-    Modal
+    Modal,
+    InputVue
   },
   data() {
     return {
