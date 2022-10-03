@@ -45,11 +45,13 @@ const {
   ANGULAR_CRUD_NODE_FILE_PATHS,
   TAILWIND_CSS_FILE_PATHS,
   TAILWIND_REACT_FILE_PATHS,
+  TAILWIND_VUE_FILE_PATHS,
   ANGULAR_DOCKER_FILE_PATHS,
   DATABASES,
   LOGGER_SERVICES,
   EMAIL_SERVICES,
   TESTCASE_FRAMEWORKS,
+  NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
@@ -191,6 +193,19 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
       }
     }
+    if(isFrontEndChoiceVue){
+      if (isTailWind) {
+        dependencies=[...dependencies, ...DEPENDENCIES.TAILWINDVUE];
+        const res = getFilePaths(
+          TAILWIND_VUE_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
+      } else {
+        dependencies=[...dependencies,...DEPENDENCIES.BOOTSTRAPVUE];
+      }
+    }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
     const templatePath = path.join(currentPath, "Frameworks/WebFrameworks", choice);
 
@@ -259,13 +274,29 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         currentPath,
         frontEnd.path
       );
-      filePaths = [...filePaths, ...res];
+      res.forEach((each) => {
+        handleRenderEJS(
+          each.source,
+          { isBootstrap, isTailWind },
+          each.destination
+        );
+      });
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
     if (isThemeProvider && isFrontEndChoiceAngular) {
       const res = getFilePaths(
         ANGULAR_THEME_FILE_PATHS,
+        currentPath,
+        frontEnd.path
+      );
+      filePaths = [...filePaths, ...res];
+    }
+
+    //<----------------------------------- Network Informer + Vue ------------------------------------------------>
+    if (isNetworkInformer && isFrontEndChoiceVue) {
+      const res = getFilePaths(
+        NETWORK_INFORMER_VUE_FILE_PATHS,
         currentPath,
         frontEnd.path
       );
@@ -658,7 +689,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
       const { choice, path: frontEndPath } = frontEnd;
       const templates = [
         path.join(currentPath, "StateManagement/vuexTemplates", "store"),
-        path.join(currentPath, "StateManagement/vuexTemplates", "userModal"),
+        isBootstrap ? 
+          path.join(currentPath, "StateManagement/vuexTemplates/bootstrap", "userModal"):
+          path.join(currentPath, "StateManagement/vuexTemplates/tailwind", "userModal")
       ];
       const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
       const backEndUserModalPath = `${projectName}/${frontEndName}/src/userModal`;
