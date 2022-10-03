@@ -229,20 +229,6 @@ module.exports = [
     },
   },
   {
-    name: "react-query",
-    type: "list",
-    message: "Do you want React-query boilerplate",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        !answers.store && answers.frontEndChoice === "react"
-      );
-    },
-  },
-  {
     name: "CRUD",
     type: "list",
     message: "Do you want Vue with CRUD?",

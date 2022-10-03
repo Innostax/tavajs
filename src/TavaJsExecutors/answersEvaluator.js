@@ -649,7 +649,7 @@ const handleAnswersEvaluator = async (answers) => {
       if (!isBackEnd) {
         handleRenderEJS(
           `${currentPath}/StateManagement/reduxTemplates/userform/Adduser.js`,
-          { isMaterialUI, isBootstrap, isTailWind, isCrud, isCrudWithNode, isBackEnd },
+          { isMaterialUI, isBootstrap, isTailWind, isBackEnd },
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
       }
@@ -679,8 +679,6 @@ const handleAnswersEvaluator = async (answers) => {
           isBootstrap,
           isTailWind,
           isBackEnd,
-          isCrud,
-          isCrudWithNode,
           isAuth0,
           isThemeProvider,
           isOkta,
