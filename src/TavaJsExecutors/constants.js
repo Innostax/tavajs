@@ -137,6 +137,8 @@ const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
 
 const NETWORK_INFORMER_VUE_FILE_PATHS = "vueNetworkInformerFilePaths"
 
+const REACT_NETWORKSTATUS_FILES_PATH = "reactNetworkStatusFilePath";
+
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
@@ -172,4 +174,5 @@ module.exports = {
   EMAIL_SERVICES,
   TESTCASE_FRAMEWORKS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
+  REACT_NETWORKSTATUS_FILES_PATH
 };
