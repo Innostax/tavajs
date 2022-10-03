@@ -149,6 +149,7 @@ const handleAnswersEvaluator = async (answers) => {
   const isFrontEndChoiceReact = frontEndChoice === REACT;
   const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
   const isFrontEndChoiceVue = frontEndChoice === VUE;
+  const isBackEnd = Boolean(backEnd);
 
   //<---------------------------- For react, angular, vue ---------------------------------->
   if (frontEnd) {
@@ -249,7 +250,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       blobServiceName,
-      isNetworkInformer
+      isNetworkInformer,
+      isBackEnd
     );
 
     //<------------------------------- Light/Dark Mode + React ---------------------------------->
@@ -435,7 +437,8 @@ const handleAnswersEvaluator = async (answers) => {
       isMocha,
       isNightWatch,
       blobServiceName,
-      isNetworkInformer
+      isNetworkInformer,
+      isBackEnd
     );
 
     const ROUTE_FILES = [
@@ -643,14 +646,14 @@ const handleAnswersEvaluator = async (answers) => {
         { isBootstrap, isTailWind, isMaterialUI },
         `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
       );      
-      if (isCrud) {
+      if (!isBackEnd) {
         handleRenderEJS(
           `${currentPath}/StateManagement/reduxTemplates/userform/Adduser.js`,
-          { isMaterialUI, isBootstrap, isTailWind, isCrud, isCrudWithNode },
+          { isMaterialUI, isBootstrap, isTailWind, isCrud, isCrudWithNode, isBackEnd },
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
       }
-      if (isCrudWithNode) {
+      if (isBackEnd) {
         handleRenderEJS(
           `${currentPath}/StateManagement/reduxTemplates/userform/AdduserForm.js`,
           { isMaterialUI, isBootstrap, isTailWind },
@@ -675,6 +678,7 @@ const handleAnswersEvaluator = async (answers) => {
           isMaterialUI,
           isBootstrap,
           isTailWind,
+          isBackEnd,
           isCrud,
           isCrudWithNode,
           isAuth0,
@@ -749,7 +753,8 @@ const handleAnswersEvaluator = async (answers) => {
           isMocha,
           isNightWatch,
           blobServiceName,
-          isNetworkInformer
+          isNetworkInformer,
+          isBackEnd
         );
       });
 

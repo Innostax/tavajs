@@ -229,34 +229,16 @@ module.exports = [
     },
   },
   {
-    name: "CRUD",
+    name: "react-query",
     type: "list",
-    message: "Do you want React with CRUD",
+    message: "Do you want React-query boilerplate",
     choices: [
       { name: "yes", value: true },
       { name: "no", value: false },
     ],
     when: (answers) => {
       return (
-        answers.store && answers.frontEndChoice === "react" && !answers.backEnd
-      );
-    },
-  },
-  {
-    name: "reactNodeCrud",
-    type: "list",
-    message: "Do you want crud integration with React-Node boiler plate?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.backEnd &&
-        answers.frontEnd &&
-        answers.store &&
-        answers.dbName &&
-        answers.frontEndChoice === "react"
+        !answers.store && answers.frontEndChoice === "react"
       );
     },
   },
