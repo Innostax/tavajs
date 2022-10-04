@@ -1,23 +1,50 @@
 const fs = require("fs");
-const { updatePackage } = require("./helper");
+const { updateProjectDependencies } = require("./helper");
 const path = require("path");
+const WINSTON = "winston";
+const SENTRY = "@sentry/node";
+
 //Function to create logger service ------------------------------------------------------------>
 function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
-  if (loggerName === "winston") {
-    let servicePath = path.join(utilpath, "utils", "logger");
-    fs.mkdirSync(servicePath);
-    let package = { name: "winston", version: "^3.3.3" };
-    updatePackage(utilpath, package);
-    let contents = fs.readFileSync(
+  const dependencies = [];
+  if (loggerName === WINSTON) {
+    let loggerServicePath = path.join(utilpath, "utils", "logger");
+    fs.mkdirSync(loggerServicePath);
+
+    dependencies.push({ name: WINSTON, version: "^3.3.3" });
+
+    let loggerFile = fs.readFileSync(
       loggerTemplatePath + "/" + loggerName + ".js",
       "utf-8"
     );
-    fs.writeFile(servicePath + "/index" + ".js", contents, function (err) {
-      if (err) throw err;
-    });
+
+    fs.writeFile(
+      loggerServicePath + "/index" + ".js",
+      loggerFile,
+      function (err) {
+        if (err) throw err;
+      }
+    );
   } else {
-    let package = { name: "raven", version: "^2.6.4" };
-    updatePackage(utilpath, package);
+    let loggerServicePath = path.join(utilpath, "utils", "logger");
+    fs.mkdirSync(loggerServicePath);
+
+    dependencies.push({ name: SENTRY, version: "^7.13.0" });
+
+    let loggerFile = fs.readFileSync(
+      loggerTemplatePath + "/" + loggerName + ".js",
+      "utf-8"
+    );
+
+    fs.writeFile(
+      loggerServicePath + "/index" + ".js",
+      loggerFile,
+      function (err) {
+        if (err) throw err;
+      }
+    );
   }
+
+  updateProjectDependencies(utilpath, dependencies);
 }
-  module.exports=createLogger
+module.exports = createLogger;

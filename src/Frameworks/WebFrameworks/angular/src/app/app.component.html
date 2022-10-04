@@ -1,0 +1,33 @@
+<div id="app">
+  <%if(isNetworkInformer){%>
+  <div *ngIf="networkstatus === ONLINE" class="online-message">
+    <div class="offline-body">
+      <div class="offline-icon me-2">
+        <img
+          src="https://img.icons8.com/office/40/000000/high-connection.png" />
+      </div>
+      <div class="offline_txt ml-3">
+        <strong translate>{{ networkstatus }}</strong>
+        <p class="mb-0" translate>{{ statusMessage }}</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="networkstatus === OFFLINE" class="offline-message">
+    <div class="offline-body">
+      <div class="offline-icon me-2">
+        <span></span>
+      </div>
+      <div class="offline_txt ml-3">
+        <strong translate>{{ networkstatus }}</strong>
+        <p class="mb-0" translate>{{ statusMessage }}</p>
+      </div>
+    </div>
+  </div><%}%>
+  <%if(isCognito){%>
+  <ng-container *ngIf="authenticator.authStatus !== 'authenticated'; else signin">
+    <amplify-authenticator></amplify-authenticator>
+  </ng-container>
+  <ng-template #signin><%}%>
+    <router-outlet></router-outlet>
+  <%if(isCognito){%></ng-template><%}%>
+</div>
