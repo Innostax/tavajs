@@ -13,8 +13,7 @@ import { actions } from './users.reducer';
 const {setSelectedUserModal,setSelectedUser} = actions
 
 <% if(!isBackEnd) {%>const {deleteUser} = actions<%}%>
-let deleteId
-let username
+let userToBeDeleted;
 
 const Users = () => {
   <% if(isStore ){%> const dispatch = useDispatch();
@@ -89,8 +88,7 @@ const Users = () => {
             size="sm"
             className='w-80'
             onClick={() => {
-              username = row.username
-              deleteId = id
+              userToBeDeleted = row
               setConfirmDelete(true)
             }}
           >
@@ -100,15 +98,14 @@ const Users = () => {
     )
       <%}%>
       <% if(isMaterialUI) {%>
-        const deleteFormatter= (data)=>(
+        const deleteFormatter= (id, row)=>(
         <>
           <Button
             variant='outlined'
             color="error"
             size="small"
             onClick={() => {
-              username = data.username
-              deleteId = data.id
+              userToBeDeleted = row
               setConfirmDelete(true)
             }}
           >
@@ -118,7 +115,7 @@ const Users = () => {
         )
       <%}%>
       <% if(isTailWind) {%>
-        const deleteFormatter= (id,row)=>(
+        const deleteFormatter= (id, row)=>(
         <>
         <Button
           name='Delete'
@@ -126,8 +123,7 @@ const Users = () => {
           color='bg-red-600'
           align='content-center'
           onClick={() => {
-            username = row.username
-            deleteId = id
+            userToBeDeleted = row
             setConfirmDelete(true)
           }}
         />
@@ -224,8 +220,8 @@ const Users = () => {
             <%}else{%>
             setOpen={setConfirmDelete}
             <%}%>
-            userId={() => handleDelete(deleteId)}
-            username={username}
+            handleDelete={handleDelete}
+            userToBeDeleted={userToBeDeleted}
           />
         )}
     </>
