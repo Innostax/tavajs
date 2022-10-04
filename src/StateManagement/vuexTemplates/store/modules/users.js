@@ -1,6 +1,7 @@
 <% if (isBackEnd) { %>
 import { doAsync } from "@/doAsync";
 <% } %>
+
 const state = {
   users: [],
   selectedUser: {},
@@ -62,8 +63,7 @@ const actions = {
         return res
       })
     },
-  },
-};
+  };
 <% } else { %>
   let userId = 0
   const actions = {
