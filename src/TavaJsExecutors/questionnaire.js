@@ -89,17 +89,42 @@ module.exports = [
     type: "list",
     message: "Select the Test Case Framework",
     choices: [
-      { name: "MochaJS", value: "mochaJS" },
-      { name: "Jest", value: "jest" },
-      { name: "Jasmine", value: "jasmine" },
-      // { name: "Karma", value: "karma" }, // Test Framework Runner
-      { name: "Puppeteer (Node Library)", value: "puppeteer" }, 
       { name: "NightwatchJS", value: "nightwatchJS" },
       { name: "Cypress", value: "cypress" },
       { name: "None", value: false },
     ],
     when: (answers) => {
-      return answers.frontEnd;
+      return (answers.frontEnd && answers.frontEndChoice=="react");
+    },
+  },
+  {
+    name: "testCaseFramework",
+    type: "list",
+    message: "Select the Test Case Framework",
+    choices: [
+      { name: "Jasmine", value: "jasmine" },
+      //{ name: "Karma", value: "karma" }, // Test Framework Runner
+      { name: "NightwatchJS", value: "nightwatchJS" },
+      { name: "Cypress", value: "cypress" },
+      { name: "None", value: false },
+    ],
+    when: (answers) => {
+      return (answers.frontEnd && answers.frontEndChoice=="angular")
+    },
+  },
+  {
+    name: "testCaseFramework",
+    type: "list",
+    message: "Select the Test Case Framework",
+    choices: [
+      { name: "MochaJS", value: "mochaJS" },
+      { name: "Jest", value: "jest" },
+      { name: "NightwatchJS", value: "nightwatchJS" },
+      { name: "Cypress", value: "cypress" },
+      { name: "None", value: false },
+    ],
+    when: (answers) => {
+      return (answers.frontEnd && answers.frontEndChoice=="vue")
     },
   },
   {
