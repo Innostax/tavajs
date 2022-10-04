@@ -428,24 +428,14 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
     case VUEX_FILE_PATHS:
       return [
         {
-          source: `${srcDir}/StateManagement/vuexTemplates/doAsync/asyncActions.js`,
-          destination: `${destDir}/src/doAsync/asyncActions.js`,
-          isFile: true,
+          source: `${srcDir}/StateManagement/vuexTemplates/doAsync`,
+          destination: `${destDir}/src/doAsync`,
+          isFile: false,
         },
         {
-          source: `${srcDir}/StateManagement/vuexTemplates/doAsync/index.js`,
-          destination: `${destDir}/src/doAsync/index.js`,
-          isFile: true,
-        },
-        {
-          source: `${srcDir}/StateManagement/vuexTemplates/httpMethod/index.js`,
-          destination: `${destDir}/src/httpMethod/index.js`,
-          isFile: true,
-        },
-        {
-          source: `${srcDir}/StateManagement/vuexTemplates/httpMethod/baseurlConstant.js`,
-          destination: `${destDir}/src/httpMethod/baseurlConstant.js`,
-          isFile: true,
+          source: `${srcDir}/StateManagement/vuexTemplates/httpMethod`,
+          destination: `${destDir}/src/httpMethod`,
+          isFile: false,
         },
       ];
     case INFRASTRUCTURE_FILE_PATHS:
