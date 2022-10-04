@@ -381,8 +381,9 @@ module.exports = [
     type: "list",
     message: "Would you like to integrate CI/CD pipeline?",
     choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "AWS", value: "aws" },
+      { name: "Simple Templates", value: "simple-ci/cd" },
+      { name: "None", value: false },
     ],
     when: (answers) => {
       return answers.frontEndChoice;

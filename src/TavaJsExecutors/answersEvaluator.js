@@ -56,7 +56,6 @@ const {
   TESTCASE_FRAMEWORKS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
-  CICD_FILE_PATHS_ANGULAR,
   CICD_FILE_PATHS_VUE,
   CICD_FILE_PATHS_REACT,
 } = require("./constants");
@@ -408,10 +407,10 @@ const handleAnswersEvaluator = async (answers) => {
     fs.mkdirSync(`${frontEnd.path}/.github/workflows`);
   
     if(isFrontEndChoiceAngular) {
-      res = getFilePaths(
-        CICD_FILE_PATHS_ANGULAR,
-        currentPath,
-        frontEnd.path
+      handleRenderEJS(
+        `${currentPath}/Providers/CICDWorkflow/angular-build.yml`,
+        { isCICDPipelineIntegrate },
+        `${frontEnd.path}/.github/workflows/build.yml`,
       );
     }
     if(isFrontEndChoiceVue) {
@@ -420,6 +419,7 @@ const handleAnswersEvaluator = async (answers) => {
         currentPath,
         frontEnd.path
       );
+      filePaths = [...filePaths, ...res];
     }
     if(isFrontEndChoiceReact) {
       res = getFilePaths(
@@ -427,8 +427,8 @@ const handleAnswersEvaluator = async (answers) => {
         currentPath,
         frontEnd.path
       );
+      filePaths = [...filePaths, ...res];
     }
-    filePaths = [...filePaths, ...res];
   }
 
 

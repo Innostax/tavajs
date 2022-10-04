@@ -28,7 +28,6 @@ const {
   TAILWIND_REACT_FILE_PATHS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
-  CICD_FILE_PATHS_ANGULAR,
   CICD_FILE_PATHS_VUE,
   CICD_FILE_PATHS_REACT,
 } = require("../TavaJsExecutors/constants");
@@ -511,15 +510,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/components/NetworkStatus.js`,
           isFile:true,
         },
-      ]; 
-      case CICD_FILE_PATHS_ANGULAR: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkflow/angular-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
-        },
-      ]  
+      ];  
     case CICD_FILE_PATHS_VUE: 
       return [
         {
