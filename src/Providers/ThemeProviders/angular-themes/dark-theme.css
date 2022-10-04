@@ -84,3 +84,7 @@
 [data-theme='dark'] .add-modalhead button {
   color: var(--dark-text-color);
 }
+
+[data-theme='dark'] .deleteheader button {
+  color: var(--dark-text-color);
+}
