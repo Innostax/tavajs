@@ -222,19 +222,17 @@
       </a>
     </span>
 
-    <!-- <span class="example-spacer"> </span> -->
-
-    <span style="margin-left: 10px; font-size: medium; font-weight: 300">
+    <span class="nav-item">
       <a class="a-link" [routerLink]="'/'" routerLinkActive="active">Home</a>
     </span>
-    <span style="margin-left: 10px; font-size: medium; font-weight: 300">
-      <a class="a-link" [routerLink]="'/users'" routerLinkActive="active"
-        >Users</a
-      >
+    <span class="nav-item">
+      <a class="a-link" [routerLink]="'/users'" routerLinkActive="active">
+        Users
+      </a>
     </span>
-    <span class="example-spacer"> </span>
+    <span class="spacer"> </span>
     <% if(isThemeProvider){%>
-    <span style="margin-left: 10px">
+    <span style="margin-right: 10px">
       <div class="flex items-center">
         <form role="button" [formGroup]="headerForm">
           <div>
@@ -254,7 +252,57 @@
         </form>
       </div>
     </span>
-    <%}%> 
+    <%}%>
+    <% if(isOkta){%>
+      <button mat-button class="account-button" [matMenuTriggerFor]="menu">
+        <span class="initials" *ngIf="name$ | async as name">
+          <span> {{ getInitials(name) }} </span>
+        </span>
+        <svg
+          class="login-dropdown-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20">
+          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        </svg>
+      </button>
+      <mat-menu
+        style="margin-left: 10px; background-color: black" 
+        #menu="matMenu"
+      >
+        <button mat-menu-item *ngIf="name$ | async as name">{{name}}</button>
+        <button mat-menu-item (click)="signOut()"> Sign out </button>
+      </mat-menu>
+    <%}%>
+    <% if(isAuth0){%>
+      <div>
+        <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+          <button mat-raised-button color="warn" (click)="auth.logout({ returnTo: logoutURL })">Log out</button>
+        </ng-container>
+        <ng-template #loggedOut>
+          <button mat-raised-button color="primary" (click)="auth.loginWithRedirect()">Log in</button>
+        </ng-template>
+      </div>
+    <%}%>
+    <%if(isCognito){%>
+      <button mat-button class="account-button" [matMenuTriggerFor]="menu">
+        <span class="initials">
+          <span> {{ getInitials(authenticator.user.username) }} </span>
+        </span>
+        <svg
+          class="login-dropdown-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20">
+          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        </svg>
+      </button>
+      <mat-menu
+        style="margin-left: 10px; background-color: black" 
+        #menu="matMenu"
+      >
+        <button mat-menu-item> {{ authenticator.user.username }} </button>
+        <button mat-menu-item (click)="authenticator.signOut()"> Sign out </button>
+      </mat-menu>
+    <%}%>  
   </mat-toolbar>
 </div>
 <%}%>  
