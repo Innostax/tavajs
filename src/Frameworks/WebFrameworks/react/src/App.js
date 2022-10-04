@@ -4,6 +4,7 @@ import {React<% if(isAuth0){%> ,useEffect <%}%><% if(isThemeProvider && isMateri
   import { ThemeProvider, createTheme } from '@mui/material/styles'
   import { THEMES } from './theme.constants'
   <%}%>
+<% if (isNetworkInformer){%> import NetworkStatus from './components/NetworkStatus'<%}%>
 <% if(isAuth0){%>import { useAuth0 } from './react-spa';<%}%>
 
 import NavBar from "./components/organisms/NavBar";
@@ -60,6 +61,9 @@ const App = () => {
 
   return (
     <div id="app">
+      <%if(isNetworkInformer){%>
+          <NetworkStatus />
+      <%}%>
       <%if(!isThemeProvider) {%>
         <%if(isOkta) {%>
           <Router>

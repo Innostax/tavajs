@@ -6,22 +6,29 @@ const {
   REACT_THEME_FILE_PATH,
   VUE_THEME_FILE_PATH,
   ANGULAR_THEME_FILE_PATH,
-  CYPRESS_FILES_PATH,
+  CYPRESS_DIRECTORY_PATH,
+  CYPRESS_FILE_PATH,
   JEST_FILE_PATH,
   MOCHA_FILES_PATH,
   NIGHTWATCH_FILES_PATH,
   REACT_DOCKER_FILES_PATH,
+  NODE_JS_DOCKER_FILE_PATHS,
   REDUX_FILES_PATH,
   NGRX_FILES_PATH,
   VUEX_FILES_PATH,
+  INFRASTRUCTURE_FILE_PATHS,
   NGRX_CRUD_FILES_PATH,
   ANGULAR_CRUD_NODE_FILES_PATH,
-  TAILWIND_CSS_FILE_PATH,
+  TAILWIND_ANGULAR_FILE_PATH,
+  TAILWIND_VUE_FILES_PATH,
   ANGULAR_DOCKER_FILES_PATH,
   TAILWIND_REACT_FILES_PATH,
   NETWORK_INFORMER_VUE_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
+  CICD_FILE_PATHS_ANGULAR,
+  CICD_FILE_PATHS_VUE,
+  CICD_FILE_PATHS_REACT,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -55,7 +62,8 @@ const createDirectoryContents = (
   isMocha,
   isNightWatch,
   blobServiceName,
-  isNetworkInformer
+  isNetworkInformer,
+  isCICDPipelineIntegrate
 ) => {
   const CURR_DIR = currentDirectory;
   const filesToCreate = fs.readdirSync(templatePath);
@@ -103,6 +111,7 @@ const createDirectoryContents = (
             isNightWatch,
             blobServiceName,
             isNetworkInformer,
+            isCICDPipelineIntegrate
           },
           (autoescape = false)
         );
@@ -113,7 +122,7 @@ const createDirectoryContents = (
         const isMaterialUIFile = file === CSS_FRAMEWORKS.MATERIAL;
         const isTailWindFile = file === CSS_FRAMEWORKS.TAILWIND;
         // recursive call
-        let isRequiredFile;
+        let isRequiredFile = true;
         if (isBootstrap) {
           isRequiredFile = !(isTailWindFile || isMaterialUIFile);
         } else if (isMaterialUI) {
@@ -121,6 +130,7 @@ const createDirectoryContents = (
         } else if (isTailWind) {
           isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
         }
+
         if (isRequiredFile) {
           const newUpadtedProjectPath =
             isBootstrapFile || isMaterialUIFile || isTailWindFile
@@ -238,6 +248,10 @@ const getFilePaths = (name, srcDir, destDir) => {
     case VUE_THEME_FILE_PATH:
       return [
         {
+          source: `${srcDir}/Providers/ThemeProviders/vue-themes/theme.vue`,
+          destination: `${destDir}/src/theme.vue`,
+        },
+        {
           source: `${srcDir}/Providers/ThemeProviders/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
         },
@@ -249,7 +263,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/angular-themes`,
         },
       ];
-    case CYPRESS_FILES_PATH:
+    case CYPRESS_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/TestScripts`,
@@ -269,6 +283,10 @@ const getFilePaths = (name, srcDir, destDir) => {
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/JestTests/jest.config.js`,
           destination: `${destDir}/jest.config.js`,
+        },
+        {
+          source: `${srcDir}/Frameworks/TestCasesFrameworks/JestTests/TestScripts`,
+          destination: `${destDir}/__tests__`,
         },
       ];
     case MOCHA_FILES_PATH:
@@ -364,11 +382,19 @@ const getFilePaths = (name, srcDir, destDir) => {
       return [
         {
           source: `${srcDir}/StateManagement/vuexTemplates/doAsync`,
-          destination: `${destDir}/StateManagement/src/doAsync`,
+          destination: `${destDir}/src/doAsync`,
         },
         {
           source: `${srcDir}/StateManagement/vuexTemplates/httpMethod`,
-          destination: `${destDir}/StateManagement/src/httpMethod`,
+          destination: `${destDir}/src/httpMethod`,
+        },
+      ];
+    case INFRASTRUCTURE_FILE_PATHS:
+      [
+        {
+          source: `${srcDir}/StateManagement/reduxTemplates/infrastructure`,
+          destination: `${destDir}/src/infrastructure`,
+          isFile: false,
         },
       ];
     case ANGULAR_CRUD_NODE_FILES_PATH:
@@ -386,7 +412,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
         },
       ];
-    case TAILWIND_CSS_FILE_PATH:
+    case TAILWIND_ANGULAR_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/angular/tailwind.config.js`,
@@ -436,6 +462,46 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/components/NetworkStatus.js`,
         },
       ];
+    case NETWORK_INFORMER_VUE_FILE_PATH:
+      return [
+        {
+          source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
+          destination: `${destDir}/src/networkStatus`,
+          isFile: false,
+        },
+      ]; 
+    case REACT_NETWORKSTATUS_FILE_PATH:
+      return [
+        {
+          source: `${srcDir}/Services/NetworkInformerServices/react/NetworkStatus.js`,
+          destination: `${destDir}/src/components/NetworkStatus.js`,
+          isFile:true,
+        },
+      ]; 
+      case CICD_FILE_PATHS_ANGULAR: 
+      return [
+        {
+          source: `${srcDir}/Providers/CICDWorkflow/angular-build.yml`,
+          destination: `${destDir}/.github/workflows/build.yml`,
+          isFile: true,
+        },
+      ]  
+    case CICD_FILE_PATHS_VUE: 
+      return [
+        {
+          source: `${srcDir}/Providers/CICDWorkflow/vue-build.yml`,
+          destination: `${destDir}/.github/workflows/build.yml`,
+          isFile: true,
+        },
+      ]   
+    case CICD_FILE_PATHS_REACT: 
+      return [
+        {
+          source: `${srcDir}/Providers/CICDWorkFlow/react-build.yml`,
+          destination: `${destDir}/.github/workflows/build.yml`,
+          isFile: true,
+        },
+      ]         
     default:
       return [];
   }
