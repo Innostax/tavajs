@@ -100,7 +100,7 @@ const npmInstall = async (
   return new Promise((resolve, reject) => {
     sw.start(`Task-${taskId}`);
     const process = spawn(command, { shell: true });
-    const spinner = createSpinner(`Installing packages`).start();
+    const spinner = createSpinner(`    Installing packages`).start();
     process.on("exit", () => {
       spinner.success();
       sw.stop();

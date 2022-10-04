@@ -26,21 +26,20 @@ const { frontEnd, backEnd } = getProjectDetails(
 describe("Verify working of ANSWERS.TC0003 evaluator method.", async () => {
   //await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0003);
   //await projectInfo(frontEnd, backEnd, ANSWERS.TC0003);
-  before(async function() {
-   await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0003);
-   console.log("executed handleAnswersEvaluator successfully");
-   await projectInfo(frontEnd, backEnd, ANSWERS.TC0003);
-   console.log("executed projectInfo successfully");
-   await projectSetUp(frontEnd, backEnd, ANSWERS.TC0003);
-   console.log("executed projectSetUp successfully");
+  before(async function () {
+    await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0003);
+    console.log("executed handleAnswersEvaluator successfully");
+    await projectInfo(frontEnd, backEnd, ANSWERS.TC0003);
+    console.log("executed projectInfo successfully");
+    await projectSetUp(frontEnd, backEnd, ANSWERS.TC0003);
+    console.log("executed projectSetUp successfully");
   });
-  it("Should verify 'Creating node project'",  (done) => {
+  it("Should verify 'Creating node project'", (done) => {
     expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[12][0]);
     done();
   });
-  it("Should verify 'Integrating Database service'",  (done) => {
+  it("Should verify 'Integrating Database service'", (done) => {
     expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[13][0]);
     done();
   });
-  
 });

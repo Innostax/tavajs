@@ -11,6 +11,7 @@ const fs = require("fs");
 (async () => {
   await handleInquirerExecutor(questionnaire).then(
     async (ans) => {
+      console.log("ans========================", ans)
       const { projectName, projectDirectoryPath } = ans;
       const CURR_DIR = projectDirectoryPath; 
       fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
