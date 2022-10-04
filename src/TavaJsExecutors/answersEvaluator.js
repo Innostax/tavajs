@@ -805,7 +805,7 @@ const handleAnswersEvaluator = async (answers) => {
         );
       });
 
-      if (isCrudWithNode) {
+      if (isBackEnd) {
         const res = getFilePaths(VUEX_FILE_PATHS, currentPath, frontEnd.path);
         directoryPaths = [...directoryPaths, ...res];
       }
