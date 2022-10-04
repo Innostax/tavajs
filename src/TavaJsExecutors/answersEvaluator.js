@@ -677,7 +677,7 @@ const handleAnswersEvaluator = async (answers) => {
 
       handleRenderEJS(
         `${currentPath}/StateManagement/vuexTemplates/store/modules/users.js`,
-        { isCrudWithNode },
+        { isBackEnd },
         `${frontEnd.path}/src/store/modules/users.js`
       );
       
@@ -694,11 +694,11 @@ const handleAnswersEvaluator = async (answers) => {
 
       handleRenderEJS(
         `${userModalPath}/userModal/ShowUsers.vue`,
-        { isCrudWithNode },
+        { isBackEnd },
         `${frontEnd.path}/src/userModal/ShowUsers.vue`
       );
 
-      if (isCrudWithNode) {
+      if (isBackEnd) {
         const res = getFilePaths(
           VUEX_NODE_FILE_PATH, 
           currentPath, 
