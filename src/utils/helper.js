@@ -64,6 +64,7 @@ const createDirectoryContents = (
   isNightWatch,
   blobServiceName,
   isNetworkInformer,
+  isBackEnd,
   isCICDPipelineIntegrate
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
@@ -112,6 +113,7 @@ const createDirectoryContents = (
             isNightWatch,
             blobServiceName,
             isNetworkInformer,
+            isBackEnd,
             isCICDPipelineIntegrate
           },
           (autoescape = false)
@@ -170,7 +172,8 @@ const createDirectoryContents = (
             isMocha,
             isNightWatch,
             blobServiceName,
-            isNetworkInformer
+            isNetworkInformer,
+            isBackEnd
           );
         }
       }
