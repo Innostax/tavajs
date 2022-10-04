@@ -350,7 +350,7 @@ module.exports = [
     message: "Would you like to integrate CI/CD pipeline?",
     choices: [
       { name: "AWS", value: "aws" },
-      { name: "Simple Templates", value: "simple-ci/cd" },
+      { name: "GitHub", value: "github" },
       { name: "None", value: false },
     ],
     when: (answers) => {
