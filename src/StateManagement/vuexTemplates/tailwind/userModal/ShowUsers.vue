@@ -39,5 +39,10 @@ export default {
       this.$emit("delete-user", data);
     },
   },
+  <% if(isBackEnd) { %>
+  created () {
+    this.$store.dispatch('getAllUsers')
+  }
+  <% } %>
 };
 </script>
