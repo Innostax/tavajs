@@ -416,9 +416,11 @@ const handleAnswersEvaluator = async (answers) => {
       );
     }
     if(isFrontEndChoiceVue) {
-      res = getFilePaths(CICD_FILE_PATHS_VUE, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res];
-      
+      handleRenderEJS(
+        `${currentPath}/Providers/CICDWorkflow/vue-build.yml`,
+        { isCICDPipelineIntegrate },
+        `${frontEnd.path}/.github/workflows/build.yml`,
+      );
     }
     if (isFrontEndChoiceReact) {
       handleRenderEJS(
