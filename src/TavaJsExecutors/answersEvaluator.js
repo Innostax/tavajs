@@ -55,7 +55,6 @@ const {
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
   CICD_FILE_PATHS_VUE,
-  CICD_FILE_PATHS_REACT,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -419,10 +418,14 @@ const handleAnswersEvaluator = async (answers) => {
     if(isFrontEndChoiceVue) {
       res = getFilePaths(CICD_FILE_PATHS_VUE, currentPath, frontEnd.path);
       filePaths = [...filePaths, ...res];
+      
     }
-    if(isFrontEndChoiceReact) {
-      res = getFilePaths(CICD_FILE_PATHS_REACT, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res];
+    if (isFrontEndChoiceReact) {
+      handleRenderEJS(
+        `${currentPath}/Providers/CICDWorkflow/react-build.yml`,
+        { isCICDPipelineIntegrate },
+        `${frontEnd.path}/.github/workflows/build.yml`,
+      );
     }
   }
 

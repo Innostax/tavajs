@@ -141,8 +141,6 @@ const REACT_NETWORKSTATUS_FILES_PATH = "reactNetworkStatusFilePath";
 
 const CICD_FILE_PATHS_VUE = "cicdPathsVue"
 
-const CICD_FILE_PATHS_REACT = "cicdPathsReact"
-
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,
