@@ -76,3 +76,11 @@
 [data-theme='dark'] .users-modal {
   background-color: var(--dark-background-color) !important ;
 }
+
+[data-theme='dark'] .mat-users-modal {
+  background-color: var(--dark-background-color) !important ;
+}
+
+[data-theme='dark'] .add-modalhead button {
+  color: var(--dark-text-color);
+}
