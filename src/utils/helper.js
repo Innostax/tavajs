@@ -28,7 +28,6 @@ const {
   TAILWIND_REACT_FILE_PATHS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
-  CICD_FILE_PATHS_VUE,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -513,14 +512,6 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile:true,
         },
       ];  
-    case CICD_FILE_PATHS_VUE: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkflow/vue-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
-        },
-      ]          
     default:
       return [];
   }

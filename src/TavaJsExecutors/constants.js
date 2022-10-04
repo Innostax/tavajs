@@ -139,8 +139,6 @@ const NETWORK_INFORMER_VUE_FILE_PATHS = "vueNetworkInformerFilePaths"
 
 const REACT_NETWORKSTATUS_FILES_PATH = "reactNetworkStatusFilePath";
 
-const CICD_FILE_PATHS_VUE = "cicdPathsVue"
-
 module.exports = {
   ANGULAR_THEME_FILE_PATHS,
   AUTH0_FILE_PATHS,

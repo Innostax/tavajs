@@ -54,7 +54,6 @@ const {
   TESTCASE_FRAMEWORKS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
-  CICD_FILE_PATHS_VUE,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
