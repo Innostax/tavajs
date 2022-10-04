@@ -53,6 +53,7 @@ describe("Verify working of ANSWERS.TC0002 evaluator method.", async () => {
   });
   after(async function () {
     fs.close();
+    console.log("`${CURR_DIR}/${projectName}`", `${CURR_DIR}/${projectName}`)
     fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
   });
 });
