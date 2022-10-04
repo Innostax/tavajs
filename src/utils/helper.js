@@ -29,7 +29,6 @@ const {
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
   CICD_FILE_PATHS_VUE,
-  CICD_FILE_PATHS_REACT,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -521,15 +520,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/.github/workflows/build.yml`,
           isFile: true,
         },
-      ]   
-    case CICD_FILE_PATHS_REACT: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkFlow/react-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
-        },
-      ]         
+      ]          
     default:
       return [];
   }
