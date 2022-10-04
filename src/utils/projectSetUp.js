@@ -121,9 +121,9 @@ const npmInstall = async (
       }
       taskId++;
       if (cicdPipelineIntegrate) shell.exec("git init");
-      if (shouldExecute) {
-        projectExecutionCommands(frontEnd, backEnd, answers);
-      }
+      // if (shouldExecute) {
+      //   projectExecutionCommands(frontEnd, backEnd, answers);
+      // }
       resolve();
     });
   });

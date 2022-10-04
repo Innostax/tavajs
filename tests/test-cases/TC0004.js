@@ -3,8 +3,12 @@ const expect = require("chai").expect;
 require("mocha-sinon");
 
 const projectInfo = require("../../src/utils/projectInfo");
+const projectSetUp = require("../../src/utils/projectSetUp");
+const projectExecutionCommands=require("../../src/utils/projectExecutionCommands");
 const { getProjectDetails } = require("../../src/utils/getProjectDetails");
-const { handleAnswersEvaluator } = require("../../src/answersEvaluator");
+const {
+  handleAnswersEvaluator,
+} = require("../../src/TavaJsExecutors/answersEvaluator");
 
 const { ANSWERS, PROJECT_INFO_EXPECTED_DATA } = require("../mockData");
 const { echos } = require("../helpers");
@@ -14,26 +18,50 @@ const { projectName, projectDirectoryPath } = ANSWERS.TC0004;
 
 const CURR_DIR = projectDirectoryPath;
 fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {});
-
 const { frontEnd, backEnd } = getProjectDetails(
   `${CURR_DIR}/${projectName}`,
   ANSWERS.TC0004
 );
 
 describe("Verify working of ANSWERS.TC0004 evaluator method.", async () => {
-  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0004);
-  await projectInfo(frontEnd, backEnd, ANSWERS.TC0004);
+  before(async function() {
+    await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0004);
+    console.log("executed handleAnswersEvaluator successfully");
+    await projectInfo(frontEnd, backEnd, ANSWERS.TC0004);
+    console.log("executed projectInfo successfully");
+    await projectSetUp(frontEnd, backEnd, ANSWERS.TC0004);
+    console.log("executed projectSetUp successfully");
+    projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0004);
+    console.log("executed projectExecutionCommands successfully");
+  });
 
-  it("Should verify 'Creating react project'", async () => {
+  it("Should verify 'Creating react project'",  (done) => {
     expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
+    done();
   });
-  it("Should verify 'Integrating CSS Framework", async () => {
+  it("Should verify 'Integrating CSS Framework",  (done) => {
     expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[14][0]);
+    done();
   });
-  it("Should verify 'Integrating theme", async () => {
+  it("Should verify 'Integrating theme",  (done) => {
     expect(echos[2][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[3][0]);
+    done();
   });
-  it("Should verify 'Integrating Redux pattern'", async () => {
+  it("Should verify 'Integrating Redux pattern'",  (done) => {
     expect(echos[3][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[4][0]);
+    done();
   });
+
+  after(async function(){
+    // fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
+    // console.log("deleted current project directory successfully!");
+    fs.rm(`${CURR_DIR}/${projectName}`, { recursive: true }, err => {
+      if (err) {
+        throw err
+      }
+      console.log(`${CURR_DIR}/${projectName} is deleted!`);
+    })
+  });
+  
+  
 });

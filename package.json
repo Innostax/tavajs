@@ -4,15 +4,14 @@
   "scripts": {
     "start": "node src/index.js",
     "build": "shx rm -rf dist/templates && shx cp -r templates dist",
-    "test": "mocha tests/test-cases/TC0001.js",
-    "test2": "mocha tests/test-cases/TC0002.js",
-    "test3": "mocha tests/test-cases/TC0003.js",
-    "test4": "mocha tests/test-cases/TC0004.js",
-    "test5": "mocha tests/test-cases/TC0005.js"
+    "test": "mocha tests/test-cases/TC0001.js --timeout 500000",
+    "test2": "mocha tests/test-cases/TC0002.js --timeout 500000",
+    "test3": "mocha tests/test-cases/TC0003.js --timeout 500000",
+    "test4": "mocha tests/test-cases/TC0004.js --timeout 500000",
+    "test5": "mocha tests/test-cases/TC0005.js --timeout 500000"
   },
   "license": "MIT",
   "dependencies": {
-    "chai": "^4.3.6",
     "chalk": "^4.1.2",
     "child_process": "^1.0.2",
     "commander": "^8.1.0",
@@ -30,5 +29,8 @@
     "generate-tava": "src/index.js",
     "generate-screen": "src/Generators/ScreenGenerator/generate-react-screen.js",
     "generate-route": "src/Generators/RouteGenerator/generate-route.js"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6"
   }
 }
