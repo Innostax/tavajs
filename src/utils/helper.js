@@ -3,25 +3,25 @@ const fsExtra = require("fs-extra");
 const { render } = require("ejs");
 const {
   CSS_FRAMEWORKS,
-  REACT_THEME_FILE_PATHS,
-  VUE_THEME_FILE_PATHS,
-  ANGULAR_THEME_FILE_PATHS,
-  CYPRESS_FILE_PATHS,
-  JEST_FILE_PATHS,
-  MOCHA_FILE_PATHS,
-  NIGHTWATCH_FILE_PATHS,
-  REACT_DOCKER_FILE_PATHS,
+  REACT_THEME_FILE_PATH,
+  VUE_THEME_FILE_PATH,
+  ANGULAR_THEME_FILE_PATH,
+  CYPRESS_FILES_PATH,
+  JEST_FILE_PATH,
+  MOCHA_FILES_PATH,
+  NIGHTWATCH_FILES_PATH,
+  REACT_DOCKER_FILES_PATH,
   REDUX_FILES_PATH,
-  NGRX_FILE_PATHS,
-  VUEX_FILE_PATHS,
-  NGRX_CRUD_FILE_PATHS,
-  ANGULAR_CRUD_NODE_FILE_PATHS,
-  TAILWIND_CSS_FILE_PATHS,
-  ANGULAR_DOCKER_FILE_PATHS,
-  TAILWIND_REACT_FILE_PATHS,
-  NETWORK_INFORMER_VUE_FILE_PATHS,
-  REACT_NETWORKSTATUS_FILES_PATH,
-  OKTA_DIRECTORY_PATH,
+  NGRX_FILES_PATH,
+  VUEX_FILES_PATH,
+  NGRX_CRUD_FILES_PATH,
+  ANGULAR_CRUD_NODE_FILES_PATH,
+  TAILWIND_CSS_FILE_PATH,
+  ANGULAR_DOCKER_FILES_PATH,
+  TAILWIND_REACT_FILES_PATH,
+  NETWORK_INFORMER_VUE_FILE_PATH,
+  REACT_NETWORKSTATUS_FILE_PATH,
+  OKTA_FILE_PATH,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -228,106 +228,91 @@ const handleRenderEJS = (readFilePath, props, writeFilePath) => {
 
 const getFilePaths = (name, srcDir, destDir) => {
   switch (name) {
-    case REACT_THEME_FILE_PATHS:
+    case REACT_THEME_FILE_PATH:
       return [
         {
           source: `${srcDir}/Providers/ThemeProviders/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
-          // isFile: true,
         },
       ];
-    case VUE_THEME_FILE_PATHS:
+    case VUE_THEME_FILE_PATH:
       return [
         {
           source: `${srcDir}/Providers/ThemeProviders/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
-          // isFile: true,
         },
       ];
-    case ANGULAR_THEME_FILE_PATHS:
+    case ANGULAR_THEME_FILE_PATH:
       return [
         {
           source: `${srcDir}/Providers/ThemeProviders/angular-themes`,
           destination: `${destDir}/src/angular-themes`,
-          // isFile: false,
         },
       ];
-    case CYPRESS_FILE_PATHS:
+    case CYPRESS_FILES_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/TestScripts`,
           destination: `${destDir}`,
-          // isFile: false,
         },
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/cypress.config.js`,
           destination: `${destDir}/cypress.config.js`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/CypressTests/cypress.constants.js`,
           destination: `${destDir}/cypress.constants.js`,
-          // isFile: true,
         },
       ];
-    case JEST_FILE_PATHS:
+    case JEST_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/JestTests/jest.config.js`,
           destination: `${destDir}/jest.config.js`,
-          // isFile: true,
         },
       ];
-    case MOCHA_FILE_PATHS:
+    case MOCHA_FILES_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/MochaTests/TestScripts`,
           destination: `${destDir}/tests/unit`,
-          // isFile: false,
         },
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/MochaTests/.eslintrc.js`,
           destination: `${destDir}/.eslintrc.js`,
-          // isFile: true,
         },
       ];
-    case NIGHTWATCH_FILE_PATHS:
+    case NIGHTWATCH_FILES_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/NightwatchTests/TestScripts`,
           destination: `${destDir}/tests/`,
-          // isFile: false,
         },
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/NightwatchTests/nightwatch.conf.js`,
           destination: `${destDir}/nightwatch.conf.js`,
-          // isFile: true,
         },
       ];
-    case REACT_DOCKER_FILE_PATHS:
+    case REACT_DOCKER_FILES_PATH:
       return [
         {
           source: `${srcDir}/react-docker/.dockerignore`,
           destination: `${destDir}/.dockerignore`,
-          // isFile: true
         },
         {
           source: `${srcDir}/react-docker/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
-          // isFile: true
         },
       ];
-    case ANGULAR_DOCKER_FILE_PATHS:
+    case ANGULAR_DOCKER_FILES_PATH:
       return [
         {
           source: `${srcDir}/angular-docker/.dockerignore`,
           destination: `${destDir}/.dockerignore`,
-          // isFile: true
         },
         {
           source: `${srcDir}/angular-docker/Dockerfile`,
           destination: `${destDir}/Dockerfile`,
-          // isFile: true
         },
       ];
     case REDUX_FILES_PATH:
@@ -335,144 +320,122 @@ const getFilePaths = (name, srcDir, destDir) => {
         {
           source: `${srcDir}/StateManagement/reduxTemplates/demoUser/users.reducer.js`,
           destination: `${destDir}/src/screens/Users/users.reducer.js`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/reduxTemplates/demoUser/users.selectors.js`,
           destination: `${destDir}/src/screens/Users/users.selectors.js`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/reduxTemplates/createStore.js`,
           destination: `${destDir}/src/createStore.js`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/reduxTemplates/rootReducer.js`,
           destination: `${destDir}/src/rootReducer.js`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/reduxTemplates/infrastructure`,
           destination: `${destDir}/src/infrastructure`,
-          // isFile: false,
         },
       ];
-    case NGRX_FILE_PATHS:
+    case NGRX_FILES_PATH:
       return [
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/reducers`,
           destination: `${destDir}/src/app/reducers`,
-          // isFile: false,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/store`,
           destination: `${destDir}/src/app/utils/store`,
-          // isFile: false,
         },
       ];
-    case NGRX_CRUD_FILE_PATHS:
+    case NGRX_CRUD_FILES_PATH:
       return [
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
-          // isFile: true, 
         },
       ];
-    case VUEX_FILE_PATHS:
+    case VUEX_FILES_PATH:
       return [
         {
-          source: `${srcDir}/vuexTemplates/doAsync`,
-          destination: `${destDir}/src/doAsync`,
-          // isFile: false,
+          source: `${srcDir}/StateManagement/vuexTemplates/doAsync`,
+          destination: `${destDir}/StateManagement/src/doAsync`,
         },
         {
-          source: `${srcDir}/vuexTemplates/httpMethod`,
-          destination: `${destDir}/src/httpMethod`,
-          // isFile: false,
+          source: `${srcDir}/StateManagement/vuexTemplates/httpMethod`,
+          destination: `${destDir}/StateManagement/src/httpMethod`,
         },
       ];
-    case ANGULAR_CRUD_NODE_FILE_PATHS:
+    case ANGULAR_CRUD_NODE_FILES_PATH:
       return [
         {
           source: `${srcDir}/Services/HttpServices/AngularServices/services`,
           destination: `${destDir}/src/app/shared/services`,
-          // isFile: false,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.css`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.spec.ts`,
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
-          // isFile: true, 
         },
       ];
-    case TAILWIND_CSS_FILE_PATHS:
+    case TAILWIND_CSS_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/angular/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
-          // isFile: true,
         },
       ];
-    case TAILWIND_REACT_FILE_PATHS:
+    case TAILWIND_REACT_FILES_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/postcss.config.js`,
           destination: `${destDir}/postcss.config.js`,
-          // isFile: true,
         },
       ];
-    case OKTA_DIRECTORY_PATH:
+    case OKTA_FILE_PATH:
       return [
         {
           source: `${srcDir}/Services/AuthenticationServices/authTemplates/oktaTemplate/`,
           destination: `${destDir}/src/oktaFiles`,
-          // isFile: false,
         },
       ];
-    case TAILWIND_VUE_FILE_PATHS:
+    case TAILWIND_VUE_FILES_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/tailwind.config.js`,
           destination: `${destDir}/tailwind.config.js`,
-          // isFile: true,
         },
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/postcss.config.js`,
           destination: `${destDir}/postcss.config.js`,
-          // isFile: true,
         },
-      ]; 
-    case NETWORK_INFORMER_VUE_FILE_PATHS:
+      ];
+    case NETWORK_INFORMER_VUE_FILE_PATH:
       return [
         {
           source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
           destination: `${destDir}/src/networkStatus`,
-          // isFile: false,
         },
-      ]; 
-    case REACT_NETWORKSTATUS_FILES_PATH:
+      ];
+    case REACT_NETWORKSTATUS_FILE_PATH:
       return [
         {
           source: `${srcDir}/Services/NetworkInformerServices/react/NetworkStatus.js`,
           destination: `${destDir}/src/components/NetworkStatus.js`,
-          // isFile:true,
         },
-      ];    
+      ];
     default:
       return [];
   }

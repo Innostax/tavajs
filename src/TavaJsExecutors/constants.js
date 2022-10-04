@@ -40,65 +40,69 @@ const TESTCASE_FRAMEWORKS = {
   NIGHTWATCHJS: "nightwatchJS",
 }
 
-const REDUX_FILES_PATH = "reduxFilePath"
+const REDUX_FILES_PATH = "reduxFilesPath"
 
-const OKTA_DIRECTORY_PATH = "oktaDirectoryPath"
+const OKTA_FILE_PATH = "oktaDirectoryPath"
 
-const REACT_THEME_FILE_PATHS = "reactThemeFilePaths";
+const REACT_THEME_FILE_PATH = "reactThemeFilePath";
 
-const VUE_THEME_FILE_PATHS = "vueThemeFilePaths";
+const VUE_THEME_FILE_PATH = "vueThemeFilePath";
 
-const ANGULAR_THEME_FILE_PATHS = "angularThemeFilePaths";
+const ANGULAR_THEME_FILE_PATH = "angularThemeFilePath";
 
-const CYPRESS_FILE_PATHS = "cypressFilePaths";
+const CYPRESS_FILES_PATH = "cypressFilesPath";
 
-const JEST_FILE_PATHS = "jestFilePaths";
+const JEST_FILE_PATH = "jestFilePath";
 
-const MOCHA_FILE_PATHS = "mochaFilePaths";
+const MOCHA_FILES_PATH = "mochaFilesPath";
 
-const NIGHTWATCH_FILE_PATHS = "nightwatchFilePaths";
+const NIGHTWATCH_FILES_PATH = "nightwatchFilesPath";
 
-const REACT_DOCKER_FILE_PATHS = "reactDockerFilePaths";
+const REACT_DOCKER_FILES_PATH = "reactDockerFilesPath";
 
-const ANGULAR_DOCKER_FILE_PATHS = "angularDockerFilePaths";
+const ANGULAR_DOCKER_FILES_PATH = "angularDockerFilesPath";
 
-const NGRX_FILE_PATHS = "ngrxFilePaths";
+const NGRX_FILES_PATH = "ngrxFilesPath";
 
-const VUEX_FILE_PATHS = "vuexFilePaths";
+const VUEX_FILES_PATH = "vuexFilesPath";
 
-const NGRX_CRUD_FILE_PATHS = "ngrxCrudFilePaths";
+const NGRX_CRUD_FILES_PATH = "ngrxCrudFilesPath";
 
-const ANGULAR_CRUD_NODE_FILE_PATHS = "angularCrudNodeFilePaths";
+const ANGULAR_CRUD_NODE_FILES_PATH = "angularCrudNodeFilesPath";
 
-const TAILWIND_CSS_FILE_PATHS = "tailwindCssfilePaths";
+const TAILWIND_CSS_FILE_PATH = "tailwindCssfilePath";
 
-const TAILWIND_REACT_FILE_PATHS = "reactTailwindCssfilePaths";
+const TAILWIND_REACT_FILES_PATH = "reactTailwindCssfilesPath";
+
+const NETWORK_INFORMER_VUE_FILE_PATH = "vueNetworkInformerFilePath";
+
+const REACT_NETWORKSTATUS_FILE_PATH = "reactNetworkStatusFilePath";
 
 module.exports = {
-  ANGULAR_THEME_FILE_PATHS,
+  ANGULAR_THEME_FILE_PATH,
   AUTHENTICATIONS,
   CSS_FRAMEWORKS,
-  CYPRESS_FILE_PATHS,
-  JEST_FILE_PATHS,
-  MOCHA_FILE_PATHS,
-  NIGHTWATCH_FILE_PATHS,
+  CYPRESS_FILES_PATH,
+  JEST_FILE_PATH,
+  MOCHA_FILES_PATH,
+  NIGHTWATCH_FILES_PATH,
   FRAMEWORKS,
-  NGRX_FILE_PATHS,
-  REACT_THEME_FILE_PATHS,
+  NGRX_FILES_PATH,
+  REACT_THEME_FILE_PATH,
   REDUX_FILES_PATH,
-  VUE_THEME_FILE_PATHS,
-  VUEX_FILE_PATHS,
-  REACT_DOCKER_FILE_PATHS,
-  ANGULAR_DOCKER_FILE_PATHS,
+  VUE_THEME_FILE_PATH,
+  VUEX_FILES_PATH,
+  REACT_DOCKER_FILES_PATH,
+  ANGULAR_DOCKER_FILES_PATH,
   DATABASES,
-  NGRX_CRUD_FILE_PATHS,
-  ANGULAR_CRUD_NODE_FILE_PATHS,
-  TAILWIND_CSS_FILE_PATHS,
-  TAILWIND_REACT_FILE_PATHS,
+  NGRX_CRUD_FILES_PATH,
+  ANGULAR_CRUD_NODE_FILES_PATH,
+  TAILWIND_CSS_FILE_PATH,
+  TAILWIND_REACT_FILES_PATH,
   LOGGER_SERVICES,
   EMAIL_SERVICES,
   TESTCASE_FRAMEWORKS,
-  NETWORK_INFORMER_VUE_FILE_PATHS,
-  REACT_NETWORKSTATUS_FILES_PATH,
-  OKTA_DIRECTORY_PATH
+  NETWORK_INFORMER_VUE_FILE_PATH,
+  REACT_NETWORKSTATUS_FILE_PATH,
+  OKTA_FILE_PATH
 };
