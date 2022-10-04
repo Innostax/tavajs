@@ -67,7 +67,19 @@ module.exports = [
       { name: "TailWind", value: "tailwind" },
     ],
     when: (answers) => {
-      return answers.frontEndChoice;
+      return answers.frontEndChoice == "react" || answers.frontEndChoice == "amgular";
+    },
+  },
+  {
+    name: "cssFrameworkChoice",
+    type: "list",
+    message: "Which CSS Framework do you want?",
+    choices: [
+      { name: "Bootstrap", value: "bootstrap" },
+      { name: "TailWind", value: "tailwind" },
+    ],
+    when: (answers) => {
+      return answers.frontEndChoice == "vue";
     },
   },
   /*CSS Framework question ended here */
@@ -231,38 +243,6 @@ module.exports = [
   {
     name: "CRUD",
     type: "list",
-    message: "Do you want React with CRUD",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.store && answers.frontEndChoice === "react" && !answers.backEnd
-      );
-    },
-  },
-  {
-    name: "reactNodeCrud",
-    type: "list",
-    message: "Do you want crud integration with React-Node boiler plate?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.backEnd &&
-        answers.frontEnd &&
-        answers.store &&
-        answers.dbName &&
-        answers.frontEndChoice === "react"
-      );
-    },
-  },
-  {
-    name: "CRUD",
-    type: "list",
     message: "Do you want Vue with CRUD?",
     choices: [
       { name: "yes", value: true },
@@ -381,8 +361,9 @@ module.exports = [
     type: "list",
     message: "Would you like to integrate CI/CD pipeline?",
     choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
+      { name: "AWS", value: "aws" },
+      { name: "GitHub", value: "github" },
+      { name: "None", value: false },
     ],
     when: (answers) => {
       return answers.frontEndChoice;

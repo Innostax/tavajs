@@ -6,29 +6,27 @@ const {
   REACT_THEME_FILE_PATH,
   VUE_THEME_FILE_PATH,
   ANGULAR_THEME_FILE_PATH,
-  CYPRESS_DIRECTORY_PATH,
   CYPRESS_FILE_PATH,
   JEST_FILE_PATH,
-  MOCHA_FILES_PATH,
-  NIGHTWATCH_FILES_PATH,
-  REACT_DOCKER_FILES_PATH,
-  NODE_JS_DOCKER_FILE_PATHS,
-  REDUX_FILES_PATH,
-  NGRX_FILES_PATH,
-  VUEX_FILES_PATH,
-  INFRASTRUCTURE_FILE_PATHS,
-  NGRX_CRUD_FILES_PATH,
-  ANGULAR_CRUD_NODE_FILES_PATH,
+  MOCHA_FILE_PATH,
+  NIGHTWATCH_FILE_PATH,
+  REACT_DOCKER_FILE_PATH,
+  REDUX_FILE_PATH,
+  NGRX_FILE_PATH,
+  VUEX_FILE_PATH,
+  VUEX_NODE_FILE_PATH,
+  VUEX_USERMODAL_FILE_PATH,
+  NGRX_CRUD_FILE_PATH,
+  ANGULAR_CRUD_NODE_FILE_PATH,
   TAILWIND_ANGULAR_FILE_PATH,
-  TAILWIND_VUE_FILES_PATH,
-  ANGULAR_DOCKER_FILES_PATH,
-  TAILWIND_REACT_FILES_PATH,
-  NETWORK_INFORMER_VUE_FILE_PATH,
+  TAILWIND_VUE_FILE_PATH,
+  ANGULAR_DOCKER_FILE_PATH,
+  VUE_DOCKER_FILE_PATH,
+  TAILWIND_REACT_FILE_PATH,
+  VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
-  CICD_FILE_PATHS_ANGULAR,
-  CICD_FILE_PATHS_VUE,
-  CICD_FILE_PATHS_REACT,
+  CICD_FILE_VUE_PATH,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -63,6 +61,7 @@ const createDirectoryContents = (
   isNightWatch,
   blobServiceName,
   isNetworkInformer,
+  isBackEnd,
   isCICDPipelineIntegrate
 ) => {
   const CURR_DIR = currentDirectory;
@@ -111,6 +110,7 @@ const createDirectoryContents = (
             isNightWatch,
             blobServiceName,
             isNetworkInformer,
+            isBackEnd,
             isCICDPipelineIntegrate
           },
           (autoescape = false)
@@ -169,7 +169,8 @@ const createDirectoryContents = (
             isMocha,
             isNightWatch,
             blobServiceName,
-            isNetworkInformer
+            isNetworkInformer,
+            isBackEnd
           );
         }
       }
@@ -233,6 +234,7 @@ const copyFiles = (paths) => {
 const handleRenderEJS = (readFilePath, props, writeFilePath) => {
   let content = fs.readFileSync(readFilePath, "utf8");
   content = render(content, { ...props });
+  fsExtra.ensureFileSync(writeFilePath);
   fs.writeFileSync(writeFilePath, content, "utf8");
 };
 
@@ -247,10 +249,6 @@ const getFilePaths = (name, srcDir, destDir) => {
       ];
     case VUE_THEME_FILE_PATH:
       return [
-        {
-          source: `${srcDir}/Providers/ThemeProviders/vue-themes/theme.vue`,
-          destination: `${destDir}/src/theme.vue`,
-        },
         {
           source: `${srcDir}/Providers/ThemeProviders/theme.constants.js`,
           destination: `${destDir}/src/theme.constants.js`,
@@ -284,12 +282,8 @@ const getFilePaths = (name, srcDir, destDir) => {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/JestTests/jest.config.js`,
           destination: `${destDir}/jest.config.js`,
         },
-        {
-          source: `${srcDir}/Frameworks/TestCasesFrameworks/JestTests/TestScripts`,
-          destination: `${destDir}/__tests__`,
-        },
       ];
-    case MOCHA_FILES_PATH:
+    case MOCHA_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/MochaTests/TestScripts`,
@@ -300,7 +294,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/.eslintrc.js`,
         },
       ];
-    case NIGHTWATCH_FILES_PATH:
+    case NIGHTWATCH_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/TestCasesFrameworks/NightwatchTests/TestScripts`,
@@ -311,7 +305,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/nightwatch.conf.js`,
         },
       ];
-    case REACT_DOCKER_FILES_PATH:
+    case REACT_DOCKER_FILE_PATH:
       return [
         {
           source: `${srcDir}/react-docker/.dockerignore`,
@@ -322,7 +316,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/Dockerfile`,
         },
       ];
-    case ANGULAR_DOCKER_FILES_PATH:
+    case ANGULAR_DOCKER_FILE_PATH:
       return [
         {
           source: `${srcDir}/angular-docker/.dockerignore`,
@@ -333,7 +327,18 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/Dockerfile`,
         },
       ];
-    case REDUX_FILES_PATH:
+    case VUE_DOCKER_FILE_PATH:
+      return [
+        {
+          source: `${srcDir}/vue-docker/.dockerignore`,
+          destination: `${destDir}/.dockerignore`,
+        },
+        {
+          source: `${srcDir}/vue-docker/Dockerfile`,
+          destination: `${destDir}/Dockerfile`,
+        },
+      ];
+    case REDUX_FILE_PATH:
       return [
         {
           source: `${srcDir}/StateManagement/reduxTemplates/demoUser/users.reducer.js`,
@@ -356,7 +361,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/infrastructure`,
         },
       ];
-    case NGRX_FILES_PATH:
+    case NGRX_FILE_PATH:
       return [
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/reducers`,
@@ -367,7 +372,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/app/utils/store`,
         },
       ];
-    case NGRX_CRUD_FILES_PATH:
+    case NGRX_CRUD_FILE_PATH:
       return [
         {
           source: `${srcDir}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.css`,
@@ -378,8 +383,15 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/app/shared/components/user-actions-modal/user-actions-modal.component.spec.ts`,
         },
       ];
-    case VUEX_FILES_PATH:
-      return [
+    case VUEX_FILE_PATH:
+      return [       
+        {
+          source: `${srcDir}/StateManagement/vuexTemplates/store/index.js`,
+          destination: `${destDir}/src/store/index.js`,
+        },
+      ];
+    case VUEX_NODE_FILE_PATH:
+      return [       
         {
           source: `${srcDir}/StateManagement/vuexTemplates/doAsync`,
           destination: `${destDir}/src/doAsync`,
@@ -389,15 +401,22 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/httpMethod`,
         },
       ];
-    case INFRASTRUCTURE_FILE_PATHS:
-      [
+    case VUEX_USERMODAL_FILE_PATH:
+      return [       
         {
-          source: `${srcDir}/StateManagement/reduxTemplates/infrastructure`,
-          destination: `${destDir}/src/infrastructure`,
-          isFile: false,
+          source: `${srcDir}/userModal/AddUser.vue`,
+          destination: `${destDir}/src/userModal/AddUser.vue`,
+        },
+        {
+          source: `${srcDir}/userModal/DeleteUser.vue`,
+          destination: `${destDir}/src/userModal/DeleteUser.vue`,
+        },
+        {
+          source: `${srcDir}/userModal/EditUser.vue`,
+          destination: `${destDir}/src/userModal/EditUser.vue`,
         },
       ];
-    case ANGULAR_CRUD_NODE_FILES_PATH:
+    case ANGULAR_CRUD_NODE_FILE_PATH:
       return [
         {
           source: `${srcDir}/Services/HttpServices/AngularServices/services`,
@@ -419,7 +438,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/tailwind.config.js`,
         },
       ];
-    case TAILWIND_REACT_FILES_PATH:
+    case TAILWIND_REACT_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/react/tailwind.config.js`,
@@ -430,14 +449,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/postcss.config.js`,
         },
       ];
-    case OKTA_FILE_PATH:
-      return [
-        {
-          source: `${srcDir}/Services/AuthenticationServices/authTemplates/oktaTemplate/`,
-          destination: `${destDir}/src/oktaFiles`,
-        },
-      ];
-    case TAILWIND_VUE_FILES_PATH:
+    case TAILWIND_VUE_FILE_PATH:
       return [
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/tailwind.config.js`,
@@ -447,27 +459,20 @@ const getFilePaths = (name, srcDir, destDir) => {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/postcss.config.js`,
           destination: `${destDir}/postcss.config.js`,
         },
+      ]; 
+    case OKTA_FILE_PATH:
+      return [
+        {
+          source: `${srcDir}/Services/AuthenticationServices/authTemplates/oktaTemplate/`,
+          destination: `${destDir}/src/oktaFiles`,
+          // isFile: false,
+        },
       ];
-    case NETWORK_INFORMER_VUE_FILE_PATH:
+    case VUE_NETWORKSTATUS_FILE_PATH:
       return [
         {
           source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
           destination: `${destDir}/src/networkStatus`,
-        },
-      ];
-    case REACT_NETWORKSTATUS_FILE_PATH:
-      return [
-        {
-          source: `${srcDir}/Services/NetworkInformerServices/react/NetworkStatus.js`,
-          destination: `${destDir}/src/components/NetworkStatus.js`,
-        },
-      ];
-    case NETWORK_INFORMER_VUE_FILE_PATH:
-      return [
-        {
-          source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
-          destination: `${destDir}/src/networkStatus`,
-          isFile: false,
         },
       ]; 
     case REACT_NETWORKSTATUS_FILE_PATH:
@@ -475,33 +480,15 @@ const getFilePaths = (name, srcDir, destDir) => {
         {
           source: `${srcDir}/Services/NetworkInformerServices/react/NetworkStatus.js`,
           destination: `${destDir}/src/components/NetworkStatus.js`,
-          isFile:true,
         },
       ]; 
-      case CICD_FILE_PATHS_ANGULAR: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkflow/angular-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
-        },
-      ]  
-    case CICD_FILE_PATHS_VUE: 
+    case CICD_FILE_VUE_PATH: 
       return [
         {
           source: `${srcDir}/Providers/CICDWorkflow/vue-build.yml`,
           destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
         },
-      ]   
-    case CICD_FILE_PATHS_REACT: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkFlow/react-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
-        },
-      ]         
+      ]     
     default:
       return [];
   }
