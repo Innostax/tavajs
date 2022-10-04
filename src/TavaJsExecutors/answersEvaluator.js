@@ -14,7 +14,6 @@ const {
   copyFiles,
   getFilePaths,
 } = require("../utils/helper");
-// const { getProjectDetails } = require("../utils/getProjectDetails");
 const { handleRenderEJS } = require("../utils/handleRenderEJS");
 
 const {
@@ -25,7 +24,6 @@ const {
   CSS_FRAMEWORKS,
   CYPRESS_DIRECTORY_PATHS,
   CYPRESS_FILE_PATHS,
-  // JEST_DIRECTORY_PATHS,
   JEST_FILE_PATHS,
   MOCHA_DIRECTORY_PATHS,
   MOCHA_FILE_PATHS,
@@ -36,7 +34,6 @@ const {
   REACT_THEME_FILE_PATHS,
   REDUX_FILES,
   VUE_THEME_FILE_PATHS,
-  // DOCKER_FILE_PATHS,
   REACT_DOCKER_FILE_PATHS,
   NGRX_FILE_PATHS,
   VUEX_FILE_PATHS,
@@ -53,9 +50,7 @@ const {
   TESTCASE_FRAMEWORKS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
-  CICD_FILE_PATHS_ANGULAR,
   CICD_FILE_PATHS_VUE,
-  CICD_FILE_PATHS_REACT,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -65,10 +60,10 @@ const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 const { WINSTON, SENTRY } = LOGGER_SERVICES;
 const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
-const { CYPRESS,  JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS
-const {MATERIAL , BOOTSTRAP, TAILWIND} = CSS_FRAMEWORKS;
+const { CYPRESS, JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS;
+const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
 
-const currentPath = path.join(__dirname,'../');
+const currentPath = path.join(__dirname, "../");
 const NODE_JS = "node-js";
 
 let dependencies = [];
@@ -99,7 +94,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     projectDirectoryPath,
     angularNodeCrud,
     networkInformer,
-    cicdPipelineIntegrate
+    cicdPipelineIntegrate,
   } = answers;
 
   // Project Directory Path
@@ -111,11 +106,11 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
   const isCrudWithNode = Boolean(
     reactNodeCrud || vueNodeCrud || angularNodeCrud
   );
-  const isMaterialUI = cssFrameworkChoice === MATERIAL ;
-  const isBootstrap = cssFrameworkChoice === BOOTSTRAP ;
-  const isTailWind = cssFrameworkChoice === TAILWIND ;
+  const isMaterialUI = cssFrameworkChoice === MATERIAL;
+  const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
+  const isTailWind = cssFrameworkChoice === TAILWIND;
   const isNetworkInformer = networkInformer;
-  const isCICDPipelineIntegrate = cicdPipelineIntegrate
+  const isCICDPipelineIntegrate = cicdPipelineIntegrate;
 
   const isAuth0 = authenticationChoice === AUTH0;
   const isCognito = authenticationChoice === COGNITO;
@@ -137,20 +132,10 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
   const isSendgrid = emailServiceName === SENDGRID;
   const isAmazonSes = emailServiceName === AMAZON_SES;
 
-  // fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
-  //   if (err) {
-  //     console.error(err);
-  //   }
-  // });
-
-  // const { frontEnd, backEnd } = getProjectDetails(
-  //   `${CURR_DIR}/${projectName}`,
-  //   answers
-  // );
-
   const isFrontEndChoiceReact = frontEndChoice === REACT;
   const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
   const isFrontEndChoiceVue = frontEndChoice === VUE;
+  const isBackEnd = Boolean(backEnd);
 
   //<---------------------------- For react, angular, vue ---------------------------------->
   if (frontEnd) {
@@ -160,11 +145,11 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     if (isFrontEndChoiceReact) {
       if (isMaterialUI) {
         dependencies = [...dependencies, ...DEPENDENCIES.MATERIALUI];
-      } 
-      if(isBootstrap) {
+      }
+      if (isBootstrap) {
         dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
       }
-      if(isTailWind){
+      if (isTailWind) {
         dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDREACT];
         const res = getFilePaths(
           TAILWIND_REACT_FILE_PATHS,
@@ -172,11 +157,10 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
           frontEnd.path
         );
         filePaths = [...filePaths, ...res];
-      }      
-      if(isNetworkInformer)
-      {      
+      }
+      if (isNetworkInformer) {
         const res = getFilePaths(
-         REACT_NETWORKSTATUS_FILES_PATH,
+          REACT_NETWORKSTATUS_FILES_PATH,
           currentPath,
           frontEnd.path
         );
@@ -194,13 +178,13 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
           frontEnd.path
         );
         filePaths = [...filePaths, ...res];
-      } else if(isBootstrap){
+      } else if (isBootstrap) {
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
       }
     }
-    if(isFrontEndChoiceVue){
+    if (isFrontEndChoiceVue) {
       if (isTailWind) {
-        dependencies=[...dependencies, ...DEPENDENCIES.TAILWINDVUE];
+        dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDVUE];
         const res = getFilePaths(
           TAILWIND_VUE_FILE_PATHS,
           currentPath,
@@ -208,11 +192,15 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         );
         filePaths = [...filePaths, ...res];
       } else {
-        dependencies=[...dependencies,...DEPENDENCIES.BOOTSTRAPVUE];
+        dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAPVUE];
       }
     }
     //<------------------------- For End: CSS Framework dependency ---------------------------->
-    const templatePath = path.join(currentPath, "Frameworks/WebFrameworks", choice);
+    const templatePath = path.join(
+      currentPath,
+      "Frameworks/WebFrameworks",
+      choice
+    );
 
     const projectPath = backEnd
       ? `${projectName}/${frontEndName}`
@@ -252,6 +240,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
       isNightWatch,
       blobServiceName,
       isNetworkInformer,
+      isBackEnd,
       isCICDPipelineIntegrate
     );
 
@@ -263,8 +252,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         frontEnd.path
       );
       filePaths = [...filePaths, ...res];
-      if(isBootstrap || isTailWind)
-      {
+      if (isBootstrap || isTailWind) {
         handleRenderEJS(
           `${currentPath}/Providers/ThemeProviders/react-themes/theme.js`,
           { isBootstrap, isTailWind },
@@ -399,40 +387,41 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
   }
 
   //<------------------ CI CD Pipeline ----------------------------------->
-  if(isCICDPipelineIntegrate){
+  if (isCICDPipelineIntegrate) {
+    let res;
 
     fs.mkdirSync(`${frontEnd.path}/.github`);
     fs.mkdirSync(`${frontEnd.path}/.github/workflows`);
   
     if(isFrontEndChoiceAngular) {
-      res = getFilePaths(
-        CICD_FILE_PATHS_ANGULAR,
-        currentPath,
-        frontEnd.path
+      handleRenderEJS(
+        `${currentPath}/Providers/CICDWorkflow/angular-build.yml`,
+        { isCICDPipelineIntegrate },
+        `${frontEnd.path}/.github/workflows/build.yml`,
       );
     }
     if(isFrontEndChoiceVue) {
-      res = getFilePaths(
-        CICD_FILE_PATHS_VUE,
-        currentPath,
-        frontEnd.path
+      res = getFilePaths(CICD_FILE_PATHS_VUE, currentPath, frontEnd.path);
+      filePaths = [...filePaths, ...res];
+      
+    }
+    if (isFrontEndChoiceReact) {
+      handleRenderEJS(
+        `${currentPath}/Providers/CICDWorkflow/react-build.yml`,
+        { isCICDPipelineIntegrate },
+        `${frontEnd.path}/.github/workflows/build.yml`,
       );
     }
-    if(isFrontEndChoiceReact) {
-      res = getFilePaths(
-        CICD_FILE_PATHS_REACT,
-        currentPath,
-        frontEnd.path
-      );
-    }
-    filePaths = [...filePaths, ...res];
   }
-
 
   //<---------------------------- node-js ---------------------------------->
   if (backEnd) {
     const { choice, path: backEndPath } = backEnd;
-    const templatePath = path.join(currentPath, "Frameworks/BackendFrameworks", choice);
+    const templatePath = path.join(
+      currentPath,
+      "Frameworks/BackendFrameworks",
+      choice
+    );
     const projectPath = frontEnd
       ? `${projectName}/${backEndName}`
       : projectName;
@@ -470,6 +459,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
       isNightWatch,
       blobServiceName,
       isNetworkInformer,
+      isBackEnd,
       isCICDPipelineIntegrate
     );
 
@@ -531,7 +521,10 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
 
     //<---------------------------- For Logger service ---------------------------------->
     if (loggerServiceName) {
-      const loggerTemplatePath = path.join(currentPath, "Services/LoggerServices");
+      const loggerTemplatePath = path.join(
+        currentPath,
+        "Services/LoggerServices"
+      );
 
       createLogger(
         backEnd.path,
@@ -677,15 +670,15 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         `${currentPath}/StateManagement/reduxTemplates/userform/DeleteConfirmationModal.js`,
         { isBootstrap, isTailWind, isMaterialUI },
         `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
-      );      
-      if (isCrud) {
+      );
+      if (!isBackEnd) {
         handleRenderEJS(
           `${currentPath}/StateManagement/reduxTemplates/userform/Adduser.js`,
-          { isMaterialUI, isBootstrap, isTailWind, isCrud, isCrudWithNode },
+          { isMaterialUI, isBootstrap, isTailWind, isBackEnd },
           `${frontEnd.path}/src/screens/Users/AddUser.js`
         );
       }
-      if (isCrudWithNode) {
+      if (isBackEnd) {
         handleRenderEJS(
           `${currentPath}/StateManagement/reduxTemplates/userform/AdduserForm.js`,
           { isMaterialUI, isBootstrap, isTailWind },
@@ -710,8 +703,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
           isMaterialUI,
           isBootstrap,
           isTailWind,
-          isCrud,
-          isCrudWithNode,
+          isBackEnd,
           isAuth0,
           isThemeProvider,
           isOkta,
@@ -727,9 +719,17 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
       const { choice, path: frontEndPath } = frontEnd;
       const templates = [
         path.join(currentPath, "StateManagement/vuexTemplates", "store"),
-        isBootstrap ? 
-          path.join(currentPath, "StateManagement/vuexTemplates/bootstrap", "userModal"):
-          path.join(currentPath, "StateManagement/vuexTemplates/tailwind", "userModal")
+        isBootstrap
+          ? path.join(
+              currentPath,
+              "StateManagement/vuexTemplates/bootstrap",
+              "userModal"
+            )
+          : path.join(
+              currentPath,
+              "StateManagement/vuexTemplates/tailwind",
+              "userModal"
+            ),
       ];
       const backEndStorePath = `${projectName}/${frontEndName}/src/store`;
       const backEndUserModalPath = `${projectName}/${frontEndName}/src/userModal`;
@@ -785,11 +785,12 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
           isNightWatch,
           blobServiceName,
           isNetworkInformer,
+          isBackEnd,
           isCICDPipelineIntegrate
         );
       });
 
-      if (isCrudWithNode) {
+      if (isBackEnd) {
         const res = getFilePaths(VUEX_FILE_PATHS, currentPath, frontEnd.path);
         directoryPaths = [...directoryPaths, ...res];
       }
@@ -869,7 +870,10 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     if (isFrontEndChoiceReact) {
       dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA];
 
-      const reactSpaPath = path.join(currentPath, "Services/AuthenticationServices/authTemplates/");
+      const reactSpaPath = path.join(
+        currentPath,
+        "Services/AuthenticationServices/authTemplates/"
+      );
       handleRenderEJS(
         `${reactSpaPath}react-spa.js`,
         { isStore },

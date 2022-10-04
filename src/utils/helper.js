@@ -28,9 +28,7 @@ const {
   TAILWIND_REACT_FILE_PATHS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
-  CICD_FILE_PATHS_ANGULAR,
   CICD_FILE_PATHS_VUE,
-  CICD_FILE_PATHS_REACT,
 } = require("../TavaJsExecutors/constants");
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
@@ -65,6 +63,7 @@ const createDirectoryContents = (
   isNightWatch,
   blobServiceName,
   isNetworkInformer,
+  isBackEnd,
   isCICDPipelineIntegrate
 ) => {
   const CURR_DIR = currentDirectory || process.cwd();
@@ -113,6 +112,7 @@ const createDirectoryContents = (
             isNightWatch,
             blobServiceName,
             isNetworkInformer,
+            isBackEnd,
             isCICDPipelineIntegrate
           },
           (autoescape = false)
@@ -171,7 +171,8 @@ const createDirectoryContents = (
             isMocha,
             isNightWatch,
             blobServiceName,
-            isNetworkInformer
+            isNetworkInformer,
+            isBackEnd
           );
         }
       }
@@ -511,15 +512,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/src/components/NetworkStatus.js`,
           isFile:true,
         },
-      ]; 
-      case CICD_FILE_PATHS_ANGULAR: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkflow/angular-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
-        },
-      ]  
+      ];  
     case CICD_FILE_PATHS_VUE: 
       return [
         {
@@ -527,15 +520,7 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           destination: `${destDir}/.github/workflows/build.yml`,
           isFile: true,
         },
-      ]   
-    case CICD_FILE_PATHS_REACT: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkFlow/react-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-          isFile: true,
-        },
-      ]         
+      ]          
     default:
       return [];
   }
