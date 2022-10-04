@@ -39,18 +39,18 @@ describe("Verify working of ANSWERS.TC0002 evaluator method.", async () => {
     expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
     done();
   });
-  it("Should verify 'Integrating CSS Framework'", (done) => {
-    expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[2][0]);
-    done();
-  });
-  it("Should verify 'Integrating theme's", (done) => {
-    expect(echos[2][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[3][0]);
-    done();
-  });
-  it("Should verify 'Integrating Redux pattern'", (done) => {
-    expect(echos[3][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[4][0]);
-    done();
-  });
+  // it("Should verify 'Integrating CSS Framework'", (done) => {
+  //   expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[2][0]);
+  //   done();
+  // });
+  // it("Should verify 'Integrating theme's", (done) => {
+  //   expect(echos[2][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[3][0]);
+  //   done();
+  // });
+  // it("Should verify 'Integrating Redux pattern'", (done) => {
+  //   expect(echos[3][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[4][0]);
+  //   done();
+  // });
   after(async function () {
     fs.close();
     console.log("`${CURR_DIR}/${projectName}`", `${CURR_DIR}/${projectName}`)

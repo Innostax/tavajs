@@ -78,7 +78,7 @@ const ANSWERS = {
   },
   TC0002: {
     //npm,react,materialui,light-dark-mode,crud
-    projectName: "test-case-00001",
+    projectName: "test-case-00002",
     projectDirectoryPath: process.cwd(), // "C:\\\\Practice",  // 
     managerChoice: "npm",
     frontEnd: true,
