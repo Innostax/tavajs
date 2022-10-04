@@ -6,7 +6,6 @@ export function GetAllUsers() {
         errorMessage: 'Unable to fetch users',
         successMessage: 'Users are successfully fetched',
     })
-
 }
 
 export function AddUsers(data) {
@@ -24,7 +23,6 @@ export function DeleteUser(id) {
         httpMethod: 'delete',
         erroMessage: 'Unable to delete user. Please try again later',
     })
-
 }
 
 export function EditItem(data) {
