@@ -1,6 +1,6 @@
 const PROJECT_INFO_EXPECTED_DATA = [
   [
-    "\x1B[32m\x1B[1m📂 Creating react project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
+    "\x1B[32m\x1B[1m📂 Creating angular project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
   ],
   [
     "\x1B[32m\x1B[1m   ⌛ Integrating Authentication service: Autho\x1B[22m\x1B[39m",
@@ -78,7 +78,7 @@ const ANSWERS = {
   },
   TC0002: {
     //npm,react,materialui,light-dark-mode,crud
-    projectName: "test-case-00002",
+    projectName: "test-case-00003",
     projectDirectoryPath: process.cwd(), // "C:\\\\Practice",  // 
     managerChoice: "npm",
     frontEnd: true,
