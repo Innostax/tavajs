@@ -154,4 +154,140 @@
     </div>
   </div>
   <%}%>
+
+
+  <% if(isMaterialUI){%>
+    <div class="modalroot">
+      <div class="users-modal vw-30" *ngIf="!shouldDeleteUser">
+        <div style="width: 100%; display: block">
+          <div class="add-modalhead">
+            <div style="float: left; font-size: 27px;">
+              {{ userActionLabel + ' User' }}
+            </div>
+            <button
+              type="button"
+              (click)="closeModalRef()"
+              class="add-closebutton"
+              data-modal-toggle="defaultModal">
+              <svg
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              <span class="sr-only"></span>
+            </button>
+          </div>
+          <div>
+            <form class="" [formGroup]="createUserForm">
+              <div>
+                <app-label [for]="'name'" [name]="'Name'"> </app-label>
+                <app-input
+                  [registerForm]="createUserForm"
+                  [name]="'name'"
+                  [type]="'text'"
+                  [id]="'name'"
+                  [class]="''">
+                </app-input>
+              </div>
+              <br />
+              <div>
+                <app-label [for]="'username'" [name]="'Username'"> </app-label>
+                <app-input
+                  [registerForm]="createUserForm"
+                  [name]="'username'"
+                  [type]="'text'"
+                  [id]="'username'"
+                  [class]="''">
+                </app-input>
+              </div>
+              <br />
+              <div>
+                <app-label
+                  [for]="'emailAddress'"
+                  [name]="'Email address'"></app-label>
+                <app-input
+                  [registerForm]="createUserForm"
+                  [name]="'email'"
+                  [type]="'text'"
+                  [id]="'email'"
+                  [class]="''">
+                </app-input>
+              </div>
+              <br />
+              <div style="width: 100%">
+                <app-button
+                  [name]="userActionLabel"
+                  [color]="'primary'"
+                  [class]="'add-button'"
+                  type="'submit'"
+                  (onClick)="onSubmit()"
+                  [disabledBtn]="shouldDisableButton()"
+                >
+                </app-button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+      <div class="users-modal vw-30" *ngIf="shouldDeleteUser">
+        <div style="margin: 5px">
+          <div class="deleteheader">
+            <div style="font-weight: 400px; float: left; margin-left: 0px; font-size: 27px;">
+              Delete User?
+            </div>
+            <button
+              style="float: right; padding: 0"
+              type="button"
+              (click)="closeModalRef()"
+              class="closebutton"
+              data-modal-toggle="defaultModal">
+              <svg
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              <span class="sr-only"></span>
+            </button>
+          </div>
+        </div>
+        <div class="delete-body">
+          <div
+            style="
+              text-align: left;
+              width: 100%;
+              font-weight: 400;
+              margin-top: 30px;
+              margin-bottom: 20px;
+            ">
+            Are you sure you want to delete <strong>{{ data?.name }} </strong>?
+          </div>
+          <div
+            style="
+              text-align: right;
+              margin-right: 20px;
+              margin: 10px;
+              margin-top: 25px;
+            ">
+            <app-button
+              [name]="'Confirm'"
+              [color]="'warn'"
+              [class]="''"
+              (onClick)="deleteUserRef(data)"></app-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%}%>
+
   

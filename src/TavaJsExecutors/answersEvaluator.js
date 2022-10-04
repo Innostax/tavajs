@@ -786,7 +786,7 @@ const handleAnswersEvaluator = async (answers) => {
         directoryPaths = [...directoryPaths, ...res];
         handleRenderEJS(
           `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-          { isTailWind, isBootstrap },
+          { isTailWind, isBootstrap, isMaterialUI },
           `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
         );
         handleRenderEJS(
@@ -811,7 +811,7 @@ const handleAnswersEvaluator = async (answers) => {
     directoryPaths = [...directoryPaths, ...res];
     handleRenderEJS(
       `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-      { isTailWind, isBootstrap },
+      { isTailWind, isBootstrap, isMaterialUI },
       `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
     );
     handleRenderEJS(

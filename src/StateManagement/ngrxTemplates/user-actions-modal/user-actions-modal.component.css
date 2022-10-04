@@ -1,3 +1,71 @@
 .vw-30 {
   width: 30vw;
 }
+
+app-label {
+  float: left;
+  font-weight: 400;
+  font-size: medium;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.add-button button {
+  width: 100%;
+}
+.modalroot {
+  position: fixed; /* Stay in place */
+  z-index: 4; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  /* overflow: auto; */
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.add-modalhead button {
+  float: right;
+  border-radius: 5px;
+  height: 20px;
+  width: 20px;
+  float: right;
+  padding: 0;
+  margin: 0;
+}
+.add-modalhead {
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+}
+
+.users-modal {
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #f6f6f6;
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #888;
+}
+.deleteheader {
+  display: inline-block;
+  width: 100%;
+  height: 20px;
+}
+.delete-body {
+  height: 90px;
+}
+.closebutton {
+  border-radius: 5px;
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  margin: 0;
+}
+.closebutton svg {
+  left: 0;
+  top: 0;
+  margin: 0;
+}
+

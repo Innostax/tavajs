@@ -72,3 +72,7 @@
 [data-theme='dark'] .a-link {
   color: var(--dark-text-color) !important;
 }
+
+[data-theme='dark'] .users-modal {
+  background-color: var(--dark-background-color) !important ;
+}

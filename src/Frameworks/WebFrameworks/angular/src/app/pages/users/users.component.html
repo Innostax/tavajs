@@ -19,6 +19,23 @@
 </div>
 <%}%>
 
+<% if(isMaterialUI){%>
+  <div id="userroot">
+    <div class="user-head">
+      <div>
+        <div><h1>Welcome to Users Screen</h1></div>
+        <br />
+        <% if(isCrud || isCrudWithNode){%><app-button
+          [name]="'Add User'"
+          [color]="'primary'"
+          (onClick)="onClickAddUser()">
+        </app-button>
+        <%}%> 
+      </div>
+    </div>
+  </div>   
+<%}%>
+
 <% if(isCrudWithNode){%>
 <app-table [usersData]="users" [handleEditDeleteAction]="handleUserActions" [headers]="headers" [shouldShowActions]="shouldShowActions"></app-table>
 <%}%>
@@ -73,30 +90,9 @@
 <div *ngIf="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
 <%}%>
 
-<% if(isMaterialUI){%>
+<% if(isMaterialUI && (isCrud || isCrudWithNode)){%>
   <div id="userroot">
-    <div class="user-head">
-      <div>
-        <div><h1>Welcome to Users Screen</h1></div>
-        <br />
-        <% if(isCrud || isCrudWithNode){%><app-button
-          [name]="'Add User'"
-          [color]="'primary'"
-          (onClick)="onClickAddUser()">
-        </app-button>
-        <%}%> 
-      </div>
-    </div>
-  
-    <% if(isCrud || isCrudWithNode){%><app-table
-      [usersData]="users$ | async"
-      [handleEditDeleteAction]="handleUserActions"
-      [headers]="headers"
-      [shouldShowActions]="shouldShowActions">
-    </app-table>
-    <%}%> 
-  
-    <% if(isCrud || isCrudWithNode){%><div *ngIf="showModal">
+    <div *ngIf="showModal">
       <div>
         <div>
           <div style="padding: 10px">
@@ -110,7 +106,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="showModal"></div><%}%> 
+    <div *ngIf="showModal"></div>
   </div>
 <%}%>  
 
