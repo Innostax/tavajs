@@ -54,7 +54,6 @@ const {
   TESTCASE_FRAMEWORKS,
   NETWORK_INFORMER_VUE_FILE_PATHS,
   REACT_NETWORKSTATUS_FILES_PATH,
-  CICD_FILE_PATHS_ANGULAR,
   CICD_FILE_PATHS_VUE,
   CICD_FILE_PATHS_REACT,
 } = require("./constants");
@@ -351,7 +350,7 @@ const handleAnswersEvaluator = async (answers) => {
 
         scripts = [...scripts, ...SCRIPTS.JEST_VUE];
       }
-
+      
       if (isJest && isFrontEndChoiceReact) {
         fs.mkdirSync(`${frontEnd.path}/src/__tests__`);
 
@@ -409,17 +408,22 @@ const handleAnswersEvaluator = async (answers) => {
 
     fs.mkdirSync(`${frontEnd.path}/.github`);
     fs.mkdirSync(`${frontEnd.path}/.github/workflows`);
-
-    if (isFrontEndChoiceAngular) {
-      res = getFilePaths(CICD_FILE_PATHS_ANGULAR, currentPath, frontEnd.path);
+  
+    if(isFrontEndChoiceAngular) {
+      handleRenderEJS(
+        `${currentPath}/Providers/CICDWorkflow/angular-build.yml`,
+        { isCICDPipelineIntegrate },
+        `${frontEnd.path}/.github/workflows/build.yml`,
+      );
     }
-    if (isFrontEndChoiceVue) {
+    if(isFrontEndChoiceVue) {
       res = getFilePaths(CICD_FILE_PATHS_VUE, currentPath, frontEnd.path);
+      filePaths = [...filePaths, ...res];
     }
-    if (isFrontEndChoiceReact) {
+    if(isFrontEndChoiceReact) {
       res = getFilePaths(CICD_FILE_PATHS_REACT, currentPath, frontEnd.path);
+      filePaths = [...filePaths, ...res];
     }
-    filePaths = [...filePaths, ...res];
   }
 
   //<---------------------------- node-js ---------------------------------->
