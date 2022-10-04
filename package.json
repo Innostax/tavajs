@@ -2,8 +2,9 @@
   "name": "dev-tava",
   "version": "1.0.0",
   "scripts": {
+    "build": "shx rm -rf dist/templates && shx cp -r templates dist",
     "start": "node src/index.js",
-    "build": "shx rm -rf dist/templates && shx cp -r templates dist"
+    "test": "mocha"
   },
   "license": "MIT",
   "dependencies": {
