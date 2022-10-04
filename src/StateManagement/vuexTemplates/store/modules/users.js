@@ -1,4 +1,4 @@
-<% if (isCrudWithNode) { %>
+<% if (isBackEnd) { %>
 import { doAsync } from "@/doAsync";
 <% } %>
 
@@ -15,7 +15,7 @@ const getters = {
     return state.selectedUser;
   },
 };
-<% if (isCrudWithNode) { %>
+<% if (isBackEnd) { %>
 const SUCCESS = 200
 const actions = {
     getAllUsers({ commit }) {
@@ -84,7 +84,7 @@ const actions = {
   };
 <% } %>
 
-<% if (isCrudWithNode) { %>
+<% if (isBackEnd) { %>
 const mutations = {
     updateAllUsers: (state, data) => state.users = [...data],
     selectedUser: (state, id) => {

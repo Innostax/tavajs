@@ -231,38 +231,6 @@ module.exports = [
   {
     name: "CRUD",
     type: "list",
-    message: "Do you want Vue with CRUD?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.store && answers.frontEndChoice === "vue" && !answers.backEnd
-      );
-    },
-  },
-  {
-    name: "vueNodeCrud",
-    type: "list",
-    message: "Do you want crud integration with Vue-Node boiler plate?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.backEnd &&
-        answers.frontEnd &&
-        answers.store &&
-        answers.dbName &&
-        answers.frontEndChoice === "vue"
-      );
-    },
-  },
-  {
-    name: "CRUD",
-    type: "list",
     message: "Do you want angular ngrx with CRUD?",
     choices: [
       { name: "yes", value: true },
