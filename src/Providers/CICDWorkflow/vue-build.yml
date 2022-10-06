@@ -32,10 +32,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
     <%}%>
-    - name: Set up node 16.14.x
-      uses: actions/checkout@v3 
+    - uses: actions/checkout@v3 
     
-    - uses: actions/setup-node@v3
+    - name: Set up node 16.14.x
+      uses: actions/setup-node@v3
       with:
         node-version: "16.14.x"
 
