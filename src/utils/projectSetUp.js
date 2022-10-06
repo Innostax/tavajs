@@ -1,11 +1,10 @@
 const shell = require("shelljs");
 const chalk = require("chalk");
-const { createSpinner } = require('nanospinner');
+const { createSpinner } = require("nanospinner");
 const StopWatch = require("stopwatch-node").StopWatch;
 const sw = new StopWatch("sw");
 const spawn = require("child_process").spawn;
-const projectExecutionCommands = require("./projectExecutionCommands");
-const { millisToMinutesAndSeconds } = require("./converters")
+const { millisToMinutesAndSeconds } = require("./converters");
 let taskId = 1;
 let totalTimeConsumptionInMinutes = 0;
 
@@ -18,9 +17,6 @@ const projectSetUp = async (frontEnd, backEnd, answers) => {
       managerChoice,
       choice,
       path,
-      true,
-      false,
-      answers,
       frontEnd,
       backEnd,
       cicdPipelineIntegrate
@@ -32,9 +28,6 @@ const projectSetUp = async (frontEnd, backEnd, answers) => {
       managerChoice,
       choice,
       path,
-      false,
-      true,
-      answers,
       frontEnd,
       backEnd,
       cicdPipelineIntegrate
@@ -46,9 +39,6 @@ const packageInstaller = async (
   managerChoice,
   projectChoice,
   path,
-  isFrontEnd,
-  isBackEnd,
-  answers,
   frontEnd,
   backEnd,
   cicdPipelineIntegrate
@@ -60,57 +50,42 @@ const packageInstaller = async (
         `--------------- NPM loading on ${projectChoice}, Wait for finish ---------------\r`
       )
     );
-    await npmInstall(
-      "npm install --silent --legacy-peer-deps",
-      isFrontEnd,
-      isBackEnd,
-      answers,
-      frontEnd,
-      backEnd,
-      cicdPipelineIntegrate
-    );
-    // shell.exec("npm install --silent --legacy-peer-deps"); // -s / --silent ,  --no-optional , npm --logevel=error install
+    const commandsDep = ["npm install --silent --legacy-peer-deps"];
+    await npmInstall(commandsDep, frontEnd, backEnd, cicdPipelineIntegrate);
   }
   if (managerChoice === "yarn") {
     shell.echo(
-      "--------------- yarn loading on ",
-      projectChoice,
-      ", Wait for finish ---------------\r"
-    );
-    shell.exec("npm install -g yarn");
-    shell.exec("yarn");
-    shell.echo(
-      chalk.green.bold(
-        "--------------- yarn process completed ---------------\r"
+      chalk.green.magenta(
+        `--------------- YARN loading on ${projectChoice}, Wait for finish ---------------\r`
       )
     );
+    const commandsDep = ["npm install --silent  -g yarn", "yarn"];
+
+    await npmInstall(commandsDep, frontEnd, backEnd, cicdPipelineIntegrate);
   }
 };
 
 const npmInstall = async (
   command,
-  isFrontEnd,
-  isBackEnd,
-  answers,
   frontEnd,
   backEnd,
   cicdPipelineIntegrate
 ) => {
-  const shouldExecute = answers.backEnd ? isBackEnd : isFrontEnd;
   return new Promise((resolve, reject) => {
     sw.start(`Task-${taskId}`);
-    const process = spawn(command, { shell: true });
-    const spinner = createSpinner(`    Installing packages`).start();
+    const process = spawn(command.join("&&"), { shell: true });
+    const spinner = createSpinner(`Installing packages`).start();
     process.on("exit", () => {
       spinner.success();
       sw.stop();
       const task = sw.getTask(`Task-${taskId}`);
       totalTimeConsumptionInMinutes += task?.timeMills;
       shell.echo(chalk.green.bold(`-> NPM modules installed!👍\r`));
-      const isProjectCreated = !(frontEnd && backEnd && taskId === 1)
-      if ( isProjectCreated ) {
+      const isProjectCreated = !(frontEnd && backEnd && taskId === 1);
+      if (isProjectCreated) {
         const FIVE_MINUTES = 1000 * 60 * 5;
-        const messageColor = totalTimeConsumptionInMinutes < FIVE_MINUTES ? "green" : "red";
+        const messageColor =
+          totalTimeConsumptionInMinutes < FIVE_MINUTES ? "green" : "red";
         shell.echo(
           chalk[messageColor].bold(
             `Installing took ${millisToMinutesAndSeconds(
@@ -121,9 +96,6 @@ const npmInstall = async (
       }
       taskId++;
       if (cicdPipelineIntegrate) shell.exec("git init");
-      // if (shouldExecute) {
-      //   projectExecutionCommands(frontEnd, backEnd, answers);
-      // }
       resolve();
     });
   });
