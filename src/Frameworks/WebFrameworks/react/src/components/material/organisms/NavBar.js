@@ -40,7 +40,7 @@ const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }
 			<AppBar position="static">
 				<CssBaseline />
 				<Toolbar>
-					<Typography variant='h4' sx={{ flexGrow: '1', cursor: 'pointer' }}>
+					<Typography variant='h4' sx={{ flexGrow: '0', cursor: 'pointer' }}>
 						{brand}
 					</Typography>
 					<div>
@@ -63,6 +63,10 @@ const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }
 							</Link>
 						))}
 						</div>
+						<Typography
+						variant='h4'
+						sx={{ flexGrow: '1', cursor: 'pointer' }}
+					></Typography>
 						<% if(isAuth0) {%>
 							<Button
 								color="primary"

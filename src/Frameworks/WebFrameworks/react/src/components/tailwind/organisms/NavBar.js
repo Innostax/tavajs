@@ -33,10 +33,9 @@ const NavBar = ({ brand, links <% if(isCognito){%>,signOut<%}%>}) => {
 					</button>
 				</div>
 				<div
-					className={`${
-						isExpanded ? `block` : `hidden`
-					} w-full block flex-grow md:flex md:items-center md:w-auto`}
-				>
+				className={`${
+					isExpanded ? `block` : `hidden`
+				} w-full block flex-grow md:flex md:items-center md:w-auto`}>
 					<div className='text-sm md:flex-grow'>
 						<ul className='flex justify-start p-4 mt-4 rounded-md  xs:flex-col sm:flex-col md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 dark:text-white dark:bg-[#1d1717]'>
 							{links.map((each, i) => (
@@ -55,7 +54,6 @@ const NavBar = ({ brand, links <% if(isCognito){%>,signOut<%}%>}) => {
 				</div>
 					<div className='grow'>
 						<div className='float-right'>
-						
 						</div>
 					</div>
 					<% if(isAuth0) {%>
