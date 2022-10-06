@@ -49,7 +49,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     expect(echos[2][0]).to.equal(ANGULAR_APP_TEST_CASES[2][0]);
     done();
   });
-  it("Should verify Powered by Innostax'", async (done) => {
+  it("Should verify 'Powered by Innostax'", async (done) => {
     expect(echos[3][0]).to.equal(ANGULAR_APP_TEST_CASES[3][0]);
     done();
   });
