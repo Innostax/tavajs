@@ -3,7 +3,7 @@
 import { Modal } from 'react-bootstrap'
 export default function TavaJSModal({
 	children,
-	show,
+	shouldOpen,
 	handleClose,
 	footer,
 	title,
@@ -11,7 +11,7 @@ export default function TavaJSModal({
 }) {
 	
 	return (
-		<Modal show={show} onHide={handleClose} size={size}>
+		<Modal show={shouldOpen} onHide={handleClose} size={size}>
             <Modal.Header closeButton className='border-0'>
                 <Modal.Title className='f-32 font-semi-bold'>{title}</Modal.Title>
             </Modal.Header>
