@@ -1,7 +1,7 @@
 import Routes from '../../Routes'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Container, Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 <% if(isAuth0) {%>import { useAuth0 } from '../../react-spa'<%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
 <% if (isThemeProvider) { %>import { ThemeToggler } from '../../theme'<% } %>
@@ -15,8 +15,9 @@ const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
 	return (
 		<Router>
 			<Navbar expand='lg'>
-				<Container>
-					<Navbar.Brand href='#home'>{brand}</Navbar.Brand>
+				<div className='container-fluid maxWidth'>
+				<Navbar.Toggle className='collapse-btn' aria-controls='basic-navbar-nav' />
+					<Navbar.Brand className='brand' href='#home'>{brand}</Navbar.Brand>
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='me-auto'>
 							{links.map((each) => (
@@ -25,21 +26,20 @@ const NavBar = ({ brand, links<% if(isCognito){%>,signOut<%}%> }) => {
 								</Link>
 							))}
 						</Nav>
-						<% if(isAuth0) {%>
+					</Navbar.Collapse>
+					<% if(isAuth0) {%>
 						<Nav>
-							<Nav.Link
+							<Nav.Link className='m-1'
 								onClick={() => logout({ returnTo: window.location.origin })}
 							>
 								Logout
 							</Nav.Link>
 						</Nav>
-						<%}%>
-					</Navbar.Collapse>
-					<% if(isThemeProvider) { %><ThemeToggler/><% } %>
+						<%}%>					
 					<% if(isOkta) { %><AppWithRouterAccess /> <% } %>
-					<% if(isCognito){%><Button onClick={signOut} name='SignOut' /><%}%>
-					<Navbar.Toggle className='collapse-btn' aria-controls='basic-navbar-nav' />
-				</Container>
+					<% if(isCognito){%><Button onClick={signOut} name='Logout' /><%}%>
+					<% if(isThemeProvider) { %><ThemeToggler/><% } %>				
+				</div>
 			</Navbar>
 			<Routes />
 		</Router>
