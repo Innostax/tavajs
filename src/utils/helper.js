@@ -27,7 +27,6 @@ const {
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
-  CICD_FILE_VUE_PATH,
 } = require("../TavaJsExecutors/constants");
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS
 //<-----------------------To create Directory Contents------------------------------------>
@@ -490,14 +489,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/app/shared/custom-materialui.module.ts`,
           isFile:true,
         }
-      ]; 
-    case CICD_FILE_VUE_PATH: 
-      return [
-        {
-          source: `${srcDir}/Providers/CICDWorkflow/vue-build.yml`,
-          destination: `${destDir}/.github/workflows/build.yml`,
-        },
-      ]     
+      ];  
     default:
       return [];
   }

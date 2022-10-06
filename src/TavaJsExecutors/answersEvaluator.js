@@ -48,7 +48,6 @@ const {
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
-  CICD_FILE_VUE_PATH,
   BLOB_SERVICES
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
@@ -405,9 +404,11 @@ const handleAnswersEvaluator = async (answers) => {
       );
     }
     if(isFrontEndChoiceVue) {
-      res = getFilePaths(CICD_FILE_VUE_PATH, currentPath, frontEnd.path);
-      filePaths = [...filePaths, ...res];
-      
+      handleRenderEJS(
+        `${currentPath}/Providers/CICDWorkflow/vue-build.yml`,
+        { isCICDPipelineIntegrate },
+        `${frontEnd.path}/.github/workflows/build.yml`,
+      );
     }
     if (isFrontEndChoiceReact) {
       handleRenderEJS(
