@@ -20,8 +20,8 @@
   z-index: 4;
   top: 0;
   left: 0;
-  width: 24px;
-  height: 24px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   border: 1px solid #999;
   transition: 0.2s;
@@ -156,8 +156,8 @@
     z-index: 4;
     top: 0;
     left: 0;
-    width: 24px;
-    height: 24px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     border: 1px solid #999;
     transition: 0.2s;
@@ -234,7 +234,6 @@
   justify-content: center;
 }
 .initials span {
-  color: black;
   position: absolute;
 }
 .account-button {

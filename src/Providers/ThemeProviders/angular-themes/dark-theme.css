@@ -88,3 +88,10 @@
 [data-theme='dark'] .deleteheader button {
   color: var(--dark-text-color);
 }
+
+[data-theme='dark'] .fill-current {
+  color: var(--dark-text-color);
+}
+[data-theme='dark'] .login-dropdown-icon{
+  background-color: var(--dark-text-color);
+}

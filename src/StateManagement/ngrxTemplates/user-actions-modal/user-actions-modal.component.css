@@ -47,11 +47,15 @@ app-label {
 }
 
 .mat-users-modal {
+  width: 500px;
   box-sizing: border-box;
   border-radius: 10px;
   background-color: #f6f6f6;
   margin: auto;
-  padding: 10px;
+  padding-top: 30px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
   border: 1px solid #888;
 }
 
