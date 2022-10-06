@@ -33,6 +33,10 @@ const TESTCASE_FRAMEWORKS = {
   MOCHAJS: "mochaJS",
   NIGHTWATCHJS: "nightwatchJS",
 }
+const BLOB_SERVICES = {
+  AWS_S3: "aws-s3",
+  AZURE: "azure"
+}
 
 const OKTA_FILE_PATH = "oktaDirectoryPath"
 const REACT_THEME_FILE_PATH = "reactThemeFilePaths";
@@ -91,4 +95,5 @@ module.exports = {
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   CICD_FILE_VUE_PATH,
+  BLOB_SERVICES
 };

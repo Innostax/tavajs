@@ -49,6 +49,7 @@ const {
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
   CICD_FILE_VUE_PATH,
+  BLOB_SERVICES
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -58,8 +59,9 @@ const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 const { WINSTON, SENTRY } = LOGGER_SERVICES;
 const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
-const { CYPRESS,  JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS;
+const { CYPRESS, JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS;
 const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
+const { AWS_S3, AZURE } = BLOB_SERVICES
 
 const currentPath = path.join(__dirname,"../");
 const NODE_JS = "node-js";
@@ -128,6 +130,9 @@ const handleAnswersEvaluator = async (answers) => {
   const isSMTP = emailServiceName === SMTP;
   const isSendgrid = emailServiceName === SENDGRID;
   const isAmazonSes = emailServiceName === AMAZON_SES;
+
+  const isAwsS3 = blobServiceName === AWS_S3
+  const isAzure = blobServiceName === AZURE
 
   fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -546,7 +551,8 @@ const handleAnswersEvaluator = async (answers) => {
           isSMTP,
           isSendgrid,
           isAmazonSes,
-          blobServiceName,
+          isAwsS3,
+          isAzure
         },
         envFilePath
       );

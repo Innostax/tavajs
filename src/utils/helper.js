@@ -2,6 +2,7 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const { render } = require("ejs");
 const {
+  FRAMEWORKS,
   CSS_FRAMEWORKS,
   REACT_THEME_FILE_PATH,
   VUE_THEME_FILE_PATH,
@@ -28,6 +29,7 @@ const {
   OKTA_FILE_PATH,
   CICD_FILE_VUE_PATH,
 } = require("../TavaJsExecutors/constants");
+const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS
 //<-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
   templatePath,
@@ -493,11 +495,24 @@ const getFilePaths = (name, srcDir, destDir) => {
   }
 };
 
+const getCSSFrameworkChoices = (frontEndChoice) =>
+  frontEndChoice === FRAMEWORKS.VUE ?
+    [
+      { name: "Bootstrap", value: BOOTSTRAP },
+      { name: "Tailwind", value: TAILWIND },
+    ] :
+    [
+      { name: "Material", value: MATERIAL },
+      { name: "Bootstrap", value: BOOTSTRAP },
+      { name: "Tailwind", value: TAILWIND },
+    ]
+
 module.exports = {
   createDirectoryContents,
   updateProjectDependencies,
   updateProjectScripts,
   copyFiles,
   getFilePaths,
-  handleRenderEJS
+  handleRenderEJS,
+  getCSSFrameworkChoices
 };
