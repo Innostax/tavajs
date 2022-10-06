@@ -187,11 +187,11 @@ const handleAnswersEvaluator = async (answers) => {
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARMATERIALUI];
 
         const res = getFilePaths(
-          ANGULAR_MATERIAL_FILE_PATHS,
+          ANGULAR_MATERIAL_FILE_PATH,
           currentPath,
           frontEnd.path
         );
-        filePaths = [...filePaths, ...res];
+        paths = [...paths, ...res];
       }
     }
     if (isFrontEndChoiceVue) {
@@ -394,8 +394,6 @@ const handleAnswersEvaluator = async (answers) => {
 
   //<------------------ CI CD Pipeline ----------------------------------->
   if (isCICDPipelineIntegrate) {
-    let res;
-  
     if(isFrontEndChoiceAngular) {
       handleRenderEJS(
         `${currentPath}/Providers/CICDWorkflow/angular-build.yml`,
@@ -697,7 +695,7 @@ const handleAnswersEvaluator = async (answers) => {
         `${frontEnd.path}/src/store/modules/users.js`
       );
       
-      userModalPath = isBootstrap
+      const userModalPath = isBootstrap
       ? path.join(currentPath,"StateManagement/vuexTemplates/bootstrap")
       : path.join(currentPath,"StateManagement/vuexTemplates/tailwind")
 

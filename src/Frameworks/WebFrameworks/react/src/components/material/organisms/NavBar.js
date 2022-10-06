@@ -9,8 +9,8 @@ import {
 } from '@mui/material'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 <%if(isThemeProvider) {%>
-import Brightness4Icon from '@mui/icons-material/Brightness4'
-import Brightness7Icon from '@mui/icons-material/Brightness7'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import NightlightIcon from '@mui/icons-material/Nightlight'
 import { THEMES } from '../../theme.constants'
 <%}%>
 <% if(isOkta) {%>import AppWithRouterAccess from '../../oktaFiles/AppWithRouterAccess'<%}%>
@@ -40,7 +40,7 @@ const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }
 			<AppBar position="static">
 				<CssBaseline />
 				<Toolbar>
-					<Typography variant='h4' sx={{ flexGrow: '1', cursor: 'pointer' }}>
+					<Typography variant='h4' sx={{ flexGrow: '0', cursor: 'pointer' }}>
 						{brand}
 					</Typography>
 					<div>
@@ -62,6 +62,11 @@ const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }
 								{each.label}
 							</Link>
 						))}
+						</div>
+						<Typography
+						variant='h4'
+						sx={{ flexGrow: '1', cursor: 'pointer' }}
+					></Typography>
 						<% if(isAuth0) {%>
 							<Button
 								color="primary"
@@ -71,16 +76,15 @@ const NavBar = ({ brand, links, mode, setMode<% if(isCognito){%>,signOut<%}%>  }
 								Logout
 							</Button>
 						<%}%>
-						<% if(isThemeProvider) {%>
-						<IconButton sx={{ ml: 1 }} onClick={toggleTheme} color='inherit'>
-							{mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-						</IconButton>
-						<%}%>
-					</div>
 					<% if(isOkta) {%>
 					<AppWithRouterAccess />
 					<%}%>
-					<% if(isCognito){%><Button onClick={signOut} name='SignOut' variant='white' /><%}%>
+					<% if(isCognito){%><Button onClick={signOut} name='Logout' variant='white' /><%}%>
+					<% if(isThemeProvider) {%>
+						<IconButton sx={{ ml: 1 }} onClick={toggleTheme} color='inherit'>
+							{mode === 'dark' ? <LightModeIcon /> : <NightlightIcon />}
+						</IconButton>
+						<%}%>
 				</Toolbar>
 			</AppBar>
 			<Routes />
