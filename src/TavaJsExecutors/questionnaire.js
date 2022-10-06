@@ -1,5 +1,7 @@
 const fs = require('fs');
 const { validateKebabCase } = require("../utils/validators")
+const { getCSSFrameworkChoices } = require("../utils/helper")
+
 module.exports = [
   {
     name: "projectName",
@@ -61,11 +63,7 @@ module.exports = [
     name: "cssFrameworkChoice",
     type: "list",
     message: "Which CSS Framework do you want?",
-    choices: [
-      { name: "MaterialUI", value: "material" },
-      { name: "Bootstrap", value: "bootstrap" },
-      { name: "TailWind", value: "tailwind" },
-    ],
+    choices: (answers) => getCSSFrameworkChoices(answers.frontEndChoice),
     when: (answers) => {
       return answers.frontEndChoice;
     },
@@ -226,38 +224,6 @@ module.exports = [
     ],
     when: (answers) => {
       return answers.backEnd;
-    },
-  },
-  {
-    name: "CRUD",
-    type: "list",
-    message: "Do you want Vue with CRUD?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.store && answers.frontEndChoice === "vue" && !answers.backEnd
-      );
-    },
-  },
-  {
-    name: "vueNodeCrud",
-    type: "list",
-    message: "Do you want crud integration with Vue-Node boiler plate?",
-    choices: [
-      { name: "yes", value: true },
-      { name: "no", value: false },
-    ],
-    when: (answers) => {
-      return (
-        answers.backEnd &&
-        answers.frontEnd &&
-        answers.store &&
-        answers.dbName &&
-        answers.frontEndChoice === "vue"
-      );
     },
   },
   {
