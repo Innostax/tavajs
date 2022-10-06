@@ -21,7 +21,6 @@ jobs:
 
     steps:
     <% if(isCICDPipelineIntegrate == "aws"){%>
-    steps:
     - name: Checkout Repository
       uses: actions/checkout@v3     
     
