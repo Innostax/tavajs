@@ -46,7 +46,7 @@ const PROJECT_INFO_EXPECTED_DATA = [
 const ANSWERS = {
   // AngularJS, Bootstrap and NodeJS
   TC0001: {
-    projectName: "test-angular-proj-new-new-new",
+    projectName: "test-angular-project-tc0001",
     projectDirectoryPath: process.cwd(), // "C:\\\\Practice",  // 
     managerChoice: "npm",
     frontEnd: true,
