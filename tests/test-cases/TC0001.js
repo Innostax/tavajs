@@ -24,7 +24,7 @@ const { frontEnd, backEnd } = getProjectDetails(
   ANSWERS.TC0001
 );
 
-describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
+describe("Verify working of ANSWERS.TC0001 evaluator method.", async (done) => {
   before(async function () {
     await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("executed handleAnswersEvaluator successfully");
@@ -109,5 +109,6 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   after(async function () {
     console.log("path is this", `${CURR_DIR}/${projectName}`)
     fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
+    done();
   });
 });
