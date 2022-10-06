@@ -11,6 +11,36 @@ const ANGULAR_APP_EXPECTED_RESULT = [
   [ '\x1B[32m\x1B[1m© Powered by Innostax\x1B[22m\x1B[39m' ]
 ]
 
+const GITHUB_TEST_CASES_DATA = [
+  [ '📂 Creating angular project: front-end using dev-tava 1.0.0' ],
+  [ '   ⌛ Integrating CSS Framework: bootstrap' ],
+  [ '📂 Creating node-js project: backend using dev-tava 1.0.0' ],
+  [ '© Powered by Innostax' ],
+  [
+    '--------------- NPM loading on angular, Wait for finish ---------------\r'
+  ],
+  [ '-> NPM modules installed!👍\r' ],
+  [
+    '--------------- NPM loading on node-js, Wait for finish ---------------\r'
+  ],
+  [ '-> NPM modules installed!👍\r' ],
+  [ 'Installing took 0:57 minutes.' ],
+  [ '✅ Successfully created \n ' ],
+  [ '-> To get Started: \n' ],
+  [
+    '     cd /home/runner/work/tavajs/tavajs\\test-angular-proj-new-new \n'
+  ],
+  [ '-> For angular: \n' ],
+  [ '     cd front-end' ],
+  [ '     npm start' ],
+  [ '' ],
+  [ '-> For node-js: \n' ],
+  [ '     cd backend' ],
+  [ '     npm start' ],
+  [ '' ],
+  [ '------------------------ Ready to go --------------------------' ]
+]
+
 const PROJECT_INFO_EXPECTED_DATA = [
   [
     "\x1B[32m\x1B[1m📂 Creating react project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
@@ -44,7 +74,7 @@ const PROJECT_INFO_EXPECTED_DATA = [
 
 const ANSWERS = {
   TC0001: {
-    projectName: "test-angular-proj-new-new",
+    projectName: "test-angular-proj-new-new-new",
     projectDirectoryPath: process.cwd(), // "C:\\\\Practice",  // 
     managerChoice: "npm",
     frontEnd: true,
@@ -240,5 +270,6 @@ module.exports = {
   PROJECT_INFO_EXPECTED_DATA,
   PROJECT_SETUP_EXPECTED_DATA,
   ANSWERS,
-  ANGULAR_APP_EXPECTED_RESULT
+  ANGULAR_APP_EXPECTED_RESULT,
+  GITHUB_TEST_CASES_DATA
 };

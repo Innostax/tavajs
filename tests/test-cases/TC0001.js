@@ -10,7 +10,7 @@ const {
   handleAnswersEvaluator,
 } = require("../../src/TavaJsExecutors/answersEvaluator");
 
-const { ANSWERS, PROJECT_INFO_EXPECTED_DATA, ANGULAR_APP_EXPECTED_RESULT } = require("../mockData");
+const { ANSWERS, PROJECT_INFO_EXPECTED_DATA, GITHUB_TEST_CASES_DATA } = require("../mockData");
 const { echos, initialExecution } = require("../helpers");
 
 // Before to run the test cases:
@@ -33,25 +33,25 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     
     await projectSetUp(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("executed projectSetUp successfully");
-    projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0001);
+    await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("executed projectExecutionCommands successfully");
   });
 
   it("Should verify 'Creating react project'", async function (done) {
-    expect(echos[0][0]).to.equal(ANGULAR_APP_EXPECTED_RESULT[0][0]);
+    expect(echos[0][0]).to.equal(GITHUB_TEST_CASES_DATA[0][0]);
     done();
   });
   it("Should verify 'Integrating Authentication service", async (done) => {
-    expect(echos[1][0]).to.equal(ANGULAR_APP_EXPECTED_RESULT[1][0]);
+    expect(echos[1][0]).to.equal(GITHUB_TEST_CASES_DATA[1][0]);
     done();
   });
   it("Should verify 'Integrating CSS Framework", async (done) => {
     console.log("echos===============>", echos);
-    expect(echos[2][0]).to.equal(ANGULAR_APP_EXPECTED_RESULT[2][0]);
+    expect(echos[2][0]).to.equal(GITHUB_TEST_CASES_DATA[2][0]);
     done();
   });
   it("Should verify 'Integrating theme", async (done) => {
-    expect(echos[3][0]).to.equal(ANGULAR_APP_EXPECTED_RESULT[3][0]);
+    expect(echos[3][0]).to.equal(GITHUB_TEST_CASES_DATA[3][0]);
     done();
   });
   // it("Should verify 'Integrating Redux pattern'", async (done) => {

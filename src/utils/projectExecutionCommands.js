@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 const shell = require("shelljs");
 
-function projectExecutionCommands(frontEnd, backEnd, answers) {
+const projectExecutionCommands = async (frontEnd, backEnd, answers) => {
   shell.echo(
     chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created \n `)
   );
@@ -55,7 +55,7 @@ function projectExecutionCommands(frontEnd, backEnd, answers) {
 }
 
 //---------------------------------------------------------------------------
-function projectInvokeInstructions(projectChoice, managerChoice) {
+const projectInvokeInstructions = (projectChoice, managerChoice) => {
   if (managerChoice === "npm") {
     if (projectChoice === "vue") {
       shell.echo(chalk.cyanBright.italic.bold(`     npm run serve`));
