@@ -67,7 +67,7 @@ module.exports = [
       { name: "TailWind", value: "tailwind" },
     ],
     when: (answers) => {
-      return answers.frontEndChoice == "react" || answers.frontEndChoice == "amgular";
+      return answers.frontEndChoice == "react" || answers.frontEndChoice == "angular";
     },
   },
   {

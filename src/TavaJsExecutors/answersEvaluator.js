@@ -268,13 +268,13 @@ const handleAnswersEvaluator = async (answers) => {
         currentPath,
         frontEnd.path
       );
-      res.forEach((each) => {
-        handleRenderEJS(
-          each.source,
-          { isBootstrap, isTailWind },
-          each.destination
-        );
-      });
+      paths = [...paths, ...res];
+      
+      handleRenderEJS(
+        `${currentPath}/Providers/ThemeProviders/vue-themes/theme.vue`,
+        { isBootstrap, isTailWind },
+        `${frontEnd.path}/src/theme.vue`
+      );
     }
 
     //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
