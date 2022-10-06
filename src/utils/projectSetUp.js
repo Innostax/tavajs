@@ -60,8 +60,11 @@ const packageInstaller = async (
         `--------------- NPM loading on ${projectChoice}, Wait for finish ---------------\r`
       )
     );
+    const commandsDep = [
+      "npm install --silent --legacy-peer-deps"
+    ];
     await npmInstall(
-      "npm install --silent --legacy-peer-deps",
+      commandsDep,
       isFrontEnd,
       isBackEnd,
       answers,
@@ -72,18 +75,25 @@ const packageInstaller = async (
     // shell.exec("npm install --silent --legacy-peer-deps"); // -s / --silent ,  --no-optional , npm --logevel=error install
   }
   if (managerChoice === "yarn") {
-    shell.echo(
-      "--------------- yarn loading on ",
-      projectChoice,
-      ", Wait for finish ---------------\r"
-    );
-    shell.exec("npm install -g yarn");
-    shell.exec("yarn");
-    shell.echo(
-      chalk.green.bold(
-        "--------------- yarn process completed ---------------\r"
-      )
-    );
+      shell.echo(
+        chalk.green.magenta(
+          `--------------- YARN loading on ${projectChoice}, Wait for finish ---------------\r`
+        )
+      );
+      const commandsDep = [
+        "npm install --silent  -g yarn",
+        "yarn"
+      ];
+
+      await npmInstall(
+        commandsDep,
+        isFrontEnd,
+        isBackEnd,
+        answers,
+        frontEnd,
+        backEnd,
+        cicdPipelineIntegrate
+      );
   }
 };
 
@@ -99,7 +109,7 @@ const npmInstall = async (
   const shouldExecute = answers.backEnd ? isBackEnd : isFrontEnd;
   return new Promise((resolve, reject) => {
     sw.start(`Task-${taskId}`);
-    const process = spawn(command, { shell: true });
+    const process = spawn(command.join('&&'), { shell: true });
     const spinner = createSpinner(`Installing packages`).start();
     process.on("exit", () => {
       spinner.success();
