@@ -9,7 +9,7 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  mocha-test-cases:
+  mocha-test-cases-temp:
 
     runs-on: ubuntu-latest
 
