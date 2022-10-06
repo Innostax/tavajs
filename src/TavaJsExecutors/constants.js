@@ -3,21 +3,15 @@ const FRAMEWORKS = {
   REACT: "react",
   VUE: "vue",
 }
-const CSS_FRAMEWORKS = {
-  BOOTSTRAP: "bootstrap",
-  MATERIAL: "material",
-  TAILWIND: "tailwind",
-}
-const TESTCASE_FRAMEWORKS = {
-  CYPRESS: "cypress",
-  JEST: "jest",
-  MOCHAJS: "mochaJS",
-  NIGHTWATCHJS: "nightwatchJS",
-}
 const DATABASES = {
   POSTGRES: "postgres",
   MYSQL: "mysql",
   MONGOOSE: "mongoose"
+}
+const CSS_FRAMEWORKS = {
+  BOOTSTRAP: "bootstrap",
+  MATERIAL: "material",
+  TAILWIND: "tailwind",
 }
 const AUTHENTICATIONS = {
   AUTH0: "Auth0",
@@ -32,6 +26,12 @@ const EMAIL_SERVICES = {
   SMTP: "smtp",
   SENDGRID: "sendgrid",
   AMAZON_SES: "amazon_ses",
+}
+const TESTCASE_FRAMEWORKS = {
+  CYPRESS: "cypress",
+  JEST: "jest",
+  MOCHAJS: "mochaJS",
+  NIGHTWATCHJS: "nightwatchJS",
 }
 
 const OKTA_FILE_PATH = "oktaDirectoryPath"

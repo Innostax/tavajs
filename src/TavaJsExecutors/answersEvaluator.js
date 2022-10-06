@@ -58,10 +58,10 @@ const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 const { WINSTON, SENTRY } = LOGGER_SERVICES;
 const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
-const { CYPRESS,  JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS
-const {MATERIAL , BOOTSTRAP, TAILWIND} = CSS_FRAMEWORKS;
+const { CYPRESS,  JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS;
+const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
 
-const currentPath = path.join(__dirname,'../');
+const currentPath = path.join(__dirname,"../");
 const NODE_JS = "node-js";
 
 let dependencies = [];
@@ -103,9 +103,9 @@ const handleAnswersEvaluator = async (answers) => {
   const isCrudWithNode = Boolean(
     reactNodeCrud || vueNodeCrud || angularNodeCrud
   );
-  const isMaterialUI = cssFrameworkChoice === MATERIAL ;
-  const isBootstrap = cssFrameworkChoice === BOOTSTRAP ;
-  const isTailWind = cssFrameworkChoice === TAILWIND ;
+  const isMaterialUI = cssFrameworkChoice === MATERIAL;
+  const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
+  const isTailWind = cssFrameworkChoice === TAILWIND;
   const isNetworkInformer = networkInformer;
   const isCICDPipelineIntegrate = cicdPipelineIntegrate;
 
@@ -153,11 +153,11 @@ const handleAnswersEvaluator = async (answers) => {
     if (isFrontEndChoiceReact) {
       if (isMaterialUI) {
         dependencies = [...dependencies, ...DEPENDENCIES.MATERIALUI];
-      } 
-      if(isBootstrap) {
+      }
+      if (isBootstrap) {
         dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
       }
-      if(isTailWind){
+      if (isTailWind) {
         dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDREACT];
         const res = getFilePaths(
           TAILWIND_REACT_FILE_PATH,
@@ -177,7 +177,7 @@ const handleAnswersEvaluator = async (answers) => {
           frontEnd.path
         );
         paths = [...paths, ...res];
-      } else if(isBootstrap){
+      } else if (isBootstrap) {
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
       }
     }
@@ -251,8 +251,7 @@ const handleAnswersEvaluator = async (answers) => {
         frontEnd.path
       );
       paths = [...paths, ...res];
-      if(isBootstrap || isTailWind)
-      {
+      if (isBootstrap || isTailWind) {
         handleRenderEJS(
           `${currentPath}/Providers/ThemeProviders/react-themes/theme.js`,
           { isBootstrap, isTailWind },

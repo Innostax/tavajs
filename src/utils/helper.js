@@ -459,14 +459,6 @@ const getFilePaths = (name, srcDir, destDir) => {
           source: `${srcDir}/Frameworks/CSSFrameworks/TailwindCSSFramework/vue/postcss.config.js`,
           destination: `${destDir}/postcss.config.js`,
         },
-      ]; 
-    case OKTA_FILE_PATH:
-      return [
-        {
-          source: `${srcDir}/Services/AuthenticationServices/authTemplates/oktaTemplate/`,
-          destination: `${destDir}/src/oktaFiles`,
-          // isFile: false,
-        },
       ];
     case VUE_NETWORKSTATUS_FILE_PATH:
       return [
@@ -474,7 +466,14 @@ const getFilePaths = (name, srcDir, destDir) => {
           source: `${srcDir}/Services/NetworkInformerServices/vue/NetworkStatus`,
           destination: `${destDir}/src/networkStatus`,
         },
-      ]; 
+      ];
+    case OKTA_FILE_PATH:
+      return [
+        {
+          source: `${srcDir}/Services/AuthenticationServices/authTemplates/oktaTemplate/`,
+          destination: `${destDir}/src/oktaFiles`,
+        },
+      ];
     case REACT_NETWORKSTATUS_FILE_PATH:
       return [
         {
