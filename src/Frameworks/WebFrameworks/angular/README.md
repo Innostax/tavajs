@@ -13,26 +13,15 @@
 <br>
 
   
-
-<div  align="center">
-
-  
+<div align="center">
 
 ![Tavajs License]([https://img.shields.io/npm/l/dev-tava](https://img.shields.io/npm/l/dev-tava))
-
 ![Tavajs Version]([https://img.shields.io/npm/v/dev-tava](https://img.shields.io/npm/v/dev-tava))
-
 ![Tavajs Release]([https://img.shields.io/badge/release-2022-orange](https://img.shields.io/badge/release-2021-orange))
-
 ![Tavajs Downloads]([https://img.shields.io/npm/dw/dev-tava](https://img.shields.io/npm/dw/dev-tava))
-
 ![Tavajs Stars]([https://img.shields.io/badge/stars-4.5k-blue](https://img.shields.io/badge/stars-4.5k-blue))
-
 ![Tavajs Language]([https://img.shields.io/badge/javascript-70%25-green](https://img.shields.io/badge/javascript-70%25-green))
-
 ![Tavajs CI]([https://img.shields.io/badge/CI-passing-green](https://img.shields.io/badge/CI-passing-green))
-
-  
 
 </div>
 
@@ -83,25 +72,15 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 <ul>
 
 <% if(isAuth0) { %><li><a  href="#auth0"> Auth0 Authentication Service</a></li><%}%>
-
 <% if(isOkta) { %><li><a  href="#okta"> Okta Authentication Service</a></li><%}%>
-
 <% if(isCognito) { %><li>  <a  href="#cognito">Cognito Authentication Service</a></li><%}%>
-
 <% if(isStore) {%><li><a  href="#ngrx"> Ngrx Service</a></li><%}%>
-
 <% if(isThemeProvider) {%><li><a  href="#theme"> Theme Service</a></li><%}%>
-
 <% if (isSMTP) {%><li><a  href="#smtp">SMTP email service</a></li><%}%>
-
 <% if (isSendgrid) {%><li><a  href="#sendgrid">SendGrid email service</a></li><%}%>
-
 <% if (isAmazonSes) {%><li><a  href="#amazonses">AmazonSes email service</a></li><%}%>
-
 <% if (isSentry) {%><li><a  href="#sentry">Sentry logger service </li></a><%}%>
-
 <% if (isWinston) {%><li><a  href="#winston">Winston logger service </li></a><%}%>
-
 <% if (isJest) {%><li><a  href="#jest">Jest test framework </li></a><%}%>
 <% if (isCypress) {%><li><a  href="#cypress">Cypress test framework </li></a><%}%>
 <% if (isMocha) {%><li><a  href="#mocha">Mocha test framework </li></a><%}%>
@@ -111,7 +90,6 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 <% if (dbName === 'postgres') {%><li><a  href="#postgres">POSTGRES db service</a></li><%}%>
 <% if (dbName === 'mysql') {%><li><a  href="#mysql">MYSQL db service</a></li><%}%>
 <% if (dbName === 'mongoose') {%><li><a  href="#mongoose">MONGOOSE db service</a></li><%}%>
-
 <%}%>
 
 </ul>
@@ -147,83 +125,30 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 <%}%>
 
 </p>
-### Services:
 
-  
+### Services:
 
 <p  align="left">
 
 <%if(dbName === 'mongoose'){%>
-
-<a  href="https://www.mongodb.com/"  target="_blank">  
- <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg"  alt="mongodb"  width="100"  height="100"/>  
- </a>
-
+<a  href="https://www.mongodb.com/"  target="_blank"><img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg"  alt="mongodb"  width="100"  height="100"/></a>
 <%}%>
-
-<%if(dbName === 'mysql'){%>
-
-<a  href="https://www.mysql.com/"  target="_blank">  
-  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"  alt="mysql"  width="100"  height="100"/>  
-</a>
-
+<%if(dbName === 'mysql'){%><a  href="https://www.mysql.com/"  target="_blank"><img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"  alt="mysql"  width="100"  height="100"/></a>
 <%}%>
-
-<%if(dbName === 'postgres'){%>
-
-<a  href="https://www.postgresql.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>  </a>
-
+<%if(dbName === 'postgres'){%><a  href="https://www.postgresql.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>  </a>
 <%}%>
-
 <a  href="https://karma-runner.github.io/latest/index.html"  target="_blank">  <img  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/karma/karma-original.svg"  alt="Karma"  width="100"  height="100"/>  </a>
-  
 
-<%if(isOkta){%>
-
-<a  href=https://www.okta.com/  target="_blank">
-
-<img  src="https://www.vectorlogo.zone/logos/okta/okta-ar21.svg"  width="100"  alt="okta"  />
-
-</a>
-
+<%if(isOkta){%><a  href=https://www.okta.com/  target="_blank"><img  src="https://www.vectorlogo.zone/logos/okta/okta-ar21.svg"  width="100"  alt="okta"  /></a><%}%>
+<%if(isAuth0){%><a  href=https://auth0.com/  target="_blank"><img  src="https://www.vectorlogo.zone/logos/auth0/auth0-ar21.svg"  width="100"  alt="auth"  /></a><%}%>
+<%if(isCognito){%><a href="https://aws.amazon.com/cognito/"  target="_blank"><img  src="https://miro.medium.com/max/400/1*ZjS_BtHvohZJc6lqHOsdJw.png"  alt="cognito"  height="100"  width="100"/></a>
 <%}%>
-
-<%if(isAuth0){%>
-
-<a  href=https://auth0.com/  target="_blank">
-
-<img  src="https://www.vectorlogo.zone/logos/auth0/auth0-ar21.svg"  width="100"  alt="auth"  />
-
-</a>
-
+<%if(isSentry){%><a href="https://sentry.io/welcome/"  target="_blank"><img  src="https://blog.theodo.com/static/63d60039b4d984c7014f2b72544cf46c/ee604/sentry-logo.png"  alt="sentry"  width="100"  height="100"/></a>
 <%}%>
-<%if(isCognito){%>
-
-<a href="https://aws.amazon.com/cognito/"  target="_blank">
-
-<img  src="https://miro.medium.com/max/400/1*ZjS_BtHvohZJc6lqHOsdJw.png"  alt="cognito"  height="100"  width="100"/>
-</a>
-
+<% if (isWinston) {%><a  href="https://www.npmjs.com/package/winston"  target="_blank"><img  src="https://avatars.githubusercontent.com/u/9682013?s=200&v=4"  alt="winston"  width="100"  height="100"/></a>
 <%}%>
-
-<%if(isSentry){%>
-  
-<a href="https://sentry.io/welcome/"  target="_blank">  
- <img  src="https://blog.theodo.com/static/63d60039b4d984c7014f2b72544cf46c/ee604/sentry-logo.png"  alt="sentry"  width="100"  height="100"/>
-</a>
-<%}%>
-
-<% if (isWinston) {%>
-<a  href="https://www.npmjs.com/package/winston"  target="_blank">  
-  <img  src="https://avatars.githubusercontent.com/u/9682013?s=200&v=4"  alt="winston"  width="100"  height="100"/>  
-</a>
-<%}%>
-
-
 
 <p  align="left">
-
-
 
 <%if(dbName === 'mongoose'){%>
 
@@ -234,23 +159,18 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 <%}%>
 
 <%if(dbName === 'mysql'){%>
-
 <a  href="https://www.mysql.com/"  target="_blank">
   <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"  alt="mysql"  width="100"  height="100"/>
 </a>
-
 <%}%>
 
 <%if(dbName === 'postgres'){%>
-
 <a  href="https://www.postgresql.org"  target="_blank">  
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>
 </a>
-
 <%}%>
 
 </p>
-
 
 <%if(blobServiceName === 'azure'){%>
 
@@ -297,49 +217,34 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 
 ## How to run created project:
 
-<% if(nodeName) {%>  
-<!-- check cliose ejs tag -->
-  
+<% if(nodeName) {%>
 
 Use `npm start` inside <%= frontEndName %> directory to execute the template.
 
 The command is defined in `package.json`, an example of which is below.
 
-  
-
+ 
 ```
-
 "scripts": {
-
-"start": "ng serve"
-
+  "start": "ng serve"
 }
-
 ```
 
 Use `npm start` inside <%= nodeName %> directory to execute the backend.
 
-  
-
 The command is defined in `package.json`, an example of which is below.
 
-  
 
 ```
-
 "scripts": {
-
-"start": "npm run start-watch",
-
+  "start": "npm run start-watch",
 }
-
 ```
 
   
 
 <%}else{%>
 
-  
 
 Use `npm start` to execute the template.
 
@@ -348,13 +253,9 @@ The command is defined in `package.json`, an example of which is below.
   
 
 ```
-
 "scripts": {
-
-"start": "ng serve"
-
+  "start": "ng serve"
 }
-
 ```
 
 <p  align="right">(<a  href="#features">back to features</a>)</p>
@@ -369,15 +270,9 @@ The command is defined in `package.json`, an example of which is below.
 
 <div  id="auth0"></div>
 
-  
-
 ## Auth0 Authentication Service
 
-  
-
-Auth0 is an easy to implement, adaptable authentication and authorization platform.
-
-  
+Auth0 is an easy to implement, adaptable authentication and authorization platform.  
 
 ### Configure environment variables for Auth0
 
@@ -388,35 +283,24 @@ Before running the app, you must update environment variables values in `envirom
 Inside `enviroment.ts` file in <%= nodeName %> directory update environment variables:
 
 ```
-
 AUTH_ISSUER=Enter your issuer
-
 AUTH_CLIENTID=Enter your client id
-
 ```
 
 Inside `enviroment.ts` file in <%= frontEndName %> directory update environment variables:
 
 ```
-
 AUTH0_CLIENT_ID = your auth0 client Id
-
 AUTH0_DOMAIN = your Auth0 Domain
-
 ```
 
 <%}else{%>
 
-
 Inside `enviroment.ts` file update environment variables:
 
-
 ```
-
 CLIENT_ID = your auth0 client Id
-
 YOUR_DOMAIN = your Auth0 Domain
-
 ```
 
 <%}%>
@@ -424,56 +308,40 @@ YOUR_DOMAIN = your Auth0 Domain
 <p  align="right">(<a  href="#features">back to features</a>)</p>
 
 <%}%>
-
 
 <% if(isOkta) {%>
 
 <!----------------------------------- Okta -------------------------------------------->
 
-<div  id="okta"></div>
-
-  
+<div  id="okta"></div>  
 
 ## Okta Authentication Service
 
-  
-
 Okta is an easy-to-implement, adaptable authentication and authorization platform.
-
-  
 
 ### Configure environment variables for Auth0
 
 Before running the app, you must update environment variables values in `enviroment.ts` file.
 
-  
-
-Inside `enviroment.ts` file update environment variables:
-
-  
+Inside `enviroment.ts` file update environment variables:  
 
 ```
-
 ANGULAR_APP_OKTA_ISSUER: OKTA_ISSUER
-
 ANGULAR_APP_OKTA_CLIENT_ID: OKTA_CLIENT_ID
-
 ANGULAR_APP_API_URLs: API_URLs
-
 ```
 
 <p  align="right">(<a  href="#features">back to features</a>)</p>
 
 <%}%>
 
-<div  id='cognito'/>
+<div  id='cognito'></div>
 
 <% if(isCognito) {%>
 
 ### Cognito Authentication Service
 
 Cognito is an easy to implement, adaptable authentication and authorization platform.
-
 
 ### Configure environment variables for Cognito
 
@@ -504,15 +372,9 @@ You can create your aws account at <a  href="https://portal.aws.amazon.com/billi
 
 ## Ngrx
 
-  
-
 RxJS powered state management for Angular applications, inspired by Redux
 
-  
-
 ### @ngrx/store
-
-  
 
 @ngrx/store is a controlled state container designed to help write performant, consistent applications on top of Angular. Core tenets:
 
@@ -528,15 +390,11 @@ RxJS powered state management for Angular applications, inspired by Redux
 
 `Package Used`: `@ngrx/store`  `@ngrx/store-devtools`
 
-  
-
 Important Links: [Docs][Ngrx-docs], [Store][Ngrx-store], [Effect][Ngrx-effect]
 
 <p  align="right">(<a  href="#features">back to features</a>)</p>
 
 <%}%>
-
-  
 
 <% if(isThemeProvider) {%>
 
@@ -544,73 +402,50 @@ Important Links: [Docs][Ngrx-docs], [Store][Ngrx-store], [Effect][Ngrx-effect]
 
 <div  id="theme"></div>
 
-  
-
 ## Light and dark mode
 
-  
-
 A theme toggle button is available in navbar to change style of page from Light to Dark or vice versa, or use the theme toggle component to include the button anywhere you like.
-
-  
 
 ### How to add changes in light and dark mode
 
 ```
-
 :root {
+  // Light mode variable
+  --background-color: #fff;
+  --text-color: #121416d8;
+  --link-color: #543FD7;
 
-// Light mode variable
-
---background-color: #fff;
-
---text-color: #121416d8;
-
---link-color: #543FD7;
-
-// Dark mode variables in dark-theme.css
-
---dark-background-color: #212A2E;
-
---dark-text-color: #F7F8F8;
-
---dark-link-color: #828FFF;
-
+  // Dark mode variables in dark-theme.css
+  --dark-background-color: #212A2E;
+  --dark-text-color: #F7F8F8;
+  --dark-link-color: #828FFF;
 }
-
 ```
 
 Use the class /id of elements to change the color after theme switched to dark in following way -
 
-Example- 
-Inside dark-theme.css -> [data-theme='dark'] '(.className/id)'{
-color: var(--dark-text-color);
-background-color: var(--dark-background-color);
- }
-
+Example - 
+  Inside dark-theme.css -> 
+```
+[data-theme='dark'] '(.className/id)' {
+  color: var(--dark-text-color);
+  background-color: var(--dark-background-color);
+}
+```
   
-
 **Example :**
 
-  
 
-|Light Theme |Dark Theme |
-
+|Light Theme                    				|Dark Theme                         				|
 |-----------------------------------------------|---------------------------------------------------|
-
-|[data-theme='light'] { |[data-theme='dark'] { |
-
-| background-color: var(--background-color); | background-color: var(--dark-background-color); |
-
-| color: var(--text-color); | color: var(--dark-text-color); |
-
-|} |} |
+|[data-theme='light'] {							|[data-theme='dark'] {								|
+|	background-color: var(--background-color);	|	background-color: var(--dark-background-color); |
+|	color: var(--text-color);					|	color: var(--dark-text-color);					|
+|}      										|}            										|
 
 <p  align="right">(<a  href="#features">back to features</a>)</p>
 
 <%}%>
-
-  
 
 <% if(isSMTP) {%>
 
@@ -618,39 +453,21 @@ background-color: var(--dark-background-color);
 
 <div  id='smtp'></div>
 
-  
-
-## Email Services:
-
-  
+## Email Services:  
 
 ### SMTP email service:
 
 SMTP is most reliable SMTP service provider. It has a powerful API for sending transactional emails.
 
-  
-
-  
-
 ### Running SMTP service
-
-  
 
 Inside `.env` file in <%= nodeName %> directory update environment variables:
 
-  
-
 ```
-
 SMTP_USERNAME = your SMTP username
-
 SMTP_PASSWORD = your SMTP password
-
 SMTP_HOST = your SMTP host
-
 ```
-
-  
 
 Add recipient's email id in `recipients` object inside `mailObj` data property in `users.controllers.js` file.
 
@@ -664,27 +481,20 @@ Add recipient's email id in `recipients` object inside `mailObj` data property i
 
 <div  id='sendgrid'></div>
 
-  
-
 ## Email Services:
-
-  
 
 ### SendGrid email service:
 
 [Twilio SendGrid](https://sendgrid.com/) is an email delivery engine that lets you send emails to leads and customers without maintaining your own email servers. SendGrid handles the technical details of your email strategy–like infrastructure scaling, reputation monitoring, and performance reports.
 
- 
 ### Running SendGrid service
 
- To use SendGrid service, go to sendgrid.com and create an account of your choice. After creating acccount get sender's email address verified.
+To use SendGrid service, go to sendgrid.com and create an account of your choice. After creating acccount get sender's email address verified.
 
 Inside `.env` file in <%= nodeName %> directory update environment variables:
  
 ```
-
 SENDGRID_API_KEY= Enter Sendgrid Api
-
 ```
  
 Add recipient's and sender's email id in `to`  `from` fields respectively inside `msg` object in `sendgrid.js` file.
@@ -699,33 +509,19 @@ Add recipient's and sender's email id in `to`  `from` fields respectively inside
 
 <div  id='amazonses'></div>
 
-  
-
 ## Email Services:
-
-  
 
 ### AmazonSes email service:
 
 Amazon SES is a cloud email service provider that can integrate into any application for bulk email sending. Whether you send transactional or marketing emails, you pay only for what you use.
 
-  
-
-  
-
 ### Running AmazonSes service
 
- To use AmazonSes service 
- - Go to https://aws.amazon.com/ and create /login to your aws account
-
-    
-- Search for Simple Email Service in your preferred AWS region.
-    
-- On the SES homepage, click on the “Email Addresses” option from the sidebar on the left.
-    
--   Add the email you want to use for sending an email. You will receive an email from  `no-reply-aws@amazon.com`  to verify the email. Click on the URL in the mail to verify (your verified email address will be used as the ‘from’ address for the emails you send using AWS-SES).
-
-
+  To use AmazonSes service: 
+  - Go to https://aws.amazon.com/ and create /login to your aws account
+  - Search for Simple Email Service in your preferred AWS region.  
+  - On the SES homepage, click on the “Email Addresses” option from the sidebar on the left.
+  - Add the email you want to use for sending an email. You will receive an email from  `no-reply-aws@amazon.com`  to verify the email. Click on the URL in the mail to verify (your verified email address will be used as the ‘from’ address for the emails you send using AWS-SES).
 
 Inside `.env` file in <%= nodeName %> directory update environment variables:
 
@@ -739,16 +535,10 @@ Now, add recipient's and sender's email id in `to`  `from` fields respectively i
 
 <p align="right">(<a  href="#features">back to features</a>)</p>
 
-
-
 <%}%>
-<div  id='azure'/>
-
-  
+<div  id='azure'/>  
 
 <% if(blobServiceName === 'azure') {%>
-
-  
 
 ### Blob Service
 
@@ -756,18 +546,14 @@ Now, add recipient's and sender's email id in `to`  `from` fields respectively i
 
 Azure Blob storage is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data.
 
- 
 ### Running Azure blob service
 
-  
 
 Inside `.env` file in <%= nodeName %> directory update environment variables:
 
 ```
 AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 ```
-
-  
 
 ### Azure blob service functions
 
@@ -784,7 +570,7 @@ AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 
 <%}%>
 
-<div  id='aws-s3'/>
+<div  id="aws-s3"></div
 
 <% if(blobServiceName === 'aws-s3') {%>
 
@@ -792,13 +578,10 @@ AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 
 ### AWS-S3 blob service
 
-  
-
 Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security.
 
 ### Running AWS-S3 blob service
 
-  
 Inside `.env` file in <%= nodeName %> directory update environment variables:
 
 ```
@@ -820,11 +603,10 @@ AWS_REGION = Enter your Aws Region
 <li> sampleAwsS3Executor - To test all functionalities of aws-s3 blob service.</li>
 </ul>
 
-
 <%}%>
 
 
-<div  id='sentry'/>
+<div  id="sentry"></div>
 <% if(isSentry) {%>
 
 ### Logger Service:
@@ -839,18 +621,15 @@ Inside `sentry.js` file in <%= nodeName %> directory update environment variable
 
 ```
 dsn: "Enter your Domain Source Name",
-
 ``` 
 
 <%}%>
 
-  
-
+ 
 <% if(isWinston) {%>
 
-<div  id='winston'/>
+  <div  id="winston"></div>
  
-
 ### Winston Logger service
 
 `winston` is designed to be a simple and universal logging library with support for multiple transports. A transport is essentially a storage device for your logs. Each `winston` logger can have multiple transports configured at different levels.
@@ -888,9 +667,7 @@ Before running the app, you must update environment variable for postgres in `.e
 Inside `.env` file update environment variable:
 
 ```
-
 DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres
-
 ```
 
 Update `username` and `password` for `DATABASE_URL` environment variable.
@@ -907,35 +684,23 @@ Update `username` and `password` for `DATABASE_URL` environment variable.
 
 <% if(dbName === 'mongoose') {%>
 
-  
-
 ## Mongoose Database Service
-
-  
 
 MongoDB is one of the most widely used No-SQL databases in the developer world today.
 
-  
-
 ### Configure environment variables for Mongoose
-
-  
 
 Before running the app, you must update environment variable for mongoose in `.env` file.
 
 Inside `.env` file update your `DATABASE_URL` environment variable:
 
 ```
-
 DATABASE_URL=mongodb://localhost:27017/admin
-
 ```
 
 <p  align="right">(<a  href="#features">back to features</a>)</p>
 
-<%}%>
-
-  
+<%}%> 
 
 <div  id='mysql'></div>
 
@@ -964,9 +729,7 @@ Before running the app, you must update environment variable for MYSQL in `.env`
 Inside `.env` file Update `username` , `password` and `mydb` for `DATABASE_URL` environment variable as your username, password & database name.
 
 ```
-
 DATABASE_URL=mysql://username:password@localhost:3306/mydb
-
 ```
 
 > Note: create `mydb` schema, in MySql workbench
@@ -979,67 +742,47 @@ DATABASE_URL=mysql://username:password@localhost:3306/mydb
 
 <% if(isJest) {%>
 
-  
 
 ### Testing:
 
-  
-
 ### JEST test framework
-
-  
 
 Jest is a universal testing platform, with the ability to adapt to any JavaScript library or framework.
 
-  
-
 ### Running Jest
 
-  
 
 ```
-
 npm run test
-
 ```
 
 <%}%>
 
   
 
-<div  id='cypress'/>
+<div  id="cypress"></div>
 
-<% if(isCypress) {%>
-
-  
+<% if(isCypress) {%>  
 
 ### Testing:
-
-  
 
 ### Cypress test framework
 
 Cypress is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.
 
-  
 
 ### Running Cypress
 
 Before running the test, update `BASE_URL` constant as your app base url in `cypress.constants.js` file and you need to run the project.
 
   
-
 ```
-
 npx cypress open
-
 ```
 
 <%}%>
 
-  
-
-<div  id='mocha'/>
+<div  id="mocha"></div>
 
 <% if(isMocha) {%>
 
@@ -1051,12 +794,8 @@ Mocha is a feature-rich JavaScript test framework running on Node.js and in the 
 
 ### Running Mocha
 
-  
-
 ```
-
 npm test
-
 ```
 
 <%}%>
@@ -1067,28 +806,18 @@ npm test
 
 <% if(isNightWatch) {%>
 
-  
-
 ### Testing:
-
-  
 
 ### Nightwatch test framework
 
-Nightwatch is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.
-
-  
+Nightwatch is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.  
 
 ### Running Nightwatch
 
 Before running the test, update `BASE_URL` constant as your app base url in `nightwatch.config.js` file and you need to run the project.
 
-  
-
 ```
-
 npm test
-
 ```
 
 <%}%>
@@ -1133,21 +862,13 @@ Built-In directives: [Angular.io/guide/built-in-directives][Angular-directive]
 
 Template overview: [Angular.io/guide/template-overview][Angular-template]
 
-  
-
 ## License
-
-  
 
 Copyright (C)2021 Innostax
 
 Licensed under the MIT License.
 
-  
-
 ## Contact
-
-  
 
 <a  href="[Innostax]([Innostax])"> Innostax Software Labs</p>
 
