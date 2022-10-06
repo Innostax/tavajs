@@ -1,17 +1,4 @@
-const ANGULAR_APP_EXPECTED_RESULT = [
-  [
-    '\x1B[32m\x1B[1m📂 Creating angular project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m'
-  ],
-  [
-    '\x1B[32m\x1B[1m   ⌛ Integrating CSS Framework: bootstrap\x1B[22m\x1B[39m'
-  ],
-  [
-    '\x1B[32m\x1B[1m📂 Creating node-js project: backend using dev-tava 1.0.0\x1B[22m\x1B[39m'
-  ],
-  [ '\x1B[32m\x1B[1m© Powered by Innostax\x1B[22m\x1B[39m' ]
-]
-
-const GITHUB_TEST_CASES_DATA = [
+const ANGULAR_APP_TEST_CASES = [
   [ '📂 Creating angular project: front-end using dev-tava 1.0.0' ],
   [ '   ⌛ Integrating CSS Framework: bootstrap' ],
   [ '📂 Creating node-js project: backend using dev-tava 1.0.0' ],
@@ -73,6 +60,7 @@ const PROJECT_INFO_EXPECTED_DATA = [
 ];
 
 const ANSWERS = {
+  // AngularJS, Bootstrap and NodeJS
   TC0001: {
     projectName: "test-angular-proj-new-new-new",
     projectDirectoryPath: process.cwd(), // "C:\\\\Practice",  // 
@@ -271,5 +259,5 @@ module.exports = {
   PROJECT_SETUP_EXPECTED_DATA,
   ANSWERS,
   ANGULAR_APP_EXPECTED_RESULT,
-  GITHUB_TEST_CASES_DATA
+  ANGULAR_APP_TEST_CASES
 };
