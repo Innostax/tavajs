@@ -32,6 +32,10 @@ const DEPENDENCIES = {
   ANGULARBOOTSTRAP: [
     { name: "bootstrap", version: "^5.2.1" }
   ],
+  ANGULARMATERIALUI: [
+    { name: "@angular/material", version: "^14.2.3" },
+    { name: "@angular/cdk", version: "^14.2.3" }
+  ],
   REACT: [
     { name: "@reduxjs/toolkit", version: "^1.8.5" },
     { name: "react-redux", version: "^7.2.4" },

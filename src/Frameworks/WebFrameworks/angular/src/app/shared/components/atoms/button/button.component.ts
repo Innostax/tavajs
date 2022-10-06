@@ -9,6 +9,7 @@ export class ButtonComponent {
   @Input() name!: string;
   @Input() class!: string;
   @Input() type! : string;
+  <% if(isMaterialUI){%>@Input() color!: string;<%}%>
   @Input() disabledBtn: boolean = false;
   @Output() onClick = new EventEmitter<string>();
 

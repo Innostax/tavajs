@@ -11,6 +11,7 @@ import { LabelComponent } from './components/atoms/label/label.component';
 import { TableComponent } from './components/molecules/table/table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 <% if(isCrudWithNode){%>import { ApiService } from './services/services';<%}%>
+<% if(isMaterialUI){%>import { MaterialModule } from './custom-materialui.module';<%}%>
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     <% if(isStore){%>StoreModule.forFeature(userFeatureKey, reducer),<%}%>
-    NgbModule
+    NgbModule,
+    <% if(isMaterialUI){%>MaterialModule<%}%>
   ],
   exports: [
     FormsModule,
@@ -36,7 +38,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TableComponent, 
     InputComponent, 
     DatepickerComponent,
-    LabelComponent
+    LabelComponent,
+    <% if(isMaterialUI){%>MaterialModule,<%}%>
   ],
   <% if(isCrudWithNode){%> providers:[ApiService] <%}%>
 })

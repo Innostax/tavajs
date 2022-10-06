@@ -183,6 +183,15 @@ const handleAnswersEvaluator = async (answers) => {
         paths = [...paths, ...res];
       } else if (isBootstrap) {
         dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
+      } else if(isMaterialUI){
+        dependencies = [...dependencies, ...DEPENDENCIES.ANGULARMATERIALUI];
+
+        const res = getFilePaths(
+          ANGULAR_MATERIAL_FILE_PATHS,
+          currentPath,
+          frontEnd.path
+        );
+        filePaths = [...filePaths, ...res];
       }
     }
     if (isFrontEndChoiceVue) {
@@ -563,6 +572,7 @@ const handleAnswersEvaluator = async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(currentPath, "Services/DockerServices");
+    conbsole.log("dockerPath+++", dockerPath, isDocker)
     let res = [];
     
     if (isFrontEndChoiceReact) {
@@ -731,7 +741,7 @@ const handleAnswersEvaluator = async (answers) => {
         paths = [...paths, ...res];
         handleRenderEJS(
           `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-          { isTailWind, isBootstrap },
+          { isTailWind, isBootstrap, isMaterialUI },
           `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
         );
         handleRenderEJS(
@@ -753,7 +763,7 @@ const handleAnswersEvaluator = async (answers) => {
     paths = [...paths, ...res];
     handleRenderEJS(
       `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
-      { isTailWind, isBootstrap },
+      { isTailWind, isBootstrap, isMaterialUI },
       `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
     );
     handleRenderEJS(
