@@ -91,19 +91,19 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     done();
   });
   it("Should verify 'For node-js'", async (done) => {
-    expect(echos[15][0]).to.equal(ANGULAR_APP_TEST_CASES[13][0]);
+    expect(echos[16][0]).to.equal(ANGULAR_APP_TEST_CASES[13][0]);
     done();
   });
   it("Should verify 'cd backend'", async (done) => {
-    expect(echos[16][0]).to.equal(ANGULAR_APP_TEST_CASES[14][0]);
+    expect(echos[17][0]).to.equal(ANGULAR_APP_TEST_CASES[14][0]);
     done();
   });
   it("Should verify 'npm start'", async (done) => {
-    expect(echos[17][0]).to.equal(ANGULAR_APP_TEST_CASES[15][0]);
+    expect(echos[18][0]).to.equal(ANGULAR_APP_TEST_CASES[15][0]);
     done();
   });
   it("Should verify 'Ready to go'", async (done) => {
-    expect(echos[18][0]).to.equal(ANGULAR_APP_TEST_CASES[16][0]);
+    expect(echos[20][0]).to.equal(ANGULAR_APP_TEST_CASES[16][0]);
     done();
   });
 
