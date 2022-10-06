@@ -7,6 +7,7 @@ public/
 # Ignore these files:
 package-lock.json
 README.md
+yarn.lock
 .prettierignore
 *.svg
 *.ico
