@@ -48,7 +48,7 @@ const {
     VUE_NETWORKSTATUS_FILE_PATH,
     REACT_NETWORKSTATUS_FILE_PATH,
     OKTA_FILE_PATH,
-    BLOB_SERVICES
+    BLOB_SERVICES,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -133,7 +133,7 @@ const handleAnswersEvaluator = async (answers) => {
     const isAwsS3 = blobServiceName === AWS_S3;
     const isAzure = blobServiceName === AZURE;
 
-    fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err, data) => {
+    fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err) => {
         if (err) {
             console.error(err);
         }
@@ -570,7 +570,7 @@ const handleAnswersEvaluator = async (answers) => {
     //<---------------------------- For Docker integration ---------------------------------->
     if (isDocker) {
         const dockerPath = path.join(currentPath, "Services/DockerServices");
-        conbsole.log("dockerPath+++", dockerPath, isDocker);
+        console.log("dockerPath+++", dockerPath, isDocker);
         let res = [];
     
         if (isFrontEndChoiceReact) {

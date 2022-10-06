@@ -6,10 +6,10 @@ const slice = createSlice({
     name: "modal",
     initialState,
     reducers: {
-        showModal(state, action) {
+        showModal(state) {
             state.show = true;
         },
-        hideModal(state, action) {
+        hideModal(state) {
             state.show = false;
         },
     },

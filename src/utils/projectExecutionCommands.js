@@ -42,7 +42,7 @@ function projectExecutionCommands(frontEnd, backEnd, answers) {
             shell.echo("");
         });
     } else {
-        const { name, choice } = backEnd || frontEnd;
+        const { choice } = backEnd || frontEnd;
         const managerChoice = answers["managerChoice"];
         projectInvokeInstructions(choice, managerChoice);
     }

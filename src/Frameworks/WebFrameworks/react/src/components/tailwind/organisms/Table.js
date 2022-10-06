@@ -1,4 +1,4 @@
-const Table = ({ keyField, data, columns }) => {
+const Table = ({ data, columns }) => {
 	return (
 		<>
 			<div className='overflow-x-auto relative '>

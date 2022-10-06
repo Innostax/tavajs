@@ -7,7 +7,6 @@ function createEmailSevice(
     emailServiceName,
     emailTemplatePath,
     nodePath,
-    __dirname
 ) {
     const dependencies = [];
     dependencies.push({ name: "dotenv", version: "^10.0.0" });
