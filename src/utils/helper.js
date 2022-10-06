@@ -27,7 +27,8 @@ const {
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
-  ANGULAR_MATERIAL_FILE_PATH
+  ANGULAR_MATERIAL_FILE_PATH,
+  REACT_CSS_FRAMEWORK_FILE_PATH
 } = require("../TavaJsExecutors/constants");
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS
 //<-----------------------To create Directory Contents------------------------------------>
@@ -491,6 +492,27 @@ const getFilePaths = (name, srcDir, destDir) => {
           isFile:true,
         }
       ];  
+    case REACT_CSS_FRAMEWORK_FILE_PATH:
+      return [
+        {
+          source: `${srcDir}/atoms`,
+          destination: `${destDir}/src/components/atoms`,
+        },
+        {
+          source: `${srcDir}/molecules`,
+          destination: `${destDir}/src/components/molecules`,
+        },
+        {
+          source: `${srcDir}/organisms/Table.js`,
+          destination: `${destDir}/src/components/organisms/Table.js`,
+          isFile: true,
+        },
+        {
+          source: `${srcDir}/organisms/Modal.js`,
+          destination: `${destDir}/src/components/organisms/Modal.js`,
+          isFile: true,
+        },
+      ];
     default:
       return [];
   }

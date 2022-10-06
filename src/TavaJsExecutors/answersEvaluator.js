@@ -49,7 +49,8 @@ const {
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
   BLOB_SERVICES,
-  ANGULAR_MATERIAL_FILE_PATH
+  ANGULAR_MATERIAL_FILE_PATH,
+  REACT_CSS_FRAMEWORK_FILE_PATH,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -273,7 +274,27 @@ const handleAnswersEvaluator = async (answers) => {
         );
       }
     }
+    if (isFrontEndChoiceReact && cssFrameworkChoice) {
 
+      const res = getFilePaths(
+          REACT_CSS_FRAMEWORK_FILE_PATH,
+          `${currentPath}/Frameworks/CSSFrameworks/React/${cssFrameworkChoice}`,
+          frontEnd.path
+      );
+      paths = [...paths, ...res];
+
+      fsExtra.ensureDirSync(`${frontEnd.path}/src/components/organisms`);
+      handleRenderEJS(
+        `${currentPath}/Frameworks/CSSFrameworks/React/${cssFrameworkChoice}/organisms/NavBar.js`,
+        {
+          isAuth0,
+          isThemeProvider,
+          isOkta,
+          isCognito,
+        },
+        `${frontEnd.path}/src/components/organisms/NavBar.js`
+      );
+    }
     //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
     if (isThemeProvider && isFrontEndChoiceVue) {
       const res = getFilePaths(
@@ -571,7 +592,7 @@ const handleAnswersEvaluator = async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(currentPath, "Services/DockerServices");
-    conbsole.log("dockerPath+++", dockerPath, isDocker)
+    console.log("dockerPath+++", dockerPath, isDocker)
     let res = [];
     
     if (isFrontEndChoiceReact) {

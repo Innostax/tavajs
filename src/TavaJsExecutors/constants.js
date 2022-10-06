@@ -62,6 +62,7 @@ const TAILWIND_ANGULAR_FILE_PATH = "tailwindAngularFilePath";
 const TAILWIND_VUE_FILE_PATH = "tailwindVuefilePath";
 const VUE_NETWORKSTATUS_FILE_PATH = "vueNetworkStatusFilePath"
 const REACT_NETWORKSTATUS_FILE_PATH = "reactNetworkStatusFilePath";
+const REACT_CSS_FRAMEWORK_FILE_PATH = 'reactCSSFrameworkFilePaths';
 
 module.exports = {
   FRAMEWORKS,
@@ -95,5 +96,6 @@ module.exports = {
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   BLOB_SERVICES,
-  ANGULAR_MATERIAL_FILE_PATH
+  ANGULAR_MATERIAL_FILE_PATH,
+  REACT_CSS_FRAMEWORK_FILE_PATH,
 };
