@@ -1,7 +1,7 @@
-const Sentry = require('@sentry/node')
+const Sentry = require("@sentry/node");
 
 Sentry.init({
-	dsn: "Enter your Domain Source Name",
-})
+    dsn: "Enter your Domain Source Name",
+});
 
-module.exports = Sentry
+module.exports = Sentry;

@@ -17,7 +17,8 @@ const InputGroup = ({
 			id={id}
 			value={value}
 			name={name}
-			title={title}/>
+			title={title}
+		/>
 	)
 }
 

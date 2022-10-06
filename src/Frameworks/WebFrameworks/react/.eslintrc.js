@@ -5,7 +5,7 @@ module.exports = {
 		es6: true,
 		'jest/globals': true,
 	},
-	extends: ['plugin:react/recommended', 'standard', 'prettier'],
+	extends: ['plugin:react/recommended', 'prettier'],
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly',

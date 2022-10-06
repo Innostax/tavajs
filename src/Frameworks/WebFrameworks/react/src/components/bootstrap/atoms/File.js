@@ -1,4 +1,3 @@
-
 import Dropzone from 'react-dropzone'
 import { Button } from 'react-bootstrap'
 
@@ -22,24 +21,19 @@ const File = ({ setUploadedFiles, uploadFiletypes }) => {
 	}
 
 	return (
-		
-			<Dropzone
-				onDrop={onDropHandle}
-				accept={uploadFiletypes}
-			>
-				{({ getRootProps, getInputProps }) => (
-					<section>
-						<div {...getRootProps()}>
-							<input {...getInputProps()} />
-							<div className='d-flex align-items-center'>
-								<div className='flex-fill mr-3'>Please upload your Files</div>
-								<Button variant='secondary'>Select File</Button>
-							</div>
+		<Dropzone onDrop={onDropHandle} accept={uploadFiletypes}>
+			{({ getRootProps, getInputProps }) => (
+				<section>
+					<div {...getRootProps()}>
+						<input {...getInputProps()} />
+						<div className='d-flex align-items-center'>
+							<div className='flex-fill mr-3'>Please upload your Files</div>
+							<Button variant='secondary'>Select File</Button>
 						</div>
-					</section>
-				)}
-			</Dropzone>
-		
+					</div>
+				</section>
+			)}
+		</Dropzone>
 	)
 }
 
