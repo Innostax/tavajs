@@ -1,3 +1,16 @@
+const ANGULAR_APP_EXPECTED_RESULT = [
+  [
+    '\x1B[32m\x1B[1m📂 Creating angular project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m'
+  ],
+  [
+    '\x1B[32m\x1B[1m   ⌛ Integrating CSS Framework: bootstrap\x1B[22m\x1B[39m'
+  ],
+  [
+    '\x1B[32m\x1B[1m📂 Creating node-js project: backend using dev-tava 1.0.0\x1B[22m\x1B[39m'
+  ],
+  [ '\x1B[32m\x1B[1m© Powered by Innostax\x1B[22m\x1B[39m' ]
+]
+
 const PROJECT_INFO_EXPECTED_DATA = [
   [
     "\x1B[32m\x1B[1m📂 Creating angular project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
@@ -227,4 +240,5 @@ module.exports = {
   PROJECT_INFO_EXPECTED_DATA,
   PROJECT_SETUP_EXPECTED_DATA,
   ANSWERS,
+  ANGULAR_APP_EXPECTED_RESULT
 };
