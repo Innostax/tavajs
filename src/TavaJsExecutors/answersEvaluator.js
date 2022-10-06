@@ -48,7 +48,8 @@ const {
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
-  BLOB_SERVICES
+  BLOB_SERVICES,
+  ANGULAR_MATERIAL_FILE_PATH
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
