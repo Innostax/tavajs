@@ -4,7 +4,7 @@
   "scripts": {
     "build": "shx rm -rf dist/templates && shx cp -r templates dist",
     "start": "node src/index.js",
-    "test": "mocha tests/test-cases/TC0001.js --timeout 100000",
+    "test": "mocha tests/test-cases/TC0001.js --timeout 500000",
     "test2": "mocha tests/test-cases/TC0002.js --timeout 500000",
     "test3": "mocha tests/test-cases/TC0003.js --timeout 500000",
     "test4": "mocha tests/test-cases/TC0004.js --timeout 500000",
