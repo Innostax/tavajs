@@ -4,9 +4,9 @@ name: Mocha Test Cases CI
 
 on:
   push:
-    branches: [ "325/sonarcloud-implementation-in-tavajs" ]
-#   pull_request:
-#     branches: [ "develop" ]
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
 
 jobs:
   sonarcloud:
