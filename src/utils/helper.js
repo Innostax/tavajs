@@ -482,7 +482,7 @@ const getFilePaths = (name, srcDir, destDir) => {
           destination: `${destDir}/src/components/NetworkStatus.js`,
         },
       ];
-    case ANGULAR_MATERIAL_FILE_PATHS: 
+    case ANGULAR_MATERIAL_FILE_PATH: 
       return [
         {
           source: `${srcDir}/Frameworks/CSSFrameworks/MaterialUIFramework/angular/custom-materialui.module.ts`,

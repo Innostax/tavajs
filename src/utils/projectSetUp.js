@@ -72,7 +72,6 @@ const packageInstaller = async (
       backEnd,
       cicdPipelineIntegrate
     );
-    // shell.exec("npm install --silent --legacy-peer-deps"); // -s / --silent ,  --no-optional , npm --logevel=error install
   }
   if (managerChoice === "yarn") {
       shell.echo(
