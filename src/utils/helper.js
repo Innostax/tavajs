@@ -385,19 +385,19 @@ const getFilePaths = (name, srcDir, destDir, backendDir) => {
           isFile: false,
         },
       ];
-    // case ANGULAR_DOCKER_FILE_PATHS:
-    //   return [
-    //     {
-    //       source: `${srcDir}/angular-docker/.dockerignore`,
-    //       destination: `${destDir}/.dockerignore`,
-    //       isFile: false,
-    //     },
-    //     {
-    //       source: `${srcDir}/angular-docker/Dockerfile`,
-    //       destination: `${destDir}/Dockerfile`,
-    //       isFile: false,
-    //     },
-    //   ];
+    case ANGULAR_DOCKER_FILE_PATHS:
+      return [
+        {
+          source: `${srcDir}/angular-docker/.dockerignore`,
+          destination: `${destDir}/.dockerignore`,
+          isFile: false,
+        },
+        {
+          source: `${srcDir}/angular-docker/Dockerfile`,
+          destination: `${destDir}/Dockerfile`,
+          isFile: false,
+        },
+      ];
     case NGRX_FILE_PATHS:
       return [
         {
