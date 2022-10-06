@@ -1,3 +1,79 @@
+const PROJECT_INFO_EXPECTED_DATA = [
+  ["📂 Creating react project: front-end using dev-tava 1.0.0"],
+  ["⌛ Integrating Authentication service: Autho"],
+  ["⌛ Integrating CSS Framework: material"],
+  ["⌛ Integrating Theme Provider: light-dark-mode"],
+  ["⌛ Integrating Redux pattern"],
+  ["📂 Creating node-js project: back-end using dev-tava 1.0.0"],
+  ["⌛ Integrating Database service: mongoose"],
+  ["⌛ Integrating Logger service: winston"],
+  ["⌛ Integrating Email service: sendgrid"],
+  ["⌛ Integrating Blob service: azure"],
+  ["© Powered by Innostax"],
+  ["--------------- NPM loading on react, Wait for finish ---------------\r"],
+  ["📂 Creating angular project: backend using dev-tava 1.0.0"],
+  ["⌛ Integrating Database service: mysql"],
+  ["⌛ Integrating CSS Framework: bootstrap"],
+  ["⌛ Integrating CSS Framework: tailwind"],
+];
+
+const PROJECT_SETUP_EXPECTED_DATA = [
+  [
+    "\x1B[32m\x1B[1m📂 Creating react project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
+  ],
+  [
+    "\x1B[32m\x1B[1m   ⌛ Integrating Authentication service: Autho\x1B[22m\x1B[39m",
+  ],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating CSS Framework: material\x1B[22m\x1B[39m"],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating theme: light-dark-mode\x1B[22m\x1B[39m"],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating Redux pattern\x1B[22m\x1B[39m"],
+  [
+    "\x1B[32m\x1B[1m📂 Creating node-js project: back-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
+  ],
+  [
+    "\x1B[32m\x1B[1m   ⌛ Integrating Database service: mongoose\x1B[22m\x1B[39m",
+  ],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating Logger service: winston\x1B[22m\x1B[39m"],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating Email service: sendgrid\x1B[22m\x1B[39m"],
+  ["\x1B[32m\x1B[1m   ⌛ Integrating Blob service: azure\x1B[22m\x1B[39m"],
+  ["\x1B[32m\x1B[1m© Powered by Innostax\x1B[22m\x1B[39m"],
+  [
+    "\x1B[32m\x1B[35m--------------- NPM loading on react, Wait for finish ---------------\r\x1B[39m\x1B[39m",
+  ],
+  ["\x1B[32m\x1B[1m-> NPM modules installed!👍\r\x1B[22m\x1B[39m"],
+  ["\x1B[31m\x1B[1mInstalling took 19:54 minutes.\x1B[22m\x1B[39m"],
+  [
+    "\x1B[32m\x1B[35m--------------- NPM loading on node-js, Wait for finish ---------------\r\x1B[39m\x1B[39m",
+  ],
+  ["\x1B[32m\x1B[1m-> NPM modules installed!👍\r\x1B[22m\x1B[39m"],
+  ["\x1B[31m\x1B[1mInstalling took 19:54 minutes.\x1B[22m\x1B[39m"],
+  [
+    "\x1B[32m\x1B[1m✅ Successfully created \x1B[22m\x1B[39m\n\x1B[32m\x1B[1m \x1B[22m\x1B[39m",
+  ],
+  [
+    "\x1B[95m\x1B[1m-> To get Started: \x1B[22m\x1B[39m\n\x1B[95m\x1B[1m\x1B[22m\x1B[39m",
+  ],
+  [
+    "\x1B[96m\x1B[3m\x1B[1m     cd C:/Practice\\test-oooijklm \x1B[22m\x1B[23m\x1B[39m\n" +
+      "\x1B[96m\x1B[3m\x1B[1m\x1B[22m\x1B[23m\x1B[39m",
+  ],
+  [
+    "\x1B[95m\x1B[1m-> For react: \x1B[22m\x1B[39m\n\x1B[95m\x1B[1m\x1B[22m\x1B[39m",
+  ],
+  ["\x1B[96m\x1B[3m\x1B[1m     cd front-end\x1B[22m\x1B[23m\x1B[39m"],
+  ["\x1B[96m\x1B[3m\x1B[1m     npm start\x1B[22m\x1B[23m\x1B[39m"],
+  [""],
+  [
+    "\x1B[95m\x1B[1m-> For node-js: \x1B[22m\x1B[39m\n\x1B[95m\x1B[1m\x1B[22m\x1B[39m",
+  ],
+  ["\x1B[96m\x1B[3m\x1B[1m     cd back-end\x1B[22m\x1B[23m\x1B[39m"],
+  ["\x1B[96m\x1B[3m\x1B[1m     npm start\x1B[22m\x1B[23m\x1B[39m"],
+  [""],
+  [
+    "\x1B[96m\x1B[3m\x1B[1m------------------------ Ready to go --------------------------\x1B[22m\x1B[23m\x1B[39m",
+  ],
+];
+
 const ANGULAR_APP_EXPECTED_RESULT = [
   ["📂 Creating angular project: front-end using dev-tava 1.0.0"],
   ["   ⌛ Integrating CSS Framework: bootstrap"],
@@ -16,25 +92,6 @@ const ANGULAR_APP_EXPECTED_RESULT = [
   ["     cd backend"],
   ["     npm start"],
   ["------------------------ Ready to go --------------------------"],
-];
-
-const PROJECT_INFO_EXPECTED_DATA = [
-  ["📂 Creating react project: front-end using dev-tava 1.0.0"],
-  ["⌛ Integrating Authentication service: Autho"],
-  ["⌛ Integrating CSS Framework: material"],
-  ["⌛ Integrating Theme Provider: light-dark-mode"],
-  ["⌛ Integrating Redux pattern"],
-  ["📂 Creating node-js project: back-end using dev-tava 1.0.0"],
-  ["⌛ Integrating Database service: mongoose"],
-  ["⌛ Integrating Logger service: winston"],
-  ["⌛ Integrating Email service: sendgrid"],
-  ["⌛ Integrating Blob service: azure"],
-  ["© Powered by Innostax"],
-  ["--------------- NPM loading on react, Wait for finish ---------------\r"],
-  ["📂 Creating angular project: backend using dev-tava 1.0.0"],
-  ["⌛ Integrating Database service: mysql"],
-  ["⌛ Integrating CSS Framework: bootstrap"],
-  ["⌛ Integrating CSS Framework: tailwind"],
 ];
 
 const ANSWERS = {
@@ -129,67 +186,9 @@ const ANSWERS = {
     dockerService: false,
   },
 };
-
-const PROJECT_SETUP_EXPECTED_DATA = [
-  [
-    "\x1B[32m\x1B[1m📂 Creating react project: front-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
-  ],
-  [
-    "\x1B[32m\x1B[1m   ⌛ Integrating Authentication service: Autho\x1B[22m\x1B[39m",
-  ],
-  ["\x1B[32m\x1B[1m   ⌛ Integrating CSS Framework: material\x1B[22m\x1B[39m"],
-  ["\x1B[32m\x1B[1m   ⌛ Integrating theme: light-dark-mode\x1B[22m\x1B[39m"],
-  ["\x1B[32m\x1B[1m   ⌛ Integrating Redux pattern\x1B[22m\x1B[39m"],
-  [
-    "\x1B[32m\x1B[1m📂 Creating node-js project: back-end using dev-tava 1.0.0\x1B[22m\x1B[39m",
-  ],
-  [
-    "\x1B[32m\x1B[1m   ⌛ Integrating Database service: mongoose\x1B[22m\x1B[39m",
-  ],
-  ["\x1B[32m\x1B[1m   ⌛ Integrating Logger service: winston\x1B[22m\x1B[39m"],
-  ["\x1B[32m\x1B[1m   ⌛ Integrating Email service: sendgrid\x1B[22m\x1B[39m"],
-  ["\x1B[32m\x1B[1m   ⌛ Integrating Blob service: azure\x1B[22m\x1B[39m"],
-  ["\x1B[32m\x1B[1m© Powered by Innostax\x1B[22m\x1B[39m"],
-  [
-    "\x1B[32m\x1B[35m--------------- NPM loading on react, Wait for finish ---------------\r\x1B[39m\x1B[39m",
-  ],
-  ["\x1B[32m\x1B[1m-> NPM modules installed!👍\r\x1B[22m\x1B[39m"],
-  ["\x1B[31m\x1B[1mInstalling took 19:54 minutes.\x1B[22m\x1B[39m"],
-  [
-    "\x1B[32m\x1B[35m--------------- NPM loading on node-js, Wait for finish ---------------\r\x1B[39m\x1B[39m",
-  ],
-  ["\x1B[32m\x1B[1m-> NPM modules installed!👍\r\x1B[22m\x1B[39m"],
-  ["\x1B[31m\x1B[1mInstalling took 19:54 minutes.\x1B[22m\x1B[39m"],
-  [
-    "\x1B[32m\x1B[1m✅ Successfully created \x1B[22m\x1B[39m\n\x1B[32m\x1B[1m \x1B[22m\x1B[39m",
-  ],
-  [
-    "\x1B[95m\x1B[1m-> To get Started: \x1B[22m\x1B[39m\n\x1B[95m\x1B[1m\x1B[22m\x1B[39m",
-  ],
-  [
-    "\x1B[96m\x1B[3m\x1B[1m     cd C:/Practice\\test-oooijklm \x1B[22m\x1B[23m\x1B[39m\n" +
-      "\x1B[96m\x1B[3m\x1B[1m\x1B[22m\x1B[23m\x1B[39m",
-  ],
-  [
-    "\x1B[95m\x1B[1m-> For react: \x1B[22m\x1B[39m\n\x1B[95m\x1B[1m\x1B[22m\x1B[39m",
-  ],
-  ["\x1B[96m\x1B[3m\x1B[1m     cd front-end\x1B[22m\x1B[23m\x1B[39m"],
-  ["\x1B[96m\x1B[3m\x1B[1m     npm start\x1B[22m\x1B[23m\x1B[39m"],
-  [""],
-  [
-    "\x1B[95m\x1B[1m-> For node-js: \x1B[22m\x1B[39m\n\x1B[95m\x1B[1m\x1B[22m\x1B[39m",
-  ],
-  ["\x1B[96m\x1B[3m\x1B[1m     cd back-end\x1B[22m\x1B[23m\x1B[39m"],
-  ["\x1B[96m\x1B[3m\x1B[1m     npm start\x1B[22m\x1B[23m\x1B[39m"],
-  [""],
-  [
-    "\x1B[96m\x1B[3m\x1B[1m------------------------ Ready to go --------------------------\x1B[22m\x1B[23m\x1B[39m",
-  ],
-];
-
 module.exports = {
   PROJECT_INFO_EXPECTED_DATA,
   PROJECT_SETUP_EXPECTED_DATA,
-  ANSWERS,
   ANGULAR_APP_EXPECTED_RESULT,
+  ANSWERS
 };
