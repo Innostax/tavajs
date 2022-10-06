@@ -31,10 +31,10 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     await projectInfo(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("executed projectInfo successfully");
     
-    // await projectSetUp(frontEnd, backEnd, ANSWERS.TC0001);
-    // console.log("executed projectSetUp successfully");
-    // projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0001);
-    // console.log("executed projectExecutionCommands successfully");
+    await projectSetUp(frontEnd, backEnd, ANSWERS.TC0001);
+    console.log("executed projectSetUp successfully");
+    projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0001);
+    console.log("executed projectExecutionCommands successfully");
   });
 
   it("Should verify 'Creating react project'", async function (done) {

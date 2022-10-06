@@ -44,8 +44,8 @@ const PROJECT_INFO_EXPECTED_DATA = [
 
 const ANSWERS = {
   TC0001: {
-    projectName: "test-angular-proj-new",
-    projectDirectoryPath: "C:\\\\Practice",  // process.cwd()
+    projectName: "test-angular-proj-new-new",
+    projectDirectoryPath: process.cwd(), // "C:\\\\Practice",  // 
     managerChoice: "npm",
     frontEnd: true,
     frontEndChoice: "angular",
