@@ -4,14 +4,28 @@ name: Mocha Test Cases CI
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+    branches: [ "325/sonarcloud-implementation-in-tavajs" ]
+#   pull_request:
+#     branches: [ "develop" ]
 
 jobs:
-  build:
-    name: Build Project
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any (no need to add github token in secrets)
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  build-and-test:
+    name: Build & Mocha Test
+    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -22,10 +36,5 @@ jobs:
     - name: Run npm install
       run: npm install
 
-  mocha-test-cases:
-    name: Mocha Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run Test
-        run: npm run test
+    - name: Run Mocha Test Cases
+      run: npm run test
