@@ -11,12 +11,8 @@ const ANGULAR_APP_TEST_CASES = [
     '--------------- NPM loading on node-js, Wait for finish ---------------\r'
   ],
   [ '-> NPM modules installed!👍\r' ],
-  [ 'Installing took 0:57 minutes.' ],
   [ '✅ Successfully created \n ' ],
   [ '-> To get Started: \n' ],
-  [
-    '     cd /home/runner/work/tavajs/tavajs\\test-angular-proj-new-new \n'
-  ],
   [ '-> For angular: \n' ],
   [ '     cd front-end' ],
   [ '     npm start' ],

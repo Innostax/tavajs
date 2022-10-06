@@ -69,11 +69,6 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     expect(echos[7][0]).to.equal(ANGULAR_APP_TEST_CASES[7][0]);
     done();
   });
-
-  it("Should verify 'Installation time'", async (done) => {
-    expect(echos[8][0]).to.equal(ANGULAR_APP_TEST_CASES[8][0]);
-    done();
-  });
   it("Should verify 'Successfully created'", async function (done) {
     expect(echos[9][0]).to.equal(ANGULAR_APP_TEST_CASES[9][0]);
     done();
@@ -82,15 +77,10 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     expect(echos[10][0]).to.equal(ANGULAR_APP_TEST_CASES[10][0]);
     done();
   });
-  it("Should verify 'Project Path'", async (done) => {
-    expect(echos[11][0]).to.equal(ANGULAR_APP_TEST_CASES[11][0]);
-    done();
-  });
   it("Should verify 'For angular'", async (done) => {
     expect(echos[12][0]).to.equal(ANGULAR_APP_TEST_CASES[12][0]);
     done();
   });
-
   it("Should verify 'cd front-end'", async (done) => {
     expect(echos[13][0]).to.equal(ANGULAR_APP_TEST_CASES[13][0]);
     done();
