@@ -1,6 +1,6 @@
 export default function TavaJSModal({
 	children,
-	open,
+	shouldOpen,
 	handleClose,
 	title,
 	footer,

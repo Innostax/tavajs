@@ -63,7 +63,7 @@ const AddUser = ({ show, handleClose, reset }) => {
   };
   return (
     <Modal
-    show={true}
+    shouldOpen={true}
     handleClose={handleClose}
     title={isEmpty(user) ? 'Add User' : 'Edit User'}
     reset={reset}			
