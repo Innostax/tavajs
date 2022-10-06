@@ -16,7 +16,7 @@ import TavaJSModal from "../../components/organisms/Modal";
     )
     return (
       <TavaJSModal
-        open={shouldOpen}
+        shouldOpen={shouldOpen}
         title='Delete User?'
         handleClose={setOpen}
         footer={footer}
@@ -48,7 +48,7 @@ const DeleteConfirmationModal = ({ shouldOpen, setOpen, handleDelete, userToBeDe
   );
   return (
     <TavaJSModal
-      show={shouldOpen}
+      shouldOpen={shouldOpen}
       title="Delete User?"
       handleClose={setOpen}
       footer={footer}
@@ -63,7 +63,7 @@ import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 const DeleteConfirmationModal = ({ shouldOpen, setOpen, handleDelete, userToBeDeleted }) => {
 	return (
-		<TavaJSModal show={shouldOpen} title='Delete User?' handleClose={setOpen}>
+		<TavaJSModal shouldOpen={shouldOpen} title='Delete User?' handleClose={setOpen}>
 			Are you sure you want to delete <b>{userToBeDeleted.username}</b> ?
 			<br></br>
 			<Box

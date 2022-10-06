@@ -98,14 +98,14 @@ const Users = () => {
     )
       <%}%>
       <% if(isMaterialUI) {%>
-        const deleteFormatter= (id, row)=>(
+        const deleteFormatter= (data)=>(
         <>
           <Button
             variant='outlined'
             color="error"
             size="small"
             onClick={() => {
-              userToBeDeleted = row
+              userToBeDeleted = data
               setConfirmDelete(true)
             }}
           >
@@ -214,7 +214,7 @@ const Users = () => {
         {show && <AddUser show={setShow} handleShow={handleShow} />}
         {confirmDelete && (
           <DeleteConfirmationModal
-            open={confirmDelete}
+            shouldOpen={confirmDelete}
             <% if(isMaterialUI) {%>
             setOpen={() => setConfirmDelete(false)}
             <%}else{%>
