@@ -53,13 +53,7 @@ describe("Verify working of ANSWERS.TC0004 evaluator method.", async () => {
   });
 
   after(async function () {
-    // fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
-    // console.log("deleted current project directory successfully!");
-    fs.rm(`${CURR_DIR}/${projectName}`, { recursive: true }, (err) => {
-      if (err) {
-        throw err;
-      }
-      console.log(`${CURR_DIR}/${projectName} is deleted!`);
-    });
+    console.log("`${CURR_DIR}/${projectName}`", `${CURR_DIR}/${projectName}`);
+    fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
   });
 });
