@@ -65,7 +65,7 @@ module.exports = [
     message: "Which CSS Framework do you want?",
     choices: (answers) => getCSSFrameworkChoices(answers.frontEndChoice),
     when: (answers) => {
-      return answers.frontEndChoice
+      return answers.frontEndChoice;
     },
   },
   /*CSS Framework question ended here */

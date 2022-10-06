@@ -63,7 +63,7 @@ const { CYPRESS, JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS;
 const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
 const { AWS_S3, AZURE } = BLOB_SERVICES
 
-const currentPath = path.join(__dirname,"../");
+const currentPath = path.join(__dirname, "../");
 const NODE_JS = "node-js";
 
 let dependencies = [];
@@ -292,7 +292,7 @@ const handleAnswersEvaluator = async (answers) => {
     }
 
     //<----------------------------------- Network Informer + React ------------------------------------------------>
-    if(isNetworkInformer && isFrontEndChoiceReact) {      
+    if (isNetworkInformer && isFrontEndChoiceReact) {      
         const res = getFilePaths(
          REACT_NETWORKSTATUS_FILE_PATH,
           currentPath,
