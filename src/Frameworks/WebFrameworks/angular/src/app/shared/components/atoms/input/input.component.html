@@ -1,0 +1,11 @@
+<div [formGroup]="registerForm">
+  <input
+    <% if(isMaterialUI){%>matInput<%}%>
+    [formControlName]="name" 
+    [name]="name" 
+    [type]="type" 
+    [id]="id" 
+    [class]="class" 
+    [placeholder]="'Enter ' + name"
+  />
+</div>

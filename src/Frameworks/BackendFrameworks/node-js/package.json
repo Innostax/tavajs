@@ -1,0 +1,46 @@
+{
+  "name": "<%= projectName %>",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {    
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run pretty && npm run eslint && npm run dev-watch",
+    "dev-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"nodemon index.js\"",
+    "start": "npm run pretty && npm run eslint && npm run start-watch",
+    "start-watch": "concurrently --kill-others \"npm run prettier-watch\" \"npm run eslint-watch\" \"node index.js\"",
+    "pretty": "npx prettier --write \"**/*\"",
+    "prettier-watch": "onchange \"**/*\" -- npx prettier --write {{changed}}",
+    "eslint": "npx eslint",
+    "eslint-watch": "onchange \"**/*.js\" -- npx eslint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "^3.1.6",
+    "express":"^4.18.1",
+    "express-openid-connect":"^2.8.0",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12",
+    "express-jwt": "^6.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "customize-cra": "^0.9.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.3.1",
+    "onchange": "^6.1.0",
+    "prettier": "^2.0.2"
+  }
+}

@@ -2,21 +2,26 @@
   "name": "dev-tava",
   "version": "1.0.0",
   "scripts": {
+    "build": "shx rm -rf dist/templates && shx cp -r templates dist",
     "start": "node src/index.js",
-    "build": "shx rm -rf dist/templates && shx cp -r templates dist"
+    "test": "mocha"
   },
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
+    "child_process": "^1.0.2",
     "commander": "^8.1.0",
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
     "inquirer": "^8.1.2",
-    "shx": "^0.3.3"
+    "mocha": "^10.0.0",
+    "nanospinner": "^1.1.0",
+    "shx": "^0.3.3",
+    "stopwatch-node": "^1.1.0"
   },
   "bin": {
     "generate-tava": "src/index.js",
-    "generate-screen": "src/generateScreens/generate-react-screen.js",
-    "generate-route": "src/generateRoutes/generate-route.js"
+    "generate-screen": "src/Generators/ScreenGenerator/generate-react-screen.js",
+    "generate-route": "src/Generators/RouteGenerator/generate-route.js"
   }
 }

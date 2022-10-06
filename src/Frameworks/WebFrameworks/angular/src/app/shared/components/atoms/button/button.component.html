@@ -1,0 +1,12 @@
+<button 
+  <% if(isMaterialUI){%> mat-raised-button
+  [color]="color"
+  <%}%>
+  [class]="class"
+  [ngClass]="{ 'disable-cursor opacity05' : disabledBtn }"
+  [type]="type"
+  (click)="handleOnClick()"
+  [disabled]="disabledBtn"
+>
+  {{ name }}
+</button>

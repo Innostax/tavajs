@@ -1,0 +1,32 @@
+
+/* To-DO: isThemeProvider will updated once done in 'index.js:35' */
+<%if(isCognito){%>@import '~@aws-amplify/ui-angular/theme.css';<%}%>
+<% if(isThemeProvider){%>
+@import "./angular-themes/dark-theme.css";
+:root {
+  --background-color: #fff;
+  --text-color: #121416d8;
+  --link-color: #543FD7;
+  --dark-background-color: #212A2E;
+  --dark-text-color: #F7F8F8;
+  --dark-link-color: #828FFF;
+}<%}%>
+
+<% if(isTailWind){%>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+<%}%>
+
+
+<% if(isMaterialUI){%>
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+<%}%>
+

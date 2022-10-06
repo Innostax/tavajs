@@ -1,0 +1,97 @@
+/* To-Dos: Needs to figure out '[data-theme='dark']' */
+[data-theme='dark'] {
+  background-color: var(--dark-background-color);
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .bg-light {
+  background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity)) !important;
+  box-shadow: 1px 1px 5px var(--dark-text-color);
+}
+
+[data-theme='dark'] .navbar .container .navbar-brand {
+  color: var(--dark-text-color) !important;
+}
+
+[data-theme='dark'] .navbar-nav .nav-link {
+  color: var(--dark-text-color);
+}
+
+/* Table styling */
+[data-theme='dark'] .table {
+  color: var(--dark-text-color);
+}
+
+/* Modal styling */
+[data-theme='dark'] .modal-content {
+  background-color: var(--dark-background-color);
+}
+
+/* Modal text for tailwind css */
+[data-theme='dark'] .label-white {
+  color:  var(--dark-text-color)
+}
+
+/* Modal close icon styling */
+[data-theme='dark'] .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme='dark'] .auth-btn-group .btn {
+  color: var(--dark-text-color);
+  border: 1px solid var(--dark-text-color);
+}
+
+/* Navbar button styling for m-web */
+[data-theme='dark'] .navbar-toggler {
+  border: var(--bs-border-width) solid var(--dark-text-color);
+}
+
+[data-theme='dark'] .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* Tailwind - Navbar */
+[data-theme='dark'] .down-arrow {
+  filter: brightness(0) invert(1);
+}
+
+/* Signout button styling */
+[data-theme='dark'] .profile-icon {
+  border: 1px solid var(--dark-text-color) !important;
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .mat-toolbar-row,
+.mat-toolbar-single-row {
+  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  box-shadow: 1px 1px 5px var(--dark-text-color);
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .a-link {
+  color: var(--dark-text-color) !important;
+}
+
+[data-theme='dark'] .users-modal {
+  background-color: var(--dark-background-color) !important ;
+}
+
+[data-theme='dark'] .mat-users-modal {
+  background-color: var(--dark-background-color) !important ;
+}
+
+[data-theme='dark'] .add-modalhead button {
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .deleteheader button {
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .fill-current {
+  color: var(--dark-text-color);
+}
+[data-theme='dark'] .login-dropdown-icon{
+  background-color: var(--dark-text-color);
+}

@@ -1,0 +1,19 @@
+# Node artifact files
+node_modules/
+dist/
+build/
+public/
+
+# Ignore these files:
+package-lock.json
+yarn-error.log
+README.md
+yarn.lock
+.prettierignore
+*.svg
+*.ico
+*.html
+*.png
+.env
+*.txt
+*.yml
