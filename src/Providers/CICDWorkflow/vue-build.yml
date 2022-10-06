@@ -21,9 +21,10 @@ jobs:
 
     steps:
     <% if(isCICDPipelineIntegrate == "aws"){%>
-    - uses: actions/checkout@v3
-      name: Checkout Repository
-
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3     
+    
     - uses: aws-actions/configure-aws-credentials@v1
       with:
         # Enter Access key id as configured in AWS IAMROOT service
@@ -32,17 +33,19 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
     <%}%>
-      - name: Set up node 16.14.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16.14.x"
+    - name: Set up node 16.14.x
+      uses: actions/checkout@v3 
+    
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "16.14.x"
 
-      - name: Install dependencies   
-        run: npm install
+    - name: Install dependencies   
+      run: npm install
         
-      - name: Building project
-        run:  npm run build
+    - name: Building project
+      run:  npm run build
 <% if(isCICDPipelineIntegrate == "aws"){%>
     - name: Deploy to S3 bucket
-      run: aws s3 sync ./build s3://${{ env.S3_BUCKET }}/
-    <%}%>
+      run: aws s3 sync ./dist s3://${{ env.S3_BUCKET }}/
+<%}%>
