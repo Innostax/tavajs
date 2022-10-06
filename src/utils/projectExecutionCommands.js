@@ -42,7 +42,7 @@ const projectExecutionCommands = async (frontEnd, backEnd, answers) => {
       shell.echo("");
     });
   } else {
-    const { name, choice } = backEnd || frontEnd;
+    const { choice } = backEnd || frontEnd;
     const managerChoice = answers["managerChoice"];
     projectInvokeInstructions(choice, managerChoice);
   }
@@ -52,7 +52,7 @@ const projectExecutionCommands = async (frontEnd, backEnd, answers) => {
       `------------------------ Ready to go --------------------------`
     )
   );
-}
+};
 
 //---------------------------------------------------------------------------
 const projectInvokeInstructions = (projectChoice, managerChoice) => {
@@ -70,6 +70,6 @@ const projectInvokeInstructions = (projectChoice, managerChoice) => {
       shell.echo(chalk.cyanBright.italic.bold(`     yarn start`));
     }
   }
-}
+};
 
 module.exports = projectExecutionCommands;
