@@ -16,11 +16,9 @@ const ANGULAR_APP_TEST_CASES = [
   [ '-> For angular: \n' ],
   [ '     cd front-end' ],
   [ '     npm start' ],
-  [ '' ],
   [ '-> For node-js: \n' ],
   [ '     cd backend' ],
   [ '     npm start' ],
-  [ '' ],
   [ '------------------------ Ready to go --------------------------' ]
 ]
 

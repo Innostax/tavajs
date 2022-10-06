@@ -24,7 +24,7 @@ const { frontEnd, backEnd } = getProjectDetails(
   ANSWERS.TC0001
 );
 
-describe("Verify working of ANSWERS.TC0001 evaluator method.", async (done) => {
+describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   before(async function () {
     await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("executed handleAnswersEvaluator successfully");
@@ -37,7 +37,8 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async (done) => {
     console.log("executed projectExecutionCommands successfully");
   });
 
-  it("Should verify 'Creating angular project'", async function (done) {
+  it("Should verify 'Creating angular project'", async (done) => {
+    console.log("echos=======>", echos);
     expect(echos[0][0]).to.equal(ANGULAR_APP_TEST_CASES[0][0]);
     done();
   });
@@ -53,7 +54,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async (done) => {
     expect(echos[3][0]).to.equal(ANGULAR_APP_TEST_CASES[3][0]);
     done();
   });
-  it("Should verify 'NPM loading on angular'", async function (done) {
+  it("Should verify 'NPM loading on angular'", async  (done) => {
     expect(echos[4][0]).to.equal(ANGULAR_APP_TEST_CASES[4][0]);
     done();
   });
@@ -69,46 +70,45 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async (done) => {
     expect(echos[7][0]).to.equal(ANGULAR_APP_TEST_CASES[7][0]);
     done();
   });
-  it("Should verify 'Successfully created'", async function (done) {
-    expect(echos[9][0]).to.equal(ANGULAR_APP_TEST_CASES[9][0]);
+  it("Should verify 'Successfully created'", async (done) => {
+    expect(echos[9][0]).to.equal(ANGULAR_APP_TEST_CASES[8][0]);
     done();
   });
   it("Should verify 'To get Started'", async (done) => {
-    expect(echos[10][0]).to.equal(ANGULAR_APP_TEST_CASES[10][0]);
+    expect(echos[10][0]).to.equal(ANGULAR_APP_TEST_CASES[9][0]);
     done();
   });
   it("Should verify 'For angular'", async (done) => {
-    expect(echos[12][0]).to.equal(ANGULAR_APP_TEST_CASES[12][0]);
+    expect(echos[12][0]).to.equal(ANGULAR_APP_TEST_CASES[10][0]);
     done();
   });
   it("Should verify 'cd front-end'", async (done) => {
-    expect(echos[13][0]).to.equal(ANGULAR_APP_TEST_CASES[13][0]);
-    done();
-  });
-  it("Should verify 'npm start'", async function (done) {
-    expect(echos[14][0]).to.equal(ANGULAR_APP_TEST_CASES[14][0]);
-    done();
-  });
-  it("Should verify 'For node-js'", async (done) => {
-    expect(echos[15][0]).to.equal(ANGULAR_APP_TEST_CASES[15][0]);
-    done();
-  });
-  it("Should verify 'cd backend'", async (done) => {
-    expect(echos[16][0]).to.equal(ANGULAR_APP_TEST_CASES[16][0]);
+    expect(echos[13][0]).to.equal(ANGULAR_APP_TEST_CASES[11][0]);
     done();
   });
   it("Should verify 'npm start'", async (done) => {
-    expect(echos[17][0]).to.equal(ANGULAR_APP_TEST_CASES[17][0]);
+    expect(echos[14][0]).to.equal(ANGULAR_APP_TEST_CASES[12][0]);
+    done();
+  });
+  it("Should verify 'For node-js'", async (done) => {
+    expect(echos[15][0]).to.equal(ANGULAR_APP_TEST_CASES[13][0]);
+    done();
+  });
+  it("Should verify 'cd backend'", async (done) => {
+    expect(echos[16][0]).to.equal(ANGULAR_APP_TEST_CASES[14][0]);
+    done();
+  });
+  it("Should verify 'npm start'", async (done) => {
+    expect(echos[17][0]).to.equal(ANGULAR_APP_TEST_CASES[15][0]);
     done();
   });
   it("Should verify 'Ready to go'", async (done) => {
-    expect(echos[18][0]).to.equal(ANGULAR_APP_TEST_CASES[18][0]);
+    expect(echos[18][0]).to.equal(ANGULAR_APP_TEST_CASES[16][0]);
     done();
   });
 
   after(async function () {
     console.log("path is this", `${CURR_DIR}/${projectName}`)
     fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
-    done();
   });
 });
