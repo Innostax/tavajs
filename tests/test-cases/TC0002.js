@@ -34,6 +34,20 @@ describe("Verify working of ANSWERS.TC0002 evaluator method.", async () => {
     console.log("executed projectSetUp successfully");
     projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0002);
     console.log("executed projectExecutionCommands successfully");
+    
+    console.log("Actual data");
+    console.log(echos[0][0]);
+    console.log(echos[1][0]);
+    console.log(echos[2][0]);
+    console.log(echos[3][0]);
+    
+    console.log("Expected Data");
+    console.log(PROJECT_INFO_EXPECTED_DATA[0][0]);
+    console.log(PROJECT_INFO_EXPECTED_DATA[0][0]);
+    console.log(PROJECT_INFO_EXPECTED_DATA[0][0]);
+    console.log(PROJECT_INFO_EXPECTED_DATA[0][0]);
+    
+    
   });
   it("Should verify 'Creating react project'", (done) => {
     expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
