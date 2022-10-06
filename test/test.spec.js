@@ -1,8 +1,5 @@
-const { handleAnswersEvaluator } = require("../src/TavaJsExecutors/answersEvaluator");
-describe("mock usage", () => {
-  it("should use the mock", async () => {
-    const result = await handleAnswersEvaluator();
-    console.log("result ---->", result);
-    //   expect(result).toBe('test@test.com');
+describe("Mock Test Case", () => {
+  it("should use the mock data", async () => {
+    console.log("Successfully executed test cases file.");
   });
 });

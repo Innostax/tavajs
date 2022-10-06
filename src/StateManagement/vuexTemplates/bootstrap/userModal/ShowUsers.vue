@@ -30,7 +30,7 @@ export default {
       return this.$store.getters["allUsers"]
     }
   },
-  <% if(isCrudWithNode) { %>
+  <% if(isBackEnd) { %>
   created () {
     this.$store.dispatch('getAllUsers')
   }

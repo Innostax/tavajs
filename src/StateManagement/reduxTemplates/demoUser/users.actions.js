@@ -22,7 +22,6 @@ export const addUsers = createAsyncThunk(
           email,
         }),
       },
-
       ...thunkArgs,
     });
   }
