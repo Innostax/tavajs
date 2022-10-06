@@ -41,6 +41,7 @@ const BLOB_SERVICES = {
 const OKTA_FILE_PATH = "oktaDirectoryPath"
 const REACT_THEME_FILE_PATH = "reactThemeFilePaths";
 const ANGULAR_THEME_FILE_PATH = "angularThemeFilePaths";
+const ANGULAR_MATERIAL_FILE_PATH = "angularMaterialFilePath";
 const VUE_THEME_FILE_PATH = "vueThemeFilePaths";
 const CYPRESS_FILE_PATH = "cypressFilePaths";
 const JEST_FILE_PATH = "jestFilePaths";
@@ -93,5 +94,6 @@ module.exports = {
   TAILWIND_VUE_FILE_PATH,
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
-  BLOB_SERVICES
+  BLOB_SERVICES,
+  ANGULAR_MATERIAL_FILE_PATH
 };
