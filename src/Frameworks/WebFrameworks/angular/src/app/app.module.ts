@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { PagesModule } from './pages/pages.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 <% if(isStore){%>import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';<%}%>
@@ -36,6 +37,7 @@ Amplify.configure(environment.cognito);
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     <% if(isStore){%>StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],<%}%>
     SharedModule,

@@ -43,7 +43,7 @@ function projectInfo(frontEnd, backEnd, answers) {
     if (answers["networkInformer"])
       shell.echo(
         chalk.green.bold(
-          `   ${String.fromCodePoint(0x231b)} Integrating Network Infromer`
+          `   ${String.fromCodePoint(0x231b)} Integrating Network Informer`
         )
       );
     
