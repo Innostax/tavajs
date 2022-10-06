@@ -24,6 +24,7 @@
             ],
             "styles": [
               <% if(isBootstrap){%>"./node_modules/bootstrap/dist/css/bootstrap.css",<%}%>
+              <% if(isMaterialUI){%>"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",<%}%>
               "src/styles.css"
             ],
             "scripts": [
@@ -95,6 +96,7 @@
               "src/assets"
             ],
             "styles": [
+              <% if(isMaterialUI){%>"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",<%}%>
               "src/styles.css"
             ],
             "scripts": []

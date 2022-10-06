@@ -20,8 +20,8 @@
   z-index: 4;
   top: 0;
   left: 0;
-  width: 24px;
-  height: 24px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   border: 1px solid #999;
   transition: 0.2s;
@@ -106,3 +106,150 @@
 }
 <%}%>
 <%}%>
+
+<% if(isMaterialUI){%>
+  .side-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }  
+  .a-link {
+    text-decoration: none;
+    color: black;
+  }
+  .brand {
+    color: black;
+    margin-right: 30px;
+    margin-left: 20px;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .nav-item {
+    margin-left: 10px; 
+    font-size: medium; 
+    font-weight: 300
+  }
+  .nav-item:hover {
+    font-weight: 500;
+  }
+  .toolbar-row {
+    flex: auto;
+  }
+  .bg-light {
+    background-color: rgb(226, 228, 231);
+  }
+  
+  .icon-switcher {
+    width: 50px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .icon-switcher > .control {
+    display: none;
+  }
+  .icon-switcher > .control + .peg {
+    display: inline-block;
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #999;
+    transition: 0.2s;
+    background-color: #fff;
+  }
+  .icon-switcher > .control ~ .bg {
+    border-radius: 12px;
+  
+    width: 50px;
+    height: 25px;
+  
+    border: 1px solid #999;
+    background-color: #fff;
+    position: relative;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .icon-switcher > .control ~ .bg::before {
+    content: '';
+    position: absolute;
+    left: calc(100% - 20px);
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #262626;
+    transition: 0.2s ease-out;
+  }
+  .icon-switcher > .control ~ .bg::after {
+    content: '';
+    position: absolute;
+    left: calc(100% - 14px);
+    top: -1px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: 0.2s ease-out;
+  }
+  .icon-switcher > .control:checked + .peg {
+    left: calc(100% - 24px);
+  }
+  .icon-switcher > .control:checked ~ .bg {
+    background-color: #262626;
+  }
+  .icon-switcher > .control:checked ~ .bg::before {
+    left: 6px;
+    width: 14px;
+    height: 14px;
+    background-color: #ffd712;
+    filter: blur(4px);
+  }
+  .icon-switcher > .control:checked ~ .bg::after {
+    background-color: #ffd712;
+    width: 12px;
+    height: 12px;
+    top: initial;
+    left: 8px;
+  }
+  
+<%}%> 
+
+<% if(isMaterialUI && (isOkta || isCognito)){%>
+.initials {
+  display: inline-flex;
+  position: relative;
+  border: 1px solid grey;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  justify-content: center;
+}
+.initials span {
+  position: absolute;
+}
+.account-button {
+  display: flex;
+  align-items: center;
+}
+.login-dropdown-icon {
+  display: inline;
+  height: 20px;
+  width: 20px;
+  margin-left: 7px;
+}
+
+.side-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+<%}%> 

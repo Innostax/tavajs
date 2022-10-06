@@ -1,5 +1,6 @@
 <div [formGroup]="registerForm">
   <input
+    <% if(isMaterialUI){%>matInput<%}%>
     [formControlName]="name" 
     [name]="name" 
     [type]="type" 

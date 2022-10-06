@@ -1,0 +1,9 @@
+<% if(isMaterialUI){%>
+#userroot {
+  width: 100%;
+  text-align: center;
+}
+.user-head {
+  margin: 15px;
+}
+<%}%>

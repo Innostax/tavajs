@@ -18,7 +18,7 @@ const DELETE = 'delete';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  <% if(isTailWind){%> showModal = false;<%}%>
+  <% if(isTailWind || isMaterialUI){%> showModal = false;<%}%>
   <% if(isCrud || isCrudWithNode){%>
   headers = ['name', 'username', 'email', 'actions'];
   shouldShowActions: boolean = true;
@@ -56,7 +56,7 @@ export class UsersComponent implements OnInit {
   <% if(isCrud || isCrudWithNode){%>
   onClickAddUser() {
     <% if(isBootstrap){%>$('#addUser_modal').modal('show');<%}%>
-    <% if(isTailWind){%>this.showModal = true;<%}%>
+    <% if(isTailWind || isMaterialUI){%>this.showModal = true;<%}%>
     this.data = {name: '', username:'', email: ''};
     this.deleteUserInfo = false;
   }
@@ -68,14 +68,14 @@ export class UsersComponent implements OnInit {
 
   editUser(data: any) {
     <% if(isBootstrap){%>$('#addUser_modal').modal('show');<%}%>
-    <% if(isTailWind){%>this.showModal = true;<%}%>
+    <% if(isTailWind || isMaterialUI){%>this.showModal = true;<%}%>
     this.data = data;
     this.deleteUserInfo = false;
   }
 
   deleteUser(data: any) {
     <% if(isBootstrap){%>$('#addUser_modal').modal('show');<%}%>
-    <% if(isTailWind){%>this.showModal = true;<%}%>
+    <% if(isTailWind || isMaterialUI){%>this.showModal = true;<%}%>
     this.data = data;
     this.deleteUserInfo = true;
   }
@@ -92,7 +92,7 @@ export class UsersComponent implements OnInit {
 
   closeModal() {
     <% if(isBootstrap){%>$('#addUser_modal').modal('hide');<%}%>
-    <% if(isTailWind){%>this.showModal = false;<%}%>
+    <% if(isTailWind || isMaterialUI){%>this.showModal = false;<%}%>
     this.data = {};
   }
   <%}%>
