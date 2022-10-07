@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 const shell = require("shelljs");
 
-const projectExecutionCommands = (frontEnd, backEnd, answers) => {
+const projectExecutionCommands = async (frontEnd, backEnd, answers) => {
     shell.echo(
         chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created \n `),
     );

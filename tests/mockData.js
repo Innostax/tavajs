@@ -74,33 +74,31 @@ const PROJECT_SETUP_EXPECTED_DATA = [
     ],
 ];
 
-const ANGULAR_APP_EXPECTED_RESULT = [
-    [ "   📂 Creating angular project: front-end using dev-tava 1.0.0" ],
-    [ "   ⌛ Integrating CSS Framework: bootstrap" ],
-    [ "   📂 Creating node-js project: backend using dev-tava 1.0.0" ],
-    [ "© Powered by Innostax" ],
+const TC0001_EXPECTED_RESULT = [
+    [ 'Creating angular project' ],
+    [ 'Integrating CSS Framework' ],
+    [ 'Creating node-js project' ],
+    [ 'Powered by Innostax' ],
+    [ 'NPM loading on angular'],
+    [ 'NPM modules installed' ],
+    [ 'NPM loading on node-js' ],
+    [ 'NPM modules installed' ],
+    [ 'Installing took' ],
+    [ 'Successfully created' ],
+    [ 'To get Started:' ],
     [
-        "--------------- NPM loading on angular, Wait for finish ---------------\r"
+      '     cd /home/runner/work/tavajs/tavajs\\angular-project-tc0001 \n'
     ],
-    [ "-> NPM modules installed!👍\r" ],
-    [
-        "--------------- NPM loading on node-js, Wait for finish ---------------\r"
-    ],
-    [ "-> NPM modules installed!👍\r" ],
-    [ "Installing took 1:05 minutes." ],
-    [ "✅ Successfully created \n " ],
-    [ "-> To get Started: \n" ],
-    [
-        "     cd /home/runner/work/tavajs/tavajs\\test-cases-for-angular-project-tc0001 \n"
-    ],
-    [ "-> For angular: \n" ],
-    [ "     cd front-end" ],
-    [ "     npm start" ],
-    [ "-> For node-js: \n" ],
-    [ "     cd backend" ],
-    [ "     npm start" ],
-    [ "------------------------ Ready to go --------------------------" ]
-];
+    [ '-For angular' ],
+    [ 'cd front-end' ],
+    [ 'npm start' ],
+    [ '' ],
+    [ 'For node-js: \n' ],
+    [ 'cd backend' ],
+    [ 'npm start' ],
+    [ '' ],
+    [ 'Ready to go' ]
+  ]
 
 const ANSWERS = {
     // AngularJS, Bootstrap and NodeJS
@@ -197,6 +195,6 @@ const ANSWERS = {
 module.exports = {
     PROJECT_INFO_EXPECTED_DATA,
     PROJECT_SETUP_EXPECTED_DATA,
-    ANGULAR_APP_EXPECTED_RESULT,
+    TC0001_EXPECTED_RESULT,
     ANSWERS
 };
