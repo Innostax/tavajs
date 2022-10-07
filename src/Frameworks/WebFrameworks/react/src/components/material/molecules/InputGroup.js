@@ -1,14 +1,6 @@
 import Input from '../atoms/Input'
 
-const InputGroup = ({
-	title,
-	placeholder,
-	type,
-	onChange,
-	id,
-	value,
-	name,
-}) => {
+function InputGroup({ title, placeholder, type, onChange, id, value, name }) {
 	return (
 		<Input
 			placeholder={placeholder}
