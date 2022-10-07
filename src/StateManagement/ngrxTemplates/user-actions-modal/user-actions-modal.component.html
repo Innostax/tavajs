@@ -157,7 +157,7 @@
 
   <% if(isMaterialUI){%>
     <div class="modalroot">
-      <div class="mat-users-modal vw-30" *ngIf="!shouldDeleteUser">
+      <div class="mat-users-modal" *ngIf="!shouldDeleteUser">
         <div style="width: 100%; display: block">
           <div class="add-modalhead">
             <div style="float: left; font-size: 27px;">
@@ -218,7 +218,7 @@
                 </app-input>
               </div>
               <br />
-              <div style="width: 100%">
+              <div id="add-modal-button">
                 <app-button
                   [name]="userActionLabel"
                   [color]="'primary'"
