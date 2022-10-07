@@ -28,7 +28,6 @@ const { frontEnd, backEnd } = getProjectDetails(
   ANSWERS.TC0001
 );
 
-try{
 describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   before(async function () {
     await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0001);
@@ -116,11 +115,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   });
 
   after(async function () {
-    console.log("path is this", `${CURR_DIR}/${projectName}`);
+    console.log("Project Path", `${CURR_DIR}/${projectName}`);
     fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
   });
 });
-}
-catch(err) {
-    console.log("err====>", err)
-}
