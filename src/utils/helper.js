@@ -33,42 +33,42 @@ const {
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS;
 // <-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
-  templatePath,
-  newProjectPath,
-  newDefaultRoute,
-  mongoSelected,
-  sequelizeSelected,
-  dbName,
-  isSMTP,
-  isSendgrid,
-  isAmazonSes,
-  isSentry,
-  isWinston,
-  isAuth0,
-  isOkta,
-  isCognito,
-  isStore,
-  isCrudWithNode,
-  isCrud,
-  frontEndName,
-  nodeName,
-  projectChoice,
-  isThemeProvider,
-  isMaterialUI,
-  isBootstrap,
-  isTailWind,
-  currentDirectory,
-  isJest,
-  isCypress,
-  isMocha,
-  isNightWatch,
-  blobServiceName,
-  isNetworkInformer,
-  isBackEnd,
-  isCICDPipelineIntegrate,
-  isYarn,
-  isNPM,
-  isDocker
+    templatePath,
+    newProjectPath,
+    newDefaultRoute,
+    mongoSelected,
+    sequelizeSelected,
+    dbName,
+    isSMTP,
+    isSendgrid,
+    isAmazonSes,
+    isSentry,
+    isWinston,
+    isAuth0,
+    isOkta,
+    isCognito,
+    isStore,
+    isCrudWithNode,
+    isCrud,
+    frontEndName,
+    nodeName,
+    projectChoice,
+    isThemeProvider,
+    isMaterialUI,
+    isBootstrap,
+    isTailWind,
+    currentDirectory,
+    isJest,
+    isCypress,
+    isMocha,
+    isNightWatch,
+    blobServiceName,
+    isNetworkInformer,
+    isBackEnd,
+    isCICDPipelineIntegrate,
+    isYarn,
+    isNPM,
+    isDocker
 ) => {
     const CURR_DIR = currentDirectory;
     const filesToCreate = fs.readdirSync(templatePath);
@@ -83,107 +83,108 @@ const createDirectoryContents = (
                 const elements = newProjectPath.split("/");
                 const NameProject = elements[elements.length - 1];
 
-        contents = render(
-          contents,
-          {
-            projectName: NameProject,
-            defaultRoute: newDefaultRoute,
-            mongoSelected,
-            sequelizeSelected,
-            dbName,
-            isSMTP,
-            isSendgrid,
-            isAmazonSes,
-            isSentry,
-            isWinston,
-            isAuth0,
-            isOkta,
-            isCognito,
-            isStore,
-            isCrudWithNode,
-            isCrud,
-            frontEndName,
-            nodeName,
-            projectChoice,
-            isThemeProvider,
-            isMaterialUI,
-            isBootstrap,
-            isTailWind,
-            currentDirectory,
-            isJest,
-            isCypress,
-            isMocha,
-            isNightWatch,
-            blobServiceName,
-            isNetworkInformer,
-            isBackEnd,
-            isCICDPipelineIntegrate,
-            isYarn,
-            isNPM,
-            isDocker
-          },
-          (autoescape = false)
-        );
-        const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
-        fs.writeFileSync(writePath, contents, "utf8");
-      } else if (stats.isDirectory()) {
-        const isBootstrapFile = file === CSS_FRAMEWORKS.BOOTSTRAP;
-        const isMaterialUIFile = file === CSS_FRAMEWORKS.MATERIAL;
-        const isTailWindFile = file === CSS_FRAMEWORKS.TAILWIND;
-        // recursive call
-        let isRequiredFile = true;
-        if (isBootstrap) {
-          isRequiredFile = !(isTailWindFile || isMaterialUIFile);
-        } else if (isMaterialUI) {
-          isRequiredFile = !(isBootstrapFile || isTailWindFile);
-        } else if (isTailWind) {
-          isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
-        }
+                contents = render(
+                    contents,
+                    {
+                        projectName: NameProject,
+                        defaultRoute: newDefaultRoute,
+                        mongoSelected,
+                        sequelizeSelected,
+                        dbName,
+                        isSMTP,
+                        isSendgrid,
+                        isAmazonSes,
+                        isSentry,
+                        isWinston,
+                        isAuth0,
+                        isOkta,
+                        isCognito,
+                        isStore,
+                        isCrudWithNode,
+                        isCrud,
+                        frontEndName,
+                        nodeName,
+                        projectChoice,
+                        isThemeProvider,
+                        isMaterialUI,
+                        isBootstrap,
+                        isTailWind,
+                        currentDirectory,
+                        isJest,
+                        isCypress,
+                        isMocha,
+                        isNightWatch,
+                        blobServiceName,
+                        isNetworkInformer,
+                        isBackEnd,
+                        isCICDPipelineIntegrate,
+                        isYarn,
+                        isNPM,
+                        isDocker
+                    },
+                );
+                const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
+                fs.writeFileSync(writePath, contents, "utf8");
+            } else if (stats.isDirectory()) {
+                const isBootstrapFile = file === CSS_FRAMEWORKS.BOOTSTRAP;
+                const isMaterialUIFile = file === CSS_FRAMEWORKS.MATERIAL;
+                const isTailWindFile = file === CSS_FRAMEWORKS.TAILWIND;
+                // recursive call
+                let isRequiredFile = true;
+                if (isBootstrap) {
+                    isRequiredFile = !(isTailWindFile || isMaterialUIFile);
+                } else if (isMaterialUI) {
+                    isRequiredFile = !(isBootstrapFile || isTailWindFile);
+                } else if (isTailWind) {
+                    isRequiredFile = !(isBootstrapFile || isMaterialUIFile);
+                }
 
                 if (isRequiredFile) {
                     const newUpadtedProjectPath = isBootstrapFile || isMaterialUIFile || isTailWindFile
                         ? `${newProjectPath}`
                         : `${newProjectPath}/${file}`;
 
-          fsExtra.ensureDirSync(`${CURR_DIR}/${newUpadtedProjectPath}`);
-          createDirectoryContents(
-            `${templatePath}/${file}`,
-            `${newUpadtedProjectPath}`,
-            newDefaultRoute,
-            mongoSelected,
-            sequelizeSelected,
-            dbName,
-            isSMTP,
-            isSendgrid,
-            isAmazonSes,
-            isSentry,
-            isWinston,
-            isAuth0,
-            isOkta,
-            isCognito,
-            isStore,
-            isCrudWithNode,
-            isCrud,
-            frontEndName,
-            nodeName,
-            projectChoice,
-            isThemeProvider,
-            isMaterialUI,
-            isBootstrap,
-            isTailWind,
-            currentDirectory,
-            isJest,
-            isCypress,
-            isMocha,
-            isNightWatch,
-            blobServiceName,
-            isNetworkInformer,
-            isBackEnd,
-            isCICDPipelineIntegrate,
-            isYarn,
-            isNPM,
-            isDocker
-          );
+                    fsExtra.ensureDirSync(`${CURR_DIR}/${newUpadtedProjectPath}`);
+                    createDirectoryContents(
+                        `${templatePath}/${file}`,
+                        `${newUpadtedProjectPath}`,
+                        newDefaultRoute,
+                        mongoSelected,
+                        sequelizeSelected,
+                        dbName,
+                        isSMTP,
+                        isSendgrid,
+                        isAmazonSes,
+                        isSentry,
+                        isWinston,
+                        isAuth0,
+                        isOkta,
+                        isCognito,
+                        isStore,
+                        isCrudWithNode,
+                        isCrud,
+                        frontEndName,
+                        nodeName,
+                        projectChoice,
+                        isThemeProvider,
+                        isMaterialUI,
+                        isBootstrap,
+                        isTailWind,
+                        currentDirectory,
+                        isJest,
+                        isCypress,
+                        isMocha,
+                        isNightWatch,
+                        blobServiceName,
+                        isNetworkInformer,
+                        isBackEnd,
+                        isCICDPipelineIntegrate,
+                        isYarn,
+                        isNPM,
+                        isDocker
+                    );
+                }
+            }
         }
     });
 };
