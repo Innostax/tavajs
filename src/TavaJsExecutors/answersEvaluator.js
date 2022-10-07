@@ -71,7 +71,7 @@ let devDependencies = [];
 let scripts = [];
 let paths = [];
 
-const handleAnswersEvaluator = async (answers) => {
+const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     const {
         projectName,
         frontEndName,
@@ -133,17 +133,6 @@ const handleAnswersEvaluator = async (answers) => {
 
     const isAwsS3 = blobServiceName === AWS_S3;
     const isAzure = blobServiceName === AZURE;
-
-    fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err) => {
-        if (err) {
-            console.error(err);
-        }
-    });
-
-    const { frontEnd, backEnd } = getProjectDetails(
-        `${CURR_DIR}/${projectName}`,
-        answers,
-    );
 
     const isFrontEndChoiceReact = frontEndChoice === REACT;
     const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
@@ -846,8 +835,6 @@ const handleAnswersEvaluator = async (answers) => {
         updateProjectDependencies(frontEnd.path, dependencies, devDependencies);
         updateProjectScripts(frontEnd.path, scripts);
     }
-
-    projectInfo(frontEnd, backEnd, answers);
 };
 
 module.exports = { handleAnswersEvaluator };

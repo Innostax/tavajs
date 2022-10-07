@@ -1,9 +1,9 @@
 #! node
 const {
-  handleInquirerExecutor,
+    handleInquirerExecutor,
 } = require("./TavaJsExecutors/inquirerExecutor");
 const {
-  handleAnswersEvaluator,
+    handleAnswersEvaluator,
 } = require("./TavaJsExecutors/answersEvaluator");
 const questionnaire = require("./TavaJsExecutors/questionnaire");
 const projectInfo = require("./utils/projectInfo");
@@ -13,22 +13,22 @@ const fs = require("fs");
 
 // IIFE(Imediately Invoked Function Expression)
 (async () => {
-  await handleInquirerExecutor(questionnaire).then(async (ans) => {
-    const { projectName, projectDirectoryPath } = ans;
-    const CURR_DIR = projectDirectoryPath;
-    fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {
-      if (err) {
-        console.error(err);
-      }
+    await handleInquirerExecutor(questionnaire).then(async (ans) => {
+        const { projectName, projectDirectoryPath } = ans;
+        const CURR_DIR = projectDirectoryPath;
+        fs.mkdir(`${CURR_DIR}/${projectName}`, (err) => {
+            if (err) {
+                console.error(err);
+            }
+        });
+
+        const { frontEnd, backEnd } = getProjectDetails(
+            `${CURR_DIR}/${projectName}`,
+            ans
+        );
+
+        await handleAnswersEvaluator(frontEnd, backEnd, ans);
+        await projectInfo(frontEnd, backEnd, ans);
+        await projectSetUp(frontEnd, backEnd, ans);
     });
-
-    const { frontEnd, backEnd } = getProjectDetails(
-      `${CURR_DIR}/${projectName}`,
-      ans
-    );
-
-    await handleAnswersEvaluator(frontEnd, backEnd, ans);
-    await projectInfo(frontEnd, backEnd, ans);
-    await projectSetUp(frontEnd, backEnd, ans);
-  });
 })();

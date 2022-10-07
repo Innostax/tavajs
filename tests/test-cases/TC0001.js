@@ -17,7 +17,11 @@ const { echos } = require("../helpers");
 const { projectName, projectDirectoryPath } = ANSWERS.TC0001;
 
 const CURR_DIR = projectDirectoryPath;
-fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {});
+fs.mkdir(`${CURR_DIR}/${projectName}`, (err) => {
+  if (err) {
+    console.error(err);
+  }
+});
 
 const { frontEnd, backEnd } = getProjectDetails(
   `${CURR_DIR}/${projectName}`,
@@ -30,7 +34,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     console.log("executed handleAnswersEvaluator successfully");
     await projectInfo(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("executed projectInfo successfully");
-    
+
     await projectSetUp(frontEnd, backEnd, ANSWERS.TC0001);
     console.log("executed projectSetUp successfully");
     await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0001);
@@ -54,7 +58,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
     expect(echos[3][0]).to.equal(ANGULAR_APP_EXPECTED_RESULT[3][0]);
     done();
   });
-  it("Should verify 'NPM loading on angular'", async  (done) => {
+  it("Should verify 'NPM loading on angular'", async (done) => {
     expect(echos[4][0]).to.equal(ANGULAR_APP_EXPECTED_RESULT[4][0]);
     done();
   });
@@ -108,7 +112,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   });
 
   after(async function () {
-    console.log("path is this", `${CURR_DIR}/${projectName}`)
+    console.log("path is this", `${CURR_DIR}/${projectName}`);
     fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
   });
 });
