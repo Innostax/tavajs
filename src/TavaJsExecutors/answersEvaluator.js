@@ -48,6 +48,7 @@ const {
     OKTA_FILE_PATH,
     BLOB_SERVICES,
     ANGULAR_MATERIAL_FILE_PATH,
+    PACKAGE_MANAGERS
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -62,6 +63,7 @@ const {
 } = TESTCASE_FRAMEWORKS;
 const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
 const { AWS_S3, AZURE } = BLOB_SERVICES;
+const { YARN, NPM } = PACKAGE_MANAGERS;
 
 const currentPath = path.join(__dirname, "../");
 const NODE_JS = "node-js";
@@ -94,6 +96,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         angularNodeCrud,
         networkInformer,
         cicdPipelineIntegrate,
+        managerChoice
     } = answers;
 
     // Project Directory Path
@@ -138,6 +141,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
     const isFrontEndChoiceVue = frontEndChoice === VUE;
     const isBackEnd = Boolean(backEnd);
+
+    const isYarn = managerChoice === YARN;
+    const isNPM = managerChoice === NPM;
 
     // <---------------------------- For react, angular, vue ---------------------------------->
     if (frontEnd) {
@@ -244,6 +250,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isNetworkInformer,
             isBackEnd,
             isCICDPipelineIntegrate,
+            isYarn,
+            isNPM,
+            isDocker
         );
 
         // <------------------------------- Light/Dark Mode + React ---------------------------------->
@@ -454,6 +463,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isNetworkInformer,
             isBackEnd,
             isCICDPipelineIntegrate,
+            isYarn,
+            isNPM,
+            isDocker
         );
 
         const ROUTE_FILES = [
@@ -557,7 +569,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     // <---------------------------- For Docker integration ---------------------------------->
     if (isDocker) {
         const dockerPath = path.join(currentPath, "Services/DockerServices");
-        console.log("dockerPath+++", dockerPath, isDocker);
         let res = [];
 
         if (isFrontEndChoiceReact) {

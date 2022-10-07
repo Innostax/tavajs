@@ -66,6 +66,9 @@ const createDirectoryContents = (
     isNetworkInformer,
     isBackEnd,
     isCICDPipelineIntegrate,
+    isYarn,
+    isNPM,
+    isDocker
 ) => {
     const CURR_DIR = currentDirectory;
     const filesToCreate = fs.readdirSync(templatePath);
@@ -115,6 +118,9 @@ const createDirectoryContents = (
                         isNetworkInformer,
                         isBackEnd,
                         isCICDPipelineIntegrate,
+                        isYarn,
+                        isNPM,
+                        isDocker
                     },
                 );
                 const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
@@ -172,6 +178,10 @@ const createDirectoryContents = (
                         blobServiceName,
                         isNetworkInformer,
                         isBackEnd,
+                        isCICDPipelineIntegrate,
+                        isYarn,
+                        isNPM,
+                        isDocker
                     );
                 }
             }

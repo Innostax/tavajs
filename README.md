@@ -32,7 +32,10 @@ TAVAjs is an interactive Command Line Interface tool, which helps developers to 
 
 ### Built with:
 
-<p align="left"> <a href="https://angular.io" target="_blank" > <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="angular" width="100" height="100"/> </a> <a  href="https://angular.io" target="_blank">  </a>  <a  href="https://reactjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="100" height="100"/> </a> <a  href="https://vuejs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg" alt="vuejs" width="100" height="100"/> </a> <a  href="https://nodejs.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="100" height="100"/> </a></p>
+<p align="left"> <a href="https://angular.io" target="_blank" > <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="angular" width="100" height="100"/> </a> <a  href="https://angular.io" target="_blank">  </a>  <a  href="https://reactjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="100" height="100"/> </a> <a  href="https://vuejs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg" alt="vuejs" width="100" height="100"/> </a> <a  href="https://nodejs.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="100" height="100"/> </a>
+<a  href="https://eslint.org/"  target="_blank">  
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg" alt="eslint" width="100" height="100"/></a>
+</p>
 
 ### Services:
 
@@ -75,6 +78,34 @@ To learn more about npm <a href="https://docs.npmjs.com/about-npm">click.</a>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ---
+
+
+###  ESLINT 
+
+ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+
+### How to run ESLINT 
+
+To run eslint, run command in terminal:
+```
+npm run lint
+```
+To fix linting issues in all files, run command in terminal:
+
+```
+npm run lint:fix
+```
+To fix linting issues in one particular file, run command in terminal:
+
+```
+npm run lint:"your file name"
+```
+
+NOTE:  If you face any error while linting, run command in terminal: 
+```
+npm install eslint-plugin-react@latest --save-dev
+```
+
 
 ## Creating First project
 

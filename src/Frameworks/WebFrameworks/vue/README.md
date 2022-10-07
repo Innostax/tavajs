@@ -50,7 +50,9 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (isNightWatch) {%><li><a href="#nightwatch">Nightwatch test framework </li></a><%}%>
 <% if (blobServiceName === 'azure') {%><li><a  href="#azure">Azure blob service </li></a><%}%>
 <% if (blobServiceName === 'aws-s3') {%><li><a  href="#aws-s3">AWS-S3 blob service </li></a><%}%>
-
+<% if (isDocker) {%><li><a  href="#docker">Docker</li></a><%}%>
+<% if (isNetworkInformer) {%><li><a  href="#networkInformer">Network Informer</li></a><%}%>
+<% if (isCICDPipelineIntegrate === "aws") {%><li><a  href="#aws">AWS CI/CD Integration Service</li></a><%}%>
 </ul>
 
 ### Built with:
@@ -119,12 +121,15 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
  <img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" width="100"  alt="aws-s3"/>
  </a>
 <%}%>
+<%if(isDocker){%>
+<a   href="https://www.docker.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg"  alt="docker"  width="100"  height="100"/>  </a> 
+<%}%>
 <%}%>
 
 ### How to run created project :
 
 <% if(nodeName) {%>
-Use `npm run serve` inside <%= frontEndName %> directory to execute the template.
+Use <% if(isYarn) {%> `yarn run serve` <%}else{%> `npm run serve`<%}%>inside <%= frontEndName %> directory to execute the template.
 
 The command is defined in `package.json`, an example of which is below.
 
@@ -134,10 +139,10 @@ The command is defined in `package.json`, an example of which is below.
 }
 ```
 
-Use `npm start` inside <%= nodeName %> directory to execute the backend.
+Use <% if(isYarn) {%> `yarn start` <%}else{%> `npm start`<%}%> inside <%= nodeName %> directory to execute the backend.
 
 <%}else{%>
-Use `npm run serve` to execute the template.
+Use <% if(isYarn) {%> `yarn run serve` <%}else{%> `npm run serve`<%}%> to execute the template.
 
 The command is defined in `package.json`, an example of which is below.
 
@@ -343,9 +348,15 @@ Jest is a universal testing platform, with the ability to adapt to any JavaScrip
 
 ### Running Jest
 
+<% if(isYarn) {%> 
+```
+yarn run test
+```
+<%}else{%> 
 ```
 npm run test
 ```
+<%}%>
 <%}%>
 
   
@@ -375,9 +386,15 @@ npx cypress open
 Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, making asynchronous testing simple and fun.
 ### Running Mocha
 
+<% if(isYarn) {%> 
 ```
-npm test
+yarn run test
 ```
+<%}else{%> 
+```
+npm run test
+```
+<%}%>
 <%}%>
 
   
@@ -392,9 +409,15 @@ Nightwatch is a next generation front end testing tool built for the modern web.
 ### Running Nightwatch
 Before running the test, update `BASE_URL` constant as your app base url in `nightwatch.config.js` file and you need to run the project.
 
+<% if(isYarn) {%> 
 ```
-npm test
+yarn run test
 ```
+<%}else{%> 
+```
+npm run test
+```
+<%}%>
 <%}%>
 
   
@@ -548,6 +571,70 @@ color: var(--headingTextColor);
 ```
 
 <%}%>
+
+<div  id='networkInformer'/>
+
+<% if(isNetworkInformer) {%>
+
+### Network Informer Service
+
+Network informer displays network status on top of your app when you are offline and online.
+
+<%}%>
+
+<div  id='docker'/>
+
+<% if(isDocker) {%>
+
+  
+
+### Docker Service
+Docker is a software platform that allows you to build, test, and deploy applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime.
+
+You can install docker from here :  <a  href="https://docs.docker.com/engine/install/"> Install docker</a>
+
+
+Run command in terminal :
+```
+
+docker compose up
+
+```
+
+<%}%>
+
+
+<div  id='aws'/>
+
+
+<% if(isCICDPipelineIntegrate === "aws") {%>
+
+  
+### AWS CI/CD  Integration Service
+
+AWS CodePipeline is a fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates.
+
+Create a bucket in your aws account.
+ 
+You can create your  aws account here: <a  href="https://aws.amazon.com/"> AWS account</a>
+
+Update environment variables in `build.yml` file:
+
+```
+env:
+
+# Region
+
+AWS_REGION: Enter Region
+
+# S3-bucket name
+
+S3_BUCKET: Enter your Bucket Name
+
+```
+
+<%}%>
+
 
 ## Some Important Links
 
