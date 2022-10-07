@@ -89,7 +89,7 @@ const TC0001_EXPECTED_RESULT = [
     [
       '     cd /home/runner/work/tavajs/tavajs\\angular-project-tc0001 \n'
     ],
-    [ '-For angular' ],
+    [ 'For angular' ],
     [ 'cd front-end' ],
     [ 'npm start' ],
     [ '' ],
