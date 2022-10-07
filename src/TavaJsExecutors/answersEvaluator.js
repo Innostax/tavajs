@@ -139,8 +139,8 @@ const handleAnswersEvaluator = async (answers) => {
     const isAwsS3 = blobServiceName === AWS_S3;
     const isAzure = blobServiceName === AZURE;
 
-    const isYarn = managerChoice === YARN
-    const isNPM = managerChoice === NPM
+    const isYarn = managerChoice === YARN;
+    const isNPM = managerChoice === NPM;
 
     fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err) => {
         if (err) {
