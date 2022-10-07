@@ -8,6 +8,7 @@ const {
 const questionnaire = require("./TavaJsExecutors/questionnaire");
 const projectInfo = require("./utils/projectInfo");
 const projectSetUp = require("./utils/projectSetUp");
+const projectExecutionCommands = require("./utils/projectExecutionCommands");
 const { getProjectDetails } = require("./utils/getProjectDetails");
 const fs = require("fs");
 
@@ -30,5 +31,6 @@ const fs = require("fs");
         await handleAnswersEvaluator(frontEnd, backEnd, ans);
         await projectInfo(frontEnd, backEnd, ans);
         await projectSetUp(frontEnd, backEnd, ans);
+        await projectExecutionCommands(frontEnd, backEnd, ans);
     });
 })();

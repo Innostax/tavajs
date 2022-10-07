@@ -9,8 +9,8 @@ let taskId = 1;
 let totalTimeConsumptionInMinutes = 0;
 
 const projectSetUp = async (frontEnd, backEnd, answers) => {
-    const managerChoice = answers["managerChoice"];
-    const cicdPipelineIntegrate = answers["cicdPipelineIntegrate"];
+    const { managerChoice, cicdPipelineIntegrate } = answers;
+    
     if (frontEnd) {
         const { choice, path } = frontEnd;
         await packageInstaller(
