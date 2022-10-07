@@ -571,7 +571,6 @@ const handleAnswersEvaluator = async (answers) => {
   //<---------------------------- For Docker integration ---------------------------------->
   if (isDocker) {
     const dockerPath = path.join(currentPath, "Services/DockerServices");
-    conbsole.log("dockerPath+++", dockerPath, isDocker)
     let res = [];
     
     if (isFrontEndChoiceReact) {
