@@ -8,11 +8,11 @@ const requetMethods = {
     delete: deleteRequest,
 };
 
-function get(url, requestWithConfig) {
+const get = (url, requestWithConfig) => {
     return fetchApi(url, requestWithConfig);
 }
 
-function post(url, requestWithConfig) {
+const post = (url, requestWithConfig) => {
     requestWithConfig = {
         method: "POST",
         ...requestWithConfig,
@@ -21,7 +21,7 @@ function post(url, requestWithConfig) {
     return fetchApi(url, requestWithConfig);
 }
 
-function put(url, requestWithConfig) {
+const put = (url, requestWithConfig) => {
     requestWithConfig = {
         method: "PUT",
         ...requestWithConfig,
@@ -29,7 +29,7 @@ function put(url, requestWithConfig) {
     return fetchApi(url, requestWithConfig);
 }
 
-function patch(url, requestWithConfig) {
+const patch = (url, requestWithConfig) => {
     requestWithConfig = {
         method: "PATCH",
         ...requestWithConfig,
@@ -37,7 +37,7 @@ function patch(url, requestWithConfig) {
     return fetchApi(url, requestWithConfig);
 }
 
-function deleteRequest(url, requestWithConfig) {
+const deleteRequest = (url, requestWithConfig) => {
     requestWithConfig = {
         method: "DELETE",
         ...requestWithConfig,
@@ -45,7 +45,7 @@ function deleteRequest(url, requestWithConfig) {
     return fetchApi(url, requestWithConfig);
 }
 
-function fetchApi(url, requestWithConfig) {
+const fetchApi = (url, requestWithConfig) => {
     if (!url) {
         throw new Error("You must specify a url");
     }
@@ -58,7 +58,7 @@ function fetchApi(url, requestWithConfig) {
     });
 }
 
-function withBaseUrl(url) {
+const withBaseUrl = (url) => {
     return `${BASE_URL}/${url}`;
 }
 

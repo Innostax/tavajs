@@ -2,7 +2,7 @@ import http from "../httpMethods";
 import { getStore } from "../../createStore";
 import { selectjwtToken } from "../userContext/userContext.selectors";
 
-export function handleException(exception, methodType, url) {
+export const handleException = (exception, methodType, url) => {
     console.log(
         `Unable to process this ${methodType} request 
       for end-point ${url}
@@ -11,7 +11,7 @@ export function handleException(exception, methodType, url) {
     );
 }
 
-export function createHeader(httpHeaders) {
+export const createHeader = (httpHeaders) => {
     const accessToken = selectjwtToken(getStore().getState());
     const requestOptions = {
         headers: {

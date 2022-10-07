@@ -6,7 +6,7 @@ const WINSTON = "winston";
 const SENTRY = "@sentry/node";
 
 // Function to create logger service ------------------------------------------------------------>
-function createLogger(utilpath, loggerName, loggerTemplatePath) {
+const createLogger = (utilpath, loggerName, loggerTemplatePath) => {
     const dependencies = [];
     if (loggerName === WINSTON) {
         const loggerServicePath = path.join(utilpath, "utils", "logger");
@@ -47,5 +47,6 @@ function createLogger(utilpath, loggerName, loggerTemplatePath) {
     }
 
     updateProjectDependencies(utilpath, dependencies);
-}
+};
+
 module.exports = createLogger;
