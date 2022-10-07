@@ -4,12 +4,15 @@ const DEPENDENCIES = {
     { name: "react-bootstrap", version: "^1.6.6" },
     { name: "react-datepicker", version: "^4.2.1" },
     { name: "@musicstory/react-bootstrap-table-next", version: "^1.0.5" },
+    { name: "bootstrap-switch-button-react", version: "^1.2.0"},
   ],
   MATERIALUI: [
     { name: "@mui/material", version: "^5.10.2" },
     { name: "@mui/icons-material", version: "^5.10.3" },
     { name: "material-react-table", version: "^1.1.1"},
     { name: "@material-ui/core", version:"^4.12.4"},
+    { name: "@emotion/react", version: "^11.10.0"},
+    { name: "@emotion/styled", version: "^11.10.0"},
   ],
   TAILWINDVUE: [
     { name: "autoprefixer", version: "^9.8.8" },
