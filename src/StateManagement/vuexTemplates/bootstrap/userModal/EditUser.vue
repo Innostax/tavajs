@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal id="bv-modal-editUser" title="Edit User">
+    <Modal id="bv-modal-editUser" title="Edit User" @onClose="close">
       <template #body>
         <form>
           <div class="mb-3">
@@ -19,7 +19,7 @@
       </template>
       <template #footer>
         <Button type="submit" :color="isEditButtonDisabled ? 'secondary' : 'primary'"  data-bs-dismiss="modal" @onClick="submitButonHandler" name="Edit User" :isDisabled="isEditButtonDisabled"></Button>
-        <Button type="button" color="outline-secondary" data-bs-dismiss="modal" name="Cancel"></Button>
+        <Button type="button" color="outline-secondary" @onClick="close" data-bs-dismiss="modal" name="Cancel"></Button>
       </template>
     </Modal>
   </div>
@@ -57,6 +57,11 @@ export default {
       };
       this.$store.dispatch("editItem", data);
     },
+    close() {
+      this.name = this.selectedUser.name
+      this.username = this.selectedUser.username
+      this.email = this.selectedUser.email
+    }
   },
   computed: {
     ...mapGetters(['selectedUser']),
