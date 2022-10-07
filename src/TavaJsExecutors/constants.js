@@ -37,6 +37,10 @@ const BLOB_SERVICES = {
   AWS_S3: "aws-s3",
   AZURE: "azure"
 }
+const PACKAGE_MANAGERS = {
+  NPM: "npm",
+  YARN: "yarn"
+}
 
 const OKTA_FILE_PATH = "oktaFilePath"
 const REACT_THEME_FILE_PATH = "reactThemeFilePath";
@@ -95,5 +99,6 @@ module.exports = {
   VUE_NETWORKSTATUS_FILE_PATH,
   REACT_NETWORKSTATUS_FILE_PATH,
   BLOB_SERVICES,
-  ANGULAR_MATERIAL_FILE_PATH
+  ANGULAR_MATERIAL_FILE_PATH,
+  PACKAGE_MANAGERS
 };

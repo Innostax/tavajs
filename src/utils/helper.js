@@ -64,7 +64,10 @@ const createDirectoryContents = (
   blobServiceName,
   isNetworkInformer,
   isBackEnd,
-  isCICDPipelineIntegrate
+  isCICDPipelineIntegrate,
+  isYarn,
+  isNPM,
+  isDocker
 ) => {
   const CURR_DIR = currentDirectory;
   const filesToCreate = fs.readdirSync(templatePath);
@@ -113,7 +116,10 @@ const createDirectoryContents = (
             blobServiceName,
             isNetworkInformer,
             isBackEnd,
-            isCICDPipelineIntegrate
+            isCICDPipelineIntegrate,
+            isYarn,
+            isNPM,
+            isDocker
           },
           (autoescape = false)
         );
@@ -172,7 +178,11 @@ const createDirectoryContents = (
             isNightWatch,
             blobServiceName,
             isNetworkInformer,
-            isBackEnd
+            isBackEnd,
+            isCICDPipelineIntegrate,
+            isYarn,
+            isNPM,
+            isDocker
           );
         }
       }

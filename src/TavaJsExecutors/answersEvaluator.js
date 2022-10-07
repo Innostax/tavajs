@@ -49,7 +49,8 @@ const {
   REACT_NETWORKSTATUS_FILE_PATH,
   OKTA_FILE_PATH,
   BLOB_SERVICES,
-  ANGULAR_MATERIAL_FILE_PATH
+  ANGULAR_MATERIAL_FILE_PATH,
+  PACKAGE_MANAGERS
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -62,6 +63,7 @@ const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
 const { CYPRESS, JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS;
 const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
 const { AWS_S3, AZURE } = BLOB_SERVICES
+const { YARN, NPM } = PACKAGE_MANAGERS
 
 const currentPath = path.join(__dirname, "../");
 const NODE_JS = "node-js";
@@ -94,6 +96,7 @@ const handleAnswersEvaluator = async (answers) => {
     angularNodeCrud,
     networkInformer,
     cicdPipelineIntegrate,
+    managerChoice
   } = answers;
 
   // Project Directory Path
@@ -133,6 +136,9 @@ const handleAnswersEvaluator = async (answers) => {
 
   const isAwsS3 = blobServiceName === AWS_S3
   const isAzure = blobServiceName === AZURE
+
+  const isYarn = managerChoice === YARN
+  const isNPM = managerChoice === NPM
 
   fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err, data) => {
     if (err) {
@@ -254,7 +260,10 @@ const handleAnswersEvaluator = async (answers) => {
       blobServiceName,
       isNetworkInformer,
       isBackEnd,
-      isCICDPipelineIntegrate
+      isCICDPipelineIntegrate,
+      isYarn,
+      isNPM,
+      isDocker
     );
 
     //<------------------------------- Light/Dark Mode + React ---------------------------------->
@@ -464,7 +473,10 @@ const handleAnswersEvaluator = async (answers) => {
       blobServiceName,
       isNetworkInformer,
       isBackEnd,
-      isCICDPipelineIntegrate
+      isCICDPipelineIntegrate,
+      isYarn,
+      isNPM,
+      isDocker
     );
 
     const ROUTE_FILES = [
