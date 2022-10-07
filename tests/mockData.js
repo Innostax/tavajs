@@ -75,29 +75,37 @@ const PROJECT_SETUP_EXPECTED_DATA = [
 ];
 
 const ANGULAR_APP_EXPECTED_RESULT = [
-  ["📂 Creating angular project: front-end using dev-tava 1.0.0"],
-  ["   ⌛ Integrating CSS Framework: bootstrap"],
-  ["📂 Creating node-js project: backend using dev-tava 1.0.0"],
-  ["© Powered by Innostax"],
-  ["--------------- NPM loading on angular, Wait for finish ---------------\r"],
-  ["-> NPM modules installed!👍\r"],
-  ["--------------- NPM loading on node-js, Wait for finish ---------------\r"],
-  ["-> NPM modules installed!👍\r"],
-  ["✅ Successfully created \n "],
-  ["-> To get Started: \n"],
-  ["-> For angular: \n"],
-  ["     cd front-end"],
-  ["     npm start"],
-  ["-> For node-js: \n"],
-  ["     cd backend"],
-  ["     npm start"],
-  ["------------------------ Ready to go --------------------------"],
-];
+  [ '   📂 Creating angular project: front-end using dev-tava 1.0.0' ],
+  [ '   ⌛ Integrating CSS Framework: bootstrap' ],
+  [ '   📂 Creating node-js project: backend using dev-tava 1.0.0' ],
+  [ '© Powered by Innostax' ],
+  [
+    '--------------- NPM loading on angular, Wait for finish ---------------\r'
+  ],
+  [ '-> NPM modules installed!👍\r' ],
+  [
+    '--------------- NPM loading on node-js, Wait for finish ---------------\r'
+  ],
+  [ '-> NPM modules installed!👍\r' ],
+  [ 'Installing took 1:05 minutes.' ],
+  [ '✅ Successfully created \n ' ],
+  [ '-> To get Started: \n' ],
+  [
+    '     cd /home/runner/work/tavajs/tavajs\\test-cases-for-angular-project-tc0001 \n'
+  ],
+  [ '-> For angular: \n' ],
+  [ '     cd front-end' ],
+  [ '     npm start' ],
+  [ '-> For node-js: \n' ],
+  [ '     cd backend' ],
+  [ '     npm start' ],
+  [ '------------------------ Ready to go --------------------------' ]
+]
 
 const ANSWERS = {
   // AngularJS, Bootstrap and NodeJS
   TC0001: {
-    projectName: "test-cases-for-angular-project-tc0001",
+    projectName: "angular-project-tc0001",
     projectDirectoryPath: process.cwd(), // "C:\\\\Practice",  //
     managerChoice: "npm",
     frontEnd: true,

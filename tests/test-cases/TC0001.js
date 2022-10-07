@@ -38,7 +38,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   });
 
   it("Should verify 'Creating angular project'", async (done) => {
-    console.log("echos=======>", echos);
+    console.log("all echos=======>", echos);
     expect(echos[0][0]).to.equal(ANGULAR_APP_EXPECTED_RESULT[0][0]);
     done();
   });
