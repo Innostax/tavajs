@@ -1,6 +1,6 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them and run tests across different versions of node.
 
-name: Mocha Test Cases CI
+name: Build Workflow
 
 on:
   push:
@@ -9,11 +9,22 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  mocha-test-cases:
-
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any (no need to add github token in secrets)
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-   
+  build-and-test:
+    name: Build & Mocha Test
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -21,6 +32,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: "16.14.x"
- 
-    - run: npm install
-    - run: npm run test
+
+    - name: Run npm install
+      run: npm install
+
+    - name: Run Mocha Test Cases
+      run: npm run test
