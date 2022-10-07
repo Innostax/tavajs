@@ -35,7 +35,11 @@ const TESTCASE_FRAMEWORKS = {
 };
 const BLOB_SERVICES = {
     AWS_S3: "aws-s3",
-    AZURE: "azure",
+    AZURE: "azure"
+};
+const PACKAGE_MANAGERS = {
+    NPM: "npm",
+    YARN: "yarn"
 };
 
 const OKTA_FILE_PATH = "oktaFilePath";
@@ -98,4 +102,5 @@ module.exports = {
     BLOB_SERVICES,
     ANGULAR_MATERIAL_FILE_PATH,
     REACT_CSS_FRAMEWORK_FILE_PATH,
+    PACKAGE_MANAGERS
 };

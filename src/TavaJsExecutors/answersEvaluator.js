@@ -14,8 +14,6 @@ const {
     getFilePaths,
     handleRenderEJS,
 } = require("../utils/helper");
-const projectInfo = require("../utils/projectInfo");
-const { getProjectDetails } = require("../utils/getProjectDetails");
 
 const {
     ANGULAR_THEME_FILE_PATH,
@@ -51,6 +49,7 @@ const {
     BLOB_SERVICES,
     ANGULAR_MATERIAL_FILE_PATH,
     REACT_CSS_FRAMEWORK_FILE_PATH,
+    PACKAGE_MANAGERS
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -65,6 +64,7 @@ const {
 } = TESTCASE_FRAMEWORKS;
 const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
 const { AWS_S3, AZURE } = BLOB_SERVICES;
+const { YARN, NPM } = PACKAGE_MANAGERS;
 
 const currentPath = path.join(__dirname, "../");
 const NODE_JS = "node-js";
@@ -74,7 +74,7 @@ let devDependencies = [];
 let scripts = [];
 let paths = [];
 
-const handleAnswersEvaluator = async (answers) => {
+const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     const {
         projectName,
         frontEndName,
@@ -97,6 +97,7 @@ const handleAnswersEvaluator = async (answers) => {
         angularNodeCrud,
         networkInformer,
         cicdPipelineIntegrate,
+        managerChoice
     } = answers;
 
     // Project Directory Path
@@ -137,21 +138,13 @@ const handleAnswersEvaluator = async (answers) => {
     const isAwsS3 = blobServiceName === AWS_S3;
     const isAzure = blobServiceName === AZURE;
 
-    fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err) => {
-        if (err) {
-            console.error(err);
-        }
-    });
-
-    const { frontEnd, backEnd } = getProjectDetails(
-        `${CURR_DIR}/${projectName}`,
-        answers,
-    );
-
     const isFrontEndChoiceReact = frontEndChoice === REACT;
     const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
     const isFrontEndChoiceVue = frontEndChoice === VUE;
     const isBackEnd = Boolean(backEnd);
+
+    const isYarn = managerChoice === YARN;
+    const isNPM = managerChoice === NPM;
 
     // <---------------------------- For react, angular, vue ---------------------------------->
     if (frontEnd) {
@@ -258,6 +251,9 @@ const handleAnswersEvaluator = async (answers) => {
             isNetworkInformer,
             isBackEnd,
             isCICDPipelineIntegrate,
+            isYarn,
+            isNPM,
+            isDocker
         );
 
         // <------------------------------- Light/Dark Mode + React ---------------------------------->
@@ -489,6 +485,9 @@ const handleAnswersEvaluator = async (answers) => {
             isNetworkInformer,
             isBackEnd,
             isCICDPipelineIntegrate,
+            isYarn,
+            isNPM,
+            isDocker
         );
 
         const ROUTE_FILES = [
@@ -592,7 +591,6 @@ const handleAnswersEvaluator = async (answers) => {
     // <---------------------------- For Docker integration ---------------------------------->
     if (isDocker) {
         const dockerPath = path.join(currentPath, "Services/DockerServices");
-        console.log("dockerPath+++", dockerPath, isDocker);
         let res = [];
 
         if (isFrontEndChoiceReact) {
@@ -870,8 +868,6 @@ const handleAnswersEvaluator = async (answers) => {
         updateProjectDependencies(frontEnd.path, dependencies, devDependencies);
         updateProjectScripts(frontEnd.path, scripts);
     }
-
-    projectInfo(frontEnd, backEnd, answers);
 };
 
 module.exports = { handleAnswersEvaluator };
