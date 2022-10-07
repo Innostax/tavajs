@@ -103,9 +103,9 @@ const ANGULAR_APP_EXPECTED_RESULT = [
 ]
 
 const ANGULAR_APP_TCOO7_EXPECTED = [
-  [ '   📂 Creating angular project: front-end using dev-tava 1.0.0' ],
-  [ '   ⌛ Integrating CSS Framework: tailwind' ],
-  [ '   ⌛ Integrating Theme Provider: light-dark-mode' ],
+  [ '📂 Creating angular project: front-end using dev-tava 1.0.0' ],
+  [ '⌛ Integrating CSS Framework: tailwind' ],
+  [ '⌛ Integrating Theme Provider: light-dark-mode' ],
   [ '   ⌛ Integrating Network Informer' ],
   [ '   ⌛ Integrating Ngrx pattern' ],
   [ '© Powered by Innostax' ],

@@ -25,9 +25,12 @@ describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
   await projectInfo(frontEnd, backEnd, ANSWERS.TC0007);
 
   it("Should verify 'Creating angular project'", async () => {
-    expect(echos[0][0]).to.equal(ANGULAR_APP_TCOO7_EXPECTED[0][0]);
+    expect(echos[0][0]).to.include(ANGULAR_APP_TCOO7_EXPECTED[0][0]);
   });
   it("Should verify 'Integrating CSS Framework", async () => {
-    expect(echos[1][0]).to.equal(ANGULAR_APP_TCOO7_EXPECTED[1][0]);
+    expect(echos[1][0]).to.include(ANGULAR_APP_TCOO7_EXPECTED[1][0]);
+  });
+  it("Should verify 'Integrating CSS Framework", async () => {
+    expect(echos[1][0]).to.include(ANGULAR_APP_TCOO7_EXPECTED[1][0]);
   });
 });
