@@ -4,10 +4,6 @@
   "private": true,
   "config-overrides-path": "node_modules/react-app-rewired/config-overrides.js",
   "dependencies": {
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
-    "@mui/material": "^5.10.2",
-    "bootstrap-switch-button-react": "^1.2.0",
     "create-components-react": "^2.1.4",
     "create-react-component-folder": "^0.3.7",
     "react": "^17.0.2",

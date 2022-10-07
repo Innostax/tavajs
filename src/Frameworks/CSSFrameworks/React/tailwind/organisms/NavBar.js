@@ -69,7 +69,6 @@ const NavBar = ({ brand, links <% if(isCognito){%>,signOut<%}%>}) => {
 					<% if(isCognito){%><Button onClick={signOut} name='Logout' variant='' /><%}%>
 					<% if(isThemeProvider) { %><ThemeToggler/><% } %>
 			</nav>
-			<hr/>
 			<Routes />
 		</Router>
 	)
