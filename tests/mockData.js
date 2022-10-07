@@ -102,6 +102,27 @@ const ANGULAR_APP_EXPECTED_RESULT = [
   [ '------------------------ Ready to go --------------------------' ]
 ]
 
+const ANGULAR_APP_TCOO7_EXPECTED = [
+  [ '   📂 Creating angular project: front-end using dev-tava 1.0.0' ],
+  [ '   ⌛ Integrating CSS Framework: tailwind' ],
+  [ '   ⌛ Integrating Theme Provider: light-dark-mode' ],
+  [ '   ⌛ Integrating Network Informer' ],
+  [ '   ⌛ Integrating Ngrx pattern' ],
+  [ '© Powered by Innostax' ],
+  [
+    '--------------- NPM loading on angular, Wait for finish ---------------\r'
+  ],
+  [ '-> NPM modules installed!👍\r' ],
+  [ 'Installing took 1:05 minutes.' ],
+  [ '✅ Successfully created \n ' ],
+  [ '-> To get Started: \n' ],
+  [
+    '     cd /home/runner/work/tavajs/tavajs\\test-cases-for-angular-project-tc0007 \n'
+  ],
+  [ '     npm start' ],
+  [ '------------------------ Ready to go --------------------------' ]
+]
+
 const ANSWERS = {
   // AngularJS, Bootstrap and NodeJS
   TC0001: {
@@ -193,10 +214,28 @@ const ANSWERS = {
     backEnd: false,
     dockerService: false,
   },
+  TC0007: {
+    //angular tailwind light-darkomode ngrx 
+    projectName: "angular-tailwind",
+    projectDirectoryPath: "C:\\tavatest",
+    managerChoice: "npm",
+    frontEnd: true,
+    frontEndChoice: "angular",
+    cssFrameworkChoice: "tailwind",
+    frontEndName: "front-end",
+    testCaseFramework: false,
+    theme: "light-dark-mode",
+    networkInformer: true,
+    authenticationChoice: false,
+    store: true,
+    backEnd: false,
+    dockerService: false,
+  }
 };
 module.exports = {
   PROJECT_INFO_EXPECTED_DATA,
   PROJECT_SETUP_EXPECTED_DATA,
   ANGULAR_APP_EXPECTED_RESULT,
+  ANGULAR_APP_TCOO7_EXPECTED,
   ANSWERS
 };

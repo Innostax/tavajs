@@ -4,9 +4,9 @@ name: Mocha Test Cases CI
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "automate-qa-of-tavajs-latest" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "automate-qa-of-tavajs-latest" ]
 
 jobs:
   mocha-test-cases:
