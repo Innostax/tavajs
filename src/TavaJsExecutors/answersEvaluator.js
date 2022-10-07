@@ -18,65 +18,6 @@ const projectInfo = require("../utils/projectInfo");
 const { getProjectDetails } = require("../utils/getProjectDetails");
 
 const {
-  ANGULAR_THEME_FILE_PATH,
-  AUTHENTICATIONS,
-  CSS_FRAMEWORKS,
-  CYPRESS_FILE_PATH,
-  JEST_FILE_PATH,
-  MOCHA_FILE_PATH,
-  NIGHTWATCH_FILE_PATH,
-  FRAMEWORKS,
-  REACT_THEME_FILE_PATH,
-  REDUX_FILE_PATH,
-  VUE_THEME_FILE_PATH,
-  REACT_DOCKER_FILE_PATH,
-  NGRX_FILE_PATH,
-  VUEX_FILE_PATH,
-  VUEX_NODE_FILE_PATH,
-  VUEX_USERMODAL_FILE_PATH,
-  NGRX_CRUD_FILE_PATH,
-  ANGULAR_CRUD_NODE_FILE_PATH,
-  TAILWIND_ANGULAR_FILE_PATH,
-  TAILWIND_REACT_FILE_PATH,
-  TAILWIND_VUE_FILE_PATH,
-  ANGULAR_DOCKER_FILE_PATH,
-  VUE_DOCKER_FILE_PATH,
-  DATABASES,
-  LOGGER_SERVICES,
-  EMAIL_SERVICES,
-  TESTCASE_FRAMEWORKS,
-  VUE_NETWORKSTATUS_FILE_PATH,
-  REACT_NETWORKSTATUS_FILE_PATH,
-  OKTA_FILE_PATH,
-  BLOB_SERVICES,
-  ANGULAR_MATERIAL_FILE_PATH,
-  PACKAGE_MANAGERS
-} = require("./constants");
-const { SCRIPTS } = require("./scripts");
-const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
-
-const { ANGULAR, REACT, VUE } = FRAMEWORKS;
-const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
-const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
-const { WINSTON, SENTRY } = LOGGER_SERVICES;
-const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
-const {
-    CYPRESS, JEST, MOCHAJS, NIGHTWATCHJS,
-} = TESTCASE_FRAMEWORKS;
-const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
-const { AWS_S3, AZURE } = BLOB_SERVICES
-const { YARN, NPM } = PACKAGE_MANAGERS
-
-const currentPath = path.join(__dirname, "../");
-const NODE_JS = "node-js";
-
-let dependencies = [];
-let devDependencies = [];
-let scripts = [];
-let paths = [];
-
-const handleAnswersEvaluator = async (answers) => {
-  const {
     projectName,
     frontEndName,
     frontEndChoice,
@@ -98,84 +39,125 @@ const handleAnswersEvaluator = async (answers) => {
     angularNodeCrud,
     networkInformer,
     cicdPipelineIntegrate,
-    managerChoice
-  } = answers;
+} = answers;
 
-  // Project Directory Path
-  const CURR_DIR = projectDirectoryPath;
-  const isStore = Boolean(store);
-  const isThemeProvider = Boolean(theme == "light-dark-mode");
-  const isCrud = Boolean(CRUD);
-  const isDocker = Boolean(dockerService);
-  const isCrudWithNode = Boolean(
-    reactNodeCrud || vueNodeCrud || angularNodeCrud
-  );
-  const isMaterialUI = cssFrameworkChoice === MATERIAL;
-  const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
-  const isTailWind = cssFrameworkChoice === TAILWIND;
-  const isNetworkInformer = networkInformer;
-  const isCICDPipelineIntegrate = cicdPipelineIntegrate;
+// Project Directory Path
+const CURR_DIR = projectDirectoryPath;
+const isStore = Boolean(store);
+const isThemeProvider = Boolean(theme == "light-dark-mode");
+const isCrud = Boolean(CRUD);
+const isDocker = Boolean(dockerService);
+const isCrudWithNode = Boolean(
+    reactNodeCrud || vueNodeCrud || angularNodeCrud,
+);
+const isMaterialUI = cssFrameworkChoice === MATERIAL;
+const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
+const isTailWind = cssFrameworkChoice === TAILWIND;
+const isNetworkInformer = networkInformer;
+const isCICDPipelineIntegrate = cicdPipelineIntegrate;
 
-  const isAuth0 = authenticationChoice === AUTH0;
-  const isCognito = authenticationChoice === COGNITO;
-  const isOkta = authenticationChoice === OKTA;
-  const mongoSelected = dbName === MONGOOSE;
-  const sequelizeSelected = dbName === POSTGRES || dbName === MYSQL;
-  const isWinston = loggerServiceName === WINSTON;
-  const isSentry = loggerServiceName === SENTRY;
+const isAuth0 = authenticationChoice === AUTH0;
+const isCognito = authenticationChoice === COGNITO;
+const isOkta = authenticationChoice === OKTA;
+const mongoSelected = dbName === MONGOOSE;
+const sequelizeSelected = dbName === POSTGRES || dbName === MYSQL;
+const isWinston = loggerServiceName === WINSTON;
+const isSentry = loggerServiceName === SENTRY;
 
-  /* START: Testcases Framework */
-  const isTestCasesFramework = Boolean(answers?.testCaseFramework);
-  const isCypress = answers?.testCaseFramework === CYPRESS;
-  const isJest = answers?.testCaseFramework === JEST;
-  const isMocha = answers?.testCaseFramework === MOCHAJS;
-  const isNightWatch = answers?.testCaseFramework === NIGHTWATCHJS;
-  /* END: Testcases Framework */
+/* START: Testcases Framework */
+const isTestCasesFramework = Boolean(answers?.testCaseFramework);
+const isCypress = answers?.testCaseFramework === CYPRESS;
+const isJest = answers?.testCaseFramework === JEST;
+const isMocha = answers?.testCaseFramework === MOCHAJS;
+const isNightWatch = answers?.testCaseFramework === NIGHTWATCHJS;
+/* END: Testcases Framework */
 
-  const isSMTP = emailServiceName === SMTP;
-  const isSendgrid = emailServiceName === SENDGRID;
-  const isAmazonSes = emailServiceName === AMAZON_SES;
+const isSMTP = emailServiceName === SMTP;
+const isSendgrid = emailServiceName === SENDGRID;
+const isAmazonSes = emailServiceName === AMAZON_SES;
 
-  const isAwsS3 = blobServiceName === AWS_S3
-  const isAzure = blobServiceName === AZURE
+const isAwsS3 = blobServiceName === AWS_S3;
+const isAzure = blobServiceName === AZURE;
 
-  const isYarn = managerChoice === YARN
-  const isNPM = managerChoice === NPM
-
-  fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err, data) => {
+fsExtra.ensureDir(`${CURR_DIR}/${projectName}`, (err) => {
     if (err) {
-      console.error(err);
+        console.error(err);
     }
-  });
+});
 
-  const { frontEnd, backEnd } = getProjectDetails(
+const { frontEnd, backEnd } = getProjectDetails(
     `${CURR_DIR}/${projectName}`,
-    answers
-  );
+    answers,
+);
 
-  const isFrontEndChoiceReact = frontEndChoice === REACT;
-  const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
-  const isFrontEndChoiceVue = frontEndChoice === VUE;
-  const isBackEnd = Boolean(backEnd);
+const isFrontEndChoiceReact = frontEndChoice === REACT;
+const isFrontEndChoiceAngular = frontEndChoice === ANGULAR;
+const isFrontEndChoiceVue = frontEndChoice === VUE;
+const isBackEnd = Boolean(backEnd);
 
-  //<---------------------------- For react, angular, vue ---------------------------------->
-  if (frontEnd) {
+// <---------------------------- For react, angular, vue ---------------------------------->
+if (frontEnd) {
     const { choice, path: frontEndPath } = frontEnd;
-    //<------------------------- For Start: CSS Framework dependency ---------------------------->
+    // <------------------------- For Start: CSS Framework dependency ---------------------------->
 
     if (isFrontEndChoiceReact) {
-      if (isMaterialUI) {
-        dependencies = [...dependencies, ...DEPENDENCIES.MATERIALUI];
-      }
-      if (isBootstrap) {
-        dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
-      }
-      if (isTailWind) {
-        dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDREACT];
-        const res = getFilePaths(
-          TAILWIND_REACT_FILE_PATH,
-          currentPath,
-          frontEnd.path
+        if (isMaterialUI) {
+            dependencies = [...dependencies, ...DEPENDENCIES.MATERIALUI];
+        }
+        if (isBootstrap) {
+            dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAP];
+        }
+        if (isTailWind) {
+            dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDREACT];
+            const res = getFilePaths(
+                TAILWIND_REACT_FILE_PATH,
+                currentPath,
+                frontEnd.path,
+            );
+            paths = [...paths, ...res];
+        }
+    }
+    if (isFrontEndChoiceAngular) {
+        if (isTailWind) {
+            dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDCSS];
+
+            const res = getFilePaths(
+                TAILWIND_ANGULAR_FILE_PATH,
+                currentPath,
+                frontEnd.path,
+            );
+            paths = [...paths, ...res];
+        } else if (isBootstrap) {
+            dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
+        } else if (isMaterialUI) {
+            dependencies = [...dependencies, ...DEPENDENCIES.ANGULARMATERIALUI];
+
+            const res = getFilePaths(
+                ANGULAR_MATERIAL_FILE_PATH,
+                currentPath,
+                frontEnd.path,
+            );
+            paths = [...paths, ...res];
+        }
+    }
+    if (isFrontEndChoiceVue) {
+        if (isTailWind) {
+            dependencies = [...dependencies, ...DEPENDENCIES.TAILWINDVUE];
+            const res = getFilePaths(
+                TAILWIND_VUE_FILE_PATH,
+                currentPath,
+                frontEnd.path,
+            );
+            paths = [...paths, ...res];
+        } else {
+            dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAPVUE];
+        }
+    }
+    // <------------------------- For End: CSS Framework dependency ---------------------------->
+    const templatePath = path.join(
+        currentPath,
+        "Frameworks/WebFrameworks",
+        choice,
         );
 
         const projectPath = backEnd
@@ -430,51 +412,144 @@ const handleAnswersEvaluator = async (answers) => {
             isCICDPipelineIntegrate,
         );
 
-    const projectPath = backEnd
-      ? `${projectName}/${frontEndName}`
-      : projectName;
+        const ROUTE_FILES = [
+            {
+                oldName: "route.js",
+                folder: "routes",
+                newName: `${defaultRoute}.routes.js`,
+            },
+            {
+                oldName: "controller.js",
+                folder: "controllers",
+                newName: `${defaultRoute}.controllers.js`,
+            },
+        ];
 
-    fsExtra.ensureDirSync(frontEndPath);
+        ROUTE_FILES.forEach((each) => fs.rename(
+            `${backEnd.path}/${each.folder}/${each.oldName}`,
+            `${backEnd.path}/${each.folder}/${each.newName}`,
+            () => {},
+        ));
 
-    createDirectoryContents(
-      templatePath,
-      projectPath,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSMTP,
-      isSendgrid,
-      isAmazonSes,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isOkta,
-      isCognito,
-      isStore,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      backEndName,
-      choice,
-      isThemeProvider,
-      isMaterialUI,
-      isBootstrap,
-      isTailWind,
-      CURR_DIR,
-      isJest,
-      isCypress,
-      isMocha,
-      isNightWatch,
-      blobServiceName,
-      isNetworkInformer,
-      isBackEnd,
-      isCICDPipelineIntegrate,
-      isYarn,
-      isNPM,
-      isDocker
-    );
+        // creating utils dir
+        if (emailServiceName || blobServiceName || loggerServiceName) {
+            fsExtra.ensureDirSync(`${backEnd.path}/utils`);
+        }
 
+        // <---------------------------- For Email service ---------------------------------->
+        if (emailServiceName) {
+            const emailTemplatePath = path.join(
+                currentPath,
+                "Services/EmailServices",
+                emailServiceName,
+            );
+            createEmailSevice(
+                emailServiceName,
+                emailTemplatePath,
+                backEnd.path,
+                currentPath,
+            );
+        }
+
+        // <---------------------------- For Blob service ---------------------------------->
+        if (blobServiceName) {
+            const blobTemplatePath = path.join(
+                currentPath,
+                "Services/BlobServices",
+                blobServiceName,
+            );
+            createBlobService(
+                backEnd.path,
+                blobServiceName,
+                blobTemplatePath,
+                backEnd.path,
+            );
+        }
+
+        // <---------------------------- For Logger service ---------------------------------->
+        if (loggerServiceName) {
+            const loggerTemplatePath = path.join(
+                currentPath,
+                "Services/LoggerServices",
+            );
+
+            createLogger(
+                backEnd.path,
+                loggerServiceName,
+                loggerTemplatePath,
+                defaultRoute,
+            );
+        }
+
+        // <---------------------------- For Database service ---------------------------------->
+        if (dbName) {
+            createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
+        }
+
+        // <---------------------------- For ENV file ---------------------------------->
+        if (!isDocker) {
+            const envFilePath = frontEnd?.choice && backEnd?.choice
+                ? `${backEnd.path}/.env`
+                : `${CURR_DIR}/${projectName}/.env`;
+            handleRenderEJS(
+                `${currentPath}/Environments/BackendEnvironment/.dbEnv`,
+                {
+                    dbName,
+                    frontEnd,
+                    backEnd,
+                    isAuth0,
+                    isOkta,
+                    isSMTP,
+                    isSendgrid,
+                    isAmazonSes,
+                    isAwsS3,
+                    isAzure,
+                },
+                envFilePath,
+            );
+        }
+    }
+
+    // <---------------------------- For Docker integration ---------------------------------->
+    if (isDocker) {
+        const dockerPath = path.join(currentPath, "Services/DockerServices");
+        console.log("dockerPath+++", dockerPath, isDocker);
+        let res = [];
+
+        if (isFrontEndChoiceReact) {
+            res = getFilePaths(
+                REACT_DOCKER_FILE_PATH,
+                dockerPath,
+                frontEnd.path,
+            );
+            paths = [...paths, ...res];
+        } else if (isFrontEndChoiceAngular) {
+            res = getFilePaths(
+                ANGULAR_DOCKER_FILE_PATH,
+                dockerPath,
+                frontEnd.path,
+            );
+            paths = [...paths, ...res];
+        } else if (isFrontEndChoiceVue) {
+            res = getFilePaths(
+                VUE_DOCKER_FILE_PATH,
+                dockerPath,
+                frontEnd.path,
+            );
+            paths = [...paths, ...res];
+        }
+
+        if (backEnd?.choice === NODE_JS) {
+            res = getFilePaths(
+                REACT_DOCKER_FILE_PATH,
+                dockerPath,
+                backEnd.path,
+            );
+            paths = [...paths, ...res];
+        }
+
+        const dockerSrcPath = backEnd ? "db-docker-compose.yml" : "docker-compose.yml";
+        const dockerDestPath = frontEnd && backEnd ? `${projectName}/docker-compose.yml` : "docker-compose.yml";
         handleRenderEJS(
             `${dockerPath}/${dockerSrcPath}`,
             {
@@ -642,166 +717,6 @@ const handleAnswersEvaluator = async (answers) => {
             { defaultRoute },
             `${frontEnd.path}/src/app/shared/base-url.ts`,
         );
-        paths = [...paths, ...res];
-
-        devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.NIGHTWATCH];
-
-        scripts = [...scripts, ...SCRIPTS.NIGHTWATCH];
-      }
-    }
-  }
-
-  //<------------------ CI CD Pipeline ----------------------------------->
-  if (isCICDPipelineIntegrate) {
-    if(isFrontEndChoiceAngular) {
-      handleRenderEJS(
-        `${currentPath}/Providers/CICDWorkflow/angular-build.yml`,
-        { isCICDPipelineIntegrate },
-        `${frontEnd.path}/.github/workflows/build.yml`,
-      );
-    }
-    if(isFrontEndChoiceVue) {
-      handleRenderEJS(
-        `${currentPath}/Providers/CICDWorkflow/vue-build.yml`,
-        { isCICDPipelineIntegrate },
-        `${frontEnd.path}/.github/workflows/build.yml`,
-      );
-    }
-    if (isFrontEndChoiceReact) {
-      handleRenderEJS(
-        `${currentPath}/Providers/CICDWorkflow/react-build.yml`,
-        { isCICDPipelineIntegrate },
-        `${frontEnd.path}/.github/workflows/build.yml`,
-      );
-    }
-  }
-
-  //<---------------------------- node-js ---------------------------------->
-  if (backEnd) {
-    const { choice, path: backEndPath } = backEnd;
-    const templatePath = path.join(
-      currentPath,
-      "Frameworks/BackendFrameworks",
-      choice
-    );
-    const projectPath = frontEnd
-      ? `${projectName}/${backEndName}`
-      : projectName;
-
-    fsExtra.ensureDirSync(backEndPath);
-    createDirectoryContents(
-      templatePath,
-      projectPath,
-      defaultRoute,
-      mongoSelected,
-      sequelizeSelected,
-      dbName,
-      isSMTP,
-      isSendgrid,
-      isAmazonSes,
-      isSentry,
-      isWinston,
-      isAuth0,
-      isOkta,
-      isCognito,
-      isStore,
-      isCrudWithNode,
-      isCrud,
-      frontEndName,
-      backEndName,
-      choice,
-      isThemeProvider,
-      isMaterialUI,
-      isBootstrap,
-      isTailWind,
-      CURR_DIR,
-      isJest,
-      isCypress,
-      isMocha,
-      isNightWatch,
-      blobServiceName,
-      isNetworkInformer,
-      isBackEnd,
-      isCICDPipelineIntegrate,
-      isYarn,
-      isNPM,
-      isDocker
-    );
-
-    const ROUTE_FILES = [
-      {
-        oldName: "route.js",
-        folder: "routes",
-        newName: `${defaultRoute}.routes.js`,
-      },
-      {
-        oldName: "controller.js",
-        folder: "controllers",
-        newName: `${defaultRoute}.controllers.js`,
-      },
-    ];
-
-    ROUTE_FILES.forEach((each) =>
-      fs.rename(
-        `${backEnd.path}/${each.folder}/${each.oldName}`,
-        `${backEnd.path}/${each.folder}/${each.newName}`,
-        () => {}
-      )
-    );
-
-    //creating utils dir
-    if (emailServiceName || blobServiceName || loggerServiceName) {
-      fsExtra.ensureDirSync(backEnd.path + "/utils");
-    }
-
-    //<---------------------------- For Email service ---------------------------------->
-    if (emailServiceName) {
-      const emailTemplatePath = path.join(
-        currentPath,
-        "Services/EmailServices",
-        emailServiceName
-      );
-      createEmailSevice(
-        emailServiceName,
-        emailTemplatePath,
-        backEnd.path,
-        currentPath
-      );
-    }
-
-    //<---------------------------- For Blob service ---------------------------------->
-    if (blobServiceName) {
-      const blobTemplatePath = path.join(
-        currentPath,
-        "Services/BlobServices",
-        blobServiceName
-      );
-      createBlobService(
-        backEnd.path,
-        blobServiceName,
-        blobTemplatePath,
-        backEnd.path
-      );
-    }
-
-    //<---------------------------- For Logger service ---------------------------------->
-    if (loggerServiceName) {
-      const loggerTemplatePath = path.join(
-        currentPath,
-        "Services/LoggerServices"
-      );
-
-      createLogger(
-        backEnd.path,
-        loggerServiceName,
-        loggerTemplatePath,
-        defaultRoute
-      );
-    }
-
-    //<---------------------------- For Database service ---------------------------------->
-    if (dbName) {
-      createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
     }
 
     // <---------------------------- For Authentication service ---------------------------------->
