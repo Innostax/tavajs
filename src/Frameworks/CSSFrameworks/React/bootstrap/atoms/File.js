@@ -1,7 +1,7 @@
 import Dropzone from "react-dropzone";
 import { Button } from "react-bootstrap";
 
-function File({ setUploadedFiles, uploadFiletypes }) {
+const File = ({ setUploadedFiles, uploadFiletypes }) => {
     const onDropHandle = (acceptedFiles) => {
         const uploads = [];
         acceptedFiles &&

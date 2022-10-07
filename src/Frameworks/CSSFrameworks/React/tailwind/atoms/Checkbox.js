@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Checkbox({ label, value, name }) {
+const Checkbox = ({ label, value, name }) => {
     const [isChecked, setIsChecked] = useState(false);
     return (
         <div className='flex items-center mb-4'>

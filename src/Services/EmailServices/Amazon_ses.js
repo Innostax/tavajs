@@ -2,9 +2,9 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({ region: process.env.AWS_REGION });
 
-function sendMail({
+const sendMail = ({
     to, from, subject, html, text,
-}) {
+}) => {
     const params = {
         Destination: {
             ToAddresses: to,

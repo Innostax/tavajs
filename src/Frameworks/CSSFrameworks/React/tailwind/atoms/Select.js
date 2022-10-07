@@ -1,4 +1,4 @@
-function Select({ label, options, onChange, value }) {
+const Select = ({ label, options, onChange, value }) => {
     return (
         <>
             <label

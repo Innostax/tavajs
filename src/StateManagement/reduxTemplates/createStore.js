@@ -4,7 +4,7 @@ let store;
 
 export const getStore = () => store;
 
-function createStore(rootReducer) {
+const createStore = (rootReducer) => {
     store = configureStore({
         reducer: rootReducer,
     });

@@ -2,7 +2,7 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Datepicker({ date, setDate }) {
+const Datepicker = ({ date, setDate }) => {
     return (
         <span>
 			Enter Date

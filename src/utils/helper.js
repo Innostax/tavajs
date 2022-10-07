@@ -28,7 +28,7 @@ const {
     REACT_NETWORKSTATUS_FILE_PATH,
     OKTA_FILE_PATH,
     ANGULAR_MATERIAL_FILE_PATH,
-    REACT_CSS_FRAMEWORK_FILE_PATH
+    REACT_CSS_FRAMEWORK_FILE_PATH,
 } = require("../TavaJsExecutors/constants");
 
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS;
@@ -84,46 +84,43 @@ const createDirectoryContents = (
                 const elements = newProjectPath.split("/");
                 const NameProject = elements[elements.length - 1];
 
-                contents = render(
-                    contents,
-                    {
-                        projectName: NameProject,
-                        defaultRoute: newDefaultRoute,
-                        mongoSelected,
-                        sequelizeSelected,
-                        dbName,
-                        isSMTP,
-                        isSendgrid,
-                        isAmazonSes,
-                        isSentry,
-                        isWinston,
-                        isAuth0,
-                        isOkta,
-                        isCognito,
-                        isStore,
-                        isCrudWithNode,
-                        isCrud,
-                        frontEndName,
-                        nodeName,
-                        projectChoice,
-                        isThemeProvider,
-                        isMaterialUI,
-                        isBootstrap,
-                        isTailWind,
-                        currentDirectory,
-                        isJest,
-                        isCypress,
-                        isMocha,
-                        isNightWatch,
-                        blobServiceName,
-                        isNetworkInformer,
-                        isBackEnd,
-                        isCICDPipelineIntegrate,
-                        isYarn,
-                        isNPM,
-                        isDocker
-                    },
-                );
+                contents = render(contents, {
+                    projectName: NameProject,
+                    defaultRoute: newDefaultRoute,
+                    mongoSelected,
+                    sequelizeSelected,
+                    dbName,
+                    isSMTP,
+                    isSendgrid,
+                    isAmazonSes,
+                    isSentry,
+                    isWinston,
+                    isAuth0,
+                    isOkta,
+                    isCognito,
+                    isStore,
+                    isCrudWithNode,
+                    isCrud,
+                    frontEndName,
+                    nodeName,
+                    projectChoice,
+                    isThemeProvider,
+                    isMaterialUI,
+                    isBootstrap,
+                    isTailWind,
+                    currentDirectory,
+                    isJest,
+                    isCypress,
+                    isMocha,
+                    isNightWatch,
+                    blobServiceName,
+                    isNetworkInformer,
+                    isBackEnd,
+                    isCICDPipelineIntegrate,
+                    isYarn,
+                    isNPM,
+                    isDocker,
+                });
                 const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
                 fs.writeFileSync(writePath, contents, "utf8");
             } else if (stats.isDirectory()) {
@@ -141,9 +138,10 @@ const createDirectoryContents = (
                 }
 
                 if (isRequiredFile) {
-                    const newUpadtedProjectPath = isBootstrapFile || isMaterialUIFile || isTailWindFile
-                        ? `${newProjectPath}`
-                        : `${newProjectPath}/${file}`;
+                    const newUpadtedProjectPath =
+            isBootstrapFile || isMaterialUIFile || isTailWindFile
+                ? `${newProjectPath}`
+                : `${newProjectPath}/${file}`;
 
                     fsExtra.ensureDirSync(`${CURR_DIR}/${newUpadtedProjectPath}`);
                     createDirectoryContents(
@@ -194,7 +192,7 @@ const createDirectoryContents = (
 const updateProjectDependencies = (
     path,
     dependencies = [],
-    devDependencies = [],
+    devDependencies = []
 ) => {
     const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
     const packageJson = JSON.parse(packageJsonFile);
@@ -493,14 +491,14 @@ const getFilePaths = (name, srcDir, destDir) => {
                 destination: `${destDir}/src/components/NetworkStatus.js`,
             },
         ];
-    case ANGULAR_MATERIAL_FILE_PATH: 
+    case ANGULAR_MATERIAL_FILE_PATH:
         return [
             {
                 source: `${srcDir}/Frameworks/CSSFrameworks/MaterialUIFramework/angular/custom-materialui.module.ts`,
                 destination: `${destDir}/src/app/shared/custom-materialui.module.ts`,
-                isFile:true,
-            }
-        ];  
+                isFile: true,
+            },
+        ];
     case REACT_CSS_FRAMEWORK_FILE_PATH:
         return [
             {
@@ -527,16 +525,17 @@ const getFilePaths = (name, srcDir, destDir) => {
     }
 };
 
-const getCSSFrameworkChoices = (frontEndChoice) => (frontEndChoice === FRAMEWORKS.VUE
-    ? [
-        { name: "Bootstrap", value: BOOTSTRAP },
-        { name: "Tailwind", value: TAILWIND },
-    ]
-    : [
-        { name: "Material", value: MATERIAL },
-        { name: "Bootstrap", value: BOOTSTRAP },
-        { name: "Tailwind", value: TAILWIND },
-    ]);
+const getCSSFrameworkChoices = (frontEndChoice) =>
+    frontEndChoice === FRAMEWORKS.VUE
+        ? [
+            { name: "Bootstrap", value: BOOTSTRAP },
+            { name: "Tailwind", value: TAILWIND },
+        ]
+        : [
+            { name: "Material", value: MATERIAL },
+            { name: "Bootstrap", value: BOOTSTRAP },
+            { name: "Tailwind", value: TAILWIND },
+        ];
 
 module.exports = {
     createDirectoryContents,

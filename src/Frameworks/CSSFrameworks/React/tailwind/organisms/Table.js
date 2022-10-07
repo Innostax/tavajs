@@ -1,4 +1,4 @@
-function Table({ data, columns }) {
+const Table = ({ data, columns }) => {
     return (
         <div className='overflow-x-auto relative '>
             <table className='w-full text-sm text-left dark:text-white dark:bg-[#1d1717]'>

@@ -4,7 +4,7 @@ const { updateProjectDependencies } = require("./helper");
 
 let dependencies = [];
 // function to create Blob services------------------------------------------------->
-function createBlobService(nodePath, blobServiceName, blobTemplatePath, backEndPath) {
+const createBlobService = (nodePath, blobServiceName, blobTemplatePath, backEndPath) => {
     const contents = fs.readFileSync(`${blobTemplatePath}.js`, "utf-8");
     const servicePath = path.join(backEndPath, "utils", "blob");
     fs.mkdirSync(servicePath);
@@ -23,5 +23,6 @@ function createBlobService(nodePath, blobServiceName, blobTemplatePath, backEndP
         dependencies = [...dependencies, { name: "@aws-sdk/client-s3", version: "^3.179.0" }];
     }
     updateProjectDependencies(nodePath, dependencies);
-}
+};
+
 module.exports = createBlobService;

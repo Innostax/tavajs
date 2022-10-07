@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-function Label({ title }) {
+const Label = ({ title }) => {
     return (
         <Form.Label>
             <b>{title}</b>

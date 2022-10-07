@@ -1,7 +1,7 @@
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 
-function InputGroup({ title, placeholder, type, onChange, id, value, name }) {
+const InputGroup = ({ title, placeholder, type, onChange, id, value, name }) => {
     return (
         <>
             <Label title={title} />

@@ -5,7 +5,7 @@ import {
     MenuItem,
 } from "@mui/material";
 
-function Select({ label, options, onChange, value }) {
+const Select = ({ label, options, onChange, value }) => {
     return (
         <FormControl>
             <InputLabel>{label}</InputLabel>

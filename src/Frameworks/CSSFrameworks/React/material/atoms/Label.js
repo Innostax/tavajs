@@ -1,6 +1,6 @@
 import { FormLabel } from "@mui/material";
 
-function Label({ title }) {
+const Label = ({ title }) => {
     return <FormLabel>{title}</FormLabel>;
 }
 export default Label;

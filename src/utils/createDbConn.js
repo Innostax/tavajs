@@ -5,7 +5,7 @@ const { DATABASES } = require("../TavaJsExecutors/constants");
 
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 // <----------------------------- Function to create db service -------------------------------------------->
-function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
+const createDbConn = (nodePath, dbName, defaultRoute, currentPath) => {
     let dependencies = [];
     let fileName;
     let modelName;
@@ -56,6 +56,6 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
     databaseFile = render(databaseFile, { defaultRoute });
     // Writing database file data
     fs.writeFileSync(databaseFilePath, databaseFile, "utf8");
-}
+};
 
 module.exports = createDbConn;

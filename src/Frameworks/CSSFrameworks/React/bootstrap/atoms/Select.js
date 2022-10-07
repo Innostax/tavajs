@@ -1,6 +1,6 @@
 import React from "react";
 
-function Select({ label, options, onChange, value }) {
+const Select = ({ label, options, onChange, value }) => {
     return (
         <div className='form-row'>
             <div className='form-group col-md-6'>

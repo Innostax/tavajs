@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-function Input({ placeholder, type, onChange, id, value, name }) {
+const Input = ({ placeholder, type, onChange, id, value, name }) => {
     return (
         <Form.Control
             placeholder={placeholder}

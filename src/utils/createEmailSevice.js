@@ -3,11 +3,11 @@ const path = require("path");
 const { updateProjectDependencies } = require("./helper");
 
 // function to create email services
-function createEmailSevice(
+const createEmailSevice = (
     emailServiceName,
     emailTemplatePath,
     nodePath,
-) {
+) => {
     const dependencies = [];
     dependencies.push({ name: "dotenv", version: "^10.0.0" });
 
@@ -42,5 +42,6 @@ function createEmailSevice(
             if (err) throw err;
         },
     );
-}
+};
+
 module.exports = createEmailSevice;

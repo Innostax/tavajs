@@ -1,6 +1,6 @@
 import BootstrapTable from "@musicstory/react-bootstrap-table-next";
 
-function Table({ keyField, data, columns }) {
+const Table = ({ keyField, data, columns }) => {
     return (
         <BootstrapTable
             bordered={false}
