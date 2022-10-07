@@ -3,7 +3,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { TextField } from '@mui/material'
 
-const Datepicker = ({ date, setDate }) => {
+function Datepicker({ date, setDate }) {
 	return (
 		<LocalizationProvider dateAdapter={AdapterMoment}>
 			<DatePicker

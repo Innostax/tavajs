@@ -1,13 +1,13 @@
-import Modal from './Modal'
-import slice from './modal.slice'
-import * as selectors from './modal.selectors'
+import Modal from "./Modal";
+import slice from "./modal.slice";
+import * as selectors from "./modal.selectors";
 
 export const {
-	name,
-	actions: { showModal, hideModal },
-	reducer,
-} = slice
+    name,
+    actions: { showModal, hideModal },
+    reducer,
+} = slice;
 
-export const { selectShowModal } = selectors
+export const { selectShowModal } = selectors;
 
-export default Modal
+export default Modal;

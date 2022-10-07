@@ -5,83 +5,83 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const path = require("path");
 const { render } = require("ejs");
+
 const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
-  {
-    name: "project-name",
-    type: "input",
-    message: "What will be name of screen?",
-    validate: function (input) {
-      if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-      else
-        return "Screen name may only include letters, numbers, underscores and hashes.";
+    {
+        name: "project-name",
+        type: "input",
+        message: "What will be name of screen?",
+        validate(input) {
+            if (/^([A-Za-z\-\d])+$/.test(input)) return true;
+            return "Screen name may only include letters, numbers, underscores and hashes.";
+        },
     },
-  },
 ];
 
 inquirer.prompt(QUESTIONS).then((answers) => {
-  const CURR_DIR = answers["projectDirectoryPath"] ? answers["projectDirectoryPath"] : process.cwd();
-  const projectName = answers["project-name"];
-  fs.mkdirSync(`${CURR_DIR}/src/screens/${projectName}`);
+    const CURR_DIR = answers.projectDirectoryPath ? answers.projectDirectoryPath : process.cwd();
+    const projectName = answers["project-name"];
+    fs.mkdirSync(`${CURR_DIR}/src/screens/${projectName}`);
 
-  const templatePath = path.join(`${currentPath}`, "screenTemplates");
+    const templatePath = path.join(`${currentPath}`, "screenTemplates");
 
-  function createDirectoryContents(templatePath, projectName) {
-    const filesToCreate = fs.readdirSync(templatePath);
+    function createDirectoryContents(templatePath, projectName) {
+        const filesToCreate = fs.readdirSync(templatePath);
 
-    const routePath = `${CURR_DIR}/src`;
+        const routePath = `${CURR_DIR}/src`;
 
-    var data = fs.readFileSync(`${routePath}/Routes.js`).toString().split("\n");
-    data.splice(
-      9,
-      0,
-      `<Route exact path="/${projectName}" component={${projectName}}></Route>`
-    );
-    data.splice(3, 0, `import ${projectName} from "./screens/${projectName}";`);
-    var text = data.join("\n");
+        const data = fs.readFileSync(`${routePath}/Routes.js`).toString().split("\n");
+        data.splice(
+            9,
+            0,
+            `<Route exact path="/${projectName}" component={${projectName}}></Route>`,
+        );
+        data.splice(3, 0, `import ${projectName} from "./screens/${projectName}";`);
+        const text = data.join("\n");
 
-    fs.writeFile(`${routePath}/Routes.js`, text, function (err) {
-      if (err) return console.log(err);
-    });
+        fs.writeFile(`${routePath}/Routes.js`, text, (err) => {
+            if (err) return console.log(err);
+        });
 
-    filesToCreate.forEach((file, i) => {
-      const origFilePath = `${templatePath}/${file}`;
-      const stats = fs.statSync(origFilePath);
-      if (stats.isFile()) {
-        let contents = fs.readFileSync(origFilePath, "utf8");
-        contents = render(contents, { screenName: projectName });
+        filesToCreate.forEach((file, i) => {
+            const origFilePath = `${templatePath}/${file}`;
+            const stats = fs.statSync(origFilePath);
+            if (stats.isFile()) {
+                let contents = fs.readFileSync(origFilePath, "utf8");
+                contents = render(contents, { screenName: projectName });
 
-        const writePath = `${CURR_DIR}/src/screens/${projectName}/${file}`;
+                const writePath = `${CURR_DIR}/src/screens/${projectName}/${file}`;
 
-        if (file.startsWith("screen")) {
-          const filesName = [".constant", "", ".utils"];
-          setTimeout(function name() {
-            fs.rename(
-              `${CURR_DIR}/src/screens/${projectName}/${file}`,
-              `${CURR_DIR}/src/screens/${projectName}/${projectName}${
-                filesName[i - 1]
-              }.js`,
-              (error) => {
-                if (error) {
-                  // Show the error
-                } else {
-                  // List all the filenames after renaming
+                if (file.startsWith("screen")) {
+                    const filesName = [".constant", "", ".utils"];
+                    setTimeout(() => {
+                        fs.rename(
+                            `${CURR_DIR}/src/screens/${projectName}/${file}`,
+                            `${CURR_DIR}/src/screens/${projectName}/${projectName}${
+                                filesName[i - 1]
+                            }.js`,
+                            (error) => {
+                                if (error) {
+                                    // Show the error
+                                } else {
+                                    // List all the filenames after renaming
+                                }
+                            },
+                        );
+                    }, 300);
                 }
-              }
-            );
-          }, 300);
-        }
 
-        fs.writeFileSync(writePath, contents, "utf8");
-      } else if (stats.isDirectory()) {
-        fsExtra.ensureDirSync(`${CURR_DIR}/src/screens/${projectName}${file}`);
+                fs.writeFileSync(writePath, contents, "utf8");
+            } else if (stats.isDirectory()) {
+                fsExtra.ensureDirSync(`${CURR_DIR}/src/screens/${projectName}${file}`);
 
-        createDirectoryContents(`${templatePath}/${file}`, `${projectName}`);
-      }
-    });
-  }
-  createDirectoryContents(templatePath, projectName);
+                createDirectoryContents(`${templatePath}/${file}`, `${projectName}`);
+            }
+        });
+    }
+    createDirectoryContents(templatePath, projectName);
 
-  console.log("New screen is ready for use by /screenName-----");
+    console.log("New screen is ready for use by /screenName-----");
 });
