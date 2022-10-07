@@ -1,18 +1,11 @@
 <div  align="center">
-
 <a  href="https://innostax.com/">  <img  src="https://i2.wp.com/innostax.com/wp-content/uploads/2021/06/Innostax_-logo_edited.png?resize=400%2C82&ssl=1"  alt="Logo"  width="100%">
-
 </a>
-
 </div>
 
-  
-
+<br>
 <br>
 
-<br>
-
-  
 <div align="center">
 
 ![Tavajs License]([https://img.shields.io/npm/l/dev-tava](https://img.shields.io/npm/l/dev-tava))
@@ -286,7 +279,6 @@ Inside `enviroment.ts` file in <%= nodeName %> directory update environment vari
 AUTH_ISSUER=Enter your issuer
 AUTH_CLIENTID=Enter your client id
 ```
-
 Inside `enviroment.ts` file in <%= frontEndName %> directory update environment variables:
 
 ```
@@ -865,7 +857,6 @@ Template overview: [Angular.io/guide/template-overview][Angular-template]
 ## License
 
 Copyright (C)2021 Innostax
-
 Licensed under the MIT License.
 
 ## Contact

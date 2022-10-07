@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import  { useState } from "react";
 
 const Checkbox = ({ label, value, name }) => {
-	const [isChecked, setIsChecked] = useState(false)
+    const [isChecked, setIsChecked] = useState(false);
 
-	return (
-		<>
-			<input
-				type='checkbox'
-				name={name}
-				checked={isChecked}
-				value={value}
-				onChange={() => {
-					setIsChecked(!isChecked)
-				}}
-			/>
-			{label}
-		</>
-	)
-}
+    return (
+        <>
+            <input
+                type='checkbox'
+                name={name}
+                checked={isChecked}
+                value={value}
+                onChange={() => {
+                    setIsChecked(!isChecked);
+                }}
+            />
+            {label}
+        </>
+    );
+};
 
-export default Checkbox
+export default Checkbox;

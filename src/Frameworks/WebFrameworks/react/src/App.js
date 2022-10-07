@@ -1,5 +1,4 @@
-
-import {React<% if(isAuth0){%> ,useEffect <%}%><% if(isThemeProvider && isMaterialUI && !isAuth0){%>,useEffect<%}%><% if(isThemeProvider && isMaterialUI){%> ,useState,<%}%>} from "react";
+import {React,<% if(isAuth0){%> useEffect <%}%><% if(isThemeProvider && isMaterialUI && !isAuth0){%>useEffect<%}%><% if(isThemeProvider && isMaterialUI){%> useState,<%}%>} from "react";
 <% if (isThemeProvider && isMaterialUI) {%>
   import { ThemeProvider, createTheme } from '@mui/material/styles'
   import { THEMES } from './theme.constants'
