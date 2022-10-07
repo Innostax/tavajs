@@ -1,19 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	jwtToken: null,
-}
+    jwtToken: null,
+};
 
 const slice = createSlice({
-	name: 'jwtToken',
-	initialState,
-	reducers: {
-		setjwtToken(state, action) {
-			state.jwtToken = action.payload
-		},
-	},
-})
+    name: "jwtToken",
+    initialState,
+    reducers: {
+        setjwtToken(state, action) {
+            state.jwtToken = action.payload;
+        },
+    },
+});
 
-export default slice
+export default slice;
 
-export const { name, actions, reducer } = slice
+export const { name, actions, reducer } = slice;

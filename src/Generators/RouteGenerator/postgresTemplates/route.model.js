@@ -1,3 +1,1 @@
-module.exports = (sequelize, type) => {
-  return sequelize.define("<%= routeName %>", {});
-};
+module.exports = (sequelize) => sequelize.define("<%= routeName %>", {});

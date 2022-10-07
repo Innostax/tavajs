@@ -1,38 +1,38 @@
 const FRAMEWORKS = {
-  ANGULAR: "angular",
-  REACT: "react",
-  VUE: "vue",
-}
+    ANGULAR: "angular",
+    REACT: "react",
+    VUE: "vue",
+};
 const DATABASES = {
-  POSTGRES: "postgres",
-  MYSQL: "mysql",
-  MONGOOSE: "mongoose"
-}
+    POSTGRES: "postgres",
+    MYSQL: "mysql",
+    MONGOOSE: "mongoose",
+};
 const CSS_FRAMEWORKS = {
-  BOOTSTRAP: "bootstrap",
-  MATERIAL: "material",
-  TAILWIND: "tailwind",
-}
+    BOOTSTRAP: "bootstrap",
+    MATERIAL: "material",
+    TAILWIND: "tailwind",
+};
 const AUTHENTICATIONS = {
-  AUTH0: "Auth0",
-  OKTA: "Okta",
-  COGNITO: "Cognito",
-}
+    AUTH0: "Auth0",
+    OKTA: "Okta",
+    COGNITO: "Cognito",
+};
 const LOGGER_SERVICES = {
-  WINSTON: "winston",
-  SENTRY: "sentry",
-}
+    WINSTON: "winston",
+    SENTRY: "sentry",
+};
 const EMAIL_SERVICES = {
-  SMTP: "smtp",
-  SENDGRID: "sendgrid",
-  AMAZON_SES: "amazon_ses",
-}
+    SMTP: "smtp",
+    SENDGRID: "sendgrid",
+    AMAZON_SES: "amazon_ses",
+};
 const TESTCASE_FRAMEWORKS = {
-  CYPRESS: "cypress",
-  JEST: "jest",
-  MOCHAJS: "mochaJS",
-  NIGHTWATCHJS: "nightwatchJS",
-}
+    CYPRESS: "cypress",
+    JEST: "jest",
+    MOCHAJS: "mochaJS",
+    NIGHTWATCHJS: "nightwatchJS",
+};
 const BLOB_SERVICES = {
   AWS_S3: "aws-s3",
   AZURE: "azure"
@@ -42,7 +42,7 @@ const PACKAGE_MANAGERS = {
   YARN: "yarn"
 }
 
-const OKTA_FILE_PATH = "oktaFilePath"
+const OKTA_FILE_PATH = "oktaFilePath";
 const REACT_THEME_FILE_PATH = "reactThemeFilePath";
 const ANGULAR_THEME_FILE_PATH = "angularThemeFilePath";
 const ANGULAR_MATERIAL_FILE_PATH = "angularMaterialFilePath";
@@ -54,7 +54,7 @@ const NIGHTWATCH_FILE_PATH = "nightwatchFilePath";
 const REACT_DOCKER_FILE_PATH = "reactDockerFilePath";
 const ANGULAR_DOCKER_FILE_PATH = "angularDockerFilePath";
 const VUE_DOCKER_FILE_PATH = "vueDockerFilePath";
-const REDUX_FILE_PATH = "reduxFilePath"
+const REDUX_FILE_PATH = "reduxFilePath";
 const NGRX_FILE_PATH = "ngrxFilePath";
 const VUEX_FILE_PATH = "vuexFilePath";
 const VUEX_NODE_FILE_PATH = "vuexNodeFilePath";
@@ -64,7 +64,7 @@ const ANGULAR_CRUD_NODE_FILE_PATH = "angularCrudNodeFilePath";
 const TAILWIND_REACT_FILE_PATH = "tailwindReactFilePath";
 const TAILWIND_ANGULAR_FILE_PATH = "tailwindAngularFilePath";
 const TAILWIND_VUE_FILE_PATH = "tailwindVuefilePath";
-const VUE_NETWORKSTATUS_FILE_PATH = "vueNetworkStatusFilePath"
+const VUE_NETWORKSTATUS_FILE_PATH = "vueNetworkStatusFilePath";
 const REACT_NETWORKSTATUS_FILE_PATH = "reactNetworkStatusFilePath";
 
 module.exports = {

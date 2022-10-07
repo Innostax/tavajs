@@ -4,7 +4,12 @@ import DialogTitle from '@mui/material/DialogTitle'
 import { IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-export default function TavaJSModal({ children, shouldOpen, handleClose, title }) {
+export default function TavaJSModal({
+	children,
+	shouldOpen,
+	handleClose,
+	title,
+}) {
 	return (
 		<div>
 			<Dialog open={shouldOpen} onClose={handleClose} fullWidth>

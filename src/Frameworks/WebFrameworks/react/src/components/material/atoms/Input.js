@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField'
 
-const InputForm = ({ placeholder, type, onChange, id, value, name, title }) => {
+function InputForm({ placeholder, type, onChange, id, value, name, title }) {
 	return (
 		<TextField
 			variant='outlined'

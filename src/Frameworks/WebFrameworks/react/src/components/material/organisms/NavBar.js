@@ -3,8 +3,8 @@ import {
 	AppBar,
 	Toolbar,
 	CssBaseline,
-	Typography
-	<%if(isThemeProvider) {%>,IconButton <%}%>
+	Typography,
+	<%if(isThemeProvider) {%>IconButton <%}%>
 	<% if(isAuth0) {%>,Button<%}%>
 } from '@mui/material'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
