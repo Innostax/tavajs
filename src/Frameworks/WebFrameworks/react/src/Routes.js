@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Users from './screens/Users'
 
-export default function Routes() {
+const Routes = () => {
 	return (
 		<div className='App'>
 			<Switch>
@@ -11,3 +11,5 @@ export default function Routes() {
 		</div>
 	)
 }
+
+export default Routes;

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../index.css";
 
-function NetworkStatus() {
+const NetworkStatus = () => {
     const [online, setOnline] = useState(navigator.onLine);
     const [isBackOnline, setIsBackOnline] = useState(false);
 
