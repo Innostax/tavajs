@@ -5,7 +5,7 @@ const WINSTON = "winston";
 const SENTRY = "@sentry/node";
 
 //Function to create logger service ------------------------------------------------------------>
-function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
+function createLogger(utilpath, loggerName, loggerTemplatePath) {
     const dependencies = [];
     if (loggerName === WINSTON) {
         let loggerServicePath = path.join(utilpath, "utils", "logger");

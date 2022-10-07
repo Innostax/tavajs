@@ -45,9 +45,9 @@ async function deleteBucket(bucketName) {
 }
 
 async function uploadObject(bucketName, filePath) {
+    const objectName = path.basename(filePath);
     try {
         filePath = path.resolve(filePath);
-        const objectName = path.basename(filePath);
         const fileStream = fs.createReadStream(filePath);
         const bucketParams = {
             Bucket: bucketName,

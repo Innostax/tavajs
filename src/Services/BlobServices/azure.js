@@ -9,7 +9,7 @@ const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_C
 async function createContainer(containerName) {
     try {
         const containerClient = await blobServiceClient.getContainerClient(containerName);
-        const createContainerResponse = await containerClient.create();
+        // const createContainerResponse = await containerClient.create(); TODO
         console.log(`${containerName} container created successfully.`);
         return containerClient.url;
     } catch (err) {
@@ -28,7 +28,7 @@ async function listContainers() {
 
 async function deleteContainer(containerName) {
     try {
-        deleteContainerResponse = await blobServiceClient.deleteContainer(containerName);
+        const deleteContainerResponse = await blobServiceClient.deleteContainer(containerName);
         console.log(`${containerName} container deleted successfully.`);
         return deleteContainerResponse;
     } catch (err) {
@@ -75,7 +75,7 @@ async function downloadBlob(containerName, blobName, filePath) {
 
 async function deleteBlob(containerName, blobName) {
     try {
-        containerClient = await blobServiceClient.getContainerClient(containerName);
+        const containerClient = await blobServiceClient.getContainerClient(containerName);
         const blobClient = await containerClient.getBlobClient(blobName);
         const deleteBlobResponse = await blobClient.delete();
         console.log(`${blobName} blob deleted successfully.`);

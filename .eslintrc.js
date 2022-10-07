@@ -10,12 +10,24 @@ module.exports = {
     ],
     "overrides": [
     ],
+    "plugins": [
+        "ejs-js",
+    ],
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
+        "requireConfigFile": false,
+        "babelOptions": {
+            "presets": ["@babel/preset-react"]
+        },
     },
     root: true,
     "rules": {
+        "no-console": [
+            "warn",
+            { "allow": ["clear", "info", "error", "dir", "trace", "log"] }
+        ],
         quotes: [
             "warn",
             "double"
@@ -28,6 +40,6 @@ module.exports = {
             "error",
             "always"
         ],
-
+        "jest/prefer-expect-assertions": "off"
     }
 };
