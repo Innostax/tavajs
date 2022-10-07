@@ -6,7 +6,7 @@ const FRAMEWORKS = {
 const DATABASES = {
     POSTGRES: "postgres",
     MYSQL: "mysql",
-    MONGOOSE: "mongoose"
+    MONGOOSE: "mongoose",
 };
 const CSS_FRAMEWORKS = {
     BOOTSTRAP: "bootstrap",
@@ -35,7 +35,7 @@ const TESTCASE_FRAMEWORKS = {
 };
 const BLOB_SERVICES = {
     AWS_S3: "aws-s3",
-    AZURE: "azure"
+    AZURE: "azure",
 };
 
 const OKTA_FILE_PATH = "oktaDirectoryPath";
@@ -95,5 +95,5 @@ module.exports = {
     VUE_NETWORKSTATUS_FILE_PATH,
     REACT_NETWORKSTATUS_FILE_PATH,
     BLOB_SERVICES,
-    ANGULAR_MATERIAL_FILE_PATH
+    ANGULAR_MATERIAL_FILE_PATH,
 };

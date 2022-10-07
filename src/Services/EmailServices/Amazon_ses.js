@@ -2,7 +2,9 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({ region: process.env.AWS_REGION });
 
-function sendMail({ to, from, subject, html, text }) {
+function sendMail({
+    to, from, subject, html, text,
+}) {
     const params = {
         Destination: {
             ToAddresses: to,
@@ -27,10 +29,10 @@ function sendMail({ to, from, subject, html, text }) {
     };
 
     const sendPromise = new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail(params).promise();
-    sendPromise.then(function (data) {
+    sendPromise.then((data) => {
         console.log(data.MessageId);
     })
-        .catch(function (err) {
+        .catch((err) => {
             console.error(err, err.stack);
         });
 }

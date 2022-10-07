@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../index.css";
 
-const NetworkStatus = () => {
+function NetworkStatus() {
     const [online, setOnline] = useState(navigator.onLine);
     const [isBackOnline, setIsBackOnline] = useState(false);
 
@@ -30,13 +30,15 @@ const NetworkStatus = () => {
             {!online && (
                 <div className="msg offline-msg">
                     <div className="icon">
-                        <span></span>
+                        <span />
                     </div>
                     <div className="content">
                         <div>
                             {" "}
-                            <strong>Offline : </strong> Connection lost! You are not connected
-              to internet
+                            <strong>Offline : </strong>
+                            {" "}
+                        Connection lost! You are not connected
+                        to internet
                         </div>
                     </div>
                 </div>
@@ -48,13 +50,14 @@ const NetworkStatus = () => {
                     </div>
                     <div className="content">
                         <div>
-                            <strong>Online : </strong>Back to online
+                            <strong>Online : </strong>
+                        Back to online
                         </div>
                     </div>
                 </div>
             )}
         </div>
     );
-};
+}
 
 export default NetworkStatus;

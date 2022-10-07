@@ -27,9 +27,11 @@ const {
     VUE_NETWORKSTATUS_FILE_PATH,
     REACT_NETWORKSTATUS_FILE_PATH,
     OKTA_FILE_PATH,
+    ANGULAR_MATERIAL_FILE_PATH,
 } = require("../TavaJsExecutors/constants");
+
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS;
-//<-----------------------To create Directory Contents------------------------------------>
+// <-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
     templatePath,
     newProjectPath,
@@ -63,7 +65,7 @@ const createDirectoryContents = (
     blobServiceName,
     isNetworkInformer,
     isBackEnd,
-    isCICDPipelineIntegrate
+    isCICDPipelineIntegrate,
 ) => {
     const CURR_DIR = currentDirectory;
     const filesToCreate = fs.readdirSync(templatePath);
@@ -112,9 +114,8 @@ const createDirectoryContents = (
                         blobServiceName,
                         isNetworkInformer,
                         isBackEnd,
-                        isCICDPipelineIntegrate
+                        isCICDPipelineIntegrate,
                     },
-                    (autoescape = false)
                 );
                 const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
                 fs.writeFileSync(writePath, contents, "utf8");
@@ -133,10 +134,9 @@ const createDirectoryContents = (
                 }
 
                 if (isRequiredFile) {
-                    const newUpadtedProjectPath =
-            isBootstrapFile || isMaterialUIFile || isTailWindFile
-                ? `${newProjectPath}`
-                : `${newProjectPath}/${file}`;
+                    const newUpadtedProjectPath = isBootstrapFile || isMaterialUIFile || isTailWindFile
+                        ? `${newProjectPath}`
+                        : `${newProjectPath}/${file}`;
 
                     fsExtra.ensureDirSync(`${CURR_DIR}/${newUpadtedProjectPath}`);
                     createDirectoryContents(
@@ -171,7 +171,7 @@ const createDirectoryContents = (
                         isNightWatch,
                         blobServiceName,
                         isNetworkInformer,
-                        isBackEnd
+                        isBackEnd,
                     );
                 }
             }
@@ -179,11 +179,11 @@ const createDirectoryContents = (
     });
 };
 
-//to update package.json------------------------------------------------>
+// to update package.json------------------------------------------------>
 const updateProjectDependencies = (
     path,
     dependencies = [],
-    devDependencies = []
+    devDependencies = [],
 ) => {
     const packageJsonFile = fs.readFileSync(`${path}/package.json`, "utf-8");
     const packageJson = JSON.parse(packageJsonFile);
@@ -223,7 +223,7 @@ const updateProjectScripts = (path, updatedscripts) => {
 
 const copyFiles = (paths) => {
     paths.forEach((each) => {
-        fsExtra.copy(each.source, each.destination, function (err) {
+        fsExtra.copy(each.source, each.destination, (err) => {
             if (err) {
                 console.log("An error is occured");
                 return console.error(err);
@@ -385,14 +385,14 @@ const getFilePaths = (name, srcDir, destDir) => {
             },
         ];
     case VUEX_FILE_PATH:
-        return [       
+        return [
             {
                 source: `${srcDir}/StateManagement/vuexTemplates/store/index.js`,
                 destination: `${destDir}/src/store/index.js`,
             },
         ];
     case VUEX_NODE_FILE_PATH:
-        return [       
+        return [
             {
                 source: `${srcDir}/StateManagement/vuexTemplates/doAsync`,
                 destination: `${destDir}/src/doAsync`,
@@ -403,7 +403,7 @@ const getFilePaths = (name, srcDir, destDir) => {
             },
         ];
     case VUEX_USERMODAL_FILE_PATH:
-        return [       
+        return [
             {
                 source: `${srcDir}/userModal/AddUser.vue`,
                 destination: `${destDir}/src/userModal/AddUser.vue`,
@@ -482,30 +482,29 @@ const getFilePaths = (name, srcDir, destDir) => {
                 destination: `${destDir}/src/components/NetworkStatus.js`,
             },
         ];
-    case ANGULAR_MATERIAL_FILE_PATH: 
+    case ANGULAR_MATERIAL_FILE_PATH:
         return [
             {
                 source: `${srcDir}/Frameworks/CSSFrameworks/MaterialUIFramework/angular/custom-materialui.module.ts`,
                 destination: `${destDir}/src/app/shared/custom-materialui.module.ts`,
-                isFile:true,
-            }
-        ];  
+                isFile: true,
+            },
+        ];
     default:
         return [];
     }
 };
 
-const getCSSFrameworkChoices = (frontEndChoice) =>
-    frontEndChoice === FRAMEWORKS.VUE ?
-        [
-            { name: "Bootstrap", value: BOOTSTRAP },
-            { name: "Tailwind", value: TAILWIND },
-        ] :
-        [
-            { name: "Material", value: MATERIAL },
-            { name: "Bootstrap", value: BOOTSTRAP },
-            { name: "Tailwind", value: TAILWIND },
-        ];
+const getCSSFrameworkChoices = (frontEndChoice) => (frontEndChoice === FRAMEWORKS.VUE
+    ? [
+        { name: "Bootstrap", value: BOOTSTRAP },
+        { name: "Tailwind", value: TAILWIND },
+    ]
+    : [
+        { name: "Material", value: MATERIAL },
+        { name: "Bootstrap", value: BOOTSTRAP },
+        { name: "Tailwind", value: TAILWIND },
+    ]);
 
 module.exports = {
     createDirectoryContents,
@@ -514,5 +513,5 @@ module.exports = {
     copyFiles,
     getFilePaths,
     handleRenderEJS,
-    getCSSFrameworkChoices
+    getCSSFrameworkChoices,
 };

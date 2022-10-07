@@ -1,8 +1,8 @@
 import axios from "axios";
-import { BASE_URL } from "../httpMethod/baseurlConstant";
+import { BASE_URL } from "./baseurlConstant";
 
 export const apiClient = axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
 });
 
 const buildHeaders = (config) => {
@@ -11,12 +11,12 @@ const buildHeaders = (config) => {
         return {
             Accept: "application/json",
             "Content-Type": "application/json",
-            ...headers
+            ...headers,
         };
     }
     return {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
     };
 };
 
@@ -25,12 +25,12 @@ const request = async (url, httpMethod, config, data) => {
         url,
         method: httpMethod,
         headers: buildHeaders(config),
-        data
+        data,
     });
     return response;
 };
 
-const buildRequestFunction = (httpMethod) => (url, config, data) => request(url, httpMethod, config, data );
+const buildRequestFunction = (httpMethod) => (url, config, data) => request(url, httpMethod, config, data);
 
 export default {
     get: buildRequestFunction("get"),

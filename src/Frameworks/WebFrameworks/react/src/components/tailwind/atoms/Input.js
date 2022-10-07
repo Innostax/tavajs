@@ -1,4 +1,4 @@
-const InputForm = ({ placeholder, type, onChange, id, value, name, title }) => {
+function InputForm({ placeholder, type, onChange, id, value, name, title }) {
 	return (
 		<div className='items-start'>
 			<span

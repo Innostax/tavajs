@@ -1,4 +1,4 @@
-const Button = ({ variant, name, color, onClick, align }) => {
+function Button({ variant, name, color, onClick, align }) {
 	return (
 		<button
 			type='button'

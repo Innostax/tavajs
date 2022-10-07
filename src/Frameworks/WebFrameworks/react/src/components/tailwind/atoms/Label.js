@@ -1,4 +1,4 @@
-const Label = ({ title }) => {
+function Label({ title }) {
 	return (
 		<label
 			htmlFor='first_name'

@@ -1,5 +1,5 @@
-const { BASE_URL } = require("./cypress.constants.js");
 const { defineConfig } = require("cypress");
+const { BASE_URL } = require("./cypress.constants.js");
 
 module.exports = defineConfig({
     e2e: {
@@ -9,5 +9,5 @@ module.exports = defineConfig({
     },
     env: {
         base_url: BASE_URL,
-    }
+    },
 });

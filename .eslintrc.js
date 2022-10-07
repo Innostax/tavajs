@@ -1,45 +1,50 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "node": true, 
-        "es2021": true
+    env: {
+        browser: true,
+        node: true,
+        es2021: true,
     },
-    "extends": [
-        "eslint:recommended", 
+    extends: [
+        "eslint:recommended",
         "plugin:jest/recommended",
     ],
-    "overrides": [
+    overrides: [
+        {
+            "files": ["bin/*.js"],
+            "excludedFiles": "./test/test.spec.js"
+        }
     ],
-    "plugins": [
+    plugins: [
         "ejs-js",
+        "@babel",
     ],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "requireConfigFile": false,
-        "babelOptions": {
-            "presets": ["@babel/preset-react"]
+    parser: "@babel/eslint-parser",
+    parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        requireConfigFile: false,
+        babelOptions: {
+            presets: ["@babel/preset-react"],
         },
     },
     root: true,
-    "rules": {
+    rules: {
         "no-console": [
             "warn",
-            { "allow": ["clear", "info", "error", "dir", "trace", "log"] }
+            { allow: ["clear", "info", "error", "dir", "trace", "log"] },
         ],
         quotes: [
             "warn",
-            "double"
+            "double",
         ],
         indent: [
             "error",
-            4
+            4,
         ],
         semi: [
             "error",
-            "always"
+            "always",
         ],
-        "jest/prefer-expect-assertions": "off"
-    }
+        "jest/prefer-expect-assertions": "off",
+    },
 };

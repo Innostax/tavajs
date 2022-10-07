@@ -6,7 +6,7 @@ export default function Routes() {
 	return (
 		<div className='App'>
 			<Switch>
-				<Route exact path='/users' component={Users}></Route>
+				<Route exact path='/users' component={Users} />
 			</Switch>
 		</div>
 	)

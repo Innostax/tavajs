@@ -1,14 +1,15 @@
 const fs = require("fs");
-const { updateProjectDependencies } = require("./helper");
 const { render } = require("ejs");
+const { updateProjectDependencies } = require("./helper");
 const { DATABASES } = require("../TavaJsExecutors/constants");
+
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
-//<----------------------------- Function to create db service -------------------------------------------->
+// <----------------------------- Function to create db service -------------------------------------------->
 function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
     let dependencies = [];
     let fileName;
     let modelName;
-    const modelPath = nodePath + "/models";
+    const modelPath = `${nodePath}/models`;
 
     switch (dbName) {
     case POSTGRES:
@@ -19,9 +20,7 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
             ...dependencies,
             { name: "sequelize", version: "^6.6.5" },
         ];
-        if (MYSQL === dbName)
-            dependencies.push({ name: "mysql2", version: "^2.3.0" });
-        else dependencies = [...dependencies, { name: "pg", version: "^8.7.1" }];
+        if (MYSQL === dbName) { dependencies.push({ name: "mysql2", version: "^2.3.0" }); } else dependencies = [...dependencies, { name: "pg", version: "^8.7.1" }];
         break;
     case MONGOOSE:
         fileName = "mongoose.js";
@@ -40,8 +39,8 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
     let databaseFilePath = `${nodePath}/${fileName}`;
     // Reading Database file data
     let databaseFile = fs.readFileSync(
-        currentPath + "/Services/DatabaseServices/" + fileName,
-        "utf8"
+        `${currentPath}/Services/DatabaseServices/${fileName}`,
+        "utf8",
     );
     databaseFile = render(databaseFile, { defaultRoute });
     // Writing database file data
@@ -51,8 +50,8 @@ function createDbConn(nodePath, dbName, defaultRoute, currentPath) {
     databaseFilePath = `${modelPath}/${defaultRoute}.js`;
     // // Reading Database file data
     databaseFile = fs.readFileSync(
-        currentPath + "/Services/DatabaseServices/" + modelName,
-        "utf8"
+        `${currentPath}/Services/DatabaseServices/${modelName}`,
+        "utf8",
     );
     databaseFile = render(databaseFile, { defaultRoute });
     // Writing database file data

@@ -2,13 +2,15 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const sendEmail = async (mailObj) => {
-    const { from, recipients, subject, message} = mailObj;
+    const {
+        from, recipients, subject, message,
+    } = mailObj;
 
     const USERNAME = process.env.SMTP_USERNAME;
     const PASSWORD = process.env.SMTP_PASSWORD;
     const HOST = process.env.SMTP_HOST;
     try {
-        let transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             host: HOST,
             port: 587,
             auth: {
@@ -16,11 +18,11 @@ const sendEmail = async (mailObj) => {
                 pass: PASSWORD,
             },
         });
-        let mailStatus = await transporter.sendMail({
-            from: from, 
-            to: recipients, 
-            subject: subject, 
-            text: message, 
+        const mailStatus = await transporter.sendMail({
+            from,
+            to: recipients,
+            subject,
+            text: message,
         });
 
         console.log(`Message sent: ${mailStatus.messageId}`);
@@ -28,7 +30,7 @@ const sendEmail = async (mailObj) => {
     } catch (error) {
         console.error(error);
         throw new Error(
-            `Something went wrong in the sendmail method. Error: ${error.message}`
+            `Something went wrong in the sendmail method. Error: ${error.message}`,
         );
     }
 };

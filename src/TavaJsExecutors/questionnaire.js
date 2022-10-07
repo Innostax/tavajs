@@ -7,10 +7,10 @@ module.exports = [
         name: "projectName",
         type: "input",
         message: "Project name:",
-        validate: function (input) {
+        validate(input) {
             const isValid = validateKebabCase(input);
             if (isValid) return true;
-            else return "Project name should be in kebab-case. e.g. project-name";
+            return "Project name should be in kebab-case. e.g. project-name";
         },
     },
     {
@@ -18,14 +18,11 @@ module.exports = [
         type: "input",
         message: "Which source folder path would you like?",
         default: process.cwd(),
-        validate: function(input) {
-            if(fs.existsSync(input)) return true;
-            else
-                return "Invalid source path.";
+        validate(input) {
+            if (fs.existsSync(input)) return true;
+            return "Invalid source path.";
         },
-        when: (answers) => {
-            return answers.projectName;
-        },  
+        when: (answers) => answers.projectName,
     },
     {
         name: "managerChoice",
@@ -54,9 +51,7 @@ module.exports = [
             { name: "Angular", value: "angular" },
             { name: "Vue", value: "vue" },
         ],
-        when: (answers) => {
-            return answers.frontEnd;
-        },
+        when: (answers) => answers.frontEnd,
     },
     /* CSS Framework question added here */
     {
@@ -64,23 +59,19 @@ module.exports = [
         type: "list",
         message: "Which CSS Framework do you want?",
         choices: (answers) => getCSSFrameworkChoices(answers.frontEndChoice),
-        when: (answers) => {
-            return answers.frontEndChoice;
-        },
+        when: (answers) => answers.frontEndChoice,
     },
-    /*CSS Framework question ended here */
+    /* CSS Framework question ended here */
     {
         name: "frontEndName",
         type: "input",
         message: "Front End project name:",
-        validate: function (input) {
+        validate(input) {
             const isValid = validateKebabCase(input);
             if (isValid) return true;
-            else return "Frontend Project name should be in kebab-case. e.g. font-end-name";
+            return "Frontend Project name should be in kebab-case. e.g. font-end-name";
         },
-        when: (answers) => {
-            return answers.frontEnd;
-        },
+        when: (answers) => answers.frontEnd,
     },
     {
         name: "testCaseFramework",
@@ -91,14 +82,12 @@ module.exports = [
             { name: "Jest", value: "jest" },
             { name: "Jasmine", value: "jasmine" },
             // { name: "Karma", value: "karma" }, // Test Framework Runner
-            { name: "Puppeteer (Node Library)", value: "puppeteer" }, 
+            { name: "Puppeteer (Node Library)", value: "puppeteer" },
             { name: "NightwatchJS", value: "nightwatchJS" },
             { name: "Cypress", value: "cypress" },
             { name: "None", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEnd;
-        },
+        when: (answers) => answers.frontEnd,
     },
     {
         name: "theme",
@@ -108,9 +97,7 @@ module.exports = [
             { name: "Light/Dark Mode", value: "light-dark-mode" },
             { name: "None", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEnd;
-        },
+        when: (answers) => answers.frontEnd,
     },
     {
         name: "networkInformer",
@@ -120,9 +107,7 @@ module.exports = [
             { name: "Yes", value: true },
             { name: "No", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEndChoice;
-        },
+        when: (answers) => answers.frontEndChoice,
     },
     {
         name: "authenticationChoice",
@@ -144,9 +129,7 @@ module.exports = [
             { name: "yes", value: true },
             { name: "no", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEndChoice === "react";
-        },
+        when: (answers) => answers.frontEndChoice === "react",
     },
     {
         name: "store",
@@ -156,9 +139,7 @@ module.exports = [
             { name: "yes", value: true },
             { name: "no", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEndChoice === "vue";
-        },
+        when: (answers) => answers.frontEndChoice === "vue",
     },
     {
         name: "store",
@@ -168,9 +149,7 @@ module.exports = [
             { name: "yes", value: true },
             { name: "no", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEndChoice === "angular";
-        },
+        when: (answers) => answers.frontEndChoice === "angular",
     },
     {
         name: "backEnd",
@@ -186,31 +165,25 @@ module.exports = [
         type: "list",
         message: "Select the Framework",
         choices: [{ name: "Node", value: "node-js" }],
-        when: (answers) => {
-            return answers.backEnd;
-        },
+        when: (answers) => answers.backEnd,
     },
     {
         name: "backEndName",
         type: "input",
         message: "BackEnd Project name:",
-        validate: function (input) {
+        validate(input) {
             const isValid = validateKebabCase(input);
             if (isValid) return true;
-            else return "Backend Project name should be in kebab-case. e.g. back-end-name";
+            return "Backend Project name should be in kebab-case. e.g. back-end-name";
         },
-        when: (answers) => {
-            return answers.backEnd;
-        },
+        when: (answers) => answers.backEnd,
     },
     {
         name: "defaultRoute",
         type: "input",
         message: "Enter the default route",
         default: "users",
-        when: (answers) => {
-            return answers.backEnd;
-        },
+        when: (answers) => answers.backEnd,
     },
     {
         name: "dbName",
@@ -222,9 +195,7 @@ module.exports = [
             { name: "Mongoose", value: "mongoose" },
             { name: "None", value: false },
         ],
-        when: (answers) => {
-            return answers.backEnd;
-        },
+        when: (answers) => answers.backEnd,
     },
     {
         name: "CRUD",
@@ -234,13 +205,11 @@ module.exports = [
             { name: "yes", value: true },
             { name: "no", value: false },
         ],
-        when: (answers) => {
-            return (
-                answers.store &&
-        answers.frontEndChoice === "angular" &&
-        !answers.backEnd
-            );
-        },
+        when: (answers) => (
+            answers.store
+        && answers.frontEndChoice === "angular"
+        && !answers.backEnd
+        ),
     },
     {
         name: "angularNodeCrud",
@@ -250,13 +219,11 @@ module.exports = [
             { name: "yes", value: true },
             { name: "no", value: false },
         ],
-        when: (answers) => {
-            return (
-                answers.backEnd &&
-        answers.dbName &&
-        answers.frontEndChoice === "angular"
-            );
-        },
+        when: (answers) => (
+            answers.backEnd
+        && answers.dbName
+        && answers.frontEndChoice === "angular"
+        ),
     },
     {
         name: "loggerServiceName",
@@ -267,9 +234,7 @@ module.exports = [
             { name: "Sentry", value: "sentry" },
             { name: "None", value: false },
         ],
-        when: (answers) => {
-            return answers.backEnd;
-        },
+        when: (answers) => answers.backEnd,
     },
     {
         name: "emailServiceName",
@@ -281,9 +246,7 @@ module.exports = [
             { name: "SMTP", value: "smtp" },
             { name: "None", value: false },
         ],
-        when: (answers) => {
-            return answers.backEnd;
-        },
+        when: (answers) => answers.backEnd,
     },
     {
         name: "blobServiceName",
@@ -294,9 +257,7 @@ module.exports = [
             { name: "Azure", value: "azure" },
             { name: "None", value: false },
         ],
-        when: (answers) => {
-            return answers.backEnd;
-        },
+        when: (answers) => answers.backEnd,
     },
     {
         name: "dockerService",
@@ -306,9 +267,7 @@ module.exports = [
             { name: "yes", value: true },
             { name: "no", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEndChoice || answers.backEnd;
-        },
+        when: (answers) => answers.frontEndChoice || answers.backEnd,
     },
     {
         name: "cicdPipelineIntegrate",
@@ -319,8 +278,6 @@ module.exports = [
             { name: "GitHub", value: "github" },
             { name: "None", value: false },
         ],
-        when: (answers) => {
-            return answers.frontEndChoice;
-        },
+        when: (answers) => answers.frontEndChoice,
     },
 ];

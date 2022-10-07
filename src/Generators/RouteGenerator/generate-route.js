@@ -2,52 +2,51 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 // const fsExtra = require("fs-extra");
-const path = require("path");
+// const path = require("path");
 // const { render } = require("ejs");
-const currentPath = path.join(__dirname);
+// const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
     {
         name: "routeName",
         type: "input",
         message: "what will be the name of the Route?",
-        validate: function (input) {
-            if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-            else
-                return "Route name may only include letters, numbers, underscores, and hashes";
+        validate(input) {
+            if (/^([A-Za-z\-\d])+$/.test(input)) return true;
+            return "Route name may only include letters, numbers, underscores, and hashes";
         },
     },
 ];
 inquirer.prompt(QUESTIONS).then((answers) => {
-    const CURR_DIR = answers["projectDirectoryPath"] || process.cwd();
-    var newRouteName = answers["routeName"];
+    const CURR_DIR = answers.projectDirectoryPath || process.cwd();
+    const newRouteName = answers.routeName;
 
     const dbName = JSON.parse(fs.readFileSync(`${CURR_DIR}/package.json`));
 
     if (
-        Object.keys(dbName["dependencies"]).some((each) => each === "sequelize") ===
-    true
+        Object.keys(dbName.dependencies).some((each) => each === "sequelize")
+    === true
     ) {
         // const templatePath = `${currentPath}/postgresTemplates`;
     } else if (
-        Object.keys(dbName["dependencies"]).some((each) => each === "mySql") ===
-    true
+        Object.keys(dbName.dependencies).some((each) => each === "mySql")
+    === true
     ) {
         console.log(" +++  mysql is selected");
     } else if (
-        Object.keys(dbName["dependencies"]).some((each) => each === "mongoose") ===
-    true
+        Object.keys(dbName.dependencies).some((each) => each === "mongoose")
+    === true
     ) {
         // const templatePath = `${currentPath}/mongooseTemplates`;
-       
+
     } else if (
-        Object.keys(dbName["dependencies"]).some((each) => each === "nodemon") !==
-      true &&
-    Object.keys(dbName["dependencies"]).some((each) => each === "express") !==
-      true
+        Object.keys(dbName.dependencies).some((each) => each === "nodemon")
+      !== true
+    && Object.keys(dbName.dependencies).some((each) => each === "express")
+      !== true
     ) {
         console.log(
-            "You are not currently in the node directory. Switch it node directory and run the commands again."
+            "You are not currently in the node directory. Switch it node directory and run the commands again.",
         );
         return;
     }
@@ -164,7 +163,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 //     });
 // }
 
-//Function to rename files of the route.
+// Function to rename files of the route.
 
 // function renameFile(file, newRouteName, currentDirectory) {
 //     if (file.startsWith("route")) {

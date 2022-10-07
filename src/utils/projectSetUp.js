@@ -1,17 +1,19 @@
 const shell = require("shelljs");
 const chalk = require("chalk");
 const { createSpinner } = require("nanospinner");
-const StopWatch = require("stopwatch-node").StopWatch;
+const { StopWatch } = require("stopwatch-node");
+
 const sw = new StopWatch("sw");
-const spawn = require("child_process").spawn;
+const { spawn } = require("child_process");
 const projectExecutionCommands = require("./projectExecutionCommands");
 const { millisToMinutesAndSeconds } = require("./converters");
+
 let taskId = 1;
 let totalTimeConsumptionInMinutes = 0;
 
 const projectSetUp = async (frontEnd, backEnd, answers) => {
-    const managerChoice = answers["managerChoice"];
-    const cicdPipelineIntegrate = answers["cicdPipelineIntegrate"];
+    const { managerChoice } = answers;
+    const { cicdPipelineIntegrate } = answers;
     if (frontEnd) {
         const { choice, path } = frontEnd;
         await packageInstaller(
@@ -23,7 +25,7 @@ const projectSetUp = async (frontEnd, backEnd, answers) => {
             answers,
             frontEnd,
             backEnd,
-            cicdPipelineIntegrate
+            cicdPipelineIntegrate,
         );
     }
     if (backEnd) {
@@ -37,7 +39,7 @@ const projectSetUp = async (frontEnd, backEnd, answers) => {
             answers,
             frontEnd,
             backEnd,
-            cicdPipelineIntegrate
+            cicdPipelineIntegrate,
         );
     }
 };
@@ -51,17 +53,17 @@ const packageInstaller = async (
     answers,
     frontEnd,
     backEnd,
-    cicdPipelineIntegrate
+    cicdPipelineIntegrate,
 ) => {
     shell.cd(`${path}`);
     if (managerChoice === "npm") {
         shell.echo(
             chalk.green.magenta(
-                `--------------- NPM loading on ${projectChoice}, Wait for finish ---------------\r`
-            )
+                `--------------- NPM loading on ${projectChoice}, Wait for finish ---------------\r`,
+            ),
         );
         const commandsDep = [
-            "npm install --silent --legacy-peer-deps"
+            "npm install --silent --legacy-peer-deps",
         ];
         await npmInstall(
             commandsDep,
@@ -70,18 +72,18 @@ const packageInstaller = async (
             answers,
             frontEnd,
             backEnd,
-            cicdPipelineIntegrate
+            cicdPipelineIntegrate,
         );
     }
     if (managerChoice === "yarn") {
         shell.echo(
             chalk.green.magenta(
-                `--------------- YARN loading on ${projectChoice}, Wait for finish ---------------\r`
-            )
+                `--------------- YARN loading on ${projectChoice}, Wait for finish ---------------\r`,
+            ),
         );
         const commandsDep = [
             "npm install --silent  -g yarn",
-            "yarn"
+            "yarn",
         ];
 
         await npmInstall(
@@ -91,7 +93,7 @@ const packageInstaller = async (
             answers,
             frontEnd,
             backEnd,
-            cicdPipelineIntegrate
+            cicdPipelineIntegrate,
         );
     }
 };
@@ -103,7 +105,7 @@ const npmInstall = async (
     answers,
     frontEnd,
     backEnd,
-    cicdPipelineIntegrate
+    cicdPipelineIntegrate,
 ) => {
     const shouldExecute = answers.backEnd ? isBackEnd : isFrontEnd;
     return new Promise((resolve, reject) => {
@@ -117,15 +119,15 @@ const npmInstall = async (
             totalTimeConsumptionInMinutes += task?.timeMills;
             shell.echo(chalk.green.bold("-> NPM modules installed!👍\r"));
             const isProjectCreated = !(frontEnd && backEnd && taskId === 1);
-            if ( isProjectCreated ) {
+            if (isProjectCreated) {
                 const FIVE_MINUTES = 1000 * 60 * 5;
                 const messageColor = totalTimeConsumptionInMinutes < FIVE_MINUTES ? "green" : "red";
                 shell.echo(
                     chalk[messageColor].bold(
                         `Installing took ${millisToMinutesAndSeconds(
-                            totalTimeConsumptionInMinutes
-                        )} minutes.`
-                    )
+                            totalTimeConsumptionInMinutes,
+                        )} minutes.`,
+                    ),
                 );
             }
             taskId++;
@@ -134,6 +136,7 @@ const npmInstall = async (
                 projectExecutionCommands(frontEnd, backEnd, answers);
             }
             resolve();
+            reject();
         });
     });
 };

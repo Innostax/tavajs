@@ -12,7 +12,7 @@ const {
     updateProjectScripts,
     copyFiles,
     getFilePaths,
-    handleRenderEJS
+    handleRenderEJS,
 } = require("../utils/helper");
 const projectInfo = require("../utils/projectInfo");
 const { getProjectDetails } = require("../utils/getProjectDetails");
@@ -49,6 +49,7 @@ const {
     REACT_NETWORKSTATUS_FILE_PATH,
     OKTA_FILE_PATH,
     BLOB_SERVICES,
+    ANGULAR_MATERIAL_FILE_PATH,
 } = require("./constants");
 const { SCRIPTS } = require("./scripts");
 const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./dependencies");
@@ -58,7 +59,9 @@ const { AUTH0, COGNITO, OKTA } = AUTHENTICATIONS;
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 const { WINSTON, SENTRY } = LOGGER_SERVICES;
 const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
-const { CYPRESS, JEST, MOCHAJS, NIGHTWATCHJS } = TESTCASE_FRAMEWORKS;
+const {
+    CYPRESS, JEST, MOCHAJS, NIGHTWATCHJS,
+} = TESTCASE_FRAMEWORKS;
 const { MATERIAL, BOOTSTRAP, TAILWIND } = CSS_FRAMEWORKS;
 const { AWS_S3, AZURE } = BLOB_SERVICES;
 
@@ -102,7 +105,7 @@ const handleAnswersEvaluator = async (answers) => {
     const isCrud = Boolean(CRUD);
     const isDocker = Boolean(dockerService);
     const isCrudWithNode = Boolean(
-        reactNodeCrud || vueNodeCrud || angularNodeCrud
+        reactNodeCrud || vueNodeCrud || angularNodeCrud,
     );
     const isMaterialUI = cssFrameworkChoice === MATERIAL;
     const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
@@ -141,7 +144,7 @@ const handleAnswersEvaluator = async (answers) => {
 
     const { frontEnd, backEnd } = getProjectDetails(
         `${CURR_DIR}/${projectName}`,
-        answers
+        answers,
     );
 
     const isFrontEndChoiceReact = frontEndChoice === REACT;
@@ -149,10 +152,10 @@ const handleAnswersEvaluator = async (answers) => {
     const isFrontEndChoiceVue = frontEndChoice === VUE;
     const isBackEnd = Boolean(backEnd);
 
-    //<---------------------------- For react, angular, vue ---------------------------------->
+    // <---------------------------- For react, angular, vue ---------------------------------->
     if (frontEnd) {
         const { choice, path: frontEndPath } = frontEnd;
-        //<------------------------- For Start: CSS Framework dependency ---------------------------->
+        // <------------------------- For Start: CSS Framework dependency ---------------------------->
 
         if (isFrontEndChoiceReact) {
             if (isMaterialUI) {
@@ -166,10 +169,10 @@ const handleAnswersEvaluator = async (answers) => {
                 const res = getFilePaths(
                     TAILWIND_REACT_FILE_PATH,
                     currentPath,
-                    frontEnd.path
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
-            }      
+            }
         }
         if (isFrontEndChoiceAngular) {
             if (isTailWind) {
@@ -178,18 +181,18 @@ const handleAnswersEvaluator = async (answers) => {
                 const res = getFilePaths(
                     TAILWIND_ANGULAR_FILE_PATH,
                     currentPath,
-                    frontEnd.path
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
             } else if (isBootstrap) {
                 dependencies = [...dependencies, ...DEPENDENCIES.ANGULARBOOTSTRAP];
-            } else if(isMaterialUI){
+            } else if (isMaterialUI) {
                 dependencies = [...dependencies, ...DEPENDENCIES.ANGULARMATERIALUI];
 
                 const res = getFilePaths(
                     ANGULAR_MATERIAL_FILE_PATH,
                     currentPath,
-                    frontEnd.path
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
             }
@@ -200,18 +203,18 @@ const handleAnswersEvaluator = async (answers) => {
                 const res = getFilePaths(
                     TAILWIND_VUE_FILE_PATH,
                     currentPath,
-                    frontEnd.path
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
             } else {
                 dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAPVUE];
             }
         }
-        //<------------------------- For End: CSS Framework dependency ---------------------------->
+        // <------------------------- For End: CSS Framework dependency ---------------------------->
         const templatePath = path.join(
             currentPath,
             "Frameworks/WebFrameworks",
-            choice
+            choice,
         );
 
         const projectPath = backEnd
@@ -253,80 +256,80 @@ const handleAnswersEvaluator = async (answers) => {
             blobServiceName,
             isNetworkInformer,
             isBackEnd,
-            isCICDPipelineIntegrate
+            isCICDPipelineIntegrate,
         );
 
-        //<------------------------------- Light/Dark Mode + React ---------------------------------->
+        // <------------------------------- Light/Dark Mode + React ---------------------------------->
         if (isThemeProvider && isFrontEndChoiceReact) {
             const res = getFilePaths(
                 REACT_THEME_FILE_PATH,
                 currentPath,
-                frontEnd.path
+                frontEnd.path,
             );
             paths = [...paths, ...res];
             if (isBootstrap || isTailWind) {
                 handleRenderEJS(
                     `${currentPath}/Providers/ThemeProviders/react-themes/theme.js`,
                     { isBootstrap, isTailWind },
-                    `${frontEnd.path}/src/theme.js`
+                    `${frontEnd.path}/src/theme.js`,
                 );
             }
         }
 
-        //<----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
+        // <----------------------------------- Light/Dark Mode + Vue ------------------------------------------------>
         if (isThemeProvider && isFrontEndChoiceVue) {
             const res = getFilePaths(
                 VUE_THEME_FILE_PATH,
                 currentPath,
-                frontEnd.path
+                frontEnd.path,
             );
             paths = [...paths, ...res];
-      
+
             handleRenderEJS(
                 `${currentPath}/Providers/ThemeProviders/vue-themes/theme.vue`,
                 { isBootstrap, isTailWind },
-                `${frontEnd.path}/src/theme.vue`
+                `${frontEnd.path}/src/theme.vue`,
             );
         }
 
-        //<----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
+        // <----------------------------------- Light/Dark Mode + Angular ------------------------------------------------>
         if (isThemeProvider && isFrontEndChoiceAngular) {
             const res = getFilePaths(
                 ANGULAR_THEME_FILE_PATH,
                 currentPath,
-                frontEnd.path
+                frontEnd.path,
             );
             paths = [...paths, ...res];
         }
 
-        //<----------------------------------- Network Informer + React ------------------------------------------------>
-        if (isNetworkInformer && isFrontEndChoiceReact) {      
+        // <----------------------------------- Network Informer + React ------------------------------------------------>
+        if (isNetworkInformer && isFrontEndChoiceReact) {
             const res = getFilePaths(
                 REACT_NETWORKSTATUS_FILE_PATH,
                 currentPath,
-                frontEnd.path
+                frontEnd.path,
             );
             paths = [...paths, ...res];
         }
 
-        //<----------------------------------- Network Informer + Vue ------------------------------------------------>
+        // <----------------------------------- Network Informer + Vue ------------------------------------------------>
         if (isNetworkInformer && isFrontEndChoiceVue) {
             const res = getFilePaths(
                 VUE_NETWORKSTATUS_FILE_PATH,
                 currentPath,
-                frontEnd.path
+                frontEnd.path,
             );
             paths = [...paths, ...res];
         }
 
-        //<---------------------------- For TestCases Framework ------------------------------------>
+        // <---------------------------- For TestCases Framework ------------------------------------>
         if (isTestCasesFramework) {
             // CYPRESSS
             if (isCypress) {
                 const res = getFilePaths(
                     CYPRESS_FILE_PATH,
                     currentPath,
-                    frontEnd.path
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
 
@@ -337,28 +340,27 @@ const handleAnswersEvaluator = async (answers) => {
 
             if (isJest && isFrontEndChoiceVue) {
                 const res = getFilePaths(
-                    JEST_FILE_PATH, 
-                    currentPath, 
-                    frontEnd.path
+                    JEST_FILE_PATH,
+                    currentPath,
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
 
                 handleRenderEJS(
                     `${currentPath}/Frameworks/TestCasesFrameworks/JestTests/TestScripts/app.spec.js`,
                     { frontEndChoice },
-                    `${frontEnd.path}/__tests__/app.spec.js`
+                    `${frontEnd.path}/__tests__/app.spec.js`,
                 );
                 devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST_VUE];
 
                 scripts = [...scripts, ...SCRIPTS.JEST_VUE];
             }
-      
-            if (isJest && isFrontEndChoiceReact) {
 
+            if (isJest && isFrontEndChoiceReact) {
                 handleRenderEJS(
                     `${currentPath}/Frameworks/TestCasesFrameworks/JestTests/TestScripts/app.spec.js`,
                     { frontEndChoice },
-                    `${frontEnd.path}/src/__tests__/app.spec.js`
+                    `${frontEnd.path}/src/__tests__/app.spec.js`,
                 );
                 devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST_REACT];
 
@@ -367,9 +369,10 @@ const handleAnswersEvaluator = async (answers) => {
 
             if (isMocha && isFrontEndChoiceVue) {
                 const res = getFilePaths(
-                    MOCHA_FILE_PATH, 
-                    currentPath, 
-                    frontEnd.path);
+                    MOCHA_FILE_PATH,
+                    currentPath,
+                    frontEnd.path,
+                );
                 paths = [...paths, ...res];
 
                 devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.MOCHA];
@@ -381,7 +384,7 @@ const handleAnswersEvaluator = async (answers) => {
                 const res = getFilePaths(
                     NIGHTWATCH_FILE_PATH,
                     currentPath,
-                    frontEnd.path
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
 
@@ -392,16 +395,16 @@ const handleAnswersEvaluator = async (answers) => {
         }
     }
 
-    //<------------------ CI CD Pipeline ----------------------------------->
+    // <------------------ CI CD Pipeline ----------------------------------->
     if (isCICDPipelineIntegrate) {
-        if(isFrontEndChoiceAngular) {
+        if (isFrontEndChoiceAngular) {
             handleRenderEJS(
                 `${currentPath}/Providers/CICDWorkflow/angular-build.yml`,
                 { isCICDPipelineIntegrate },
                 `${frontEnd.path}/.github/workflows/build.yml`,
             );
         }
-        if(isFrontEndChoiceVue) {
+        if (isFrontEndChoiceVue) {
             handleRenderEJS(
                 `${currentPath}/Providers/CICDWorkflow/vue-build.yml`,
                 { isCICDPipelineIntegrate },
@@ -417,13 +420,13 @@ const handleAnswersEvaluator = async (answers) => {
         }
     }
 
-    //<---------------------------- node-js ---------------------------------->
+    // <---------------------------- node-js ---------------------------------->
     if (backEnd) {
         const { choice, path: backEndPath } = backEnd;
         const templatePath = path.join(
             currentPath,
             "Frameworks/BackendFrameworks",
-            choice
+            choice,
         );
         const projectPath = frontEnd
             ? `${projectName}/${backEndName}`
@@ -463,7 +466,7 @@ const handleAnswersEvaluator = async (answers) => {
             blobServiceName,
             isNetworkInformer,
             isBackEnd,
-            isCICDPipelineIntegrate
+            isCICDPipelineIntegrate,
         );
 
         const ROUTE_FILES = [
@@ -479,75 +482,72 @@ const handleAnswersEvaluator = async (answers) => {
             },
         ];
 
-        ROUTE_FILES.forEach((each) =>
-            fs.rename(
-                `${backEnd.path}/${each.folder}/${each.oldName}`,
-                `${backEnd.path}/${each.folder}/${each.newName}`,
-                () => {}
-            )
-        );
+        ROUTE_FILES.forEach((each) => fs.rename(
+            `${backEnd.path}/${each.folder}/${each.oldName}`,
+            `${backEnd.path}/${each.folder}/${each.newName}`,
+            () => {},
+        ));
 
-        //creating utils dir
+        // creating utils dir
         if (emailServiceName || blobServiceName || loggerServiceName) {
-            fsExtra.ensureDirSync(backEnd.path + "/utils");
+            fsExtra.ensureDirSync(`${backEnd.path}/utils`);
         }
 
-        //<---------------------------- For Email service ---------------------------------->
+        // <---------------------------- For Email service ---------------------------------->
         if (emailServiceName) {
             const emailTemplatePath = path.join(
                 currentPath,
                 "Services/EmailServices",
-                emailServiceName
+                emailServiceName,
             );
             createEmailSevice(
                 emailServiceName,
                 emailTemplatePath,
                 backEnd.path,
-                currentPath
+                currentPath,
             );
         }
 
-        //<---------------------------- For Blob service ---------------------------------->
+        // <---------------------------- For Blob service ---------------------------------->
         if (blobServiceName) {
             const blobTemplatePath = path.join(
                 currentPath,
                 "Services/BlobServices",
-                blobServiceName
+                blobServiceName,
             );
             createBlobService(
                 backEnd.path,
                 blobServiceName,
                 blobTemplatePath,
-                backEnd.path
+                backEnd.path,
             );
         }
 
-        //<---------------------------- For Logger service ---------------------------------->
+        // <---------------------------- For Logger service ---------------------------------->
         if (loggerServiceName) {
             const loggerTemplatePath = path.join(
                 currentPath,
-                "Services/LoggerServices"
+                "Services/LoggerServices",
             );
 
             createLogger(
                 backEnd.path,
                 loggerServiceName,
                 loggerTemplatePath,
-                defaultRoute
+                defaultRoute,
             );
         }
 
-        //<---------------------------- For Database service ---------------------------------->
+        // <---------------------------- For Database service ---------------------------------->
         if (dbName) {
             createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
         }
 
-        //<---------------------------- For ENV file ---------------------------------->
+        // <---------------------------- For ENV file ---------------------------------->
         if (!isDocker) {
-            const envFilePath =
-        frontEnd?.choice && backEnd?.choice
-            ? `${backEnd.path}/.env`
-            : `${CURR_DIR}/${projectName}/.env`;
+            const envFilePath = frontEnd?.choice && backEnd?.choice
+                ? `${backEnd.path}/.env`
+                : `${CURR_DIR}/${projectName}/.env`;
             handleRenderEJS(
                 `${currentPath}/Environments/BackendEnvironment/.dbEnv`,
                 {
@@ -560,24 +560,24 @@ const handleAnswersEvaluator = async (answers) => {
                     isSendgrid,
                     isAmazonSes,
                     isAwsS3,
-                    isAzure
+                    isAzure,
                 },
-                envFilePath
+                envFilePath,
             );
         }
     }
 
-    //<---------------------------- For Docker integration ---------------------------------->
+    // <---------------------------- For Docker integration ---------------------------------->
     if (isDocker) {
         const dockerPath = path.join(currentPath, "Services/DockerServices");
         console.log("dockerPath+++", dockerPath, isDocker);
         let res = [];
-    
+
         if (isFrontEndChoiceReact) {
             res = getFilePaths(
-                REACT_DOCKER_FILE_PATH, 
-                dockerPath, 
-                frontEnd.path
+                REACT_DOCKER_FILE_PATH,
+                dockerPath,
+                frontEnd.path,
             );
             paths = [...paths, ...res];
         } else if (isFrontEndChoiceAngular) {
@@ -599,8 +599,8 @@ const handleAnswersEvaluator = async (answers) => {
         if (backEnd?.choice === NODE_JS) {
             res = getFilePaths(
                 REACT_DOCKER_FILE_PATH,
-                dockerPath, 
-                backEnd.path
+                dockerPath,
+                backEnd.path,
             );
             paths = [...paths, ...res];
         }
@@ -620,13 +620,13 @@ const handleAnswersEvaluator = async (answers) => {
                 mongoSelected,
                 sequelizeSelected,
             },
-            `${CURR_DIR}/${dockerDestPath}`
+            `${CURR_DIR}/${dockerDestPath}`,
         );
     }
 
-    //<---------------------------- For Store integration ---------------------------------->
+    // <---------------------------- For Store integration ---------------------------------->
     if (isStore) {
-    //<---------------------------- Redux ---------------------------------->
+    // <---------------------------- Redux ---------------------------------->
         if (isFrontEndChoiceReact) {
             dependencies = [...dependencies, ...DEPENDENCIES.REACT];
 
@@ -636,30 +636,32 @@ const handleAnswersEvaluator = async (answers) => {
             handleRenderEJS(
                 `${currentPath}/StateManagement/reduxTemplates/demoUser/users.actions.js`,
                 { defaultRoute },
-                `${frontEnd.path}/src/screens/Users/users.actions.js`
+                `${frontEnd.path}/src/screens/Users/users.actions.js`,
             );
             handleRenderEJS(
                 `${currentPath}/StateManagement/reduxTemplates/userform/DeleteConfirmationModal.js`,
                 { isBootstrap, isTailWind, isMaterialUI },
-                `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
+                `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`,
             );
             if (!isBackEnd) {
                 handleRenderEJS(
                     `${currentPath}/StateManagement/reduxTemplates/userform/Adduser.js`,
-                    { isMaterialUI, isBootstrap, isTailWind, isBackEnd },
-                    `${frontEnd.path}/src/screens/Users/AddUser.js`
+                    {
+                        isMaterialUI, isBootstrap, isTailWind, isBackEnd,
+                    },
+                    `${frontEnd.path}/src/screens/Users/AddUser.js`,
                 );
             }
             if (isBackEnd) {
                 handleRenderEJS(
                     `${currentPath}/StateManagement/reduxTemplates/userform/AdduserForm.js`,
                     { isMaterialUI, isBootstrap, isTailWind },
-                    `${frontEnd.path}/src/screens/Users/AddUser.js`
+                    `${frontEnd.path}/src/screens/Users/AddUser.js`,
                 );
             }
         }
 
-        //<---------------------------------MaterialUI Dark Theme----------------------->
+        // <---------------------------------MaterialUI Dark Theme----------------------->
 
         if (isThemeProvider && isFrontEndChoiceReact) {
             handleRenderEJS(
@@ -675,58 +677,57 @@ const handleAnswersEvaluator = async (answers) => {
                     isCognito,
                     isNetworkInformer,
                 },
-                `${frontEnd.path}/src/App.js`
+                `${frontEnd.path}/src/App.js`,
             );
         }
 
-        //<--------------------------------- Vuex ---------------------------->
+        // <--------------------------------- Vuex ---------------------------->
         if (isFrontEndChoiceVue) {
-
             let res = getFilePaths(
                 VUEX_FILE_PATH,
-                currentPath, 
-                frontEnd.path
+                currentPath,
+                frontEnd.path,
             );
             paths = [...paths, ...res];
 
             handleRenderEJS(
                 `${currentPath}/StateManagement/vuexTemplates/store/modules/users.js`,
                 { isBackEnd },
-                `${frontEnd.path}/src/store/modules/users.js`
+                `${frontEnd.path}/src/store/modules/users.js`,
             );
-      
+
             const userModalPath = isBootstrap
-                ? path.join(currentPath,"StateManagement/vuexTemplates/bootstrap")
-                : path.join(currentPath,"StateManagement/vuexTemplates/tailwind");
+                ? path.join(currentPath, "StateManagement/vuexTemplates/bootstrap")
+                : path.join(currentPath, "StateManagement/vuexTemplates/tailwind");
 
             res = getFilePaths(
                 VUEX_USERMODAL_FILE_PATH,
-                userModalPath, 
-                frontEnd.path
+                userModalPath,
+                frontEnd.path,
             );
             paths = [...paths, ...res];
 
             handleRenderEJS(
                 `${userModalPath}/userModal/ShowUsers.vue`,
                 { isBackEnd },
-                `${frontEnd.path}/src/userModal/ShowUsers.vue`
+                `${frontEnd.path}/src/userModal/ShowUsers.vue`,
             );
 
             if (isBackEnd) {
                 const res = getFilePaths(
-                    VUEX_NODE_FILE_PATH, 
-                    currentPath, 
-                    frontEnd.path
+                    VUEX_NODE_FILE_PATH,
+                    currentPath,
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
             }
         }
-        //<--------------------------------- Ngrx ---------------------------->
+        // <--------------------------------- Ngrx ---------------------------->
         if (isFrontEndChoiceAngular) {
             const res = getFilePaths(
-                NGRX_FILE_PATH, 
-                currentPath, 
-                frontEnd.path
+                NGRX_FILE_PATH,
+                currentPath,
+                frontEnd.path,
             );
             paths = [...paths, ...res];
 
@@ -734,58 +735,58 @@ const handleAnswersEvaluator = async (answers) => {
                 const res = getFilePaths(
                     NGRX_CRUD_FILE_PATH,
                     currentPath,
-                    frontEnd.path
+                    frontEnd.path,
                 );
                 paths = [...paths, ...res];
                 handleRenderEJS(
                     `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
                     { isTailWind, isBootstrap, isMaterialUI },
-                    `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+                    `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`,
                 );
                 handleRenderEJS(
                     `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
                     { isCrud, isCrudWithNode },
-                    `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
+                    `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
                 );
             }
         }
     }
 
-    //<-------------- For angular node crud ------------------->
+    // <-------------- For angular node crud ------------------->
     if (isFrontEndChoiceAngular && isCrudWithNode) {
         const res = getFilePaths(
             ANGULAR_CRUD_NODE_FILE_PATH,
             currentPath,
-            frontEnd.path
+            frontEnd.path,
         );
         paths = [...paths, ...res];
         handleRenderEJS(
             `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.html`,
             { isTailWind, isBootstrap, isMaterialUI },
-            `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`
+            `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.html`,
         );
         handleRenderEJS(
             `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
             { isCrud, isCrudWithNode },
-            `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
+            `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`,
         );
         handleRenderEJS(
             `${currentPath}/Services/HttpServices/AngularServices/base-url.ts`,
             { defaultRoute },
-            `${frontEnd.path}/src/app/shared/base-url.ts`
+            `${frontEnd.path}/src/app/shared/base-url.ts`,
         );
     }
 
-    //<---------------------------- For Authentication service ---------------------------------->
+    // <---------------------------- For Authentication service ---------------------------------->
     if (isAuth0) {
         handleRenderEJS(
             `${currentPath}/Environments/FrontendEnvironment/.authEnv`,
             { frontEndChoice },
-            `${frontEnd.path}/.env`
+            `${frontEnd.path}/.env`,
         );
 
         if (isFrontEndChoiceAngular) {
-            dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA , ...DEPENDENCIES.AUTH0_ANGULAR];
+            dependencies = [...dependencies, ...DEPENDENCIES.AUTH0_SPA, ...DEPENDENCIES.AUTH0_ANGULAR];
         }
 
         if (isFrontEndChoiceReact) {
@@ -793,12 +794,12 @@ const handleAnswersEvaluator = async (answers) => {
 
             const reactSpaPath = path.join(
                 currentPath,
-                "Services/AuthenticationServices/authTemplates/"
+                "Services/AuthenticationServices/authTemplates/",
             );
             handleRenderEJS(
                 `${reactSpaPath}react-spa.js`,
                 { isStore },
-                `${frontEnd.path}/src/react-spa.js`
+                `${frontEnd.path}/src/react-spa.js`,
             );
         }
         if (isFrontEndChoiceVue) {
@@ -814,27 +815,21 @@ const handleAnswersEvaluator = async (answers) => {
         if (isFrontEndChoiceReact) {
             dependencies = [...dependencies, ...DEPENDENCIES.COGNITO_REACT];
         }
-    
+
         handleRenderEJS(
             `${currentPath}/Environments/FrontendEnvironment/.cognitoEnv`,
             { frontEndChoice },
-            `${frontEnd.path}/.env`
+            `${frontEnd.path}/.env`,
         );
-
     } else if (isOkta) {
         dependencies = [...dependencies, ...DEPENDENCIES.OKTA_AUTH_JS];
-        if (isFrontEndChoiceReact)
-            dependencies = [...dependencies, ...DEPENDENCIES.OKTA_REACT];
-        else if (isFrontEndChoiceAngular)
-            dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR];
-        else if (isFrontEndChoiceVue)
-            dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE];
+        if (isFrontEndChoiceReact) { dependencies = [...dependencies, ...DEPENDENCIES.OKTA_REACT]; } else if (isFrontEndChoiceAngular) { dependencies = [...dependencies, ...DEPENDENCIES.OKTA_ANGULAR]; } else if (isFrontEndChoiceVue) { dependencies = [...dependencies, ...DEPENDENCIES.OKTA_VUE]; }
 
         if (isFrontEndChoiceReact || isFrontEndChoiceAngular) {
             const res = getFilePaths(
-                OKTA_FILE_PATH, 
-                currentPath, 
-                frontEnd.path
+                OKTA_FILE_PATH,
+                currentPath,
+                frontEnd.path,
             );
             paths = [...paths, ...res];
         }
@@ -842,7 +837,7 @@ const handleAnswersEvaluator = async (answers) => {
         handleRenderEJS(
             `${currentPath}/Environments/FrontendEnvironment/.oktaEnv`,
             { frontEndChoice },
-            `${frontEnd.path}/.env`
+            `${frontEnd.path}/.env`,
         );
     }
 

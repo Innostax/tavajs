@@ -3,39 +3,39 @@ const shell = require("shelljs");
 
 function projectExecutionCommands(frontEnd, backEnd, answers) {
     shell.echo(
-        chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created \n `)
+        chalk.green.bold(`${String.fromCodePoint(0x2705)} Successfully created \n `),
     );
     shell.echo(
         chalk.magentaBright.bold(
             `${String.fromCodePoint(45)}${String.fromCodePoint(
-                62
-            )} To get Started: \n`
-        )
+                62,
+            )} To get Started: \n`,
+        ),
     );
 
     if (answers.projectDirectoryPath) {
         shell.echo(
             chalk.cyanBright.italic.bold(
-                `     cd ${answers.projectDirectoryPath}\\${answers["projectName"]} \n`
-            )
+                `     cd ${answers.projectDirectoryPath}\\${answers.projectName} \n`,
+            ),
         );
     } else {
         shell.echo(
-            chalk.cyanBright.italic.bold(`     cd ${answers["projectName"]} \n`)
+            chalk.cyanBright.italic.bold(`     cd ${answers.projectName} \n`),
         );
     }
 
     if (frontEnd && backEnd) {
-        const managerChoice = answers["managerChoice"];
+        const { managerChoice } = answers;
         const project = [frontEnd, backEnd];
 
         project.map(({ name, choice }) => {
             shell.echo(
                 chalk.magentaBright.bold(
                     `${String.fromCodePoint(45)}${String.fromCodePoint(
-                        62
-                    )} For ${choice}: \n`
-                )
+                        62,
+                    )} For ${choice}: \n`,
+                ),
             );
             shell.echo(chalk.cyanBright.italic.bold(`     cd ${name}`));
             projectInvokeInstructions(choice, managerChoice);
@@ -43,14 +43,14 @@ function projectExecutionCommands(frontEnd, backEnd, answers) {
         });
     } else {
         const { choice } = backEnd || frontEnd;
-        const managerChoice = answers["managerChoice"];
+        const { managerChoice } = answers;
         projectInvokeInstructions(choice, managerChoice);
     }
 
     shell.echo(
         chalk.cyanBright.italic.bold(
-            "------------------------ Ready to go --------------------------"
-        )
+            "------------------------ Ready to go --------------------------",
+        ),
     );
 }
 

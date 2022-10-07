@@ -5,6 +5,7 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const path = require("path");
 const { render } = require("ejs");
+
 const currentPath = path.join(__dirname);
 
 const QUESTIONS = [
@@ -12,16 +13,15 @@ const QUESTIONS = [
         name: "project-name",
         type: "input",
         message: "What will be name of screen?",
-        validate: function (input) {
-            if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
-            else
-                return "Screen name may only include letters, numbers, underscores and hashes.";
+        validate(input) {
+            if (/^([A-Za-z\-\d])+$/.test(input)) return true;
+            return "Screen name may only include letters, numbers, underscores and hashes.";
         },
     },
 ];
 
 inquirer.prompt(QUESTIONS).then((answers) => {
-    const CURR_DIR = answers["projectDirectoryPath"] ? answers["projectDirectoryPath"] : process.cwd();
+    const CURR_DIR = answers.projectDirectoryPath ? answers.projectDirectoryPath : process.cwd();
     const projectName = answers["project-name"];
     fs.mkdirSync(`${CURR_DIR}/src/screens/${projectName}`);
 
@@ -32,16 +32,16 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
         const routePath = `${CURR_DIR}/src`;
 
-        var data = fs.readFileSync(`${routePath}/Routes.js`).toString().split("\n");
+        const data = fs.readFileSync(`${routePath}/Routes.js`).toString().split("\n");
         data.splice(
             9,
             0,
-            `<Route exact path="/${projectName}" component={${projectName}}></Route>`
+            `<Route exact path="/${projectName}" component={${projectName}}></Route>`,
         );
         data.splice(3, 0, `import ${projectName} from "./screens/${projectName}";`);
-        var text = data.join("\n");
+        const text = data.join("\n");
 
-        fs.writeFile(`${routePath}/Routes.js`, text, function (err) {
+        fs.writeFile(`${routePath}/Routes.js`, text, (err) => {
             if (err) return console.log(err);
         });
 
@@ -56,7 +56,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
                 if (file.startsWith("screen")) {
                     const filesName = [".constant", "", ".utils"];
-                    setTimeout(function name() {
+                    setTimeout(() => {
                         fs.rename(
                             `${CURR_DIR}/src/screens/${projectName}/${file}`,
                             `${CURR_DIR}/src/screens/${projectName}/${projectName}${
@@ -68,7 +68,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
                                 } else {
                                     // List all the filenames after renaming
                                 }
-                            }
+                            },
                         );
                     }, 300);
                 }

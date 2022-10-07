@@ -1,8 +1,8 @@
 const fs = require("fs");
-const { updateProjectDependencies } = require("./helper");
 const path = require("path");
+const { updateProjectDependencies } = require("./helper");
 
-//function to create email services
+// function to create email services
 function createEmailSevice(
     emailServiceName,
     emailTemplatePath,
@@ -12,10 +12,10 @@ function createEmailSevice(
     dependencies.push({ name: "dotenv", version: "^10.0.0" });
 
     // Reading email template file
-    const emailTemplateFile = fs.readFileSync(emailTemplatePath + ".js", "utf-8");
+    const emailTemplateFile = fs.readFileSync(`${emailTemplatePath}.js`, "utf-8");
 
     // Email service file path
-    let emailServiceFilePath = path.join(nodePath, "utils", "email");
+    const emailServiceFilePath = path.join(nodePath, "utils", "email");
 
     // Creating directory of email service
     fs.mkdirSync(emailServiceFilePath);
@@ -38,9 +38,9 @@ function createEmailSevice(
     fs.writeFile(
         `${emailServiceFilePath}` + "/" + `${emailServiceName}` + ".js",
         emailTemplateFile,
-        function (err) {
+        (err) => {
             if (err) throw err;
-        }
+        },
     );
 }
-module.exports=createEmailSevice;
+module.exports = createEmailSevice;

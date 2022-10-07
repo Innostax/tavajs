@@ -4,7 +4,7 @@ const projectDetails = require("../../package.json");
 const projectSetUp = require("./projectSetUp");
 
 function projectInfo(frontEnd, backEnd, answers) {
-    //<---------------------------- For frontEnd ---------------------------->
+    // <---------------------------- For frontEnd ---------------------------->
 
     if (frontEnd) {
         const { name, choice } = frontEnd;
@@ -12,85 +12,95 @@ function projectInfo(frontEnd, backEnd, answers) {
         shell.echo(
             chalk.green.bold(
                 `${String.fromCodePoint(
-                    0x1f4c2
+                    0x1f4c2,
                 )} Creating ${choice} project: ${name} using ${projectDetails.name} ${
                     projectDetails.version
-                }`
-            )
+                }`,
+            ),
         );
 
-        if (answers["cssFrameworkChoice"])
+        if (answers.cssFrameworkChoice) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating CSS Framework: ${answers["cssFrameworkChoice"]}`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating CSS Framework: ${answers.cssFrameworkChoice}`,
+                ),
             );
+        }
 
-        if (answers["testCaseFramework"])
+        if (answers.testCaseFramework) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Test Case framework: ${answers["testCaseFramework"]}`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating Test Case framework: ${answers.testCaseFramework}`,
+                ),
             );
+        }
 
-        if (answers["theme"])
+        if (answers.theme) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Theme Provider: ${answers["theme"]}`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating Theme Provider: ${answers.theme}`,
+                ),
             );
+        }
 
-        if (answers["networkInformer"])
+        if (answers.networkInformer) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Network Informer`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating Network Informer`,
+                ),
             );
-    
-        if (answers["authenticationChoice"])
-            shell.echo(
-                chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Authentication service: ${answers["authenticationChoice"]}`
-                )
-            );
+        }
 
-        if (choice === "react" && answers["store"])
+        if (answers.authenticationChoice) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating Authentication service: ${answers.authenticationChoice}`,
+                ),
             );
+        }
 
-        if (choice === "angular" && answers["store"])
+        if (choice === "react" && answers.store) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating Redux pattern`,
+                ),
             );
+        }
 
-        if (choice === "vue" && answers["store"])
+        if (choice === "angular" && answers.store) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating Ngrx pattern`,
+                ),
             );
+        }
 
-        if (answers["dockerService"] && !answers["dbName"])
+        if (choice === "vue" && answers.store) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Docker Service`
-                )
-            );  
-
-        if (answers["cicdPipelineIntegrate"])
-            shell.echo(
-                chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating CI/CD Pipeline: ${answers["cicdPipelineIntegrate"]}`
-                )
+                    `   ${String.fromCodePoint(0x231b)} Integrating Vuex pattern`,
+                ),
             );
+        }
+
+        if (answers.dockerService && !answers.dbName) {
+            shell.echo(
+                chalk.green.bold(
+                    `   ${String.fromCodePoint(0x231b)} Integrating Docker Service`,
+                ),
+            );
+        }
+
+        if (answers.cicdPipelineIntegrate) {
+            shell.echo(
+                chalk.green.bold(
+                    `   ${String.fromCodePoint(0x231b)} Integrating CI/CD Pipeline: ${answers.cicdPipelineIntegrate}`,
+                ),
+            );
+        }
     }
 
-    //<---------------------------- For backEnd ---------------------------->
+    // <---------------------------- For backEnd ---------------------------->
 
     if (backEnd) {
         const { name, choice } = backEnd;
@@ -98,59 +108,64 @@ function projectInfo(frontEnd, backEnd, answers) {
         shell.echo(
             chalk.green.bold(
                 `${String.fromCodePoint(
-                    0x1f4c2
+                    0x1f4c2,
                 )} Creating ${choice} project: ${name} using ${projectDetails.name} ${
                     projectDetails.version
-                }`
-            )
+                }`,
+            ),
         );
 
-        if (answers["dbName"])
+        if (answers.dbName) {
             shell.echo(
                 chalk.green.bold(
                     `   ${String.fromCodePoint(0x231b)} Integrating Database service: ${
-                        answers["dbName"]
-                    }`
-                )
+                        answers.dbName
+                    }`,
+                ),
             );
+        }
 
-        if (answers["loggerServiceName"])
+        if (answers.loggerServiceName) {
             shell.echo(
                 chalk.green.bold(
                     `   ${String.fromCodePoint(0x231b)} Integrating Logger service: ${
-                        answers["loggerServiceName"]
-                    }`
-                )
+                        answers.loggerServiceName
+                    }`,
+                ),
             );
+        }
 
-        if (answers["emailServiceName"])
+        if (answers.emailServiceName) {
             shell.echo(
                 chalk.green.bold(
                     `   ${String.fromCodePoint(0x231b)} Integrating Email service: ${
-                        answers["emailServiceName"]
-                    }`
-                )
+                        answers.emailServiceName
+                    }`,
+                ),
             );
+        }
 
-        if (answers["blobServiceName"])
+        if (answers.blobServiceName) {
             shell.echo(
                 chalk.green.bold(
                     `   ${String.fromCodePoint(0x231b)} Integrating Blob service: ${
-                        answers["blobServiceName"]
-                    }`
-                )
+                        answers.blobServiceName
+                    }`,
+                ),
             );
+        }
 
-        if (answers["dockerService"])
+        if (answers.dockerService) {
             shell.echo(
                 chalk.green.bold(
-                    `   ${String.fromCodePoint(0x231b)} Integrating Docker Service`
-                )
-            ); 
+                    `   ${String.fromCodePoint(0x231b)} Integrating Docker Service`,
+                ),
+            );
+        }
     }
 
     shell.echo(
-        chalk.green.bold(`${String.fromCodePoint(169)} Powered by Innostax`)
+        chalk.green.bold(`${String.fromCodePoint(169)} Powered by Innostax`),
     );
 
     projectSetUp(frontEnd, backEnd, answers);

@@ -1,47 +1,48 @@
 const fs = require("fs");
-const { updateProjectDependencies } = require("./helper");
 const path = require("path");
+const { updateProjectDependencies } = require("./helper");
+
 const WINSTON = "winston";
 const SENTRY = "@sentry/node";
 
-//Function to create logger service ------------------------------------------------------------>
+// Function to create logger service ------------------------------------------------------------>
 function createLogger(utilpath, loggerName, loggerTemplatePath) {
     const dependencies = [];
     if (loggerName === WINSTON) {
-        let loggerServicePath = path.join(utilpath, "utils", "logger");
+        const loggerServicePath = path.join(utilpath, "utils", "logger");
         fs.mkdirSync(loggerServicePath);
 
         dependencies.push({ name: WINSTON, version: "^3.3.3" });
 
-        let loggerFile = fs.readFileSync(
-            loggerTemplatePath + "/" + loggerName + ".js",
-            "utf-8"
+        const loggerFile = fs.readFileSync(
+            `${loggerTemplatePath}/${loggerName}.js`,
+            "utf-8",
         );
 
         fs.writeFile(
-            loggerServicePath + "/index" + ".js",
+            `${loggerServicePath}/index` + ".js",
             loggerFile,
-            function (err) {
+            (err) => {
                 if (err) throw err;
-            }
+            },
         );
     } else {
-        let loggerServicePath = path.join(utilpath, "utils", "logger");
+        const loggerServicePath = path.join(utilpath, "utils", "logger");
         fs.mkdirSync(loggerServicePath);
 
         dependencies.push({ name: SENTRY, version: "^7.13.0" });
 
-        let loggerFile = fs.readFileSync(
-            loggerTemplatePath + "/" + loggerName + ".js",
-            "utf-8"
+        const loggerFile = fs.readFileSync(
+            `${loggerTemplatePath}/${loggerName}.js`,
+            "utf-8",
         );
 
         fs.writeFile(
-            loggerServicePath + "/index" + ".js",
+            `${loggerServicePath}/index` + ".js",
             loggerFile,
-            function (err) {
+            (err) => {
                 if (err) throw err;
-            }
+            },
         );
     }
 

@@ -2,7 +2,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const path = require("path");
 require("dotenv").config();
 
-const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+const { AZURE_STORAGE_CONNECTION_STRING } = process.env;
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
 
@@ -53,7 +53,7 @@ async function uploadBlob(containerName, filePath) {
 async function listBLobs(containerName) {
     const containerClient = await blobServiceClient.getContainerClient(containerName);
     const blobList = [];
-    let blobs = await containerClient.listBlobsFlat();
+    const blobs = await containerClient.listBlobsFlat();
     for await (const blob of blobs) {
         blobList.push(blob.name);
     }

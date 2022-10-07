@@ -7,7 +7,7 @@ export function handleException(exception, methodType, url) {
         `Unable to process this ${methodType} request 
       for end-point ${url}
       Failed with response:`,
-        exception.status
+        exception.status,
     );
 }
 
@@ -39,15 +39,11 @@ const asyncAction = ({ url, methodType = "get", httpHeaders = {} } = {}) => {
     };
 
     return http[methodType](url, httpHeaders)
-        .then((body) => {
-            return Promise.resolve(body);
-        })
+        .then((body) => Promise.resolve(body))
         .catch((exception) => {
             handleException(exception, methodType, url);
         })
-        .then((response) => {
-            return response;
-        });
+        .then((response) => response);
 };
 
 export default asyncAction;

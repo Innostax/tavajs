@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { FormControlLabel, Checkbox as CheckboxMUI } from '@mui/material'
 
-const Checkbox = ({ label, value, name }) => {
+function Checkbox({ label, value, name }) {
 	const [isChecked, setIsChecked] = useState(false)
 
 	return (

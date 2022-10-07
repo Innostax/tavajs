@@ -1,4 +1,5 @@
 import { Modal } from 'react-bootstrap'
+
 export default function TavaJSModal({
 	children,
 	shouldOpen,

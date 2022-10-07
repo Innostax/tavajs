@@ -8,33 +8,33 @@ const DEPENDENCIES = {
     MATERIALUI: [
         { name: "@mui/material", version: "^5.10.2" },
         { name: "@mui/icons-material", version: "^5.10.3" },
-        { name: "material-react-table", version: "^1.1.1"},
-        { name: "@material-ui/core", version:"^4.12.4"},
+        { name: "material-react-table", version: "^1.1.1" },
+        { name: "@material-ui/core", version: "^4.12.4" },
     ],
     TAILWINDVUE: [
         { name: "autoprefixer", version: "^9.8.8" },
         { name: "postcss", version: "^7.0.39" },
-        { name: "tailwindcss", version: "npm:@tailwindcss/postcss7-compat@^2.2.17", }
+        { name: "tailwindcss", version: "npm:@tailwindcss/postcss7-compat@^2.2.17" },
     ],
     BOOTSTRAPVUE: [
         { name: "bootstrap", version: "^5.1.3" },
         { name: "bootstrap-vue-3", version: "^0.3.3" },
     ],
     TAILWINDCSS: [
-        { name: "tailwindcss", version: "^3.1.8" }
+        { name: "tailwindcss", version: "^3.1.8" },
     ],
-    TAILWINDREACT:[
+    TAILWINDREACT: [
         { name: "tailwindcss", version: "^3.1.8" },
         { name: "autoprefixer", version: "^10.4.12" },
         { name: "postcss", version: "^8.4.16" },
         { name: "react-scripts", version: "^5.0.1" },
     ],
     ANGULARBOOTSTRAP: [
-        { name: "bootstrap", version: "^5.2.1" }
+        { name: "bootstrap", version: "^5.2.1" },
     ],
     ANGULARMATERIALUI: [
         { name: "@angular/material", version: "^14.2.3" },
-        { name: "@angular/cdk", version: "^14.2.3" }
+        { name: "@angular/cdk", version: "^14.2.3" },
     ],
     REACT: [
         { name: "@reduxjs/toolkit", version: "^1.8.5" },
@@ -50,10 +50,10 @@ const DEPENDENCIES = {
     COGNITO_REACT: [
         { name: "@aws-amplify/ui-react", version: "^3.5.4" },
         { name: "aws-amplify", version: "^4.3.36" },
-    ], 
+    ],
     COGNITO_VUE: [
         { name: "aws-amplify", version: "^4.3.36" },
-        { name: "@aws-amplify/ui-vue", version: "^2.4.22" }],    
+        { name: "@aws-amplify/ui-vue", version: "^2.4.22" }],
     COGNITO_ANGULAR: [
         { name: "aws-amplify", version: "^4.3.36" },
         { name: "@aws-amplify/ui-angular", version: "^2.4.22" },
