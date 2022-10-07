@@ -10,13 +10,13 @@ import { selectShowModal } from './modal.selectors'
 import { actions } from './modal.slice'
 const { hideModal } = actions
 
-export default function TavaJSModal({
+const TavaJSModal = ({
 	children,
 	footer,
 	title,
 	reset,
 	size = 'lg',
-}) {
+}) => {
 	const show = useSelector(selectShowModal)
 	const dispatch = useDispatch()
 
@@ -63,3 +63,4 @@ export default function TavaJSModal({
 	)
 }
 
+export default TavaJSModal;

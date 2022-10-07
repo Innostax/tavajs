@@ -13,7 +13,7 @@ const fs = require("fs");
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
-async function createBucket(bucketName) {
+const createBucket = async (bucketName) => {
     try {
         const bucketParams = { Bucket: bucketName };
         const data = await s3Client.send(new CreateBucketCommand(bucketParams));
@@ -24,7 +24,7 @@ async function createBucket(bucketName) {
     }
 }
 
-async function listBuckets() {
+const listBuckets = async () => {
     try {
         const data = await s3Client.send(new ListBucketsCommand({}));
         return data.Buckets;
@@ -33,7 +33,7 @@ async function listBuckets() {
     }
 }
 
-async function deleteBucket(bucketName) {
+const deleteBucket = async (bucketName) => {
     try {
         const bucketParams = { Bucket: bucketName };
         const data = await s3Client.send(new DeleteBucketCommand(bucketParams));
@@ -44,7 +44,7 @@ async function deleteBucket(bucketName) {
     }
 }
 
-async function uploadObject(bucketName, filePath) {
+const uploadObject = async (bucketName, filePath) => {
     const objectName = path.basename(filePath);
     try {
         filePath = path.resolve(filePath);
@@ -62,7 +62,7 @@ async function uploadObject(bucketName, filePath) {
     }
 }
 
-async function downloadObject(bucketName, objectName, filePath) {
+const downloadObject = async (bucketName, objectName, filePath) => {
     try {
         filePath = path.resolve(filePath);
         const bucketParams = {
@@ -78,7 +78,7 @@ async function downloadObject(bucketName, objectName, filePath) {
     }
 }
 
-async function listObjects(bucketName) {
+const listObjects = async (bucketName) => {
     try {
         const bucketParams = { Bucket: bucketName };
         const data = await s3Client.send(new ListObjectsCommand(bucketParams));
@@ -88,7 +88,7 @@ async function listObjects(bucketName) {
     }
 }
 
-async function deleteObject(bucketName, objectName) {
+const deleteObject = async (bucketName, objectName) => {
     try {
         const bucketParams = {
             Bucket: bucketName,
@@ -102,7 +102,7 @@ async function deleteObject(bucketName, objectName) {
     }
 }
 
-async function sampleAwsS3Executor() {
+const sampleAwsS3Executor = async () => {
     const bucketName = "innostax";
     const objectName = "index.js";
     const uploadFilePath = "./index.js";

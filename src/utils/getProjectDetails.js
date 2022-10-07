@@ -1,4 +1,4 @@
-function getProjectDetails(currentDirectory, answers) {
+const getProjectDetails = (currentDirectory, answers) => {
     let details = {};
     if (answers.frontEnd) {
         details = {
@@ -26,5 +26,6 @@ function getProjectDetails(currentDirectory, answers) {
     }
 
     return details;
-}
+};
+
 module.exports = { getProjectDetails };
