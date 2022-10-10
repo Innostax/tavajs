@@ -67,6 +67,20 @@ One of the first things to remember about React project development is that it i
 
 <% if (isCypress) {%><li><a  href="#cypress">Cypress test framework </li></a><%}%>
 
+<% if (isJest) {%><li><a href="#jest">Jest test framework </li></a><%}%>
+
+<% if (isNightWatch) {%><li><a href="#nightwatch">Nightwatch test framework </li></a><%}%>
+
+<% if (blobServiceName === 'azure') {%><li><a href="#azure">Azure blob service </li></a><%}%>
+
+<% if (blobServiceName === 'aws-s3') {%><li><a href="#aws-s3">AWS-S3 blob service </li></a><%}%>
+
+<% if (isDocker) {%><li><a href="#docker">Docker</li></a><%}%>
+
+<% if (isNetworkInformer) {%><li><a href="#networkInformer">Network Informer</li></a><%}%>
+
+<% if (isCICDPipelineIntegrate === "aws") {%><li><a href="#aws">AWS CI/CD Integration Service</li></a><%}%>
+
 </ul>
 
 ### Built with:
@@ -97,6 +111,12 @@ One of the first things to remember about React project development is that it i
 
 </a>  <a  href="https://mui.com/"  target="_blank">  <img  src="https://v4.mui.com/static/logo_raw.svg"  alt="materialUI"  width="100"  height="100"/>  </a></p>
 
+<%}%>
+
+<%if(isTailWind){%>
+
+<a  href="https://tailwindcss.com/"  target="_blank"><img  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg"  alt="tailwind"  width="100"  height="100"  /></a>
+  
 <%}%>
 
 <%if(dbName === 'mongoose'){%>
@@ -150,6 +170,50 @@ One of the first things to remember about React project development is that it i
 <% if (isCypress) {%>
 
 <a  href="https://www.cypress.io/"  target="_blank">  <img  src="https://s4-recruiting.cdn.greenhouse.io/external_greenhouse_job_boards/logos/400/113/000/resized/logo_landscape_(1).png?1643756332"  alt="cypress"  width="300"  height="100"/>  </a>
+
+<%}%>
+
+<% if (isNightWatch) {%>
+
+<a href="https://nightwatchjs.org/" target="_blank"><img src="https://seeklogo.com/images/N/nightwatchjs-logo-66C5775A1E-seeklogo.com.png" alt="nightwatch" width="100" height="100" /></a>
+
+<%}%>
+
+<%if(isJest){%>
+
+<a href="https://jestjs.io/" target="_blank"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="jest" width="100" height="100"/> </a>
+
+<%}%>
+
+<%if(isAmazonSes){%>
+
+<a href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" />
+
+<%}%>
+
+<%if(blobServiceName === 'azure'){%>
+
+<a href=https://azure.microsoft.com/en-us/ target="_blank">
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" width="100" alt="azure"/>
+
+</a>
+
+<%}%>
+
+<%if(blobServiceName === 'aws-s3'){%>
+
+<a href=https://aws.amazon.com/s3/ target="_blank">
+
+<img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" width="100" alt="aws-s3"/>
+
+</a>
+
+<%}%>
+
+<%if(isDocker){%>
+
+<a href="https://www.docker.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="100" height="100"/> </a>
 
 <%}%>
 
@@ -462,6 +526,275 @@ npx cypress open
 
 ```
 
+<%}%>
+
+<% if(isJest) {%>
+
+<div id='jest'/>
+
+###  Testing:
+
+###  JEST test framework
+
+Jest is a universal testing platform, with the ability to adapt to any JavaScript library or framework.
+
+###  Running Jest
+  
+<% if(isYarn) {%>
+
+```
+
+yarn run test
+
+```
+
+<%}else{%>
+
+```
+
+npm run test
+
+```
+
+<%}%>
+
+<%}%>
+
+<% if(isNightWatch) {%>
+
+<div id='nightwatch'/>
+
+###  Testing:
+
+###  Nightwatch test framework
+
+Nightwatch is a next generation front end testing tool built for the modern web. Fast, easy and reliable testing for anything that runs in a browser.
+
+###  Running Nightwatch
+
+Before running the test, update `BASE_URL` constant as your app base url in `nightwatch.config.js` file and you need to run the project.
+
+  
+
+<% if(isYarn) {%>
+
+```
+
+npm test
+
+yarn run test
+
+```
+
+<%}else{%>
+
+```
+
+npm run test
+
+```
+
+<%}%>
+
+<%}%>
+
+
+<% if(isAmazonSes) {%>
+
+<div id='amazon-ses'/>
+
+###  Email Service:
+
+###  Amazon SES email service
+
+Amazon Simple Email Service (Amazon SES) is a bulk and transactional email-sending service. It is the most cost effective email marketing platform.
+
+###  Running Amazon SES email service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+
+AWS_SECRET_ACCESS_KEY = Enter Your Aws Secret Access Key
+
+AWS_REGION = Enter Your Aws Region
+
+```
+
+Pass the following information inside `mailParams` data property in `index.js` file.
+
+```
+
+{
+
+to: ["Recipients Email"],
+
+from: "Sender Email",
+
+subject: "Subject",
+
+html: "htmlMessage",
+
+text: "textMessage",
+
+}
+
+```
+
+<%}%>
+
+<% if(blobServiceName === 'azure') {%>
+
+<div id='azure'/>
+
+###  Blob Service
+
+###  Azure blob service
+
+Azure Blob storage is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data.
+
+###  Running Azure blob service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+
+AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
+
+```
+
+###  Azure blob service functions
+
+<ul>
+
+<li> createContainer - To create a container.</li>
+
+<li> listContainers - To list all containers.</li>
+
+<li> deleteContainer - To delete a container.</li>
+
+<li> uploadBlob - To upload any type of file.</li>
+
+<li> listBLobs - To list all files in container.</li>
+
+<li> downloadBlob - To download file from container.</li>
+
+<li> deleteBlob - To delete file from container.</li>
+
+<li> sampleBlobServiceExecutor - To test all functionalities of azure blob service.</li>
+
+</ul>
+
+<%}%>
+
+<% if(blobServiceName === 'aws-s3') {%>
+
+<div id='aws-s3'/>
+
+###  Blob Service
+
+###  AWS-S3 blob service
+
+Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security.
+
+###  Running AWS-S3 blob service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+
+AWS_SECRET_ACCESS_KEY = Enter your Aws Secret Access Key
+
+AWS_REGION = Enter your Aws Region
+
+```
+
+###  AWS-S3 blob service functions
+
+<ul>
+
+<li> createBucket - To create a bucket.</li>
+
+<li> listBuckets - To list all buckets.</li>
+
+<li> deleteBucket - To delete a bucket.</li>
+
+<li> uploadObject - To upload an object in bucket.</li>
+
+<li> listObjects - To list all objects in bucket.</li>
+
+<li> downloadObject - To download an object from bucket.</li>
+
+<li> deleteObject - To delete object from bucket.</li>
+
+<li> sampleAwsS3Executor - To test all functionalities of aws-s3 blob service.</li>
+
+</ul>
+
+<%}%>
+
+<% if(isNetworkInformer) {%>
+
+<div id='networkInformer'/>  
+
+###  Network Informer Service
+
+Network informer displays network status on top of your app when you are offline and online.
+  
+<%}%>
+   
+<% if(isDocker) {%>
+
+<div id='docker'/> 
+
+###  Docker Service
+
+Docker is a software platform that allows you to build, test, and deploy applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime.
+  
+You can install docker from here : <a href="https://docs.docker.com/engine/install/"> Install docker</a>
+    
+Run command in terminal :
+
+```
+
+docker compose up
+
+```
+  
+<%}%>
+    
+<% if(isCICDPipelineIntegrate === "aws") {%>
+ 
+<div id='aws'/>
+  
+###  AWS CI/CD Integration Service
+  
+AWS CodePipeline is a fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates.
+  
+Create a bucket in your aws account.
+  
+You can create your aws account here: <a href="https://aws.amazon.com/"> AWS account</a>
+  
+Update environment variables in `build.yml` file:
+  
+```
+
+env:
+
+# Region
+
+AWS_REGION: Enter Region
+
+# S3-bucket name
+
+S3_BUCKET: Enter your Bucket Name
+
+```
+ 
 <%}%>
 
 <% if(isThemeProvider) {%>

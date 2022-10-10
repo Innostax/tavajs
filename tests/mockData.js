@@ -159,6 +159,15 @@ const EXPECTED_RESULT = {
     azure: "Integrating Blob service: azure",
   },
   copyright: "Powered by Innostax",
+  success: "Successfully created",
+  getStarted: "To get Started",
+  executionMsg: {
+    react: "For react",
+    angular: "For angular",
+    vue: "For vue",
+    node: "For node-js"
+  },
+  ready: "Ready to go"
 };
 
 const ANSWERS = {
@@ -180,10 +189,10 @@ const ANSWERS = {
     backEndChoice: "node-js",
     backEndName: "backend",
     defaultRoute: "users",
-    dbName: false,
-    loggerServiceName: false,
-    emailServiceName: false,
-    blobServiceName: false,
+    dbName: "mongoose",
+    loggerServiceName: "winston",
+    emailServiceName: "smtp",
+    blobServiceName: "azure",
     dockerService: false,
     cicdPipelineIntegrate: false,
   },
@@ -291,7 +300,7 @@ const ANSWERS = {
   TC0008: {
     //npm,vue,bootstrap,nightwatch,okta
     projectName: "vue-project",
-    projectDirectoryPath: "C:\\TAVAJS-Projects",
+    projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,
     frontEndChoice: "vue",
@@ -302,8 +311,15 @@ const ANSWERS = {
     networkInformer: false,
     authenticationChoice: "Okta",
     store: false,
-    backEnd: false,
-    dockerService: false,
+    backEnd: true,
+    backEndChoice: "node-js",
+    backEndName: "backend",
+    defaultRoute: "users",
+    dbName: "mongoose",
+    loggerServiceName: "winston",
+    emailServiceName: "smtp",
+    blobServiceName: "azure",
+    dockerService: true,
     cicdPipelineIntegrate: false,
   },
 };

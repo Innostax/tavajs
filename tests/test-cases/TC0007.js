@@ -1,9 +1,10 @@
-const fs = require("fs");
+const fsExtra = require("fs-extra");
 const expect = require("chai").expect;
 require("mocha-sinon");
 
 const projectInfo = require("../../src/utils/projectInfo");
 const { getProjectDetails } = require("../../src/utils/getProjectDetails");
+const projectExecutionCommands = require("../../src/utils/projectExecutionCommands");
 const { handleAnswersEvaluator } = require("../../src/TavaJsExecutors/answersEvaluator");
 
 const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
@@ -13,7 +14,6 @@ const { echos } = require("../helpers");
 const { projectName, projectDirectoryPath } = ANSWERS.TC0007;
 
 const CURR_DIR = projectDirectoryPath;
-fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {});
 
 const { frontEnd, backEnd } = getProjectDetails(
   `${CURR_DIR}/${projectName}`,
@@ -23,6 +23,8 @@ const { frontEnd, backEnd } = getProjectDetails(
 describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
   await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0007);
   await projectInfo(frontEnd, backEnd, ANSWERS.TC0007);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0008);
+
   // console.log("echos",echos)
 
   it("Should verify 'Creating vue project'", async () => {
@@ -43,4 +45,14 @@ describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
   it("Should verify 'Powered by Innostax'", async () => {
     expect(echos[5]).to.include(EXPECTED_RESULT.copyright);
   });
+  it("Should verify 'Successfully created", async () => {
+    expect(echos[6]).to.include(EXPECTED_RESULT.success);
+  });
+  it("Should verify 'To get Started'", async () => {
+    expect(echos[7]).to.include(EXPECTED_RESULT.getStarted);
+  });
+  it("Should verify 'Ready to go'", async () => {
+    expect(echos[10]).to.include(EXPECTED_RESULT.ready);
+  });
 });
+fsExtra.remove(`${CURR_DIR}/${projectName}`);

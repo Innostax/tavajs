@@ -6,7 +6,7 @@
     "lint": "eslint .eslintrc.js",
     "lint:fix": "eslint --fix --ext .js .",
     "start": "node src/index.js",
-    "test": "mocha tests/test-cases/TC0006.js && mocha tests/test-cases/TC0007.js && mocha tests/test-cases/TC0008.js"
+    "test": "mocha tests/test-cases/TC0001.js --timeout 300000"
   },
   "license": "MIT",
   "dependencies": {
