@@ -120,11 +120,13 @@ const ANGULAR_APP_TC009_EXPECTED = [
 
 const ANGULAR_APP_TC00010_EXPECTED = [
   [ 'Creating angular project: front-end using dev-tava 1.0.0' ],
-  [ 'Integrating CSS Framework: material' ],
+  [ 'Integrating CSS Framework: tailwind' ],
   [ 'Integrating Theme Provider: light-dark-mode' ],
   [ 'Integrating Network Informer' ],
   [ 'Integrating Authentication service: Okta' ],
   [ 'Integrating Ngrx pattern' ],
+  ['Creating node-js project: backend using dev-tava 1.0.0'],
+  ['Integrating Database service: mongoose'],
   [ '© Powered by Innostax' ],
   ['NPM loading on angular, Wait for finish'],
   [ '-> NPM modules installed!👍\r' ],
@@ -249,7 +251,7 @@ const ANSWERS = {
   },
   TC00010: {
     //angular material light-darkomode ngrx authentication node database email-service
-    projectName: "angular-full",
+    projectName: "angular-full1",
     projectDirectoryPath: "C:\\tavatest",
     managerChoice: "npm",
     frontEnd: true,

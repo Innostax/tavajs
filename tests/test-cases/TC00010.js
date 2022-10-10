@@ -35,8 +35,6 @@ before(async function () {
   });
 
   it("Should verify 'Creating angular project'", async (done) => {
-    console.log("echos+++",echos[1][0])
-    console.log("test++",ANGULAR_APP_TC00010_EXPECTED[1][0])
     expect(echos[0][0]).to.include(ANGULAR_APP_TC00010_EXPECTED[0][0]);
     done();
   });
@@ -57,9 +55,19 @@ before(async function () {
     done();
   });
   it("Should verify 'Integrating Ngrx pattern'", async (done) => {
+    console.log("echos+++",echos[6][0])
+    console.log("test++",ANGULAR_APP_TC00010_EXPECTED[6][0])
     expect(echos[5][0]).to.include(ANGULAR_APP_TC00010_EXPECTED[5][0]);
     done();
   });
+  it("Should verify 'Creating node-js project'", async (done) => {
+    expect(echos[6][0]).to.include(ANGULAR_APP_TC00010_EXPECTED[6][0]);
+    done();
+  });
+  // it("Should verify 'Integrating Database service: tailwind'", async (done) => {
+  //   expect(echos[7][0]).to.include(ANGULAR_APP_TC00010_EXPECTED[7][0]);
+  //   done();
+  // });
 //   it("Should verify 'Powered by Innostax'", async (done) => {
 //     expect(echos[5][0]).to.include(ANGULAR_APP_TCOO10_EXPECTED[5][0]);
 //     done();
@@ -88,4 +96,8 @@ before(async function () {
 //     expect(echos[13][0]).to.include(ANGULAR_APP_TCOO10_EXPECTED[12][0]);
 //     done();
 //   });
+  after(async function () {
+    console.log("path is this", `${CURR_DIR}/${projectName}`)
+    fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
+  });
 });
