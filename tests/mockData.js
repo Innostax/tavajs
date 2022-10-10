@@ -87,8 +87,7 @@ const ANGULAR_APP_EXPECTED_RESULT = [
     '--------------- NPM loading on node-js, Wait for finish ---------------\r'
   ],
   [ '-> NPM modules installed!👍\r' ],
-  [ 'Installing took 1:05 minutes.' ],
-  [ '✅ Successfully created \n ' ],
+  [ '✅ Successfully created' ],
   [ '-> To get Started: \n' ],
   [
     '     cd /home/runner/work/tavajs/tavajs\\test-cases-for-angular-project-tc0001 \n'
@@ -102,25 +101,42 @@ const ANGULAR_APP_EXPECTED_RESULT = [
   [ '------------------------ Ready to go --------------------------' ]
 ]
 
-const ANGULAR_APP_TCOO7_EXPECTED = [
+const ANGULAR_APP_TC009_EXPECTED = [
   [ '📂 Creating angular project: front-end using dev-tava 1.0.0' ],
   [ '⌛ Integrating CSS Framework: tailwind' ],
   [ '⌛ Integrating Theme Provider: light-dark-mode' ],
-  [ '   ⌛ Integrating Network Informer' ],
-  [ '   ⌛ Integrating Ngrx pattern' ],
+  [ '⌛ Integrating Network Informer' ],
+  [ '⌛ Integrating Ngrx pattern' ],
   [ '© Powered by Innostax' ],
-  [
-    '--------------- NPM loading on angular, Wait for finish ---------------\r'
+  ['NPM loading on angular, Wait for finish ---------------\r'
   ],
   [ '-> NPM modules installed!👍\r' ],
-  [ 'Installing took 1:05 minutes.' ],
-  [ '✅ Successfully created \n ' ],
-  [ '-> To get Started: \n' ],
-  [
-    '     cd /home/runner/work/tavajs/tavajs\\test-cases-for-angular-project-tc0007 \n'
-  ],
-  [ '     npm start' ],
-  [ '------------------------ Ready to go --------------------------' ]
+  [ 'Successfully created' ],
+  [ 'To get Started' ],
+  ['cd /home/runner/work/tavajs/tavajs\\test-cases-for-angular-project-tc0009 \n'],
+  [ 'npm start' ],
+  [ 'Ready to go' ]
+]
+
+const ANGULAR_APP_TC00010_EXPECTED = [
+  [ 'Creating angular project: front-end using dev-tava 1.0.0' ],
+  [ 'Integrating CSS Framework: material' ],
+  [ 'Integrating Theme Provider: light-dark-mode' ],
+  [ 'Integrating Network Informer' ],
+  [ 'Integrating Authentication service: Okta' ],
+  [ 'Integrating Ngrx pattern' ],
+  [ '© Powered by Innostax' ],
+  ['NPM loading on angular, Wait for finish'],
+  [ '-> NPM modules installed!👍\r' ],
+  ['NPM loading on node-js, Wait for finish'],
+  [ '-> NPM modules installed!👍\r' ],
+  [ 'Successfully created' ],
+  [ 'To get Started' ],
+  ['For angular']
+  [ 'npm start' ],
+  ['For node-js'],
+  [ 'npm start' ],
+  [ 'Ready to go' ]
 ]
 
 const ANSWERS = {
@@ -214,7 +230,7 @@ const ANSWERS = {
     backEnd: false,
     dockerService: false,
   },
-  TC0007: {
+  TC0009: {
     //angular tailwind light-darkomode ngrx 
     projectName: "angular-tailwind",
     projectDirectoryPath: "C:\\tavatest",
@@ -230,12 +246,35 @@ const ANSWERS = {
     store: true,
     backEnd: false,
     dockerService: false,
+  },
+  TC00010: {
+    //angular material light-darkomode ngrx authentication node database email-service
+    projectName: "angular-full",
+    projectDirectoryPath: "C:\\tavatest",
+    managerChoice: "npm",
+    frontEnd: true,
+    frontEndChoice: "angular",
+    cssFrameworkChoice: "tailwind",
+    frontEndName: "front-end",
+    testCaseFramework: false,
+    theme: "light-dark-mode",
+    networkInformer: true,
+    authenticationChoice: "Okta",
+    store: true,
+    backEnd: true,
+    backEndChoice: "node-js",
+    backEndName: "backend",
+    defaultRoute: "users",
+    dbName: "mongoose",
+    emailServiceName: "smtp",
+    dockerService: false,
   }
 };
 module.exports = {
   PROJECT_INFO_EXPECTED_DATA,
   PROJECT_SETUP_EXPECTED_DATA,
   ANGULAR_APP_EXPECTED_RESULT,
-  ANGULAR_APP_TCOO7_EXPECTED,
+  ANGULAR_APP_TC009_EXPECTED,
+  ANGULAR_APP_TC00010_EXPECTED,
   ANSWERS
 };
