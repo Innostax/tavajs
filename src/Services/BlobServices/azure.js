@@ -13,7 +13,7 @@ const createContainer = async (containerName) => {
     const containerClient = await blobServiceClient.getContainerClient(
       containerName
     );
-    // const createContainerResponse = await containerClient.create(); TODO
+    const createContainerResponse = await containerClient.create();
     console.log(`${containerName} container created successfully.`);
     return containerClient.url;
   } catch (err) {
