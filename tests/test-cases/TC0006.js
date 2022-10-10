@@ -23,7 +23,7 @@ const { frontEnd, backEnd } = getProjectDetails(
 describe("Verify working of ANSWERS.TC0006 evaluator method.", async () => {
   await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0006);
   await projectInfo(frontEnd, backEnd, ANSWERS.TC0006);
-  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0008);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0006);
   // console.log("echos",echos)
 
   it("Should verify 'Creating vue project'", async () => {
@@ -61,6 +61,9 @@ describe("Verify working of ANSWERS.TC0006 evaluator method.", async () => {
   });
   it("Should verify 'To get Started'", async () => {
     expect(echos[11]).to.include(EXPECTED_RESULT.getStarted);
+  });
+  it("Should verify 'npm run serve'", async () => {
+    expect(echos[13]).to.include(EXPECTED_RESULT.package.npm);
   });
   it("Should verify 'Ready to go'", async () => {
     expect(echos[14]).to.include(EXPECTED_RESULT.ready);

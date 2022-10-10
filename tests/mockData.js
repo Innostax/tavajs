@@ -167,6 +167,10 @@ const EXPECTED_RESULT = {
     vue: "For vue",
     node: "For node-js"
   },
+  package: {
+    npm: "npm",
+    yarn: "yarn"
+  },
   ready: "Ready to go"
 };
 

@@ -23,7 +23,7 @@ const { frontEnd, backEnd } = getProjectDetails(
 describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
   await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0007);
   await projectInfo(frontEnd, backEnd, ANSWERS.TC0007);
-  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0008);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0007);
 
   // console.log("echos",echos)
 
@@ -50,6 +50,9 @@ describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
   });
   it("Should verify 'To get Started'", async () => {
     expect(echos[7]).to.include(EXPECTED_RESULT.getStarted);
+  });
+  it("Should verify 'yarn run serve'", async () => {
+    expect(echos[9]).to.include(EXPECTED_RESULT.package.yarn);
   });
   it("Should verify 'Ready to go'", async () => {
     expect(echos[10]).to.include(EXPECTED_RESULT.ready);

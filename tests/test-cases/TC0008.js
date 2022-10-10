@@ -69,8 +69,14 @@ describe("Verify working of ANSWERS.TC0008 evaluator method.", async () => {
   it("Should verify 'For vue'", async () => {
     expect(echos[14]).to.include(EXPECTED_RESULT.executionMsg.vue);
   });
+  it("Should verify 'npm run serve'", async () => {
+    expect(echos[16]).to.include(EXPECTED_RESULT.package.npm);
+  });
   it("Should verify 'For node-js'", async () => {
     expect(echos[18]).to.include(EXPECTED_RESULT.executionMsg.node);
+  });
+  it("Should verify 'npm run serve'", async () => {
+    expect(echos[20]).to.include(EXPECTED_RESULT.package.npm);
   });
   it("Should verify 'Ready to go'", async () => {
     expect(echos[22]).to.include(EXPECTED_RESULT.ready);
