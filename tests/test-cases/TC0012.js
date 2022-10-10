@@ -1,4 +1,3 @@
-const fsExtra = require("fs-extra");
 const { expect } = require("chai");
 
 const projectInfo = require("../../src/utils/projectInfo");
@@ -7,7 +6,7 @@ const projectExecutionCommands = require("../../src/utils/projectExecutionComman
 const { handleAnswersEvaluator } = require("../../src/TavaJsExecutors/answersEvaluator");
 
 const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
-const { echos } = require("../helpers");
+const { echos, removeProject } = require("../helpers");
 
 // Before to run the test cases:
 const { projectName, projectDirectoryPath } = ANSWERS.TC00012;
@@ -23,7 +22,6 @@ describe("Verify working of ANSWERS.TC00012 evaluator method.", async () => {
   await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC00012);
   await projectInfo(frontEnd, backEnd, ANSWERS.TC00012);
   await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC00012);
-  // console.log("echos",echos)
 
   it("Should verify 'Creating react project'", async () => {
     expect(echos[0]).to.include(EXPECTED_RESULT.frontend.react);
@@ -61,10 +59,6 @@ describe("Verify working of ANSWERS.TC00012 evaluator method.", async () => {
   it("Should verify 'Ready to go'", async () => {
     expect(echos[13]).to.include(EXPECTED_RESULT.ready);
   });
-  after(async ()=> {
-    setTimeout(()=> {
-      console.log("--------------------")
-      fsExtra.remove(`${CURR_DIR}/${projectName}`);
-    }, "1000")
-  })
 });
+
+removeProject(projectName);

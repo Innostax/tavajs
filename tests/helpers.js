@@ -1,4 +1,5 @@
 const shell = require("shelljs");
+const fsExtra = require("fs-extra");
 
 const defaultEcho = shell.echo.bind(shell);
 
@@ -9,4 +10,11 @@ shell.echo = function () {
   echos.push(arguments[0]);
 };
 
-module.exports = { defaultEcho, echos, echo: shell.echo };
+const removeProject = function (projectName){
+  CURR_DIR = process.cwd();
+  setTimeout(()=> {
+    fsExtra.remove(`${CURR_DIR}/${projectName}`);
+  }, "100")
+}
+
+module.exports = { defaultEcho, echos, echo: shell.echo, removeProject};
