@@ -65,5 +65,7 @@ describe("Verify working of ANSWERS.TC0006 evaluator method.", async () => {
   it("Should verify 'Ready to go'", async () => {
     expect(echos[14]).to.include(EXPECTED_RESULT.ready);
   });
+  after(async ()=> {
+    fsExtra.remove(`${CURR_DIR}/${projectName}`);
+  })
 });
-fsExtra.remove(`${CURR_DIR}/${projectName}`);

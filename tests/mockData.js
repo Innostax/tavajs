@@ -264,7 +264,7 @@ const ANSWERS = {
   TC0006: {
     //npm,vue,bootstrap,mocha,theme,networkInformer,auth0,store,docker,aws
     projectName: "vue-project",
-    projectDirectoryPath: "C:\\TAVAJS-Projects",
+    projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,
     frontEndChoice: "vue",
@@ -282,7 +282,7 @@ const ANSWERS = {
   TC0007: {
     //yarn,vue,tailwind,jest,cognito,github
     projectName: "vue-project",
-    projectDirectoryPath: "C:\\TAVAJS-Projects",
+    projectDirectoryPath: process.cwd(),
     managerChoice: "yarn",
     frontEnd: true,
     frontEndChoice: "vue",
@@ -298,7 +298,7 @@ const ANSWERS = {
     cicdPipelineIntegrate: "github",
   },
   TC0008: {
-    //npm,vue,bootstrap,nightwatch,okta
+    //npm,vue,bootstrap,nightwatch,okta,backend,mongoose,winston,smtp,azure
     projectName: "vue-project",
     projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
