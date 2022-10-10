@@ -19,43 +19,43 @@ const projectInfo = async (frontEnd, backEnd, answers) => {
 
     if (answers["cssFrameworkChoice"])
       printMessage(
-        "⌛ Integrating CSS Framework",
+        "  ⌛ Integrating CSS Framework",
         answers["cssFrameworkChoice"]
       );
 
     if (answers["testCaseFramework"])
       printMessage(
-        "⌛ Integrating Test Case framework",
+        "  ⌛ Integrating Test Case framework",
         answers["testCaseFramework"]
       );
 
     if (answers["theme"])
-      printMessage("⌛ Integrating Theme Provider", answers["theme"]);
+      printMessage("  ⌛ Integrating Theme Provider", answers["theme"]);
 
     if (answers["networkInformer"])
-      printMessage("⌛ Integrating Network Informer");
+      printMessage("  ⌛ Integrating Network Informer");
 
     if (answers["authenticationChoice"])
       printMessage(
-        "⌛ Integrating Authentication service",
+        "  ⌛ Integrating Authentication service",
         answers["authenticationChoice"]
       );
 
     if (choice === "react" && answers["store"])
-      printMessage("⌛ Integrating Redux store");
+      printMessage("  ⌛ Integrating Redux store");
 
     if (choice === "angular" && answers["store"])
-      printMessage("⌛ Integrating Ngrx store");
+      printMessage("  ⌛ Integrating Ngrx store");
 
     if (choice === "vue" && answers["store"])
-      printMessage("⌛ Integrating Vuex store");
+      printMessage("  ⌛ Integrating Vuex store");
 
     if (answers["dockerService"] && !answers["dbName"])
-      printMessage("⌛ Integrating Docker Service");
+      printMessage("  ⌛ Integrating Docker Service");
 
     if (answers["cicdPipelineIntegrate"])
       printMessage(
-        "⌛ Integrating CI/CD Pipeline",
+        "  ⌛ Integrating CI/CD Pipeline",
         answers["cicdPipelineIntegrate"]
       );
   }
@@ -71,21 +71,21 @@ const projectInfo = async (frontEnd, backEnd, answers) => {
     );
 
     if (answers["dbName"])
-      printMessage("⌛ Integrating Database service", answers["dbName"]);
+      printMessage("  ⌛ Integrating Database service", answers["dbName"]);
 
     if (answers["loggerServiceName"])
       printMessage(
-        "⌛ Integrating Logger service",
+        "  ⌛ Integrating Logger service",
         answers["loggerServiceName"]
       );
 
     if (answers["emailServiceName"])
-      printMessage("⌛ Integrating Email service", answers["emailServiceName"]);
+      printMessage("  ⌛ Integrating Email service", answers["emailServiceName"]);
 
     if (answers["blobServiceName"])
-      printMessage("⌛ Integrating Blob service", answers["blobServiceName"]);
+      printMessage("  ⌛ Integrating Blob service", answers["blobServiceName"]);
 
-    if (answers["dockerService"]) printMessage("⌛ Integrating Docker Service");
+    if (answers["dockerService"]) printMessage("  ⌛ Integrating Docker Service");
   }
 
   shell.echo(chalk.green.bold(`© Powered by Innostax`));

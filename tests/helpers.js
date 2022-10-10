@@ -14,7 +14,7 @@ const removeProject = function (projectName){
   CURR_DIR = process.cwd();
   setTimeout(()=> {
     fsExtra.remove(`${CURR_DIR}/${projectName}`);
-  }, "100")
+  }, "300")
 }
 
 module.exports = { defaultEcho, echos, echo: shell.echo, removeProject};
