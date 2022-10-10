@@ -4,9 +4,9 @@ name: Mocha Test Cases CI
 
 on:
   push:
-    branches: ["228/vue-test-cases"]
-  #pull_request:
-  #branches: [ "develop" ]
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
 
 jobs:
   mocha-test-cases:
