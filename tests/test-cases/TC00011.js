@@ -10,25 +10,25 @@ const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
 const { echos } = require("../helpers");
 
 // Before to run the test cases:
-const { projectName, projectDirectoryPath } = ANSWERS.TC0008;
+const { projectName, projectDirectoryPath } = ANSWERS.TC00011;
 
 const CURR_DIR = projectDirectoryPath;
 
 const { frontEnd, backEnd } = getProjectDetails(
   `${CURR_DIR}/${projectName}`,
-  ANSWERS.TC0008
+  ANSWERS.TC00011
 );
 
-describe("Verify working of ANSWERS.TC0008 evaluator method.", async () => {
-  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0008);
-  await projectInfo(frontEnd, backEnd, ANSWERS.TC0008);
-  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0008);
+describe("Verify working of ANSWERS.TC00011 evaluator method.", async () => {
+  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC00011);
+  await projectInfo(frontEnd, backEnd, ANSWERS.TC00011);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC00011);
 
-  it("Should verify 'Creating vue project'", async () => {
-    expect(echos[0]).to.include(EXPECTED_RESULT.frontend.vue);
+  it("Should verify 'Creating angular project'", async () => {
+    expect(echos[0]).to.include(EXPECTED_RESULT.frontend.angular);
   });
-  it("Should verify 'Integrating CSS Framework: bootstrap", async () => {
-    expect(echos[1]).to.include(EXPECTED_RESULT.css.bootstrap);
+  it("Should verify 'Integrating CSS Framework: tailwind", async () => {
+    expect(echos[1]).to.include(EXPECTED_RESULT.css.tailwind);
   });
   it("Should verify 'Integrating Test Case framework: cypress'", async () => {
     expect(echos[2]).to.include(EXPECTED_RESULT.testcase.nightwatch);
@@ -63,16 +63,16 @@ describe("Verify working of ANSWERS.TC0008 evaluator method.", async () => {
   it("Should verify 'To get Started'", async () => {
     expect(echos[12]).to.include(EXPECTED_RESULT.getStarted);
   });
-  it("Should verify 'For vue'", async () => {
-    expect(echos[14]).to.include(EXPECTED_RESULT.executionMsg.vue);
+  it("Should verify 'For angular'", async () => {
+    expect(echos[14]).to.include(EXPECTED_RESULT.executionMsg.angular);
   });
-  it("Should verify 'npm run serve'", async () => {
+  it("Should verify 'npm start'", async () => {
     expect(echos[16]).to.include(EXPECTED_RESULT.package.npm);
   });
   it("Should verify 'For node-js'", async () => {
     expect(echos[18]).to.include(EXPECTED_RESULT.executionMsg.node);
   });
-  it("Should verify 'npm run serve'", async () => {
+  it("Should verify 'npm start'", async () => {
     expect(echos[20]).to.include(EXPECTED_RESULT.package.npm);
   });
   it("Should verify 'Ready to go'", async () => {

@@ -1,5 +1,5 @@
 const fs = require("fs");
-const expect = require("chai").expect;
+const { expect } = require("chai");
 require("mocha-sinon");
 
 const projectInfo = require("../../src/utils/projectInfo");
