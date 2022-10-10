@@ -36,19 +36,19 @@ describe("Verify working of ANSWERS.TC0002 evaluator method.", async () => {
         console.log("executed projectExecutionCommands successfully");
     });
     it("Should verify 'Creating react project'", (done) => {
-        expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
+        expect(echos[0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
         done();
     });
     it("Should verify 'Integrating CSS Framework'", (done) => {
-        expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[2][0]);
+        expect(echos[1]).to.equal(PROJECT_INFO_EXPECTED_DATA[2][0]);
         done();
     });
     it("Should verify 'Integrating theme's", (done) => {
-        expect(echos[2][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[3][0]);
+        expect(echos[2]).to.equal(PROJECT_INFO_EXPECTED_DATA[3][0]);
         done();
     });
     it("Should verify 'Integrating Redux pattern'", (done) => {
-        expect(echos[3][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[4][0]);
+        expect(echos[3]).to.equal(PROJECT_INFO_EXPECTED_DATA[4][0]);
         done();
     });
     after(async function () {

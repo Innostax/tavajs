@@ -35,11 +35,11 @@ describe("Verify working of ANSWERS.TC0003 evaluator method.", async () => {
         console.log("executed projectSetUp successfully");
     });
     it("Should verify 'Creating node project'", (done) => {
-        expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[12][0]);
+        expect(echos[0]).to.equal(PROJECT_INFO_EXPECTED_DATA[12][0]);
         done();
     });
     it("Should verify 'Integrating Database service'", (done) => {
-        expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[13][0]);
+        expect(echos[1]).to.equal(PROJECT_INFO_EXPECTED_DATA[13][0]);
         done();
     });
 });

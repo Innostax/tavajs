@@ -6,7 +6,7 @@ const projectInfo = require("../../src/utils/projectInfo");
 const { getProjectDetails } = require("../../src/utils/getProjectDetails");
 const { handleAnswersEvaluator } = require("../../src/TavaJsExecutors/answersEvaluator");
 
-const { ANSWERS, VUE_APP_EXPECTED_RESULT } = require("../mockData");
+const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
 const { echos } = require("../helpers");
 
 // Before to run the test cases:
@@ -25,22 +25,22 @@ describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
   await projectInfo(frontEnd, backEnd, ANSWERS.TC0007);
   // console.log("echos",echos)
 
-  it("Should verify 'Creating react project'", async () => {
-    expect(echos[0][0]).to.include(VUE_APP_EXPECTED_RESULT[0][0]);
+  it("Should verify 'Creating vue project'", async () => {
+    expect(echos[0]).to.include(EXPECTED_RESULT.frontend.vue);
   });
-  it("Should verify 'Integrating CSS Framework", async () => {
-    expect(echos[1][0]).to.include(VUE_APP_EXPECTED_RESULT[2][0]);
+  it("Should verify 'Integrating CSS Framework: tailwind", async () => {
+    expect(echos[1]).to.include(EXPECTED_RESULT.css.tailwind);
   });
-  it("Should verify 'Integrating Test Case framework'", async () => {
-    expect(echos[2][0]).to.include(VUE_APP_EXPECTED_RESULT[4][0]);
+  it("Should verify 'Integrating Test Case framework: jest'", async () => {
+    expect(echos[2]).to.include(EXPECTED_RESULT.testcase.jest);
   });
-  it("Should verify 'Integrating Authentication service'", async () => {
-    expect(echos[3][0]).to.include(VUE_APP_EXPECTED_RESULT[10][0]);
+  it("Should verify 'Integrating Authentication service: Cognito'", async () => {
+    expect(echos[3]).to.include(EXPECTED_RESULT.authentication.cognito);
   });
-  it("Should verify 'Integrating CI/CD Pipeline'", async () => {
-    expect(echos[4][0]).to.include(VUE_APP_EXPECTED_RESULT[15][0]);
+  it("Should verify 'Integrating CI/CD Pipeline: github'", async () => {
+    expect(echos[4]).to.include(EXPECTED_RESULT.ci_cd.github);
   });
   it("Should verify 'Powered by Innostax'", async () => {
-    expect(echos[5][0]).to.include(VUE_APP_EXPECTED_RESULT[28][0]);
+    expect(echos[5]).to.include(EXPECTED_RESULT.copyright);
   });
 });
