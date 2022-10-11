@@ -98,11 +98,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     const CURR_DIR = projectDirectoryPath;
     const isStore = Boolean(store);
     const isThemeProvider = Boolean(theme == "light-dark-mode");
-    // const isCrud = Boolean(CRUD);
     const isDocker = Boolean(dockerService);
-    // const isCrudWithNode = Boolean(
-    //   angularNodeCrud
-    // );
     const isMaterialUI = cssFrameworkChoice === MATERIAL;
     const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
     const isTailWind = cssFrameworkChoice === TAILWIND;
