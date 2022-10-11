@@ -537,6 +537,17 @@ const getCSSFrameworkChoices = (frontEndChoice) =>
             { name: "Tailwind", value: TAILWIND },
         ];
 
+const getStoreQuestionMessage = (frontEndChoice) => {
+    switch (frontEndChoice) {
+    case "vue":
+        return "Do you want vuex integration?"
+    case "react":
+        return "Do you want redux integration?"
+    default:
+        return "Do you want ngrx integration?";
+    }
+}
+
 module.exports = {
     createDirectoryContents,
     updateProjectDependencies,
@@ -545,4 +556,5 @@ module.exports = {
     getFilePaths,
     handleRenderEJS,
     getCSSFrameworkChoices,
+    getStoreQuestionMessage
 };

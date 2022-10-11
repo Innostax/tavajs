@@ -15,11 +15,11 @@ const { echos } = require("../helpers");
 // Before to run the test cases:
 const { projectName, projectDirectoryPath } = ANSWERS.TC0003;
 
-const CURR_DIR = projectDirectoryPath;
-fs.mkdir(`${CURR_DIR}/${projectName}`, (err, data) => {});
+const PROJ_DIR = projectDirectoryPath;
+fs.mkdir(`${PROJ_DIR}/${projectName}`, (err, data) => {});
 
 const { frontEnd, backEnd } = getProjectDetails(
-    `${CURR_DIR}/${projectName}`,
+    `${PROJ_DIR}/${projectName}`,
     ANSWERS.TC0003
 );
 

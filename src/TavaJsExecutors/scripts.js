@@ -5,18 +5,20 @@ const SCRIPTS = {
             command: "npx cypress run",
         },
     ],
-    JEST_VUE: [
-        {
-            name: "test",
-            command: "jest --silent",
-        },
-    ],
-    JEST_REACT: [
-        {
-            name: "test",
-            command: "react-app-rewired test --verbose",
-        },
-    ],
+    JEST: {
+        "vue": [
+            {
+                name: "test",
+                command: "jest --silent",
+            },
+        ],
+        "react": [
+            {
+                name: "test",
+                command: "react-app-rewired test --verbose",
+            },
+        ],
+    },
     MOCHA: [
         {
             name: "test",
