@@ -181,7 +181,7 @@
   <% if(isMaterialUI){%>
     <div class="modalroot">
       <div class="mat-users-modal" *ngIf="!shouldDeleteUser">
-        <div style="width: 100%; display: block">
+        <div>
           <div class="add-modalhead">
             <div style="float: left; font-size: 27px;">
               {{ userActionLabel + ' User' }}
@@ -203,7 +203,7 @@
             </span>
           </div>
           <div>
-            <form class="" [formGroup]="createUserForm">
+            <form class="mt-10" [formGroup]="createUserForm">
               <div>
                 <app-label [for]="'name'" [name]="'Name'"> </app-label>
                 <app-input
@@ -211,7 +211,7 @@
                   [name]="'name'"
                   [type]="'text'"
                   [id]="'name'"
-                  [class]="''">
+                  [class]="'input-class'">
                 </app-input>
               </div>
               <br />
@@ -222,7 +222,7 @@
                   [name]="'username'"
                   [type]="'text'"
                   [id]="'username'"
-                  [class]="''">
+                  [class]="'input-class'">
                 </app-input>
               </div>
               <br />
@@ -235,7 +235,7 @@
                   [name]="'email'"
                   [type]="'text'"
                   [id]="'email'"
-                  [class]="''">
+                  [class]="'input-class'">
                 </app-input>
               </div>
               <br />
@@ -258,7 +258,7 @@
       <div class="mat-users-modal vw-30" *ngIf="shouldDeleteUser">
         <div style="margin: 5px">
           <div class="deleteheader">
-            <div style="font-weight: 400px; float: left; margin-left: 0px; font-size: 27px;">
+            <div style="float: left; font-size: 27px;">
               Delete User?
             </div>
             <div style="float: right; padding: 0" >
@@ -284,17 +284,14 @@
           <div
             style="
               text-align: left;
-              width: 100%;
-              font-weight: 400;
+              font-size: 17px;
               margin-top: 30px;
-              margin-bottom: 20px;
             ">
             Are you sure you want to delete <strong>{{ data?.name }} </strong>?
           </div>
           <div
             style="
               text-align: right;
-              margin-right: 20px;
               margin: 10px;
               margin-top: 25px;
             ">
