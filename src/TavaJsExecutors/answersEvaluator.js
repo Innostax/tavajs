@@ -407,13 +407,13 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         if (isFrontEndChoiceVue) {
             handleRenderEJS(
                 `${currentPath}/Providers/CICDWorkflow/vue/frontend-build.yml`,
-                { isCICDPipelineIntegrate},
+                { isCICDPipelineIntegrate },
                 `${frontEnd.path}/.github/workflows/build.yml`
             );
             if (isBackEnd) {
                 handleRenderEJS(
                     `${currentPath}/Providers/CICDWorkflow/vue/backend-build.yml`,
-                    { isCICDPipelineIntegrate},
+                    { isCICDPipelineIntegrate },
                     `${backEnd.path}/.github/workflows/build.yml`
                 );
             }
