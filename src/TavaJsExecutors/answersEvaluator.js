@@ -629,7 +629,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
 
             handleRenderEJS(
                 `${currentPath}/StateManagement/reduxTemplates/demoUser/users.actions.js`,
-                { defaultRoute },
+                { defaultRoute, dbName },
                 `${frontEnd.path}/src/screens/Users/users.actions.js`
             );
             handleRenderEJS(
@@ -637,7 +637,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 { isBootstrap, isTailWind, isMaterialUI },
                 `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
             );
-            if (!isBackEnd) {
+            if (!isBackEnd || (isBackEnd && !dbName)) {
                 handleRenderEJS(
                     `${currentPath}/StateManagement/reduxTemplates/userform/Adduser.js`,
                     {
@@ -649,7 +649,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                     `${frontEnd.path}/src/screens/Users/AddUser.js`
                 );
             }
-            if (isBackEnd) {
+            if (isBackEnd && dbName) {
                 handleRenderEJS(
                     `${currentPath}/StateManagement/reduxTemplates/userform/AdduserForm.js`,
                     { isMaterialUI, isBootstrap, isTailWind },
