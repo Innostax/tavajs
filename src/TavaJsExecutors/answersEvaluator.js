@@ -86,13 +86,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         loggerServiceName,
         cssFrameworkChoice,
         store,
-        CRUD,
         dockerService,
-        reactNodeCrud,
-        vueNodeCrud,
         theme,
         projectDirectoryPath,
-        angularNodeCrud,
         networkInformer,
         cicdPipelineIntegrate,
         managerChoice,
@@ -102,11 +98,11 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     const CURR_DIR = projectDirectoryPath;
     const isStore = Boolean(store);
     const isThemeProvider = Boolean(theme == "light-dark-mode");
-    const isCrud = Boolean(CRUD);
+    // const isCrud = Boolean(CRUD);
     const isDocker = Boolean(dockerService);
-    const isCrudWithNode = Boolean(
-        reactNodeCrud || vueNodeCrud || angularNodeCrud
-    );
+    // const isCrudWithNode = Boolean(
+    //   angularNodeCrud
+    // );
     const isMaterialUI = cssFrameworkChoice === MATERIAL;
     const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
     const isTailWind = cssFrameworkChoice === TAILWIND;
@@ -231,8 +227,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isOkta,
             isCognito,
             isStore,
-            isCrudWithNode,
-            isCrud,
             frontEndName,
             backEndName,
             choice,
@@ -449,8 +443,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isOkta,
             isCognito,
             isStore,
-            isCrudWithNode,
-            isCrud,
             frontEndName,
             backEndName,
             choice,
@@ -720,7 +712,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             const res = getFilePaths(NGRX_FILE_PATH, currentPath, frontEnd.path);
             paths = [...paths, ...res];
 
-            if (isStore && !dbName) { //  isCrud----------------------------------
+            if (isStore && !dbName) {
                 const res = getFilePaths(
                     NGRX_CRUD_FILE_PATH,
                     currentPath,
