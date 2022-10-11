@@ -1,6 +1,6 @@
 const DEPENDENCIES = {
     REACTCSS: {
-        "bootsrap": [
+        "bootstrap": [
             { name: "bootstrap", version: "^4.6.0" },
             { name: "react-bootstrap", version: "^1.6.6" },
             { name: "react-datepicker", version: "^4.2.1" },

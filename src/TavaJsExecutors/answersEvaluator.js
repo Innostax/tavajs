@@ -294,15 +294,14 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             paths = [...paths, ...res];
         }
 
-        // <----------------------------------- Network Informer + React ------------------------------------------------>
+        // <----------------------------------- Network Informer ------------------------------------------------>
         if (isNetworkInformer) {
             const Files = {
-                REACT: REACT_NETWORKSTATUS_FILE_PATH,
-                ANGULAR:  ANGULAR_THEME_FILE_PATH,
-                VUE: VUE_NETWORKSTATUS_FILE_PATH
+                [REACT]: REACT_NETWORKSTATUS_FILE_PATH,
+                [VUE]: VUE_NETWORKSTATUS_FILE_PATH
             }
             const res = getFilePaths(
-                Files.frontEndChoice,
+                Files[frontEndChoice],
                 currentPath,
                 frontEnd.path
             );
@@ -320,8 +319,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
 
                 scripts = [...scripts, ...SCRIPTS.CYPRESS];
             }
-
-            if (isJest) {
+            if (isJest && isFrontEndChoiceVue) {
+                const res = getFilePaths(JEST_FILE_PATH, currentPath, frontEnd.path);
+                paths = [...paths, ...res];
                 handleRenderEJS(
                     `${currentPath}/Frameworks/TestCasesFrameworks/JestTests/TestScripts/app.spec.js`,
                     { frontEndChoice },
@@ -329,11 +329,16 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 );
                 devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST[frontEndChoice]];
                 scripts = [...scripts, ...SCRIPTS.JEST[frontEndChoice]];
+            }
+            if (isJest && isFrontEndChoiceReact) {
+                handleRenderEJS(
+                    `${currentPath}/Frameworks/TestCasesFrameworks/JestTests/TestScripts/app.spec.js`,
+                    { frontEndChoice },
+                    `${frontEnd.path}/src/__tests__/app.spec.js`
+                );
+                devDependencies = [...devDependencies, ...DEV_DEPENDENCIES.JEST[frontEndChoice]];
 
-                if (isFrontEndChoiceVue) {
-                    const res = getFilePaths(JEST_FILE_PATH, currentPath, frontEnd.path);
-                    paths = [...paths, ...res];
-                }
+                scripts = [...scripts, ...SCRIPTS.JEST[frontEndChoice]];
             }
 
             if (isMocha && isFrontEndChoiceVue) {
@@ -362,7 +367,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
 
     // <------------------ CI CD Pipeline ----------------------------------->
     if (isCICDPipelineIntegrate) {
-        const ymlFile = { ANGULAR : "angular-build.yml", VUE : "vue-build.yml", REACT: "react-build.yml"}
+        const ymlFile = { [ANGULAR] : "angular-build.yml", [VUE] : "vue-build.yml", [REACT]: "react-build.yml"}
         handleRenderEJS(
             `${currentPath}/Providers/CICDWorkflow/${ymlFile[frontEndChoice]}`,
             { isCICDPipelineIntegrate },
@@ -526,7 +531,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         const dockerPath = path.join(currentPath, "Services/DockerServices");
         let res = [];
 
-        const dockerFiles = { REACT: REACT_DOCKER_FILE_PATH, ANGULAR: ANGULAR_DOCKER_FILE_PATH, VUE: VUE_DOCKER_FILE_PATH }
+        const dockerFiles = { [REACT]: REACT_DOCKER_FILE_PATH, [ANGULAR]: ANGULAR_DOCKER_FILE_PATH, [VUE]: VUE_DOCKER_FILE_PATH }
         res = getFilePaths(dockerFiles[frontEndChoice], dockerPath, frontEnd.path);
         paths = [...paths, ...res];
 
