@@ -405,15 +405,17 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             );
         }
         if (isFrontEndChoiceVue) {
+            let isBackEndDirectory = false
             handleRenderEJS(
-                `${currentPath}/Providers/CICDWorkflow/vue/frontend-build.yml`,
-                { isCICDPipelineIntegrate },
+                `${currentPath}/Providers/CICDWorkflow/vue-build.yml`,
+                { isCICDPipelineIntegrate, isBackEndDirectory },
                 `${frontEnd.path}/.github/workflows/build.yml`
             );
             if (isBackEnd) {
+                isBackEndDirectory = true
                 handleRenderEJS(
-                    `${currentPath}/Providers/CICDWorkflow/vue/backend-build.yml`,
-                    { isCICDPipelineIntegrate },
+                    `${currentPath}/Providers/CICDWorkflow/vue-build.yml`,
+                    { isCICDPipelineIntegrate, isBackEndDirectory },
                     `${backEnd.path}/.github/workflows/build.yml`
                 );
             }
