@@ -720,7 +720,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             const res = getFilePaths(NGRX_FILE_PATH, currentPath, frontEnd.path);
             paths = [...paths, ...res];
 
-            if (isCrud) {
+            if (isStore && !dbName) { //  isCrud----------------------------------
                 const res = getFilePaths(
                     NGRX_CRUD_FILE_PATH,
                     currentPath,
@@ -734,7 +734,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 );
                 handleRenderEJS(
                     `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-                    { isCrud, isCrudWithNode },
+                    { isStore, isBackEnd, dbName },
                     `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
                 );
             }
@@ -742,7 +742,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     }
 
     // <-------------- For angular node crud ------------------->
-    if (isFrontEndChoiceAngular && isCrudWithNode) {
+    if (isFrontEndChoiceAngular && isBackEnd && dbName) {
         const res = getFilePaths(
             ANGULAR_CRUD_NODE_FILE_PATH,
             currentPath,
@@ -756,7 +756,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         );
         handleRenderEJS(
             `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-            { isCrud, isCrudWithNode },
+            { isStore, isBackEnd, dbName },
             `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
         );
         handleRenderEJS(

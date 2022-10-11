@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-<% if(isCrud || isCrudWithNode){%>import { UserActionsModalComponent } from './components/user-actions-modal/user-actions-modal.component';<%}%>
+<% if(isStore || dbName){%>import { UserActionsModalComponent } from './components/user-actions-modal/user-actions-modal.component';<%}%>
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 <% if(isStore){%>import { StoreModule } from '@ngrx/store';
 import { reducer, userFeatureKey } from '../utils/store/reducer/user.reducer';<%}%>
@@ -10,12 +10,12 @@ import { DatepickerComponent } from './components/atoms/datepicker/datepicker.co
 import { LabelComponent } from './components/atoms/label/label.component';
 import { TableComponent } from './components/molecules/table/table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-<% if(isCrudWithNode){%>import { ApiService } from './services/services';<%}%>
+<% if(dbName){%>import { ApiService } from './services/services';<%}%>
 <% if(isMaterialUI){%>import { MaterialModule } from './custom-materialui.module';<%}%>
 
 @NgModule({
   declarations: [
-    <% if(isCrud || isCrudWithNode){%> UserActionsModalComponent, <%}%>
+    <% if(isStore || dbName){%> UserActionsModalComponent, <%}%>
     ButtonComponent,
     InputComponent,
     DatepickerComponent,
@@ -33,7 +33,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   exports: [
     FormsModule,
     ReactiveFormsModule,
-    <% if(isCrud || isCrudWithNode){%>UserActionsModalComponent,<%}%>
+    <% if(isStore || dbName){%>UserActionsModalComponent,<%}%>
     ButtonComponent, 
     TableComponent, 
     InputComponent, 
@@ -41,6 +41,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LabelComponent,
     <% if(isMaterialUI){%>MaterialModule,<%}%>
   ],
-  <% if(isCrudWithNode){%> providers:[ApiService] <%}%>
+  <% if(dbName){%> providers:[ApiService] <%}%>
 })
 export class SharedModule { }
