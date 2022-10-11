@@ -80,10 +80,13 @@
       <h2 class="text-3xl font-bold text-gray-900 label-white">
         {{ userActionLabel + ' User' }}
       </h2>
-      <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+      <app-button [type]="'button'" 
+        (click)="closeModalRef()" 
+        [class]="'text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white'" 
+        data-modal-toggle="defaultModal">
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         <span class="sr-only">Close modal</span>
-      </button>
+      </app-button>
     </div>
     <div>
       <form [formGroup]="createUserForm">
@@ -140,10 +143,13 @@
         <h3 class="text-3xl font-bold text-gray-900 dark:text-white label-white">
           Delete User?
         </h3>
-        <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+        <app-button [type]="'button'" 
+          (click)="closeModalRef()" 
+          [class]="'text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white'" 
+          data-modal-toggle="defaultModal">
           <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
           <span class="sr-only">Close modal</span>
-        </button>
+      </app-button>
       </div>
     </div>
     <div>
@@ -163,23 +169,13 @@
             <div style="float: left; font-size: 27px;">
               {{ userActionLabel + ' User' }}
             </div>
-            <button
-              type="button"
-              (click)="closeModalRef()"
-              class="add-closebutton"
+            <app-button [type]="'button'" 
+              (click)="closeModalRef()" 
+              [class]="'add-closebutton'" 
               data-modal-toggle="defaultModal">
-              <svg
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"></path>
-              </svg>
-              <span class="sr-only"></span>
-            </button>
+              <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <span class="sr-only">Close modal</span>
+            </app-button>
           </div>
           <div>
             <form class="" [formGroup]="createUserForm">
@@ -240,24 +236,15 @@
             <div style="font-weight: 400px; float: left; margin-left: 0px; font-size: 27px;">
               Delete User?
             </div>
-            <button
-              style="float: right; padding: 0"
-              type="button"
-              (click)="closeModalRef()"
-              class="closebutton"
-              data-modal-toggle="defaultModal">
-              <svg
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"></path>
-              </svg>
-              <span class="sr-only"></span>
-            </button>
+            <div style="float: right; padding: 0" >
+              <app-button [type]="'button'" 
+                (click)="closeModalRef()" 
+                [class]="'closebutton'" 
+                data-modal-toggle="defaultModal">
+                <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only"></span>
+              </app-button>
+            </div>
           </div>
         </div>
         <div class="delete-body">
