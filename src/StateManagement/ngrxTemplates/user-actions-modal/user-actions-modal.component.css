@@ -18,8 +18,7 @@ app-label {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
 }
-
-.add-modalhead button {
+.add-closebutton, .delete-closebutton {
   float: right;
   border: none;
   height: 20px;
@@ -64,23 +63,6 @@ app-label {
   height: 20px;
 }
 
-.deleteheader button {
-  border: none;
-  background-color: transparent;
-}
 .delete-body {
   height: 90px;
 }
-.closebutton {
-  border-radius: 5px;
-  height: 20px;
-  width: 20px;
-  padding: 0;
-  margin: 0;
-}
-.closebutton svg {
-  left: 0;
-  top: 0;
-  margin: 0;
-}
-
