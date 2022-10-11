@@ -406,10 +406,17 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         }
         if (isFrontEndChoiceVue) {
             handleRenderEJS(
-                `${currentPath}/Providers/CICDWorkflow/vue-build.yml`,
-                { isCICDPipelineIntegrate },
+                `${currentPath}/Providers/CICDWorkflow/vue/frontend-build.yml`,
+                { isCICDPipelineIntegrate},
                 `${frontEnd.path}/.github/workflows/build.yml`
             );
+            if (isBackEnd) {
+                handleRenderEJS(
+                    `${currentPath}/Providers/CICDWorkflow/vue/backend-build.yml`,
+                    { isCICDPipelineIntegrate},
+                    `${backEnd.path}/.github/workflows/build.yml`
+                );
+            }
         }
         if (isFrontEndChoiceReact) {
             handleRenderEJS(
