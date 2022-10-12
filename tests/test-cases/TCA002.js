@@ -5,8 +5,6 @@ const { getProjectDetails } = require("../../src/utils/getProjectDetails");
 const projectExecutionCommands = require("../../src/utils/projectExecutionCommands");
 const { handleAnswersEvaluator } = require("../../src/TavaJsExecutors/answersEvaluator");
 
-// async function TCA002() {
-
 const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
 const { echos, removeProject } = require("../helpers");
 
@@ -31,7 +29,6 @@ describe("Verify working of ANSWERS.TCA002 evaluator method.", async () => {
   it("Should verify 'Integrating CSS Framework: tailwind", async () => {
     expect(echos[1]).to.include(EXPECTED_RESULT.css.tailwind);
   });
-
   it("Should verify 'Integrating Authentication service: Cognito'", async () => {
     expect(echos[2]).to.include(EXPECTED_RESULT.authentication.cognito);
   });
@@ -56,6 +53,4 @@ describe("Verify working of ANSWERS.TCA002 evaluator method.", async () => {
 });
 
 removeProject(projectName);
-// }
 
-// module.exports = {TCA002 };
