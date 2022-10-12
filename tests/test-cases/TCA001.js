@@ -5,23 +5,25 @@ const { getProjectDetails } = require("../../src/utils/getProjectDetails");
 const projectExecutionCommands = require("../../src/utils/projectExecutionCommands");
 const { handleAnswersEvaluator } = require("../../src/TavaJsExecutors/answersEvaluator");
 
+// async function TCA001() {
+
 const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
 const { echos, removeProject } = require("../helpers");
 
 // Before to run the test cases:
-const { projectName, projectDirectoryPath } = ANSWERS.TC0009;
+const { projectName, projectDirectoryPath } = ANSWERS.TCA001;
 
 const CURR_DIR = projectDirectoryPath;
 
 const { frontEnd, backEnd } = getProjectDetails(
   `${CURR_DIR}/${projectName}`,
-  ANSWERS.TC0009
+  ANSWERS.TCA001
 );
 
-describe("Verify working of ANSWERS.TC0009 evaluator method.", async () => {
-  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0009);
-  await projectInfo(frontEnd, backEnd, ANSWERS.TC0009);
-  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0009);
+describe("Verify working of ANSWERS.TCA001 evaluator method.", async () => {
+  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TCA001);
+  await projectInfo(frontEnd, backEnd, ANSWERS.TCA001);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TCA001);
   // console.log("echos",echos)
 
   it("Should verify 'Creating angular project'", async () => {
@@ -63,3 +65,6 @@ describe("Verify working of ANSWERS.TC0009 evaluator method.", async () => {
 });
 
 removeProject(projectName);
+// }
+
+// module.exports = { TCA001 };

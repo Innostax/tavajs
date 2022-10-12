@@ -9,19 +9,19 @@ const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
 const { echos, removeProject } = require("../helpers");
 
 // Before to run the test cases:
-const { projectName, projectDirectoryPath } = ANSWERS.TC00014;
+const { projectName, projectDirectoryPath } = ANSWERS.TCR003;
 
 const CURR_DIR = projectDirectoryPath;
 
 const { frontEnd, backEnd } = getProjectDetails(
   `${CURR_DIR}/${projectName}`,
-  ANSWERS.TC00014
+  ANSWERS.TCR003
 );
 
-describe("Verify working of ANSWERS.TC00014 evaluator method.", async () => {
-  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC00014);
-  await projectInfo(frontEnd, backEnd, ANSWERS.TC00014);
-  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC00014);
+describe("Verify working of ANSWERS.TCR003 evaluator method.", async () => {
+  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TCR003);
+  await projectInfo(frontEnd, backEnd, ANSWERS.TCR003);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TCR003);
 
   it("Should verify 'Creating react project'", async () => {
     expect(echos[0]).to.include(EXPECTED_RESULT.frontend.react);
