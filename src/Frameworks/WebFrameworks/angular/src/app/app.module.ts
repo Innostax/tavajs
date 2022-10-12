@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 <% if(isStore){%>import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';<%}%>
-<% if(isCrudWithNode){%>import { HttpClientModule } from '@angular/common/http';<%}%>
+<% if(dbName){%>import { HttpClientModule } from '@angular/common/http';<%}%>
 <% if (isOkta) { %>import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';<% } %>
 <% if(isAuth0){ %>import { AuthModule } from '@auth0/auth0-angular'; <% } %>
@@ -42,7 +42,7 @@ Amplify.configure(environment.cognito);
     !environment.production ? StoreDevtoolsModule.instrument() : [],<%}%>
     SharedModule,
     PagesModule,
-    <% if(isCrudWithNode){%>HttpClientModule,<%}%>
+    <% if(dbName){%>HttpClientModule,<%}%>
     <% if (isOkta) { %>OktaAuthModule,<% } %>
     <% if(isAuth0) { %>AuthModule.forRoot({
       domain: environment.AUTH0_YOUR_DOMAIN,

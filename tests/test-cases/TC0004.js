@@ -1,6 +1,5 @@
 const fs = require("fs");
-const expect = require("chai").expect;
-require("mocha-sinon");
+const { expect } = require("chai");
 
 const projectInfo = require("../../src/utils/projectInfo");
 const projectSetUp = require("../../src/utils/projectSetUp");
@@ -36,19 +35,19 @@ describe("Verify working of ANSWERS.TC0004 evaluator method.", async () => {
     });
 
     it("Should verify 'Creating react project'", (done) => {
-        expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
+        expect(echos[0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
         done();
     });
     it("Should verify 'Integrating CSS Framework", (done) => {
-        expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[14][0]);
+        expect(echos[1]).to.equal(PROJECT_INFO_EXPECTED_DATA[14][0]);
         done();
     });
     it("Should verify 'Integrating theme", (done) => {
-        expect(echos[2][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[3][0]);
+        expect(echos[2]).to.equal(PROJECT_INFO_EXPECTED_DATA[3][0]);
         done();
     });
     it("Should verify 'Integrating Redux pattern'", (done) => {
-        expect(echos[3][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[4][0]);
+        expect(echos[3]).to.equal(PROJECT_INFO_EXPECTED_DATA[4][0]);
         done();
     });
 

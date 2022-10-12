@@ -86,13 +86,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         loggerServiceName,
         cssFrameworkChoice,
         store,
-        CRUD,
         dockerService,
-        reactNodeCrud,
-        vueNodeCrud,
         theme,
         projectDirectoryPath,
-        angularNodeCrud,
         networkInformer,
         cicdPipelineIntegrate,
         managerChoice,
@@ -102,11 +98,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     const PROJ_DIR = projectDirectoryPath;
     const isStore = Boolean(store);
     const isThemeProvider = Boolean(theme == "light-dark-mode");
-    const isCrud = Boolean(CRUD);
     const isDocker = Boolean(dockerService);
-    const isCrudWithNode = Boolean(
-        reactNodeCrud || vueNodeCrud || angularNodeCrud
-    );
     const isMaterialUI = cssFrameworkChoice === MATERIAL;
     const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
     const isTailWind = cssFrameworkChoice === TAILWIND;
@@ -182,7 +174,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 paths = [...paths, ...res];
             }
         }
-        // <------------------------- For End: CSS Framework dependency ---------------------------->
+        // <------------------------- For Frontend Framework  ---------------------------->
         const templatePath = path.join(
             currentPath,
             "Frameworks/WebFrameworks",
@@ -211,8 +203,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isOkta,
             isCognito,
             isStore,
-            isCrudWithNode,
-            isCrud,
             frontEndName,
             backEndName,
             choice,
@@ -404,8 +394,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isOkta,
             isCognito,
             isStore,
-            isCrudWithNode,
-            isCrud,
             frontEndName,
             backEndName,
             choice,
@@ -570,7 +558,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
 
             handleRenderEJS(
                 `${currentPath}/StateManagement/reduxTemplates/demoUser/users.actions.js`,
-                { defaultRoute },
+                { defaultRoute, dbName },
                 `${frontEnd.path}/src/screens/Users/users.actions.js`
             );
             handleRenderEJS(
@@ -579,32 +567,11 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
             );
             handleRenderEJS(
-                `${currentPath}/StateManagement/reduxTemplates/userform/${isBackEnd ? "AdduserForm.js" : "Adduser.js"}`,
+                `${currentPath}/StateManagement/reduxTemplates/userform/${(isBackEnd && dbName)? "AdduserForm.js" : "Adduser.js"}`,
                 { isMaterialUI, isBootstrap, isTailWind, isBackEnd },
                 `${frontEnd.path}/src/screens/Users/AddUser.js`
             );
         }
-
-        // <---------------------------------MaterialUI Dark Theme----------------------->
-
-        if (isThemeProvider && isFrontEndChoiceReact) {
-            handleRenderEJS(
-                `${currentPath}/Frameworks/WebFrameworks/react/src/App.js`,
-                {
-                    isMaterialUI,
-                    isBootstrap,
-                    isTailWind,
-                    isBackEnd,
-                    isAuth0,
-                    isThemeProvider,
-                    isOkta,
-                    isCognito,
-                    isNetworkInformer,
-                },
-                `${frontEnd.path}/src/App.js`
-            );
-        }
-
         // <--------------------------------- Vuex ---------------------------->
         if (isFrontEndChoiceVue) {
             let res = getFilePaths(VUEX_FILE_PATH, currentPath, frontEnd.path);
@@ -647,7 +614,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             const res = getFilePaths(NGRX_FILE_PATH, currentPath, frontEnd.path);
             paths = [...paths, ...res];
 
-            if (isCrud) {
+            if (isStore && !dbName) {
                 const res = getFilePaths(
                     NGRX_CRUD_FILE_PATH,
                     currentPath,
@@ -661,7 +628,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 );
                 handleRenderEJS(
                     `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-                    { isCrud, isCrudWithNode },
+                    { isStore, isBackEnd, dbName },
                     `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
                 );
             }
@@ -669,7 +636,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     }
 
     // <-------------- For angular node crud ------------------->
-    if (isFrontEndChoiceAngular && isCrudWithNode) {
+    if (isFrontEndChoiceAngular && isBackEnd && dbName) {
         const res = getFilePaths(
             ANGULAR_CRUD_NODE_FILE_PATH,
             currentPath,
@@ -683,7 +650,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         );
         handleRenderEJS(
             `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-            { isCrud, isCrudWithNode },
+            { isStore, isBackEnd, dbName },
             `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
         );
         handleRenderEJS(
