@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-<% if(isStore){%>import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+<% if(isStore && !dbName ){%>import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { deleteUser } from 'src/app/utils/store/action/user.actions';
 import { userState } from 'src/app/utils/store/reducer/user.reducer';
 import { selectusers } from 'src/app/utils/store/selector/user.selectors';
 import { User } from 'src/app/utils/store/User';<%}%>
-<% if(isCrudWithNode){%>import {ApiService} from 'src/app/shared/services/services'<%}%>
-<% if(isCrud || isCrudWithNode){%>
+<% if(dbName){%>import {ApiService} from 'src/app/shared/services/services'<%}%>
+<% if(isStore || dbName){%>
 declare let $: any;
 const EDIT = 'edit';
 const DELETE = 'delete';
@@ -19,25 +19,25 @@ const DELETE = 'delete';
 })
 export class UsersComponent implements OnInit {
   <% if(isTailWind || isMaterialUI){%> showModal = false;<%}%>
-  <% if(isCrud || isCrudWithNode){%>
+  <% if(isStore || dbName){%>
   headers = ['name', 'username', 'email', 'actions'];
   shouldShowActions: boolean = true;
   data: any = {};
   deleteUserInfo: boolean = false;
   <%}%>
-  <% if(isCrudWithNode){%> users: any;<%}%>
-  <% if(isStore){%>
+  <% if(dbName){%> users: any;<%}%>
+  <% if(isStore && !dbName){%>
   users$: Observable<User[]>;
   <%}%>
-  constructor(<% if(isStore){%> private store: Store<userState>, private modalService: NgbModal, <%}%> <% if(isCrudWithNode){%> private apiService: ApiService <%}%>) {
-    <% if(isStore){%> this.users$ = this.store.pipe(select(selectusers)); <%}%>
+  constructor(<% if(isStore && !dbName){%> private store: Store<userState>, private modalService: NgbModal, <%}%> <% if(dbName){%> private apiService: ApiService <%}%>) {
+    <% if(isStore && !dbName){%> this.users$ = this.store.pipe(select(selectusers)); <%}%>
   }
 
   ngOnInit(): void {
-    <% if(isCrudWithNode){%>this.getUsers(); <%}%>
+    <% if(dbName){%>this.getUsers(); <%}%>
   }
 
-  <% if(isCrudWithNode){%>
+  <% if(dbName){%>
     getUsers() {
       this.apiService.getEmployees().subscribe(
         (res: any) =>
@@ -53,7 +53,7 @@ export class UsersComponent implements OnInit {
     }
   <%}%>
 
-  <% if(isCrud || isCrudWithNode){%>
+  <% if(isStore || dbName){%>
   onClickAddUser() {
     <% if(isBootstrap){%>$('#addUser_modal').modal('show');<%}%>
     <% if(isTailWind || isMaterialUI){%>this.showModal = true;<%}%>
@@ -81,8 +81,8 @@ export class UsersComponent implements OnInit {
   }
 
   performDeleteAction(data: any) {
-    <% if(isStore){%>this.store.dispatch(deleteUser({ id: data?.id }));<%}%>
-    <% if(isCrudWithNode){%>
+    <% if(isStore && !dbName ){%>this.store.dispatch(deleteUser({ id: data?.id }));<%}%>
+    <% if(dbName){%>
       this.apiService.deleteEmployee(data?.id).subscribe(() =>
         this.getUsers()
       )
