@@ -2,115 +2,93 @@ const chalk = require("chalk");
 const shell = require("shelljs");
 const projectDetails = require("../../package.json");
 
-const printMessage = (colorCode, message, answer) => {
-    shell.echo(
-        chalk.green.bold(
-            `   ${String.fromCodePoint(colorCode)} ${message}: ${answer}`
-        )
-    );
+const printMessage = (message, answer = "") => {
+  shell.echo(chalk.green.bold(answer ? `${message}: ${answer}` : `${message}`));
 };
 
 const projectInfo = async (frontEnd, backEnd, answers) => {
-    //<---------------------------- For frontEnd ---------------------------->
+  //<---------------------------- For frontEnd ---------------------------->
 
-    if (frontEnd) {
-        const { name, choice } = frontEnd;
+  if (frontEnd) {
+    const { name, choice } = frontEnd;
 
-        printMessage(
-            "0x1f4c2",
-            `Creating ${choice} project`,
-            `${name} using ${projectDetails.name} ${projectDetails.version}`
-        );
-
-        if (answers["cssFrameworkChoice"])
-            printMessage(
-                "0x231b",
-                "Integrating CSS Framework",
-                answers["cssFrameworkChoice"]
-            );
-
-        if (answers["testCaseFramework"])
-            printMessage(
-                "0x231b",
-                "Integrating Test Case framework",
-                answers["testCaseFramework"]
-            );
-
-        if (answers["theme"])
-            printMessage("0x231b", "Integrating Theme Provider", answers["theme"]);
-
-        if (answers["networkInformer"])
-            printMessage("0x231b", "Integrating Network Informer", "");
-
-        if (answers["authenticationChoice"])
-            printMessage(
-                "0x231b",
-                "Integrating Authentication service",
-                answers["authenticationChoice"]
-            );
-
-        if (choice === "react" && answers["store"])
-            printMessage("0x231b", "Integrating Redux pattern", "");
-
-        if (choice === "angular" && answers["store"])
-            printMessage("0x231b", "Integrating Ngrx pattern", "");
-
-        if (choice === "vue" && answers["store"])
-            printMessage("0x231b", "Integrating Vuex pattern", "");
-
-        if (answers["dockerService"] && !answers["dbName"])
-            printMessage("0x231b", "Integrating Docker Service", "");
-
-        if (answers["cicdPipelineIntegrate"])
-            printMessage(
-                "0x231b",
-                "Integrating CI/CD Pipeline",
-                answers["cicdPipelineIntegrate"]
-            );
-    }
-
-    //<---------------------------- For backEnd ---------------------------->
-
-    if (backEnd) {
-        const { name, choice } = backEnd;
-
-        printMessage(
-            "0x1f4c2",
-            `Creating ${choice} project`,
-            `${name} using ${projectDetails.name} ${projectDetails.version}`
-        );
-
-        if (answers["dbName"])
-            printMessage("0x231b", "Integrating Database service", answers["dbName"]);
-
-        if (answers["loggerServiceName"])
-            printMessage(
-                "0x231b",
-                "Integrating Logger service",
-                answers["loggerServiceName"]
-            );
-
-        if (answers["emailServiceName"])
-            printMessage(
-                "0x231b",
-                "Integrating Email service",
-                answers["emailServiceName"]
-            );
-
-        if (answers["blobServiceName"])
-            printMessage(
-                "0x231b",
-                "Integrating Blob service",
-                answers["blobServiceName"]
-            );
-
-        if (answers["dockerService"])
-            printMessage("0x231b", "Integrating Docker Service", "");
-    }
-
-    shell.echo(
-        chalk.green.bold(`${String.fromCodePoint(169)} Powered by Innostax`)
+    printMessage(
+      `📂 Creating ${choice} project`,
+      `${name} using ${projectDetails.name} ${projectDetails.version}`
     );
+
+    if (answers["cssFrameworkChoice"])
+      printMessage(
+        "  ⌛ Integrating CSS Framework",
+        answers["cssFrameworkChoice"]
+      );
+
+    if (answers["testCaseFramework"])
+      printMessage(
+        "  ⌛ Integrating Test Case framework",
+        answers["testCaseFramework"]
+      );
+
+    if (answers["theme"])
+      printMessage("  ⌛ Integrating Theme Provider", answers["theme"]);
+
+    if (answers["networkInformer"])
+      printMessage("  ⌛ Integrating Network Informer");
+
+    if (answers["authenticationChoice"])
+      printMessage(
+        "  ⌛ Integrating Authentication service",
+        answers["authenticationChoice"]
+      );
+
+    if (choice === "react" && answers["store"])
+      printMessage("  ⌛ Integrating Redux store");
+
+    if (choice === "angular" && answers["store"])
+      printMessage("  ⌛ Integrating Ngrx store");
+
+    if (choice === "vue" && answers["store"])
+      printMessage("  ⌛ Integrating Vuex store");
+
+    if (answers["dockerService"] && !answers["dbName"])
+      printMessage("  ⌛ Integrating Docker Service");
+
+    if (answers["cicdPipelineIntegrate"])
+      printMessage(
+        "  ⌛ Integrating CI/CD Pipeline",
+        answers["cicdPipelineIntegrate"]
+      );
+  }
+
+  //<---------------------------- For backEnd ---------------------------->
+
+  if (backEnd) {
+    const { name, choice } = backEnd;
+
+    printMessage(
+      `📂 Creating ${choice} project`,
+      `${name} using ${projectDetails.name} ${projectDetails.version}`
+    );
+
+    if (answers["dbName"])
+      printMessage("  ⌛ Integrating Database service", answers["dbName"]);
+
+    if (answers["loggerServiceName"])
+      printMessage(
+        "  ⌛ Integrating Logger service",
+        answers["loggerServiceName"]
+      );
+
+    if (answers["emailServiceName"])
+      printMessage("  ⌛ Integrating Email service", answers["emailServiceName"]);
+
+    if (answers["blobServiceName"])
+      printMessage("  ⌛ Integrating Blob service", answers["blobServiceName"]);
+
+    if (answers["dockerService"]) printMessage("  ⌛ Integrating Docker Service");
+  }
+
+  shell.echo(chalk.green.bold(`© Powered by Innostax`));
 };
 
 module.exports = projectInfo;

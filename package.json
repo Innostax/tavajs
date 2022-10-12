@@ -6,7 +6,7 @@
     "lint": "eslint .eslintrc.js",
     "lint:fix": "eslint --fix --ext .js .",
     "start": "node src/index.js",
-    "test": "mocha tests/test-cases/TC0001.js --timeout 300000"
+    "test": "mocha tests/test-cases/TC0008.js --timeout 300000"
   },
   "license": "MIT",
   "dependencies": {
@@ -20,7 +20,6 @@
     "fs-extra": "^10.0.0",
     "inquirer": "^8.1.2",
     "mocha": "^10.0.0",
-    "mocha-sinon": "^2.1.2",
     "nanospinner": "^1.1.0",
     "prettier": "^2.7.1",
     "shx": "^0.3.3",
@@ -33,12 +32,12 @@
     "generate-route": "src/Generators/RouteGenerator/generate-route.js"
   },
   "devDependencies": {
-    "chai": "^4.3.6",
     "@babel/core": "^7.19.3",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/eslint-plugin": "^7.19.1",
     "@babel/preset-react": "^7.18.6",
     "babel-eslint": "^10.1.0",
+    "chai": "^4.3.6",
     "eslint": "^8.24.0",
     "eslint-plugin-ejs": "^0.0.2",
     "eslint-plugin-ejs-js": "^0.1.0",
