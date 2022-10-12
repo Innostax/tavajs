@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { validateKebabCase } = require("../utils/validators");
-const { getCSSFrameworkChoices, getStoreQuestionMessage } = require("../utils/helper");
+const { getCSSFrameworkChoices, getStoreQuestionMessage, getTestFrameworkChoices } = require("../utils/helper");
 
 module.exports = [
     {
@@ -77,16 +77,7 @@ module.exports = [
         name: "testCaseFramework",
         type: "list",
         message: "Select the Test Case Framework",
-        choices: [
-            { name: "MochaJS", value: "mochaJS" },
-            { name: "Jest", value: "jest" },
-            { name: "Jasmine", value: "jasmine" },
-            // { name: "Karma", value: "karma" }, // Test Framework Runner
-            { name: "Puppeteer (Node Library)", value: "puppeteer" },
-            { name: "NightwatchJS", value: "nightwatchJS" },
-            { name: "Cypress", value: "cypress" },
-            { name: "None", value: false },
-        ],
+        choices: (answers) => getTestFrameworkChoices(answers.frontEndChoice),
         when: (answers) => answers.frontEnd,
     },
     {
