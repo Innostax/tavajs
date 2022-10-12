@@ -202,7 +202,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 dependencies = [...dependencies, ...DEPENDENCIES.BOOTSTRAPVUE];
             }
         }
-        // <------------------------- For End: CSS Framework dependency ---------------------------->
+        // <------------------------- For Frontend Framework  ---------------------------->
         const templatePath = path.join(
             currentPath,
             "Frameworks/WebFrameworks",
@@ -657,27 +657,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 );
             }
         }
-
-        // <---------------------------------MaterialUI Dark Theme----------------------->
-
-        if (isThemeProvider && isFrontEndChoiceReact) {
-            handleRenderEJS(
-                `${currentPath}/Frameworks/WebFrameworks/react/src/App.js`,
-                {
-                    isMaterialUI,
-                    isBootstrap,
-                    isTailWind,
-                    isBackEnd,
-                    isAuth0,
-                    isThemeProvider,
-                    isOkta,
-                    isCognito,
-                    isNetworkInformer,
-                },
-                `${frontEnd.path}/src/App.js`
-            );
-        }
-
         // <--------------------------------- Vuex ---------------------------->
         if (isFrontEndChoiceVue) {
             let res = getFilePaths(VUEX_FILE_PATH, currentPath, frontEnd.path);
