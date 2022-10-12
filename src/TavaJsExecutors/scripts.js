@@ -1,3 +1,5 @@
+const {FRAMEWORKS} = require("./constants");
+const {REACT, VUE } = FRAMEWORKS;
 const SCRIPTS = {
     CYPRESS: [
         {
@@ -6,13 +8,13 @@ const SCRIPTS = {
         },
     ],
     JEST: {
-        "vue": [
+        [VUE]: [
             {
                 name: "test",
                 command: "jest --silent",
             },
         ],
-        "react": [
+        [REACT]: [
             {
                 name: "test",
                 command: "react-app-rewired test --verbose",

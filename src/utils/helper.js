@@ -32,6 +32,7 @@ const {
 } = require("../TavaJsExecutors/constants");
 
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS;
+const {VUE,REACT} = FRAMEWORKS;
 // <-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
     templatePath,
@@ -539,9 +540,9 @@ const getCSSFrameworkChoices = (frontEndChoice) =>
 
 const getStoreQuestionMessage = (frontEndChoice) => {
     switch (frontEndChoice) {
-    case "vue":
+    case VUE:
         return "Do you want vuex integration?"
-    case "react":
+    case REACT:
         return "Do you want redux integration?"
     default:
         return "Do you want ngrx integration?";

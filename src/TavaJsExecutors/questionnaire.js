@@ -131,26 +131,6 @@ module.exports = [
         ],
         when: (answers) => answers.frontEndChoice,
     },
-    // {
-    //     name: "store",
-    //     type: "list",
-    //     message: "Do you want vuex integration?",
-    //     choices: [
-    //         { name: "yes", value: true },
-    //         { name: "no", value: false },
-    //     ],
-    //     when: (answers) => answers.frontEndChoice === "vue",
-    // },
-    // {
-    //     name: "store",
-    //     type: "list",
-    //     message: "Do you want ngrx integration?",
-    //     choices: [
-    //         { name: "yes", value: true },
-    //         { name: "no", value: false },
-    //     ],
-    //     when: (answers) => answers.frontEndChoice === "angular",
-    // },
     {
         name: "backEnd",
         type: "list",
