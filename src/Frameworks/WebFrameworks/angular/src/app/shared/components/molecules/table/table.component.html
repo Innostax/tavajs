@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let user of data">
-      <td *ngFor="let key of user | keyvalue:keepOriginalOrder <% if(isCrudWithNode || isCrud){%>| slice:1:4<%}%>">
+      <td *ngFor="let key of user | keyvalue:keepOriginalOrder <% if(dbName || isStore){%>| slice:1:4<%}%>">
         {{ key.value }}
       </td>
       <td *ngIf="shouldShowActions">
