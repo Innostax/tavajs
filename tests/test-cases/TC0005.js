@@ -1,10 +1,9 @@
 const fs = require("fs");
-const expect = require("chai").expect;
-require("mocha-sinon");
+const { expect } = require("chai");
 
 const projectInfo = require("../../src/utils/projectInfo");
 const { getProjectDetails } = require("../../src/utils/getProjectDetails");
-const { handleAnswersEvaluator } = require("../../src/answersEvaluator");
+const { handleAnswersEvaluator } = require("../../src/TavaJsExecutors/answersEvaluator");
 
 const { ANSWERS, PROJECT_INFO_EXPECTED_DATA } = require("../mockData");
 const { echos } = require("../helpers");
@@ -25,9 +24,9 @@ describe("Verify working of ANSWERS.TC0005 evaluator method.", async () => {
     await projectInfo(frontEnd, backEnd, ANSWERS.TC0005);
 
     it("Should verify 'Creating react project'", async () => {
-        expect(echos[0][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
+        expect(echos[0]).to.equal(PROJECT_INFO_EXPECTED_DATA[0][0]);
     });
     it("Should verify 'Integrating CSS Framework", async () => {
-        expect(echos[1][0]).to.equal(PROJECT_INFO_EXPECTED_DATA[15][0]);
+        expect(echos[1]).to.equal(PROJECT_INFO_EXPECTED_DATA[15][0]);
     });
 });

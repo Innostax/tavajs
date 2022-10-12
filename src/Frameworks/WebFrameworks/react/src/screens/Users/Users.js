@@ -3,7 +3,7 @@
 <% if( isTailWind) {%>import Button from '../../components/atoms/Button';<%}%>
 <% if( isMaterialUI) {%>import { Button,Box } from "@mui/material";<%}%>
 import { useSelector, useDispatch } from "react-redux";
-import { getUsers  <% if(isBackEnd) {%> ,deleteUsers<%}%>} from "./users.actions"
+import { getUsers  <% if(isBackEnd && dbName) {%> ,deleteUsers<%}%>} from "./users.actions"
 import { selectAllUsers } from "./users.selectors";
 import AddUser from './AddUser'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
@@ -12,7 +12,7 @@ import { actions } from './users.reducer';
 
 const {setSelectedUserModal,setSelectedUser} = actions
 
-<% if(!isBackEnd) {%>const {deleteUser} = actions<%}%>
+<% if(!isBackEnd || (isBackEnd && !dbName)) {%>const {deleteUser} = actions<%}%>
 let userToBeDeleted;
 <%}%>
 const Users = () => {
@@ -28,10 +28,10 @@ const Users = () => {
 	  const handleShow = () => setShow(true)
 
     const handleDelete = (id) => {
-      <% if(!isBackEnd) {%>
+      <% if(!isBackEnd || (isBackEnd && !dbName)) {%>
         dispatch(deleteUser({id}))
       <%}%>
-      <% if(isBackEnd) {%>
+      <% if(isBackEnd && dbName) {%>
         dispatch(deleteUsers({ id})).then(() => dispatch(getUsers()));
       <%}%>
     };

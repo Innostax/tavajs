@@ -71,9 +71,6 @@ body {
   background: var(--secondaryBackgroundColor);
   color: var(--headingTextColor);
 }
-.navbar {
-  border: 1px solid #434343 !important;
-}
 .navbar .btn-primary {
   border: none;
   margin-right: 2%;

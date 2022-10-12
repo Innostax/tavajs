@@ -1,13 +1,5 @@
 import { BASE_URL } from "./methods.constants";
 
-const requetMethods = {
-    get,
-    post,
-    put,
-    patch,
-    delete: deleteRequest,
-};
-
 const get = (url, requestWithConfig) => {
     return fetchApi(url, requestWithConfig);
 }
@@ -62,4 +54,12 @@ const withBaseUrl = (url) => {
     return `${BASE_URL}/${url}`;
 }
 
-export default requetMethods;
+const requestMethods = {
+    get,
+    post,
+    put,
+    patch,
+    delete: deleteRequest,
+};
+
+export default requestMethods;
