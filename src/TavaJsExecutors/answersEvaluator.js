@@ -86,13 +86,9 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         loggerServiceName,
         cssFrameworkChoice,
         store,
-        CRUD,
         dockerService,
-        reactNodeCrud,
-        vueNodeCrud,
         theme,
         projectDirectoryPath,
-        angularNodeCrud,
         networkInformer,
         cicdPipelineIntegrate,
         managerChoice,
@@ -102,11 +98,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     const CURR_DIR = projectDirectoryPath;
     const isStore = Boolean(store);
     const isThemeProvider = Boolean(theme == "light-dark-mode");
-    const isCrud = Boolean(CRUD);
     const isDocker = Boolean(dockerService);
-    const isCrudWithNode = Boolean(
-        reactNodeCrud || vueNodeCrud || angularNodeCrud
-    );
     const isMaterialUI = cssFrameworkChoice === MATERIAL;
     const isBootstrap = cssFrameworkChoice === BOOTSTRAP;
     const isTailWind = cssFrameworkChoice === TAILWIND;
@@ -231,8 +223,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isOkta,
             isCognito,
             isStore,
-            isCrudWithNode,
-            isCrud,
             frontEndName,
             backEndName,
             choice,
@@ -449,8 +439,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             isOkta,
             isCognito,
             isStore,
-            isCrudWithNode,
-            isCrud,
             frontEndName,
             backEndName,
             choice,
@@ -629,7 +617,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
 
             handleRenderEJS(
                 `${currentPath}/StateManagement/reduxTemplates/demoUser/users.actions.js`,
-                { defaultRoute },
+                { defaultRoute, dbName },
                 `${frontEnd.path}/src/screens/Users/users.actions.js`
             );
             handleRenderEJS(
@@ -637,7 +625,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 { isBootstrap, isTailWind, isMaterialUI },
                 `${frontEnd.path}/src/screens/Users/DeleteConfirmationModal.js`
             );
-            if (!isBackEnd) {
+            if (!isBackEnd || (isBackEnd && !dbName)) {
                 handleRenderEJS(
                     `${currentPath}/StateManagement/reduxTemplates/userform/Adduser.js`,
                     {
@@ -649,7 +637,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                     `${frontEnd.path}/src/screens/Users/AddUser.js`
                 );
             }
-            if (isBackEnd) {
+            if (isBackEnd && dbName) {
                 handleRenderEJS(
                     `${currentPath}/StateManagement/reduxTemplates/userform/AdduserForm.js`,
                     { isMaterialUI, isBootstrap, isTailWind },
@@ -699,7 +687,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             const res = getFilePaths(NGRX_FILE_PATH, currentPath, frontEnd.path);
             paths = [...paths, ...res];
 
-            if (isCrud) {
+            if (isStore && !dbName) {
                 const res = getFilePaths(
                     NGRX_CRUD_FILE_PATH,
                     currentPath,
@@ -713,7 +701,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 );
                 handleRenderEJS(
                     `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-                    { isCrud, isCrudWithNode },
+                    { isStore, isBackEnd, dbName },
                     `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
                 );
             }
@@ -721,7 +709,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
     }
 
     // <-------------- For angular node crud ------------------->
-    if (isFrontEndChoiceAngular && isCrudWithNode) {
+    if (isFrontEndChoiceAngular && isBackEnd && dbName) {
         const res = getFilePaths(
             ANGULAR_CRUD_NODE_FILE_PATH,
             currentPath,
@@ -735,7 +723,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         );
         handleRenderEJS(
             `${currentPath}/StateManagement/ngrxTemplates/user-actions-modal/user-actions-modal.component.ts`,
-            { isCrud, isCrudWithNode },
+            { isStore, isBackEnd, dbName },
             `${frontEnd.path}/src/app/shared/components/user-actions-modal/user-actions-modal.component.ts`
         );
         handleRenderEJS(

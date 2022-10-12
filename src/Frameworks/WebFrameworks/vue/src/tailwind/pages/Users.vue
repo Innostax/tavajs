@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3 class="text-4xl dark:text-white">Welcome to Users Screen</h3>
+    <% if(isStore) {%>
     <AddUser class="mt-4" />
     <br />
     <ShowUsers
@@ -15,9 +16,11 @@
       @close-delete-modal="shouldShowDeleteUserModal = false"
       :show="shouldShowDeleteUserModal"
     />
+    <%}%>
+
   </div>
 </template>
-
+<% if(isStore) {  %>
 <script>
 import AddUser from "../userModal/AddUser";
 import ShowUsers from "../userModal/ShowUsers";
@@ -54,6 +57,7 @@ export default {
   },
 };
 </script>
+<%}%>
 
 <style scope>
 #app {
