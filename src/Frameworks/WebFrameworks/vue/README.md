@@ -153,8 +153,9 @@ The command is defined in `package.json`, an example of which is below.
 ```
 <%}%>
 
-<div id='auth0'/>
+
 <% if(isAuth0) {%>
+<div id='auth0'/>
 ### Auth0 Authentication Service
 
 Auth0 is an easy to implement, adaptable authentication and authorization platform.
@@ -192,8 +193,9 @@ VUE_APP_AUTH0_DOMAIN=your Auth0 Domain
 You can create your Auth0 account at <a  href="https://auth0.com/signup">Auth0/sign-up</a>
 <%}%>
 
-<div id='cognito'/>
 <% if(isCognito) {%>
+<div id='cognito'/>
+
 ### Cognito Authentication Service
 
 Cognito is an easy to implement, adaptable authentication and authorization platform.
@@ -222,8 +224,9 @@ VUE_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
 You can create your aws account at <a  href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email">AWS/sign-up</a>
 <%}%>
 
-<div id='okta'/>
+
 <% if(isOkta) {%>
+<div id='okta'/>
 
 ### Okta Authentication Service
 
@@ -244,8 +247,8 @@ You can create your Okta account at <a  href="https://developer.okta.com/signup/
 
 <%}%>
 
-<div id='postgres'/>
 <% if(dbName === 'postgres') {%>
+<div id='postgres'/>
 
 ### Postgres Database Service
 
@@ -262,8 +265,8 @@ DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres
 Update `username` and `password` for `DATABASE_URL` environment variable.
 <%}%>
 
-<div id='mongoose'/>
 <% if(dbName === 'mongoose') {%>
+<div id='mongoose'/>
 
 ### Mongoose Database Service
 
@@ -280,8 +283,8 @@ DATABASE_URL=mongodb://localhost:27017/admin
 Update the `DATABASE_URL` environment variable.
 <%}%>
 
-<div id='mysql'/>
 <% if(dbName === 'mysql') {%>
+<div id='mysql'/>
 
 ### MYSQL Database Service
 
@@ -299,8 +302,8 @@ DATABASE_URL=mysql://username:password@localhost:3306/mydb
 Update `username` , `password` and `mydb` for `DATABASE_URL` environment variable as your username, password and database name.
 <%}%>
 
-<div  id='sentry'/>
 <% if(isSentry) {%>
+<div  id='sentry'/>
 
 ### Logger Service:
 
@@ -320,8 +323,8 @@ dsn: "Enter your Domain Source Name",
 
 <%}%>
 
-<div  id='winston'/>
 <% if(isWinston) {%>
+<div  id='winston'/>
 
 ### Logger Service:
 
@@ -337,9 +340,8 @@ For winston there are no credentials required as the log is created in a log fil
 ```
 <%}%>
 
-<div id='jest'/>
 <% if(isJest) {%>
-
+<div id='jest'/>
 ### Testing:
 
 ### JEST test framework
@@ -359,9 +361,8 @@ npm run test
 <%}%>
 <%}%>
 
-  
-<div id='cypress'/>
 <% if(isCypress) {%>
+<div id='cypress'/>
 
 ### Testing:
 
@@ -376,9 +377,9 @@ npx cypress open
 ```
 <%}%>
 
-  
-<div id='mocha'/>
 <% if(isMocha) {%>
+
+<div id='mocha'/>
 
 ### Testing:
 
@@ -397,9 +398,8 @@ npm run test
 <%}%>
 <%}%>
 
-  
-<div id='nightwatch'/>
 <% if(isNightWatch) {%>
+<div id='nightwatch'/>
 
 ### Testing:
 
@@ -420,9 +420,8 @@ npm run test
 <%}%>
 <%}%>
 
-  
-<div id='smtp'/>
 <% if(isSMTP) {%>
+<div id='smtp'/>
 
 ### Email Service:
 
@@ -444,8 +443,8 @@ Add recipient's email id in `recipients` object inside `mailObj` data property i
 
 <%}%>
 
-<div id='amazon-ses'/>
 <% if(isAmazonSes) {%>
+<div id='amazon-ses'/>
 
 ### Email Service:
 
@@ -477,9 +476,8 @@ text: "textMessage",
 <%}%>
 
 
-<div  id='azure'/>
-
 <% if(blobServiceName === 'azure') {%>
+<div  id='azure'/>
 
 ### Blob Service
 
@@ -510,10 +508,8 @@ AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 
 <%}%>
 
-<div  id='aws-s3'/>
-
 <% if(blobServiceName === 'aws-s3') {%>
-
+<div  id='aws-s3'/>
 ### Blob Service
 
 ### AWS-S3 blob service
@@ -545,8 +541,8 @@ AWS_REGION = Enter your Aws Region
 
 <%}%>
 
-<div id='themeService'/>
 <% if(isThemeProvider) {%>
+<div id='themeService'/>
 
 ### Light and dark mode
 
@@ -572,9 +568,9 @@ color: var(--headingTextColor);
 
 <%}%>
 
-<div  id='networkInformer'/>
 
 <% if(isNetworkInformer) {%>
+<div  id='networkInformer'/>
 
 ### Network Informer Service
 
@@ -582,10 +578,9 @@ Network informer displays network status on top of your app when you are offline
 
 <%}%>
 
-<div  id='docker'/>
-
 <% if(isDocker) {%>
 
+<div  id='docker'/>
   
 
 ### Docker Service
@@ -603,13 +598,9 @@ docker compose up
 
 <%}%>
 
-
-<div  id='aws'/>
-
-
 <% if(isCICDPipelineIntegrate === "aws") {%>
 
-  
+<div  id='aws'/>
 ### AWS CI/CD  Integration Service
 
 AWS CodePipeline is a fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates.
