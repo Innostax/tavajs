@@ -13,7 +13,7 @@ const NavBar = ({ brand, links <% if(isCognito){%>,signOut<%}%>}) => {
 	const [isExpanded, toggleExpansion] = useState(false)
 	return (
 		<Router>
-			<nav className='flex items-center container justify-between flex-wrap  p-6 mx-auto'>
+			<nav className='flex items-center container justify-between flex-wrap px-6 py-2 mx-auto'>
 				<span className='self-center text-xl font-bold whitespace-nowrap dark:text-white'>
 					{brand}
 				</span>
