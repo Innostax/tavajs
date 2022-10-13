@@ -24,10 +24,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    <% if(isCICDPipelineIntegrate == "aws"){%>
-    - uses: actions/checkout@v3
-      name: Checkout Repository
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
+    <% if(isCICDPipelineIntegrate == "aws"){%>
     - uses: aws-actions/configure-aws-credentials@v1
       with:
         # Enter Access key id as configured in AWS IAMROOT service
@@ -43,13 +43,27 @@ jobs:
         node-version: '16.14.x'
 
     - name: Run npm install
+      <% if(isNPM){%> 
       run: npm install
-
+      <%}%>
+      <% if(isYarn){%> 
+      run: yarn install
+      <%}%>
     - name: Run cli packages
+      <% if(isNPM){%>
       run: npm install -g @angular/cli
+      <%}%>
+      <% if(isYarn){%> 
+      run: yarn global add @angular/cli
+      <%}%>
 
     - name: Run Build
-      run: ng build
+      <% if(isNPM){%> 
+      run:  ng build  <%if(isBackEndDirectory){%>-if--present<%}%>
+      <%}%>
+      <% if(isYarn){%> 
+      run:  yarn run build
+      <%}%>
     <% if(isCICDPipelineIntegrate == "aws"){%>
     - name: Deploy to S3 bucket
       run: aws s3 sync ./dist s3://${{ env.S3_BUCKET }}/
