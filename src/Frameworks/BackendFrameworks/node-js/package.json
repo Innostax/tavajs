@@ -13,6 +13,7 @@
     "prettier-watch": "onchange \"**/*\" -- npx prettier --write {{changed}}",
     "eslint": "npx eslint",
     "eslint-watch": "onchange \"**/*.js\" -- npx eslint",
+    "build" :"echo \"There is no build command for backend\"",
     "ci": "yarn install --frozen-lockfile"
   },
   "author": "",
