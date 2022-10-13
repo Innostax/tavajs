@@ -76,13 +76,13 @@
   
   <% if(isTailWind){%>
   <div class="users-modal" *ngIf="!shouldDeleteUser" style="width: 30vw;">
-    <div class="flex mb-3 justify-between items-start rounded-t">
+    <div class="flex mb-3 justify-between">
       <h2 class="text-3xl font-bold text-gray-900 label-white">
         {{ userActionLabel + ' User' }}
       </h2>
       <span
         (click)="closeModalRef()"
-        class="add-closebutton"
+        class="add-closebutton hover: cursor-pointer"
         data-modal-toggle="defaultModal">
         <svg
           aria-hidden="true"
@@ -147,13 +147,13 @@
   
   <div class="users-modal" *ngIf="shouldDeleteUser" style="width: 30vw;">
     <div class="py-2">
-      <div class="flex justify-between items-start rounded-t">
+      <div class="flex justify-between">
         <h3 class="text-3xl font-bold text-gray-900 dark:text-white label-white">
           Delete User?
         </h3>
         <span
           (click)="closeModalRef()"
-          class="delete-closebutton"
+          class="delete-closebutton hover: cursor-pointer"
           data-modal-toggle="defaultModal">
           <svg
             aria-hidden="true"
@@ -173,7 +173,7 @@
       Are you sure you want to delete <strong>{{data?.name}}</strong>?
     </div>
     <div class="grid justify-items-end mt-3">
-      <app-button [name]="'Confirm'" [class]="'rounded-lg border-lg bg-red-500 text-white p-2'" (onClick)="deleteUserRef(data)"></app-button>
+      <app-button [name]="'Confirm'" [class]="'rounded-lg border-lg bg-red-500 hover:bg-red-600 text-white p-2'" (onClick)="deleteUserRef(data)"></app-button>
     </div>
   </div>
   <%}%>
