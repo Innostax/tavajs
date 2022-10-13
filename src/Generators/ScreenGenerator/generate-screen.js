@@ -25,13 +25,19 @@ inquirer.prompt(QUESTIONS).then((answers) => {
     const PROJ_DIR = answers.projectDirectoryPath ? answers.projectDirectoryPath : process.cwd();
     const screenName = answers["screen-name"];
     const package = JSON.parse(fs.readFileSync(`${PROJ_DIR}/package.json`, "utf-8"));
+    const dependencies = Object.keys(package.dependencies);
+    
+    isReact = dependencies.includes("react");
+    isAngular = dependencies.includes("@angular/core");
+    isVue = dependencies.includes("vue");
+    isBootstrap = dependencies.includes("bootstrap");
+    isTailwind = dependencies.includes("tailwindcss");
 
-    if (Object.keys(package.dependencies).includes("vue")) {
-
+    if (isVue) {
     //----------------------------- Add Screen -------------------------------->
         let content;
         const page = fsExtra.readFileSync(`${currentPath}/ScreenTemplates/vue/screen.vue`,"utf-8");
-        content = render(page, {screenName} ,content);
+        content = render(page, {screenName, isTailwind} ,content);
         fsExtra.ensureFileSync(`${PROJ_DIR}/src/pages/${screenName}.vue`);
         fsExtra.writeFileSync(`${PROJ_DIR}/src/pages/${screenName}.vue`,content);
         
@@ -58,13 +64,35 @@ inquirer.prompt(QUESTIONS).then((answers) => {
     
     //---------------------------- Add Navbar Item -------------------------------->
         let navbarFile = fsExtra.readFileSync(`${PROJ_DIR}/src/components/organisms/navbar.vue`,"utf-8");
-        navbarFile = navbarFile.replace("</b-navbar-nav>", `  <b-nav-item to="/${screenName.toLowerCase()}">${screenName}</b-nav-item> \n      </b-navbar-nav>`);
-    
-        fsExtra.writeFileSync(`${PROJ_DIR}/src/components/organisms/navbar.vue`,navbarFile);       
-        console.log(`New screen is ready for use by url /${screenName}`);
 
+        if (isBootstrap) {
+            navbarFile = navbarFile.replace("</b-navbar-nav>", `  <b-nav-item to="/${screenName.toLowerCase()}">${screenName}</b-nav-item> \n      </b-navbar-nav>`);
+        }
+        else if (isTailwind) {
+            const links = navbarFile.indexOf(`id="links"`);
+            const linksStart = navbarFile.lastIndexOf("<div", links);
+            const linksEnd = navbarFile.indexOf("</div>", links);
+            const linksEndPos = navbarFile.indexOf(">", linksEnd);
+
+            const allLinks = navbarFile.slice(linksStart,linksEndPos+1);
+            const anchorLink = 
+            `  <router-link
+            to="/${screenName.toLowerCase()}"
+            class="no-underline block mt-4 md:inline-block md:mt-0 text-gray-500 dark:hover:text-white hover:text-black mr-4"
+            >
+            ${screenName}
+            </router-link>`
+            const newLinks = allLinks.replace("</div>",anchorLink + "\n      </div>")
+            navbarFile = navbarFile.replace(allLinks,newLinks);
+        }
+        fsExtra.writeFileSync(`${PROJ_DIR}/src/components/organisms/navbar.vue`,navbarFile);       
+        shell.echo(
+            chalk.cyanBright.italic.bold(
+              `------------ New screen is ready for use at url /${screenName} -------------------`
+            )
+        );
     } 
-    else if (Object.keys(package.dependencies).includes("react")) {
+    else if (isReact) {
         fs.mkdirSync(`${PROJ_DIR}/src/screens/${screenName}`);
 
         const templatePath = path.join(`${currentPath}`, "ScreenTemplates/react");
@@ -124,9 +152,13 @@ inquirer.prompt(QUESTIONS).then((answers) => {
             });
         }
         createDirectoryContents(templatePath, screenName);
-        console.log(`New screen is ready for use at url /${screenName}`);
+        shell.echo(
+            chalk.cyanBright.italic.bold(
+              `------------ New screen is ready for use at url /${screenName} -------------------`
+            )
+        );
     }
-    else if (Object.keys(package.dependencies).includes("@angular/core")) {
+    else if (isAngular) {
         shell.cd(`${PROJ_DIR}/src/app/pages`);
         shell.exec(`ng generate component ${screenName}`)
 
@@ -143,8 +175,8 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
         // -------------------Add Route--------------------
 
-        const isOkta = Object.keys(package.dependencies).includes("@okta/okta-angular")
-        const isAuth = Object.keys(package.dependencies).includes("@auth0/auth0-angular")
+        const isOkta = dependencies.includes("@okta/okta-angular")
+        const isAuth = dependencies.includes("@auth0/auth0-angular")
 
         const routesArray = routeFile.indexOf("routes")
         const arrayStart = routeFile.indexOf("[",routesArray);
