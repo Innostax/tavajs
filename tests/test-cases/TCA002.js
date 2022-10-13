@@ -48,7 +48,7 @@ describe("Verify working of ANSWERS.TCA002 evaluator method.", async () => {
   it("Should verify 'Ready to go'", async () => {
     expect(echos[9]).to.include(EXPECTED_RESULT.ready);
   });
-});
 
-removeProject(projectName);
+  await removeProject(projectName);
+});
 
