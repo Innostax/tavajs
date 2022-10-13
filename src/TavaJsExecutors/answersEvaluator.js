@@ -156,7 +156,7 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             dependencies = [...dependencies, ...DEPENDENCIES.ANGULARCSS[cssFrameworkChoice]];
             if (isMaterialUI || isTailWind) {
                 const res = getFilePaths(
-                    isTailWind ? TAILWIND_ANGULAR_FILE_PATH : TAILWIND_ANGULAR_FILE_PATH,
+                    isTailWind ? TAILWIND_ANGULAR_FILE_PATH : ANGULAR_MATERIAL_FILE_PATH,
                     currentPath,
                     frontEnd.path
                 );
@@ -529,11 +529,29 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             const dockerFiles = { [REACT]: REACT_DOCKER_FILE_PATH, [ANGULAR]: ANGULAR_DOCKER_FILE_PATH, [VUE]: VUE_DOCKER_FILE_PATH }
             res = getFilePaths(dockerFiles[frontEndChoice], dockerPath, frontEnd.path);
             paths = [...paths, ...res];
+
+            handleRenderEJS(
+                `${dockerPath}/${frontEndChoice}-docker/Dockerfile`,
+                {
+                    isYarn,
+                    isNPM
+                },
+                `${frontEnd.path}/Dockerfile`
+            );
         }
         if (backEnd?.choice === NODE_JS) {
             res = getFilePaths(REACT_DOCKER_FILE_PATH, dockerPath, backEnd.path);
             paths = [...paths, ...res];
         }
+
+        handleRenderEJS(
+            `${dockerPath}/react-docker/Dockerfile`,
+            {
+                isYarn,
+                isNPM
+            },
+            `${backEnd.path}/Dockerfile`
+        );
 
         const dockerSrcPath = backEnd ? "db-docker-compose.yml" : "docker-compose.yml";
         const dockerDestPath = `${projectName}/docker-compose.yml`;

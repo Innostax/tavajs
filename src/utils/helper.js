@@ -315,10 +315,6 @@ const getFilePaths = (name, srcDir, destDir) => {
                 source: `${srcDir}/react-docker/.dockerignore`,
                 destination: `${destDir}/.dockerignore`,
             },
-            {
-                source: `${srcDir}/react-docker/Dockerfile`,
-                destination: `${destDir}/Dockerfile`,
-            },
         ];
     case ANGULAR_DOCKER_FILE_PATH:
         return [
@@ -326,20 +322,12 @@ const getFilePaths = (name, srcDir, destDir) => {
                 source: `${srcDir}/angular-docker/.dockerignore`,
                 destination: `${destDir}/.dockerignore`,
             },
-            {
-                source: `${srcDir}/angular-docker/Dockerfile`,
-                destination: `${destDir}/Dockerfile`,
-            },
         ];
     case VUE_DOCKER_FILE_PATH:
         return [
             {
                 source: `${srcDir}/vue-docker/.dockerignore`,
                 destination: `${destDir}/.dockerignore`,
-            },
-            {
-                source: `${srcDir}/vue-docker/Dockerfile`,
-                destination: `${destDir}/Dockerfile`,
             },
         ];
     case REDUX_FILE_PATH:
