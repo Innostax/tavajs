@@ -1,4 +1,4 @@
-const getProjectDetails = (currentDirectory, answers) => {
+const getProjectDetails = (projectDirectoryPath, answers) => {
     let details = {};
     if (answers.frontEnd) {
         details = {
@@ -6,8 +6,8 @@ const getProjectDetails = (currentDirectory, answers) => {
                 name: answers.frontEndName,
                 choice: answers.frontEndChoice,
                 path: answers.backEnd
-                    ? `${currentDirectory}/${answers.frontEndName}`
-                    : currentDirectory,
+                    ? `${projectDirectoryPath}/${answers.frontEndName}`
+                    : projectDirectoryPath,
             },
         };
     }
@@ -19,8 +19,8 @@ const getProjectDetails = (currentDirectory, answers) => {
                 name: answers.backEndName,
                 choice: answers.backEndChoice,
                 path: answers.frontEnd
-                    ? `${currentDirectory}/${answers.backEndName}`
-                    : currentDirectory,
+                    ? `${projectDirectoryPath}/${answers.backEndName}`
+                    : projectDirectoryPath,
             },
         };
     }
