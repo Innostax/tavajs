@@ -5,8 +5,9 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const path = require("path");
 const { render } = require("ejs");
-
+const shell = require("shelljs");
 const currentPath = path.join(__dirname);
+const chalk = require("chalk");
 
 const QUESTIONS = [
     {
@@ -125,8 +126,56 @@ inquirer.prompt(QUESTIONS).then((answers) => {
         createDirectoryContents(templatePath, screenName);
         console.log(`New screen is ready for use at url /${screenName}`);
     }
-    else if (Object.keys(package.dependencies).includes("@anngular/core")) {
-        //add angular code here
+    else if (Object.keys(package.dependencies).includes("@angular/core")) {
+        shell.cd(`${PROJ_DIR}/src/app/pages`);
+        shell.exec(`ng generate component ${screenName}`)
+
+        let newName = screenName.charAt(0).toUpperCase() + screenName.slice(1) + "Component";
+
+        // ---------------- Add Import --------------------
+
+        let routeFile = fsExtra.readFileSync(`${PROJ_DIR}/src/app/app-routing.module.ts`,"utf-8");
+        const firstImportStart = routeFile.indexOf("import");
+        const lastImportEnd =  routeFile.indexOf("\n",firstImportStart);
+        const lastImport = routeFile.slice(firstImportStart,lastImportEnd+1);
+        const newImport = lastImport +  `import {${newName}} from "./pages/${screenName.toLowerCase()}/${screenName.toLowerCase()}.component"; \n`;
+        routeFile  = routeFile.replace(lastImport, newImport)
+
+        // -------------------Add Route--------------------
+
+        const isOkta = Object.keys(package.dependencies).includes("@okta/okta-angular")
+        const isAuth = Object.keys(package.dependencies).includes("@auth0/auth0-angular")
+
+        const routesArray = routeFile.indexOf("routes")
+        const arrayStart = routeFile.indexOf("[",routesArray);
+        const arrayEnd = routeFile.indexOf("\n",arrayStart);
+        const routes = routeFile.slice(arrayStart,arrayEnd+1)
+
+        let newRoutes = "";
+        if(isOkta) newRoutes = routes + `  { path: '${screenName.toLowerCase()}', component: ${newName}, canActivate: [OktaAuthGuard] }, \n`
+        else if(isAuth) newRoutes = routes + `  { path: '${screenName.toLowerCase()}', component: ${newName}, canActivate: [AuthGuard] }, \n`
+        else newRoutes = routes + `  { path: '${screenName.toLowerCase()}', component: ${newName} }, \n` 
+        
+        routeFile = routeFile.replace(routes, newRoutes)
+        fsExtra.writeFileSync(`${PROJ_DIR}/src/app/app-routing.module.ts`,routeFile,"utf-8");
+
+        // ------------Add navbar Item------------------
+
+        let headerFile = fsExtra.readFileSync(`${PROJ_DIR}/src/app/pages/header/header.component.ts`,"utf-8");
+        const screensArray = headerFile.indexOf("screens")
+        const screensStart = headerFile.indexOf("[", screensArray);
+        const screensEnd = headerFile.indexOf("]", screensStart);
+    
+        const routes1 = headerFile.slice(screensStart,screensEnd+1)
+        const newScreens = routes1.replace("]",` ,"${screenName}"]`)
+        headerFile = headerFile.replace(routes1, newScreens)
+        fsExtra.writeFileSync(`${PROJ_DIR}/src/app/pages/header/header.component.ts`,headerFile,"utf-8");
+        shell.echo(
+            chalk.cyanBright.italic.bold(
+              `------------ New screen is ready for use at url /${screenName} -------------------`
+            )
+        );
+
     }
     else {
         console.log("Works with react, angular and vue project only");
