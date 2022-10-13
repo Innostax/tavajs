@@ -10,11 +10,11 @@ shell.echo = function () {
   echos.push(arguments[0]);
 };
 
-const removeProject = function (projectName){
-  CURR_DIR = process.cwd();
+const removeProject = async (projectName) => {
+  const projectDirectoryPath = process.cwd();
   setTimeout(()=> {
-    fsExtra.remove(`${CURR_DIR}/${projectName}`);
-  }, "300")
+    fsExtra.remove(`${projectDirectoryPath}/${projectName}`);
+  }, "3000")
 }
 
 module.exports = { defaultEcho, echos, echo: shell.echo, removeProject};

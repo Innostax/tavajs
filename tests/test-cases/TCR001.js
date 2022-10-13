@@ -9,23 +9,20 @@ const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
 const { echos, removeProject } = require("../helpers");
 
 // Before to run the test cases:
-const { projectName, projectDirectoryPath } = ANSWERS.TC0009;
-
-const CURR_DIR = projectDirectoryPath;
+const { projectName, projectDirectoryPath } = ANSWERS.TCR001;
 
 const { frontEnd, backEnd } = getProjectDetails(
-  `${CURR_DIR}/${projectName}`,
-  ANSWERS.TC0009
+  `${projectDirectoryPath}/${projectName}`,
+  ANSWERS.TCR001
 );
 
-describe("Verify working of ANSWERS.TC0009 evaluator method.", async () => {
-  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0009);
-  await projectInfo(frontEnd, backEnd, ANSWERS.TC0009);
-  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0009);
-  // console.log("echos",echos)
+describe("Verify working of ANSWERS.TCR001 evaluator method.", async () => {
+  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TCR001);
+  await projectInfo(frontEnd, backEnd, ANSWERS.TCR001);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TCR001);
 
-  it("Should verify 'Creating angular project'", async () => {
-    expect(echos[0]).to.include(EXPECTED_RESULT.frontend.angular);
+  it("Should verify 'Creating react project'", async () => {
+    expect(echos[0]).to.include(EXPECTED_RESULT.frontend.react);
   });
   it("Should verify 'Integrating CSS Framework: bootstrap", async () => {
     expect(echos[1]).to.include(EXPECTED_RESULT.css.bootstrap);
@@ -39,8 +36,8 @@ describe("Verify working of ANSWERS.TC0009 evaluator method.", async () => {
   it("Should verify 'Integrating Authentication service: Auth0'", async () => {
     expect(echos[4]).to.include(EXPECTED_RESULT.authentication.auth0);
   });
-  it("Should verify 'Integrating Vuex store'", async () => {
-    expect(echos[5]).to.include(EXPECTED_RESULT.store.ngrx);
+  it("Should verify 'Integrating Redux store'", async () => {
+    expect(echos[5]).to.include(EXPECTED_RESULT.store.redux);
   });
   it("Should verify 'Integrating Docker Service'", async () => {
     expect(echos[6]).to.include(EXPECTED_RESULT.docker);
@@ -60,6 +57,6 @@ describe("Verify working of ANSWERS.TC0009 evaluator method.", async () => {
   it("Should verify 'Ready to go'", async () => {
     expect(echos[13]).to.include(EXPECTED_RESULT.ready);
   });
-});
 
-removeProject(projectName);
+  await removeProject(projectName);
+});
