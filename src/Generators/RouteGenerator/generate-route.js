@@ -18,10 +18,10 @@ const QUESTIONS = [
     },
 ];
 inquirer.prompt(QUESTIONS).then((answers) => {
-    const CURR_DIR = answers.projectDirectoryPath || process.cwd();
+    const PROJ_DIR = answers.projectDirectoryPath || process.cwd();
     const newRouteName = answers.routeName;
 
-    const dbName = JSON.parse(fs.readFileSync(`${CURR_DIR}/package.json`));
+    const dbName = JSON.parse(fs.readFileSync(`${PROJ_DIR}/package.json`));
 
     if (
         Object.keys(dbName.dependencies).some((each) => each === "sequelize")
@@ -56,7 +56,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 // function createDirectoryContents(templatePath, newRouteName) {
 //     const filesToCreates = fs.readdirSync(templatePath);
 //     var data = fs
-//         .readFileSync(`${CURR_DIR}/routes/index.js`)
+//         .readFileSync(`${PROJ_DIR}/routes/index.js`)
 //         .toString()
 //         .split("\n");
 
@@ -72,12 +72,12 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 //         `const  ${newRouteName}= require("./${newRouteName}.routes");`
 //     );
 //     let text = data.join("\n");
-//     fs.writeFile(`${CURR_DIR}/Routes/index.js`, text, function (err) {
+//     fs.writeFile(`${PROJ_DIR}/Routes/index.js`, text, function (err) {
 //         if (err) return console.log(err);
 //     });
 
 //     var newData = fs
-//         .readFileSync(`${CURR_DIR}/sequelize.js`)
+//         .readFileSync(`${PROJ_DIR}/sequelize.js`)
 //         .toString()
 //         .split("\n");
 //     newData.splice(
@@ -96,7 +96,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 //         ` ${newRouteName},`
 //     );
 //     text = newData.join("\n");
-//     fs.writeFile(`${CURR_DIR}/sequelize.js`, text, function (err) {
+//     fs.writeFile(`${PROJ_DIR}/sequelize.js`, text, function (err) {
 //         if (err) return console.log(err);
 //     });
 
@@ -108,14 +108,14 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
 //             contents = render(contents, { routeName: newRouteName });
 //             const writePath = [
-//                 `${CURR_DIR}/Controllers/${file}`,
-//                 `${CURR_DIR}/Models/${file}`,
-//                 `${CURR_DIR}/Routes/${file}`,
+//                 `${PROJ_DIR}/Controllers/${file}`,
+//                 `${PROJ_DIR}/Models/${file}`,
+//                 `${PROJ_DIR}/Routes/${file}`,
 //             ];
 
 //             fs.writeFileSync(writePath[i], contents, "utf8");
 //             i++;
-//             renameFile(file, newRouteName, CURR_DIR);
+//             renameFile(file, newRouteName, PROJ_DIR);
 //         }
 //     });
 // }
@@ -124,7 +124,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 //     const filesToCreate = fs.readdirSync(templatePath);
 
 //     var data = fs
-//         .readFileSync(`${CURR_DIR}/Routes/index.js`)
+//         .readFileSync(`${PROJ_DIR}/Routes/index.js`)
 //         .toString()
 //         .split("\n");
 //     data.splice(
@@ -139,7 +139,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 //         `const  ${newRouteName}= require("./${newRouteName}.routes");`
 //     );
 //     let text = data.join("\n");
-//     fs.writeFile(`${CURR_DIR}/Routes/index.js`, text, function (err) {
+//     fs.writeFile(`${PROJ_DIR}/Routes/index.js`, text, function (err) {
 //         if (err) return console.log(err);
 //     });
 
@@ -151,14 +151,14 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
 //             contents = render(contents, { routeName: newRouteName });
 //             const writePath = [
-//                 `${CURR_DIR}/Controllers/${file}`,
-//                 `${CURR_DIR}/Models/${file}`,
-//                 `${CURR_DIR}/Routes/${file}`,
+//                 `${PROJ_DIR}/Controllers/${file}`,
+//                 `${PROJ_DIR}/Models/${file}`,
+//                 `${PROJ_DIR}/Routes/${file}`,
 //             ];
 
 //             fs.writeFileSync(writePath[i], contents, "utf8");
 //             i++;
-//             renameFile(file, newRouteName, CURR_DIR);
+//             renameFile(file, newRouteName, PROJ_DIR);
 //         }
 //     });
 // }

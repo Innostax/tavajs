@@ -32,6 +32,7 @@ const {
 } = require("../TavaJsExecutors/constants");
 
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS;
+const {VUE,REACT} = FRAMEWORKS;
 // <-----------------------To create Directory Contents------------------------------------>
 const createDirectoryContents = (
     templatePath,
@@ -531,6 +532,44 @@ const getCSSFrameworkChoices = (frontEndChoice) =>
             { name: "Tailwind", value: TAILWIND },
         ];
 
+const getStoreQuestionMessage = (frontEndChoice) => {
+    switch (frontEndChoice) {
+    case VUE:
+        return "Do you want vuex integration?"
+    case REACT:
+        return "Do you want redux integration?"
+    default:
+        return "Do you want ngrx integration?";
+    }
+}
+
+const getTestFrameworkChoices = (frontEndChoice) => {
+  switch (frontEndChoice) {
+    case VUE:
+      return [
+        { name: "MochaJS", value: "mochaJS" },
+        { name: "Jest", value: "jest" },
+        { name: "NightwatchJS", value: "nightwatchJS" },
+        { name: "Cypress", value: "cypress" },
+        { name: "None", value: false },
+      ];
+    case REACT:
+      return [
+        { name: "Jest", value: "jest" },
+        { name: "NightwatchJS", value: "nightwatchJS" },
+        { name: "Cypress", value: "cypress" },
+        { name: "None", value: false },
+      ];
+    default:
+      return [
+        { name: "Jasmine", value: "jasmine" },
+        { name: "NightwatchJS", value: "nightwatchJS" },
+        { name: "Cypress", value: "cypress" },
+        { name: "None", value: false },
+      ];
+  }
+};
+
 module.exports = {
     createDirectoryContents,
     updateProjectDependencies,
@@ -539,4 +578,6 @@ module.exports = {
     getFilePaths,
     handleRenderEJS,
     getCSSFrameworkChoices,
+    getStoreQuestionMessage,
+    getTestFrameworkChoices
 };

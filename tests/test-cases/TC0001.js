@@ -15,15 +15,15 @@ const { echos } = require("../helpers");
 // Before to run the test cases:
 const { projectName, projectDirectoryPath } = ANSWERS.TC0001;
 
-const CURR_DIR = projectDirectoryPath;
-fs.mkdir(`${CURR_DIR}/${projectName}`, (err) => {
+const PROJ_DIR = projectDirectoryPath;
+fs.mkdir(`${PROJ_DIR}/${projectName}`, (err) => {
   if (err) {
     console.error(err);
   }
 });
 
 const { frontEnd, backEnd } = getProjectDetails(
-  `${CURR_DIR}/${projectName}`,
+  `${PROJ_DIR}/${projectName}`,
   ANSWERS.TC0001
 );
 
@@ -114,7 +114,7 @@ describe("Verify working of ANSWERS.TC0001 evaluator method.", async () => {
   });
 
   after(async function () {
-    console.log("Project Path", `${CURR_DIR}/${projectName}`);
-    fs.rmSync(`${CURR_DIR}/${projectName}`, { recursive: true, force: true });
+    console.log("Project Path", `${PROJ_DIR}/${projectName}`);
+    fs.rmSync(`${PROJ_DIR}/${projectName}`, { recursive: true, force: true });
   });
 });

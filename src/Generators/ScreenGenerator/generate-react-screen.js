@@ -21,16 +21,16 @@ const QUESTIONS = [
 ];
 
 inquirer.prompt(QUESTIONS).then((answers) => {
-    const CURR_DIR = answers.projectDirectoryPath ? answers.projectDirectoryPath : process.cwd();
+    const PROJ_DIR = answers.projectDirectoryPath ? answers.projectDirectoryPath : process.cwd();
     const projectName = answers["project-name"];
-    fs.mkdirSync(`${CURR_DIR}/src/screens/${projectName}`);
+    fs.mkdirSync(`${PROJ_DIR}/src/screens/${projectName}`);
 
     const templatePath = path.join(`${currentPath}`, "screenTemplates");
 
     function createDirectoryContents(templatePath, projectName) {
         const filesToCreate = fs.readdirSync(templatePath);
 
-        const routePath = `${CURR_DIR}/src`;
+        const routePath = `${PROJ_DIR}/src`;
 
         const data = fs.readFileSync(`${routePath}/Routes.js`).toString().split("\n");
         data.splice(
@@ -52,14 +52,14 @@ inquirer.prompt(QUESTIONS).then((answers) => {
                 let contents = fs.readFileSync(origFilePath, "utf8");
                 contents = render(contents, { screenName: projectName });
 
-                const writePath = `${CURR_DIR}/src/screens/${projectName}/${file}`;
+                const writePath = `${PROJ_DIR}/src/screens/${projectName}/${file}`;
 
                 if (file.startsWith("screen")) {
                     const filesName = [".constant", "", ".utils"];
                     setTimeout(() => {
                         fs.rename(
-                            `${CURR_DIR}/src/screens/${projectName}/${file}`,
-                            `${CURR_DIR}/src/screens/${projectName}/${projectName}${
+                            `${PROJ_DIR}/src/screens/${projectName}/${file}`,
+                            `${PROJ_DIR}/src/screens/${projectName}/${projectName}${
                                 filesName[i - 1]
                             }.js`,
                             (error) => {
@@ -75,7 +75,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
                 fs.writeFileSync(writePath, contents, "utf8");
             } else if (stats.isDirectory()) {
-                fsExtra.ensureDirSync(`${CURR_DIR}/src/screens/${projectName}${file}`);
+                fsExtra.ensureDirSync(`${PROJ_DIR}/src/screens/${projectName}${file}`);
 
                 createDirectoryContents(`${templatePath}/${file}`, `${projectName}`);
             }
