@@ -93,7 +93,7 @@ const ANSWERS = {
   },
   TCV001: {
     //npm,vue,bootstrap,mocha,theme,networkInformer,auth0,store,docker,aws
-    projectName: "vue-project",
+    projectName: "vue-project-001",
     projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,
@@ -111,7 +111,7 @@ const ANSWERS = {
   },
   TCV002: {
     //yarn,vue,tailwind,jest,cognito,github
-    projectName: "vue-project",
+    projectName: "vue-project-002",
     projectDirectoryPath: process.cwd(),
     managerChoice: "yarn",
     frontEnd: true,
@@ -129,7 +129,7 @@ const ANSWERS = {
   },
   TCV003: {
     //npm,vue,bootstrap,nightwatch,okta,backend,mongoose,winston,smtp,azure
-    projectName: "vue-project",
+    projectName: "vue-project-003",
     projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,
@@ -154,7 +154,7 @@ const ANSWERS = {
   },
   TCA001: {
     //npm,angular,bootstrap,mocha,theme,networkInformer,auth0,store,docker,aws
-    projectName: "angular-project-test",
+    projectName: "angular-project-001",
     projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,
@@ -172,7 +172,7 @@ const ANSWERS = {
   },
   TCA002: {
     //yarn,angular,tailwind,jest,cognito,github
-    projectName: "angular-project",
+    projectName: "angular-project-002",
     projectDirectoryPath: process.cwd(),
     managerChoice: "yarn",
     frontEnd: true,
@@ -190,7 +190,7 @@ const ANSWERS = {
   },
   TCA003: {
     //npm,angular,material,nightwatch,okta,backend,mongoose,winston,smtp,azure
-    projectName: "angular-project",
+    projectName: "angular-project-003",
     projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,
@@ -215,7 +215,7 @@ const ANSWERS = {
   },
   TCR001: {
     //npm,react,bootstrap,mocha,theme,networkInformer,auth0,store,docker,aws
-    projectName: "react-project",
+    projectName: "react-project-001",
     projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,
@@ -233,7 +233,7 @@ const ANSWERS = {
   },
   TCR002: {
     //yarn,react,tailwind,jest,cognito,github
-    projectName: "react-project",
+    projectName: "react-project-002",
     projectDirectoryPath: process.cwd(),
     managerChoice: "yarn",
     frontEnd: true,
@@ -251,7 +251,7 @@ const ANSWERS = {
   },
   TCR003: {
     //npm,react,material,nightwatch,okta,backend,mongoose,winston,smtp,azure
-    projectName: "react-project",
+    projectName: "react-project-003",
     projectDirectoryPath: process.cwd(),
     managerChoice: "npm",
     frontEnd: true,

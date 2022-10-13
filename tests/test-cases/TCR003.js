@@ -11,10 +11,8 @@ const { echos, removeProject } = require("../helpers");
 // Before to run the test cases:
 const { projectName, projectDirectoryPath } = ANSWERS.TCR003;
 
-const CURR_DIR = projectDirectoryPath;
-
 const { frontEnd, backEnd } = getProjectDetails(
-  `${CURR_DIR}/${projectName}`,
+  `${projectDirectoryPath}/${projectName}`,
   ANSWERS.TCR003
 );
 

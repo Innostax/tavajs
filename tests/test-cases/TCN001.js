@@ -10,10 +10,8 @@ const { echos, removeProject } = require("../helpers");
 
 const { projectName, projectDirectoryPath } = ANSWERS.TCN001;
 
-const CURR_DIR = projectDirectoryPath;
-
 const { frontEnd, backEnd } = getProjectDetails(
-  `${CURR_DIR}/${projectName}`,
+  `${projectDirectoryPath}/${projectName}`,
   ANSWERS.TCN001
 );
 console.log("EXPECTED_RESULT.backend.node", EXPECTED_RESULT.backend.node)

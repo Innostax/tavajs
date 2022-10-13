@@ -6,11 +6,11 @@
     "lint": "eslint .eslintrc.js",
     "lint:fix": "eslint --fix --ext .js .",
     "start": "node src/index.js",
-    "angularTest": "mocha tests/test-cases/TCA001.js && mocha tests/test-cases/TCA002.js && mocha tests/test-cases/TCA003.js",
-    "reactTest": "mocha tests/test-cases/TCR001.js && mocha tests/test-cases/TCR002.js  && mocha tests/test-cases/TCR003.js",
-    "vueTest": "mocha tests/test-cases/TCV001.js && mocha tests/test-cases/TCV002.js && mocha tests/test-cases/TCV003.js",
-    "nodeTest": "mocha tests/test-cases/TCN001.js",
-    "test": "npm run angularTest && npm run reactTest && npm run vueTest && npm run nodeTest"
+    "angular-test": "mocha tests/test-cases/TCA001.js && mocha tests/test-cases/TCA002.js && mocha tests/test-cases/TCA003.js",
+    "react-test": "mocha tests/test-cases/TCR001.js && mocha tests/test-cases/TCR002.js  && mocha tests/test-cases/TCR003.js",
+    "vue-test": "mocha tests/test-cases/TCV001.js && mocha tests/test-cases/TCV002.js && mocha tests/test-cases/TCV003.js",
+    "node-test": "mocha tests/test-cases/TCN001.js",
+    "test": "npm run angular-test && npm run react-test && npm run vue-test && npm run node-test"
   },
   "license": "MIT",
   "dependencies": {

@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { validateKebabCase } = require("../utils/validators");
-const { getCSSFrameworkChoices } = require("../utils/helper");
+const { getCSSFrameworkChoices, getStoreQuestionMessage, getTestFrameworkChoices } = require("../utils/helper");
 
 module.exports = [
     {
@@ -69,7 +69,7 @@ module.exports = [
         validate(input) {
             const isValid = validateKebabCase(input);
             if (isValid) return true;
-            return "Frontend Project name should be in kebab-case. e.g. font-end-name";
+            return "Frontend Project name should be in kebab-case. e.g. front-end-name";
         },
         when: (answers) => answers.frontEnd,
     },
@@ -77,16 +77,7 @@ module.exports = [
         name: "testCaseFramework",
         type: "list",
         message: "Select the Test Case Framework",
-        choices: [
-            { name: "MochaJS", value: "mochaJS" },
-            { name: "Jest", value: "jest" },
-            { name: "Jasmine", value: "jasmine" },
-            // { name: "Karma", value: "karma" }, // Test Framework Runner
-            { name: "Puppeteer (Node Library)", value: "puppeteer" },
-            { name: "NightwatchJS", value: "nightwatchJS" },
-            { name: "Cypress", value: "cypress" },
-            { name: "None", value: false },
-        ],
+        choices: (answers) => getTestFrameworkChoices(answers.frontEndChoice),
         when: (answers) => answers.frontEnd,
     },
     {
@@ -124,32 +115,12 @@ module.exports = [
     {
         name: "store",
         type: "list",
-        message: "Do you want redux integration?",
+        message: (answers) => getStoreQuestionMessage(answers.frontEndChoice),
         choices: [
             { name: "yes", value: true },
             { name: "no", value: false },
         ],
-        when: (answers) => answers.frontEndChoice === "react",
-    },
-    {
-        name: "store",
-        type: "list",
-        message: "Do you want vuex integration?",
-        choices: [
-            { name: "yes", value: true },
-            { name: "no", value: false },
-        ],
-        when: (answers) => answers.frontEndChoice === "vue",
-    },
-    {
-        name: "store",
-        type: "list",
-        message: "Do you want ngrx integration?",
-        choices: [
-            { name: "yes", value: true },
-            { name: "no", value: false },
-        ],
-        when: (answers) => answers.frontEndChoice === "angular",
+        when: (answers) => answers.frontEndChoice,
     },
     {
         name: "backEnd",

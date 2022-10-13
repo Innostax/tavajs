@@ -11,9 +11,9 @@ shell.echo = function () {
 };
 
 const removeProject = function (projectName){
-  CURR_DIR = process.cwd();
+  const projectDirectoryPath = process.cwd();
   setTimeout(()=> {
-    fsExtra.remove(`${CURR_DIR}/${projectName}`);
+    fsExtra.remove(`${projectDirectoryPath}/${projectName}`);
   }, "300")
 }
 

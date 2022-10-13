@@ -1,3 +1,5 @@
+const {FRAMEWORKS} = require("./constants");
+const {REACT, VUE } = FRAMEWORKS;
 const SCRIPTS = {
     CYPRESS: [
         {
@@ -5,18 +7,20 @@ const SCRIPTS = {
             command: "npx cypress run",
         },
     ],
-    JEST_VUE: [
-        {
-            name: "test",
-            command: "jest --silent",
-        },
-    ],
-    JEST_REACT: [
-        {
-            name: "test",
-            command: "react-app-rewired test --verbose",
-        },
-    ],
+    JEST: {
+        [VUE]: [
+            {
+                name: "test",
+                command: "jest --silent",
+            },
+        ],
+        [REACT]: [
+            {
+                name: "test",
+                command: "react-app-rewired test --verbose",
+            },
+        ],
+    },
     MOCHA: [
         {
             name: "test",
