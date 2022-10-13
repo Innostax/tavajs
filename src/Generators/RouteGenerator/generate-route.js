@@ -165,13 +165,13 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 
 // Function to rename files of the route.
 
-// function renameFile(file, newRouteName, currentDirectory) {
+// function renameFile(file, newRouteName, projectDirectoryPath) {
 //     if (file.startsWith("route")) {
 //         // const fileName = [".controller", "", ".routes"];
 //         setTimeout(function name() {
 //             fs.rename(
-//                 `${currentDirectory}/Controllers/${file}`,
-//                 `${currentDirectory}/Controllers/${newRouteName}.controllers.js`,
+//                 `${projectDirectoryPath}/Controllers/${file}`,
+//                 `${projectDirectoryPath}/Controllers/${newRouteName}.controllers.js`,
 //                 (error) => {
 //                     if (error) {
 //                         // Show the error
@@ -181,8 +181,8 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 //                 }
 //             );
 //             fs.rename(
-//                 `${currentDirectory}/Routes/${file}`,
-//                 `${currentDirectory}/Routes/${newRouteName}.routes.js`,
+//                 `${projectDirectoryPath}/Routes/${file}`,
+//                 `${projectDirectoryPath}/Routes/${newRouteName}.routes.js`,
 //                 (error) => {
 //                     if (error) {
 //                         // Show the error
@@ -192,8 +192,8 @@ inquirer.prompt(QUESTIONS).then((answers) => {
 //                 }
 //             );
 //             fs.rename(
-//                 `${currentDirectory}/Models/${file}`,
-//                 `${currentDirectory}/Models/${newRouteName}.js`,
+//                 `${projectDirectoryPath}/Models/${file}`,
+//                 `${projectDirectoryPath}/Models/${newRouteName}.js`,
 //                 (error) => {
 //                     if (error) {
 //                         // Show the error

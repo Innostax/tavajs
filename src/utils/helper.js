@@ -57,7 +57,7 @@ const createDirectoryContents = (
     isMaterialUI,
     isBootstrap,
     isTailWind,
-    currentDirectory,
+    projectDirectoryPath,
     isJest,
     isCypress,
     isMocha,
@@ -70,7 +70,6 @@ const createDirectoryContents = (
     isNPM,
     isDocker
 ) => {
-    const CURR_DIR = currentDirectory;
     const filesToCreate = fs.readdirSync(templatePath);
     filesToCreate.forEach((file) => {
         if (file !== ".git") {
@@ -105,7 +104,7 @@ const createDirectoryContents = (
                     isMaterialUI,
                     isBootstrap,
                     isTailWind,
-                    currentDirectory,
+                    projectDirectoryPath,
                     isJest,
                     isCypress,
                     isMocha,
@@ -118,7 +117,7 @@ const createDirectoryContents = (
                     isNPM,
                     isDocker,
                 });
-                const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
+                const writePath = `${projectDirectoryPath}/${newProjectPath}/${file}`;
                 fs.writeFileSync(writePath, contents, "utf8");
             } else if (stats.isDirectory()) {
                 const isBootstrapFile = file === CSS_FRAMEWORKS.BOOTSTRAP;
@@ -140,7 +139,7 @@ const createDirectoryContents = (
                 ? `${newProjectPath}`
                 : `${newProjectPath}/${file}`;
 
-                    fsExtra.ensureDirSync(`${CURR_DIR}/${newUpadtedProjectPath}`);
+                    fsExtra.ensureDirSync(`${projectDirectoryPath}/${newUpadtedProjectPath}`);
                     createDirectoryContents(
                         `${templatePath}/${file}`,
                         `${newUpadtedProjectPath}`,
@@ -164,7 +163,7 @@ const createDirectoryContents = (
                         isMaterialUI,
                         isBootstrap,
                         isTailWind,
-                        currentDirectory,
+                        projectDirectoryPath,
                         isJest,
                         isCypress,
                         isMocha,

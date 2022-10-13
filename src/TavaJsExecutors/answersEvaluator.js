@@ -373,7 +373,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
             );
         } 
     }
-
     // <---------------------------- node-js ---------------------------------->
     if (backEnd) {
         const { choice, path: backEndPath } = backEnd;
@@ -499,7 +498,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         if (dbName) createDbConn(backEnd.path, dbName, defaultRoute, `${currentPath}`);
 
         // <---------------------------- For ENV file ---------------------------------->
-        if (!isDocker) {
             const envFilePath =
         frontEnd?.choice && backEnd?.choice
             ? `${backEnd.path}/.env`
@@ -520,7 +518,6 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
                 },
                 envFilePath
             );
-        }
     }
 
     // <---------------------------- For Docker integration ---------------------------------->
@@ -528,17 +525,18 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
         const dockerPath = path.join(currentPath, "Services/DockerServices");
         let res = [];
 
-        const dockerFiles = { [REACT]: REACT_DOCKER_FILE_PATH, [ANGULAR]: ANGULAR_DOCKER_FILE_PATH, [VUE]: VUE_DOCKER_FILE_PATH }
-        res = getFilePaths(dockerFiles[frontEndChoice], dockerPath, frontEnd.path);
-        paths = [...paths, ...res];
-
+        if (frontEnd) {
+            const dockerFiles = { [REACT]: REACT_DOCKER_FILE_PATH, [ANGULAR]: ANGULAR_DOCKER_FILE_PATH, [VUE]: VUE_DOCKER_FILE_PATH }
+            res = getFilePaths(dockerFiles[frontEndChoice], dockerPath, frontEnd.path);
+            paths = [...paths, ...res];
+        }
         if (backEnd?.choice === NODE_JS) {
             res = getFilePaths(REACT_DOCKER_FILE_PATH, dockerPath, backEnd.path);
             paths = [...paths, ...res];
         }
 
         const dockerSrcPath = backEnd ? "db-docker-compose.yml" : "docker-compose.yml";
-        const dockerDestPath = frontEnd && backEnd ? `${projectName}/docker-compose.yml` : "docker-compose.yml";
+        const dockerDestPath = `${projectName}/docker-compose.yml`;
 
         handleRenderEJS(
             `${dockerPath}/${dockerSrcPath}`,
