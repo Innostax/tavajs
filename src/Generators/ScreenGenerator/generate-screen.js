@@ -93,27 +93,48 @@ inquirer.prompt(QUESTIONS).then((answers) => {
         );
     } 
     else if (isReact) {
-        fs.mkdirSync(`${PROJ_DIR}/src/screens/${screenName}`);
+        fs.mkdirSync(`${PROJ_DIR}/src/screens/${screenName.charAt(0).toUpperCase() + screenName.slice(1)}`);
 
         const templatePath = path.join(`${currentPath}`, "ScreenTemplates/react");
 
         function createDirectoryContents(templatePath, screenName) {
+            screenName = screenName.charAt(0).toUpperCase() + screenName.slice(1);
             const filesToCreate = fs.readdirSync(templatePath);
 
             const routePath = `${PROJ_DIR}/src`;
 
-            const data = fs.readFileSync(`${routePath}/Routes.js`).toString().split("\n");
-            data.splice(
-                9,
-                0,
-                `<Route exact path="/${screenName}" component={${screenName}}></Route>`,
-            );
-            data.splice(3, 0, `import ${screenName} from "./screens/${screenName}";`);
-            const text = data.join("\n");
+             //----------------------------- Add Import -------------------------->
+            let routeFile = fsExtra.readFileSync(`${routePath}/Routes.js`,"utf-8");
+        
+            const lastImportStartIndex = routeFile.lastIndexOf("import");
+            const lastImportEndIndex =  routeFile.indexOf("\n",lastImportStartIndex);
+        
+            const lastImport = routeFile.slice(lastImportStartIndex,lastImportEndIndex+1);
+            const updatedLastImport = lastImport + `import ${screenName} from "./screens/${screenName}"; \n`;
+            routeFile  = routeFile.replace(lastImport, updatedLastImport)
+        
+        //----------------------------- Add Route ----------------------------->
+            const routeStartIndex = routeFile.lastIndexOf("exact")
+            const routeEndIndex = routeFile.indexOf("\n",routeStartIndex);
+        
+            const routes = routeFile.slice(routeStartIndex,routeEndIndex+1)
+            const updatedRoutes = routes + `<Route exact path="/${screenName.toLowerCase()}" component={${screenName}}/>\n`;
+            routeFile  = routeFile.replace(routes, updatedRoutes)
+            fsExtra.writeFileSync(`${routePath}/Routes.js`,routeFile,"utf-8");
 
-            fs.writeFile(`${routePath}/Routes.js`, text, (err) => {
-                if (err) return console.log(err);
-            });
+        
+            //----------------------------- Nav Link ----------------------------->
+
+            let appFile = fsExtra.readFileSync(`${routePath}/App.js`,"utf-8");
+            const navLinkStartIndex = appFile.lastIndexOf("href")
+            const navLinkEndIndex = appFile.indexOf("\n",navLinkStartIndex);
+        
+            const navLink = appFile.slice(navLinkStartIndex,navLinkEndIndex+1)
+            const updatedNavLink = rout + `{ href: '/${screenName.toLowerCase()}', label: '${screenName}' },\n`;
+            appFile  = appFile.replace(navLink, updatedNavLink)
+            fsExtra.writeFileSync(`${routePath}/App.js`,appFile,"utf-8");    
+
+
 
             filesToCreate.forEach((file, i) => {
                 const origFilePath = `${templatePath}/${file}`;
@@ -129,7 +150,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
                         setTimeout(() => {
                             fs.rename(
                                 `${PROJ_DIR}/src/screens/${screenName}/${file}`,
-                                `${PROJ_DIR}/src/screens/${screenName}/${screenName}${
+                                `${PROJ_DIR}/src/screens/${screenName}/${ i== 2 ? screenName: screenName.toLowerCase()}${
                                     filesName[i - 1]
                                 }.js`,
                                 (error) => {
