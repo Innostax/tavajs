@@ -9,19 +9,17 @@ const { ANSWERS, EXPECTED_RESULT } = require("../mockData");
 const { echos, removeProject } = require("../helpers");
 
 // Before to run the test cases:
-const { projectName, projectDirectoryPath } = ANSWERS.TC0007;
-
-const CURR_DIR = projectDirectoryPath;
+const { projectName, projectDirectoryPath } = ANSWERS.TCV002;
 
 const { frontEnd, backEnd } = getProjectDetails(
-  `${CURR_DIR}/${projectName}`,
-  ANSWERS.TC0007
+  `${projectDirectoryPath}/${projectName}`,
+  ANSWERS.TCV002
 );
 
-describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
-  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TC0007);
-  await projectInfo(frontEnd, backEnd, ANSWERS.TC0007);
-  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TC0007);
+describe("Verify working of ANSWERS.TCV002 evaluator method.", async () => {
+  await handleAnswersEvaluator(frontEnd, backEnd, ANSWERS.TCV002);
+  await projectInfo(frontEnd, backEnd, ANSWERS.TCV002);
+  await projectExecutionCommands(frontEnd, backEnd, ANSWERS.TCV002);
 
   it("Should verify 'Creating vue project'", async () => {
     expect(echos[0]).to.include(EXPECTED_RESULT.frontend.vue);
@@ -53,6 +51,6 @@ describe("Verify working of ANSWERS.TC0007 evaluator method.", async () => {
   it("Should verify 'Ready to go'", async () => {
     expect(echos[10]).to.include(EXPECTED_RESULT.ready);
   });
-});
 
-removeProject(projectName);
+  await removeProject(projectName);
+});

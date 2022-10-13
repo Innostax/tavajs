@@ -16,15 +16,14 @@ const fs = require("fs");
 (async () => {
     await handleInquirerExecutor(questionnaire).then(async (ans) => {
         const { projectName, projectDirectoryPath } = ans;
-        const CURR_DIR = projectDirectoryPath;
-        fs.mkdir(`${CURR_DIR}/${projectName}`, (err) => {
+        fs.mkdir(`${projectDirectoryPath}/${projectName}`, (err) => {
             if (err) {
                 console.error(err);
             }
         });
 
         const { frontEnd, backEnd } = getProjectDetails(
-            `${CURR_DIR}/${projectName}`,
+            `${projectDirectoryPath}/${projectName}`,
             ans
         );
 
