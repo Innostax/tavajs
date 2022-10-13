@@ -12,7 +12,8 @@
     "pretty": "npx prettier --write \"**/*\"",
     "prettier-watch": "onchange \"**/*\" -- npx prettier --write {{changed}}",
     "eslint": "npx eslint",
-    "eslint-watch": "onchange \"**/*.js\" -- npx eslint"
+    "eslint-watch": "onchange \"**/*.js\" -- npx eslint",
+    "ci": "yarn install --frozen-lockfile"
   },
   "author": "",
   "license": "ISC",
