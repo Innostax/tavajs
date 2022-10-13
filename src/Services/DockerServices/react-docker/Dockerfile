@@ -1,7 +1,7 @@
 FROM node:16
 WORKDIR /app
 COPY package.json .
-RUN npm install --legacy-peer-deps
+RUN <%if(isNPM){%>npm<%}else{%>yarn<%}%> install --legacy-peer-deps
 COPY . .
 EXPOSE 3000
-CMD ["npm","start"]
+CMD [<%if(isNPM){%>"npm"<%}else{%>"yarn"<%}%>,"start"]
