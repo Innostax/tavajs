@@ -48,18 +48,14 @@ const createDirectoryContents = (templatePath, screenName) => {
   let routeFile = fsExtra.readFileSync(`${routePath}/Routes.js`, "utf-8");
 
   const lastImportStartIndex = routeFile.lastIndexOf("import");
-  const lastImportEndIndex = routeFile.indexOf(
-    "\n",
-    lastImportStartIndex
-  );
+  const lastImportEndIndex = routeFile.indexOf("\n", lastImportStartIndex);
 
   const lastImport = routeFile.slice(
     lastImportStartIndex,
     lastImportEndIndex + 1
   );
   const updatedLastImport =
-    lastImport +
-    `import ${screenName} from "./screens/${screenName}"; \n`;
+    lastImport + `import ${screenName} from "./screens/${screenName}"; \n`;
   routeFile = routeFile.replace(lastImport, updatedLastImport);
 
   //----------------------------- Add Route ----------------------------->
@@ -111,13 +107,11 @@ const createDirectoryContents = (templatePath, screenName) => {
       }
       fs.writeFileSync(writePath, contents, "utf8");
     } else if (stats.isDirectory()) {
-      fsExtra.ensureDirSync(
-        `${PROJ_DIR}/src/screens/${screenName}${file}`
-      );
+      fsExtra.ensureDirSync(`${PROJ_DIR}/src/screens/${screenName}${file}`);
       createDirectoryContents(`${templatePath}/${file}`, `${screenName}`);
     }
   });
-}
+};
 
 const askQuestion = (packageJSON) => {
   inquirer.prompt(QUESTIONS).then((answers) => {
