@@ -5,7 +5,7 @@ const fsExtra = require("fs-extra");
 const path = require("path");
 const { render } = require("ejs");
 const currentPath = path.join(__dirname);
-const PROJ_DIR = process.cwd();
+const projectDirectory = process.cwd();
 const chalk = require("chalk");
 const shell = require("shelljs");
 const { handleRenderEJS } = require("../../utils/helper");
@@ -23,7 +23,7 @@ const QUESTIONS = [
 ];
 
 const readPackage = async () => {
-  await fs.readFile(`${PROJ_DIR}/package.json`, "utf-8", (err, data) => {
+  await fs.readFile(`${projectDirectory}/package.json`, "utf-8", (err, data) => {
     if (err) {
       shell.echo(
         chalk.red.italic.bold(
@@ -53,25 +53,25 @@ const askQuestion = (package) => {
         handleRenderEJS(
           `${currentPath}/controllers/mysql.controllers.js`,
           { routeName },
-          `${PROJ_DIR}/controllers/${routeName}.controllers.js`
+          `${projectDirectory}/controllers/${routeName}.controllers.js`
         );
       } else if (isPostgres) {
         handleRenderEJS(
           `${currentPath}/controllers/postgres.controllers.js`,
           { routeName },
-          `${PROJ_DIR}/controllers/${routeName}.controllers.js`
+          `${projectDirectory}/controllers/${routeName}.controllers.js`
         );
       }
 
       handleRenderEJS(
         `${currentPath}/models/sequelize.models.js`,
         { routeName },
-        `${PROJ_DIR}/models/${routeName}.js`
+        `${projectDirectory}/models/${routeName}.js`
       );
 
       //------------------------- Added UserModel ----------------------------
       let sequelizeFile = fsExtra.readFileSync(
-        `${PROJ_DIR}/sequelize.js`,
+        `${projectDirectory}/sequelize.js`,
         "utf-8"
       );
       const modelName = routeName[0].toUpperCase() + routeName.slice(1);
@@ -95,29 +95,29 @@ const askQuestion = (package) => {
       const newExport = oldExport.replace("}", ` ${routeName}, \n}`);
       sequelizeFile = sequelizeFile.replace(oldExport, newExport);
 
-      fsExtra.writeFileSync(`${PROJ_DIR}/sequelize.js`, sequelizeFile, "utf-8");
+      fsExtra.writeFileSync(`${projectDirectory}/sequelize.js`, sequelizeFile, "utf-8");
     } else if (isMongoose) {
       handleRenderEJS(
         `${currentPath}/controllers/mongoose.controllers.js`,
         { routeName },
-        `${PROJ_DIR}/controllers/${routeName}.controllers.js`
+        `${projectDirectory}/controllers/${routeName}.controllers.js`
       );
       handleRenderEJS(
         `${currentPath}/models/mongoose.models.js`,
         { routeName },
-        `${PROJ_DIR}/models/${routeName}.js`
+        `${projectDirectory}/models/${routeName}.js`
       );
     }
 
     handleRenderEJS(
       `${currentPath}/routes/route.routes.js`,
       { routeName },
-      `${PROJ_DIR}/routes/${routeName}.routes.js`
+      `${projectDirectory}/routes/${routeName}.routes.js`
     );
 
     //------------------------- Added Require ----------------------------
     let routeIndex = fsExtra.readFileSync(
-      `${PROJ_DIR}/routes/index.js`,
+      `${projectDirectory}/routes/index.js`,
       "utf-8"
     );
 
@@ -144,7 +144,7 @@ const askQuestion = (package) => {
     );
     routeIndex = routeIndex.replace(selectionRoute, newSelectionRoute);
 
-    fsExtra.writeFileSync(`${PROJ_DIR}/routes/index.js`, routeIndex, "utf-8");
+    fsExtra.writeFileSync(`${projectDirectory}/routes/index.js`, routeIndex, "utf-8");
     shell.echo(
       chalk.cyanBright.italic.bold(
         `-------------- New Route is ready for use at url /${routeName} --------------`
