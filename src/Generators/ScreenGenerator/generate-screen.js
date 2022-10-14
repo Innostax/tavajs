@@ -27,7 +27,7 @@ const readPackage = async () => {
     if (err) {
       shell.echo(
         chalk.red.italic.bold(
-          `Error: You are not in correct directory.\nNote: Please run this command in frontEnd project directory`
+          `Error: You are not in correct directory.\nNote: Please run this command in frontEnd project directory.`
         )
       );
     }
