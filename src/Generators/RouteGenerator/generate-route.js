@@ -5,7 +5,10 @@ const fsExtra = require("fs-extra");
 const path = require("path");
 const { render } = require("ejs");
 const currentPath = path.join(__dirname);
-console.log("current++",currentPath)
+const PROJ_DIR = process.cwd();
+const chalk = require("chalk");
+const shell = require("shelljs");
+
 const QUESTIONS = [
     {
         name: "routeName",
@@ -17,38 +20,44 @@ const QUESTIONS = [
         },
     },
 ];
-inquirer.prompt(QUESTIONS).then((answers) => {
-    var CURR_DIR = answers.projectDirectoryPath || process.cwd();
-    const newRouteName = answers.routeName;
-    const dbName = JSON.parse(fs.readFileSync(`${CURR_DIR}/package.json`));
 
-    if (
-        Object.keys(dbName.dependencies).some((each) => each === "sequelize")
-    === true
-    ) {
+const readPackage = async () => {
+    await fs.readFile(`${PROJ_DIR}/package.json`, "utf-8", (err, data) => {
+      if (err) {
+        shell.echo(
+          chalk.red.italic.bold(
+            `Error: You are not in correct directory.\nNote: Please run this command in backend project directory.`
+          )
+        );
+      }
+      if (data) {
+        const package = JSON.parse(data);
+        askQuestion(package);
+      }
+    });
+  };
+  readPackage();
+
+  const askQuestion = (package) => {  
+    inquirer.prompt(QUESTIONS).then((answers) => {
+
+    const newRouteName = answers["routeName"];
+    const dependencies = Object.keys(package.dependencies);
+    const isMongoose = dependencies.includes("mongoose")
+    const isSequelize = dependencies.includes("sequelize")
+    const isMySql = dependencies.includes("mySql2")
+   
+    if (isSequelize && !isMySql) {
         const templatePath = `${currentPath}/postgresTemplates`;
-        createDirectoryContents(templatePath, newRouteName, CURR_DIR);
+        createDirectoryContentsSequelize(templatePath, newRouteName, PROJ_DIR);
 
-
-    } else if (
-        Object.keys(dbName.dependencies).some((each) => each === "mySql")
-    === true
-    ) {
+    } else if (isMySql) {
         const templatePath = `${currentPath}/postgresTemplates`;
-        createDirectoryContents(templatePath, newRouteName, CURR_DIR);
-    } else if (
-        Object.keys(dbName.dependencies).some((each) => each === "mongoose")
-    === true
-    ) {
-         const templatePath = `${currentPath}/mongooseTemplates`;
-    createDirectoryContents(templatePath, newRouteName, CURR_DIR);
-
-    } else if (
-        Object.keys(dbName.dependencies).some((each) => each === "nodemon")
-      !== true
-    && Object.keys(dbName.dependencies).some((each) => each === "express")
-      !== true
-    ) {
+        createDirectoryContents(templatePath, newRouteName, PROJ_DIR);
+    } else if (isMongoose) {
+        const templatePath = `${currentPath}/mongooseTemplates`;
+        createDirectoryContents(templatePath, newRouteName, PROJ_DIR);
+    } else {
         console.log(
             "You are not currently in the node directory. Switch it node directory and run the commands again.",
         );
@@ -56,19 +65,17 @@ inquirer.prompt(QUESTIONS).then((answers) => {
     }
     console.log(`New Route is ready for use by /${newRouteName}-----`);
 
-});
-function createDirectoryContents(templatePath, newRouteName, CURR_DIR) {
-    // var CURR_DIR = answers.projectDirectoryPath || process.cwd();
-   console.log("CURR_DIR5",CURR_DIR)
+    });
+    function createDirectoryContentsSequelize(templatePath, newRouteName, PROJ_DIR) {
     const filesToCreates = fs.readdirSync(templatePath);
     var data = fs
-        .readFileSync(`CURR_DIR/routes/index.js`)
+        .readFileSync(`${PROJ_DIR}/routes/index.js`)
         .toString()
         .split("\n");
 
     data.splice(
         data.findIndex((each) => each === "const selectionRoute = (app) => {") +
-  1,
+    1,
         0,
         `app.use( '/${newRouteName}', ${newRouteName})`
     );
@@ -78,12 +85,12 @@ function createDirectoryContents(templatePath, newRouteName, CURR_DIR) {
         `const  ${newRouteName}= require("./${newRouteName}.routes");`
     );
     let text = data.join("\n");
-    fs.writeFile(`${CURR_DIR}/routes/index.js`, text, function (err) {
+    fs.writeFile(`${PROJ_DIR}/routes/index.js`, text, function (err) {
         if (err) return console.log(err);
     });
 
     var newData = fs
-        .readFileSync(`${CURR_DIR}/sequelize.js`)
+        .readFileSync(`${PROJ_DIR}/sequelize.js`)
         .toString()
         .split("\n");
     newData.splice(
@@ -102,7 +109,7 @@ function createDirectoryContents(templatePath, newRouteName, CURR_DIR) {
         ` ${newRouteName},`
     );
     text = newData.join("\n");
-    fs.writeFile(`${CURR_DIR}/sequelize.js`, text, function (err) {
+    fs.writeFile(`${PROJ_DIR}/sequelize.js`, text, function (err) {
         if (err) return console.log(err);
     });
 
@@ -114,28 +121,28 @@ function createDirectoryContents(templatePath, newRouteName, CURR_DIR) {
 
             contents = render(contents, { routeName: newRouteName });
             const writePath = [
-                `${CURR_DIR}/Controllers/${file}`,
-                `${CURR_DIR}/Models/${file}`,
-                `${CURR_DIR}/routes/${file}`,
+                `${PROJ_DIR}/Controllers/${file}`,
+                `${PROJ_DIR}/Models/${file}`,
+                `${PROJ_DIR}/routes/${file}`,
             ];
 
             fs.writeFileSync(writePath[i], contents, "utf8");
             i++;
-            renameFile(file, newRouteName, CURR_DIR);
+            renameFile(file, newRouteName, PROJ_DIR);
         }
     });
-}
+    }
 
-function createDirectoryContents(templatePath, newRouteName,CURR_DIR) {
+    function createDirectoryContents(templatePath, newRouteName,PROJ_DIR) {
     const filesToCreate = fs.readdirSync(templatePath);
 
     var data = fs
-        .readFileSync(`${CURR_DIR}/routes/index.js`)
+        .readFileSync(`${PROJ_DIR}/routes/index.js`)
         .toString()
         .split("\n");
     data.splice(
         data.findIndex((each) => each === "const selectionRoute = (app) => {") +
-  1,
+    1,
         0,
         `app.use( '/${newRouteName}', ${newRouteName})`
     );
@@ -145,7 +152,7 @@ function createDirectoryContents(templatePath, newRouteName,CURR_DIR) {
         `const  ${newRouteName}= require("./${newRouteName}.routes");`
     );
     let text = data.join("\n");
-    fs.writeFile(`${CURR_DIR}/Routes/index.js`, text, function (err) {
+    fs.writeFile(`${PROJ_DIR}/Routes/index.js`, text, function (err) {
         if (err) return console.log(err);
     });
 
@@ -157,57 +164,45 @@ function createDirectoryContents(templatePath, newRouteName,CURR_DIR) {
 
             contents = render(contents, { routeName: newRouteName });
             const writePath = [
-                `${CURR_DIR}/Controllers/${file}`,
-                `${CURR_DIR}/Models/${file}`,
-                `${CURR_DIR}/Routes/${file}`,
+                `${PROJ_DIR}/Controllers/${file}`,
+                `${PROJ_DIR}/Models/${file}`,
+                `${PROJ_DIR}/Routes/${file}`,
             ];
 
             fs.writeFileSync(writePath[i], contents, "utf8");
             i++;
-            renameFile(file, newRouteName, CURR_DIR);
+            renameFile(file, newRouteName, PROJ_DIR);
         }
     });
-}
+    }
 
-// Function to rename files of the route.
+    // Function to rename files of the route.
 
-function renameFile(file, newRouteName, currentDirectory) {
-    if (file.startsWith("route")) {
-        // const fileName = [".controller", "", ".routes"];
-        setTimeout(function name() {
-            fs.rename(
-                `${currentDirectory}/Controllers/${file}`,
-                `${currentDirectory}/Controllers/${newRouteName}.controllers.js`,
-                (error) => {
-                    if (error) {
-                        // Show the error
-                    } else {
-                        // List all the filenames after renaming
+    function renameFile(file, newRouteName, currentDirectory) {
+        if (file.startsWith("route")) {
+            setTimeout(function name() {
+                fs.rename(
+                    `${currentDirectory}/Controllers/${file}`,
+                    `${currentDirectory}/Controllers/${newRouteName}.controllers.js`,
+                    (error) => {
+                        console.log(error)
                     }
-                }
-            );
-            fs.rename(
-                `${currentDirectory}/Routes/${file}`,
-                `${currentDirectory}/Routes/${newRouteName}.routes.js`,
-                (error) => {
-                    if (error) {
-                        // Show the error
-                    } else {
-                        // List all the filenames after renaming
+                );
+                fs.rename(
+                    `${currentDirectory}/Routes/${file}`,
+                    `${currentDirectory}/Routes/${newRouteName}.routes.js`,
+                    (error) => {
+                        console.log(error)
                     }
-                }
-            );
-            fs.rename(
-                `${currentDirectory}/Models/${file}`,
-                `${currentDirectory}/Models/${newRouteName}.js`,
-                (error) => {
-                    if (error) {
-                        // Show the error
-                    } else {
-                        // List all the filenames after renaming
+                );
+                fs.rename(
+                    `${currentDirectory}/Models/${file}`,
+                    `${currentDirectory}/Models/${newRouteName}.js`,
+                    (error) => {
+                        console.log(error)
                     }
-                }
-            );
-        }, 300);
+                );
+            }, 300);
+        }
     }
 }
