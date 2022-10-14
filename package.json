@@ -32,7 +32,7 @@
   },
   "bin": {
     "generate-tava": "src/index.js",
-    "generate-screen": "src/Generators/ScreenGenerator/generate-react-screen.js",
+    "generate-screen": "src/Generators/ScreenGenerator/generate-screen.js",
     "generate-route": "src/Generators/RouteGenerator/generate-route.js"
   },
   "devDependencies": {
