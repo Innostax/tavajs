@@ -74,16 +74,12 @@ const askQuestion = (package) => {
         `${PROJ_DIR}/sequelize.js`,
         "utf-8"
       );
-      const modelName = routeName[0].toUpperCase()+routeName.slice(1)
+      const modelName = routeName[0].toUpperCase() + routeName.slice(1);
       const lastUserModelMethod = sequelizeFile.lastIndexOf("Sequelize");
-      const lastUserModelStart =
-        sequelizeFile.lastIndexOf("\n", lastUserModelMethod) + 1;
+      const lastUserModelStart = sequelizeFile.lastIndexOf("\n", lastUserModelMethod) + 1;
       const lastUserModelEnd = sequelizeFile.indexOf("\n", lastUserModelStart);
 
-      const lastUserModel = sequelizeFile.slice(
-        lastUserModelStart,
-        lastUserModelEnd + 1
-      );
+      const lastUserModel = sequelizeFile.slice(lastUserModelStart, lastUserModelEnd + 1);
       const newUserModel =
         lastUserModel +
         `const ${modelName}Model = require('./models/${routeName}') \n` +
