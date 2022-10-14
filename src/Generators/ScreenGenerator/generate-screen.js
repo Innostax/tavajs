@@ -32,8 +32,8 @@ const readPackage = async () => {
       );
     }
     if (data) {
-      const package = JSON.parse(data);
-      askQuestion(package);
+      const packageJSON = JSON.parse(data);
+      askQuestion(packageJSON);
     }
   });
 };
@@ -119,17 +119,17 @@ const createDirectoryContents = (templatePath, screenName) => {
   });
 }
 
-const askQuestion = (package) => {
+const askQuestion = (packageJSON) => {
   inquirer.prompt(QUESTIONS).then((answers) => {
     let screenName = answers["screen-name"];
     screenName = screenName[0].toUpperCase() + screenName.slice(1);
 
-    const dependencies = Object.keys(package.dependencies);
-    isReact = dependencies.includes("react");
-    isAngular = dependencies.includes("@angular/core");
-    isVue = dependencies.includes("vue");
-    isBootstrap = dependencies.includes("bootstrap");
-    isTailwind = dependencies.includes("tailwindcss");
+    const dependencies = Object.keys(packageJSON.dependencies);
+    const isReact = dependencies.includes("react");
+    const isAngular = dependencies.includes("@angular/core");
+    const isVue = dependencies.includes("vue");
+    const isBootstrap = dependencies.includes("bootstrap");
+    const isTailwind = dependencies.includes("tailwindcss");
 
     if (isVue) {
       //----------------------------- Add Screen -------------------------------->
