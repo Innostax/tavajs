@@ -234,7 +234,7 @@
       <a class="a-link" style="cursor:pointer" [routerLink]="'/'" routerLinkActive="active">Home</a>
     </span>
     <span *ngFor="let screen of screens" class="nav-item">
-      <a class="a-link" style="cursor:pointer" [routerLink]="screen" routerLinkActive="active">{{ screen }}
+      <a class="a-link" style="cursor:pointer; text-transform: capitalize;" [routerLink]="screen" routerLinkActive="active">{{ screen }}
       </a>
     </span>
     <span class="spacer"> </span>
