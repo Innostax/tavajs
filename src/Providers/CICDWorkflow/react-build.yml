@@ -20,17 +20,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    <% if(isCICDPipelineIntegrate == "aws"){%>
-    - uses: actions/checkout@v3
-      name: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - uses: aws-actions/configure-aws-credentials@v1
-      with:
-        # Enter Access key id as configured in AWS IAMROOT service
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        # Enter Access key as configured in AWS IAMROOT service
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+    <% if(isCICDPipelineIntegrate == "aws"){%>
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          # Enter Access key id as configured in AWS IAMROOT service
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # Enter Access key as configured in AWS IAMROOT service
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
     <%}%>
       - name: Set up node 16.14.x
         uses: actions/setup-node@v3
@@ -38,11 +38,20 @@ jobs:
           node-version: "16.14.x"
 
       - name: Install dependencies   
+        <% if(isNPM){%> 
         run: npm install
-        
+        <%}%>
+        <% if(isYarn){%> 
+        run: yarn install
+        <%}%>
       - name: Building project
-        run:  npm run build
+        <% if(isNPM){%> 
+        run:  npm run build  <%if(isBackEndDirectory){%>-if--present<%}%>
+        <%}%>
+        <% if(isYarn){%> 
+        run:  yarn run build
+        <%}%>
 <% if(isCICDPipelineIntegrate == "aws"){%>
-    - name: Deploy to S3 bucket
-      run: aws s3 sync ./build s3://${{ env.S3_BUCKET }}/
+      - name: Deploy to S3 bucket
+        run: aws s3 sync ./build s3://${{ env.S3_BUCKET }}/
     <%}%>
