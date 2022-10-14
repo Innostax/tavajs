@@ -17,7 +17,7 @@ const QUESTIONS = [
     message: "What will be name of screen?",
     validate(input) {
       if (/^([A-Za-z\-\d])+$/.test(input)) return true;
-      return "Screen name may only include letters, numbers, underscores and hashes.";
+      return "Screen name may only include letters, numbers, underscores, and hashes.";
     },
   },
 ];
@@ -38,6 +38,86 @@ const readPackage = async () => {
   });
 };
 readPackage();
+
+const createDirectoryContents = (templatePath, screenName) => {
+  const filesToCreate = fs.readdirSync(templatePath);
+
+  const routePath = `${PROJ_DIR}/src`;
+
+  //----------------------------- Add Import -------------------------->
+  let routeFile = fsExtra.readFileSync(`${routePath}/Routes.js`, "utf-8");
+
+  const lastImportStartIndex = routeFile.lastIndexOf("import");
+  const lastImportEndIndex = routeFile.indexOf(
+    "\n",
+    lastImportStartIndex
+  );
+
+  const lastImport = routeFile.slice(
+    lastImportStartIndex,
+    lastImportEndIndex + 1
+  );
+  const updatedLastImport =
+    lastImport +
+    `import ${screenName} from "./screens/${screenName}"; \n`;
+  routeFile = routeFile.replace(lastImport, updatedLastImport);
+
+  //----------------------------- Add Route ----------------------------->
+  const routeStartIndex = routeFile.lastIndexOf("exact");
+  const routeEndIndex = routeFile.indexOf("\n", routeStartIndex);
+
+  const routes = routeFile.slice(routeStartIndex, routeEndIndex + 1);
+  const updatedRoutes =
+    routes +
+    `<Route exact path="/${screenName.toLowerCase()}" component={${screenName}}/>\n`;
+  routeFile = routeFile.replace(routes, updatedRoutes);
+  fsExtra.writeFileSync(`${routePath}/Routes.js`, routeFile, "utf-8");
+
+  //----------------------------- Nav Link ----------------------------->
+
+  let appFile = fsExtra.readFileSync(`${routePath}/App.js`, "utf-8");
+  const navLinkStartIndex = appFile.lastIndexOf("href");
+  const navLinkEndIndex = appFile.indexOf("\n", navLinkStartIndex);
+
+  const navLink = appFile.slice(navLinkStartIndex, navLinkEndIndex + 1);
+  const updatedNavLink =
+    navLink +
+    `{ href: '/${screenName.toLowerCase()}', label: '${screenName}' },\n`;
+  appFile = appFile.replace(navLink, updatedNavLink);
+  fsExtra.writeFileSync(`${routePath}/App.js`, appFile, "utf-8");
+
+  filesToCreate.forEach((file, i) => {
+    const origFilePath = `${templatePath}/${file}`;
+    const stats = fs.statSync(origFilePath);
+    if (stats.isFile()) {
+      let contents = fs.readFileSync(origFilePath, "utf8");
+      contents = render(contents, { screenName: screenName });
+
+      const writePath = `${PROJ_DIR}/src/screens/${screenName}/${file}`;
+
+      if (file.startsWith("screen")) {
+        const filesName = [".constant", "", ".utils"];
+        setTimeout(() => {
+          fs.rename(
+            `${PROJ_DIR}/src/screens/${screenName}/${file}`,
+            `${PROJ_DIR}/src/screens/${screenName}/${
+              i == 2 ? screenName : screenName.toLowerCase()
+            }${filesName[i - 1]}.js`,
+            (error) => {
+              if (error) console.log(error);
+            }
+          );
+        }, 300);
+      }
+      fs.writeFileSync(writePath, contents, "utf8");
+    } else if (stats.isDirectory()) {
+      fsExtra.ensureDirSync(
+        `${PROJ_DIR}/src/screens/${screenName}${file}`
+      );
+      createDirectoryContents(`${templatePath}/${file}`, `${screenName}`);
+    }
+  });
+}
 
 const askQuestion = (package) => {
   inquirer.prompt(QUESTIONS).then((answers) => {
@@ -139,85 +219,6 @@ const askQuestion = (package) => {
 
       const templatePath = path.join(`${currentPath}`, "ScreenTemplates/react");
 
-      function createDirectoryContents(templatePath, screenName) {
-        const filesToCreate = fs.readdirSync(templatePath);
-
-        const routePath = `${PROJ_DIR}/src`;
-
-        //----------------------------- Add Import -------------------------->
-        let routeFile = fsExtra.readFileSync(`${routePath}/Routes.js`, "utf-8");
-
-        const lastImportStartIndex = routeFile.lastIndexOf("import");
-        const lastImportEndIndex = routeFile.indexOf(
-          "\n",
-          lastImportStartIndex
-        );
-
-        const lastImport = routeFile.slice(
-          lastImportStartIndex,
-          lastImportEndIndex + 1
-        );
-        const updatedLastImport =
-          lastImport +
-          `import ${screenName} from "./screens/${screenName}"; \n`;
-        routeFile = routeFile.replace(lastImport, updatedLastImport);
-
-        //----------------------------- Add Route ----------------------------->
-        const routeStartIndex = routeFile.lastIndexOf("exact");
-        const routeEndIndex = routeFile.indexOf("\n", routeStartIndex);
-
-        const routes = routeFile.slice(routeStartIndex, routeEndIndex + 1);
-        const updatedRoutes =
-          routes +
-          `<Route exact path="/${screenName.toLowerCase()}" component={${screenName}}/>\n`;
-        routeFile = routeFile.replace(routes, updatedRoutes);
-        fsExtra.writeFileSync(`${routePath}/Routes.js`, routeFile, "utf-8");
-
-        //----------------------------- Nav Link ----------------------------->
-
-        let appFile = fsExtra.readFileSync(`${routePath}/App.js`, "utf-8");
-        const navLinkStartIndex = appFile.lastIndexOf("href");
-        const navLinkEndIndex = appFile.indexOf("\n", navLinkStartIndex);
-
-        const navLink = appFile.slice(navLinkStartIndex, navLinkEndIndex + 1);
-        const updatedNavLink =
-          navLink +
-          `{ href: '/${screenName.toLowerCase()}', label: '${screenName}' },\n`;
-        appFile = appFile.replace(navLink, updatedNavLink);
-        fsExtra.writeFileSync(`${routePath}/App.js`, appFile, "utf-8");
-
-        filesToCreate.forEach((file, i) => {
-          const origFilePath = `${templatePath}/${file}`;
-          const stats = fs.statSync(origFilePath);
-          if (stats.isFile()) {
-            let contents = fs.readFileSync(origFilePath, "utf8");
-            contents = render(contents, { screenName: screenName });
-
-            const writePath = `${PROJ_DIR}/src/screens/${screenName}/${file}`;
-
-            if (file.startsWith("screen")) {
-              const filesName = [".constant", "", ".utils"];
-              setTimeout(() => {
-                fs.rename(
-                  `${PROJ_DIR}/src/screens/${screenName}/${file}`,
-                  `${PROJ_DIR}/src/screens/${screenName}/${
-                    i == 2 ? screenName : screenName.toLowerCase()
-                  }${filesName[i - 1]}.js`,
-                  (error) => {
-                    if (error) console.log(error);
-                  }
-                );
-              }, 300);
-            }
-            fs.writeFileSync(writePath, contents, "utf8");
-          } else if (stats.isDirectory()) {
-            fsExtra.ensureDirSync(
-              `${PROJ_DIR}/src/screens/${screenName}${file}`
-            );
-            createDirectoryContents(`${templatePath}/${file}`, `${screenName}`);
-          }
-        });
-      }
       createDirectoryContents(templatePath, screenName);
       shell.echo(
         chalk.cyanBright.italic.bold(
