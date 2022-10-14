@@ -130,7 +130,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
             const navLinkEndIndex = appFile.indexOf("\n",navLinkStartIndex);
         
             const navLink = appFile.slice(navLinkStartIndex,navLinkEndIndex+1)
-            const updatedNavLink = rout + `{ href: '/${screenName.toLowerCase()}', label: '${screenName}' },\n`;
+            const updatedNavLink = navLink + `{ href: '/${screenName.toLowerCase()}', label: '${screenName}' },\n`;
             appFile  = appFile.replace(navLink, updatedNavLink)
             fsExtra.writeFileSync(`${routePath}/App.js`,appFile,"utf-8");    
 
