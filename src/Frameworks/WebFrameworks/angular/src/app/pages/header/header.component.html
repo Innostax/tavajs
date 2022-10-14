@@ -10,12 +10,12 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <span
-              class="nav-link" [routerLink]="''" routerLinkActive="active">Home
+              class="nav-link" style="cursor:pointer" [routerLink]="''" routerLinkActive="active">Home
             </span>
           </li>
           <li *ngFor="let screen of screens" class="nav-item text-capitalize">
             <span
-              class="nav-link" [routerLink]="screen" routerLinkActive="active">{{ screen }}
+              class="nav-link" style="cursor:pointer" [routerLink]="screen" routerLinkActive="active">{{ screen }}
             </span>
           </li>
           
@@ -112,12 +112,12 @@
           <ul class="flex items-center flex-col lg:flex-row list-none ml-2 ">
             <li class="nav-item">
               <span
-                class="px-2 py-2 flex items-center hover:opacity-75" [routerLink]="''" routerLinkActive="active">Home
+                class="px-2 py-2 flex items-center hover:opacity-75 cursor-pointer" [routerLink]="''" routerLinkActive="active">Home
               </span>
             </li>
             <li *ngFor="let screen of screens" class="nav-item">
               <span
-                class="px-2 py-2 flex items-center hover:opacity-75 capitalize" [routerLink]="screen" routerLinkActive="active">{{ screen }}
+                class="px-2 py-2 flex items-center hover:opacity-75 capitalize cursor-pointer" [routerLink]="screen" routerLinkActive="active">{{ screen }}
               </span>
             </li>
           </ul>
@@ -231,10 +231,10 @@
       </a>
     </span>
     <span class="nav-item">
-      <a class="a-link" [routerLink]="'/'" routerLinkActive="active">Home</a>
+      <a class="a-link" style="cursor:pointer" [routerLink]="'/'" routerLinkActive="active">Home</a>
     </span>
     <span *ngFor="let screen of screens" class="nav-item">
-      <a class="a-link" [routerLink]="screen" routerLinkActive="active">{{ screen }}
+      <a class="a-link" style="cursor:pointer" [routerLink]="screen" routerLinkActive="active">{{ screen }}
       </a>
     </span>
     <span class="spacer"> </span>
