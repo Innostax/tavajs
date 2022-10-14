@@ -8,201 +8,151 @@ const currentPath = path.join(__dirname);
 const PROJ_DIR = process.cwd();
 const chalk = require("chalk");
 const shell = require("shelljs");
+const { handleRenderEJS } = require("../../utils/helper");
 
 const QUESTIONS = [
-    {
-        name: "routeName",
-        type: "input",
-        message: "what will be the name of the Route?",
-        validate(input) {
-            if (/^([A-Za-z\-\d])+$/.test(input)) return true;
-            return "Route name may only include letters, numbers, underscores, and hashes";
-        },
+  {
+    name: "routeName",
+    type: "input",
+    message: "what will be the name of the Route?",
+    validate(input) {
+      if (/^([A-Za-z\-\d])+$/.test(input)) return true;
+      return "Route name may only include letters, numbers, underscores, and hashes";
     },
+  },
 ];
 
 const readPackage = async () => {
-    await fs.readFile(`${PROJ_DIR}/package.json`, "utf-8", (err, data) => {
-      if (err) {
-        shell.echo(
-          chalk.red.italic.bold(
-            `Error: You are not in correct directory.\nNote: Please run this command in backend project directory.`
-          )
-        );
-      }
-      if (data) {
-        const package = JSON.parse(data);
-        askQuestion(package);
-      }
-    });
-  };
-  readPackage();
+  await fs.readFile(`${PROJ_DIR}/package.json`, "utf-8", (err, data) => {
+    if (err) {
+      shell.echo(
+        chalk.red.italic.bold(
+          `Error: You are not in correct directory.\nNote: Please run this command in backend project directory.`
+        )
+      );
+    }
+    if (data) {
+      const package = JSON.parse(data);
+      askQuestion(package);
+    }
+  });
+};
+readPackage();
 
-  const askQuestion = (package) => {  
-    inquirer.prompt(QUESTIONS).then((answers) => {
-
-    const newRouteName = answers["routeName"];
+const askQuestion = (package) => {
+  inquirer.prompt(QUESTIONS).then((answers) => {
+    const routeName = answers["routeName"];
     const dependencies = Object.keys(package.dependencies);
-    const isMongoose = dependencies.includes("mongoose")
-    const isSequelize = dependencies.includes("sequelize")
-    const isMySql = dependencies.includes("mySql2")
-   
-    if (isSequelize && !isMySql) {
-        const templatePath = `${currentPath}/postgresTemplates`;
-        createDirectoryContentsSequelize(templatePath, newRouteName, PROJ_DIR);
+    const isMongoose = dependencies.includes("mongoose");
+    const isSequelize = dependencies.includes("sequelize");
+    const isMySql = dependencies.includes("mysql2");
+    const isPostgres = dependencies.includes("pg");
 
-    } else if (isMySql) {
-        const templatePath = `${currentPath}/postgresTemplates`;
-        createDirectoryContents(templatePath, newRouteName, PROJ_DIR);
-    } else if (isMongoose) {
-        const templatePath = `${currentPath}/mongooseTemplates`;
-        createDirectoryContents(templatePath, newRouteName, PROJ_DIR);
-    } else {
-        console.log(
-            "You are not currently in the node directory. Switch it node directory and run the commands again.",
+    if (isSequelize) {
+      if (isMySql) {
+        handleRenderEJS(
+          `${currentPath}/controllers/mysql.controllers.js`,
+          { routeName },
+          `${PROJ_DIR}/controllers/${routeName}.controllers.js`
         );
-        return;
-    }
-    console.log(`New Route is ready for use by /${newRouteName}-----`);
+      } else if (isPostgres) {
+        handleRenderEJS(
+          `${currentPath}/controllers/postgres.controllers.js`,
+          { routeName },
+          `${PROJ_DIR}/controllers/${routeName}.controllers.js`
+        );
+      }
 
-    });
-    function createDirectoryContentsSequelize(templatePath, newRouteName, PROJ_DIR) {
-    const filesToCreates = fs.readdirSync(templatePath);
-    var data = fs
-        .readFileSync(`${PROJ_DIR}/routes/index.js`)
-        .toString()
-        .split("\n");
+      handleRenderEJS(
+        `${currentPath}/models/sequelize.models.js`,
+        { routeName },
+        `${PROJ_DIR}/models/${routeName}.js`
+      );
 
-    data.splice(
-        data.findIndex((each) => each === "const selectionRoute = (app) => {") +
-    1,
-        0,
-        `app.use( '/${newRouteName}', ${newRouteName})`
-    );
-    data.splice(
-        1,
-        0,
-        `const  ${newRouteName}= require("./${newRouteName}.routes");`
-    );
-    let text = data.join("\n");
-    fs.writeFile(`${PROJ_DIR}/routes/index.js`, text, function (err) {
-        if (err) return console.log(err);
-    });
+      //------------------------- Added UserModel ----------------------------
+      let sequelizeFile = fsExtra.readFileSync(
+        `${PROJ_DIR}/sequelize.js`,
+        "utf-8"
+      );
+      const modelName = routeName[0].toUpperCase()+routeName.slice(1)
+      const lastUserModelMethod = sequelizeFile.lastIndexOf("Sequelize");
+      const lastUserModelStart =
+        sequelizeFile.lastIndexOf("\n", lastUserModelMethod) + 1;
+      const lastUserModelEnd = sequelizeFile.indexOf("\n", lastUserModelStart);
 
-    var newData = fs
-        .readFileSync(`${PROJ_DIR}/sequelize.js`)
-        .toString()
-        .split("\n");
-    newData.splice(
-        4,
-        0,
-        `const ${newRouteName}Model = require('./models/${newRouteName}')`
-    );
-    newData.splice(
-        5,
-        0,
-        `const ${newRouteName}= ${newRouteName}Model(sequelize, Sequelize);`
-    );
-    newData.splice(
-        newData.findIndex((each) => each === "module.exports = {") + 1,
-        0,
-        ` ${newRouteName},`
-    );
-    text = newData.join("\n");
-    fs.writeFile(`${PROJ_DIR}/sequelize.js`, text, function (err) {
-        if (err) return console.log(err);
-    });
+      const lastUserModel = sequelizeFile.slice(
+        lastUserModelStart,
+        lastUserModelEnd + 1
+      );
+      const newUserModel =
+        lastUserModel +
+        `const ${modelName}Model = require('./models/${routeName}') \n` +
+        `const ${routeName} = ${modelName}Model(sequelize, Sequelize); \n`;
+      sequelizeFile = sequelizeFile.replace(lastUserModel, newUserModel);
 
-    filesToCreates.forEach((file, i) => {
-        const origFilePath = `${templatePath}/${file}`;
-        const stats = fs.statSync(origFilePath);
-        if (stats.isFile()) {
-            let contents = fs.readFileSync(origFilePath, "utf8");
+      //------------------------- Added Export ----------------------------
+      const exportObject = sequelizeFile.indexOf("module.exports");
+      const exportStart = sequelizeFile.indexOf("{", exportObject);
+      const exportEnd = sequelizeFile.indexOf("}", exportStart);
 
-            contents = render(contents, { routeName: newRouteName });
-            const writePath = [
-                `${PROJ_DIR}/Controllers/${file}`,
-                `${PROJ_DIR}/Models/${file}`,
-                `${PROJ_DIR}/routes/${file}`,
-            ];
+      const oldExport = sequelizeFile.slice(exportStart, exportEnd + 1);
+      const newExport = oldExport.replace("}", ` ${routeName}, \n}`);
+      sequelizeFile = sequelizeFile.replace(oldExport, newExport);
 
-            fs.writeFileSync(writePath[i], contents, "utf8");
-            i++;
-            renameFile(file, newRouteName, PROJ_DIR);
-        }
-    });
+      fsExtra.writeFileSync(`${PROJ_DIR}/sequelize.js`, sequelizeFile, "utf-8");
+    } else if (isMongoose) {
+      handleRenderEJS(
+        `${currentPath}/controllers/mongoose.controllers.js`,
+        { routeName },
+        `${PROJ_DIR}/controllers/${routeName}.controllers.js`
+      );
+      handleRenderEJS(
+        `${currentPath}/models/mongoose.models.js`,
+        { routeName },
+        `${PROJ_DIR}/models/${routeName}.js`
+      );
     }
 
-    function createDirectoryContents(templatePath, newRouteName,PROJ_DIR) {
-    const filesToCreate = fs.readdirSync(templatePath);
-
-    var data = fs
-        .readFileSync(`${PROJ_DIR}/routes/index.js`)
-        .toString()
-        .split("\n");
-    data.splice(
-        data.findIndex((each) => each === "const selectionRoute = (app) => {") +
-    1,
-        0,
-        `app.use( '/${newRouteName}', ${newRouteName})`
+    handleRenderEJS(
+      `${currentPath}/routes/route.routes.js`,
+      { routeName },
+      `${PROJ_DIR}/routes/${routeName}.routes.js`
     );
-    data.splice(
-        2,
-        0,
-        `const  ${newRouteName}= require("./${newRouteName}.routes");`
+
+    //------------------------- Added Require ----------------------------
+    let routeIndex = fsExtra.readFileSync(
+      `${PROJ_DIR}/routes/index.js`,
+      "utf-8"
     );
-    let text = data.join("\n");
-    fs.writeFile(`${PROJ_DIR}/Routes/index.js`, text, function (err) {
-        if (err) return console.log(err);
-    });
 
-    filesToCreate.forEach((file, i) => {
-        const origFilePath = `${templatePath}/${file}`;
-        const stats = fs.statSync(origFilePath);
-        if (stats.isFile()) {
-            let contents = fs.readFileSync(origFilePath, "utf8");
+    const lastRequireStart = routeIndex.lastIndexOf("require");
+    const lastRequireEnd = routeIndex.indexOf("\n", lastRequireStart);
 
-            contents = render(contents, { routeName: newRouteName });
-            const writePath = [
-                `${PROJ_DIR}/Controllers/${file}`,
-                `${PROJ_DIR}/Models/${file}`,
-                `${PROJ_DIR}/Routes/${file}`,
-            ];
+    const lastRequire = routeIndex.slice(lastRequireStart, lastRequireEnd + 1);
+    const newRequire =
+      lastRequire + `const ${routeName} = require('./${routeName}.routes'); \n`;
+    routeIndex = routeIndex.replace(lastRequire, newRequire);
 
-            fs.writeFileSync(writePath[i], contents, "utf8");
-            i++;
-            renameFile(file, newRouteName, PROJ_DIR);
-        }
-    });
-    }
+    //------------------------- Added Selection Route ----------------------------
+    const selectionRouteMethod = routeIndex.indexOf("selectionRoute");
+    const selectionRouteStart = routeIndex.indexOf("{", selectionRouteMethod);
+    const selectionRouteEnd = routeIndex.indexOf("}", selectionRouteStart);
 
-    // Function to rename files of the route.
+    const selectionRoute = routeIndex.slice(
+      selectionRouteStart,
+      selectionRouteEnd + 1
+    );
+    const newSelectionRoute = selectionRoute.replace(
+      "}",
+      `	app.use('/${routeName.toLowerCase()}', ${routeName}); \n}`
+    );
+    routeIndex = routeIndex.replace(selectionRoute, newSelectionRoute);
 
-    function renameFile(file, newRouteName, currentDirectory) {
-        if (file.startsWith("route")) {
-            setTimeout(function name() {
-                fs.rename(
-                    `${currentDirectory}/Controllers/${file}`,
-                    `${currentDirectory}/Controllers/${newRouteName}.controllers.js`,
-                    (error) => {
-                        console.log(error)
-                    }
-                );
-                fs.rename(
-                    `${currentDirectory}/Routes/${file}`,
-                    `${currentDirectory}/Routes/${newRouteName}.routes.js`,
-                    (error) => {
-                        console.log(error)
-                    }
-                );
-                fs.rename(
-                    `${currentDirectory}/Models/${file}`,
-                    `${currentDirectory}/Models/${newRouteName}.js`,
-                    (error) => {
-                        console.log(error)
-                    }
-                );
-            }, 300);
-        }
-    }
-}
+    fsExtra.writeFileSync(`${PROJ_DIR}/routes/index.js`, routeIndex, "utf-8");
+    shell.echo(
+      chalk.cyanBright.italic.bold(
+        `-------------- New Route is ready for use at url /${routeName} --------------`
+      )
+    );
+  });
+};

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const UserModel = require('./models/<%= defaultRoute %>')
 const sequelize = new Sequelize(process.env.DATABASE_URL)
+const UserModel = require('./models/<%= defaultRoute %>')
 const <%= defaultRoute %> = UserModel(sequelize, Sequelize)
     try {
       sequelize.authenticate();
@@ -16,7 +16,7 @@ const <%= defaultRoute %> = UserModel(sequelize, Sequelize)
   
 
 module.exports = {
- <%= defaultRoute %>
+ <%= defaultRoute %>,
 }
 
   

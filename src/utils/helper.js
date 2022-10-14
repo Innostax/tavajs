@@ -236,8 +236,8 @@ const copyFiles = (paths) => {
 };
 
 const handleRenderEJS = (readFilePath, props, writeFilePath) => {
-    let content = fs.readFileSync(readFilePath, "utf8");
-    content = render(content, { ...props });
+    let content = fsExtra.readFileSync(readFilePath, "utf8");
+    content = render(content, props);
     fsExtra.ensureFileSync(writeFilePath);
     fs.writeFileSync(writeFilePath, content, "utf8");
 };

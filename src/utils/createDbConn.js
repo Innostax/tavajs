@@ -20,7 +20,8 @@ const createDbConn = (nodePath, dbName, defaultRoute, currentPath) => {
             ...dependencies,
             { name: "sequelize", version: "^6.6.5" },
         ];
-        if (MYSQL === dbName) { dependencies.push({ name: "mysql2", version: "^2.3.0" }); } else dependencies = [...dependencies, { name: "pg", version: "^8.7.1" }];
+        if (MYSQL === dbName) { dependencies.push({ name: "mysql2", version: "^2.3.0" }); }
+        else dependencies = [...dependencies, { name: "pg", version: "^8.7.1" }];
         break;
     case MONGOOSE:
         fileName = "mongoose.js";
