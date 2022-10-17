@@ -14,7 +14,7 @@ const QUESTIONS = [
   {
     name: "routeName",
     type: "input",
-    message: "what will be the name of the Route?",
+    message: "What will be the name of the Route?",
     validate(input) {
       if (/^([A-Za-z\-\d])+$/.test(input)) return true;
       return "Route name may only include letters, numbers, underscores, and hashes";
