@@ -349,14 +349,22 @@ const handleAnswersEvaluator = async (frontEnd, backEnd, answers) => {
 
     // <------------------ CI CD Pipeline ----------------------------------->
     if (isCICDPipelineIntegrate) {
+        let isBackEndDirectory = false
         const ymlFile = { [ANGULAR] : "angular-build.yml", [VUE] : "vue-build.yml", [REACT]: "react-build.yml"}
         handleRenderEJS(
             `${currentPath}/Providers/CICDWorkflow/${ymlFile[frontEndChoice]}`,
-            { isCICDPipelineIntegrate },
+            { isCICDPipelineIntegrate, isNPM, isYarn, isBackEndDirectory },
             `${frontEnd.path}/.github/workflows/build.yml`
         );
+        if(isBackEnd){
+            isBackEndDirectory = true
+            handleRenderEJS(
+                `${currentPath}/Providers/CICDWorkflow/${ymlFile[frontEndChoice]}`,
+                { isCICDPipelineIntegrate, isNPM, isYarn, isBackEndDirectory },
+                `${backEnd.path}/.github/workflows/build.yml`
+            );
+        } 
     }
-
     // <---------------------------- node-js ---------------------------------->
     if (backEnd) {
         const { choice, path: backEndPath } = backEnd;
