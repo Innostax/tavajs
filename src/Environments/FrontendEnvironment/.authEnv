@@ -1,12 +1,11 @@
-<% if(frontEndChoice === "react"){ %>
+<% if (isFrontEndChoiceReact) { %>
 REACT_APP_API_URL=Backend API URL
 REACT_APP_AUTH0_DOMAIN=your Auth0 Domain
 REACT_APP_AUTH0_CLIENT_ID=your auth0 client Id
 REACT_APP_AUTH0_AUDIENCE=auth0 audience
 REACT_APP_AUTH0_NAMESPACE=auth0 namespace
-<% } %>
 
-<% if(frontEndChoice === "vue"){ %>
+<% } else if (isFrontEndChoiceVue) { %>
 VUE_APP_AUTH0_CLIENT_ID=your auth0 client Id
 VUE_APP_AUTH0_DOMAIN=your Auth0 Domain
 <% } %>

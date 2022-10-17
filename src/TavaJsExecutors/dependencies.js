@@ -1,4 +1,4 @@
-const {CSS_FRAMEWORKS,FRAMEWORKS} = require("./constants");
+const { CSS_FRAMEWORKS, FRAMEWORKS } = require("./constants");
 const { BOOTSTRAP, MATERIAL, TAILWIND } = CSS_FRAMEWORKS;
 const { ANGULAR, REACT, VUE } = FRAMEWORKS;
 const DEPENDENCIES = {
@@ -72,7 +72,25 @@ const DEPENDENCIES = {
             { name: "aws-amplify", version: "^4.3.36" },
             { name: "@aws-amplify/ui-angular", version: "^2.4.22" },
         ],
-    }  
+    },
+    BLOB_SERVICES: {
+        AZURE : [{ name: "@azure/storage-blob", version: "^12.11.0" }],
+        AWS_S3 : [{ name: "@aws-sdk/client-s3", version: "^3.179.0" }],
+    },
+    DATABASES: {
+        POSTGRES: [{ name: "pg", version: "^8.7.1" }],
+        MYSQL: [{ name: "mysql2", version: "^2.3.0" }],
+        MONGOOSE: [{ name: "mongoose", version: "^6.0.2" }],
+    },
+    EMAIL_SERVICES: {
+        SMTP: [{ name: "nodemailer", version: "^6.6.3" }],
+        SENDGRID: [{ name: "@sendgrid/mail", version: "^7.4.6" }],
+        AMAZON_SES : [{ name: "aws-sdk", version: "^2.1224.0" }],
+    },
+    LOGGER_SERVICES: {
+        SENTRY: [{ name: "@sentry/node", version: "^7.13.0" }],
+        WINSTON: [{ name: "winston", version: "^3.3.3" }],
+    },
 };
 
 const DEV_DEPENDENCIES = {

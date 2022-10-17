@@ -2,6 +2,7 @@ const fs = require("fs");
 const { render } = require("ejs");
 const { updateProjectDependencies } = require("./helper");
 const { DATABASES } = require("../TavaJsExecutors/constants");
+const { DEPENDENCIES } = require("../TavaJsExecutors/dependencies");
 
 const { POSTGRES, MYSQL, MONGOOSE } = DATABASES;
 // <----------------------------- Function to create db service -------------------------------------------->
@@ -20,13 +21,13 @@ const createDbConn = (nodePath, dbName, defaultRoute, currentPath) => {
             ...dependencies,
             { name: "sequelize", version: "^6.6.5" },
         ];
-        if (MYSQL === dbName) { dependencies.push({ name: "mysql2", version: "^2.3.0" }); }
-        else dependencies = [...dependencies, { name: "pg", version: "^8.7.1" }];
+        if (MYSQL === dbName) dependencies = [ ...dependencies, ...DEPENDENCIES.DATABASES.MYSQL ]
+        else dependencies = [...dependencies, ...DEPENDENCIES.DATABASES.POSTGRES ];
         break;
     case MONGOOSE:
         fileName = "mongoose.js";
         modelName = "mongooseModel.js";
-        dependencies = [...dependencies, { name: "mongoose", version: "^6.0.2" }];
+        dependencies = [...dependencies, ...DEPENDENCIES.DATABASES.MONGOOSE ];
         break;
     default:
         break;
