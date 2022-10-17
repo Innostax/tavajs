@@ -1,4 +1,4 @@
-const <%= routeName %> = require(`../Models/<%= routeName %>.js`)
+const <%= routeName %> = require(`../models/<%= routeName %>.js`)
 const find = (req, res, next) => {
 	<%= routeName %>.find(function (err, data) {
 		if (!err) {

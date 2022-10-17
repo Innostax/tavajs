@@ -6,7 +6,7 @@ router.post('/', <%= routeName %>.create)
 router.get('/', <%= routeName %>.find)
 router.get('/:id', <%= routeName %>.findById)
 router.patch('/:id', <%= routeName %>.patch),
-	router.delete('/', <%= routeName %>.remove),
-	router.delete('/:id', <%= routeName %>.removeById)
+router.delete('/', <%= routeName %>.remove),
+router.delete('/:id', <%= routeName %>.removeById)
 
 module.exports = router
