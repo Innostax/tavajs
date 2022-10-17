@@ -1,10 +1,9 @@
-<% if(frontEndChoice === "react"){ %>
+<% if (isFrontEndChoiceReact) { %>
 REACT_APP_REGION="region"
 REACT_APP_USER_POOL_ID="your aws user pools id"
 REACT_APP_USER_POOL_WEB_CLIENT_ID="your aws user pools web client id"
-<% } %>
 
-<% if(frontEndChoice === "vue"){ %>
+<% } else if (isFrontEndChoiceVue) { %>
 VUE_APP_AWS_USER_POOLS_ID="your aws user pools id"
 VUE_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
 <% } %>

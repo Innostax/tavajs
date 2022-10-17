@@ -1,4 +1,4 @@
-<%if(sequelizeSelected){%> 
+<%if(isSequelize){%> 
 version: "3.7"
 services:
   postgres:
@@ -43,7 +43,7 @@ services:
 
 <%}%>
 
-<%if(mongoSelected){%>
+<%if(isMongoose){%>
 version: "3"
 
 services:
