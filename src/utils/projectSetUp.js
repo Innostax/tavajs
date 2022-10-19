@@ -80,7 +80,7 @@ const npmInstall = async (
             sw.stop();
             const task = sw.getTask(`Task-${taskId}`);
             totalTimeConsumptionInMinutes += task?.timeMills;
-            shell.echo(chalk.green.bold("-> NPM modules installed!👍"));
+            shell.echo(chalk.green.bold("-> Node modules installed!👍"));
             const isProjectCreated = !(frontEnd && backEnd && taskId === 1);
             if (isProjectCreated) {
                 const FIVE_MINUTES = 1000 * 60 * 5;
