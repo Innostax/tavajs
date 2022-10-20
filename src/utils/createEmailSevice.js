@@ -1,6 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const { updateProjectDependencies } = require("./helper");
+const { DEPENDENCIES } = require("../TavaJsExecutors/dependencies");
+const { EMAIL_SERVICES } = require("../TavaJsExecutors/constants");
+const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
 
 // function to create email services
 const createEmailSevice = (
@@ -9,7 +12,6 @@ const createEmailSevice = (
     nodePath,
 ) => {
     const dependencies = [];
-    dependencies.push({ name: "dotenv", version: "^10.0.0" });
 
     // Reading email template file
     const emailTemplateFile = fs.readFileSync(`${emailTemplatePath}.js`, "utf-8");
@@ -20,15 +22,16 @@ const createEmailSevice = (
     // Creating directory of email service
     fs.mkdirSync(emailServiceFilePath);
 
-    const isSendGrid = emailServiceName === "sendgrid";
-    const isSMTP = emailServiceName === "smtp";
+    const isSendGrid = emailServiceName === SENDGRID;
+    const isSMTP = emailServiceName === SMTP;
+    const isAmazonSes = emailServiceName === AMAZON_SES;
 
     if (isSendGrid) {
-        dependencies.push({ name: "@sendgrid/mail", version: "^7.4.6" });
+        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.SENDGRID ];
     } else if (isSMTP) {
-        dependencies.push({ name: "nodemailer", version: "^6.6.3" });
-    } else {
-        dependencies.push({ name: "aws-sdk", version: "^2.1224.0" });
+        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.SMTP ]
+    } else if (AMAZON_SES) {
+        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.AMAZON_SES ];
     }
 
     // Updating dependencies in package json file

@@ -6,7 +6,7 @@
   const logger = require('../utils/logger')
   <% } %>
      
-<% if (mongoSelected) { %>
+<% if (isMongoose) { %>
 const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     <% } %>
 
@@ -22,11 +22,11 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       const { sendMail } = require('../utils/email/amazon_ses')
       <%}%>  
 
- <% if(sequelizeSelected) {%> 
+ <% if(isSequelize) {%> 
   const { <%= defaultRoute %> } = require("../sequelize")
   <%}%>
   const find = (req, res, next) => {
-    <% if(mongoSelected){ %>
+    <% if(isMongoose){ %>
       const projection = { id: '$_id', _id: 0, name: 1, username: 1, email: 1 }
         <%= defaultRoute %>.find({},projection,function(err, data){
             if (!err) {
@@ -36,10 +36,10 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
             }
           })
       <% } %>
-      <% if(sequelizeSelected){%>
+      <% if(isSequelize){%>
         <%= defaultRoute %>.findAll().then((<%= defaultRoute %>) => res.json(<%= defaultRoute %>));
         <%}%>
-      <% if(!(sequelizeSelected || mongoSelected)){ %>  
+      <% if(!(isSequelize || isMongoose)){ %>  
         res.send('find called');
      <% } %>
 
@@ -77,7 +77,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
       sendMail(mailParams)
       <% } %>  
 
-    <% if(mongoSelected){ %>
+    <% if(isMongoose){ %>
         const newData = new <%= defaultRoute %>({
             name: req.body.name,
             username: req.body.username,
@@ -98,18 +98,18 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
             }
           });
       <%}%>
-      <% if(sequelizeSelected){%>
+      <% if(isSequelize){%>
         <%= defaultRoute %>.create(req.body)
         .then(user => res.json(user))
         .catch(err => res.send("User cannot be created"))
         <%}%>
-      <% if(!(sequelizeSelected || mongoSelected)){ %> 
+      <% if(!(isSequelize || isMongoose)){ %> 
         res.send('create  Called')
      <% } %>
   }
   
   const patch =(req, res, next) => {
-    <% if(mongoSelected){ %>
+    <% if(isMongoose){ %>
         <%= defaultRoute %>.updateOne(
           {_id: req.params.id},
           {$set: req.body},
@@ -128,7 +128,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           }
           );
       <% } %>
-      <% if(sequelizeSelected){%>
+      <% if(isSequelize){%>
         <%= defaultRoute %>.update(
           { name:req.body.name,
           username:req.body.username,
@@ -149,19 +149,19 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
     }).then((<%= defaultRoute %>) => res.json(<%= defaultRoute %>));
     <%}%>
         <%}%>
-      <% if(!(sequelizeSelected || mongoSelected)) { %>  
+      <% if(!(isSequelize || isMongoose)) { %>  
         res.send('patch Called')
      <% } %>  
   }
   
   const remove =(req, res, next) => {
-    <% if(mongoSelected){ %>
+    <% if(isMongoose){ %>
         <%= defaultRoute %>.deleteMany(function(err){
             if(!err) res.send('All deleted')
             else res.send(err)
         })
       <% }%>
-      <% if(sequelizeSelected) {%>
+      <% if(isSequelize) {%>
         <%= defaultRoute %>.destroy({
           truncate : true
        })
@@ -169,13 +169,13 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         res.send('<%= defaultRoute %> updated')
        });
        <%}%>
-       <% if(!(sequelizeSelected || mongoSelected)){ %>  
+       <% if(!(isSequelize || isMongoose)){ %>  
         res.send('remove Called')
      <% } %>
   }
   
   const removeById =(req, res, next) => {
-    <% if(mongoSelected){ %>
+    <% if(isMongoose){ %>
         <%= defaultRoute %>.deleteOne({_id: req.params.id}, function(err, data){
           if (data) {
               if (!err) {
@@ -188,7 +188,7 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
           }
           });
       <% }%>
-      <% if(sequelizeSelected) {%>
+      <% if(isSequelize) {%>
         <%= defaultRoute %>.destroy({
           where: {
               id: req.params.id
@@ -199,14 +199,14 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
         else res.send("User with this ID can't be found");
       });
         <%}%> 
-      <% if(!(sequelizeSelected || mongoSelected)){ %>  
+      <% if(!(isSequelize || isMongoose)){ %>  
         res.send('remove by id Called')
      <% } %>
     
   }
   
   const findById = (req, res, next ) => {
-    <% if(mongoSelected){ %>
+    <% if(isMongoose){ %>
         <%= defaultRoute %>.findOne({_id: req.params.id}, function(err, data){
             if (data) {
               res.send(data);
@@ -215,14 +215,14 @@ const <%= defaultRoute %> = require("../models/<%- defaultRoute %>.js");
             }
           });
       <% } %>
-      <% if(sequelizeSelected) {%>
+      <% if(isSequelize) {%>
         <%= defaultRoute %>.findAll({
           where:{
               id:req.params.id
           }
       }).then((<%= defaultRoute %>) => res.json(<%= defaultRoute %>));
         <%}%>
-      <% if(!(sequelizeSelected || mongoSelected)){ %>  
+      <% if(!(isSequelize || isMongoose)){ %>  
         res.send('find by id Called')
      <% } %>
     

@@ -1,18 +1,21 @@
 const fs = require("fs");
 const path = require("path");
 const { updateProjectDependencies } = require("./helper");
-
-const WINSTON = "winston";
-const SENTRY = "@sentry/node";
+const { DEPENDENCIES } = require("../TavaJsExecutors/dependencies")
+const { LOGGER_SERVICES } = require("../TavaJsExecutors/constants")
+const { WINSTON, SENTRY } = LOGGER_SERVICES;
 
 // Function to create logger service ------------------------------------------------------------>
 const createLogger = (utilpath, loggerName, loggerTemplatePath) => {
     const dependencies = [];
-    if (loggerName === WINSTON) {
+    const isWinston = loggerName === WINSTON;
+    const isSentry = loggerName === SENTRY;
+
+    if (isWinston) {
         const loggerServicePath = path.join(utilpath, "utils", "logger");
         fs.mkdirSync(loggerServicePath);
 
-        dependencies.push({ name: WINSTON, version: "^3.3.3" });
+        dependencies = [...dependencies, ...DEPENDENCIES.LOGGER_SERVICES.WINSTON ];
 
         const loggerFile = fs.readFileSync(
             `${loggerTemplatePath}/${loggerName}.js`,
@@ -26,11 +29,11 @@ const createLogger = (utilpath, loggerName, loggerTemplatePath) => {
                 if (err) throw err;
             },
         );
-    } else {
+    } else if (isSentry) {
         const loggerServicePath = path.join(utilpath, "utils", "logger");
         fs.mkdirSync(loggerServicePath);
 
-        dependencies.push({ name: SENTRY, version: "^7.13.0" });
+        dependencies = [...dependencies, ...DEPENDENCIES.LOGGER_SERVICES.SENTRY ];
 
         const loggerFile = fs.readFileSync(
             `${loggerTemplatePath}/${loggerName}.js`,
