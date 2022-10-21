@@ -188,7 +188,7 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 <% if (isCypress) {%>
 
 <a  href="https://www.cypress.io/"  target="_blank">
-  <img  src="https://nx.dev/documentation/shared/cypress-logo.png"  alt="cypress"  width="100"  height="80"  />
+  <img  src="https://i.ibb.co/sPgXBFJ/cypress.png"  alt="cypress"  width="100"  height="80"  />
 </a>
 <%}%>
 

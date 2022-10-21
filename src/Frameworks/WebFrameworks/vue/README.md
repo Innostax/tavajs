@@ -80,7 +80,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <a  href="https://www.npmjs.com/package/winston"  target="_blank">  <img  src="https://avatars.githubusercontent.com/u/9682013?s=200&v=4"  alt="winston"  width="100"  height="100"/>  </a>
 <%}%>
 <% if (isCypress) {%>
-<a  href="https://www.cypress.io/" target="_blank"><img src="https://nx.dev/documentation/shared/cypress-logo.png" alt="cypress" width="100" height="80" /></a>
+<a  href="https://www.cypress.io/" target="_blank"><img src="https://i.ibb.co/sPgXBFJ/cypress.png" alt="cypress" width="100" height="80" /></a>
 <%}%>
 <% if (isMocha) {%>
 <a  href="https://mochajs.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mocha/mocha-plain.svg" alt="mochajs"  width="100"  height="100" /></a>

@@ -169,7 +169,7 @@ One of the first things to remember about React project development is that it i
 
 <% if (isCypress) {%>
 
-<a  href="https://www.cypress.io/"  target="_blank">  <img  src="https://s4-recruiting.cdn.greenhouse.io/external_greenhouse_job_boards/logos/400/113/000/resized/logo_landscape_(1).png?1643756332"  alt="cypress"  width="300"  height="100"/>  </a>
+<a  href="https://www.cypress.io/"  target="_blank">  <img  src="https://i.ibb.co/sPgXBFJ/cypress.png"  alt="cypress"  width="300"  height="100"/>  </a>
 
 <%}%>
 
