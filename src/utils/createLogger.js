@@ -7,7 +7,7 @@ const { WINSTON, SENTRY } = LOGGER_SERVICES;
 
 // Function to create logger service ------------------------------------------------------------>
 const createLogger = (utilpath, loggerName, loggerTemplatePath) => {
-    const dependencies = [];
+    let dependencies = [];
     const isWinston = loggerName === WINSTON;
     const isSentry = loggerName === SENTRY;
 

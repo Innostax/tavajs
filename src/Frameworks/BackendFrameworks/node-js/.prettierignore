@@ -19,3 +19,5 @@ README.md
 *.txt
 *.yml
 *.log
+.dockerignore
+Dockerfile

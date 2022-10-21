@@ -45,7 +45,7 @@ TAVAjs is an interactive Command Line Interface tool, which helps developers to 
 - <b>CSS Frameworks</b>
 	<p><a  href="https://getbootstrap.com"  target="_blank" >  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap"  width="100"  height="100"/>  </a> &nbsp &nbsp <a  href="https://mui.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg" alt="mui"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://tailwindcss.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" alt="tailwind"  width="100"  height="100" /></a></p>
 
-- <b>Testcases Frameworks</b>
+- <b>TestCases Frameworks</b>
 	 <p><a  href="https://mochajs.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mocha/mocha-plain.svg" alt="mochajs"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://jestjs.io/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="jest"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://jasmine.github.io/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jasmine/jasmine-plain-wordmark.svg" alt="jasmine"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://nightwatchjs.org/" target="_blank"><img src="https://seeklogo.com/images/N/nightwatchjs-logo-66C5775A1E-seeklogo.com.png" alt="nightwatch"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://pptr.dev/" target="_blank"> <img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" alt="puppeteer"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://www.cypress.io/"  target="_blank"><img  src="https://i.ibb.co/sPgXBFJ/cypress.png"  alt="cypress"  height="100"  width="120"></a></p>
 
 - <b>Authentication Services</b>
@@ -190,9 +190,9 @@ K.&nbsp; Choose any authentication service according to your need.
       Okta
       None
 
-L.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
+L.&nbsp; Store Integration: &nbsp;Store is used for state management that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate store.
 
-    ? Do you want redux integration? (Use arrow keys)
+    ? Do you want redux/ngrx/vuex integration? (Use arrow keys)
       > yes
         no
 
@@ -223,20 +223,14 @@ Q.&nbsp; Choose database service as required.
         Mongoose
         None
 
-R.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
-
-      ? Do you want crud integration with React-Node boiler plate? (Use arrow keys)
-      > yes
-        no
-
-S.&nbsp; Choose logger service as required.
+R.&nbsp; Choose logger service as required.
 
       ? Which logger service do you want? (Use arrow keys)
       > Winston
         sentry
         None
 
-T.&nbsp; Choose e-mail service which you want to integrate.
+S.&nbsp; Choose e-mail service which you want to integrate.
 
       ? Which Email service do you want? (Use arrow keys)
       > SendGrid
@@ -244,20 +238,20 @@ T.&nbsp; Choose e-mail service which you want to integrate.
         SMTP
         None
 
-U.&nbsp; Choose blob service as require.
+T.&nbsp; Choose blob service as require.
 
       ? Which Blob service do you want? (Use arrow keys)
       > AWS-s3
         Azure
         None
 
-V.&nbsp; Select "yes" to integrate docker service.
+U.&nbsp; Select "yes" to integrate docker service.
 
       ? Do you want Docker services (Use arrow keys)
       > yes
         no
 
-W.&nbsp; Select the CI/CD pipeline service you want to integrate.
+V.&nbsp; Select the CI/CD pipeline service you want to integrate.
       ? Would you like to integrate CI/CD pipeline?
       > AWS
         GitHub
@@ -297,6 +291,46 @@ Use "cd" command to change the current directory.
 
 
     npm start
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
+###  How to create new screen in frontend templates.
+
+Use "cd" command to move frontend project directory.
+
+$ generate-screen - It will execute the program.
+
+```sh
+generate-screen
+```
+A. &nbsp; What will be the name of Screen?.
+
+     ? Screen name: new-screen
+     
+     
+!! New screen successfully created. !!   
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
+###  How to create new route in backend templates.
+
+Use "cd" command to move backend project directory.
+
+$ generate-route - It will execute the program.
+
+```sh
+generate-route
+```
+A. &nbsp; What will be the name of the Route?.
+
+     ? Route name: new-route
+     
+     
+!! New route successfully created. !!   
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
