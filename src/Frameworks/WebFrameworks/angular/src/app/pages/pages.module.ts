@@ -17,6 +17,7 @@ import { HeaderComponent } from './header/header.component';
     CommonModule,
     SharedModule,
     PagesRoutingModule
-  ]
+  ],
+  exports: [HeaderComponent],
 })
 export class PagesModule { }

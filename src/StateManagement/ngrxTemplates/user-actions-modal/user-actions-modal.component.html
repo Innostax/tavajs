@@ -75,15 +75,26 @@
   <%}%>
   
   <% if(isTailWind){%>
-  <div class="users-modal vw-30" *ngIf="!shouldDeleteUser">
-    <div class="flex mb-3 justify-between items-start rounded-t">
+  <div class="users-modal" *ngIf="!shouldDeleteUser" style="width: 30vw;">
+    <div class="flex mb-3 justify-between">
       <h2 class="text-3xl font-bold text-gray-900 label-white">
         {{ userActionLabel + ' User' }}
       </h2>
-      <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
-        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-        <span class="sr-only">Close modal</span>
-      </button>
+      <span
+        (click)="closeModalRef()"
+        class="add-closebutton hover: cursor-pointer"
+        data-modal-toggle="defaultModal">
+        <svg
+          aria-hidden="true"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </span>
     </div>
     <div>
       <form [formGroup]="createUserForm">
@@ -134,37 +145,48 @@
     </div>
   </div>
   
-  <div class="users-modal vw-30" *ngIf="shouldDeleteUser">
+  <div class="users-modal" *ngIf="shouldDeleteUser" style="width: 30vw;">
     <div class="py-2">
-      <div class="flex justify-between items-start rounded-t">
+      <div class="flex justify-between">
         <h3 class="text-3xl font-bold text-gray-900 dark:text-white label-white">
           Delete User?
         </h3>
-        <button type="button" (click)="closeModalRef()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
-          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-          <span class="sr-only">Close modal</span>
-        </button>
+        <span
+          (click)="closeModalRef()"
+          class="delete-closebutton hover: cursor-pointer"
+          data-modal-toggle="defaultModal">
+          <svg
+            aria-hidden="true"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd">
+            </path>
+          </svg>
+        </span>
       </div>
     </div>
     <div>
       Are you sure you want to delete <strong>{{data?.name}}</strong>?
     </div>
     <div class="grid justify-items-end mt-3">
-      <app-button [name]="'Confirm'" [class]="'rounded-lg border-lg bg-red-500 text-white p-2'" (onClick)="deleteUserRef(data)"></app-button>
+      <app-button [name]="'Confirm'" [class]="'rounded-lg border-lg bg-red-500 hover:bg-red-600 text-white p-2'" (onClick)="deleteUserRef(data)"></app-button>
     </div>
   </div>
   <%}%>
 
   <% if(isMaterialUI){%>
     <div class="modalroot">
-      <div class="mat-users-modal vw-30" *ngIf="!shouldDeleteUser">
-        <div style="width: 100%; display: block">
+      <div class="mat-users-modal" *ngIf="!shouldDeleteUser">
+        <div>
           <div class="add-modalhead">
             <div style="float: left; font-size: 27px;">
               {{ userActionLabel + ' User' }}
             </div>
-            <button
-              type="button"
+            <span
               (click)="closeModalRef()"
               class="add-closebutton"
               data-modal-toggle="defaultModal">
@@ -178,11 +200,10 @@
                   d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                   clip-rule="evenodd"></path>
               </svg>
-              <span class="sr-only"></span>
-            </button>
+            </span>
           </div>
           <div>
-            <form class="" [formGroup]="createUserForm">
+            <form class="mt-10" [formGroup]="createUserForm">
               <div>
                 <app-label [for]="'name'" [name]="'Name'"> </app-label>
                 <app-input
@@ -190,7 +211,7 @@
                   [name]="'name'"
                   [type]="'text'"
                   [id]="'name'"
-                  [class]="''">
+                  [class]="'input-class'">
                 </app-input>
               </div>
               <br />
@@ -201,7 +222,7 @@
                   [name]="'username'"
                   [type]="'text'"
                   [id]="'username'"
-                  [class]="''">
+                  [class]="'input-class'">
                 </app-input>
               </div>
               <br />
@@ -214,11 +235,11 @@
                   [name]="'email'"
                   [type]="'text'"
                   [id]="'email'"
-                  [class]="''">
+                  [class]="'input-class'">
                 </app-input>
               </div>
               <br />
-              <div style="width: 100%">
+              <div id="add-modal-button">
                 <app-button
                   [name]="userActionLabel"
                   [color]="'primary'"
@@ -234,17 +255,16 @@
         </div>
       </div>
     
-      <div class="mat-users-modal vw-30" *ngIf="shouldDeleteUser">
+      <div class="mat-users-modal" *ngIf="shouldDeleteUser">
         <div style="margin: 5px">
           <div class="deleteheader">
-            <div style="font-weight: 400px; float: left; margin-left: 0px; font-size: 27px;">
+            <div style="float: left; font-size: 27px;">
               Delete User?
             </div>
-            <button
-              style="float: right; padding: 0"
-              type="button"
+            <div style="float: right; padding: 0" >
+              <span
               (click)="closeModalRef()"
-              class="closebutton"
+              class="delete-closebutton"
               data-modal-toggle="defaultModal">
               <svg
                 aria-hidden="true"
@@ -256,25 +276,22 @@
                   d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                   clip-rule="evenodd"></path>
               </svg>
-              <span class="sr-only"></span>
-            </button>
+              </span>
+            </div>
           </div>
         </div>
         <div class="delete-body">
           <div
             style="
               text-align: left;
-              width: 100%;
-              font-weight: 400;
+              font-size: 17px;
               margin-top: 30px;
-              margin-bottom: 20px;
             ">
             Are you sure you want to delete <strong>{{ data?.name }} </strong>?
           </div>
           <div
             style="
               text-align: right;
-              margin-right: 20px;
               margin: 10px;
               margin-top: 25px;
             ">

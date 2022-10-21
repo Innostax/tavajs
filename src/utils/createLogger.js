@@ -1,50 +1,55 @@
 const fs = require("fs");
-const { updateProjectDependencies } = require("./helper");
 const path = require("path");
-const WINSTON = "winston";
-const SENTRY = "@sentry/node";
+const { updateProjectDependencies } = require("./helper");
+const { DEPENDENCIES } = require("../TavaJsExecutors/dependencies")
+const { LOGGER_SERVICES } = require("../TavaJsExecutors/constants")
+const { WINSTON, SENTRY } = LOGGER_SERVICES;
 
-//Function to create logger service ------------------------------------------------------------>
-function createLogger(utilpath, loggerName, loggerTemplatePath, defaultRoute) {
-  const dependencies = [];
-  if (loggerName === WINSTON) {
-    let loggerServicePath = path.join(utilpath, "utils", "logger");
-    fs.mkdirSync(loggerServicePath);
+// Function to create logger service ------------------------------------------------------------>
+const createLogger = (utilpath, loggerName, loggerTemplatePath) => {
+    const dependencies = [];
+    const isWinston = loggerName === WINSTON;
+    const isSentry = loggerName === SENTRY;
 
-    dependencies.push({ name: WINSTON, version: "^3.3.3" });
+    if (isWinston) {
+        const loggerServicePath = path.join(utilpath, "utils", "logger");
+        fs.mkdirSync(loggerServicePath);
 
-    let loggerFile = fs.readFileSync(
-      loggerTemplatePath + "/" + loggerName + ".js",
-      "utf-8"
-    );
+        dependencies = [...dependencies, ...DEPENDENCIES.LOGGER_SERVICES.WINSTON ];
 
-    fs.writeFile(
-      loggerServicePath + "/index" + ".js",
-      loggerFile,
-      function (err) {
-        if (err) throw err;
-      }
-    );
-  } else {
-    let loggerServicePath = path.join(utilpath, "utils", "logger");
-    fs.mkdirSync(loggerServicePath);
+        const loggerFile = fs.readFileSync(
+            `${loggerTemplatePath}/${loggerName}.js`,
+            "utf-8",
+        );
 
-    dependencies.push({ name: SENTRY, version: "^7.13.0" });
+        fs.writeFile(
+            `${loggerServicePath}/index` + ".js",
+            loggerFile,
+            (err) => {
+                if (err) throw err;
+            },
+        );
+    } else if (isSentry) {
+        const loggerServicePath = path.join(utilpath, "utils", "logger");
+        fs.mkdirSync(loggerServicePath);
 
-    let loggerFile = fs.readFileSync(
-      loggerTemplatePath + "/" + loggerName + ".js",
-      "utf-8"
-    );
+        dependencies = [...dependencies, ...DEPENDENCIES.LOGGER_SERVICES.SENTRY ];
 
-    fs.writeFile(
-      loggerServicePath + "/index" + ".js",
-      loggerFile,
-      function (err) {
-        if (err) throw err;
-      }
-    );
-  }
+        const loggerFile = fs.readFileSync(
+            `${loggerTemplatePath}/${loggerName}.js`,
+            "utf-8",
+        );
 
-  updateProjectDependencies(utilpath, dependencies);
-}
+        fs.writeFile(
+            `${loggerServicePath}/index` + ".js",
+            loggerFile,
+            (err) => {
+                if (err) throw err;
+            },
+        );
+    }
+
+    updateProjectDependencies(utilpath, dependencies);
+};
+
 module.exports = createLogger;

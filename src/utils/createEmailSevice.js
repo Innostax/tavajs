@@ -1,47 +1,50 @@
 const fs = require("fs");
-const { updateProjectDependencies } = require("./helper");
 const path = require("path");
+const { updateProjectDependencies } = require("./helper");
+const { DEPENDENCIES } = require("../TavaJsExecutors/dependencies");
+const { EMAIL_SERVICES } = require("../TavaJsExecutors/constants");
+const { SMTP, SENDGRID, AMAZON_SES } = EMAIL_SERVICES;
 
-//function to create email services
-function createEmailSevice(
-  emailServiceName,
-  emailTemplatePath,
-  nodePath,
-  __dirname
-) {
-  const dependencies = [];
-  dependencies.push({ name: "dotenv", version: "^10.0.0" })
+// function to create email services
+const createEmailSevice = (
+    emailServiceName,
+    emailTemplatePath,
+    nodePath,
+) => {
+    const dependencies = [];
 
-  // Reading email template file
-  const emailTemplateFile = fs.readFileSync(emailTemplatePath + ".js", "utf-8");
+    // Reading email template file
+    const emailTemplateFile = fs.readFileSync(`${emailTemplatePath}.js`, "utf-8");
 
-  // Email service file path
-  let emailServiceFilePath = path.join(nodePath, "utils", "email");
+    // Email service file path
+    const emailServiceFilePath = path.join(nodePath, "utils", "email");
 
-  // Creating directory of email service
-  fs.mkdirSync(emailServiceFilePath);
+    // Creating directory of email service
+    fs.mkdirSync(emailServiceFilePath);
 
-  const isSendGrid = emailServiceName === "sendgrid";
-  const isSMTP = emailServiceName === "smtp";
+    const isSendGrid = emailServiceName === SENDGRID;
+    const isSMTP = emailServiceName === SMTP;
+    const isAmazonSes = emailServiceName === AMAZON_SES;
 
-  if (isSendGrid) {
-    dependencies.push({ name: "@sendgrid/mail", version: "^7.4.6" });
-  } else if (isSMTP) {
-    dependencies.push({ name: "nodemailer", version: "^6.6.3" });
-  } else {
-    dependencies.push({ name: "aws-sdk", version: "^2.1224.0" });
-  }
-
-  // Updating dependencies in package json file
-  updateProjectDependencies(nodePath, dependencies);
-
-  // Writing email service file
-  fs.writeFile(
-    `${emailServiceFilePath}` + "/" + `${emailServiceName}` + ".js",
-    emailTemplateFile,
-    function (err) {
-      if (err) throw err;
+    if (isSendGrid) {
+        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.SENDGRID ];
+    } else if (isSMTP) {
+        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.SMTP ]
+    } else if (AMAZON_SES) {
+        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.AMAZON_SES ];
     }
-  );
-}
-  module.exports=createEmailSevice
+
+    // Updating dependencies in package json file
+    updateProjectDependencies(nodePath, dependencies);
+
+    // Writing email service file
+    fs.writeFile(
+        `${emailServiceFilePath}` + "/" + `${emailServiceName}` + ".js",
+        emailTemplateFile,
+        (err) => {
+            if (err) throw err;
+        },
+    );
+};
+
+module.exports = createEmailSevice;

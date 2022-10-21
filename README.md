@@ -32,7 +32,13 @@ TAVAjs is an interactive Command Line Interface tool, which helps developers to 
 
 ### Built with:
 
-<p align="left"> <a href="https://angular.io" target="_blank" > <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="angular" width="100" height="100"/> </a> <a  href="https://angular.io" target="_blank">  </a>  <a  href="https://reactjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="100" height="100"/> </a> <a  href="https://vuejs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg" alt="vuejs" width="100" height="100"/> </a> <a  href="https://nodejs.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="100" height="100"/> </a></p>
+<p align="left"> <a href="https://angular.io" target="_blank" > <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="angular" width="100" height="100"/> </a> <a  href="https://angular.io" target="_blank">  </a>  <a  href="https://reactjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="100" height="100"/> </a> <a  href="https://vuejs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg" alt="vuejs" width="100" height="100"/> </a> <a  href="https://nodejs.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="100" height="100"/></a>
+<a  href="https://eslint.org/"  target="_blank">  
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg" alt="eslint" width="100" height="100"/></a>
+
+<a  href="https://prettier.io/"  target="_blank">  <img  src="https://repository-images.githubusercontent.com/75104123/f6f27280-61e5-11e9-8759-33288e842a50"  alt="prettier"  width="150"  height="100"/>  </a>
+
+</p>
 
 ### Services:
 
@@ -60,6 +66,9 @@ TAVAjs is an interactive Command Line Interface tool, which helps developers to 
 - Docker service
 	<p> <a   href="https://www.docker.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg"  alt="docker"  width="100"  height="100"/>  </a> </p>
 
+- CI/CD pipeline
+  <p><a   href="https://aws.amazon.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"  alt="aws"  width="100"  height="100"/>  </a> &nbsp &nbsp <a   href="https://github.com/"  target="_blank">  <img  src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"  alt="github"  width="100"  height="100"/></a></p>
+
 ## Getting started
 
 This is an example of how you may give instructions to create a template project.
@@ -75,6 +84,38 @@ To learn more about npm <a href="https://docs.npmjs.com/about-npm">click.</a>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ---
+
+###  ESLINT 
+
+ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+
+### How to run ESLINT 
+
+To run eslint, run command in terminal:
+```
+npm run lint
+```
+To fix linting issues in all files, run command in terminal:
+
+```
+npm run lint:fix
+```
+To fix linting issues in one particular file, run command in terminal:
+
+```
+npm run lint:"your file name"
+```
+
+NOTE:  If you face any error while linting, run command in terminal: 
+```
+npm install eslint-plugin-react@latest --save-dev
+```
+
+### PRETTIER
+
+  
+Prettier is an opinionated code formatter which ensures one unified code format and makes the code more readable.  
+
 
 ## Creating First project
 
@@ -135,7 +176,14 @@ I.&nbsp; Choose a theme provider according to your need.
      > Light/Dark Mode 
        None 
 
-J.&nbsp; Choose any authentication service according to your need.
+J.&nbsp; Select "yes" to integrate network Informer.
+
+    ? Do you want Network Connection Informer? (Use arroy keys)
+    > Yes
+      No
+
+//change points alphabets 
+K.&nbsp; Choose any authentication service according to your need.
 
     ? What Authentication Service you want to use? (Use arrow keys)
     > Auth0
@@ -143,32 +191,32 @@ J.&nbsp; Choose any authentication service according to your need.
       Okta
       None
 
-K.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
+L.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
 
     ? Do you want redux integration? (Use arrow keys)
       > yes
         no
 
-L.&nbsp; Select "yes" to implement backend in your project.
+M.&nbsp; Select "yes" to implement backend in your project.
 
     ? Do you want template for Backend? (Use arrow keys)
       > yes
         no
 
-M.&nbsp; Choose any framework as required.
+N.&nbsp; Choose any framework as required.
 
       ? Select the Framework
         Node
 
-N.&nbsp; Enter the backend project name.
+O.&nbsp; Enter the backend project name.
 
       ? Node Project name: back-end
 
-O.&nbsp; Enter the route (press "Enter" to select default).
+P.&nbsp; Enter the route (press "Enter" to select default).
 
       ? Enter the default route (users)
 
-P.&nbsp; Choose database service as required.
+Q.&nbsp; Choose database service as required.
 
       ? Which db service do you want? (Use arrow keys)
       > Postgres
@@ -176,20 +224,20 @@ P.&nbsp; Choose database service as required.
         Mongoose
         None
 
-Q.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
+R.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
 
       ? Do you want crud integration with React-Node boiler plate? (Use arrow keys)
       > yes
         no
 
-R.&nbsp; Choose logger service as required.
+S.&nbsp; Choose logger service as required.
 
       ? Which logger service do you want? (Use arrow keys)
       > Winston
         sentry
         None
 
-S.&nbsp; Choose e-mail service which you want to integrate.
+T.&nbsp; Choose e-mail service which you want to integrate.
 
       ? Which Email service do you want? (Use arrow keys)
       > SendGrid
@@ -197,18 +245,24 @@ S.&nbsp; Choose e-mail service which you want to integrate.
         SMTP
         None
 
-T.&nbsp; Choose blob service as require.
+U.&nbsp; Choose blob service as require.
 
       ? Which Blob service do you want? (Use arrow keys)
       > AWS-s3
         Azure
         None
 
-U.&nbsp; Select "yes" to integrate docker service.
+V.&nbsp; Select "yes" to integrate docker service.
 
       ? Do you want Docker services (Use arrow keys)
       > yes
         no
+
+W.&nbsp; Select the CI/CD pipeline service you want to integrate.
+      ? Would you like to integrate CI/CD pipeline?
+      > AWS
+        GitHub
+        None
 
 !! Successfully created !!
 

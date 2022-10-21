@@ -1,26 +1,26 @@
-<% if(isStore){%>import React, {useState,useEffect} from "react";<%}%>
+<% if(isStore){%>import React, {useState,useEffect} from "react";
 <% if( isBootstrap) {%>import { Button } from "react-bootstrap";<%}%>
 <% if( isTailWind) {%>import Button from '../../components/atoms/Button';<%}%>
 <% if( isMaterialUI) {%>import { Button,Box } from "@mui/material";<%}%>
-<% if(isStore){%>import { useSelector, useDispatch } from "react-redux";<%}%>
-import { getUsers  <% if(isBackEnd) {%> ,deleteUsers<%}%>} from "./users.actions"
-<% if(isStore){%>import { selectAllUsers } from "./users.selectors";<%}%>
+import { useSelector, useDispatch } from "react-redux";
+import { getUsers  <% if(isBackEnd && dbName) {%> ,deleteUsers<%}%>} from "./users.actions"
+import { selectAllUsers } from "./users.selectors";
 import AddUser from './AddUser'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
-<% if(isStore){%> import Table from '../../components/organisms/Table';<%}%>
+import Table from '../../components/organisms/Table';
 import { actions } from './users.reducer';
 
 const {setSelectedUserModal,setSelectedUser} = actions
 
-<% if(!isBackEnd) {%>const {deleteUser} = actions<%}%>
+<% if(!isBackEnd || (isBackEnd && !dbName)) {%>const {deleteUser} = actions<%}%>
 let userToBeDeleted;
-
+<%}%>
 const Users = () => {
   <% if(isStore ){%> const dispatch = useDispatch();
   const users = useSelector(selectAllUsers);
   useEffect(() => {
     dispatch(getUsers());
-  }, [dispatch]);<%}%>
+  }, [dispatch]);
 
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [show, setShow] = useState(false)
@@ -28,10 +28,10 @@ const Users = () => {
 	  const handleShow = () => setShow(true)
 
     const handleDelete = (id) => {
-      <% if(!isBackEnd) {%>
+      <% if(!isBackEnd || (isBackEnd && !dbName)) {%>
         dispatch(deleteUser({id}))
       <%}%>
-      <% if(isBackEnd) {%>
+      <% if(isBackEnd && dbName) {%>
         dispatch(deleteUsers({ id})).then(() => dispatch(getUsers()));
       <%}%>
     };
@@ -187,30 +187,34 @@ const Users = () => {
         },
       },
     ]
-  <%}%>
+        <%}%>
+    <%}%>
   return (
     <>
       <div>
-        <h1 <%if(isTailWind) {%>className='text-3xl font-medium mb-5'<%}%> >Welcome to Users Screen</h1>
-        <% if(isBootstrap) {%>
-          <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
+        <h1 <%if(isTailWind) {%> className='text-3xl font-medium mb-5'<%}%> >Welcome to Users Screen</h1>
+        <% if(isStore) {%>
+          <% if(isBootstrap) {%>
+            <Button className='m-2' onClick={() => handleShow()}>Add User</Button>
+          <%}%>
+          <% if(isMaterialUI) {%>
+            <Button variant='contained' onClick={() => handleShow()}>Add User</Button>
+            <Box sx={{ height: '1.5rem' }} />
+          <%}%>
+          <% if(isTailWind) {%>
+            <div className='dark:bg-[#1d1717]'>
+            <button
+              className='text-white bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 '
+              onClick={() => handleShow()}>
+              Add User
+            </button>
+          </div>
+          <%}%>
+          <% if(isBootstrap || isTailWind){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
+          <% if(isMaterialUI ){%> <Table data={users} columns={cols}/><%}%> 
         <%}%>
-        <% if(isMaterialUI) {%>
-          <Button variant='contained' onClick={() => handleShow()}>Add User</Button>
-          <Box sx={{ height: '1.5rem' }} />
-        <%}%>
-        <% if(isTailWind && isStore) {%>
-          <div className='dark:bg-[#1d1717]'>
-          <button
-            className='text-white bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 '
-            onClick={() => handleShow()}>
-            Add User
-          </button>
-        </div>
-        <%}%>
-        <% if(isStore &&  (isBootstrap || isTailWind)){%> <Table data={users} keyField='id' columns={cols}/><%}%> 
-        <% if(isStore && isMaterialUI ){%> <Table data={users} columns={cols}/><%}%> 
       </div>
+      <% if(isStore) {%>
         {show && <AddUser show={setShow} handleShow={handleShow} />}
         {confirmDelete && (
           <DeleteConfirmationModal
@@ -224,6 +228,7 @@ const Users = () => {
             userToBeDeleted={userToBeDeleted}
           />
         )}
+       <%}%> 
     </>
   );
 };

@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let user of data">
-      <td *ngFor="let key of user | keyvalue:keepOriginalOrder <% if(isCrudWithNode || isCrud){%>| slice:1:4<%}%>">
+      <td *ngFor="let key of user | keyvalue:keepOriginalOrder <% if(dbName || isStore){%>| slice:1:4<%}%>">
         {{ key.value }}
       </td>
       <td *ngIf="shouldShowActions">
@@ -26,7 +26,7 @@
 <%}%>
 
 <% if(isTailWind){%>
-<table class="w-full table mt-3 text-center">
+<table class="table-fixed w-full table mt-3">
   <thead>
     <tr> 
       <th class="p-2 uppercase border-b-2 border-gray-300" *ngFor="let head of headers">
@@ -44,7 +44,7 @@
           <app-button [name]="'Edit'" [class]="'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'" (onClick)="handleUser('edit', user)"></app-button>
         </span>
         <span>
-          <app-button [name]="'Delete'" [class]="'bg-red-500 text-white ml-2 py-2 px-4 rounded'" (onClick)="handleUser('delete', user)"></app-button>
+          <app-button [name]="'Delete'" [class]="'bg-red-500 hover:bg-red-600 text-white ml-2 py-2 px-4 rounded'" (onClick)="handleUser('delete', user)"></app-button>
         </span>
       </td>
     </tr>

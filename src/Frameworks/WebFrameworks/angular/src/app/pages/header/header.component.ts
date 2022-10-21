@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
   <% if(isTailWind || isMaterialUI){%>showMenu: boolean = false; <%}%>
   <% if(isThemeProvider){%> isChecked: boolean = true;
   headerForm!: FormGroup;<%}%>
+
+  screens = ["users"];
   constructor(<%if(isThemeProvider){%> private fb: FormBuilder, <%}%><%if(isOkta){%> private _router: Router, private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth, <%}%><%if(isAuth0){%> public auth: AuthService, <%}%><%if(isCognito){%>public authenticator: AuthenticatorService,<%}%> )  { }
   <% if(isOkta) { %>public name$!: Observable<string>;
   public isAuthenticated$!: Observable<boolean>;<% } %>

@@ -27,19 +27,19 @@
       :class="showMenu ? 'block' : 'hidden'"
       class="w-full flex-grow md:flex md:items-center md:w-auto"
     >
-      <div class="md:flex-grow md:flex md:justify-start">
-        <a
-          href="/"
+      <div id="links" class="md:flex-grow md:flex md:justify-start">
+        <router-link
+          to="/"
           class="no-underline block mt-4 md:inline-block md:mt-0 text-gray-500 dark:hover:text-white hover:text-black mr-4"
         >
           Home
-        </a>
-        <a
-          href="/users"
+        </router-link>
+        <router-link
+          to="/users"
           class="no-underline block mt-4 md:inline-block md:mt-0 text-gray-500 dark:hover:text-white hover:text-black mr-4"
         >
           Users
-        </a>
+        </router-link>
       </div>
       <% if(isThemeProvider) { %> 
         <ThemeVue class="md:mt-0 mt-4 mr-4 md:mr-0" />

@@ -5,10 +5,10 @@ FROM --platform=$BUILDPLATFORM node:17.0.1-bullseye-slim as builder
 RUN mkdir /project
 WORKDIR /project
 
-RUN npm install -g @angular/cli@13
+RUN <%if(isNPM){%>npm install -g<%}else{%>yarn global add<%}%> @angular/cli@13
 
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json<%if(isNPM){%> package-lock.json <%}else{%> yarn.lock<%}%> ./
+RUN <%if(isNPM){%>npm ci<%}else{%>yarn run ci<%}%>
 
 COPY . .
 CMD ["ng", "serve", "--host", "0.0.0.0"]

@@ -150,7 +150,7 @@ const AddUser = ({ show, handleClose, reset }) => {
           <Input
             className='u-full-width'
             type='text'
-            placeholder='Name'
+            placeholder='Enter Name'
             id='nameInput'
             onChange={(e) =>
               setFormData((data) => ({ ...data, name: e.target.value }))
@@ -169,7 +169,7 @@ const AddUser = ({ show, handleClose, reset }) => {
           <Input
             className='u-full-width'
             type='Username'
-            placeholder='curiousgeek'
+            placeholder='Enter Username'
             id='usernameInput'
             onChange={(e) =>
               setFormData((data) => ({ ...data, username: e.target.value }))
@@ -188,7 +188,7 @@ const AddUser = ({ show, handleClose, reset }) => {
           <Input
             className='u-full-width'
             type='email'
-            placeholder='test@mailbox.com'
+            placeholder='Enter Email'
             id='emailInput'
             onChange={(e) =>
               setFormData((data) => ({ ...data, email: e.target.value }))
@@ -222,7 +222,7 @@ const AddUser = ({ show, handleClose, reset }) => {
         <Input
         title='Name'
         type='text'
-        placeholder='Name'
+        placeholder='Enter Name'
         onChange={(e) =>
           setFormData((data) => ({ ...data, name: e.target.value }))
         }
@@ -232,7 +232,7 @@ const AddUser = ({ show, handleClose, reset }) => {
       <Input
         title='Username'
         type='text'
-        placeholder='Username'
+        placeholder='Enter Username'
         onChange={(e) =>
           setFormData((data) => ({ ...data, username: e.target.value }))
         }
@@ -242,7 +242,7 @@ const AddUser = ({ show, handleClose, reset }) => {
       <Input
         title='Email'
         type='email'
-        placeholder='Email'
+        placeholder='Enter Email'
         onChange={(e) =>
           setFormData((data) => ({ ...data, email: e.target.value }))
         }

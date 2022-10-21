@@ -50,7 +50,9 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (isNightWatch) {%><li><a href="#nightwatch">Nightwatch test framework </li></a><%}%>
 <% if (blobServiceName === 'azure') {%><li><a  href="#azure">Azure blob service </li></a><%}%>
 <% if (blobServiceName === 'aws-s3') {%><li><a  href="#aws-s3">AWS-S3 blob service </li></a><%}%>
-
+<% if (isDocker) {%><li><a  href="#docker">Docker</li></a><%}%>
+<% if (isNetworkInformer) {%><li><a  href="#networkInformer">Network Informer</li></a><%}%>
+<% if (isCICDPipelineIntegrate === "aws") {%><li><a  href="#aws">AWS CI/CD Integration Service</li></a><%}%>
 </ul>
 
 ### Built with:
@@ -119,12 +121,15 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
  <img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" width="100"  alt="aws-s3"/>
  </a>
 <%}%>
+<%if(isDocker){%>
+<a   href="https://www.docker.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg"  alt="docker"  width="100"  height="100"/>  </a> 
+<%}%>
 <%}%>
 
 ### How to run created project :
 
 <% if(nodeName) {%>
-Use `npm run serve` inside <%= frontEndName %> directory to execute the template.
+Use <% if(isYarn) {%> `yarn run serve` <%}else{%> `npm run serve`<%}%>inside <%= frontEndName %> directory to execute the template.
 
 The command is defined in `package.json`, an example of which is below.
 
@@ -134,10 +139,10 @@ The command is defined in `package.json`, an example of which is below.
 }
 ```
 
-Use `npm start` inside <%= nodeName %> directory to execute the backend.
+Use <% if(isYarn) {%> `yarn start` <%}else{%> `npm start`<%}%> inside <%= nodeName %> directory to execute the backend.
 
 <%}else{%>
-Use `npm run serve` to execute the template.
+Use <% if(isYarn) {%> `yarn run serve` <%}else{%> `npm run serve`<%}%> to execute the template.
 
 The command is defined in `package.json`, an example of which is below.
 
@@ -148,8 +153,9 @@ The command is defined in `package.json`, an example of which is below.
 ```
 <%}%>
 
-<div id='auth0'/>
+
 <% if(isAuth0) {%>
+<div id='auth0'/>
 ### Auth0 Authentication Service
 
 Auth0 is an easy to implement, adaptable authentication and authorization platform.
@@ -187,8 +193,9 @@ VUE_APP_AUTH0_DOMAIN=your Auth0 Domain
 You can create your Auth0 account at <a  href="https://auth0.com/signup">Auth0/sign-up</a>
 <%}%>
 
-<div id='cognito'/>
 <% if(isCognito) {%>
+<div id='cognito'/>
+
 ### Cognito Authentication Service
 
 Cognito is an easy to implement, adaptable authentication and authorization platform.
@@ -217,8 +224,9 @@ VUE_APP_AWS_USER_POOLS_WEB_CLIENT_ID="your aws user pools web client id"
 You can create your aws account at <a  href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email">AWS/sign-up</a>
 <%}%>
 
-<div id='okta'/>
+
 <% if(isOkta) {%>
+<div id='okta'/>
 
 ### Okta Authentication Service
 
@@ -239,8 +247,8 @@ You can create your Okta account at <a  href="https://developer.okta.com/signup/
 
 <%}%>
 
-<div id='postgres'/>
 <% if(dbName === 'postgres') {%>
+<div id='postgres'/>
 
 ### Postgres Database Service
 
@@ -257,8 +265,8 @@ DATABASE_URL=<%= dbName %>://username:password@localhost:5432/postgres
 Update `username` and `password` for `DATABASE_URL` environment variable.
 <%}%>
 
-<div id='mongoose'/>
 <% if(dbName === 'mongoose') {%>
+<div id='mongoose'/>
 
 ### Mongoose Database Service
 
@@ -275,8 +283,8 @@ DATABASE_URL=mongodb://localhost:27017/admin
 Update the `DATABASE_URL` environment variable.
 <%}%>
 
-<div id='mysql'/>
 <% if(dbName === 'mysql') {%>
+<div id='mysql'/>
 
 ### MYSQL Database Service
 
@@ -294,8 +302,8 @@ DATABASE_URL=mysql://username:password@localhost:3306/mydb
 Update `username` , `password` and `mydb` for `DATABASE_URL` environment variable as your username, password and database name.
 <%}%>
 
-<div  id='sentry'/>
 <% if(isSentry) {%>
+<div  id='sentry'/>
 
 ### Logger Service:
 
@@ -315,8 +323,8 @@ dsn: "Enter your Domain Source Name",
 
 <%}%>
 
-<div  id='winston'/>
 <% if(isWinston) {%>
+<div  id='winston'/>
 
 ### Logger Service:
 
@@ -332,9 +340,8 @@ For winston there are no credentials required as the log is created in a log fil
 ```
 <%}%>
 
-<div id='jest'/>
 <% if(isJest) {%>
-
+<div id='jest'/>
 ### Testing:
 
 ### JEST test framework
@@ -343,14 +350,19 @@ Jest is a universal testing platform, with the ability to adapt to any JavaScrip
 
 ### Running Jest
 
+<% if(isYarn) {%> 
+```
+yarn run test
+```
+<%}else{%> 
 ```
 npm run test
 ```
 <%}%>
+<%}%>
 
-  
-<div id='cypress'/>
 <% if(isCypress) {%>
+<div id='cypress'/>
 
 ### Testing:
 
@@ -365,9 +377,9 @@ npx cypress open
 ```
 <%}%>
 
-  
-<div id='mocha'/>
 <% if(isMocha) {%>
+
+<div id='mocha'/>
 
 ### Testing:
 
@@ -375,14 +387,19 @@ npx cypress open
 Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, making asynchronous testing simple and fun.
 ### Running Mocha
 
+<% if(isYarn) {%> 
 ```
-npm test
+yarn run test
+```
+<%}else{%> 
+```
+npm run test
 ```
 <%}%>
+<%}%>
 
-  
-<div id='nightwatch'/>
 <% if(isNightWatch) {%>
+<div id='nightwatch'/>
 
 ### Testing:
 
@@ -392,14 +409,19 @@ Nightwatch is a next generation front end testing tool built for the modern web.
 ### Running Nightwatch
 Before running the test, update `BASE_URL` constant as your app base url in `nightwatch.config.js` file and you need to run the project.
 
+<% if(isYarn) {%> 
 ```
-npm test
+yarn run test
+```
+<%}else{%> 
+```
+npm run test
 ```
 <%}%>
+<%}%>
 
-  
-<div id='smtp'/>
 <% if(isSMTP) {%>
+<div id='smtp'/>
 
 ### Email Service:
 
@@ -421,8 +443,8 @@ Add recipient's email id in `recipients` object inside `mailObj` data property i
 
 <%}%>
 
-<div id='amazon-ses'/>
 <% if(isAmazonSes) {%>
+<div id='amazon-ses'/>
 
 ### Email Service:
 
@@ -454,9 +476,8 @@ text: "textMessage",
 <%}%>
 
 
-<div  id='azure'/>
-
 <% if(blobServiceName === 'azure') {%>
+<div  id='azure'/>
 
 ### Blob Service
 
@@ -487,10 +508,8 @@ AZURE_STORAGE_CONNECTION_STRING = Enter your Azure Storege Connection String
 
 <%}%>
 
-<div  id='aws-s3'/>
-
 <% if(blobServiceName === 'aws-s3') {%>
-
+<div  id='aws-s3'/>
 ### Blob Service
 
 ### AWS-S3 blob service
@@ -522,8 +541,8 @@ AWS_REGION = Enter your Aws Region
 
 <%}%>
 
-<div id='themeService'/>
 <% if(isThemeProvider) {%>
+<div id='themeService'/>
 
 ### Light and dark mode
 
@@ -548,6 +567,65 @@ color: var(--headingTextColor);
 ```
 
 <%}%>
+
+
+<% if(isNetworkInformer) {%>
+<div  id='networkInformer'/>
+
+### Network Informer Service
+
+Network informer displays network status on top of your app when you are offline and online.
+
+<%}%>
+
+<% if(isDocker) {%>
+
+<div  id='docker'/>
+  
+
+### Docker Service
+Docker is a software platform that allows you to build, test, and deploy applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime.
+
+You can install docker from here :  <a  href="https://docs.docker.com/engine/install/"> Install docker</a>
+
+
+Run command in terminal :
+```
+
+docker compose up
+
+```
+
+<%}%>
+
+<% if(isCICDPipelineIntegrate === "aws") {%>
+
+<div  id='aws'/>
+### AWS CI/CD  Integration Service
+
+AWS CodePipeline is a fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates.
+
+Create a bucket in your aws account.
+ 
+You can create your  aws account here: <a  href="https://aws.amazon.com/"> AWS account</a>
+
+Update environment variables in `build.yml` file:
+
+```
+env:
+
+# Region
+
+AWS_REGION: Enter Region
+
+# S3-bucket name
+
+S3_BUCKET: Enter your Bucket Name
+
+```
+
+<%}%>
+
 
 ## Some Important Links
 

@@ -1,13 +1,15 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import Users from "./screens/Users";
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import Users from './screens/Users'
 
-export default function Routes() {
-  return (
-    <div className="App">
-      <Switch>
-        <Route exact path="/users" component={Users}></Route>
-      </Switch>
-    </div>
-  );
+const Routes = () => {
+	return (
+		<div className='App'>
+			<Switch>
+				<Route exact path='/users' component={Users} />
+			</Switch>
+		</div>
+	)
 }
+
+export default Routes;
