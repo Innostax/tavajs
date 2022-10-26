@@ -45,3 +45,5 @@ Thumbs.db
 
 # README
 README.md
+.dockerignore
+Dockerfile

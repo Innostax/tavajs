@@ -14,7 +14,7 @@ const QUESTIONS = [
   {
     name: "screen-name",
     type: "input",
-    message: "What will be name of screen?",
+    message: "What will be the name of Screen?",
     validate(input) {
       if (/^([A-Za-z\-\d])+$/.test(input)) return true;
       return "Screen name may only include letters, numbers, underscores, and hashes.";

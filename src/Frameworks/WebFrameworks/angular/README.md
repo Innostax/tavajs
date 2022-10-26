@@ -95,6 +95,10 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 ### Built with:
 
 <p align-item="left" > 
+
+<%if(nodeName){%>
+<a  href="https://nodejs.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg"  alt="nodejs"  width="100"  height="100"/>  </a>
+<%}%>
  
 <a  href="https://angular.io"  target="_blank">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg"  width="100"  alt="Angularjs" />
@@ -146,29 +150,6 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 <% if (isWinston) {%><a  href="https://www.npmjs.com/package/winston"  target="_blank"><img  src="https://avatars.githubusercontent.com/u/9682013?s=200&v=4"  alt="winston"  width="100"  height="100"/></a>
 <%}%>
 
-<p  align="left">
-
-<%if(dbName === 'mongoose'){%>
-
-<a  href="https://www.mongodb.com/"  target="_blank">  
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg"  alt="mongodb"  width="100"  height="100"/>  
-</a>
-
-<%}%>
-
-<%if(dbName === 'mysql'){%>
-<a  href="https://www.mysql.com/"  target="_blank">
-  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"  alt="mysql"  width="100"  height="100"/>
-</a>
-<%}%>
-
-<%if(dbName === 'postgres'){%>
-<a  href="https://www.postgresql.org"  target="_blank">  
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>
-</a>
-<%}%>
-
-</p>
 
 <%if(blobServiceName === 'azure'){%>
 
@@ -188,7 +169,7 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 <% if (isCypress) {%>
 
 <a  href="https://www.cypress.io/"  target="_blank">
-  <img  src="https://nx.dev/documentation/shared/cypress-logo.png"  alt="cypress"  width="100"  height="80"  />
+  <img  src="https://i.ibb.co/sPgXBFJ/cypress.png"  alt="cypress"  width="100"  height="80"  />
 </a>
 <%}%>
 
@@ -212,6 +193,16 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 </a>
 <%}%>
 
+<%if(isSMTP){%>
+<a  href="https://www.smtp.com/" target="_blank"><img src="https://www.postmastery.com/wp-content/uploads/2018/05/smtp.jpg" alt="smtp" width="150" height="80" /></a>
+<%}%>
+<%if(isAmazonSes){%>
+ <a  href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" />
+<%}%>
+<% if (isSendgrid) {%>
+  <a  href="https://sendgrid.com/" target="_blank"><img src="https://sendgrid.com/wp-content/themes/sgdotcom/pages/resource/brand/2016/SendGrid-Logomark.png" alt="sendgrid" width="100" height="100" /></a>
+<%}%>
+
 <%if(isDocker){%>
 <a   href="https://www.docker.com/"  target="_blank">
 <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg"  alt="docker"  width="100"  height="100"/>  </a> 
@@ -221,8 +212,7 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 
 <% if(nodeName) {%>
 
-Use `npm start` inside <%= frontEndName %> directory to execute the template.
-Use <% if(isYarn) {%> `yarn start` <%}else{%> `npm start`<%}%>inside <%= frontEndName %> directory to execute the template.
+Use <% if(isYarn) {%> `yarn start` <%}else{%> `npm start` <%}%>inside <%= frontEndName %> directory to execute the template.
 
 The command is defined in `package.json`, an example of which is below.
 
