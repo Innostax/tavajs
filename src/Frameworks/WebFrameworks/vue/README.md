@@ -41,6 +41,7 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <% if (dbName === 'mongoose') {%><li><a href="#mongoose">MONGOOSE db service </li></a><%}%>
 <%}%>
 <% if (isSMTP) {%><li><a href="#smtp">SMTP email service </li></a><%}%>
+<% if (isSendgrid) {%><li><a  href="#sendgrid">SendGrid email service</a></li><%}%>
 <% if (isAmazonSes) {%><li><a href="#amazon-ses">Amazon SES email service </li></a><%}%>
 <% if (isSentry) {%><li><a  href="#sentry">Sentry logger service </li></a><%}%>
 <% if (isWinston) {%><li><a  href="#winston">Winston logger service </li></a><%}%>
@@ -57,9 +58,30 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 
 ### Built with:
 
-<%if(nodeName){%><a  href="https://nodejs.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg"  alt="nodejs"  width="100"  height="100"/>  </a><%}%> <%if(projectChoice === "vue"){%><a  href=https://vuejs.org/ target="_blank">  
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original-wordmark.svg" width="100" alt="vue" />
- </a> <a  href="https://getbootstrap.com"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap"  width="100"  height="100"/>  </a></p>
+<p align-item="left" >
+
+<%if(nodeName){%><a  href="https://nodejs.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg"  alt="nodejs"  width="100"  height="100"/>  </a>
+<%}%> 
+
+<a  href=https://vuejs.org/ target="_blank">  
+ <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original-wordmark.svg" width="100" alt="vue" />
+</a>
+
+ <%if(isBootstrap){%>
+  
+<a  href="https://getbootstrap.com"  target="_blank">
+ <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap" max-width="100"  height="100"/>
+</a>
+<%}%>
+
+<%if(isTailWind){%>
+  
+<a  href="https://tailwindcss.com/"  target="_blank">
+  <img  src="https://tailwindcss.com/_next/static/media/social-square.eab77323.jpg" alt="TailwindCss"  width="100" height="100"/>
+</a>
+<%}%>
+
+</p>
 
 ### Services:
 
@@ -108,6 +130,9 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <%if(isSMTP){%>
 <a  href="https://www.smtp.com/" target="_blank"><img src="https://www.postmastery.com/wp-content/uploads/2018/05/smtp.jpg" alt="smtp" width="150" height="80" /></a>
 <%}%>
+<% if (isSendgrid) {%>
+  <a  href="https://sendgrid.com/" target="_blank"><img src="https://sendgrid.com/wp-content/themes/sgdotcom/pages/resource/brand/2016/SendGrid-Logomark.png" alt="sendgrid" width="100" height="100" /></a>
+<%}%>
 <%if(isAmazonSes){%>
  <a  href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" />
 <%}%>
@@ -123,7 +148,6 @@ It builds on top of standard HTML, CSS and JavaScript, and provides a declarativ
 <%}%>
 <%if(isDocker){%>
 <a   href="https://www.docker.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg"  alt="docker"  width="100"  height="100"/>  </a> 
-<%}%>
 <%}%>
 
 ### How to run created project :
@@ -440,6 +464,34 @@ SMTP_HOST = your SMTP host
 ```
 
 Add recipient's email id in `recipients` object inside `mailObj` data property in `users.controllers.js` file.
+
+<%}%>
+
+<% if(isSendgrid) {%>
+
+<!---------------------------------- Email service ------------------------------------------->
+
+<div  id='sendgrid'></div>
+
+## Email Services:
+
+### SendGrid email service:
+
+[Twilio SendGrid](https://sendgrid.com/) is an email delivery engine that lets you send emails to leads and customers without maintaining your own email servers. SendGrid handles the technical details of your email strategy–like infrastructure scaling, reputation monitoring, and performance reports.
+
+### Running SendGrid service
+
+To use SendGrid service, go to sendgrid.com and create an account of your choice. After creating acccount get sender's email address verified.
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+ 
+```
+SENDGRID_API_KEY= Enter Sendgrid Api
+```
+ 
+Add recipient's and sender's email id in `to`  `from` fields respectively inside `msg` object in `sendgrid.js` file.
+
+<p  align="right">(<a  href="#features">back to features</a>)</p>
 
 <%}%>
 
