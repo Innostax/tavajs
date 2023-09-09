@@ -9,7 +9,6 @@
   
 ![Tavajs License](https://img.shields.io/badge/license-MIT-green)
 ![Tavajs Release](https://img.shields.io/badge/release-2021-orange)
-![Tavajs Downloads](https://img.shields.io/badge/downloads-1000%2Fweek-green)
 ![Tavajs Language](https://img.shields.io/badge/javascript-70%25-green)
 ![Tavajs CI](https://img.shields.io/badge/CI-passing-green)
 
