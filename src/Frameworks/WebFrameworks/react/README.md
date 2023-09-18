@@ -223,6 +223,50 @@ One of the first things to remember about React project development is that it i
 
 <%}%>
 
+<% if (isNightWatch) {%>
+
+<a href="https://nightwatchjs.org/" target="_blank"><img src="https://seeklogo.com/images/N/nightwatchjs-logo-66C5775A1E-seeklogo.com.png" alt="nightwatch" width="100" height="100" /></a>
+
+<%}%>
+
+<%if(isJest){%>
+
+<a href="https://jestjs.io/" target="_blank"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="jest" width="100" height="100"/> </a>
+
+<%}%>
+
+<%if(isAmazonSes){%>
+
+<a href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" />
+
+<%}%>
+
+<%if(blobServiceName === 'azure'){%>
+
+<a href=https://azure.microsoft.com/en-us/ target="_blank">
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" width="100" alt="azure"/>
+
+</a>
+
+<%}%>
+
+<%if(blobServiceName === 'aws-s3'){%>
+
+<a href=https://aws.amazon.com/s3/ target="_blank">
+
+<img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" width="100" alt="aws-s3"/>
+
+</a>
+
+<%}%>
+
+<%if(isDocker){%>
+
+<a href="https://www.docker.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="100" height="100"/> </a>
+
+<%}%>
+
 ### How to run created project :
 
 <% if(nodeName) {%>

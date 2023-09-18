@@ -325,6 +325,10 @@ ANGULAR_APP_API_URLs: API_URLs
 <p  align="right">(<a  href="#features">back to features</a>)</p>
 
 <%}%>
+You can create your aws account at <a  href="https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email">AWS/sign-up</a>
+
+<%}%>
+  
 
 <div  id='cognito'></div>
 

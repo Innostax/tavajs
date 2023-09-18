@@ -7,10 +7,8 @@
 <br>
 <div align="center">
   
-![Tavajs License](https://img.shields.io/npm/l/dev-tava)
-![Tavajs Version](https://img.shields.io/npm/v/dev-tava)
+![Tavajs License](https://img.shields.io/badge/license-MIT-green)
 ![Tavajs Release](https://img.shields.io/badge/release-2021-orange)
-![Tavajs Downloads](https://img.shields.io/npm/dw/dev-tava)
 ![Tavajs Language](https://img.shields.io/badge/javascript-70%25-green)
 ![Tavajs CI](https://img.shields.io/badge/CI-passing-green)
 
@@ -230,7 +228,7 @@ R.&nbsp; Choose logger service as required.
         sentry
         None
 
-S.&nbsp; Choose e-mail service which you want to integrate.
+T.&nbsp; Choose e-mail service which you want to integrate.
 
       ? Which Email service do you want? (Use arrow keys)
       > SendGrid
@@ -238,14 +236,14 @@ S.&nbsp; Choose e-mail service which you want to integrate.
         SMTP
         None
 
-T.&nbsp; Choose blob service as require.
+U.&nbsp; Choose blob service as require.
 
       ? Which Blob service do you want? (Use arrow keys)
       > AWS-s3
         Azure
         None
 
-U.&nbsp; Select "yes" to integrate docker service.
+V.&nbsp; Select "yes" to integrate docker service.
 
       ? Do you want Docker services (Use arrow keys)
       > yes
