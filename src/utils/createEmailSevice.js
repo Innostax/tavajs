@@ -11,7 +11,7 @@ const createEmailSevice = (
     emailTemplatePath,
     nodePath,
 ) => {
-    const dependencies = [];
+    let dependencies = [];
 
     // Reading email template file
     const emailTemplateFile = fs.readFileSync(`${emailTemplatePath}.js`, "utf-8");
@@ -27,11 +27,11 @@ const createEmailSevice = (
     const isAmazonSes = emailServiceName === AMAZON_SES;
 
     if (isSendGrid) {
-        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.SENDGRID ];
+        dependencies = [ ...dependencies, ...DEPENDENCIES.EMAIL_SERVICES.SENDGRID ];
     } else if (isSMTP) {
-        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.SMTP ]
+        dependencies = [ ...dependencies, ...DEPENDENCIES.EMAIL_SERVICES.SMTP ]
     } else if (AMAZON_SES) {
-        dependencies = [ ...dependencies, DEPENDENCIES.EMAIL_SERVICES.AMAZON_SES ];
+        dependencies = [ ...dependencies, ...DEPENDENCIES.EMAIL_SERVICES.AMAZON_SES ];
     }
 
     // Updating dependencies in package json file

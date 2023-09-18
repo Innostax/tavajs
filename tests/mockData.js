@@ -1,8 +1,8 @@
 const EXPECTED_RESULT = {
   frontend: {
-    react: "Creating react project: front-end using dev-tava 1.0.0",
-    angular: "Creating angular project: front-end using dev-tava 1.0.0",
-    vue: "Creating vue project: front-end using dev-tava 1.0.0",
+    react: "Creating react project: front-end using tavajs-cli 1.0.2",
+    angular: "Creating angular project: front-end using tavajs-cli 1.0.2",
+    vue: "Creating vue project: front-end using tavajs-cli 1.0.2",
   },
   css: {
     bootstrap: "Integrating CSS Framework: bootstrap",
@@ -38,7 +38,7 @@ const EXPECTED_RESULT = {
     github: "Integrating CI/CD Pipeline: github",
   },
   backend: {
-    node: "Creating node-js project: backend using dev-tava 1.0.0",
+    node: "Creating node-js project: backend using tavajs-cli 1.0.2",
   },
   database: {
     postgress: "Integrating Database service: postgres",

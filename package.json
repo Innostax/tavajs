@@ -1,6 +1,6 @@
 {
-  "name": "dev-tava",
-  "version": "1.0.0",
+  "name": "tavajs-cli",
+  "version": "1.0.2",
   "scripts": {
     "build": "shx rm -rf dist/templates && shx cp -r templates dist",
     "lint": "eslint .eslintrc.js",

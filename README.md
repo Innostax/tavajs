@@ -8,7 +8,7 @@
 <div align="center">
   
 ![Tavajs License](https://img.shields.io/badge/license-MIT-green)
-![Tavajs Release](https://img.shields.io/badge/release-2021-orange)
+![Tavajs Release](https://img.shields.io/badge/release-2022-orange)
 ![Tavajs Language](https://img.shields.io/badge/javascript-70%25-green)
 ![Tavajs CI](https://img.shields.io/badge/CI-passing-green)
 
@@ -40,32 +40,32 @@ TAVAjs is an interactive Command Line Interface tool, which helps developers to 
 
 ### Services:
 
-- CSS frameworks
-	<p><a  href="https://getbootstrap.com"  target="_blank" >  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap"  width="100"  height="100"/>  </a> &nbsp &nbsp <a  href="https://mui.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg" alt="mui"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://tailwindcss.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" alt="tailwind"  width="100"  height="100" /></a></p>
+- <b>CSS Frameworks</b>
+	<p><a  href="https://getbootstrap.com"  target="_blank" >  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg"  alt="bootstrap"  width="100"  height="100"/>  </a>  <a  href="https://mui.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg" alt="mui"  width="100"  height="100" /></a>  <a  href="https://tailwindcss.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" alt="tailwind"  width="100"  height="100" /></a></p>
 
- -  Testcase frameworks
-	 <p><a  href="https://mochajs.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mocha/mocha-plain.svg" alt="mochajs"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://jestjs.io/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="jest"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://jasmine.github.io/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jasmine/jasmine-plain-wordmark.svg" alt="jasmine"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://nightwatchjs.org/" target="_blank"><img src="https://seeklogo.com/images/N/nightwatchjs-logo-66C5775A1E-seeklogo.com.png" alt="nightwatch"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://pptr.dev/" target="_blank"> <img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" alt="puppeteer"  width="100"  height="100" /></a> &nbsp &nbsp <a  href="https://www.cypress.io/" target="_blank"><img src="https://nx.dev/documentation/shared/cypress-logo.png" alt="cypress" width="100" height="80" /></a></p>
+- <b>TestCases Frameworks</b>
+	 <p><a  href="https://mochajs.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mocha/mocha-plain.svg" alt="mochajs"  width="100"  height="100" /></a>  <a  href="https://jestjs.io/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="jest"  width="100"  height="100" /></a>  <a  href="https://jasmine.github.io/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jasmine/jasmine-plain-wordmark.svg" alt="jasmine"  width="100"  height="100" /></a>  <a  href="https://nightwatchjs.org/" target="_blank"><img src="https://seeklogo.com/images/N/nightwatchjs-logo-66C5775A1E-seeklogo.com.png" alt="nightwatch"  width="100"  height="100" /></a>  <a  href="https://pptr.dev/" target="_blank"> <img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" alt="puppeteer"  width="100"  height="100" /></a>  <a  href="https://www.cypress.io/"  target="_blank"><img  src="https://i.ibb.co/sPgXBFJ/cypress.png"  alt="cypress"  height="100"  width="120"></a></p>
 
-- Authentication services
-	<p><a  href="https://auth0.com/" target="_blank"><img src="https://demos.gocircle.ai/wp-content/uploads/sites/5/2021/11/brand-evolution_logo_Auth0_vertical_black-975x1024.png" alt="auth0" height="100" width="100"/></a> &nbsp &nbsp <a  href="https://aws.amazon.com/cognito/" target="_blank"><img src="https://miro.medium.com/max/400/1*ZjS_BtHvohZJc6lqHOsdJw.png" alt="cognito" height="100" width="100"/></a> &nbsp &nbsp <a  href="https://www.okta.com/" target="_blank"><img src="https://www.okta.com/sites/default/files/media/image/2021-03/Logo_Okta_Blue_RGB.png" alt="okta" height="80" width="120"/></a></p>
+- <b>Authentication Services</b>
+	<p><a  href="https://auth0.com/" target="_blank"><img src="https://demos.gocircle.ai/wp-content/uploads/sites/5/2021/11/brand-evolution_logo_Auth0_vertical_black-975x1024.png" alt="auth0" height="100" width="100"/></a>  <a  href="https://aws.amazon.com/cognito/" target="_blank"><img src="https://miro.medium.com/max/400/1*ZjS_BtHvohZJc6lqHOsdJw.png" alt="cognito" height="100" width="100"/></a>  <a  href="https://www.okta.com/" target="_blank"><img src="https://www.okta.com/sites/default/files/media/image/2021-03/Logo_Okta_Blue_RGB.png" alt="okta" height="80" width="120"/></a></p>
 
-- State management frameworks
-	<p><a  href="https://redux.js.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" alt="redux" width="100" height="100" /></a> &nbsp &nbsp <a  href="https://ngrx.io/" target="_blank"><img src="https://ngrx.io/assets/images/badge.svg" alt="ngrx" width="100" height="100" /></a> &nbsp &nbsp <a  href="https://vuex.vuejs.org/" target="_blank"><img src="https://user-images.githubusercontent.com/7110136/29002857-9e802f08-7ab4-11e7-9c31-604b5d0d0c19.png" alt="vuex" width="100" height="100" /></a></p>
+- <b>State management Frameworks</b>
+	<p><a  href="https://redux.js.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" alt="redux" width="100" height="100" /></a>  <a  href="https://ngrx.io/" target="_blank"><img src="https://ngrx.io/assets/images/badge.svg" alt="ngrx" width="100" height="100" /></a>  <a  href="https://vuex.vuejs.org/" target="_blank"><img src="https://user-images.githubusercontent.com/7110136/29002857-9e802f08-7ab4-11e7-9c31-604b5d0d0c19.png" alt="vuex" width="100" height="100" /></a></p>
 
-- Email services
-	<p>	<a  href="https://sendgrid.com/" target="_blank"><img src="https://sendgrid.com/wp-content/themes/sgdotcom/pages/resource/brand/2016/SendGrid-Logomark.png" alt="sendgrid" width="100" height="100" /></a> &nbsp &nbsp <a  href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" /></a> &nbsp &nbsp <a  href="https://www.smtp.com/" target="_blank"><img src="https://www.postmastery.com/wp-content/uploads/2018/05/smtp.jpg" alt="smtp" width="150" height="80" /></a></p>
+- <b>Email Services</b>
+	<p>	<a  href="https://sendgrid.com/" target="_blank"><img src="https://sendgrid.com/wp-content/themes/sgdotcom/pages/resource/brand/2016/SendGrid-Logomark.png" alt="sendgrid" width="100" height="100" /></a>  <a  href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" /></a>  <a  href="https://www.smtp.com/" target="_blank"><img src="https://www.postmastery.com/wp-content/uploads/2018/05/smtp.jpg" alt="smtp" width="150" height="80" /></a></p>
 
-- Database services
-	<p><a   href="https://www.mongodb.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg"  alt="mongodb"  width="100"  height="100"/>  </a> &nbsp &nbsp  <a   href="https://www.mysql.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"  alt="mysql"  width="100"  height="100"/>  </a> &nbsp &nbsp  <a   href="https://www.postgresql.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>  </a></p>
+- <b>Database Services</b>
+	<p><a   href="https://www.mongodb.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg"  alt="mongodb"  width="100"  height="100"/>  </a>   <a   href="https://www.mysql.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"  alt="mysql"  width="100"  height="100"/>  </a>   <a   href="https://www.postgresql.org"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg"  alt="postgresql"  width="100"  height="100"/>  </a></p>
 
-- Blob services
-	<p><a   href="https://azure.microsoft.com/en-in/"  target="_blank">  <img  src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg"  alt="azure"  width="100"  height="100"/></a> &nbsp &nbsp <a   href="https://aws.amazon.com"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"  alt="aws"  width="100"  height="100"/>  </a></p>
+- <b>Blob Services</b>
+	<p><a   href="https://azure.microsoft.com/en-in/"  target="_blank">  <img  src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg"  alt="azure"  width="100"  height="100"/></a>  <a   href="https://aws.amazon.com"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"  alt="aws"  width="100"  height="100"/>  </a></p>
   
-- Docker service
+- <b>Docker Service</b>
 	<p> <a   href="https://www.docker.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg"  alt="docker"  width="100"  height="100"/>  </a> </p>
 
-- CI/CD pipeline
-  <p><a   href="https://aws.amazon.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"  alt="aws"  width="100"  height="100"/>  </a> &nbsp &nbsp <a   href="https://github.com/"  target="_blank">  <img  src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"  alt="github"  width="100"  height="100"/></a></p>
+- <b>CI/CD Pipeline</b>
+  <p><a   href="https://aws.amazon.com/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"  alt="aws"  width="100"  height="100"/>  </a>  <a   href="https://github.com/"  target="_blank">  <img  src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"  alt="github"  width="100"  height="100"/></a></p>
 
 ## Getting started
 
@@ -180,7 +180,6 @@ J.&nbsp; Select "yes" to integrate network Informer.
     > Yes
       No
 
-//change points alphabets 
 K.&nbsp; Choose any authentication service according to your need.
 
     ? What Authentication Service you want to use? (Use arrow keys)
@@ -189,9 +188,9 @@ K.&nbsp; Choose any authentication service according to your need.
       Okta
       None
 
-L.&nbsp; Redux Integration: &nbsp;Redux is a state management library that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate redux.
+L.&nbsp; Store Integration: &nbsp;Store is used for state management that produces a global state for the entire app so that it can be accessed by all components. Select "yes" to integrate store.
 
-    ? Do you want redux integration? (Use arrow keys)
+    ? Do you want redux/ngrx/vuex integration? (Use arrow keys)
       > yes
         no
 
@@ -222,13 +221,7 @@ Q.&nbsp; Choose database service as required.
         Mongoose
         None
 
-R.&nbsp; Select "yes" to integrate CRUD operations in your project (&nbsp;Create, Read, Update, Delete).
-
-      ? Do you want crud integration with React-Node boiler plate? (Use arrow keys)
-      > yes
-        no
-
-S.&nbsp; Choose logger service as required.
+R.&nbsp; Choose logger service as required.
 
       ? Which logger service do you want? (Use arrow keys)
       > Winston
@@ -256,7 +249,7 @@ V.&nbsp; Select "yes" to integrate docker service.
       > yes
         no
 
-W.&nbsp; Select the CI/CD pipeline service you want to integrate.
+V.&nbsp; Select the CI/CD pipeline service you want to integrate.
       ? Would you like to integrate CI/CD pipeline?
       > AWS
         GitHub
@@ -301,9 +294,49 @@ Use "cd" command to change the current directory.
 
 ---
 
+###  How to create new screen in frontend templates.
+
+Use "cd" command to move frontend project directory.
+
+$ generate-screen - It will execute the program.
+
+```sh
+generate-screen
+```
+A. &nbsp; What will be the name of Screen?.
+
+     ? Screen name: new-screen
+     
+     
+!! New screen successfully created. !!   
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
+###  How to create new route in backend templates.
+
+Use "cd" command to move backend project directory.
+
+$ generate-route - It will execute the program.
+
+```sh
+generate-route
+```
+A. &nbsp; What will be the name of the Route?.
+
+     ? Route name: new-route
+     
+     
+!! New route successfully created. !!   
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
 ## License
 
-Copyright (C)2021 Innostax
+Copyright (C)2022 Innostax
 
 Licensed under the MIT License.
 

@@ -10,13 +10,13 @@
 
 <div  align="center">
 
-![Tavajs License](https://img.shields.io/npm/l/dev-tava)
+![Tavajs License](https://img.shields.io/npm/l/tavajs-cli)
 
-![Tavajs Version](https://img.shields.io/npm/v/dev-tava)
+![Tavajs Version](https://img.shields.io/npm/v/tavajs-cli)
 
 ![Tavajs Release](https://img.shields.io/badge/release-2021-orange)
 
-![Tavajs Downloads](https://img.shields.io/npm/dw/dev-tava)
+![Tavajs Downloads](https://img.shields.io/npm/dw/tavajs-cli)
 
 ![Tavajs Stars](https://img.shields.io/badge/stars-4.5k-blue)
 
@@ -61,6 +61,10 @@ One of the first things to remember about React project development is that it i
 
 <% if (isSMTP) {%><li><a  href="#smtp">SMTP email service </li></a><%}%>
 
+<% if (isSendgrid) {%><li><a  href="#sendgrid">SendGrid email service</a></li><%}%>
+
+<% if (isAmazonSes) {%><li><a  href="#amazonses">AmazonSes email service</a></li><%}%>
+
 <% if (isSentry) {%><li><a  href="#sentry">Sentry logger service </li></a><%}%>
 
 <% if (isWinston) {%><li><a  href="#winston">Winston logger service </li></a><%}%>
@@ -91,11 +95,9 @@ One of the first things to remember about React project development is that it i
 
 <%}%>
 
-<%if(projectChoice === "react"){%>
 
 <a  href="https://reactjs.org/"  target="_blank">  <img  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg"  alt="react"  width="100"  height="100"/>  </a>
 
- <%}%>
 
 ### Services:
 
@@ -169,7 +171,55 @@ One of the first things to remember about React project development is that it i
 
 <% if (isCypress) {%>
 
-<a  href="https://www.cypress.io/"  target="_blank">  <img  src="https://s4-recruiting.cdn.greenhouse.io/external_greenhouse_job_boards/logos/400/113/000/resized/logo_landscape_(1).png?1643756332"  alt="cypress"  width="300"  height="100"/>  </a>
+<a  href="https://www.cypress.io/"  target="_blank">  <img  src="https://i.ibb.co/sPgXBFJ/cypress.png"  alt="cypress"  width="300"  height="100"/>  </a>
+
+<%}%>
+
+<% if (isNightWatch) {%>
+
+<a href="https://nightwatchjs.org/" target="_blank"><img src="https://seeklogo.com/images/N/nightwatchjs-logo-66C5775A1E-seeklogo.com.png" alt="nightwatch" width="100" height="100" /></a>
+
+<%}%>
+
+<%if(isJest){%>
+
+<a href="https://jestjs.io/" target="_blank"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="jest" width="100" height="100"/> </a>
+
+<%}%>
+
+<%if(isSMTP){%>
+<a  href="https://www.smtp.com/" target="_blank"><img src="https://www.postmastery.com/wp-content/uploads/2018/05/smtp.jpg" alt="smtp" width="150" height="80" /></a>
+<%}%>
+<% if (isSendgrid){%>
+<a  href="https://sendgrid.com/" target="_blank"><img src="https://sendgrid.com/wp-content/themes/sgdotcom/pages/resource/brand/2016/SendGrid-Logomark.png" alt="sendgrid" width="100" height="100" /></a>
+<%}%>
+<%if(isAmazonSes){%>
+<a  href="https://aws.amazon.com/ses/" target="_blank"><img src="https://www.shareicon.net/data/512x512/2015/08/28/92163_copy_512x512.png" alt="amazon_ses" width="100" height="100" />
+<%}%>
+
+<%if(blobServiceName === 'azure'){%>
+
+<a href=https://azure.microsoft.com/en-us/ target="_blank">
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" width="100" alt="azure"/>
+
+</a>
+
+<%}%>
+
+<%if(blobServiceName === 'aws-s3'){%>
+
+<a href=https://aws.amazon.com/s3/ target="_blank">
+
+<img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" width="100" alt="aws-s3"/>
+
+</a>
+
+<%}%>
+
+<%if(isDocker){%>
+
+<a href="https://www.docker.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="100" height="100"/> </a>
 
 <%}%>
 
@@ -472,6 +522,80 @@ Add recipient's email id in `recipients` object inside `mailObj` data property i
 
 <%}%>
 
+<% if(isSendgrid) {%>
+
+<!---------------------------------- Email service ------------------------------------------->
+
+<div  id='sendgrid'></div>
+
+## Email Services:
+
+### SendGrid email service:
+
+[Twilio SendGrid](https://sendgrid.com/) is an email delivery engine that lets you send emails to leads and customers without maintaining your own email servers. SendGrid handles the technical details of your email strategy–like infrastructure scaling, reputation monitoring, and performance reports.
+
+### Running SendGrid service
+
+To use SendGrid service, go to sendgrid.com and create an account of your choice. After creating acccount get sender's email address verified.
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+ 
+```
+SENDGRID_API_KEY= Enter Sendgrid Api
+```
+ 
+Add recipient's and sender's email id in `to`  `from` fields respectively inside `msg` object in `sendgrid.js` file.
+
+<p  align="right">(<a  href="#features">back to features</a>)</p>
+
+<%}%>
+
+<% if(isAmazonSes) {%>
+
+<div id='amazon-ses'/>
+
+###  Email Service:
+
+###  Amazon SES email service
+
+Amazon Simple Email Service (Amazon SES) is a bulk and transactional email-sending service. It is the most cost effective email marketing platform.
+
+###  Running Amazon SES email service
+
+Inside `.env` file in <%= nodeName %> directory update environment variables:
+
+```
+
+AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
+
+AWS_SECRET_ACCESS_KEY = Enter Your Aws Secret Access Key
+
+AWS_REGION = Enter Your Aws Region
+
+```
+
+Pass the following information inside `mailParams` data property in `index.js` file.
+
+```
+
+{
+
+to: ["Recipients Email"],
+
+from: "Sender Email",
+
+subject: "Subject",
+
+html: "htmlMessage",
+
+text: "textMessage",
+
+}
+
+```
+
+<%}%>
+
 <% if(isSentry) {%>
 
 <div  id='sentry'/>
@@ -599,51 +723,6 @@ npm run test
 <%}%>
 
 
-<% if(isAmazonSes) {%>
-
-<div id='amazon-ses'/>
-
-###  Email Service:
-
-###  Amazon SES email service
-
-Amazon Simple Email Service (Amazon SES) is a bulk and transactional email-sending service. It is the most cost effective email marketing platform.
-
-###  Running Amazon SES email service
-
-Inside `.env` file in <%= nodeName %> directory update environment variables:
-
-```
-
-AWS_ACCESS_KEY_ID = Enter your Aws Access Key Id
-
-AWS_SECRET_ACCESS_KEY = Enter Your Aws Secret Access Key
-
-AWS_REGION = Enter Your Aws Region
-
-```
-
-Pass the following information inside `mailParams` data property in `index.js` file.
-
-```
-
-{
-
-to: ["Recipients Email"],
-
-from: "Sender Email",
-
-subject: "Subject",
-
-html: "htmlMessage",
-
-text: "textMessage",
-
-}
-
-```
-
-<%}%>
 
 <% if(blobServiceName === 'azure') {%>
 
